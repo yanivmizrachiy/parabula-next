@@ -39,12 +39,15 @@ jobs:
       - name: Build Vite
         run: npm run build
 
-      - name: Copy worksheet files to dist
+      - name: Copy all assets to dist
         run: |
-          find . -maxdepth 1 -name "*.html" ! -name "index.html" -exec cp {} dist/ \;
-          cp -r styles dist/styles 2>/dev/null || true
-          cp -r meta dist/meta 2>/dev/null || true
-          cp -r preview dist/preview 2>/dev/null || true
+          cp -r styles dist/
+          cp -r meta dist/
+          cp -r preview dist/
+          for f in *.html; do
+            [ "$f" != "index.html" ] && cp "$f" dist/ || true
+          done
+          ls dist/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
