@@ -36,16 +36,15 @@ jobs:
       - name: Run verify
         run: npm run verify
 
-      - name: Build
+      - name: Build Vite
         run: npm run build
 
-      - name: Copy worksheet pages to dist
+      - name: Copy worksheet files to dist
         run: |
-          cp עמוד-*.html dist/ 2>/dev/null || true
-          cp -r styles dist/ 2>/dev/null || true
-          cp -r meta dist/ 2>/dev/null || true
-          cp -r preview dist/ 2>/dev/null || true
-          cp rules.html dist/ 2>/dev/null || true
+          find . -maxdepth 1 -name "*.html" ! -name "index.html" -exec cp {} dist/ \;
+          cp -r styles dist/styles 2>/dev/null || true
+          cp -r meta dist/meta 2>/dev/null || true
+          cp -r preview dist/preview 2>/dev/null || true
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
