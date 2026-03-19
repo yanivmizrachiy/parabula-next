@@ -8,9 +8,12 @@
       "isBackground": true,
       "problemMatcher": [
         {
+          "owner": "parabula-preview",
+          "fileLocation": ["relative", "${workspaceFolder}"],
           "pattern": [
             {
-              "regexp": "."
+              "regexp": "^(.*)$",
+              "message": 1
             }
           ],
           "background": {

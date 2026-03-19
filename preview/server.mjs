@@ -49,6 +49,11 @@ const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://127.0.0.1');
   let pathname = decodeURIComponent(url.pathname);
 
+  function isForbiddenForServing(relPath) {
+    // Repo-internal docs: never expose via preview server.
+    return relPath === 'rules.html' || relPath === 'rules.md';
+  }
+
   if (pathname === '/events') {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream; charset=utf-8',
@@ -66,7 +71,15 @@ const server = http.createServer((req, res) => {
     pathname = '/preview/index.html';
   }
 
-  const filePath = path.join(root, pathname);
+  const relPath = pathname.replace(/^\/+/, '');
+  if (isForbiddenForServing(relPath)) {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.end('Not found');
+    return;
+  }
+
+  const filePath = path.resolve(root, relPath);
   if (!filePath.startsWith(root)) {
     res.writeHead(403);
     res.end('Forbidden');
