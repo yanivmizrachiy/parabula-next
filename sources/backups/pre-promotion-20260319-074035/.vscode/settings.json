@@ -1,0 +1,9 @@
+{
+  "files.encoding": "utf8",
+  "files.autoSave": "off",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.wordWrap": "on",
+  "editor.formatOnSave": false,
+  "workbench.editor.enablePreview": false
+}
