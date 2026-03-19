@@ -43,3 +43,8 @@ Build a healthy, structured, RTL-first A4 worksheet and textbook repository with
 - Old repository content is first copied into `sources/legacy/`.
 - Nothing is promoted directly into canonical root pages before review.
 - Rules, templates, and content are promoted in separate commits.
+## Promotion policy
+1. Old repository material is imported first into `sources/legacy/`.
+2. Promotion from legacy to canonical files is deliberate and reviewed.
+3. Canonical files in the new repo must obey current contracts even if legacy files do not.
+4. Rules, content, preview code, and scripts are promoted in separate commits.

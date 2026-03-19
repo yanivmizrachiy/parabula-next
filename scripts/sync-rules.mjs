@@ -15,8 +15,10 @@ const short = `# rules.md
 - No inline CSS
 - Do not patch local layout problems inside \`styles/a4-base.css\`
 - Use \`npm run preview\` as canonical preview
+- Rules must stay synchronized with \`PROJECT_RULES.md\`
+- Old content is first imported into \`sources/legacy/\`
+- Nothing is promoted directly into canonical pages without review
 - Use small safe commits
-- Keep \`rules.md\` synced from \`PROJECT_RULES.md\`
 `;
 
 fs.writeFileSync(target, short, 'utf8');

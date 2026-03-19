@@ -1,0 +1,11 @@
+{
+  "sourceRepo": "https://github.com/yanivmizrachiy/parabula",
+  "importMode": "full-quarantine-copy",
+  "target": "sources/legacy/parabula-old",
+  "promoteDirectlyToCanonical": false,
+  "notes": [
+    "Imported from old parabula repository.",
+    "This is a quarantine layer for safe review and promotion.",
+    "Do not copy directly into canonical root pages without review."
+  ]
+}

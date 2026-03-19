@@ -1,0 +1,7 @@
+{
+    "livePreview.autoRefreshPreview": "onAnyChange",
+    "livePreview.openPreviewTarget": "Embedded Preview",
+    "livePreview.notifyOnOpen": false,
+    "livePreview.defaultPreviewPath": "/preview/index.html",
+    "task.allowAutomaticTasks": "on"
+}
