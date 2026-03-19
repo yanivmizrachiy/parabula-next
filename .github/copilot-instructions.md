@@ -176,3 +176,36 @@ Be practical, direct, and repository-aware.
 Use the actual repository structure and actual files.
 Avoid generic tutorials.
 Favor reliability and editability over flashy rewrites.
+
+## Session update — 2026-03-19
+
+### Current repo location
+Working directory: C:\Users\yaniv\parabula-work
+GitHub: https://github.com/yanivmizrachiy/parabula-next
+Pages: https://yanivmizrachiy.github.io/parabula-next/
+
+### What is stable
+- 95 canonical worksheet pages at repo root
+- All 96 contract tests pass
+- verify passes
+- build passes
+- preview server runs at http://127.0.0.1:5179/preview
+- topics metadata generated with 95 pages
+
+### What was fixed
+- vite.config.js now has correct base path for GitHub Pages
+- GitHub Pages workflow now copies worksheet HTML files to dist
+- preview/server.mjs hardened
+- .vscode/tasks.json problem matcher repaired
+
+### Known issues
+- Old repo folder at C:\Users\yaniv\projects\parabula-next has NTFS permission problems — do not use it
+- Always work from C:\Users\yaniv\parabula-work
+
+### Agent behavior rules learned from session
+- Never retry the same file edit more than twice
+- Never use icacls, takeown, or ACL commands unless explicitly asked
+- Never run Stop-Process on Code.exe
+- After any failed edit attempt, run git status and git diff --stat and report before trying again
+- Keep commits small and validated
+- Always run npm test + npm run verify + npm run build before committing
