@@ -1,0 +1,20 @@
+{
+  "name": "parabula-next",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview:vite": "vite preview",
+    "preview": "node preview/server.mjs",
+    "test": "node --test tests/contracts/root-pages.test.mjs",
+    "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
+    "verify": "node scripts/verify.mjs",
+    "page:new": "node scripts/new-page.mjs",
+    "rules:sync": "node scripts/sync-rules.mjs"
+  },
+  "devDependencies": {
+    "vite": "^8.0.1"
+  }
+}
