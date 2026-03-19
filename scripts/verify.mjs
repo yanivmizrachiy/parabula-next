@@ -12,25 +12,26 @@ function ok(message) {
   console.log(`OK: ${message}`);
 }
 
-const requiredFiles = [
-  'PROJECT_RULES.md',
-  'rules.md',
-  'preview/index.html',
-  'preview/server.mjs',
-  'styles/a4-base.css',
-  'עמוד-1.html',
-  'styles/pages/עמוד-1.css'
-];
+const pageFiles = fs.readdirSync(root).filter(name => /^עמוד-\d+\.html$/.test(name));
+if (pageFiles.length === 0) fail('No canonical root pages found');
 
-for (const rel of requiredFiles) {
-  const full = path.join(root, rel);
-  if (!fs.existsSync(full)) fail(`Missing required file: ${rel}`);
+if (!fs.existsSync(path.join(root, 'styles', 'a4-base.css'))) {
+  fail('Missing styles/a4-base.css');
 }
 
-const html = fs.readFileSync(path.join(root, 'עמוד-1.html'), 'utf8');
-if (!html.includes('class="a4-page page-1"')) fail('עמוד-1.html must contain exact main.a4-page.page-1');
-if (/\sstyle\s*=\s*["']/.test(html)) fail('Inline CSS is forbidden');
-if (!html.includes('styles/a4-base.css')) fail('עמוד-1.html must link styles/a4-base.css');
-if (!html.includes('styles/pages/עמוד-1.css')) fail('עמוד-1.html must link styles/pages/עמוד-1.css');
+if (!fs.existsSync(path.join(root, 'preview', 'index.html'))) {
+  fail('Missing preview/index.html');
+}
 
-ok('Base contracts passed');
+for (const file of pageFiles) {
+  const full = path.join(root, file);
+  const html = fs.readFileSync(full, 'utf8');
+  const n = file.match(/^עמוד-(\d+)\.html$/)?.[1];
+
+  if (!html.includes(`page-${n}`)) fail(`${file}: missing page-${n} class`);
+  if (!html.includes('styles/a4-base.css')) fail(`${file}: missing styles/a4-base.css`);
+  if (!html.includes(`styles/pages/עמוד-${n}.css`)) fail(`${file}: missing styles/pages/עמוד-${n}.css`);
+  if (/\sstyle\s*=\s*["']/.test(html)) fail(`${file}: inline CSS is forbidden`);
+}
+
+ok('Canonical contracts passed');

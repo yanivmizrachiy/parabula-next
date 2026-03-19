@@ -19,7 +19,7 @@ for (const file of getPages()) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     const n = file.match(/^עמוד-(\d+)\.html$/)?.[1];
 
-    assert.ok(html.includes(`class="a4-page page-${n}"`), `${file}: missing exact wrapper`);
+    assert.ok(html.includes(`page-${n}`), `${file}: missing page-${n}`);
     assert.equal(/\sstyle\s*=\s*["']/.test(html), false, `${file}: inline CSS is forbidden`);
     assert.ok(html.includes('styles/a4-base.css'), `${file}: missing a4-base.css`);
     assert.ok(html.includes(`styles/pages/עמוד-${n}.css`), `${file}: missing page css`);

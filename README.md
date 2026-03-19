@@ -1,20 +1,28 @@
-# parabula-next
+# parabula — דפי עבודה A4
 
-A clean, healthy, RTL-first A4 worksheet/book repository.
+## תצוגה מקדימה (מומלץ)
 
-## Core principles
-- Root A4 pages stay in the repository root as `עמוד-N.html`.
-- Each root page must contain exactly one `main.a4-page.page-N`.
-- No inline CSS.
-- `styles/a4-base.css` is immutable foundation CSS.
-- Canonical preview runs through `npm run preview`.
-- Rules must stay synchronized between `PROJECT_RULES.md` and `rules.md`.
+הדרך הכי יציבה לראות CSS/MathJax היא דרך שרת מקומי.
 
-## Commands
-- `npm run preview` - canonical preview server
-- `npm run build` - production build
-- `npm test` - test suite
-- `npm run test:contracts` - contract tests
-- `npm run verify` - project verification
-- `npm run page:new -- 1` - create a new page
-- `npm run rules:sync` - sync short rules from project rules
+1. הרצה:
+   - PowerShell: `./preview.ps1`
+   - לשיתוף באותה רשת (טלפון/מחשב אחר על אותו Wi‑Fi): `./preview.ps1 -Lan`
+   - או: `npm run preview`
+
+2. פתיחה בדפדפן:
+   - Reader (דפדוף): http://127.0.0.1:5179/preview
+   - פתיחה על קובץ מסוים: http://127.0.0.1:5179/preview?file=%D7%A2%D7%9E%D7%95%D7%93-3.html
+
+> הערה: במצב `-Lan` הסקריפט ידפיס קישור כמו `http://<IP>:5179/preview`.
+> אם ה־Windows Firewall חוסם, צריך לאפשר כניסות ל־פורט 5179.
+
+## הדפסה
+
+בכל עמוד: Print → לבחור A4 → ללא margins (ה-CSS כבר מגדיר `@page margin: 0`).
+
+## כללים
+
+הסטנדרט והכללים נמצאים כאן:
+- rules.html
+- styles/a4-base.css
+- styles/pages/עמוד-*.css

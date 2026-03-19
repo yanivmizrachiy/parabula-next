@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Open Parabula Next Preview",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:5179/preview",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": "parabula-next: preview server"
+    }
+  ]
+}

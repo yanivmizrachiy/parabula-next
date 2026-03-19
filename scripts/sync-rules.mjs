@@ -5,8 +5,6 @@ const root = process.cwd();
 const source = path.join(root, 'PROJECT_RULES.md');
 const target = path.join(root, 'rules.md');
 
-const full = fs.readFileSync(source, 'utf8');
-
 const short = `# rules.md
 
 ## Short rules
