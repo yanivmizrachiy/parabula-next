@@ -1,0 +1,236 @@
+{
+  "generatedAt": "2026-03-22T19:16:00+02:00",
+  "overallStatus": "מוכן לבדיקה",
+  "mainBlockers": [
+    "חסרה הוכחה מלאה לתקשורת רשת מבצעית בין המכשירים",
+    "אין עדיין צומת ראשון מאומת מקצה לקצה",
+    "חיבורי GitHub/OpenAI/Google/Microsoft עדיין לא אומתו בפועל"
+  ],
+  "devices": [
+    {
+      "id": "mobile-phone",
+      "displayName": "טלפון נייד",
+      "role": "ראש שליטה",
+      "operatingSystem": "Android",
+      "environmentType": "Termux",
+      "knownNetworkEndpoints": [],
+      "preferredConnectionMethod": "Termux",
+      "agentStatus": "חסר מידע",
+      "apiStatus": "חסר מידע",
+      "sshStatus": "חסר מידע",
+      "healthSummary": "המכשיר מוגדר כהקשר שליטה מרכזי אך ללא אימות ריצה חי",
+      "blockers": [],
+      "relatedRepositories": ["server-core", "yaniv-home-hub"],
+      "relatedIntegrations": ["OpenAI", "Google", "Microsoft"],
+      "notes": ["ידוע מהקשר קודם שהמכשיר משמש כ-control head"],
+      "lastSeen": null,
+      "lastVerifiedAt": null,
+      "readinessState": "מוכן לבדיקה",
+      "verificationStatus": "משוער",
+      "provenance": {
+        "sourceType": "manual",
+        "sourceName": "known-context",
+        "collectedAt": "2026-03-22T19:16:00+02:00",
+        "verificationStatus": "משוער",
+        "confidenceLevel": "high"
+      }
+    },
+    {
+      "id": "computer-room-pc",
+      "displayName": "מחשב חדר מחשבים",
+      "role": "מועמד לצומת ראשון",
+      "operatingSystem": "חסר מידע",
+      "environmentType": "חסר מידע",
+      "knownNetworkEndpoints": [],
+      "preferredConnectionMethod": "חסר מידע",
+      "agentStatus": "חסר מידע",
+      "apiStatus": "חסר מידע",
+      "sshStatus": "חסר מידע",
+      "healthSummary": "מועמד לצומת ראשון אך טרם אומת",
+      "blockers": ["חסר מידע על תקשורת רשת ומסלול שליטה"],
+      "relatedRepositories": ["server-core"],
+      "relatedIntegrations": [],
+      "notes": [],
+      "lastSeen": null,
+      "lastVerifiedAt": null,
+      "readinessState": "מוכן לבדיקה",
+      "verificationStatus": "משוער",
+      "provenance": {
+        "sourceType": "manual",
+        "sourceName": "known-context",
+        "collectedAt": "2026-03-22T19:16:00+02:00",
+        "verificationStatus": "משוער",
+        "confidenceLevel": "high"
+      }
+    },
+    {
+      "id": "laptop",
+      "displayName": "לפטופ",
+      "role": "מועמד לצומת ראשון",
+      "operatingSystem": "חסר מידע",
+      "environmentType": "חסר מידע",
+      "knownNetworkEndpoints": [],
+      "preferredConnectionMethod": "חסר מידע",
+      "agentStatus": "חסר מידע",
+      "apiStatus": "חסר מידע",
+      "sshStatus": "חסר מידע",
+      "healthSummary": "מועמד לצומת ראשון אך טרם אומת",
+      "blockers": ["חסר מידע על תקשורת רשת ומסלול שליטה"],
+      "relatedRepositories": ["server-core"],
+      "relatedIntegrations": [],
+      "notes": [],
+      "lastSeen": null,
+      "lastVerifiedAt": null,
+      "readinessState": "מוכן לבדיקה",
+      "verificationStatus": "משוער",
+      "provenance": {
+        "sourceType": "manual",
+        "sourceName": "known-context",
+        "collectedAt": "2026-03-22T19:16:00+02:00",
+        "verificationStatus": "משוער",
+        "confidenceLevel": "high"
+      }
+    },
+    {
+      "id": "living-room-computer",
+      "displayName": "מחשב סלון",
+      "role": "יעד תיקון",
+      "operatingSystem": "חסר מידע",
+      "environmentType": "חסר מידע",
+      "knownNetworkEndpoints": [],
+      "preferredConnectionMethod": "חסר מידע",
+      "agentStatus": "חסר מידע",
+      "apiStatus": "חסר מידע",
+      "sshStatus": "חסר מידע",
+      "healthSummary": "קיים כהקשר תיקון אך לא אומת מצב חיבור",
+      "blockers": ["חסר נתיב גישה מבצעי"],
+      "relatedRepositories": [],
+      "relatedIntegrations": [],
+      "notes": [],
+      "lastSeen": null,
+      "lastVerifiedAt": null,
+      "readinessState": "דורש טיפול",
+      "verificationStatus": "משוער",
+      "provenance": {
+        "sourceType": "manual",
+        "sourceName": "known-context",
+        "collectedAt": "2026-03-22T19:16:00+02:00",
+        "verificationStatus": "משוער",
+        "confidenceLevel": "medium"
+      }
+    },
+    {
+      "id": "desktop-computer",
+      "displayName": "מחשב שולחני",
+      "role": "מכשיר מנוהל",
+      "operatingSystem": "חסר מידע",
+      "environmentType": "חסר מידע",
+      "knownNetworkEndpoints": [],
+      "preferredConnectionMethod": "חסר מידע",
+      "agentStatus": "חסר מידע",
+      "apiStatus": "חסר מידע",
+      "sshStatus": "חסר מידע",
+      "healthSummary": "מוגדר במפת המכשירים אך טרם אומת",
+      "blockers": [],
+      "relatedRepositories": ["yaniv-home-hub"],
+      "relatedIntegrations": [],
+      "notes": [],
+      "lastSeen": null,
+      "lastVerifiedAt": null,
+      "readinessState": "מוכן לבדיקה",
+      "verificationStatus": "משוער",
+      "provenance": {
+        "sourceType": "manual",
+        "sourceName": "known-context",
+        "collectedAt": "2026-03-22T19:16:00+02:00",
+        "verificationStatus": "משוער",
+        "confidenceLevel": "medium"
+      }
+    }
+  ],
+  "repositories": [
+    {
+      "id": "n8n",
+      "name": "n8n",
+      "priority": "high",
+      "role": "ריפו בעדיפות גבוהה",
+      "verificationStatus": "משוער",
+      "lastSyncAt": null,
+      "notes": ["רלוונטי במיוחד לאוטומציות ולחיבורים"]
+    },
+    {
+      "id": "server-core",
+      "name": "server-core",
+      "priority": "high",
+      "role": "ליבת תזמור והרצה",
+      "verificationStatus": "משוער",
+      "lastSyncAt": null,
+      "notes": ["רלוונטי למסלול cmd -> execute -> out"]
+    },
+    {
+      "id": "my-assistant",
+      "name": "my-assistant",
+      "priority": "support",
+      "role": "ריפו תמיכה",
+      "verificationStatus": "משוער",
+      "lastSyncAt": null,
+      "notes": []
+    },
+    {
+      "id": "yaniv-home-hub",
+      "name": "yaniv-home-hub",
+      "priority": "support",
+      "role": "ריפו תמיכה",
+      "verificationStatus": "משוער",
+      "lastSyncAt": null,
+      "notes": []
+    },
+    {
+      "id": "digitalbook",
+      "name": "digitalbook",
+      "priority": "support",
+      "role": "ריפו תמיכה",
+      "verificationStatus": "משוער",
+      "lastSyncAt": null,
+      "notes": []
+    }
+  ],
+  "integrations": [
+    {
+      "id": "github",
+      "name": "GitHub",
+      "connectionStatus": "לא מחובר",
+      "verificationStatus": "לא אומת",
+      "lastVerifiedAt": null,
+      "blocker": "חסר טוקן או אימות ריצה בפועל",
+      "notes": []
+    },
+    {
+      "id": "openai",
+      "name": "OpenAI / API",
+      "connectionStatus": "לא מחובר",
+      "verificationStatus": "לא אומת",
+      "lastVerifiedAt": null,
+      "blocker": "חסר מפתח API או מסלול proxy מאומת",
+      "notes": []
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "connectionStatus": "לא מחובר",
+      "verificationStatus": "לא אומת",
+      "lastVerifiedAt": null,
+      "blocker": "חסר OAuth מאומת",
+      "notes": []
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "connectionStatus": "לא מחובר",
+      "verificationStatus": "לא אומת",
+      "lastVerifiedAt": null,
+      "blocker": "חסר OAuth מאומת",
+      "notes": []
+    }
+  ]
+}
