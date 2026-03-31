@@ -110,7 +110,7 @@
 }
 
 .page-40 .para-svg text.lbl {
-  font-family: "Times New Roman", Times, serif;
+  font-family: inherit;
   font-size: 16px;
   fill: currentColor;
 }

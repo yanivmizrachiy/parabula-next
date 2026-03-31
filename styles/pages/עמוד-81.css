@@ -1,4 +1,4 @@
-/* עמוד 81 — משוואות */
+/* עמוד 81 - משוואות */
 
 .page-81 .question-block {
   justify-content: flex-start;
@@ -8,11 +8,15 @@
   flex: 1;
   min-height: 0;
   display: flex;
+  overflow: hidden;
 }
 
 .page-81 .pdf-page {
   width: 100%;
-  height: 100%;
-  object-fit: contain;
+  height: calc(100% + 118px);
+  object-fit: cover;
+  object-position: center top;
   display: block;
+  transform: translateY(-118px);
+  transform-origin: top center;
 }
