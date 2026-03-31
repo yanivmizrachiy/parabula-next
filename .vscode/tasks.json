@@ -2,6 +2,13 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "פתח תצוגה מקדימה",
+      "type": "shell",
+      "dependsOn": ["parabula-next: preview server"],
+      "command": "start http://127.0.0.1:5179/preview",
+      "problemMatcher": []
+    },
+    {
       "label": "parabula-next: preview server",
       "type": "shell",
       "command": "npm run preview",
@@ -9,13 +16,9 @@
       "problemMatcher": [
         {
           "owner": "parabula-preview",
-          "fileLocation": ["relative", "${workspaceFolder}"],
-          "pattern": [
-            {
-              "regexp": "^(.*)$",
-              "message": 1
-            }
-          ],
+          "pattern": {
+            "regexp": "^(.*)$"
+          },
           "background": {
             "activeOnStart": true,
             "beginsPattern": ".*",
@@ -28,13 +31,6 @@
         "panel": "shared",
         "clear": false
       }
-    },
-    {
-      "label": "parabula-next: open preview",
-      "type": "shell",
-      "command": "start http://127.0.0.1:5179/preview",
-      "dependsOn": "parabula-next: preview server",
-      "problemMatcher": []
     },
     {
       "label": "parabula-next: build",

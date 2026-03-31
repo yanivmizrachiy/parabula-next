@@ -23,5 +23,12 @@ for (const file of getPages()) {
     assert.equal(/\sstyle\s*=\s*["']/.test(html), false, `${file}: inline CSS is forbidden`);
     assert.ok(html.includes('styles/a4-base.css'), `${file}: missing a4-base.css`);
     assert.ok(html.includes(`styles/pages/עמוד-${n}.css`), `${file}: missing page css`);
+
+    const imgMatches = Array.from(html.matchAll(/<img\b[^>]*\ssrc="([^"]+)"/giu));
+    for (const [, src] of imgMatches) {
+      if (!src.startsWith('pages/משוואות/assets/')) continue;
+      const assetPath = path.join(root, src.replaceAll('/', path.sep));
+      assert.ok(fs.existsSync(assetPath), `${file}: missing equations asset ${src}`);
+    }
   });
 }
