@@ -1,0 +1,30 @@
+name: Recovery Audit
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run repository recovery audit
+        run: node scripts/recovery-audit.mjs
+
+      - name: Upload recovery audit artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: recovery-audit
+          path: meta/audit/recovery-audit.json
