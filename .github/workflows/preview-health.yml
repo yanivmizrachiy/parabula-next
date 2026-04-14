@@ -1,0 +1,39 @@
+name: Preview Health
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preview-health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run preview style audit
+        run: node scripts/preview-style-audit.mjs
+
+      - name: Run app layer check
+        run: node scripts/app-layer-check.mjs
+
+      - name: Run duplicate audit
+        run: node scripts/duplicate-audit.mjs
+
+      - name: Upload preview audit outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-health-audits
+          path: |
+            meta/audit/preview-style-audit.json
+            meta/audit/app-layer-check.json
+            meta/audit/duplicate-audit.json
