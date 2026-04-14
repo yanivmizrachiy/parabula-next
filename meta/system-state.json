@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-04-14",
+  "repo": "yanivmizrachiy/parabula-next",
+  "source_of_truth": {
+    "primary": "PROJECT_RULES.md",
+    "continuity_index": "STATE/README.md",
+    "continuity_docs": [
+      "STATE/PROJECT_CONTINUITY.md",
+      "STATE/CHANGELOG_2026_04_14.md",
+      "STATE/CHANGELOG_2026_04_14_PRINT_UPDATE.md"
+    ],
+    "notes": "If PROJECT_RULES.md and STATE docs differ, treat it as an open sync task."
+  },
+  "canonical_content": {
+    "root_pages_pattern": "עמוד-N.html",
+    "page_css_dir": "styles/pages",
+    "shared_a4_css": "styles/a4-base.css",
+    "metadata": "meta/topics.json"
+  },
+  "app_layer": {
+    "hub": "preview/app.html",
+    "desktop_preview": "preview/index.html",
+    "phone": {
+      "html": "preview/phone.html",
+      "js": "preview/phone.js",
+      "css": "preview/mobile.css",
+      "manifest": "preview/manifest.webmanifest",
+      "icon": "preview/icon.svg",
+      "service_worker": "preview/sw.js",
+      "install_guide": "preview/install.html"
+    },
+    "print": {
+      "html": "preview/print.html",
+      "entry_js": "preview/print.js",
+      "legacy_duplicate_js": "preview/print-center.js",
+      "status": "active_with_known_duplication"
+    },
+    "preview_readme": "preview/README.md"
+  },
+  "safety_layer": {
+    "audit_script": "scripts/recovery-audit.mjs",
+    "audit_workflow": ".github/workflows/recovery-audit.yml",
+    "audit_output": "meta/audit/recovery-audit.json",
+    "restore_status": "not_implemented_yet"
+  },
+  "known_open_tasks": [
+    "Sync PROJECT_RULES.md with active mobile, print, and recovery additions",
+    "Resolve duplication between preview/print.js and preview/print-center.js",
+    "Strengthen phone installability and caching",
+    "Add safe restore workflow beyond audit-only detection"
+  ],
+  "hard_rules": [
+    "Do not modify canonical worksheet pages during tooling/documentation work unless explicitly requested",
+    "Do not mix worksheet topics",
+    "Do not claim a capability is complete if it is not complete",
+    "Keep repository changes documented for future AI sessions"
+  ]
+}
