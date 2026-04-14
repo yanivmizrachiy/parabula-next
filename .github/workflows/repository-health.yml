@@ -1,0 +1,45 @@
+name: Repository Health
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Run verify
+        run: npm run verify
+
+      - name: Run recovery audit
+        run: node scripts/recovery-audit.mjs
+
+      - name: Run rules sync check
+        run: node scripts/rules-sync-check.mjs
+
+      - name: Upload audit outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-health-audits
+          path: |
+            meta/audit/recovery-audit.json
+            meta/audit/rules-sync-check.json
