@@ -246,3 +246,12 @@ Additional stability requirements:
 
 - The reader must start at the **top of the selected page** (not mid-scroll).
 - Book mode must not render an “empty slot” state.
+
+---
+
+## 7) Shared cleanup permission (design only)
+
+- Design-only shared cleanup is allowed for a page family such as equations when no learning content is changed.
+- The cleanup may remove stale styling, inconsistent title styling, inconsistent spacing, and legacy visual residue.
+- The no-inline-style rule applies to preview utility pages as well.
+- Mobile entry files under preview are an official part of the live system.
