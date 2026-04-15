@@ -1,0 +1,13 @@
+{
+  "timestamp": "20260415_134112",
+  "changed": [
+    "preview/mobile-app.html",
+    "preview/mobile-app.css",
+    "preview/mobile-app-install.html",
+    "preview/mobile-app-install.js",
+    "preview/mobile-app.js"
+  ],
+  "mobile_app_url": "https://yanivmizrachiy.github.io/parabula-next/preview/mobile-app.html",
+  "mobile_install_url": "https://yanivmizrachiy.github.io/parabula-next/preview/mobile-app-install.html",
+  "goal": "Dedicated mobile worksheet app as primary phone experience"
+}
