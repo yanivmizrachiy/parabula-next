@@ -266,9 +266,9 @@ Additional stability requirements:
 
 ## 9) Mobile live entry contract
 
-- The primary mobile app is `preview/mobile-app.html`.
-- The primary install page is `preview/mobile-app-install.html`.
-- The dedicated manifest is `preview/mobile-app.webmanifest`.
+- The primary mobile app is `mobile-app.html`.
+- The primary install page is `mobile-app-install.html`.
+- The dedicated manifest is `mobile-app.webmanifest`.
 - `preview/icon.svg` is part of the official live mobile path.
 - The mobile app must always reflect the current worksheet repository through `meta/topics.json`.
 - Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
@@ -315,3 +315,12 @@ Additional stability requirements:
 - The mobile app should expose clear topic home cards near the opening state.
 - Topic home cards should allow fast entry into a topic from its first page.
 - The opening state on mobile should emphasize useful reading navigation, not raw technical structure.
+
+
+## Mobile app public publish contract
+
+- The public mobile app URL is `mobile-app.html`.
+- The public install page URL is `mobile-app-install.html`.
+- Published runtime topic data must come from `mobile-topics.json`.
+- The public app must not depend on `../meta/topics.json` at runtime.
+- The same published files should exist in both root and `/docs` so either Pages source can work.
