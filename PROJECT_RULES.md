@@ -308,3 +308,10 @@ Additional stability requirements:
 - The mobile app should offer a clear resume-from-last-position flow.
 - The mobile app should expose a clear start-from-beginning action.
 - The opening state should feel like a useful reading app, not a raw technical viewer.
+
+
+## 16) Mobile topic home cards contract
+
+- The mobile app should expose clear topic home cards near the opening state.
+- Topic home cards should allow fast entry into a topic from its first page.
+- The opening state on mobile should emphasize useful reading navigation, not raw technical structure.
