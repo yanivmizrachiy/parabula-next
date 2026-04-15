@@ -44,3 +44,8 @@
 .mobile-topic-pages{
   scrollbar-width:thin;
 }
+
+
+.mobile-app-header-actions .mobile-app-chip{
+  min-height:40px;
+}

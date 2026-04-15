@@ -286,3 +286,10 @@ Additional stability requirements:
 - Keep separate HTML / CSS / JS files.
 - Use `meta/topics.json` as the source of truth for topics and worksheet pages.
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
+
+
+## 12) Mobile app navigation contract
+
+- The mobile app must support fast movement like a digital book on the phone.
+- The user must be able to move to the next page, next topic, and the first page of the current topic.
+- The mobile app should expose direct actions for install flow and PDF/print flow.
