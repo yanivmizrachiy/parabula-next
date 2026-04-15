@@ -270,9 +270,3 @@ Additional stability requirements:
 - The installation helper page is `preview/install.html`.
 - `preview/manifest.webmanifest` and `preview/icon.svg` are part of the official live mobile path.
 - The mobile entry must always point to the updated worksheet system and must stay synchronized with the preview/app layer.
-
-## 10) Preview UX polish contract
-
-- `preview/app.html`, `preview/phone.html`, `preview/install.html`, and `preview/print.html` must keep a unified visual language.
-- Shared visual polish belongs in shared preview CSS, not inline style blocks.
-- UX polish may improve spacing, button clarity, focus states, mobile tap comfort, and visual consistency without changing worksheet content.
