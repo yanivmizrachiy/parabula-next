@@ -293,3 +293,11 @@ Additional stability requirements:
 - The mobile app must support fast movement like a digital book on the phone.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
+
+
+## 14) Mobile app reading flow contract
+
+- The dedicated mobile app must support quick movement to the first page of the current topic.
+- The dedicated mobile app must support quick movement to the first page of the whole book.
+- The dedicated mobile app should keep the selected page visible in the page list.
+- The dedicated mobile app should expose a clear loading signal while switching pages.
