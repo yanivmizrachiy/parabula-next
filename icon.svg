@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Parabula icon">
+  <rect width="512" height="512" rx="96" fill="#09111f"/>
+  <rect x="86" y="74" width="340" height="364" rx="34" fill="#ffffff"/>
+  <rect x="128" y="118" width="256" height="24" rx="12" fill="#2563eb"/>
+  <rect x="128" y="168" width="184" height="18" rx="9" fill="#cbd5e1"/>
+  <rect x="128" y="202" width="220" height="18" rx="9" fill="#cbd5e1"/>
+  <path d="M132 332c36-58 72-87 108-87 36 0 74 31 140 121" fill="none" stroke="#2563eb" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="136" cy="336" r="20" fill="#22c55e"/>
+  <circle cx="246" cy="250" r="20" fill="#22c55e"/>
+  <circle cx="380" cy="380" r="20" fill="#22c55e"/>
+</svg>
