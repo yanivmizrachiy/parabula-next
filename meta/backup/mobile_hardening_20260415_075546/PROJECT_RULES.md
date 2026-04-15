@@ -264,9 +264,3 @@ Additional stability requirements:
 - It may normalize fonts, title presentation, spacing, visual residue from older styling, and SVG text styling.
 - Quadratic-equation pages are excluded unless explicitly requested.
 
-## 9) Mobile live entry contract
-
-- The mobile live entry is `preview/phone.html`.
-- The installation helper page is `preview/install.html`.
-- `preview/manifest.webmanifest` and `preview/icon.svg` are part of the official live mobile path.
-- The mobile entry must always point to the updated worksheet system and must stay synchronized with the preview/app layer.
