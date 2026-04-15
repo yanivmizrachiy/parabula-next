@@ -60,3 +60,38 @@
   color:var(--m-muted);
   font-size:13px;
 }
+
+
+.mobile-welcome-card{
+  margin:12px;
+  padding:14px;
+  border:1px solid var(--m-line);
+  border-radius:16px;
+  background:var(--m-panel);
+  display:grid;
+  gap:12px;
+}
+.mobile-welcome-copy{
+  display:grid;
+  gap:4px;
+}
+.mobile-welcome-copy strong{
+  font-size:16px;
+}
+.mobile-welcome-copy span{
+  font-size:12px;
+  color:var(--m-muted);
+}
+.mobile-welcome-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.mobile-welcome-actions button{
+  min-height:42px;
+  padding:0 12px;
+  border-radius:12px;
+  border:1px solid var(--m-line);
+  background:var(--m-panel-2);
+  color:var(--m-text);
+}

@@ -301,3 +301,10 @@ Additional stability requirements:
 - The dedicated mobile app must support quick movement to the first page of the whole book.
 - The dedicated mobile app should keep the selected page visible in the page list.
 - The dedicated mobile app should expose a clear loading signal while switching pages.
+
+
+## 15) Mobile app resume flow contract
+
+- The mobile app should offer a clear resume-from-last-position flow.
+- The mobile app should expose a clear start-from-beginning action.
+- The opening state should feel like a useful reading app, not a raw technical viewer.
