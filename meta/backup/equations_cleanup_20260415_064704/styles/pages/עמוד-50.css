@@ -1,0 +1,22 @@
+/* עמוד 50 - משוואות */
+
+.page-50 .question-block {
+  justify-content: flex-start;
+}
+
+.page-50 .pdf-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.page-50 .pdf-page {
+  width: 100%;
+  height: calc(100% + 118px);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateY(-118px);
+  transform-origin: top center;
+}

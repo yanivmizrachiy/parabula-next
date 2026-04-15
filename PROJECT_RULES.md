@@ -255,3 +255,12 @@ Additional stability requirements:
 - The cleanup may remove stale styling, inconsistent title styling, inconsistent spacing, and legacy visual residue.
 - The no-inline-style rule applies to preview utility pages as well.
 - Mobile entry files under preview are an official part of the live system.
+
+
+## 8) Equations family cleanup
+
+- Pages belonging to the non-quadratic equations family may receive **design-only shared cleanup**.
+- This cleanup must not change the learning text.
+- It may normalize fonts, title presentation, spacing, visual residue from older styling, and SVG text styling.
+- Quadratic-equation pages are excluded unless explicitly requested.
+

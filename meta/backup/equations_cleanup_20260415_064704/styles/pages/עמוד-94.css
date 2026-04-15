@@ -1,0 +1,22 @@
+/* עמוד 94 - משוואות */
+
+.page-94 .question-block {
+  justify-content: flex-start;
+}
+
+.page-94 .pdf-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.page-94 .pdf-page {
+  width: 100%;
+  height: calc(100% + 118px);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateY(-118px);
+  transform-origin: top center;
+}
