@@ -266,13 +266,23 @@ Additional stability requirements:
 
 ## 9) Mobile live entry contract
 
-- The mobile live entry is `preview/phone.html`.
-- The installation helper page is `preview/install.html`.
-- `preview/manifest.webmanifest` and `preview/icon.svg` are part of the official live mobile path.
-- The mobile entry must always point to the updated worksheet system and must stay synchronized with the preview/app layer.
+- The primary mobile app is `preview/mobile-app.html`.
+- The primary install page is `preview/mobile-app-install.html`.
+- The dedicated manifest is `preview/mobile-app.webmanifest`.
+- `preview/icon.svg` is part of the official live mobile path.
+- The mobile app must always reflect the current worksheet repository through `meta/topics.json`.
+- Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
 
 ## 10) Preview UX polish contract
 
 - `preview/app.html`, `preview/phone.html`, `preview/install.html`, and `preview/print.html` must keep a unified visual language.
 - Shared visual polish belongs in shared preview CSS, not inline style blocks.
 - UX polish may improve spacing, button clarity, focus states, mobile tap comfort, and visual consistency without changing worksheet content.
+
+
+## 11) Dedicated mobile worksheet app
+
+- The dedicated mobile worksheet app must remain easy to edit.
+- Keep separate HTML / CSS / JS files.
+- Use `meta/topics.json` as the source of truth for topics and worksheet pages.
+- The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
