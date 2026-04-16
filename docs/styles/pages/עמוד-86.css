@@ -1,0 +1,57 @@
+/* עמוד 86 - משוואות */
+
+.page-86 .question-block {
+  justify-content: flex-start;
+}
+
+.page-86 .pdf-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.page-86 .pdf-page {
+  width: 100%;
+  height: calc(100% + 118px);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateY(-118px);
+  transform-origin: top center;
+}
+
+/* EQUATIONS_STRICT_UNIFY */
+.header-container{
+  margin-bottom:10px !important;
+  padding-bottom:8px !important;
+  align-items:flex-end !important;
+}
+.page-title{
+  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+  font-weight:500 !important;
+  letter-spacing:0 !important;
+  line-height:1.25 !important;
+}
+.q-main,.q-sub{
+  margin-bottom:8px !important;
+  align-items:flex-start !important;
+}
+.q-text{
+  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+  line-height:1.55 !important;
+}
+.answer-box{
+  vertical-align:middle !important;
+  transform:none !important;
+}
+.explain-box{
+  margin-top:8px !important;
+}
+.math-table td,.label-cell,.ordered-pair,.sym-item,.axis-label{
+  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+}
+body,html,.a4-page{
+  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+}
+
