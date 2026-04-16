@@ -1,4 +1,4 @@
-const VERSION = 'compact-20260417010126';
+const VERSION = 'focus-20260417005530';
 const els = {
   appMeta: document.getElementById('appMeta'),
   topicStrip: document.getElementById('topicStrip'),
@@ -92,7 +92,6 @@ function showPage(file){
   localStorage.setItem('parabula:lastFile', page.file);
   localStorage.setItem('parabula:lastTopic', page.topic || activeTopic);
   updateButtons();
-  try { document.body.classList.add('focus-reading'); } catch(e) {}
   enterFocusReading();
   setTimeout(resizeReaderFrame, 40);
 }
@@ -114,7 +113,6 @@ function renderTopics(){
     els.topicStrip.appendChild(b);
   });
   updateButtons();
-  try { document.body.classList.add('focus-reading'); } catch(e) {}
   enterFocusReading();
   setTimeout(resizeReaderFrame, 40);
 }
@@ -207,7 +205,6 @@ async function boot(){
   activeTopic = lastTopic || db.topics?.[0]?.name || '';
   renderTopics();
   renderPages();
-  try { document.body.classList.add('focus-reading'); } catch(e) {}
   enterFocusReading();
   resizeReaderFrame();
 }
