@@ -32,6 +32,51 @@ const els = {
   bottomPrintBtn: document.getElementById('bottomPrintBtn')
 };
 
+
+function dbg(msg){
+  try{
+    let box=document.getElementById('mobileDebugBox');
+    if(!box){
+      box=document.createElement('div');
+      box.id='mobileDebugBox';
+      box.style.position='fixed';
+      box.style.left='8px';
+      box.style.right='8px';
+      box.style.bottom='78px';
+      box.style.zIndex='99999';
+      box.style.background='rgba(15,23,42,.92)';
+      box.style.color='#fff';
+      box.style.fontSize='12px';
+      box.style.padding='8px 10px';
+      box.style.borderRadius='12px';
+      box.style.maxHeight='22vh';
+      box.style.overflow='auto';
+      box.style.direction='rtl';
+      document.body.appendChild(box);
+    }
+    const line=document.createElement('div');
+    line.textContent=msg;
+    box.prepend(line);
+    while(box.childNodes.length>10) box.removeChild(box.lastChild);
+  }catch(e){}
+}
+
+function bindClick(el, fn, name){
+  if(!el) return;
+  el.onclick = null;
+  el.addEventListener('click', function(ev){
+    try{
+      ev.preventDefault();
+      ev.stopPropagation();
+      dbg('לחיצה: ' + name);
+      fn();
+    }catch(err){
+      dbg('שגיאה ב-' + name + ': ' + err.message);
+      console.error(err);
+    }
+  }, {passive:false});
+}
+
 const APP_BASE = new URL('./', window.location.href);
 let db = null;
 let activeTopic = '';
@@ -225,23 +270,23 @@ if(els.mobilePageFrame){
 }
 
 els.globalSearch?.addEventListener('input', renderPages);
-els.prevPageBtn?.addEventListener('click', goPrev);
-els.bottomPrevBtn?.addEventListener('click', goPrev);
-els.nextPageBtn?.addEventListener('click', goNext);
-els.bottomNextBtn?.addEventListener('click', goNext);
-els.openLiveBtn?.addEventListener('click', openCurrent);
-els.bottomOpenBtn?.addEventListener('click', openCurrent);
-els.printBtn?.addEventListener('click', printCurrent);
-els.bottomPrintBtn?.addEventListener('click', printCurrent);
-els.nextTopicBtn?.addEventListener('click', openNextTopic);
-els.bottomTopicBtn?.addEventListener('click', openNextTopic);
-els.openTopicHomeBtn?.addEventListener('click', openTopicStart);
-els.bottomTopicHomeBtn?.addEventListener('click', openTopicStart);
-els.openInstallBtn?.addEventListener('click', openInstall);
-els.openBookStartBtn?.addEventListener('click', openBookStart);
-els.bottomBookStartBtn?.addEventListener('click', openBookStart);
-els.resumeLastBtn?.addEventListener('click', resumeLast);
-els.startBookBtn?.addEventListener('click', openBookStart);
+bindClick(els.prevPageBtn, goPrev, 'prevPageBtn');
+bindClick(els.bottomPrevBtn, goPrev, 'bottomPrevBtn');
+bindClick(els.nextPageBtn, goNext, 'nextPageBtn');
+bindClick(els.bottomNextBtn, goNext, 'bottomNextBtn');
+bindClick(els.openLiveBtn, openCurrent, 'openLiveBtn');
+bindClick(els.bottomOpenBtn, openCurrent, 'bottomOpenBtn');
+bindClick(els.printBtn, printCurrent, 'printBtn');
+bindClick(els.bottomPrintBtn, printCurrent, 'bottomPrintBtn');
+bindClick(els.nextTopicBtn, openNextTopic, 'nextTopicBtn');
+bindClick(els.bottomTopicBtn, openNextTopic, 'bottomTopicBtn');
+bindClick(els.openTopicHomeBtn, openTopicStart, 'openTopicHomeBtn');
+bindClick(els.bottomTopicHomeBtn, openTopicStart, 'bottomTopicHomeBtn');
+bindClick(els.openInstallBtn, openInstall, 'openInstallBtn');
+bindClick(els.openBookStartBtn, openBookStart, 'openBookStartBtn');
+bindClick(els.bottomBookStartBtn, openBookStart, 'bottomBookStartBtn');
+bindClick(els.resumeLastBtn, resumeLast, 'resumeLastBtn');
+bindClick(els.startBookBtn, openBookStart, 'startBookBtn');
 
 boot().catch(error => {
   console.error(error);
