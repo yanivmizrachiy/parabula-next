@@ -3,95 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#09111f" />
-  <title>אפליקציית הדפים של יניב</title>
+  <meta name="theme-color" content="#0b1220" />
+  <title>ספר דפי העבודה של יניב</title>
   <link rel="manifest" href="./mobile-app.webmanifest" />
   <link rel="icon" href="./icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./mobile.css" />
-  <link rel="stylesheet" href="./ux-polish.css" />
-  <link rel="stylesheet" href="./mobile-app.css" />
+  <link rel="stylesheet" href="./mobile-app.css?v=clean-reader-1" />
 </head>
 <body>
-  <div class="mobile-app-shell">
-    <header class="mobile-app-header">
-      <div class="mobile-app-title-wrap">
-        <strong>ספר דפי העבודה של יניב</strong>
-        <span id="appSummary">טוען דפים…</span>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-main">
+        <strong class="app-title">ספר דפי העבודה של יניב</strong>
+        <div id="appMeta" class="app-meta">טוען…</div>
       </div>
-      <div class="mobile-app-header-actions">
-        <a class="mobile-app-chip" href="./mobile-app-install.html">התקנה</a>
-        <button id="openInstallBtn" class="mobile-app-chip" type="button">הוסף למסך הבית</button>
+      <div class="topbar-actions">
+        <button id="toggleTopicsBtn" type="button">נושאים</button>
+        <button id="openInstallBtn" type="button">התקנה</button>
       </div>
     </header>
 
-    <section id="mobileWelcomeCard" class="mobile-welcome-card">
-      <div class="mobile-welcome-copy">
-        <strong>ספר אמיתי לדפדוף נוח</strong>
-        <span id="mobileResumeMeta">אפשר להתחיל מהעמוד הראשון או להמשיך מהמקום האחרון.</span>
+    <section class="resume-box">
+      <div class="resume-text">
+        <strong>קריאה נוחה בנייד</strong>
+        <span id="resumeMeta">אפשר להמשיך מהמקום האחרון או להתחיל מההתחלה.</span>
       </div>
-      <div class="mobile-welcome-actions">
-        <button id="resumeLastBtn" type="button">המשך מהמקום האחרון</button>
-        <button id="startBookBtn" type="button">פתח מההתחלה</button>
+      <div class="resume-actions">
+        <button id="resumeLastBtn" type="button">המשך</button>
+        <button id="startBookBtn" type="button">מההתחלה</button>
       </div>
     </section>
 
-    <section id="topicCardsHome" class="mobile-topic-cards-home" aria-label="נושאים ראשיים"></section>
-
-    <section class="mobile-topic-strip-wrap">
-      <div id="topicStrip" class="mobile-topic-strip" aria-label="כל הנושאים"></div>
+    <section id="topicsPanel" class="topics-panel">
+      <div class="section-title">נושאים</div>
+      <div id="topicStrip" class="topic-strip"></div>
     </section>
 
-    <main class="mobile-main-grid">
-      <aside class="mobile-topic-panel">
-        <div class="mobile-panel-head">
-          <strong id="currentTopicTitle">נושאים</strong>
-          <span id="currentTopicMeta">—</span>
-        </div>
-        <div class="mobile-search-row">
-          <input id="globalSearch" type="search" placeholder="חיפוש לפי נושא, כותרת או מספר עמוד" />
-        </div>
-        <div id="topicPages" class="mobile-topic-pages"></div>
-      </aside>
+    <section class="current-box">
+      <div class="current-copy">
+        <strong id="currentTopicTitle">נושא</strong>
+        <span id="currentTopicMeta">—</span>
+      </div>
+      <input id="globalSearch" type="search" placeholder="חיפוש לפי נושא, כותרת או מספר עמוד" />
+    </section>
 
-      <section class="mobile-preview-panel">
-        <div class="mobile-preview-head">
-          <div class="mobile-preview-copy">
-            <strong id="currentPageTitle">טוען…</strong>
-            <span id="currentPageMeta">—</span>
-          </div>
-          <div class="mobile-preview-actions">
-            <button id="openBookStartBtn" type="button">תחילת ספר</button>
-            <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
-            <button id="prevPageBtn" type="button">הקודם</button>
-            <button id="nextPageBtn" type="button">הבא</button>
-            <button id="nextTopicBtn" type="button">נושא הבא</button>
-            <button id="openLiveBtn" type="button">פתח מלא</button>
-            <button id="printBtn" type="button">PDF</button>
-          </div>
+    <section id="topicPages" class="pages-list"></section>
+
+    <section class="reader-box">
+      <div class="reader-head">
+        <div class="reader-copy">
+          <strong id="currentPageTitle">טוען…</strong>
+          <span id="currentPageMeta">—</span>
         </div>
-        <div class="mobile-book-progress">
+        <div class="reader-progress">
           <span id="topicProgress">—</span>
           <span id="globalProgress">—</span>
         </div>
-        <div id="mobileLoadingState" class="mobile-loading-state" hidden>טוען דף…</div>
-        <div class="mobile-a4-stage">
-          <div class="mobile-a4-frame">
-            <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank"></iframe>
-          </div>
-        </div>
-      </section>
-    </main>
+      </div>
 
-    <nav class="mobile-app-bottom-nav" aria-label="ניווט מהיר">
-      <button id="bottomBookStartBtn" type="button">תחילת ספר</button>
-      <button id="bottomTopicHomeBtn" type="button">תחילת נושא</button>
-      <button id="bottomPrevBtn" type="button">הקודם</button>
-      <button id="bottomNextBtn" type="button">הבא</button>
-      <button id="bottomTopicBtn" type="button">נושא הבא</button>
-      <button id="bottomOpenBtn" type="button">פתח</button>
-      <button id="bottomPrintBtn" type="button">PDF</button>
+      <div id="mobileLoadingState" class="loading-state" hidden>טוען דף…</div>
+
+      <div class="frame-wrap">
+        <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank" loading="eager"></iframe>
+      </div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button id="openBookStartBtn" type="button">תחילת ספר</button>
+      <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
+      <button id="prevPageBtn" type="button">הקודם</button>
+      <button id="nextPageBtn" type="button">הבא</button>
+      <button id="openLiveBtn" type="button">פתח מלא</button>
+      <button id="printBtn" type="button">PDF</button>
     </nav>
   </div>
-  <script src="./mobile-app.js"></script>
+  <script src="./mobile-app.js?v=clean-reader-1"></script>
 </body>
 </html>
