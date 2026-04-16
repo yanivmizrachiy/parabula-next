@@ -47,6 +47,9 @@ jobs:
           for f in *.html; do
             [ "$f" != "index.html" ] && cp "$f" dist/ || true
           done
+          for f in mobile-app.webmanifest sw.js icon.svg; do
+            [ -f "$f" ] && cp "$f" dist/ || true
+          done
           ls dist/
 
       - name: Setup Pages
