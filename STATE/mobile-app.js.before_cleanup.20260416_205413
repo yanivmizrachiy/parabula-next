@@ -147,6 +147,7 @@ function renderPages(){
     b.innerHTML = `<strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
     b.onclick = () => {
       showPage(page.file);
+      window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
     };
     els.topicPages.appendChild(b);
   });
@@ -218,38 +219,8 @@ els.toggleTopicsBtn.addEventListener('click', () => {
   els.topicsPanel.scrollIntoView({behavior:'smooth', block:'start'});
 });
 
-function cleanupIframeUI(){
-  try{
-    const frame = els.mobilePageFrame;
-    if(!frame) return;
-    const doc = frame.contentDocument || (frame.contentWindow && frame.contentWindow.document);
-    if(!doc) return;
-
-    if(!doc.getElementById('mobile-reader-cleanup-style')){
-      const style = doc.createElement('style');
-      style.id = 'mobile-reader-cleanup-style';
-      style.textContent = `
-        .preview-nav{display:none !important;}
-        html,body{background:#ffffff !important; margin:0 !important; padding:0 !important;}
-        body{display:block !important; min-height:auto !important;}
-        .a4-page{margin:0 auto !important; box-shadow:none !important;}
-      `;
-      (doc.head || doc.documentElement).appendChild(style);
-    }
-
-    const page = doc.querySelector('.a4-page');
-    if(page){
-      page.scrollIntoView({block:'start'});
-    }
-  }catch(e){
-    console.error('cleanupIframeUI failed', e);
-  }
-}
-window.__parabulaMobileCleanup = true;
-
 els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
-  cleanupIframeUI();
 });
 
 boot().catch(err => {

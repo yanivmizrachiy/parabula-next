@@ -289,3 +289,39 @@ button:disabled{
     height:74vh;
   }
 }
+
+
+/* mobile-reader-cleanup-2 */
+.frame-wrap{
+  padding:6px !important;
+}
+#mobilePageFrame{
+  height:74vh !important;
+}
+.reader-box{
+  position:relative;
+}
+.pages-list{
+  padding-bottom:4px;
+}
+.bottom-nav{
+  gap:6px !important;
+}
+.bottom-nav button{
+  flex:1 1 30% !important;
+}
+@media (max-width:640px){
+  .app-shell{
+    padding:8px 8px 96px;
+  }
+  .topbar,
+  .resume-box,
+  .topics-panel,
+  .current-box,
+  .reader-box{
+    border-radius:14px !important;
+  }
+  #mobilePageFrame{
+    height:72vh !important;
+  }
+}
