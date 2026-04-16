@@ -15,8 +15,11 @@ const els = {
   resumeMeta: document.getElementById('resumeMeta'),
   resumeLastBtn: document.getElementById('resumeLastBtn'),
   startBookBtn: document.getElementById('startBookBtn'),
+  openInstallBtn: document.getElementById('openInstallBtn'),
   toggleTopicsBtn: document.getElementById('toggleTopicsBtn'),
   topicsPanel: document.getElementById('topicsPanel'),
+  openBookStartBtn: document.getElementById('openBookStartBtn'),
+  openTopicHomeBtn: document.getElementById('openTopicHomeBtn'),
   prevPageBtn: document.getElementById('prevPageBtn'),
   nextPageBtn: document.getElementById('nextPageBtn'),
   openLiveBtn: document.getElementById('openLiveBtn'),
@@ -105,7 +108,6 @@ function renderTopics(){
     b.onclick = () => {
       activeTopic = topic.name;
       renderPages();
-      els.topicsPanel.classList.remove('is-collapsed');
       els.topicsPanel.scrollIntoView({behavior:'smooth', block:'start'});
     };
     els.topicStrip.appendChild(b);
@@ -145,7 +147,6 @@ function renderPages(){
     b.innerHTML = `<strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
     b.onclick = () => {
       showPage(page.file);
-      els.topicsPanel.classList.add('is-collapsed');
     };
     els.topicPages.appendChild(b);
   });
@@ -206,12 +207,14 @@ async function boot(){
 els.globalSearch.addEventListener('input', renderPages);
 els.resumeLastBtn.addEventListener('click', resumeLast);
 els.startBookBtn.addEventListener('click', openBookStart);
+els.openBookStartBtn.addEventListener('click', openBookStart);
+els.openTopicHomeBtn.addEventListener('click', openTopicStart);
 els.prevPageBtn.addEventListener('click', () => { if(currentIndex > 0) showPage(visiblePages[currentIndex - 1].file); });
 els.nextPageBtn.addEventListener('click', () => { if(currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file); });
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
+els.openInstallBtn.addEventListener('click', () => window.open('./mobile-app-install.html', '_blank', 'noopener,noreferrer'));
 els.toggleTopicsBtn.addEventListener('click', () => {
-  els.topicsPanel.classList.toggle('is-collapsed');
   els.topicsPanel.scrollIntoView({behavior:'smooth', block:'start'});
 });
 

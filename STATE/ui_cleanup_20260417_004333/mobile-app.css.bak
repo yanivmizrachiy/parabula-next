@@ -346,16 +346,3 @@ button:disabled{
     height:80vh !important;
   }
 }
-
-
-.topics-panel.is-collapsed .topic-strip,
-.topics-panel.is-collapsed .section-title-pages,
-.topics-panel.is-collapsed .pages-list{
-  display:none !important;
-}
-.section-title-pages{
-  margin-top:10px;
-}
-.bottom-nav button{
-  flex:1 1 22%;
-}

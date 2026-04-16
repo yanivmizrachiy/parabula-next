@@ -17,7 +17,8 @@
         <div id="appMeta" class="app-meta">טוען…</div>
       </div>
       <div class="topbar-actions">
-        <button id="toggleTopicsBtn" type="button">נושאים ודפים</button>
+        <button id="toggleTopicsBtn" type="button">נושאים</button>
+        <button id="openInstallBtn" type="button">התקנה</button>
       </div>
     </header>
 
@@ -32,11 +33,9 @@
       </div>
     </section>
 
-    <section id="topicsPanel" class="topics-panel is-collapsed">
+    <section id="topicsPanel" class="topics-panel">
       <div class="section-title">נושאים</div>
       <div id="topicStrip" class="topic-strip"></div>
-      <div class="section-title section-title-pages">דפים</div>
-      <section id="topicPages" class="pages-list"></section>
     </section>
 
     <section class="current-box">
@@ -46,6 +45,8 @@
       </div>
       <input id="globalSearch" type="search" placeholder="חיפוש לפי נושא, כותרת או מספר עמוד" />
     </section>
+
+    <section id="topicPages" class="pages-list"></section>
 
     <section class="reader-box">
       <div class="reader-head">
@@ -67,6 +68,8 @@
     </section>
 
     <nav class="bottom-nav">
+      <button id="openBookStartBtn" type="button">תחילת ספר</button>
+      <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
       <button id="prevPageBtn" type="button">הקודם</button>
       <button id="nextPageBtn" type="button">הבא</button>
       <button id="openLiveBtn" type="button">פתח מלא</button>
@@ -76,5 +79,7 @@
   <script src="./mobile-app.js?v=20260416234242"></script>
 </body>
 </html>
+
+
 
 <!-- MOBILE-RELEASE:20260416234242 -->
