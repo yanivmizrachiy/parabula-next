@@ -257,13 +257,3 @@ boot().catch(err => {
   els.appMeta.textContent = 'שגיאה בטעינה';
   els.topicPages.innerHTML = '<div class="empty-box">אירעה שגיאה בטעינת הספר. נסה לרענן את הדף.</div>';
 });
-
-
-if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
-  window.__parabulaSwRegistered = true;
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=20260416231848').then(reg => {
-      if (reg.update) reg.update();
-    }).catch(console.error);
-  });
-}
