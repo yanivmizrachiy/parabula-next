@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>ספר דפי העבודה של יניב</title>
+  <link rel="manifest" href="./mobile-app.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./mobile-app.css?v=clean-reader-1" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-main">
+        <strong class="app-title">ספר דפי העבודה של יניב</strong>
+        <div id="appMeta" class="app-meta">טוען…</div>
+      </div>
+      <div class="topbar-actions">
+        <button id="toggleTopicsBtn" type="button">נושאים</button>
+        <button id="openInstallBtn" type="button">התקנה</button>
+      </div>
+    </header>
+
+    <section class="resume-box">
+      <div class="resume-text">
+        <strong>קריאה נוחה בנייד</strong>
+        <span id="resumeMeta">אפשר להמשיך מהמקום האחרון או להתחיל מההתחלה.</span>
+      </div>
+      <div class="resume-actions">
+        <button id="resumeLastBtn" type="button">המשך</button>
+        <button id="startBookBtn" type="button">מההתחלה</button>
+      </div>
+    </section>
+
+    <section id="topicsPanel" class="topics-panel">
+      <div class="section-title">נושאים</div>
+      <div id="topicStrip" class="topic-strip"></div>
+    </section>
+
+    <section class="current-box">
+      <div class="current-copy">
+        <strong id="currentTopicTitle">נושא</strong>
+        <span id="currentTopicMeta">—</span>
+      </div>
+      <input id="globalSearch" type="search" placeholder="חיפוש לפי נושא, כותרת או מספר עמוד" />
+    </section>
+
+    <section id="topicPages" class="pages-list"></section>
+
+    <section class="reader-box">
+      <div class="reader-head">
+        <div class="reader-copy">
+          <strong id="currentPageTitle">טוען…</strong>
+          <span id="currentPageMeta">—</span>
+        </div>
+        <div class="reader-progress">
+          <span id="topicProgress">—</span>
+          <span id="globalProgress">—</span>
+        </div>
+      </div>
+
+      <div id="mobileLoadingState" class="loading-state" hidden>טוען דף…</div>
+
+      <div class="frame-wrap">
+        <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank" loading="eager"></iframe>
+      </div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button id="openBookStartBtn" type="button">תחילת ספר</button>
+      <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
+      <button id="prevPageBtn" type="button">הקודם</button>
+      <button id="nextPageBtn" type="button">הבא</button>
+      <button id="openLiveBtn" type="button">פתח מלא</button>
+      <button id="printBtn" type="button">PDF</button>
+    </nav>
+  </div>
+  <script src="./mobile-app.js?v=clean-reader-1"></script>
+</body>
+</html>

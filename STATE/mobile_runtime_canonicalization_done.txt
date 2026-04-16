@@ -1,0 +1,2 @@
+canonical mobile runtime = mobile-app.html
+preview/phone.html = redirect only

@@ -1,0 +1,139 @@
+{
+  "timestamp": "20260416_231132",
+  "repo": "/data/data/com.termux/files/home/parabula-next",
+  "backup_dir": "/data/data/com.termux/files/home/parabula-next/STATE/backup_20260416_231132",
+  "counts": {
+    "root_pages": 95,
+    "docs_pages": 95,
+    "root_page_css": 95,
+    "docs_page_css": 95
+  },
+  "topics_summary": {
+    "topics_count": 6,
+    "total_pages": 95,
+    "topic_names": [
+      "גיאומטריה",
+      "כללי",
+      "משוואות",
+      "משפט פיתגורס",
+      "סדרות וחוקיות",
+      "פונקציות"
+    ],
+    "pages_missing_siteUrl": 0
+  },
+  "signals": {
+    "rules_primary_mobile_app_declared": true,
+    "rules_public_mobile_topics_declared": true,
+    "rules_root_and_docs_dual_publish_declared": true,
+    "preview_readme_declares_phone_layer": true,
+    "mobile_app_has_iframe": true,
+    "preview_phone_has_iframe": true,
+    "mobile_js_uses_siteUrl": true,
+    "mobile_js_uses_root_base": true,
+    "mobile_js_uses_docs_paths": false,
+    "preview_phone_js_uses_meta_topics": true,
+    "preview_phone_js_is_second_mobile_runtime": true,
+    "mobile_css_has_bottom_nav": true,
+    "mobile_css_has_fixed_bottom_nav": true
+  },
+  "contradictions": [
+    "גם PROJECT_RULES וגם preview/README מציגים שכבות מובייל רשמיות שונות.",
+    "יש שני runtimes שונים למובייל, ושניהם מבוססי iframe.",
+    "preview/phone.js תלוי ב-meta/topics.json בזמן שהחוק הציבורי דורש mobile-topics.json.",
+    "חוקי הפרויקט עדיין מאפשרים dual-publish שעלול לבלבל את מסלול הפרסום."
+  ],
+  "live": [
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/mobile-app.html?v=fullaudit",
+      "ok": true,
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/mobile-app-install.html?v=fullaudit",
+      "ok": true,
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/mobile-topics.json?v=fullaudit",
+      "ok": false,
+      "status": 404,
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html?v=fullaudit",
+      "ok": false,
+      "status": null,
+      "error": "'ascii' codec can't encode characters in position 20-23: ordinal not in range(128)"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/styles/a4-base.css?v=fullaudit",
+      "ok": true,
+      "status": 200,
+      "content_type": "text/css; charset=utf-8"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/styles/pages/%D7%A2%D7%9E%D7%95%D7%93-31.css?v=fullaudit",
+      "ok": true,
+      "status": 200,
+      "content_type": "text/css; charset=utf-8"
+    },
+    {
+      "url": "https://yanivmizrachiy.github.io/parabula-next/preview/phone.html?v=fullaudit",
+      "ok": true,
+      "status": 200,
+      "content_type": "text/html; charset=utf-8"
+    }
+  ],
+  "git": {
+    "status": {
+      "cmd": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "code": 0,
+      "stdout": "D docs/styles/_probe.css\n?? STATE/backup_20260416_231132/",
+      "stderr": ""
+    },
+    "last_commit": {
+      "cmd": [
+        "git",
+        "log",
+        "-1",
+        "--oneline"
+      ],
+      "code": 0,
+      "stdout": "ad549b8 fix: canonicalize mobile runtime and demote preview phone layer",
+      "stderr": ""
+    },
+    "tracked_mobile_related": {
+      "cmd": [
+        "bash",
+        "-lc",
+        "git ls-files | grep -E '(^mobile-app\\.|^mobile-topics\\.json$|^preview/phone\\.|^preview/mobile\\.css$|^styles/a4-base\\.css$|^styles/pages/עמוד-31\\.css$)' || true"
+      ],
+      "code": 0,
+      "stdout": "mobile-app.css\nmobile-app.html\nmobile-app.js\nmobile-app.webmanifest\nmobile-topics.json\npreview/mobile.css\npreview/phone.html\npreview/phone.js\nstyles/a4-base.css",
+      "stderr": ""
+    },
+    "recent_fix_commits": {
+      "cmd": [
+        "bash",
+        "-lc",
+        "git log --oneline -10 | sed -n '1,10p'"
+      ],
+      "code": 0,
+      "stdout": "ad549b8 fix: canonicalize mobile runtime and demote preview phone layer\nbba781f docs: record confirmed mobile runtime conflict and safe next action\n28b7e7a fix: clean mobile reader iframe ui and remove noisy preview chrome\nea3ee08 fix: rebuild mobile reader into clean single-column experience\n9655b04 fix: normalize mobile reader to root publish paths\nbc165c8 fix: harden mobile button bindings and add runtime debug\n207264b fix: rebuild mobile layout to be truly phone-friendly\n05cd206 fix: unignore and force-track full stylesheet tree for pages\nbf2c96b fix: force pages rebuild after stylesheet publish\n2485e27 fix: publish worksheet styles and assets into docs",
+      "stderr": ""
+    }
+  },
+  "recommendations": [
+    "לקבע mobile-app.* כמסלול מובייל קנוני יחיד.",
+    "להשאיר preview/phone.* כ-legacy/utility בלבד ולא כנתיב מובייל פעיל.",
+    "לא לגעת בדפי A4 עצמם בשלב הבא.",
+    "לטפל רק במעטפת mobile-app.* ובכללים הסותרים.",
+    "לא למחוק קבצים לפני נטרול/סיווג/גיבוי."
+  ]
+}

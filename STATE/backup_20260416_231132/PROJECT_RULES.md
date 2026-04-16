@@ -272,7 +272,6 @@ Additional stability requirements:
 - `preview/icon.svg` is part of the official live mobile path.
 - The mobile app must always reflect the current worksheet repository through `meta/topics.json`.
 - Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
-- `preview/phone.*` is a utility / legacy layer and must not be treated as the canonical mobile runtime.
 
 ## 10) Preview UX polish contract
 
@@ -287,7 +286,6 @@ Additional stability requirements:
 - Keep separate HTML / CSS / JS files.
 - Use `meta/topics.json` as the source of truth for topics and worksheet pages.
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
-- New mobile fixes must land in `mobile-app.*` first, not in `preview/phone.*`.
 
 
 ## 12) Mobile app navigation contract
