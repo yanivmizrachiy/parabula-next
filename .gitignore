@@ -4,3 +4,7 @@ out
 .env
 .env.local
 storage/cache/*.tmp
+!styles/
+!styles/**
+!docs/styles/
+!docs/styles/**
