@@ -1,4 +1,4 @@
-const VERSION = 'fulla4-20260417005059';
+const VERSION = 'a4fit-20260417003550';
 const els = {
   appMeta: document.getElementById('appMeta'),
   topicStrip: document.getElementById('topicStrip'),
@@ -92,7 +92,6 @@ function showPage(file){
   localStorage.setItem('parabula:lastFile', page.file);
   localStorage.setItem('parabula:lastTopic', page.topic || activeTopic);
   updateButtons();
-  setTimeout(resizeReaderFrame, 40);
 }
 
 function renderTopics(){
@@ -112,7 +111,6 @@ function renderTopics(){
     els.topicStrip.appendChild(b);
   });
   updateButtons();
-  setTimeout(resizeReaderFrame, 40);
 }
 
 function renderPages(){
@@ -203,7 +201,6 @@ async function boot(){
   activeTopic = lastTopic || db.topics?.[0]?.name || '';
   renderTopics();
   renderPages();
-  resizeReaderFrame();
 }
 
 els.globalSearch.addEventListener('input', renderPages);
@@ -232,12 +229,12 @@ function cleanupIframeUI(){
       style.textContent = `
         .preview-nav{display:none !important;}
         html,body{
+          background:#eef3f8 !important;
           margin:0 !important;
           padding:0 !important;
           width:100% !important;
           height:100% !important;
           overflow:hidden !important;
-          background:#eef3f8 !important;
         }
         body{
           display:flex !important;
@@ -256,33 +253,22 @@ function cleanupIframeUI(){
     const page = doc.querySelector('.a4-page');
     if(!page) return;
 
-    // reset before measuring
     page.style.transform = 'none';
-    page.style.marginTop = '0';
-    page.style.marginBottom = '0';
-
-    const pageRect = page.getBoundingClientRect();
+    const rect = page.getBoundingClientRect();
     const vw = Math.max(doc.documentElement.clientWidth || 0, win.innerWidth || 0);
     const vh = Math.max(doc.documentElement.clientHeight || 0, win.innerHeight || 0);
-
-    const padX = 8;
-    const padY = 8;
-    const scaleX = (vw - padX * 2) / pageRect.width;
-    const scaleY = (vh - padY * 2) / pageRect.height;
+    const padX = 12;
+    const padY = 12;
+    const scaleX = (vw - padX * 2) / rect.width;
+    const scaleY = (vh - padY * 2) / rect.height;
     const scale = Math.min(scaleX, scaleY, 1);
 
     page.style.transform = `scale(${scale})`;
-    page.style.marginTop = '4px';
-    page.style.marginBottom = '4px';
+    page.style.marginTop = '8px';
+    page.style.marginBottom = '8px';
 
-    // keep whole scaled page visible inside iframe with no scroll
-    const fittedHeight = Math.ceil(pageRect.height * scale + 8);
-    const fittedWidth = Math.ceil(pageRect.width * scale + 8);
+    const fittedHeight = Math.ceil(rect.height * scale + 24);
     doc.body.style.minHeight = fittedHeight + 'px';
-    doc.body.style.minWidth = fittedWidth + 'px';
-    doc.documentElement.style.overflow = 'hidden';
-    doc.body.style.overflow = 'hidden';
-    win.scrollTo(0, 0);
   }catch(e){
     console.error('cleanupIframeUI failed', e);
   }
@@ -292,7 +278,6 @@ window.__parabulaMobileCleanup = true;
 els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
   cleanupIframeUI();
-  resizeReaderFrame();
 });
 
 boot().catch(err => {
@@ -315,39 +300,3 @@ if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
 window.addEventListener('resize', () => {
   try { cleanupIframeUI(); } catch(e) { console.error(e); }
 });
-
-
-function resizeReaderFrame(){
-  try{
-    const frame = els.mobilePageFrame;
-    const topbar = document.querySelector('.topbar');
-    const resume = document.querySelector('.resume-box');
-    const topics = document.querySelector('.topics-panel');
-    const current = document.querySelector('.current-box');
-    const readerHead = document.querySelector('.reader-head');
-    const bottom = document.querySelector('.bottom-nav');
-    const loading = document.getElementById('mobileLoadingState');
-
-    const used =
-      (topbar?.offsetHeight || 0) +
-      (resume?.offsetHeight || 0) +
-      (topics?.offsetHeight || 0) +
-      (current?.offsetHeight || 0) +
-      (readerHead?.offsetHeight || 0) +
-      (bottom?.offsetHeight || 0) +
-      (loading && !loading.hidden ? loading.offsetHeight : 0) +
-      84;
-
-    const free = Math.max(320, window.innerHeight - used);
-    frame.style.height = free + 'px';
-
-    setTimeout(() => {
-      try { cleanupIframeUI(); } catch(e) { console.error(e); }
-    }, 40);
-  }catch(e){
-    console.error('resizeReaderFrame failed', e);
-  }
-}
-
-window.addEventListener('resize', resizeReaderFrame);
-window.addEventListener('orientationchange', () => setTimeout(resizeReaderFrame, 120));
