@@ -325,24 +325,3 @@ button:disabled{
     height:72vh !important;
   }
 }
-
-
-/* a4-fit-mobile */
-.frame-wrap{
-  background:#dfe7f0 !important;
-  padding:4px !important;
-  overflow:hidden !important;
-}
-#mobilePageFrame{
-  width:100% !important;
-  height:78vh !important;
-  background:#eef3f8 !important;
-}
-.reader-box{
-  overflow:hidden !important;
-}
-@media (max-width:640px){
-  #mobilePageFrame{
-    height:80vh !important;
-  }
-}

@@ -1,4 +1,4 @@
-const VERSION = 'a4fit-20260417003550';
+const VERSION = 'release-20260416234242';
 const els = {
   appMeta: document.getElementById('appMeta'),
   topicStrip: document.getElementById('topicStrip'),
@@ -223,55 +223,24 @@ function cleanupIframeUI(){
     const frame = els.mobilePageFrame;
     if(!frame) return;
     const doc = frame.contentDocument || (frame.contentWindow && frame.contentWindow.document);
-    const win = frame.contentWindow;
-    if(!doc || !win) return;
+    if(!doc) return;
 
     if(!doc.getElementById('mobile-reader-cleanup-style')){
       const style = doc.createElement('style');
       style.id = 'mobile-reader-cleanup-style';
       style.textContent = `
         .preview-nav{display:none !important;}
-        html,body{
-          background:#eef3f8 !important;
-          margin:0 !important;
-          padding:0 !important;
-          width:100% !important;
-          height:100% !important;
-          overflow:hidden !important;
-        }
-        body{
-          display:flex !important;
-          justify-content:center !important;
-          align-items:flex-start !important;
-        }
-        .a4-page{
-          margin:0 !important;
-          box-shadow:none !important;
-          transform-origin: top center !important;
-        }
+        html,body{background:#ffffff !important; margin:0 !important; padding:0 !important;}
+        body{display:block !important; min-height:auto !important;}
+        .a4-page{margin:0 auto !important; box-shadow:none !important;}
       `;
       (doc.head || doc.documentElement).appendChild(style);
     }
 
     const page = doc.querySelector('.a4-page');
-    if(!page) return;
-
-    page.style.transform = 'none';
-    const rect = page.getBoundingClientRect();
-    const vw = Math.max(doc.documentElement.clientWidth || 0, win.innerWidth || 0);
-    const vh = Math.max(doc.documentElement.clientHeight || 0, win.innerHeight || 0);
-    const padX = 12;
-    const padY = 12;
-    const scaleX = (vw - padX * 2) / rect.width;
-    const scaleY = (vh - padY * 2) / rect.height;
-    const scale = Math.min(scaleX, scaleY, 1);
-
-    page.style.transform = `scale(${scale})`;
-    page.style.marginTop = '8px';
-    page.style.marginBottom = '8px';
-
-    const fittedHeight = Math.ceil(rect.height * scale + 24);
-    doc.body.style.minHeight = fittedHeight + 'px';
+    if(page){
+      page.scrollIntoView({block:'start'});
+    }
   }catch(e){
     console.error('cleanupIframeUI failed', e);
   }
@@ -298,8 +267,3 @@ if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
     }).catch(console.error);
   });
 }
-
-
-window.addEventListener('resize', () => {
-  try { cleanupIframeUI(); } catch(e) { console.error(e); }
-});
