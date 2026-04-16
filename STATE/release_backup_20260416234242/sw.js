@@ -1,4 +1,4 @@
-const CACHE_NAME = 'parabula-mobile-20260416234242';
+const CACHE_NAME = 'parabula-mobile-20260416231848';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

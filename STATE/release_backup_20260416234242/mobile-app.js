@@ -1,4 +1,4 @@
-const VERSION = 'release-20260416234242';
+const VERSION = 'clean-reader-1';
 const els = {
   appMeta: document.getElementById('appMeta'),
   topicStrip: document.getElementById('topicStrip'),
@@ -262,7 +262,7 @@ boot().catch(err => {
 if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
   window.__parabulaSwRegistered = true;
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=20260416234242').then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=20260416231848').then(reg => {
       if (reg.update) reg.update();
     }).catch(console.error);
   });
