@@ -15,23 +15,23 @@
   <div class="mobile-app-shell">
     <header class="mobile-app-header">
       <div class="mobile-app-title-wrap">
-        <strong>ספר דפי העבודה של יניב</strong>
-        <span id="appSummary">טוען דפים…</span>
+        <strong>אפליקציית הדפים של יניב</strong>
+        <span id="appSummary">טוען נושאים…</span>
       </div>
       <div class="mobile-app-header-actions">
         <a class="mobile-app-chip" href="./mobile-app-install.html">התקנה</a>
-        <button id="openInstallBtn" class="mobile-app-chip" type="button">הוסף למסך הבית</button>
+        <a class="mobile-app-chip" href="./print.html">PDF</a>
       </div>
     </header>
 
     <section id="mobileWelcomeCard" class="mobile-welcome-card">
       <div class="mobile-welcome-copy">
-        <strong>ספר אמיתי לדפדוף נוח</strong>
-        <span id="mobileResumeMeta">אפשר להתחיל מהעמוד הראשון או להמשיך מהמקום האחרון.</span>
+        <strong>ברוך הבא לאפליקציית הדפים</strong>
+        <span id="mobileResumeMeta">אפשר להמשיך מהמקום האחרון או להתחיל מחדש.</span>
       </div>
       <div class="mobile-welcome-actions">
         <button id="resumeLastBtn" type="button">המשך מהמקום האחרון</button>
-        <button id="startBookBtn" type="button">פתח מההתחלה</button>
+        <button id="startBookBtn" type="button">התחל מההתחלה</button>
       </div>
     </section>
 
@@ -60,13 +60,16 @@
             <span id="currentPageMeta">—</span>
           </div>
           <div class="mobile-preview-actions">
-            <button id="openBookStartBtn" type="button">תחילת ספר</button>
-            <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
             <button id="prevPageBtn" type="button">הקודם</button>
             <button id="nextPageBtn" type="button">הבא</button>
             <button id="nextTopicBtn" type="button">נושא הבא</button>
-            <button id="openLiveBtn" type="button">פתח מלא</button>
-            <button id="printBtn" type="button">PDF</button>
+            <button id="openLiveBtn" type="button">פתח</button>
+            <button id="printBtn" type="button">הדפס / PDF</button>
+            <button id="openPrintCenterBtn" type="button">מרכז PDF</button>
+            <button id="openTopicHomeBtn" type="button">תחילת נושא</button>
+            <button id="openInstallBtn" type="button">התקנה</button>
+            <button id="openBookStartBtn" type="button">תחילת ספר</button>
+            <button id="openHubBtn" type="button">מרכז</button>
           </div>
         </div>
         <div class="mobile-book-progress">
@@ -76,20 +79,21 @@
         <div id="mobileLoadingState" class="mobile-loading-state" hidden>טוען דף…</div>
         <div class="mobile-a4-stage">
           <div class="mobile-a4-frame">
-            <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank"></iframe>
+            <iframe id="mobilePageFrame" title="Worksheet mobile preview" src="about:blank"></iframe>
           </div>
         </div>
       </section>
     </main>
 
     <nav class="mobile-app-bottom-nav" aria-label="ניווט מהיר">
-      <button id="bottomBookStartBtn" type="button">תחילת ספר</button>
-      <button id="bottomTopicHomeBtn" type="button">תחילת נושא</button>
       <button id="bottomPrevBtn" type="button">הקודם</button>
       <button id="bottomNextBtn" type="button">הבא</button>
-      <button id="bottomTopicBtn" type="button">נושא הבא</button>
       <button id="bottomOpenBtn" type="button">פתח</button>
       <button id="bottomPrintBtn" type="button">PDF</button>
+      <button id="bottomTopicBtn" type="button">נושא הבא</button>
+      <button id="bottomTopicHomeBtn" type="button">תחילת נושא</button>
+      <button id="bottomBookStartBtn" type="button">תחילת ספר</button>
+      <button id="bottomHubBtn" type="button">מרכז</button>
     </nav>
   </div>
   <script src="./mobile-app.js"></script>
