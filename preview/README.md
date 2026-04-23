@@ -31,7 +31,7 @@
 ### הדפסה / PDF handoff
 - `print.html`
 - `print.js`
-- `print-center.js` (כפילות / legacy-adjacent)
+ (כפילות / legacy-adjacent)
 
 ### שער כניסה
 - `app.html`
