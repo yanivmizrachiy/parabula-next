@@ -48,7 +48,7 @@
 - קיים שער כניסה `app.html`.
 - קיים מרכז הדפסה פעיל.
 - `print.js` הוא קובץ ההדפסה הקנוני הפעיל בשכבת ההדפסה.
-- `print-center.js` עדיין קיים ככפילות / legacy-adjacent file.
+ עדיין קיים ככפילות / legacy-adjacent file.
 - `mobile-app.html` הוא מסלול המובייל הקנוני היחיד לשיפורי מובייל חדשים.
 - `preview/phone.html` נשאר שכבת legacy / redirect-only mobile entry לתאימות לאחור.
 - שכבת המובייל והאייקון לנייד הם חלק רשמי מהמערכת החיה, ו-`PROJECT_RULES.md` חייב להישאר מסונכרן איתם.
