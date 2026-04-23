@@ -6,12 +6,21 @@
 
 - `preview/index.html` — תצוגה מקדימה קנונית למחשב / reader קיים.
 - `preview/app.html` — שער כניסה מרוכז לשכבת האפליקציה.
-- `preview/phone.html` — שכבת טלפון / מובייל לצפייה בדפים.
 - `preview/print.html` — מרכז הדפסה לבחירת דפים אמיתיים מהריפו.
+- `preview/install.html` — מסך עזר למסלולי התקנה / הוספה למסך הבית.
 
 ## קבצים עיקריים בשכבת האפליקציה
 
-### טלפון / מובייל
+### מובייל קנוני
+- `../mobile-app.html`
+- `../mobile-app.js`
+- `../mobile-app.css`
+- `../mobile-app.webmanifest`
+- `../mobile-app-install.html`
+- `../mobile-app-install.js`
+- `../mobile-topics.json`
+
+### שכבת טלפון / legacy / תאימות
 - `phone.html`
 - `phone.js`
 - `mobile.css`
@@ -22,6 +31,7 @@
 ### הדפסה / PDF handoff
 - `print.html`
 - `print.js`
+- `print-center.js` (כפילות / legacy-adjacent)
 
 ### שער כניסה
 - `app.html`
@@ -35,10 +45,12 @@
 
 ## מצב נוכחי אמיתי
 
-- קיימת שכבת טלפון פעילה.
 - קיים שער כניסה `app.html`.
-- קיים מרכז הדפסה.
+- קיים מרכז הדפסה פעיל.
 - `print.js` הוא קובץ ההדפסה הקנוני הפעיל בשכבת ההדפסה.
+- `print-center.js` עדיין קיים ככפילות / legacy-adjacent file.
+- `mobile-app.html` הוא מסלול המובייל הקנוני היחיד לשיפורי מובייל חדשים.
+- `preview/phone.html` נשאר שכבת legacy / redirect-only mobile entry לתאימות לאחור.
 - שכבת המובייל והאייקון לנייד הם חלק רשמי מהמערכת החיה, ו-`PROJECT_RULES.md` חייב להישאר מסונכרן איתם.
 
 ## המשך בטוח
@@ -48,15 +60,7 @@
 3. לסנכרן את `PROJECT_RULES.md` עם שכבת `preview/`.
 4. להמשיך לשפר מובייל ו-PDF בלי לגעת בדפי העבודה עצמם.
 
-
 ## התקנה / אייקון לנייד
 
-- `manifest.webmanifest` + `icon.svg` + `phone.html` הם חלק רשמי ממסלול הגישה לנייד.
+- מסלולי ההתקנה והאייקונים הם חלק רשמי משכבת הגישה לנייד.
 - המטרה של שכבה זו היא לאפשר כניסה קבועה, חיה, ומעודכנת לדפי העבודה מהטלפון.
-
-
-## הכרעה מעודכנת — מובייל קנוני
-
-- `mobile-app.html` הוא מסלול המובייל הקנוני היחיד.
-- `preview/phone.html` נשאר שכבת legacy / redirect-only mobile entry לתאימות לאחור.
-- שיפורי מובייל חדשים נכנסים רק ל-`mobile-app.*`.
