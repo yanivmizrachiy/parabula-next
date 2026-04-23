@@ -188,6 +188,20 @@ Prev/Next links must match the repo’s global reading order as defined by topic
   - `styles/pages/*.css`
   - `preview/*`
 
+### Access layer validation (required)
+
+- Run: `npm run validate:access`
+- This must validate the unified access layer built around `meta/all-pages-index.json`.
+- It must verify the existence and linkage of:
+  - `preview/all-pages.*`
+  - `preview/booklet.*`
+  - `preview/print.*`
+  - `preview/flow-shell.*`
+  - `preview/app.html`
+  - `STATE/LIVE_STATUS.md`
+  - `STATE/ARCHITECTURE_MAP.md`
+  - `STATE/SAFE_IMPROVEMENT_REPORT.md`
+
 ---
 
 ## 4) Failure recovery protocol
@@ -264,65 +278,81 @@ Additional stability requirements:
 - It may normalize fonts, title presentation, spacing, visual residue from older styling, and SVG text styling.
 - Quadratic-equation pages are excluded unless explicitly requested.
 
-## 9) Mobile live entry contract
+## 9) Unified metadata backbone contract
+
+- `meta/topics.json` remains canonical source metadata for worksheet content structure.
+- `meta/all-pages-index.json` is the unified runtime access index above the canonical pages.
+- Access surfaces may consume `meta/all-pages-index.json`, but must not invent a parallel source of truth for worksheet content.
+- The unified index must describe the real worksheet set and remain aligned with root `עמוד-N.html` pages.
+
+## 10) Mobile live entry contract
 
 - The primary mobile app is `mobile-app.html`.
 - The primary install page is `mobile-app-install.html`.
 - The dedicated manifest is `mobile-app.webmanifest`.
 - `preview/icon.svg` is part of the official live mobile path.
-- The mobile app must always reflect the current worksheet repository through `meta/topics.json`.
+- The mobile app must always reflect the current worksheet repository through repository metadata.
 - Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
 - `preview/phone.*` is a utility / legacy layer and must not be treated as the canonical mobile runtime.
 
-## 10) Preview UX polish contract
+## 11) Preview UX polish contract
 
-- `preview/app.html`, `preview/phone.html`, `preview/install.html`, and `preview/print.html` must keep a unified visual language.
+- `preview/app.html`, `preview/phone.html`, `preview/install.html`, `preview/print.html`, `preview/all-pages.html`, and `preview/booklet.html` must keep a unified visual language.
 - Shared visual polish belongs in shared preview CSS, not inline style blocks.
 - UX polish may improve spacing, button clarity, focus states, mobile tap comfort, and visual consistency without changing worksheet content.
 
-
-## 11) Dedicated mobile worksheet app
+## 12) Dedicated mobile worksheet app
 
 - The dedicated mobile worksheet app must remain easy to edit.
 - Keep separate HTML / CSS / JS files.
-- Use `meta/topics.json` as the source of truth for topics and worksheet pages.
+- Use repository metadata as the source of truth for topics and worksheet pages.
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
 - New mobile fixes must land in `mobile-app.*` first, not in `preview/phone.*`.
 
+## 13) Unified access surfaces contract
 
-## 12) Mobile app navigation contract
+- `preview/all-pages.html` is the unified discovery and selection screen for all worksheet pages.
+- `preview/booklet.html` is the unified booklet assembly screen built above existing worksheet pages.
+- `preview/print.html` is the print/PDF handoff surface.
+- These surfaces are access layers above canonical pages, not alternative worksheet sources.
+- They must consume the unified metadata backbone and remain aligned with the real worksheet set.
+
+## 14) Mobile app navigation contract
 
 - The mobile app must support fast movement like a digital book on the phone.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
 
-
-## 14) Mobile app reading flow contract
+## 15) Mobile app reading flow contract
 
 - The dedicated mobile app must support quick movement to the first page of the current topic.
 - The dedicated mobile app must support quick movement to the first page of the whole book.
 - The dedicated mobile app should keep the selected page visible in the page list.
 - The dedicated mobile app should expose a clear loading signal while switching pages.
 
-
-## 15) Mobile app resume flow contract
+## 16) Mobile app resume flow contract
 
 - The mobile app should offer a clear resume-from-last-position flow.
 - The mobile app should expose a clear start-from-beginning action.
 - The opening state should feel like a useful reading app, not a raw technical viewer.
 
-
-## 16) Mobile topic home cards contract
+## 17) Mobile topic home cards contract
 
 - The mobile app should expose clear topic home cards near the opening state.
 - Topic home cards should allow fast entry into a topic from its first page.
 - The opening state on mobile should emphasize useful reading navigation, not raw technical structure.
 
+## 18) Booklet assembly contract
 
-## Mobile app public publish contract
+- Booklet assembly must operate above existing worksheet pages.
+- It must not rewrite worksheet source content in order to build a booklet.
+- It must allow topic-based and manual selection flows.
+- The final print / Save as PDF step may remain browser-driven.
+
+## 19) Mobile app public publish contract
 
 - The public mobile app URL is `mobile-app.html`.
 - The public install page URL is `mobile-app-install.html`.
-- Published runtime topic data must come from `mobile-topics.json`.
-- The public app must not depend on `../meta/topics.json` at runtime.
+- Published runtime topic data must come from repository runtime metadata.
+- The public app must not depend on an alternate hidden worksheet source.
 - The same published files should exist in both root and `/docs` so either Pages source can work.
