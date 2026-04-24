@@ -1,0 +1,21 @@
+{
+  "generatedAt": "2026-04-24T15:05:23",
+  "branch": "main",
+  "head": "89e047c",
+  "files": {
+    "PROJECT_RULES.md": true,
+    "package.json": true,
+    "meta/topics.json": true,
+    "preview/app.html": true,
+    "preview/topics.html": true,
+    "preview/topics.js": true,
+    "preview/print.html": true,
+    "mobile-app.html": true,
+    "mobile-app-install.html": true,
+    "scripts/validate-access-layer.mjs": true,
+    "scripts/audit-preview-overlaps.mjs": true,
+    "STATE/LIVE_STATUS.md": true,
+    "STATE/ARCHITECTURE_MAP.md": true,
+    "STATE/PREVIEW_OVERLAP_AUDIT.md": true
+  }
+}
