@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>נושאים — parabula-next</title>
+  <link rel="stylesheet" href="./flow-shell.css" />
+  <link rel="stylesheet" href="./topics.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <h1>דפדוף לפי נושאים</h1>
+        <p>כפתורי נושאים נוחים, דפדוף בדפים, פתיחה, הוספה לחוברת והדפסה/PDF</p>
+      </div>
+      <div class="hero-badges">
+        <span id="topicCountBadge" class="badge">0 נושאים</span>
+        <span id="pageCountBadge" class="badge soft">0 דפים</span>
+      </div>
+    </header>
+
+    <section class="topics-toolbar">
+      <input id="searchBox" type="search" placeholder="חיפוש נושא או דף" />
+      <button id="clearBtn" type="button">נקה</button>
+      <button id="openBookletBtn" class="primary" type="button">פתח בונה חוברות</button>
+      <button id="printBtn" type="button">הדפס / שמור PDF</button>
+    </section>
+
+    <main class="layout">
+      <aside class="topics-pane">
+        <div id="topicsGrid" class="topics-grid"></div>
+      </aside>
+      <section class="pages-pane">
+        <div class="pages-head">
+          <div>
+            <h2 id="currentTopicTitle">בחר נושא</h2>
+            <p id="currentTopicMeta">כאן יופיעו הדפים של הנושא שנבחר</p>
+          </div>
+          <div class="pages-actions">
+            <button id="selectTopicBtn" type="button">בחר את כל הנושא</button>
+            <button id="clearSelectionBtn" type="button">נקה בחירה</button>
+            <button id="renderSelectionBtn" class="primary" type="button">פתח בחירה</button>
+          </div>
+        </div>
+        <div id="pagesList" class="pages-list"></div>
+        <div id="viewer" class="viewer-empty">בחר נושא כדי לראות את הדפים שלו</div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./flow-shell.js"></script>
+  <script src="./topics.js"></script>
+</body>
+</html>
