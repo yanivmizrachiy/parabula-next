@@ -193,6 +193,7 @@ Prev/Next links must match the repo’s global reading order as defined by topic
 - Run: `npm run validate:access`
 - This must validate the unified access layer built around `meta/all-pages-index.json`.
 - It must verify the existence and linkage of:
+  - `preview/topics.*`
   - `preview/all-pages.*`
   - `preview/booklet.*`
   - `preview/print.*`
@@ -201,6 +202,12 @@ Prev/Next links must match the repo’s global reading order as defined by topic
   - `STATE/LIVE_STATUS.md`
   - `STATE/ARCHITECTURE_MAP.md`
   - `STATE/SAFE_IMPROVEMENT_REPORT.md`
+
+### Preview overlap audit (required when changing access surfaces)
+
+- Run: `npm run audit:preview`
+- This audit distinguishes canonical runtime files from legacy/duplicate-adjacent layers.
+- It must help future AI sessions understand what is canonical, what is compatibility-only, and what must not be deleted blindly.
 
 ---
 
@@ -270,7 +277,6 @@ Additional stability requirements:
 - The no-inline-style rule applies to preview utility pages as well.
 - Mobile entry files under preview are an official part of the live system.
 
-
 ## 8) Equations family cleanup
 
 - Pages belonging to the non-quadratic equations family may receive **design-only shared cleanup**.
@@ -284,8 +290,40 @@ Additional stability requirements:
 - `meta/all-pages-index.json` is the unified runtime access index above the canonical pages.
 - Access surfaces may consume `meta/all-pages-index.json`, but must not invent a parallel source of truth for worksheet content.
 - The unified index must describe the real worksheet set and remain aligned with root `עמוד-N.html` pages.
+- Future AI sessions should treat the worksheet source pages as the content layer and the unified index as the access/runtime layer.
 
-## 10) Mobile live entry contract
+## 10) Live access system map (required mental model)
+
+- Canonical content layer:
+  - `עמוד-N.html`
+  - `styles/pages/עמוד-N.css`
+  - `styles/a4-base.css`
+- Metadata layer:
+  - `meta/topics.json`
+  - `meta/all-pages-index.json`
+- Access/UI layer:
+  - `preview/topics.html`
+  - `preview/all-pages.html`
+  - `preview/booklet.html`
+  - `preview/print.html`
+  - `preview/app.html`
+  - `preview/flow-shell.*`
+- State/handoff layer:
+  - `STATE/LIVE_STATUS.md`
+  - `STATE/ARCHITECTURE_MAP.md`
+  - `STATE/PROJECT_CONTINUITY.md`
+  - `STATE/SAFE_IMPROVEMENT_REPORT.md`
+
+This map exists so that another AI can quickly understand what was created, what already exists, and which files are operationally important.
+
+## 11) Topics browser contract
+
+- `preview/topics.html` is the dedicated topic-first browsing surface.
+- It must expose clear topic buttons/cards, comfortable navigation, and topic-local page browsing.
+- It must remain suitable for phone usage.
+- It must consume `meta/all-pages-index.json` and must not invent its own worksheet truth.
+
+## 12) Mobile live entry contract
 
 - The primary mobile app is `mobile-app.html`.
 - The primary install page is `mobile-app-install.html`.
@@ -295,13 +333,13 @@ Additional stability requirements:
 - Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
 - `preview/phone.*` is a utility / legacy layer and must not be treated as the canonical mobile runtime.
 
-## 11) Preview UX polish contract
+## 13) Preview UX polish contract
 
-- `preview/app.html`, `preview/phone.html`, `preview/install.html`, `preview/print.html`, `preview/all-pages.html`, and `preview/booklet.html` must keep a unified visual language.
+- `preview/app.html`, `preview/phone.html`, `preview/install.html`, `preview/print.html`, `preview/all-pages.html`, `preview/booklet.html`, and `preview/topics.html` must keep a unified visual language.
 - Shared visual polish belongs in shared preview CSS, not inline style blocks.
 - UX polish may improve spacing, button clarity, focus states, mobile tap comfort, and visual consistency without changing worksheet content.
 
-## 12) Dedicated mobile worksheet app
+## 14) Dedicated mobile worksheet app
 
 - The dedicated mobile worksheet app must remain easy to edit.
 - Keep separate HTML / CSS / JS files.
@@ -309,50 +347,65 @@ Additional stability requirements:
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
 - New mobile fixes must land in `mobile-app.*` first, not in `preview/phone.*`.
 
-## 13) Unified access surfaces contract
+## 15) Unified access surfaces contract
 
 - `preview/all-pages.html` is the unified discovery and selection screen for all worksheet pages.
 - `preview/booklet.html` is the unified booklet assembly screen built above existing worksheet pages.
 - `preview/print.html` is the print/PDF handoff surface.
+- `preview/topics.html` is the topic-first discovery surface.
 - These surfaces are access layers above canonical pages, not alternative worksheet sources.
 - They must consume the unified metadata backbone and remain aligned with the real worksheet set.
 
-## 14) Mobile app navigation contract
+## 16) Mobile app navigation contract
 
 - The mobile app must support fast movement like a digital book on the phone.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
 
-## 15) Mobile app reading flow contract
+## 17) Mobile app reading flow contract
 
 - The dedicated mobile app must support quick movement to the first page of the current topic.
 - The dedicated mobile app must support quick movement to the first page of the whole book.
 - The dedicated mobile app should keep the selected page visible in the page list.
 - The dedicated mobile app should expose a clear loading signal while switching pages.
 
-## 16) Mobile app resume flow contract
+## 18) Mobile app resume flow contract
 
 - The mobile app should offer a clear resume-from-last-position flow.
 - The mobile app should expose a clear start-from-beginning action.
 - The opening state should feel like a useful reading app, not a raw technical viewer.
 
-## 17) Mobile topic home cards contract
+## 19) Mobile topic home cards contract
 
 - The mobile app should expose clear topic home cards near the opening state.
 - Topic home cards should allow fast entry into a topic from its first page.
 - The opening state on mobile should emphasize useful reading navigation, not raw technical structure.
 
-## 18) Booklet assembly contract
+## 20) Booklet assembly contract
 
 - Booklet assembly must operate above existing worksheet pages.
 - It must not rewrite worksheet source content in order to build a booklet.
 - It must allow topic-based and manual selection flows.
 - The final print / Save as PDF step may remain browser-driven.
 
-## 19) Mobile app public publish contract
+## 21) Live duplicate / legacy interpretation contract
+
+- A duplicate or legacy-adjacent file is not automatically an error.
+- `preview/print-center.js` is legacy/duplicate-adjacent relative to `preview/print.js`.
+- `preview/phone.*` is legacy/compat relative to `mobile-app.*`.
+- Future AI sessions must not delete these layers blindly; first map their role and check `npm run audit:preview`.
+
+## 22) Mobile app public publish contract
 
 - The public mobile app URL is `mobile-app.html`.
 - The public install page URL is `mobile-app-install.html`.
 - Published runtime topic data must come from repository runtime metadata.
 - The public app must not depend on an alternate hidden worksheet source.
 - The same published files should exist in both root and `/docs` so either Pages source can work.
+
+## 23) Open-work policy for future AI sessions
+
+- Preserve the canonical worksheet source first.
+- Prefer improvements above the pages, not inside the pages.
+- When planning new work, document what already exists before adding new surfaces.
+- If a requested change touches preview/mobile/booklet/print/topics flows, check both `npm run validate:access` and `npm run audit:preview` before calling the work complete.
