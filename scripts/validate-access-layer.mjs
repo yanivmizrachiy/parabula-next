@@ -18,6 +18,9 @@ function assert(condition, message) {
 
 const requiredFiles = [
   'meta/all-pages-index.json',
+  'preview/topics.html',
+  'preview/topics.css',
+  'preview/topics.js',
   'preview/all-pages.html',
   'preview/all-pages.js',
   'preview/booklet.html',
@@ -42,13 +45,13 @@ if (exists('meta/all-pages-index.json')) {
   assert((data.pages || []).length > 0, 'meta/all-pages-index.json must contain at least one page');
 }
 
-for (const file of ['preview/all-pages.js', 'preview/booklet.js', 'preview/print.js']) {
+for (const file of ['preview/topics.js', 'preview/all-pages.js', 'preview/booklet.js', 'preview/print.js']) {
   if (!exists(file)) continue;
   const s = read(file);
   assert(s.includes('all-pages-index.json'), `${file} must use meta/all-pages-index.json`);
 }
 
-for (const file of ['preview/all-pages.html', 'preview/booklet.html', 'preview/print.html']) {
+for (const file of ['preview/topics.html', 'preview/all-pages.html', 'preview/booklet.html', 'preview/print.html']) {
   if (!exists(file)) continue;
   const s = read(file);
   assert(s.includes('./flow-shell.css'), `${file} must include flow-shell.css`);
@@ -57,7 +60,7 @@ for (const file of ['preview/all-pages.html', 'preview/booklet.html', 'preview/p
 
 if (exists('preview/app.html')) {
   const s = read('preview/app.html');
-  for (const link of ['./all-pages.html', './booklet.html', './print.html', './index.html']) {
+  for (const link of ['./topics.html', './all-pages.html', './booklet.html', './print.html', './index.html']) {
     assert(s.includes(link), `preview/app.html must include ${link}`);
   }
 }
