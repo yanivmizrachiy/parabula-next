@@ -1,10 +1,10 @@
 const BASE = new URL('../', window.location.href);
-const DATA_URL = new URL('../meta/topics.json', BASE);
+const DATA_URL = new URL('../meta/all-pages-index.json', BASE);
 
 const searchBox = document.getElementById('searchBox');
 const clearBtn = document.getElementById('clearBtn');
-const printSelectionBtn = document.getElementById('printSelectionBtn');
-const openPrintPageBtn = document.getElementById('openPrintPageBtn');
+const openBookletBtn = document.getElementById('openBookletBtn');
+const printBtn = document.getElementById('printBtn');
 const topicsGrid = document.getElementById('topicsGrid');
 const topicCountBadge = document.getElementById('topicCountBadge');
 const pageCountBadge = document.getElementById('pageCountBadge');
@@ -39,7 +39,7 @@ function loadSelection() {
 }
 
 function sortPages(arr) {
-  return arr.slice().sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
+  return arr.slice().sort((a,b)=>(a.order ?? a.number ?? 0) - (b.order ?? b.number ?? 0));
 }
 
 function filteredTopics() {
@@ -47,10 +47,21 @@ function filteredTopics() {
   if (!q) return topics;
   return topics.filter(topic => {
     if (norm(topic.name).includes(q)) return true;
-    return topic.pages.some(page =>
-      norm([page.title, page.h1, page.file, page.topic].join(' ')).includes(q)
-    );
+    return topic.pages.some(page => norm([page.title,page.h1,page.file,page.topic,(page.tags||[]).join(' ')].join(' ')).includes(q));
   });
+}
+
+function buildTopics() {
+  const byTopic = new Map();
+  for (const page of db) {
+    const name = page.topic || 'ללא נושא';
+    if (!byTopic.has(name)) byTopic.set(name, []);
+    byTopic.get(name).push(page);
+  }
+  topics = [...byTopic.entries()].map(([name, pages]) => ({
+    name,
+    pages: sortPages(pages)
+  })).sort((a,b)=>String(a.name).localeCompare(String(b.name), 'he'));
 }
 
 function topicCard(topic) {
@@ -62,7 +73,8 @@ function topicCard(topic) {
       <div class="topic-meta">${topic.pages.length} דפים · מתחיל ב-${first?.title || first?.file || ''}</div>
       <div class="topic-actions">
         <button class="primary" data-action="open-topic" data-topic="${topic.name}">פתח נושא</button>
-        <a href="${first?.previewPath || ('/' + first?.file)}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
+        <a href="./all-pages.html?topic=${encodeURIComponent(topic.name)}">כל הדפים</a>
+        <a href="./booklet.html?topic=${encodeURIComponent(topic.name)}">חוברת</a>
       </div>
     </div>
   `;
@@ -95,7 +107,7 @@ function pageCard(page) {
       <div class="page-actions">
         <button class="primary" data-action="open-page" data-file="${page.file}">פתח</button>
         <a href="${page.previewPath || ('/' + page.file)}" target="_blank" rel="noopener">דף מלא</a>
-        <button data-action="toggle-select" data-file="${page.file}">${isSelected ? 'הסר מהבחירה' : 'הוסף לבחירה'}</button>
+        <button data-action="toggle-select" data-file="${page.file}">${isSelected ? 'הסר מהחוברת' : 'הוסף לחוברת'}</button>
       </div>
     </div>
   `;
@@ -112,7 +124,7 @@ function renderViewer(files = null) {
   const list = files || [...selected];
   if (!list.length) {
     viewer.className = 'viewer-empty';
-    viewer.textContent = activeTopic ? 'אפשר לפתוח דף בודד או לבחור כמה דפים להדפסה' : 'בחר נושא כדי לראות את הדפים שלו';
+    viewer.textContent = activeTopic ? 'אפשר לפתוח דף בודד או לבנות בחירה מהנושא' : 'בחר נושא כדי לראות את הדפים שלו';
     return;
   }
   const picked = sortPages(db.filter(p => list.includes(p.file)));
@@ -146,8 +158,7 @@ pagesList.addEventListener('click', (e) => {
   if (action === 'open-page') {
     renderViewer([file]);
   } else if (action === 'toggle-select') {
-    if (selected.has(file)) selected.delete(file);
-    else selected.add(file);
+    if (selected.has(file)) selected.delete(file); else selected.add(file);
     saveSelection();
     renderPages();
   }
@@ -173,25 +184,18 @@ clearSelectionBtn.addEventListener('click', () => {
 });
 
 renderSelectionBtn.addEventListener('click', () => renderViewer());
-
-printSelectionBtn.addEventListener('click', () => {
-  renderViewer();
-  setTimeout(() => window.print(), 250);
+openBookletBtn.addEventListener('click', () => {
+  saveSelection();
+  location.href = './booklet.html#restore-selection';
 });
-
-openPrintPageBtn.addEventListener('click', () => {
-  location.href = './print.html';
-});
+printBtn.addEventListener('click', () => window.print());
 
 async function boot() {
   const response = await fetch(DATA_URL);
   const payload = await response.json();
-  topics = Array.isArray(payload?.topics)
-    ? payload.topics.map(t => ({ ...t, pages: sortPages(t.pages || []) }))
-    : [];
-  topics = topics.sort((a, b) => String(a.name).localeCompare(String(b.name), 'he'));
-  db = topics.flatMap(t => t.pages);
+  db = Array.isArray(payload?.pages) ? sortPages(payload.pages) : [];
   loadSelection();
+  buildTopics();
   renderTopics();
   renderPages();
   renderViewer();

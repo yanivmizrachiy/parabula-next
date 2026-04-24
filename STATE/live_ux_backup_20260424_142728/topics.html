@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>נושאים — parabula-next</title>
+  <link rel="stylesheet" href="./flow-shell.css" />
   <link rel="stylesheet" href="./topics.css" />
 </head>
 <body>
@@ -11,7 +12,7 @@
     <header class="hero">
       <div>
         <h1>דפדוף לפי נושאים</h1>
-        <p>כפתורי נושאים נוחים, דפדוף בדפים, פתיחה, בחירה והדפסה/PDF מתוך מה שחי עכשיו על main</p>
+        <p>כפתורי נושאים נוחים, דפדוף בדפים, פתיחה, הוספה לחוברת והדפסה/PDF</p>
       </div>
       <div class="hero-badges">
         <span id="topicCountBadge" class="badge">0 נושאים</span>
@@ -22,8 +23,8 @@
     <section class="topics-toolbar">
       <input id="searchBox" type="search" placeholder="חיפוש נושא או דף" />
       <button id="clearBtn" type="button">נקה</button>
-      <button id="printSelectionBtn" class="primary" type="button">הדפס בחירה</button>
-      <button id="openPrintPageBtn" type="button">עבור למרכז ההדפסה</button>
+      <button id="openBookletBtn" class="primary" type="button">פתח בונה חוברות</button>
+      <button id="printBtn" type="button">הדפס / שמור PDF</button>
     </section>
 
     <main class="layout">
@@ -48,6 +49,7 @@
     </main>
   </div>
 
+  <script src="./flow-shell.js"></script>
   <script src="./topics.js"></script>
 </body>
 </html>
