@@ -9,22 +9,28 @@ const printSelectedBtn = document.getElementById('printSelectedBtn');
 const goTopicsBtn = document.getElementById('goTopicsBtn');
 const clearSelectionBtn = document.getElementById('clearSelectionBtn');
 const copySelectionBtn = document.getElementById('copySelectionBtn');
-const shareSelectionBtn = document.getElementById('shareSelectionBtn');
 const pagesGrid = document.getElementById('pagesGrid');
 const totalPagesBadge = document.getElementById('totalPagesBadge');
 const totalTopicsBadge = document.getElementById('totalTopicsBadge');
 const selectionInfo = document.getElementById('selectionInfo');
-const mobilePrintBtn = document.getElementById('mobilePrintBtn');
-const mobileShareBtn = document.getElementById('mobileShareBtn');
-const mobileClearBtn = document.getElementById('mobileClearBtn');
 
 let allPages = [];
 let topics = [];
 const selected = new Set();
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
-function saveSelection(){ localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort())); }
-function loadSelection(){ try{ const raw = localStorage.getItem(STORE_KEY); const arr = raw ? JSON.parse(raw) : []; if(Array.isArray(arr)) arr.forEach(x => selected.add(x)); }catch{} }
+
+function saveSelection(){
+  localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort()));
+}
+
+function loadSelection(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    if(Array.isArray(arr)) arr.forEach(x => selected.add(x));
+  }catch{}
+}
 
 function filteredPages(){
   const q = norm(searchBox.value);
@@ -36,19 +42,13 @@ function filteredPages(){
   });
 }
 
-function selectedPages(){ return allPages.filter(p => selected.has(p.file)); }
-
-function updateSelectionInfo(extra=''){
+function updateSelectionInfo(){
   const count = selected.size;
-  selectionInfo.textContent = extra || (count ? `נבחרו ${count} דפים` : 'לא נבחרו דפים');
+  selectionInfo.textContent = count ? `נבחרו ${count} דפים` : 'לא נבחרו דפים';
 }
 
 function renderTopicOptions(){
   topicFilter.innerHTML = '<option value="__all__">כל הנושאים</option>' + topics.map(t => `<option value="${t}">${t}</option>`).join('');
-}
-
-function pageUrl(page){
-  return page.siteUrl || (BASE.origin + (page.previewPath || ('/' + page.file)));
 }
 
 function pageCard(page){
@@ -65,8 +65,7 @@ function pageCard(page){
       <div class="page-meta">${page.topic || ''}</div>
       <div class="page-actions">
         <a class="primary" href="${page.previewPath || ('/' + page.file)}" target="_blank" rel="noopener">פתח</a>
-        <button class="soft" data-action="copy" data-url="${pageUrl(page)}">העתק קישור</button>
-        <button class="soft" data-action="share" data-url="${pageUrl(page)}" data-title="${page.title || page.file}">שלח</button>
+        <button class="soft" data-action="copy" data-url="${page.siteUrl || (BASE.origin + (page.previewPath || ('/' + page.file)))}">העתק קישור</button>
         <button data-action="toggle" data-file="${page.file}">${isSelected ? 'הסר מהבחירה' : 'בחר'}</button>
       </div>
     </article>
@@ -86,28 +85,12 @@ function renderPages(){
 }
 
 async function copyText(text){
-  try{ await navigator.clipboard.writeText(text); return true; }catch{ return false; }
-}
-
-async function shareText(title, text, url=''){
   try{
-    if(navigator.share){
-      await navigator.share({ title, text, url });
-      return true;
-    }
-  }catch{}
-  return copyText(url || text);
-}
-
-function printPicked(){
-  const picked = selectedPages();
-  if(!picked.length){ window.print(); return; }
-  const urls = picked.map(pageUrl);
-  const win = window.open('', '_blank');
-  if(!win) return;
-  win.document.write('<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>הדפסה</title><style>body{font-family:Arial,sans-serif;margin:16px}iframe{width:100%;height:1120px;border:1px solid #ddd;border-radius:12px;margin:0 0 20px}h1{font-size:24px}</style></head><body><h1>הדפסת בחירה</h1>' + urls.map(u => `<iframe src="${u}"></iframe>`).join('') + '</body></html>');
-  win.document.close();
-  setTimeout(() => win.print(), 500);
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch{
+    return false;
+  }
 }
 
 pagesGrid.addEventListener('click', async (e) => {
@@ -121,44 +104,41 @@ pagesGrid.addEventListener('click', async (e) => {
     renderPages();
   } else if(action === 'copy'){
     const ok = await copyText(btn.dataset.url || '');
-    updateSelectionInfo(ok ? 'הקישור הועתק' : 'העתקה נכשלה');
-    setTimeout(() => updateSelectionInfo(), 1200);
-  } else if(action === 'share'){
-    const ok = await shareText(btn.dataset.title || 'Parabula', btn.dataset.url || '', btn.dataset.url || '');
-    updateSelectionInfo(ok ? 'הקישור נשלח / הועתק' : 'השליחה נכשלה');
-    setTimeout(() => updateSelectionInfo(), 1400);
+    btn.textContent = ok ? 'הועתק' : 'העתקה נכשלה';
+    setTimeout(() => { btn.textContent = 'העתק קישור'; }, 1200);
   }
 });
 
 searchBox.addEventListener('input', renderPages);
 topicFilter.addEventListener('change', renderPages);
-clearBtn.addEventListener('click', () => { searchBox.value = ''; topicFilter.value = '__all__'; renderPages(); });
-clearSelectionBtn.addEventListener('click', () => { selected.clear(); saveSelection(); renderPages(); });
+clearBtn.addEventListener('click', () => {
+  searchBox.value = '';
+  topicFilter.value = '__all__';
+  renderPages();
+});
+clearSelectionBtn.addEventListener('click', () => {
+  selected.clear();
+  saveSelection();
+  renderPages();
+});
 copySelectionBtn.addEventListener('click', async () => {
-  const picked = selectedPages();
-  const text = picked.map(pageUrl).join('\n');
+  const picked = allPages.filter(p => selected.has(p.file));
+  const text = picked.map(p => p.siteUrl || (BASE.origin + (p.previewPath || ('/' + p.file)))).join('\n');
   const ok = await copyText(text);
-  updateSelectionInfo(ok ? `הועתקו ${picked.length} קישורים` : 'העתקה נכשלה');
-  setTimeout(() => updateSelectionInfo(), 1400);
+  selectionInfo.textContent = ok ? `הועתקו ${picked.length} קישורים` : 'העתקה נכשלה';
+  setTimeout(updateSelectionInfo, 1400);
 });
-shareSelectionBtn.addEventListener('click', async () => {
-  const picked = selectedPages();
-  const text = picked.map(pageUrl).join('\n');
-  const ok = await shareText('Parabula - בחירת דפים', text, text);
-  updateSelectionInfo(ok ? `הבחירה נשלחה / הועתקה` : 'השליחה נכשלה');
-  setTimeout(() => updateSelectionInfo(), 1400);
+printSelectedBtn.addEventListener('click', () => {
+  const picked = allPages.filter(p => selected.has(p.file));
+  if(!picked.length){ window.print(); return; }
+  const urls = picked.map(p => p.siteUrl || (BASE.origin + (p.previewPath || ('/' + p.file))));
+  const win = window.open('', '_blank');
+  if(!win) return;
+  win.document.write('<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>הדפסה</title><style>body{font-family:Arial,sans-serif;margin:16px}iframe{width:100%;height:1120px;border:1px solid #ddd;border-radius:12px;margin:0 0 20px}h1{font-size:24px}</style></head><body><h1>הדפסת בחירה</h1>' + urls.map(u => `<iframe src="${u}"></iframe>`).join('') + '</body></html>');
+  win.document.close();
+  setTimeout(() => win.print(), 500);
 });
-printSelectedBtn.addEventListener('click', printPicked);
 goTopicsBtn.addEventListener('click', () => { location.href = './topics.html'; });
-mobilePrintBtn.addEventListener('click', printPicked);
-mobileShareBtn.addEventListener('click', async () => {
-  const picked = selectedPages();
-  const text = picked.map(pageUrl).join('\n');
-  const ok = await shareText('Parabula - בחירת דפים', text, text);
-  updateSelectionInfo(ok ? 'הבחירה נשלחה / הועתקה' : 'השליחה נכשלה');
-  setTimeout(() => updateSelectionInfo(), 1400);
-});
-mobileClearBtn.addEventListener('click', () => { selected.clear(); saveSelection(); renderPages(); });
 
 async function boot(){
   const response = await fetch(DATA_URL);
