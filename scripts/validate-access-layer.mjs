@@ -17,52 +17,43 @@ function assert(condition, message) {
 }
 
 const requiredFiles = [
-  'meta/all-pages-index.json',
-  'preview/topics.html',
-  'preview/topics.css',
-  'preview/topics.js',
-  'preview/all-pages.html',
-  'preview/all-pages.js',
-  'preview/booklet.html',
-  'preview/booklet.js',
-  'preview/print.html',
-  'preview/print.js',
-  'preview/flow-shell.css',
-  'preview/flow-shell.js',
+  'PROJECT_RULES.md',
+  'package.json',
+  'meta/topics.json',
+  'preview/index.html',
   'preview/app.html',
+  'preview/topics.html',
+  'preview/print.html',
+  'scripts/validate-access-layer.mjs',
+  'scripts/audit-preview-overlaps.mjs',
   'STATE/LIVE_STATUS.md',
   'STATE/ARCHITECTURE_MAP.md',
-  'STATE/SAFE_IMPROVEMENT_REPORT.md'
+  'STATE/PROJECT_CONTINUITY.md'
 ];
 
 for (const file of requiredFiles) {
   assert(exists(file), `Missing required file: ${file}`);
 }
 
-if (exists('meta/all-pages-index.json')) {
-  const data = JSON.parse(read('meta/all-pages-index.json'));
-  assert(Array.isArray(data.pages), 'meta/all-pages-index.json must contain pages array');
-  assert((data.pages || []).length > 0, 'meta/all-pages-index.json must contain at least one page');
-}
-
-for (const file of ['preview/topics.js', 'preview/all-pages.js', 'preview/booklet.js', 'preview/print.js']) {
-  if (!exists(file)) continue;
-  const s = read(file);
-  assert(s.includes('all-pages-index.json'), `${file} must use meta/all-pages-index.json`);
-}
-
-for (const file of ['preview/topics.html', 'preview/all-pages.html', 'preview/booklet.html', 'preview/print.html']) {
-  if (!exists(file)) continue;
-  const s = read(file);
-  assert(s.includes('./flow-shell.css'), `${file} must include flow-shell.css`);
-  assert(s.includes('./flow-shell.js'), `${file} must include flow-shell.js`);
-}
-
 if (exists('preview/app.html')) {
   const s = read('preview/app.html');
-  for (const link of ['./topics.html', './all-pages.html', './booklet.html', './print.html', './index.html']) {
+  for (const link of ['./topics.html', './print.html', './mobile-app.html']) {
     assert(s.includes(link), `preview/app.html must include ${link}`);
   }
+}
+
+if (exists('preview/topics.html')) {
+  const s = read('preview/topics.html');
+  assert(s.includes('dir="rtl"') || s.includes("dir='rtl'"), 'preview/topics.html must preserve RTL');
+}
+
+if (exists('package.json')) {
+  const pkg = JSON.parse(read('package.json'));
+  const scripts = pkg?.scripts || {};
+  assert(!!scripts['validate:access'], 'package.json must include validate:access');
+  assert(!!scripts['preview'], 'package.json must include preview');
+  assert(!!scripts['test'], 'package.json must include test');
+  assert(!!scripts['verify'], 'package.json must include verify');
 }
 
 if (failures.length) {
