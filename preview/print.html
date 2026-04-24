@@ -7,21 +7,49 @@
   <title>Parabula Print Center</title>
   <link rel="stylesheet" href="./mobile.css" />
   <style>
-    .print-shell{display:grid;grid-template-columns:minmax(280px,360px) 1fr;min-height:100vh}.print-panel{background:#111827;border-left:1px solid #334155;padding:16px;display:grid;gap:12px;align-content:start}.print-panel h1{margin:0;font-size:20px}.print-panel p{margin:0;color:#94a3b8;line-height:1.5}.print-actions{display:grid;gap:10px}.print-actions button,.print-actions select,.print-actions input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#e5e7eb}.selection-list{display:grid;gap:8px;max-height:46vh;overflow:auto;padding-top:6px}.selection-item{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #334155;border-radius:12px;background:#0b1220}.selection-item input{margin-top:4px}.selection-copy{display:grid;gap:3px}.selection-copy strong{font-size:14px}.selection-copy span{font-size:12px;color:#94a3b8}.print-view{padding:18px;overflow:auto;display:grid;gap:18px;place-items:start center}.sheet-frame{width:min(100%,980px);aspect-ratio:210/297;border-radius:18px;overflow:hidden;border:1px solid #1f2937;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.26)}.sheet-frame iframe{width:100%;height:100%;border:0;background:#fff}.print-toolbar{display:flex;gap:8px;flex-wrap:wrap}.print-toolbar button{padding:10px 12px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#e5e7eb}.print-toolbar .primary{background:#0b1f3a;border-color:#1d4ed8;color:#dbeafe}@media (max-width:900px){.print-shell{display:block}.print-panel{border-left:0;border-bottom:1px solid #334155}.print-view{padding:12px}}
+    .print-shell{display:grid;grid-template-columns:minmax(280px,360px) 1fr;min-height:100vh}
+    .print-panel{background:#111827;border-left:1px solid #334155;padding:16px;display:grid;gap:12px;align-content:start}
+    .print-panel h1{margin:0;font-size:20px}
+    .print-panel p{margin:0;color:#94a3b8;line-height:1.5}
+    .print-actions{display:grid;gap:10px}
+    .print-actions button,.print-actions select,.print-actions input{width:100%;padding:11px 12px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#e5e7eb}
+    .selection-list{display:grid;gap:8px;max-height:46vh;overflow:auto;padding-top:6px}
+    .selection-item{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #334155;border-radius:12px;background:#0b1220}
+    .selection-item input{margin-top:4px}
+    .selection-copy{display:grid;gap:3px}
+    .selection-copy strong{font-size:14px}
+    .selection-copy span{font-size:12px;color:#94a3b8}
+    .print-view{padding:18px;overflow:auto;display:grid;gap:18px;place-items:start center}
+    .sheet-frame{width:min(100%,980px);aspect-ratio:210/297;border-radius:18px;overflow:hidden;border:1px solid #1f2937;background:#fff;box-shadow:0 10px 28px rgba(0,0,0,.26)}
+    .sheet-frame iframe{width:100%;height:100%;border:0;background:#fff}
+    .print-toolbar{display:flex;gap:8px;flex-wrap:wrap}
+    .print-toolbar button,.print-toolbar a{padding:10px 12px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#e5e7eb;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+    .print-toolbar .primary{background:#0b1f3a;border-color:#1d4ed8;color:#dbeafe}
+    .print-topnav{display:flex;gap:8px;flex-wrap:wrap}
+    .print-topnav a,.print-topnav button{padding:10px 12px;border-radius:12px;border:1px solid #334155;background:#0b1220;color:#e5e7eb;text-decoration:none}
+    .selection-summary{font-size:13px;color:#cbd5e1}
+    @media (max-width:900px){.print-shell{display:block}.print-panel{border-left:0;border-bottom:1px solid #334155}.print-view{padding:12px}}
   </style>
   <link rel="stylesheet" href="./ux-polish.css" />
 </head>
 <body>
   <div class="print-shell">
     <section class="print-panel">
+      <div class="print-topnav">
+        <a href="./app.html">חזרה למרכז</a>
+        <a href="./topics.html">חזרה לנושאים</a>
+        <button id="printNowBtn" type="button">הדפס עכשיו</button>
+      </div>
       <h1>מרכז הדפסה</h1>
       <p>בחר דפים אמיתיים מהריפו, פתח אותם ברצף, ואז השתמש בדפדפן ל־Print / Save as PDF.</p>
+      <div class="selection-summary" id="selectionSummary">עדיין לא נבחרו דפים</div>
       <div class="print-actions">
         <input id="searchBox" type="search" placeholder="חיפוש לפי כותרת, נושא או מספר עמוד" />
         <select id="topicFilter">
           <option value="__all__">כל הנושאים</option>
         </select>
         <div class="print-toolbar">
+          <button id="restoreSelectionBtn" type="button">שחזר בחירה אחרונה</button>
           <button id="selectVisibleBtn" type="button">בחר מוצגים</button>
           <button id="clearBtn" type="button">נקה</button>
           <button id="openSelectedBtn" class="primary" type="button">פתח נבחרים</button>

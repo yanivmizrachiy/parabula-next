@@ -4,18 +4,13 @@ const BASE = (() => {
 })();
 
 const PAGE_BASE = new URL('../', BASE).href;
-const STORE_KEY = 'parabula-selection-v1';
-
 const searchBox = document.getElementById('searchBox');
 const topicFilter = document.getElementById('topicFilter');
 const selectionList = document.getElementById('selectionList');
 const printView = document.getElementById('printView');
-const selectionSummary = document.getElementById('selectionSummary');
-const restoreSelectionBtn = document.getElementById('restoreSelectionBtn');
 const selectVisibleBtn = document.getElementById('selectVisibleBtn');
 const clearBtn = document.getElementById('clearBtn');
 const openSelectedBtn = document.getElementById('openSelectedBtn');
-const printNowBtn = document.getElementById('printNowBtn');
 
 let db = null;
 let visiblePages = [];
@@ -31,30 +26,6 @@ function pageUrl(file) {
 
 function allPages() {
   return db.topics.flatMap((entry) => entry.pages);
-}
-
-function saveSelection() {
-  localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort()));
-}
-
-function restoreSelection() {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    const arr = raw ? JSON.parse(raw) : [];
-    selected.clear();
-    if (Array.isArray(arr)) {
-      arr.forEach((file) => selected.add(file));
-    }
-  } catch {}
-  renderList();
-  renderPreview();
-}
-
-function updateSummary() {
-  const count = selected.size;
-  selectionSummary.textContent = count
-    ? `נבחרו ${count} דפים`
-    : 'עדיין לא נבחרו דפים';
 }
 
 function renderList() {
@@ -85,13 +56,9 @@ function renderList() {
     checkbox.addEventListener('change', () => {
       if (checkbox.checked) selected.add(page.file);
       else selected.delete(page.file);
-      saveSelection();
-      updateSummary();
     });
     selectionList.appendChild(item);
   });
-
-  updateSummary();
 }
 
 function renderPreview() {
@@ -105,8 +72,6 @@ function renderPreview() {
       wrap.innerHTML = `<iframe title="${page.title}" src="${pageUrl(page.file)}"></iframe>`;
       printView.appendChild(wrap);
     });
-
-  updateSummary();
 }
 
 async function boot() {
@@ -120,36 +85,21 @@ async function boot() {
     topicFilter.appendChild(option);
   });
 
-  restoreSelection();
   renderList();
 }
 
 searchBox.addEventListener('input', renderList);
 topicFilter.addEventListener('change', renderList);
-
-restoreSelectionBtn.addEventListener('click', restoreSelection);
-
 selectVisibleBtn.addEventListener('click', () => {
   visiblePages.forEach((page) => selected.add(page.file));
-  saveSelection();
   renderList();
 });
-
 clearBtn.addEventListener('click', () => {
   selected.clear();
-  saveSelection();
   renderList();
   renderPreview();
 });
-
-openSelectedBtn.addEventListener('click', () => {
-  renderPreview();
-});
-
-printNowBtn.addEventListener('click', () => {
-  renderPreview();
-  setTimeout(() => window.print(), 250);
-});
+openSelectedBtn.addEventListener('click', renderPreview);
 
 boot().catch((error) => {
   console.error(error);
