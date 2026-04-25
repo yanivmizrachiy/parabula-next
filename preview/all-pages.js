@@ -49,8 +49,14 @@ function renderTopicOptions(){
   topicFilter.innerHTML = '<option value="__all__">כל הנושאים</option>' + topics.map(t => `<option value="${t}">${t}</option>`).join('');
 }
 
+function resolvePageUrl(page){
+  if(page?.siteUrl) return page.siteUrl;
+  const rel = String(page?.previewPath || page?.file || '').replace(/^\//, '');
+  return new URL(rel, BASE).href;
+}
+
 function pageUrl(page){
-  return page.siteUrl || (BASE.origin + (page.previewPath || ('/' + page.file)));
+  return resolvePageUrl(page);
 }
 
 function selectionText(){
@@ -82,7 +88,7 @@ function pageCard(page){
       </div>
       <div class="page-meta">${page.topic || ''}</div>
       <div class="page-actions">
-        <a class="primary" href="${page.previewPath || ('/' + page.file)}" target="_blank" rel="noopener">פתח</a>
+        <a class="primary" href="${resolvePageUrl(page)}" target="_blank" rel="noopener">פתח</a>
         <button class="soft" data-action="copy" data-url="${pageUrl(page)}">העתק קישור</button>
         <button class="soft" data-action="share" data-url="${pageUrl(page)}" data-title="${page.title || page.file}">שלח</button>
         <button data-action="toggle" data-file="${page.file}">${isSelected ? 'הסר מהבחירה' : 'בחר'}</button>
