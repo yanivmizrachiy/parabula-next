@@ -35,14 +35,14 @@ function requirePattern(file, pattern, message) {
   }
 }
 
-requirePattern('preview/app.html', /href="\.\/*all-pages\.html"/u, 'preview/app.html must link to ./all-pages.html');
-requirePattern('preview/app.html', /href="\.\/*topics\.html"/u, 'preview/app.html must link to ./topics.html');
-requirePattern('preview/app.html', /href="\.\/*print\.html"/u, 'preview/app.html must link to ./print.html');
+requirePattern('preview/app.html', /href="\.\/all-pages\.html"/u, 'preview/app.html must link to ./all-pages.html');
+requirePattern('preview/app.html', /href="\.\/topics\.html"/u, 'preview/app.html must link to ./topics.html');
+requirePattern('preview/app.html', /href="\.\/print\.html"/u, 'preview/app.html must link to ./print.html');
 requirePattern('preview/app.html', /href="\.\.\/mobile-app\.html"/u, 'preview/app.html must link to ../mobile-app.html');
 requirePattern('preview/app.html', /href="\.\.\/STATE\/README\.md"/u, 'preview/app.html must link to ../STATE/README.md');
-requirePattern('preview/install.html', /href="\.\/*phone\.html"/u, 'preview/install.html must link to ./phone.html');
-requirePattern('preview/install.html', /href="\.\/*print\.html"/u, 'preview/install.html must link to ./print.html');
-requirePattern('preview/print.html', /<script\s+src="\.\/*print\.js"/u, 'preview/print.html must load ./print.js');
+requirePattern('preview/install.html', /href="\.\/phone\.html"/u, 'preview/install.html must link to ./phone.html');
+requirePattern('preview/install.html', /href="\.\/print\.html"/u, 'preview/install.html must link to ./print.html');
+requirePattern('preview/print.html', /<script\s+src="\.\/print\.js"/u, 'preview/print.html must load ./print.js');
 
 if (exists('preview/phone.html')) {
   const text = read('preview/phone.html');
@@ -50,9 +50,9 @@ if (exists('preview/phone.html')) {
     /url=\.\.\/mobile-app\.html/u.test(text) &&
     /href="\.\.\/mobile-app\.html/u.test(text);
   const isLegacyShell =
-    /<script\s+src="\.\/*phone\.js"/u.test(text) &&
-    /href="\.\/*mobile\.css"/u.test(text) &&
-    /href="\.\/*manifest\.webmanifest"/u.test(text);
+    /<script\s+src="\.\/phone\.js"/u.test(text) &&
+    /href="\.\/mobile\.css"/u.test(text) &&
+    /href="\.\/manifest\.webmanifest"/u.test(text);
 
   if (!isRedirectOnly && !isLegacyShell) {
     errors.push('preview/phone.html must either redirect to ../mobile-app.html or include the legacy phone shell assets');

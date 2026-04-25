@@ -26,15 +26,26 @@ if (!Array.isArray(payload?.topics)) {
 }
 
 const pages = payload.topics.flatMap((topic) => topic.pages || []);
-const uniqueFiles = new Set(pages.map((page) => page?.file).filter(Boolean));
+const fileCounts = new Map();
+
+for (const page of pages) {
+  const file = page?.file;
+  if (!file) continue;
+  fileCounts.set(file, (fileCounts.get(file) || 0) + 1);
+}
+
+const duplicateFiles = [...fileCounts.entries()]
+  .filter(([, count]) => count > 1)
+  .map(([file]) => file);
 
 if (typeof payload.totalPages !== 'number') {
   console.error('FAIL: meta/topics.json must declare totalPages');
   process.exit(1);
 }
 
-if (payload.totalPages !== pages.length || uniqueFiles.size !== pages.length) {
-  console.error('FAIL: meta/topics.json has inconsistent totalPages or duplicate page entries');
+if (payload.totalPages !== pages.length || duplicateFiles.length > 0) {
+  const suffix = duplicateFiles.length ? ` Duplicates: ${duplicateFiles.join(', ')}` : '';
+  console.error(`FAIL: meta/topics.json has inconsistent totalPages or duplicate page entries.${suffix}`);
   process.exit(1);
 }
 

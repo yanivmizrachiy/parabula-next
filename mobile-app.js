@@ -218,6 +218,9 @@ function isUsableTopicsPayload(payload){
 function getErrorMessage(error){
   return error instanceof Error ? error.message : String(error);
 }
+function summarizeFailures(failures){
+  return failures.map(({ url, reason }) => `${url}: ${reason}`).join('\n');
+}
 async function loadTopicsData(){
   const failures = [];
   for (const url of DATA_CANDIDATES) {
@@ -231,7 +234,7 @@ async function loadTopicsData(){
       failures.push({ url, reason: getErrorMessage(error) });
     }
   }
-  throw new Error(`topics fetch failed: ${JSON.stringify(failures)}`);
+  throw new Error(`topics fetch failed:\n${summarizeFailures(failures)}`);
 }
 async function boot(){
   db = await loadTopicsData();
