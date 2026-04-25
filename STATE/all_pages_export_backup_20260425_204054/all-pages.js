@@ -10,14 +10,12 @@ const goTopicsBtn = document.getElementById('goTopicsBtn');
 const clearSelectionBtn = document.getElementById('clearSelectionBtn');
 const copySelectionBtn = document.getElementById('copySelectionBtn');
 const shareSelectionBtn = document.getElementById('shareSelectionBtn');
-const downloadSelectionBtn = document.getElementById('downloadSelectionBtn');
 const pagesGrid = document.getElementById('pagesGrid');
 const totalPagesBadge = document.getElementById('totalPagesBadge');
 const totalTopicsBadge = document.getElementById('totalTopicsBadge');
 const selectionInfo = document.getElementById('selectionInfo');
 const mobilePrintBtn = document.getElementById('mobilePrintBtn');
 const mobileShareBtn = document.getElementById('mobileShareBtn');
-const mobileDownloadBtn = document.getElementById('mobileDownloadBtn');
 const mobileClearBtn = document.getElementById('mobileClearBtn');
 
 let allPages = [];
@@ -51,22 +49,6 @@ function renderTopicOptions(){
 
 function pageUrl(page){
   return page.siteUrl || (BASE.origin + (page.previewPath || ('/' + page.file)));
-}
-
-function selectionText(){
-  return selectedPages().map(pageUrl).join('\n');
-}
-
-function downloadText(filename, text){
-  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 500);
 }
 
 function pageCard(page){
@@ -123,7 +105,7 @@ function printPicked(){
   const urls = picked.map(pageUrl);
   const win = window.open('', '_blank');
   if(!win) return;
-  win.document.write('<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>הדפסה / PDF</title><style>body{font-family:Arial,sans-serif;margin:16px}iframe{width:100%;height:1120px;border:1px solid #ddd;border-radius:12px;margin:0 0 20px}h1{font-size:24px}</style></head><body><h1>הדפסה / שמירה כ-PDF</h1>' + urls.map(u => `<iframe src="${u}"></iframe>`).join('') + '</body></html>');
+  win.document.write('<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><title>הדפסה</title><style>body{font-family:Arial,sans-serif;margin:16px}iframe{width:100%;height:1120px;border:1px solid #ddd;border-radius:12px;margin:0 0 20px}h1{font-size:24px}</style></head><body><h1>הדפסת בחירה</h1>' + urls.map(u => `<iframe src="${u}"></iframe>`).join('') + '</body></html>');
   win.document.close();
   setTimeout(() => win.print(), 500);
 }
@@ -153,40 +135,27 @@ topicFilter.addEventListener('change', renderPages);
 clearBtn.addEventListener('click', () => { searchBox.value = ''; topicFilter.value = '__all__'; renderPages(); });
 clearSelectionBtn.addEventListener('click', () => { selected.clear(); saveSelection(); renderPages(); });
 copySelectionBtn.addEventListener('click', async () => {
-  const text = selectionText();
+  const picked = selectedPages();
+  const text = picked.map(pageUrl).join('\n');
   const ok = await copyText(text);
-  updateSelectionInfo(ok ? `הועתקו ${selected.size} קישורים` : 'העתקה נכשלה');
+  updateSelectionInfo(ok ? `הועתקו ${picked.length} קישורים` : 'העתקה נכשלה');
   setTimeout(() => updateSelectionInfo(), 1400);
 });
 shareSelectionBtn.addEventListener('click', async () => {
-  const text = selectionText();
-  const ok = await shareText('Parabula - בחירת דפים', text, text);
-  updateSelectionInfo(ok ? 'הבחירה נשלחה / הועתקה' : 'השליחה נכשלה');
-  setTimeout(() => updateSelectionInfo(), 1400);
-});
-downloadSelectionBtn.addEventListener('click', () => {
   const picked = selectedPages();
-  const text = selectionText();
-  if(!picked.length){ updateSelectionInfo('אין בחירה להורדה'); setTimeout(() => updateSelectionInfo(), 1200); return; }
-  downloadText('parabula-selected-pages-links.txt', text);
-  updateSelectionInfo(`ירדו ${picked.length} קישורים כקובץ`);
+  const text = picked.map(pageUrl).join('\n');
+  const ok = await shareText('Parabula - בחירת דפים', text, text);
+  updateSelectionInfo(ok ? `הבחירה נשלחה / הועתקה` : 'השליחה נכשלה');
   setTimeout(() => updateSelectionInfo(), 1400);
 });
 printSelectedBtn.addEventListener('click', printPicked);
 goTopicsBtn.addEventListener('click', () => { location.href = './topics.html'; });
 mobilePrintBtn.addEventListener('click', printPicked);
 mobileShareBtn.addEventListener('click', async () => {
-  const text = selectionText();
+  const picked = selectedPages();
+  const text = picked.map(pageUrl).join('\n');
   const ok = await shareText('Parabula - בחירת דפים', text, text);
   updateSelectionInfo(ok ? 'הבחירה נשלחה / הועתקה' : 'השליחה נכשלה');
-  setTimeout(() => updateSelectionInfo(), 1400);
-});
-mobileDownloadBtn.addEventListener('click', () => {
-  const picked = selectedPages();
-  const text = selectionText();
-  if(!picked.length){ updateSelectionInfo('אין בחירה להורדה'); setTimeout(() => updateSelectionInfo(), 1200); return; }
-  downloadText('parabula-selected-pages-links.txt', text);
-  updateSelectionInfo(`ירדו ${picked.length} קישורים כקובץ`);
   setTimeout(() => updateSelectionInfo(), 1400);
 });
 mobileClearBtn.addEventListener('click', () => { selected.clear(); saveSelection(); renderPages(); });
