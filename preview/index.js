@@ -105,7 +105,7 @@ function setCurrentPage(file) {
   const page = idx >= 0 ? visiblePages[idx] : catalog.byFile.get(file);
   if (!page) return;
 
-  currentIndex = visiblePages.findIndex((entry) => entry.file === page.file);
+  currentIndex = idx;
   if (currentIndex < 0) {
     currentIndex = catalog.flatPages.findIndex((entry) => entry.file === page.file);
     visiblePages = catalog.flatPages;

@@ -127,7 +127,6 @@ function setCurrentPage(file) {
   if (!page) return;
   currentFile = page.file;
   rememberPage(page);
-  renderViewer();
   renderPages();
 }
 
