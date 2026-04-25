@@ -55,3 +55,5 @@
 - `print.js` הוא קובץ ההדפסה הקנוני הפעיל.
 - `print-center.js` קיים עדיין ככפילות / legacy-adjacent file.
 - `PROJECT_RULES.md` חייב להישאר מסונכרן עם שכבת האפליקציה, ההדפסה, ושכבות הגישה למובייל.
+
+- `preview/catalog-shared.js` — מנוע נתונים/ניווט משותף למסכי all-pages, topics, reader ו-mobile-app כדי לשמור מקור אמת אחד לשדות, סדר ופתיחה.

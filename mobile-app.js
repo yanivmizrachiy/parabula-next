@@ -1,4 +1,17 @@
-const VERSION = 'focus-20260417013000';
+import {
+  appendQueryParams,
+  escapeHtml,
+  getTopic,
+  loadCatalog,
+  rememberPage,
+  rememberedPageFile,
+  rememberedTopic,
+  resolvePageLinks,
+  rootDataCandidates,
+  sortPages
+} from './preview/catalog-shared.js';
+
+const VERSION = 'focus-20260425191539';
 
 const els = {
   appMeta: document.getElementById('appMeta'),
@@ -19,74 +32,63 @@ const els = {
   printBtn: document.getElementById('printBtn')
 };
 
-let db = null;
+let catalog = null;
 let activeTopic = '';
 let visiblePages = [];
-let flatPages = [];
 let currentIndex = -1;
-const DATA_CANDIDATES = [
-  `./mobile-topics.json?v=${VERSION}`,
-  `./meta/topics.json?v=${VERSION}`
-];
 
-function norm(v){ return String(v || '').trim().toLowerCase(); }
-function esc(v){
-  return String(v || '')
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;');
-}
-function pageUrl(page){
-  return page?.siteUrl || 'about:blank';
-}
-function currentPage(){
-  return currentIndex >= 0 ? visiblePages[currentIndex] : null;
-}
-function updateButtons(){
+function updateButtons() {
   const has = !!currentPage();
   els.prevPageBtn.disabled = !has || currentIndex <= 0;
   els.nextPageBtn.disabled = !has || currentIndex >= visiblePages.length - 1;
   els.openLiveBtn.disabled = !has;
   els.printBtn.disabled = !has;
-  document.querySelectorAll('.topic-btn').forEach(btn => {
+  document.querySelectorAll('.topic-btn').forEach((btn) => {
     btn.classList.toggle('active', btn.dataset.topic === activeTopic);
   });
-  document.querySelectorAll('.page-card').forEach(btn => {
-    btn.classList.toggle('active', has && btn.dataset.file === currentPage().file);
+  document.querySelectorAll('.page-card').forEach((btn) => {
+    btn.classList.toggle('active', has && btn.dataset.file === currentPage()?.file);
   });
 }
-function setProgress(page){
-  if(!page){
+
+function currentPage() {
+  return currentIndex >= 0 ? visiblePages[currentIndex] : null;
+}
+
+function setProgress(page) {
+  if (!page) {
     els.topicProgress.textContent = '—';
     els.globalProgress.textContent = '—';
     return;
   }
   els.topicProgress.textContent = `${currentIndex + 1} / ${visiblePages.length}`;
-  const gi = flatPages.findIndex(p => p.file === page.file);
-  els.globalProgress.textContent = gi >= 0 ? `${gi + 1} / ${flatPages.length}` : '—';
+  const gi = catalog.flatPages.findIndex((entry) => entry.file === page.file);
+  els.globalProgress.textContent = gi >= 0 ? `${gi + 1} / ${catalog.flatPages.length}` : '—';
 }
-function resizeReaderFrame(){
-  try{
+
+function resizeReaderFrame() {
+  try {
     const used =
       (document.querySelector('.topbar')?.offsetHeight || 0) +
       (document.querySelector('.reader-head')?.offsetHeight || 0) +
       (document.querySelector('.bottom-nav')?.offsetHeight || 0) +
       26;
     const free = Math.max(520, window.innerHeight - used);
-    els.mobilePageFrame.style.height = free + 'px';
+    els.mobilePageFrame.style.height = `${free}px`;
     setTimeout(cleanupIframeUI, 40);
-  }catch(e){ console.error(e); }
+  } catch (error) {
+    console.error(error);
+  }
 }
-function cleanupIframeUI(){
-  try{
+
+function cleanupIframeUI() {
+  try {
     const frame = els.mobilePageFrame;
     const doc = frame.contentDocument || frame.contentWindow?.document;
     const win = frame.contentWindow;
-    if(!doc || !win) return;
+    if (!doc || !win) return;
 
-    if(!doc.getElementById('mobile-reader-cleanup-style')){
+    if (!doc.getElementById('mobile-reader-cleanup-style')) {
       const style = doc.createElement('style');
       style.id = 'mobile-reader-cleanup-style';
       style.textContent = `
@@ -114,9 +116,9 @@ function cleanupIframeUI(){
     }
 
     const page = doc.querySelector('.a4-page');
-    if(!page) return;
+    if (!page) return;
 
-    win.scrollTo(0,0);
+    win.scrollTo(0, 0);
     page.style.transform = 'none';
 
     const rect = page.getBoundingClientRect();
@@ -125,35 +127,37 @@ function cleanupIframeUI(){
     const scale = Math.min((vw - 8) / rect.width, (vh - 8) / rect.height, 1);
 
     page.style.transform = `scale(${scale})`;
-    doc.body.style.minHeight = Math.ceil(rect.height * scale) + 'px';
-    doc.body.style.minWidth = Math.ceil(rect.width * scale) + 'px';
+    doc.body.style.minHeight = `${Math.ceil(rect.height * scale)}px`;
+    doc.body.style.minWidth = `${Math.ceil(rect.width * scale)}px`;
     doc.documentElement.style.overflow = 'hidden';
     doc.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => { try { win.scrollTo(0,0); } catch(e) {} });
-  }catch(e){ console.error('cleanupIframeUI failed', e); }
+    requestAnimationFrame(() => { try { win.scrollTo(0, 0); } catch {} });
+  } catch (error) {
+    console.error('cleanupIframeUI failed', error);
+  }
 }
-function showPage(file){
-  const idx = visiblePages.findIndex(p => p.file === file);
-  if(idx < 0) return;
+
+function showPage(file) {
+  const idx = visiblePages.findIndex((page) => page.file === file);
+  if (idx < 0) return;
   currentIndex = idx;
   const page = visiblePages[idx];
+  const links = resolvePageLinks(page);
   els.mobileLoadingState.hidden = false;
-  const url = pageUrl(page);
-  const sep = url.includes('?') ? '&' : '?';
-  els.mobilePageFrame.src = `${url}${sep}mobile=1&v=${VERSION}`;
+  els.mobilePageFrame.src = appendQueryParams(links.localUrl, { mobile: 1, v: VERSION });
   els.currentPageTitle.textContent = page.title || page.h1 || page.file;
   els.currentPageMeta.textContent = `${page.topic} · עמוד ${page.number}`;
-  localStorage.setItem('parabula:lastFile', page.file);
-  localStorage.setItem('parabula:lastTopic', page.topic || activeTopic);
+  rememberPage(page);
   setProgress(page);
   updateButtons();
   document.body.classList.add('focus-reading');
   els.topicsPanel.classList.add('is-collapsed');
   setTimeout(resizeReaderFrame, 50);
 }
-function renderTopics(){
+
+function renderTopics() {
   els.topicStrip.innerHTML = '';
-  (db?.topics || []).forEach(topic => {
+  catalog.topics.forEach((topic) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'topic-btn';
@@ -168,18 +172,20 @@ function renderTopics(){
   });
   updateButtons();
 }
-function renderPages(){
-  const q = norm(els.globalSearch.value);
-  const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
+
+function renderPages() {
+  const q = String(els.globalSearch.value || '').trim().toLowerCase();
+  const topic = getTopic(catalog, activeTopic) || catalog.topics[0];
   activeTopic = topic?.name || '';
-  visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number).filter(p => {
-    const hay = `${p.topic} ${p.title} ${p.h1} ${p.file} ${p.number}`;
-    return !q || norm(hay).includes(q);
+  const basePages = sortPages(topic?.pages || []);
+  visiblePages = basePages.filter((page) => {
+    const hay = `${page.topic} ${page.title} ${page.h1} ${page.file} ${page.number}`.toLowerCase();
+    return !q || hay.includes(q);
   });
 
   els.topicPages.innerHTML = '';
 
-  if(!visiblePages.length){
+  if (!visiblePages.length) {
     currentIndex = -1;
     els.topicPages.innerHTML = '<div class="empty-box">לא נמצאו דפים.</div>';
     els.currentPageTitle.textContent = 'לא נמצאו דפים';
@@ -190,65 +196,47 @@ function renderPages(){
     return;
   }
 
-  visiblePages.forEach(page => {
+  visiblePages.forEach((page) => {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'page-card';
     b.dataset.file = page.file;
-    b.innerHTML = `<strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
+    b.innerHTML = `<strong>${escapeHtml(page.title || page.h1 || page.file)}</strong><span>${escapeHtml(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
     b.onclick = () => showPage(page.file);
     els.topicPages.appendChild(b);
   });
 
-  const lastFile = localStorage.getItem('parabula:lastFile');
-  const target = lastFile && visiblePages.some(p => p.file === lastFile) ? lastFile : visiblePages[0].file;
+  const remembered = rememberedPageFile();
+  const target = remembered && visiblePages.some((page) => page.file === remembered)
+    ? remembered
+    : visiblePages[0].file;
   showPage(target);
 }
-function openCurrent(){
-  const p = currentPage();
-  if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
+
+function openCurrent() {
+  const page = currentPage();
+  if (!page) return;
+  window.open(resolvePageLinks(page).liveUrl, '_blank', 'noopener,noreferrer');
 }
-function printCurrent(){
-  const p = currentPage();
-  if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
+
+function printCurrent() {
+  const page = currentPage();
+  if (!page) return;
+  window.open(resolvePageLinks(page).localUrl, '_blank', 'noopener,noreferrer');
 }
-function isUsableTopicsPayload(payload){
-  return Boolean(payload && Array.isArray(payload.topics) && payload.topics.length);
-}
-function getErrorMessage(error){
-  return error instanceof Error ? error.message : String(error);
-}
-function summarizeFailures(failures){
-  return failures.map(({ url, reason }) => `${url}: ${reason}`).join('\n');
-}
-async function loadTopicsData(){
-  const failures = [];
-  for (const url of DATA_CANDIDATES) {
-    try {
-      const response = await fetch(url, { cache:'no-store' });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const payload = await response.json();
-      if (!isUsableTopicsPayload(payload)) throw new Error('empty or invalid topics payload');
-      return payload;
-    } catch (error) {
-      failures.push({ url, reason: getErrorMessage(error) });
-    }
-  }
-  throw new Error(`topics fetch failed:\n${summarizeFailures(failures)}`);
-}
-async function boot(){
-  db = await loadTopicsData();
-  flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
-  els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים`;
-  activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
+
+async function boot() {
+  catalog = await loadCatalog(rootDataCandidates(window.location.href, { includeMobileMirror: true }));
+  els.appMeta.textContent = `${catalog.topics.length} נושאים · ${catalog.totalPages} דפים`;
+  activeTopic = rememberedTopic() || catalog.topics[0]?.name || '';
   renderTopics();
   renderPages();
   resizeReaderFrame();
 }
 
 els.globalSearch.addEventListener('input', renderPages);
-els.prevPageBtn.addEventListener('click', () => { if(currentIndex > 0) showPage(visiblePages[currentIndex - 1].file); });
-els.nextPageBtn.addEventListener('click', () => { if(currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file); });
+els.prevPageBtn.addEventListener('click', () => { if (currentIndex > 0) showPage(visiblePages[currentIndex - 1].file); });
+els.nextPageBtn.addEventListener('click', () => { if (currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file); });
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
 els.toggleTopicsBtn.addEventListener('click', () => {
@@ -259,22 +247,11 @@ els.toggleTopicsBtn.addEventListener('click', () => {
 els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
   cleanupIframeUI();
-  resizeReaderFrame();
 });
 window.addEventListener('resize', resizeReaderFrame);
-window.addEventListener('orientationchange', () => setTimeout(resizeReaderFrame, 120));
 
-boot().catch(err => {
-  console.error(err);
-  els.appMeta.textContent = 'שגיאה בטעינה';
-  els.topicPages.innerHTML = '<div class="empty-box">אירעה שגיאה בטעינת הספר. נסה לרענן.</div>';
+boot().catch((error) => {
+  console.error(error);
+  els.appMeta.textContent = 'שגיאה בטעינת הדפים';
+  els.topicPages.innerHTML = `<div class="empty-box">${escapeHtml(error.message)}</div>`;
 });
-
-if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
-  window.__parabulaSwRegistered = true;
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=20260416234242').then(reg => {
-      if (reg.update) reg.update();
-    }).catch(console.error);
-  });
-}

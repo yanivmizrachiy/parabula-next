@@ -50,4 +50,4 @@ if (payload.totalPages !== pages.length || duplicateFiles.length > 0) {
 }
 
 fs.writeFileSync(mobilePath, JSON.stringify(payload, null, 2) + '\n', 'utf8');
-console.log(`Synced mobile-topics.json from meta/topics.json (${payload.topics.length} topics)`);
+console.log(`Synced mobile-topics.json from meta/topics.json (${payload.topics.length} topics, ${payload.totalPages} pages)`);

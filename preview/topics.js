@@ -1,5 +1,13 @@
-const BASE = new URL('../', window.location.href);
-const DATA_URL = new URL('meta/topics.json', BASE);
+import {
+  filterPages,
+  getTopic,
+  loadCatalog,
+  previewDataCandidates,
+  rememberPage,
+  rememberedPageFile,
+  rememberedTopic,
+  resolvePageLinks
+} from './catalog-shared.js';
 
 const searchBox = document.getElementById('searchBox');
 const clearBtn = document.getElementById('clearBtn');
@@ -16,15 +24,12 @@ const renderSelectionBtn = document.getElementById('renderSelectionBtn');
 const pagesList = document.getElementById('pagesList');
 const viewer = document.getElementById('viewer');
 
-let db = [];
-let topics = [];
-let activeTopic = null;
-const selected = new Set();
 const STORE_KEY = 'parabula-selection-v1';
 
-function norm(v) {
-  return String(v || '').trim().toLowerCase();
-}
+let catalog = null;
+let activeTopic = '';
+let currentFile = '';
+const selected = new Set();
 
 function saveSelection() {
   localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort()));
@@ -34,35 +39,27 @@ function loadSelection() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     const arr = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(arr)) arr.forEach(x => selected.add(x));
+    if (Array.isArray(arr)) arr.forEach((file) => selected.add(file));
   } catch {}
 }
 
-function sortPages(arr) {
-  return arr.slice().sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
-}
-
 function filteredTopics() {
-  const q = norm(searchBox.value);
-  if (!q) return topics;
-  return topics.filter(topic => {
-    if (norm(topic.name).includes(q)) return true;
-    return topic.pages.some(page =>
-      norm([page.title, page.h1, page.file, page.topic].join(' ')).includes(q)
-    );
-  });
+  const query = searchBox.value;
+  if (!query) return catalog.topics;
+  return catalog.topics.filter((topic) => filterPages(topic.pages, { query }).length > 0 || String(topic.name).includes(query));
 }
 
 function topicCard(topic) {
   const first = topic.pages[0];
   const active = activeTopic === topic.name;
+  const firstLocalUrl = first ? resolvePageLinks(first).localUrl : '#';
   return `
     <div class="topic-card ${active ? 'active' : ''}" data-topic="${topic.name}">
       <div class="topic-title">${topic.name}</div>
       <div class="topic-meta">${topic.pages.length} דפים · מתחיל ב-${first?.title || first?.file || ''}</div>
       <div class="topic-actions">
         <button class="primary" data-action="open-topic" data-topic="${topic.name}">פתח נושא</button>
-        <a href="${first?.previewPath || ('/' + first?.file)}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
+        <a href="${firstLocalUrl}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
       </div>
     </div>
   `;
@@ -72,18 +69,19 @@ function renderTopics() {
   const visibleTopics = filteredTopics();
   topicsGrid.innerHTML = visibleTopics.map(topicCard).join('');
   topicCountBadge.textContent = `${visibleTopics.length} נושאים`;
-  pageCountBadge.textContent = `${db.length} דפים`;
+  pageCountBadge.textContent = `${catalog.totalPages} דפים`;
 }
 
 function activePages() {
-  const topic = topics.find(t => t.name === activeTopic);
-  return topic ? topic.pages : [];
+  return getTopic(catalog, activeTopic)?.pages || [];
 }
 
 function pageCard(page) {
   const isSelected = selected.has(page.file);
+  const isCurrent = currentFile === page.file;
+  const links = resolvePageLinks(page);
   return `
-    <div class="page-card ${isSelected ? 'selected' : ''}" data-file="${page.file}">
+    <div class="page-card ${isSelected ? 'selected' : ''} ${isCurrent ? 'active' : ''}" data-file="${page.file}">
       <div class="page-top">
         <div>
           <div class="page-title">${page.title || page.file}</div>
@@ -93,8 +91,8 @@ function pageCard(page) {
       </div>
       <div class="page-sub">${page.topic || ''}</div>
       <div class="page-actions">
-        <button class="primary" data-action="open-page" data-file="${page.file}">פתח</button>
-        <a href="${page.previewPath || ('/' + page.file)}" target="_blank" rel="noopener">דף מלא</a>
+        <button class="primary" data-action="open-page" data-file="${page.file}">צפה כאן</button>
+        <a href="${links.localUrl}" target="_blank" rel="noopener">דף מלא</a>
         <button data-action="toggle-select" data-file="${page.file}">${isSelected ? 'הסר מהבחירה' : 'הוסף לבחירה'}</button>
       </div>
     </div>
@@ -115,35 +113,48 @@ function renderViewer(files = null) {
     viewer.textContent = activeTopic ? 'אפשר לפתוח דף בודד או לבחור כמה דפים להדפסה' : 'בחר נושא כדי לראות את הדפים שלו';
     return;
   }
-  const picked = sortPages(db.filter(p => list.includes(p.file)));
+  const picked = catalog.flatPages.filter((page) => list.includes(page.file));
   viewer.className = 'viewer-stack';
-  viewer.innerHTML = picked.map(page => {
-    const src = page.previewPath || ('/' + page.file);
+  viewer.innerHTML = picked.map((page) => {
+    const src = resolvePageLinks(page).localUrl;
     return `<iframe class="viewer-frame" title="${page.title || page.file}" src="${src}"></iframe>`;
   }).join('');
 }
 
 function setActiveTopic(topicName) {
   activeTopic = topicName;
+  localStorage.setItem('parabula:lastTopic', activeTopic);
   renderTopics();
   renderPages();
+  const remembered = rememberedPageFile();
+  const topicPages = activePages();
+  if (remembered && topicPages.some((page) => page.file === remembered)) {
+    currentFile = remembered;
+    renderPages();
+    renderViewer([remembered]);
+    return;
+  }
   renderViewer();
 }
 
-topicsGrid.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-action="open-topic"]');
-  const card = e.target.closest('.topic-card');
+topicsGrid.addEventListener('click', (event) => {
+  const btn = event.target.closest('[data-action="open-topic"]');
+  const card = event.target.closest('.topic-card');
   const topicName = btn?.dataset.topic || card?.dataset.topic;
   if (!topicName) return;
   setActiveTopic(topicName);
 });
 
-pagesList.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-action]');
+pagesList.addEventListener('click', (event) => {
+  const btn = event.target.closest('[data-action]');
   if (!btn) return;
   const file = btn.dataset.file;
   const action = btn.dataset.action;
   if (action === 'open-page') {
+    currentFile = file;
+    const page = catalog.byFile.get(file);
+    if (page) rememberPage(page);
+    renderPages();
     renderViewer([file]);
   } else if (action === 'toggle-select') {
     if (selected.has(file)) selected.delete(file);
@@ -184,18 +195,13 @@ openPrintPageBtn.addEventListener('click', () => {
 });
 
 async function boot() {
-  const response = await fetch(DATA_URL);
-  const payload = await response.json();
-  topics = Array.isArray(payload?.topics)
-    ? payload.topics.map(t => ({ ...t, pages: sortPages(t.pages || []) }))
-    : [];
-  topics = topics.sort((a, b) => String(a.name).localeCompare(String(b.name), 'he'));
-  db = topics.flatMap(t => t.pages);
+  catalog = await loadCatalog(previewDataCandidates());
   loadSelection();
+  activeTopic = rememberedTopic() || catalog.topics[0]?.name || '';
   renderTopics();
   renderPages();
   renderViewer();
-  if (topics.length && !activeTopic) setActiveTopic(topics[0].name);
+  if (activeTopic) setActiveTopic(activeTopic);
 }
 
 boot().catch((error) => {

@@ -10,8 +10,8 @@
   <div class="shell">
     <header class="hero">
       <div>
-        <h1>כל הדפים</h1>
-        <p>תצוגה נוחה של כל הדפים שנוצרו, עם חיפוש, סינון, פתיחה, שיתוף, הורדה והדפסה</p>
+        <h1>ספריית העבודה של כל הדפים</h1>
+        <p>חיפוש מהיר, סינון לפי נושא, תצוגת viewer חיה, ניווט קודם/הבא, פתיחה מקומית/חיה והדפסה מתוך הדפים האמיתיים בלבד</p>
       </div>
       <div class="hero-stats">
         <span id="totalPagesBadge" class="badge">0 דפים</span>
@@ -26,7 +26,7 @@
       </select>
       <button id="clearBtn" type="button">נקה</button>
       <button id="printSelectedBtn" class="primary" type="button">הדפס / PDF</button>
-      <button id="goTopicsBtn" type="button">חזור לנושאים</button>
+      <button id="goTopicsBtn" type="button">מעבר למסך נושאים</button>
     </section>
 
     <section class="selectionBar">
@@ -40,9 +40,43 @@
     </section>
 
     <main class="layout">
-      <section>
+      <section class="libraryPane">
+        <div class="sectionHead">
+          <div>
+            <h2>כל הדפים האמיתיים</h2>
+            <p id="resultsInfo">טוען רשימת דפים…</p>
+          </div>
+        </div>
         <div id="pagesGrid" class="pages-grid"></div>
       </section>
+
+      <aside class="viewerPane">
+        <div class="viewerCard">
+          <div class="viewerHead">
+            <div>
+              <div class="viewerEyebrow">viewer חי</div>
+              <h2 id="currentPageTitle">לא נבחר עמוד</h2>
+              <p id="currentPageMeta">בחר דף כדי לראות אותו כאן</p>
+            </div>
+            <div class="viewerBadges">
+              <span id="currentTopicBadge" class="miniBadge">—</span>
+              <span id="currentPositionBadge" class="miniBadge soft">—</span>
+            </div>
+          </div>
+
+          <div class="viewerActions">
+            <button id="prevPageBtn" type="button">הקודם</button>
+            <button id="nextPageBtn" type="button">הבא</button>
+            <a id="openLocalBtn" class="primary" href="#" target="_blank" rel="noopener">פתח מקומית</a>
+            <a id="openLiveBtn" href="#" target="_blank" rel="noopener">פתח באתר החי</a>
+          </div>
+
+          <div id="viewerEmpty" class="viewerEmpty">ה־viewer יציג כאן את הדף שבחרת מתוך הספרייה</div>
+          <div id="viewerWrap" class="viewerFrameWrap" hidden>
+            <iframe id="pageViewer" title="תצוגת דף" src="about:blank"></iframe>
+          </div>
+        </div>
+      </aside>
     </main>
 
     <div class="mobileBar">
@@ -53,6 +87,6 @@
     </div>
   </div>
 
-  <script src="./all-pages.js"></script>
+  <script type="module" src="./all-pages.js"></script>
 </body>
 </html>
