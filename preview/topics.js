@@ -42,6 +42,12 @@ function sortPages(arr) {
   return arr.slice().sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
 }
 
+function resolvePageUrl(page) {
+  if (page?.siteUrl) return page.siteUrl;
+  const rel = String(page?.previewPath || page?.file || '').replace(/^\//, '');
+  return new URL(rel, BASE).href;
+}
+
 function filteredTopics() {
   const q = norm(searchBox.value);
   if (!q) return topics;
@@ -62,7 +68,7 @@ function topicCard(topic) {
       <div class="topic-meta">${topic.pages.length} דפים · מתחיל ב-${first?.title || first?.file || ''}</div>
       <div class="topic-actions">
         <button class="primary" data-action="open-topic" data-topic="${topic.name}">פתח נושא</button>
-        <a href="${first?.previewPath || ('/' + first?.file)}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
+        <a href="${resolvePageUrl(first)}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
       </div>
     </div>
   `;
@@ -94,7 +100,7 @@ function pageCard(page) {
       <div class="page-sub">${page.topic || ''}</div>
       <div class="page-actions">
         <button class="primary" data-action="open-page" data-file="${page.file}">פתח</button>
-        <a href="${page.previewPath || ('/' + page.file)}" target="_blank" rel="noopener">דף מלא</a>
+        <a href="${resolvePageUrl(page)}" target="_blank" rel="noopener">דף מלא</a>
         <button data-action="toggle-select" data-file="${page.file}">${isSelected ? 'הסר מהבחירה' : 'הוסף לבחירה'}</button>
       </div>
     </div>
@@ -118,7 +124,7 @@ function renderViewer(files = null) {
   const picked = sortPages(db.filter(p => list.includes(p.file)));
   viewer.className = 'viewer-stack';
   viewer.innerHTML = picked.map(page => {
-    const src = page.previewPath || ('/' + page.file);
+    const src = resolvePageUrl(page);
     return `<iframe class="viewer-frame" title="${page.title || page.file}" src="${src}"></iframe>`;
   }).join('');
 }
