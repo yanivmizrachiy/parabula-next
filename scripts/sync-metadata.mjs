@@ -16,7 +16,7 @@ let payload;
 try {
   payload = JSON.parse(raw);
 } catch (error) {
-  console.error(`FAIL: meta/topics.json is invalid JSON: ${error.message}`);
+  console.error(`FAIL: meta/topics.json is invalid JSON. Path: ${sourcePath}. ${error.message}`);
   process.exit(1);
 }
 

@@ -1,6 +1,7 @@
 import {
   appendQueryParams,
   loadCatalog,
+  pageLabel,
   previewDataCandidates,
   rememberPage,
   rememberedPageFile,
@@ -23,10 +24,6 @@ const topicHighlights = document.getElementById('topicHighlights');
 
 let catalog = null;
 let activeFile = '';
-
-function pageLabel(page) {
-  return `עמוד ${page.number} — ${page.title || page.h1 || page.file}`;
-}
 
 function shelfCandidates(anchorFile) {
   const all = catalog.flatPages;

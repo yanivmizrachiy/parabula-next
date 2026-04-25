@@ -36,6 +36,7 @@ let catalog = null;
 let activeTopic = '';
 let visiblePages = [];
 let currentIndex = -1;
+let resizeTimer = null;
 
 function updateButtons() {
   const has = !!currentPage();
@@ -248,8 +249,12 @@ els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
   cleanupIframeUI();
 });
-window.addEventListener('resize', resizeReaderFrame);
-
+window.addEventListener('resize', () => {
+  if (resizeTimer) clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    resizeReaderFrame();
+  }, 80);
+});
 boot().catch((error) => {
   console.error(error);
   els.appMeta.textContent = 'שגיאה בטעינת הדפים';

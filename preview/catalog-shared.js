@@ -102,7 +102,8 @@ export function appendQueryParams(url, params) {
 /**
  * `localUrl` always points to the real worksheet file in the current working
  * copy / preview server, while `liveUrl` points to the published GitHub Pages
- * location when it is known.
+ * location when it is known. If `siteUrl` is missing in metadata, `liveUrl`
+ * safely falls back to the same real local worksheet URL.
  */
 export function resolvePageLinks(page, currentHref = window.location.href) {
   const root = repoRootUrl(currentHref);
@@ -126,6 +127,10 @@ export function rememberedPageFile() {
 
 export function rememberedTopic() {
   return localStorage.getItem(LAST_TOPIC_KEY) || '';
+}
+
+export function pageLabel(page) {
+  return `עמוד ${page?.number ?? '—'} — ${page?.title || page?.h1 || page?.file || 'ללא כותרת'}`;
 }
 
 function errorMessage(error) {
