@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-04-25T18:53:37.917Z",
+  "status": "fail",
+  "errors": [
+    "preview/app.html missing expected reference: ./phone.html",
+    "preview/phone.html missing expected reference: ./phone.js",
+    "preview/phone.html missing expected reference: ./mobile.css",
+    "preview/phone.html missing expected reference: ./manifest.webmanifest"
+  ],
+  "warnings": []
+}
