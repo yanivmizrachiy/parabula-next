@@ -29,6 +29,8 @@ const landingResultsInfo = document.getElementById('landingResultsInfo');
 
 let catalog = null;
 let activeFile = '';
+const MAX_SHELF_ITEMS = 10;
+const MAX_FILTER_RESULTS = 12;
 
 function shelfCandidates(anchorFile) {
   const all = catalog.flatPages;
@@ -39,7 +41,7 @@ function shelfCandidates(anchorFile) {
     indexes.push(anchorIndex, anchorIndex - 1, anchorIndex + 1, anchorIndex - 2, anchorIndex + 2);
   }
 
-  for (let i = all.length - 1; i >= 0 && indexes.length < 10; i -= 1) indexes.push(i);
+  for (let i = all.length - 1; i >= 0 && indexes.length < MAX_SHELF_ITEMS; i -= 1) indexes.push(i);
 
   const seen = new Set();
   return indexes
@@ -50,7 +52,7 @@ function shelfCandidates(anchorFile) {
       seen.add(page.file);
       return true;
     })
-    .slice(0, 10);
+    .slice(0, MAX_SHELF_ITEMS);
 }
 
 function activeReaderHref(page) {
@@ -74,7 +76,7 @@ function isFiltering() {
 function candidatePages(anchorFile) {
   if (!catalog) return [];
   if (!isFiltering()) return shelfCandidates(anchorFile);
-  return filterPages(catalog.flatPages, activeFilters()).slice(0, 12);
+  return filterPages(catalog.flatPages, activeFilters()).slice(0, MAX_FILTER_RESULTS);
 }
 
 function renderTopicOptions() {
@@ -119,7 +121,7 @@ function updateFeatured(page, { announceLast = false, persist = false } = {}) {
 function renderShelf(anchorFile) {
   const pages = candidatePages(anchorFile);
   landingResultsInfo.textContent = isFiltering()
-    ? `נמצאו ${filterPages(catalog.flatPages, activeFilters()).length} דפים תואמים. מוצגים כאן עד 12 דפים אמיתיים לפתיחה מהירה.`
+    ? `נמצאו ${filterPages(catalog.flatPages, activeFilters()).length} דפים תואמים. מוצגים כאן עד ${MAX_FILTER_RESULTS} דפים אמיתיים לפתיחה מהירה.`
     : 'ללא סינון: מוצגים דפים קרובים ורלוונטיים סביב נקודת העבודה האחרונה.';
 
   if (!pages.length) {

@@ -31,9 +31,10 @@ export function previewDataCandidates(currentHref = window.location.href) {
 }
 
 /**
- * Root surfaces can prefer `mobile-topics.json` first so the mobile entry keeps
- * exercising the mirrored file that is published beside it, while still
- * falling back to the canonical `meta/topics.json` source.
+ * Repository-root access surfaces (for example `mobile-app.html`, as opposed to
+ * files under `preview/`) can prefer `mobile-topics.json` first so the mobile
+ * entry keeps exercising the mirrored file that is published beside it, while
+ * still falling back to the canonical `meta/topics.json` source.
  */
 export function rootDataCandidates(currentHref = window.location.href, { includeMobileMirror = false } = {}) {
   const root = repoRootUrl(currentHref);
