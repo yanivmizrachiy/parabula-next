@@ -74,6 +74,16 @@
         <p>הכל נגזר אוטומטית מ־<code>meta/topics.json</code> ומהעמודים האמיתיים בלבד.</p>
       </div>
 
+      <div class="discovery-toolbar">
+        <input id="landingSearchBox" type="search" placeholder="חיפוש לפי כותרת, נושא או מספר עמוד" />
+        <select id="landingTopicFilter">
+          <option value="__all__">כל הנושאים</option>
+        </select>
+        <button id="clearLandingFiltersBtn" class="hero-btn" type="button">נקה סינון</button>
+      </div>
+
+      <div id="landingResultsInfo" class="discovery-meta">טוען תוצאות חיות…</div>
+
       <div class="shelf-layout">
         <div>
           <div id="featuredPages" class="featured-pages"></div>

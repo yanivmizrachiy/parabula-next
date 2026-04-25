@@ -127,6 +127,9 @@ Notes:
 
 - In `/preview`, the Reader’s top controls (mode toggle, prev/next, and topic buttons) must remain **visible while scrolling**.
 - In `/preview`, the Reader must show an **accurate A4 print boundary frame** for every page at all times (in all modes), so layout decisions are made against real print bounds.
+- `preview/app.html` is the premium landing surface for the live preview layer and must stay **metadata-driven**, **demo-free**, and connected only to real worksheet pages.
+- The landing surface must support useful fast access flows such as: resume from last real page, topic-aware filtering, direct page search, and opening the selected real page directly inside the Reader.
+- When `preview/app.html` opens a page in the Reader, it must deep-link with a real `file=` value that exists in metadata; broken, invented, or placeholder page targets are forbidden.
 
 ---
 

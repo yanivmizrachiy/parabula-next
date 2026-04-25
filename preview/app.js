@@ -1,5 +1,6 @@
 import {
   appendQueryParams,
+  filterPages,
   loadCatalog,
   pageLabel,
   previewDataCandidates,
@@ -21,6 +22,10 @@ const featuredLocalBtn = document.getElementById('featuredLocalBtn');
 const featuredLiveBtn = document.getElementById('featuredLiveBtn');
 const featuredPages = document.getElementById('featuredPages');
 const topicHighlights = document.getElementById('topicHighlights');
+const landingSearchBox = document.getElementById('landingSearchBox');
+const landingTopicFilter = document.getElementById('landingTopicFilter');
+const clearLandingFiltersBtn = document.getElementById('clearLandingFiltersBtn');
+const landingResultsInfo = document.getElementById('landingResultsInfo');
 
 let catalog = null;
 let activeFile = '';
@@ -45,7 +50,41 @@ function shelfCandidates(anchorFile) {
       seen.add(page.file);
       return true;
     })
-    .slice(0, 8);
+    .slice(0, 10);
+}
+
+function activeReaderHref(page) {
+  return page
+    ? `./index.html?file=${encodeURIComponent(page.file)}&topic=${encodeURIComponent(page.topic || '')}`
+    : './index.html';
+}
+
+function activeFilters() {
+  return {
+    query: landingSearchBox.value,
+    topic: landingTopicFilter.value
+  };
+}
+
+function isFiltering() {
+  const { query, topic } = activeFilters();
+  return Boolean(String(query || '').trim()) || topic !== '__all__';
+}
+
+function candidatePages(anchorFile) {
+  if (!catalog) return [];
+  if (!isFiltering()) return shelfCandidates(anchorFile);
+  return filterPages(catalog.flatPages, activeFilters()).slice(0, 12);
+}
+
+function renderTopicOptions() {
+  landingTopicFilter.innerHTML = '<option value="__all__">כל הנושאים</option>';
+  catalog.topics.forEach((topic) => {
+    const option = document.createElement('option');
+    option.value = topic.name;
+    option.textContent = `${topic.name} (${topic.count})`;
+    landingTopicFilter.appendChild(option);
+  });
 }
 
 function renderTopicHighlights() {
@@ -66,8 +105,8 @@ function updateFeatured(page, { announceLast = false, persist = false } = {}) {
   featuredFrame.src = appendQueryParams(links.localUrl, { preview: 1, v: Date.now() });
   featuredLocalBtn.href = links.localUrl;
   featuredLiveBtn.href = links.liveUrl;
-  featuredReaderBtn.href = './index.html';
-  continueBtn.href = './index.html';
+  featuredReaderBtn.href = activeReaderHref(page);
+  continueBtn.href = activeReaderHref(page);
   continueBtn.textContent = announceLast ? `המשך לעמוד האחרון — ${page.number}` : 'התחל לקרוא';
   lastPageValue.textContent = announceLast ? String(page.number) : 'חדש';
   if (persist) rememberPage(page);
@@ -78,7 +117,16 @@ function updateFeatured(page, { announceLast = false, persist = false } = {}) {
 }
 
 function renderShelf(anchorFile) {
-  const pages = shelfCandidates(anchorFile);
+  const pages = candidatePages(anchorFile);
+  landingResultsInfo.textContent = isFiltering()
+    ? `נמצאו ${filterPages(catalog.flatPages, activeFilters()).length} דפים תואמים. מוצגים כאן עד 12 דפים אמיתיים לפתיחה מהירה.`
+    : 'ללא סינון: מוצגים דפים קרובים ורלוונטיים סביב נקודת העבודה האחרונה.';
+
+  if (!pages.length) {
+    featuredPages.innerHTML = '<div class="empty-state">לא נמצאו דפים תואמים. נסה מונח אחר או נקה את הסינון.</div>';
+    return;
+  }
+
   featuredPages.innerHTML = pages
     .map((page) => `
       <button class="shelf-btn ${page.file === activeFile ? 'active' : ''}" type="button" data-file="${page.file}">
@@ -101,6 +149,28 @@ featuredPages.addEventListener('click', (event) => {
   renderShelf(page.file);
 });
 
+landingSearchBox.addEventListener('input', () => {
+  renderShelf(activeFile || catalog?.flatPages[0]?.file || '');
+});
+
+landingSearchBox.addEventListener('keydown', (event) => {
+  if (event.key !== 'Enter') return;
+  const firstMatch = candidatePages(activeFile || catalog?.flatPages[0]?.file || '')[0];
+  if (!firstMatch) return;
+  updateFeatured(firstMatch, { persist: true });
+  renderShelf(firstMatch.file);
+});
+
+landingTopicFilter.addEventListener('change', () => {
+  renderShelf(activeFile || catalog?.flatPages[0]?.file || '');
+});
+
+clearLandingFiltersBtn.addEventListener('click', () => {
+  landingSearchBox.value = '';
+  landingTopicFilter.value = '__all__';
+  renderShelf(activeFile || catalog?.flatPages[0]?.file || '');
+});
+
 async function boot() {
   catalog = await loadCatalog(previewDataCandidates());
   totalPagesValue.textContent = String(catalog.totalPages);
@@ -110,6 +180,7 @@ async function boot() {
   const page = catalog.byFile.get(remembered) || catalog.flatPages[0];
   const announceLast = Boolean(remembered && page?.file === remembered);
 
+  renderTopicOptions();
   renderTopicHighlights();
   renderShelf(page.file);
   updateFeatured(page, { announceLast, persist: false });

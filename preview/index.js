@@ -21,6 +21,7 @@ const openRealSiteBtn = document.getElementById('openRealSiteBtn');
 const reloadCurrentBtn = document.getElementById('reloadCurrentBtn');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
+const initialParams = new URLSearchParams(window.location.search);
 
 let catalog = null;
 let visiblePages = [];
@@ -119,8 +120,16 @@ function setCurrentPage(file) {
   openPageBtn.onclick = () => window.open(links.localUrl, '_blank', 'noopener');
   openSiteHome.href = catalog.siteUrl;
   rememberPage(page);
+  syncUrlState(page);
   syncActiveButton();
   syncPrevNextState();
+}
+
+function syncUrlState(page) {
+  const next = new URL(window.location.href);
+  if (page?.file) next.searchParams.set('file', page.file);
+  if (page?.topic) next.searchParams.set('topic', page.topic);
+  window.history.replaceState({}, '', `${next.pathname}${next.search}`);
 }
 
 reloadCurrentBtn.addEventListener('click', () => {
@@ -151,10 +160,18 @@ async function refreshCatalog() {
 
 async function boot() {
   await refreshCatalog();
+  const requestedFile = initialParams.get('file') || '';
+  const requestedPage = catalog.byFile.get(requestedFile) || null;
+  const requestedTopic = requestedPage?.topic || initialParams.get('topic') || '';
+  if (requestedTopic && catalog.topicNames.includes(requestedTopic)) {
+    topicFilter.value = requestedTopic;
+  }
   render();
 
   const saved = rememberedPageFile();
-  if (saved && catalog.flatPages.some((page) => page.file === saved)) {
+  if (requestedPage) {
+    setCurrentPage(requestedPage.file);
+  } else if (saved && catalog.flatPages.some((page) => page.file === saved)) {
     setCurrentPage(saved);
   } else if (catalog.flatPages.length > 0) {
     setCurrentPage(catalog.flatPages[0].file);
