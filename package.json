@@ -5,15 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "npm run metadata:sync",
     "build": "vite build",
     "preview:vite": "vite preview",
     "preview": "node preview/server.mjs",
-    "test": "node --test tests/contracts/root-pages.test.mjs",
+    "test": "node --test tests/contracts/root-pages.test.mjs tests/metadata-integrity.test.mjs",
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
+    "test:metadata": "node --test tests/metadata-integrity.test.mjs",
     "verify": "node scripts/verify.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "page:new": "node scripts/new-page.mjs",
-    "rules:sync": "node scripts/sync-rules.mjs"
+    "rules:sync": "node scripts/sync-rules.mjs",
+    "metadata:sync": "node scripts/sync-metadata.mjs"
   },
   "devDependencies": {
     "vite": "^8.0.1"

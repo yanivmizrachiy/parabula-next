@@ -35,15 +35,27 @@ function requireIncludes(file, phrase) {
   }
 }
 
-requireIncludes('preview/app.html', './phone.html');
+requireIncludes('preview/app.html', './all-pages.html');
+requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
+requireIncludes('preview/app.html', '../mobile-app.html');
 requireIncludes('preview/app.html', '../STATE/README.md');
-requireIncludes('preview/phone.html', './phone.js');
-requireIncludes('preview/phone.html', './mobile.css');
-requireIncludes('preview/phone.html', './manifest.webmanifest');
 requireIncludes('preview/install.html', './phone.html');
 requireIncludes('preview/install.html', './print.html');
 requireIncludes('preview/print.html', './print.js');
+
+if (exists('preview/phone.html')) {
+  const text = read('preview/phone.html');
+  const isRedirectOnly = text.includes('../mobile-app.html');
+  const isLegacyShell =
+    text.includes('./phone.js') &&
+    text.includes('./mobile.css') &&
+    text.includes('./manifest.webmanifest');
+
+  if (!isRedirectOnly && !isLegacyShell) {
+    errors.push('preview/phone.html must either redirect to ../mobile-app.html or include the legacy phone shell assets');
+  }
+}
 
 if (exists('preview/README.md')) {
   const text = read('preview/README.md');

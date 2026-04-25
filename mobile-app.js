@@ -24,6 +24,10 @@ let activeTopic = '';
 let visiblePages = [];
 let flatPages = [];
 let currentIndex = -1;
+const DATA_CANDIDATES = [
+  `./mobile-topics.json?v=${VERSION}`,
+  `./meta/topics.json?v=${VERSION}`
+];
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
 function esc(v){
@@ -208,10 +212,26 @@ function printCurrent(){
   const p = currentPage();
   if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
 }
+function isUsableTopicsPayload(payload){
+  return Boolean(payload && Array.isArray(payload.topics) && payload.topics.length);
+}
+async function loadTopicsData(){
+  const failures = [];
+  for (const url of DATA_CANDIDATES) {
+    try {
+      const response = await fetch(url, { cache:'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      if (!isUsableTopicsPayload(payload)) throw new Error('empty or invalid topics payload');
+      return payload;
+    } catch (error) {
+      failures.push(`${url}: ${error.message}`);
+    }
+  }
+  throw new Error(`topics fetch failed: ${failures.join(' | ')}`);
+}
 async function boot(){
-  const r = await fetch('./mobile-topics.json?v=' + VERSION, {cache:'no-store'});
-  if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
-  db = await r.json();
+  db = await loadTopicsData();
   flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';

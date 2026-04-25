@@ -18,10 +18,10 @@
 - `../mobile-app.webmanifest`
 - `../mobile-app-install.html`
 - `../mobile-app-install.js`
-- `../mobile-topics.json`
+- `../mobile-topics.json` — עותק מסונכרן של `meta/topics.json` לטובת מסלול המובייל בשורש
 
 ### שכבת טלפון / legacy / תאימות
-- `phone.html`
+- `phone.html` — redirect-only entry ל-`../mobile-app.html`
 - `phone.js`
 - `mobile.css`
 - `manifest.webmanifest`
@@ -48,9 +48,10 @@
 - קיים שער כניסה `app.html`.
 - קיים מרכז הדפסה פעיל.
 - `print.js` הוא קובץ ההדפסה הקנוני הפעיל בשכבת ההדפסה.
- עדיין קיים ככפילות / legacy-adjacent file.
+- `print-center.js` עדיין קיים ככפילות / legacy-adjacent file.
 - `mobile-app.html` הוא מסלול המובייל הקנוני היחיד לשיפורי מובייל חדשים.
 - `preview/phone.html` נשאר שכבת legacy / redirect-only mobile entry לתאימות לאחור.
+- `mobile-topics.json` חייב להישאר מסונכרן ל-`meta/topics.json` כדי שמסלול המובייל וה-preview יישענו על אותו מקור אמת.
 - שכבת המובייל והאייקון לנייד הם חלק רשמי מהמערכת החיה, ו-`PROJECT_RULES.md` חייב להישאר מסונכרן איתם.
 
 ## המשך בטוח

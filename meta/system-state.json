@@ -1,16 +1,15 @@
 {
-  "generated_at": "2026-04-23",
+  "generated_at": "2026-04-25T18:55:29.273Z",
   "repo": "yanivmizrachiy/parabula-next",
   "source_of_truth": {
     "primary": "PROJECT_RULES.md",
-    "live_status": "STATE/LIVE_STATUS.md",
     "continuity_index": "STATE/README.md",
     "continuity_docs": [
       "STATE/PROJECT_CONTINUITY.md",
       "STATE/CHANGELOG_2026_04_14.md",
       "STATE/CHANGELOG_2026_04_14_PRINT_UPDATE.md"
     ],
-    "notes": "If PROJECT_RULES.md and live docs differ, treat it as an open sync task."
+    "notes": "If PROJECT_RULES.md and STATE docs differ, treat it as an open sync task."
   },
   "canonical_content": {
     "root_pages_pattern": "עמוד-N.html",
@@ -18,33 +17,23 @@
     "shared_a4_css": "styles/a4-base.css",
     "metadata": "meta/topics.json"
   },
-  "access_layer": {
+  "app_layer": {
     "hub": "preview/app.html",
     "desktop_preview": "preview/index.html",
-    "print": {
-      "html": "preview/print.html",
-      "entry_js": "preview/print.js",
-      "legacy_duplicate_js": "preview/print-center.js",
-      "status": "active_with_known_duplication"
-    },
-    "mobile": {
-      "canonical_html": "mobile-app.html",
-      "canonical_js": "mobile-app.js",
-      "canonical_css": "mobile-app.css",
-      "canonical_manifest": "mobile-app.webmanifest",
-      "canonical_install_html": "mobile-app-install.html",
-      "canonical_install_js": "mobile-app-install.js",
-      "canonical_metadata": "mobile-topics.json"
-    },
-    "legacy_phone": {
+    "phone": {
       "html": "preview/phone.html",
       "js": "preview/phone.js",
       "css": "preview/mobile.css",
       "manifest": "preview/manifest.webmanifest",
       "icon": "preview/icon.svg",
       "service_worker": "preview/sw.js",
-      "install_guide": "preview/install.html",
-      "status": "legacy_or_compat"
+      "install_guide": "preview/install.html"
+    },
+    "print": {
+      "html": "preview/print.html",
+      "entry_js": "preview/print.js",
+      "legacy_duplicate_js": "preview/print-center.js",
+      "status": "active_with_known_duplication"
     },
     "preview_readme": "preview/README.md",
     "app_contract": "preview/APP_CONTRACT.md"
@@ -52,15 +41,21 @@
   "safety_layer": {
     "audit_script": "scripts/recovery-audit.mjs",
     "audit_workflow": ".github/workflows/recovery-audit.yml",
-    "audit_output": "meta/audit/recovery-audit.json",
-    "restore_status": "not_implemented_yet"
+    "audit_output": null,
+    "restore_status": "plan_defined_not_implemented"
+  },
+  "automation_layer": {
+    "doctor_script": "scripts/doctor.mjs",
+    "rules_sync_check": "scripts/rules-sync-check.mjs",
+    "app_layer_check": "scripts/app-layer-check.mjs",
+    "duplicate_audit": "scripts/duplicate-audit.mjs",
+    "repository_health_workflow": ".github/workflows/repository-health.yml"
   },
   "known_open_tasks": [
     "Sync PROJECT_RULES.md with active mobile, print, and recovery additions",
     "Resolve duplication between preview/print.js and preview/print-center.js",
-    "Strengthen mobile installability and caching",
-    "Add safe restore workflow beyond audit-only detection",
-    "Build one unified all-pages access layer above metadata"
+    "Strengthen phone installability and caching",
+    "Add safe restore workflow beyond audit-only detection"
   ],
   "hard_rules": [
     "Do not modify canonical worksheet pages during tooling/documentation work unless explicitly requested",

@@ -30,7 +30,7 @@
 - `mobile-app.webmanifest`
 - `mobile-app-install.html`
 - `mobile-app-install.js`
-- `mobile-topics.json`
+- `mobile-topics.json` — mirror מסונכרן של `meta/topics.json` עבור מסלול המובייל שבשורש
 
 ### שכבת תאימות / legacy
 - `preview/phone.html`
@@ -40,13 +40,14 @@
 - `preview/icon.svg`
 - `preview/sw.js`
 
-שכבת `preview/phone.*` נשמרת כרגע לתאימות / redirect / legacy, אך אינה המסלול הקנוני לשיפורי מובייל חדשים.
+שכבת `preview/phone.*` נשמרת כרגע לתאימות / redirect / legacy, אך אינה המסלול הקנוני לשיפורי מובייל חדשים. `preview/phone.html` רשאי להיות redirect-only entry כל עוד הוא מפנה ל-`mobile-app.html`.
 
 ## כללים מחייבים
 
 - אין להמציא דפים, נושאים או רשימות שאינם נגזרים מקבצים אמיתיים.
 - אין להפוך את שכבת `preview/` למקור אמת של תוכן לימודי. מקור האמת של הדפים נשאר בדפי `עמוד-N.html` וב-`PROJECT_RULES.md`.
 - `meta/topics.json` הוא עמוד השדרה הפעיל של הדפים עבור preview/print.
+- `mobile-topics.json` חייב להיות מסונכרן מ-`meta/topics.json` ולא להחזיק אמת נפרדת.
 - אם יש יותר מקובץ JS אחד לאותו אזור פונקציונלי, יש לתעד זאת במפורש עד לאיחוד.
 
 ## מצב פתוח נוכחי

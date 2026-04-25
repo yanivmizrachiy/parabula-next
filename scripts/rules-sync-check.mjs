@@ -55,8 +55,9 @@ if (systemState) {
     systemState?.app_layer?.phone?.install_guide,
     systemState?.app_layer?.print?.html,
     systemState?.app_layer?.print?.entry_js,
-    systemState?.app_layer?.legacy_duplicate_js,
+    systemState?.app_layer?.print?.legacy_duplicate_js,
     systemState?.app_layer?.preview_readme,
+    systemState?.app_layer?.app_contract,
     systemState?.safety_layer?.audit_script,
     systemState?.safety_layer?.audit_workflow,
     systemState?.safety_layer?.audit_output

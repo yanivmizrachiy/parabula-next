@@ -42,12 +42,13 @@ const state = {
       legacy_duplicate_js: exists('preview/print-center.js') ? 'preview/print-center.js' : null,
       status: exists('preview/print.js') && exists('preview/print-center.js') ? 'active_with_known_duplication' : 'active'
     },
-    preview_readme: exists('preview/README.md') ? 'preview/README.md' : null
+    preview_readme: exists('preview/README.md') ? 'preview/README.md' : null,
+    app_contract: exists('preview/APP_CONTRACT.md') ? 'preview/APP_CONTRACT.md' : null
   },
   safety_layer: {
     audit_script: exists('scripts/recovery-audit.mjs') ? 'scripts/recovery-audit.mjs' : null,
     audit_workflow: exists('.github/workflows/recovery-audit.yml') ? '.github/workflows/recovery-audit.yml' : null,
-    audit_output: 'meta/audit/recovery-audit.json',
+    audit_output: exists('meta/audit/recovery-audit.json') ? 'meta/audit/recovery-audit.json' : null,
     restore_status: exists('STATE/RESTORE_PLAN.md') ? 'plan_defined_not_implemented' : 'not_implemented_yet'
   },
   automation_layer: {
