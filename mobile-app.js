@@ -215,7 +215,7 @@ function printCurrent(){
 function isUsableTopicsPayload(payload){
   return Boolean(payload && Array.isArray(payload.topics) && payload.topics.length);
 }
-function formatFailure(error){
+function getErrorMessage(error){
   return error instanceof Error ? error.message : String(error);
 }
 async function loadTopicsData(){
@@ -228,7 +228,7 @@ async function loadTopicsData(){
       if (!isUsableTopicsPayload(payload)) throw new Error('empty or invalid topics payload');
       return payload;
     } catch (error) {
-      failures.push({ url, reason: formatFailure(error) });
+      failures.push({ url, reason: getErrorMessage(error) });
     }
   }
   throw new Error(`topics fetch failed: ${JSON.stringify(failures)}`);

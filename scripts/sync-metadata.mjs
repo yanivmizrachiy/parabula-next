@@ -25,7 +25,7 @@ if (!Array.isArray(payload?.topics)) {
   process.exit(1);
 }
 
-const pages = payload.topics.flatMap((topic) => Array.isArray(topic?.pages) ? topic.pages : []);
+const pages = payload.topics.flatMap((topic) => topic.pages || []);
 const uniqueFiles = new Set(pages.map((page) => page?.file).filter(Boolean));
 
 if (typeof payload.totalPages !== 'number') {
