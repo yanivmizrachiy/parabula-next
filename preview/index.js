@@ -175,3 +175,17 @@ es.addEventListener('reload', () => {
     } catch {}
   }, 220);
 });
+
+
+window.addEventListener('keydown', (event) => {
+  const tag = document.activeElement?.tagName;
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (event.key === 'ArrowLeft' && currentIndex >= 0 && currentIndex < visiblePages.length - 1) {
+    event.preventDefault();
+    setCurrentPage(visiblePages[currentIndex + 1].file);
+  }
+  if (event.key === 'ArrowRight' && currentIndex > 0) {
+    event.preventDefault();
+    setCurrentPage(visiblePages[currentIndex - 1].file);
+  }
+});

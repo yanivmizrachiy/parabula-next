@@ -3,248 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parabula Next Preview</title>
+  <title>Parabula Reader</title>
   <style>
     :root {
-      --bg: #0b1220;
-      --panel: #111827;
-      --panel-2: #0f172a;
-      --line: #334155;
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --accent: #22c55e;
-      --accent-2: #3b82f6;
-      --danger: #ef4444;
+      --bg:#06101c;
+      --bg-2:#0a1426;
+      --panel:rgba(10,20,38,.92);
+      --panel-2:rgba(9,17,31,.88);
+      --line:rgba(148,163,184,.2);
+      --line-strong:rgba(96,165,250,.32);
+      --text:#edf4ff;
+      --muted:#9eb1cf;
+      --accent:#60a5fa;
+      --accent-2:#c084fc;
+      --good:#4ade80;
+      --shadow:0 24px 60px rgba(2,8,23,.35);
     }
-
-    * { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
-
-    body {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      overflow: hidden;
-    }
-
-    aside {
-      background: var(--panel);
-      border-left: 1px solid var(--line);
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
-
-    .top {
-      padding: 16px;
-      border-bottom: 1px solid var(--line);
-      background: var(--panel-2);
-    }
-
-    .top h1 {
-      margin: 0 0 8px 0;
-      font-size: 18px;
-    }
-
-    .top .meta {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .toolbar {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .toolbar input,
-    .toolbar select,
-    .toolbar button,
-    .toolbar a {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: #0b1220;
-      color: var(--text);
-      padding: 10px 12px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .toolbar a.external {
-      background: #0a1f14;
-      border-color: #14532d;
-      color: #bbf7d0;
-    }
-
-    .toolbar button.primary {
-      background: #0b1f3a;
-      border-color: #1d4ed8;
-      color: #dbeafe;
-    }
-
-    .toolbar button.good {
-      background: #052e16;
-      border-color: #166534;
-      color: #dcfce7;
-    }
-
-    .list {
-      padding: 12px;
-      overflow: auto;
-      display: grid;
-      gap: 14px;
-    }
-
-    .topic {
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .topic-header {
-      padding: 10px 12px;
-      background: rgba(255,255,255,0.03);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-weight: 600;
-    }
-
-    .pages {
-      display: grid;
-      gap: 8px;
-      padding: 10px;
-    }
-
-    .page-btn {
-      text-align: right;
-      width: 100%;
-      border: 1px solid var(--line);
-      background: #0b1220;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 10px 12px;
-      cursor: pointer;
-    }
-
-    .page-btn:hover {
-      border-color: var(--accent-2);
-    }
-
-    .page-btn.active {
-      border-color: var(--accent);
-      background: #052e16;
-      color: #dcfce7;
-    }
-
-    .page-num {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-
-    main.viewer-shell {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      min-width: 0;
-      min-height: 0;
-    }
-
-    .viewer-topbar {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      background: #09111f;
-    }
-
-    .viewer-title {
-      min-width: 0;
-    }
-
-    .viewer-title strong {
-      display: block;
-      font-size: 15px;
-    }
-
-    .viewer-title span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .viewer-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .viewer-actions button,
-    .viewer-actions a {
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      background: #0b1220;
-      color: var(--text);
-      padding: 9px 12px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .viewer-actions a.real-site {
-      background: #0a1f14;
-      border-color: #166534;
-      color: #dcfce7;
-    }
-
-    .viewer-wrap {
-      overflow: auto;
-      padding: 20px;
-      display: grid;
-      place-items: start center;
-    }
-
-    iframe {
-      width: 980px;
-      height: 1320px;
-      border: 1px solid #1f2937;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
+    *{box-sizing:border-box}html,body{margin:0;padding:0;min-height:100%;background:radial-gradient(circle at top right,#172554 0,#06101c 45%,#030712 100%);color:var(--text);font-family:Arial,"Segoe UI",sans-serif}body{display:grid;grid-template-columns:420px 1fr;overflow:hidden}body::before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(96,165,250,.09),transparent 35%,rgba(192,132,252,.08) 100%)}
+    aside,main{position:relative;z-index:1;min-width:0}
+    aside{display:flex;flex-direction:column;background:var(--panel);border-left:1px solid var(--line);backdrop-filter:blur(16px)}
+    .top{padding:18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(13,24,43,.98),rgba(10,20,38,.88));display:grid;gap:14px}
+    .hero-strip{display:flex;gap:8px;flex-wrap:wrap}.hero-badge{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.28);color:#dbeafe;font-size:12px;font-weight:700}
+    .top h1{margin:0;font-size:30px;line-height:1.05}.top .meta{display:grid;gap:4px;color:var(--muted);font-size:14px;line-height:1.6}
+    .quick-links{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick-links a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 12px;border-radius:14px;border:1px solid var(--line);background:rgba(15,23,42,.7);color:var(--text);text-decoration:none;font-weight:700}.quick-links a.primary{background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-color:#60a5fa}.quick-links a.soft{background:rgba(139,92,246,.14);border-color:rgba(192,132,252,.32)}
+    .toolbar{display:grid;gap:8px}.toolbar input,.toolbar select,.toolbar button,.toolbar a{width:100%;border-radius:14px;border:1px solid var(--line);background:rgba(7,15,28,.84);color:var(--text);padding:12px 14px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;min-height:46px}.toolbar input,.toolbar select{justify-content:flex-start}.toolbar a.external{background:rgba(13,41,24,.84);border-color:rgba(74,222,128,.28);color:#dcfce7}.toolbar button.primary{background:rgba(10,33,64,.9);border-color:#2563eb;color:#dbeafe}.toolbar button.good{background:rgba(16,61,30,.88);border-color:#22c55e;color:#dcfce7}
+    .list{padding:14px;overflow:auto;display:grid;gap:14px}
+    .topic{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.025);box-shadow:var(--shadow)}
+    .topic-header{padding:12px 14px;background:rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:700}
+    .pages{display:grid;gap:8px;padding:10px}.page-btn{text-align:right;width:100%;border:1px solid var(--line);background:rgba(6,16,28,.9);color:var(--text);border-radius:14px;padding:11px 12px;cursor:pointer;transition:.12s ease}.page-btn:hover{border-color:var(--accent);transform:translateY(-1px)}.page-btn.active{border-color:var(--good);background:rgba(20,83,45,.45);color:#dcfce7}.page-num{color:var(--muted);font-size:12px;margin-bottom:4px}
+    main.viewer-shell{display:grid;grid-template-rows:auto 1fr;min-height:0;background:transparent}
+    .viewer-topbar{padding:18px 20px;border-bottom:1px solid var(--line);display:grid;gap:14px;background:linear-gradient(180deg,rgba(9,17,31,.96),rgba(7,15,28,.8))}
+    .viewer-topbar-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}.viewer-title{min-width:0;display:grid;gap:6px}.viewer-title strong{display:block;font-size:24px}.viewer-title span{color:var(--muted);font-size:14px;line-height:1.6}.viewer-badges{display:flex;gap:8px;flex-wrap:wrap}.viewer-badges span{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.24);color:#dbeafe;font-size:12px;font-weight:700}
+    .viewer-actions{display:flex;gap:8px;flex-wrap:wrap}.viewer-actions button,.viewer-actions a{border-radius:14px;border:1px solid var(--line);background:rgba(7,15,28,.88);color:var(--text);padding:11px 14px;text-decoration:none;cursor:pointer;font-weight:700;min-height:46px;display:inline-flex;align-items:center;justify-content:center}.viewer-actions button:hover,.viewer-actions a:hover{border-color:var(--accent)}.viewer-actions a.real-site{background:rgba(16,61,30,.82);border-color:rgba(74,222,128,.3);color:#dcfce7}
+    .viewer-wrap{overflow:auto;padding:22px;display:grid;place-items:start center;background:linear-gradient(180deg,rgba(8,15,28,.18),rgba(8,15,28,.04))}
+    iframe{width:min(100%,1040px);height:1360px;border:1px solid rgba(15,23,42,.35);background:white;border-radius:24px;box-shadow:0 25px 80px rgba(2,8,23,.4)}
+    @media (max-width:1180px){body{grid-template-columns:1fr}.quick-links{grid-template-columns:1fr 1fr}.viewer-topbar-row{flex-direction:column}.viewer-actions{width:100%}iframe{height:1080px}}
+    @media (max-width:760px){.top,.viewer-topbar,.list,.viewer-wrap{padding:12px}.quick-links{grid-template-columns:1fr}.viewer-actions{display:grid;grid-template-columns:1fr 1fr}.viewer-actions>*{min-width:0}.viewer-title strong{font-size:20px}.top h1{font-size:24px}.topic{border-radius:14px}iframe{height:820px;border-radius:18px}}
   </style>
 </head>
 <body>
   <aside>
     <div class="top">
-      <h1>Parabula Preview</h1>
-      <div class="meta">
-        <div id="summaryText">טוען דפים...</div>
-        <div>תצוגה מקדימה קבועה לעריכה, בדיקה והדפסה.</div>
+      <div class="hero-strip">
+        <span class="hero-badge">Reader קנוני</span>
+        <span class="hero-badge">עברית RTL</span>
+        <span class="hero-badge">דפים אמיתיים בלבד</span>
+      </div>
+
+      <div>
+        <h1>Parabula Reader</h1>
+        <div class="meta">
+          <div id="summaryText">טוען דפים...</div>
+          <div>דפדוף מהיר בסגנון ספר דיגיטלי למסך גדול, עם ניווט רציף, פתיחה ישירה וקישור לאתר החי.</div>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a class="primary" href="./app.html">חזרה למסך הכניסה</a>
+        <a href="./all-pages.html">ספריית כל הדפים</a>
+        <a href="./topics.html">נושאים</a>
+        <a class="soft" href="./print.html">PDF / הדפסה</a>
       </div>
 
       <div class="toolbar">
-        <input id="searchBox" type="search" placeholder="חיפוש לפי כותרת או מספר עמוד" />
+        <input id="searchBox" type="search" placeholder="חיפוש לפי כותרת, נושא או מספר עמוד" />
         <select id="topicFilter">
           <option value="__all__">כל הנושאים</option>
         </select>
         <button class="primary" id="reloadCurrentBtn" type="button">רענן עמוד נוכחי</button>
         <button class="good" id="openPageBtn" type="button">פתח עמוד ישירות</button>
-        <a class="external" id="openSiteHome" href="/" target="_blank" rel="noreferrer">פתח אתר חיצוני</a>
+        <a class="external" id="openSiteHome" href="/" target="_blank" rel="noreferrer">פתח את האתר החיצוני</a>
       </div>
     </div>
 
@@ -253,9 +81,16 @@
 
   <main class="viewer-shell">
     <div class="viewer-topbar">
-      <div class="viewer-title">
-        <strong id="currentTitle">לא נבחר עמוד</strong>
-        <span id="currentMeta">—</span>
+      <div class="viewer-topbar-row">
+        <div class="viewer-title">
+          <strong id="currentTitle">לא נבחר עמוד</strong>
+          <span id="currentMeta">—</span>
+        </div>
+        <div class="viewer-badges">
+          <span>ניווט חכם</span>
+          <span>פתיחה מקומית + חיה</span>
+          <span>ללא דמו</span>
+        </div>
       </div>
 
       <div class="viewer-actions">
@@ -266,7 +101,7 @@
     </div>
 
     <div class="viewer-wrap">
-      <iframe id="viewer" src="about:blank"></iframe>
+      <iframe id="viewer" src="about:blank" title="Parabula Reader"></iframe>
     </div>
   </main>
 

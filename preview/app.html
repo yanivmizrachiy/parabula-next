@@ -3,80 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#09111f" />
-  <title>Parabula App Hub</title>
-  <link rel="stylesheet" href="./mobile.css" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Parabula — ספריית הכניסה</title>
   <link rel="stylesheet" href="./app-hub.css" />
   <link rel="stylesheet" href="./ux-polish.css" />
 </head>
 <body>
   <main class="hub-shell">
-    <section class="hub-card">
-      <div class="hub-row">
-        <span class="hub-badge">App Hub</span>
-        <span class="hub-badge">RTL</span>
-        <span class="hub-badge">A4</span>
-      </div>
-      <h1>מרכז העבודה של Parabula</h1>
-      <p>שער כניסה חי ונקי למסכים שבאמת קיימים עכשיו על main: נושאים, הדפסה, אפליקציית נייד, Preview ותיעוד.</p>
+    <section class="hero-card">
+      <div class="hero-copy">
+        <div class="hero-badges">
+          <span class="hub-badge">ספר דיגיטלי</span>
+          <span class="hub-badge">RTL</span>
+          <span class="hub-badge">95 דפים אמיתיים</span>
+        </div>
+        <h1>שער הכניסה של Parabula</h1>
+        <p>
+          כניסה מהירה למסך עבודה אמיתי, ללא דמו: חזרה לעמוד האחרון, דפדוף חכם בכל הדפים,
+          reader למסך גדול, נושאים, PDF ומובייל — כולם נשענים על אותם דפים ואותו מטא־דאטה.
+        </p>
 
-      <div class="hub-actions">
-        <a class="hub-btn" href="./all-pages.html">
+        <div class="hero-actions">
+          <a id="continueBtn" class="hero-btn primary" href="./index.html">המשך לקריאה</a>
+          <a class="hero-btn" href="./all-pages.html">פתח ספריית כל הדפים</a>
+          <a class="hero-btn" href="./topics.html">דפדוף לפי נושאים</a>
+          <a class="hero-btn soft" href="../mobile-app.html">פתח ספר דיגיטלי לנייד</a>
+        </div>
+
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-card">
+            <strong id="totalPagesValue">0</strong>
+            <span>דפים אמיתיים</span>
+          </div>
+          <div class="stat-card">
+            <strong id="totalTopicsValue">0</strong>
+            <span>נושאים פעילים</span>
+          </div>
+          <div class="stat-card">
+            <strong id="lastPageValue">—</strong>
+            <span>עמוד אחרון</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="stage-head">
           <div>
-            <strong>כל הדפים</strong>
-            <span>תצוגה מרוכזת של כל הדפים עם חיפוש, סינון, פתיחה, העתקת קישור והדפסה</span>
+            <div id="featuredLabel" class="stage-label">עמוד מומלץ</div>
+            <h2 id="featuredTitle">טוען דף…</h2>
+            <p id="featuredMeta">—</p>
+          </div>
+          <div class="stage-actions">
+            <a id="featuredReaderBtn" class="hero-btn primary" href="./index.html">פתח ב-reader</a>
+            <a id="featuredLocalBtn" class="hero-btn" href="#" target="_blank" rel="noopener">פתח מקומית</a>
+            <a id="featuredLiveBtn" class="hero-btn soft" href="#" target="_blank" rel="noopener">פתח באתר החי</a>
+          </div>
+        </div>
+        <div class="stage-frame">
+          <iframe id="featuredFrame" title="תצוגת דף מומלץ" src="about:blank" loading="eager"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="shelf-card">
+      <div class="section-head">
+        <div>
+          <span class="section-kicker">גישה מהירה</span>
+          <h2>המשך, עמודים אחרונים ונושאים חיים</h2>
+        </div>
+        <p>הכל נגזר אוטומטית מ־<code>meta/topics.json</code> ומהעמודים האמיתיים בלבד.</p>
+      </div>
+
+      <div class="shelf-layout">
+        <div>
+          <div id="featuredPages" class="featured-pages"></div>
+        </div>
+        <aside class="topics-card">
+          <h3>חלוקת נושאים</h3>
+          <div id="topicHighlights" class="topic-highlights"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="actions-card">
+      <div class="section-head compact">
+        <div>
+          <span class="section-kicker">מרכז שליטה</span>
+          <h2>לאן תרצה להיכנס עכשיו?</h2>
+        </div>
+      </div>
+
+      <div class="hub-actions premium-grid">
+        <a class="hub-btn featured" href="./all-pages.html">
+          <div>
+            <strong>ספריית כל הדפים</strong>
+            <span>תצוגת עבודה מרוכזת, חיפוש, סינון, viewer חי, PDF, העתקת קישור ושמירת בחירה</span>
+          </div>
+          <span>↗</span>
+        </a>
+        <a class="hub-btn" href="./index.html">
+          <div>
+            <strong>reader למסך גדול</strong>
+            <span>תצוגת ספר נוחה עם ניווט חכם, פתיחה ישירה וחיבור רציף לעמודים האמיתיים</span>
           </div>
           <span>↗</span>
         </a>
         <a class="hub-btn" href="./topics.html">
           <div>
             <strong>דפדוף לפי נושאים</strong>
-            <span>בחירה לפי נושא, דפדוף בדפים, פתיחה נוחה ומעבר מהיר להדפסה</span>
+            <span>מעבר נוח בין נושאים, פתיחת דפים, בחירה והמשך להדפסה</span>
           </div>
           <span>↗</span>
         </a>
         <a class="hub-btn" href="./print.html">
           <div>
-            <strong>מרכז הדפסה</strong>
-            <span>פתיחת רצף הדפסה ושמירה כ-PDF מתוך הדפים האמיתיים של הריפו</span>
+            <strong>PDF והדפסה</strong>
+            <span>פתיחת רצף הדפסה אמיתי מתוך הדפים הקיימים ושמירה דרך הדפדפן</span>
           </div>
           <span>↗</span>
         </a>
         <a class="hub-btn" href="../mobile-app.html">
           <div>
-            <strong>אפליקציית הדפים הראשית</strong>
-            <span>ספר דיגיטלי בעברית עם נושאים, דפדוף, תצוגת A4, פתיחה, הדפסה ו-PDF</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="../mobile-app-install.html">
-          <div>
-            <strong>התקנת אפליקציית הנייד</strong>
-            <span>הוספה למסך הבית עם אייקון קבוע שיפתח את האפליקציה הראשית</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="./index.html">
-          <div>
-            <strong>Preview Reader</strong>
-            <span>תצוגת preview קנונית למסך גדול, בדיקת A4 וניווט reader</span>
+            <strong>הספר הדיגיטלי לנייד</strong>
+            <span>מסלול מובייל קנוני עם תצוגת A4, דפדוף נוח והמשך מאותה נקודה</span>
           </div>
           <span>↗</span>
         </a>
         <a class="hub-btn" href="../STATE/README.md">
           <div>
-            <strong>מרכז תיעוד</strong>
-            <span>רצף עבודה, סטטוס חי, audit ומפת ארכיטקטורה של המצב הנוכחי</span>
+            <strong>תיעוד מצב המערכת</strong>
+            <span>סטטוס, רצף עבודה ומסמכי מיפוי של השכבות הפעילות</span>
           </div>
           <span>↗</span>
         </a>
       </div>
-
-      <div class="hub-meta">
-        <strong>מצב נוכחי</strong>
-        <p>המסך מציג רק מסלולים שחיים בפועל על <code>main</code>. שכבות עתידיות כמו all-pages / booklet לא מוצגות כאן עד שהן ייכנסו באמת לריפו.</p>
-      </div>
     </section>
   </main>
+
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
