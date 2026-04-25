@@ -1,5 +1,5 @@
 const BASE = new URL('../', window.location.href);
-const DATA_URL = new URL('meta/topics.json', BASE);
+const DATA_URL = new URL('../meta/topics.json', BASE);
 const STORE_KEY = 'parabula-all-pages-selection-v1';
 
 const searchBox = document.getElementById('searchBox');

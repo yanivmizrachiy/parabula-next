@@ -1,5 +1,5 @@
 const BASE = new URL('../', window.location.href);
-const DATA_URL = new URL('meta/topics.json', BASE);
+const DATA_URL = new URL('../meta/topics.json', BASE);
 
 const searchBox = document.getElementById('searchBox');
 const clearBtn = document.getElementById('clearBtn');
