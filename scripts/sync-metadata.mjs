@@ -25,5 +25,18 @@ if (!Array.isArray(payload?.topics)) {
   process.exit(1);
 }
 
+const pages = payload.topics.flatMap((topic) => Array.isArray(topic?.pages) ? topic.pages : []);
+const uniqueFiles = new Set(pages.map((page) => page?.file).filter(Boolean));
+
+if (typeof payload.totalPages !== 'number') {
+  console.error('FAIL: meta/topics.json must declare totalPages');
+  process.exit(1);
+}
+
+if (payload.totalPages !== pages.length || uniqueFiles.size !== pages.length) {
+  console.error('FAIL: meta/topics.json has inconsistent totalPages or duplicate page entries');
+  process.exit(1);
+}
+
 fs.writeFileSync(mobilePath, JSON.stringify(payload, null, 2) + '\n', 'utf8');
 console.log(`Synced mobile-topics.json from meta/topics.json (${payload.topics.length} topics)`);
