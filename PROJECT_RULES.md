@@ -427,6 +427,15 @@ This map is intentionally limited to files that are actually present on `main`.
 - Every real change must remain consistent with this file.
 - This file must reflect reality on `main`, not aspirational architecture from an earlier planning session.
 
+## 27) Canonical mobile reader engine contract
+
+- The dedicated mobile worksheet reader remains `mobile-app.*` and is canonical over `preview/phone.*`.
+- The mobile worksheet reader currently remains **iframe-based by design**.
+- The canonical worksheet source remains the root A4 pages and `styles/a4-base.css`; mobile improvements must not fork or duplicate worksheet content.
+- Mobile rendering fixes must be applied in the mobile reader shell through controlled runtime presentation overrides and reader-engine logic.
+- Mobile reader progress copy should remain human-readable in Hebrew (for example, `עמוד X מתוך Y בנושא`), not raw technical counters.
+- Mobile reader fixes must prefer stable centering, stable scaling, and removal of desktop preview aesthetics before adding new gesture/polish features.
+
 ---
 
 ## 7) Shared cleanup permission (design only)
