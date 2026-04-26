@@ -29,7 +29,7 @@
 - `mobile-topics.json`
 - `schemas/page-meta.schema.json`
 
-שכבה זו צריכה להפוך לעמוד השדרה של כל מסלולי הגישה לדפים.
+שכבה זו צריכה להישאר עמוד השדרה של כל מסלולי הגישה לדפים.
 Preview, print, mobile, search, filtering, and future booklet assembly should consume metadata instead of inventing parallel truth.
 
 ---
@@ -52,6 +52,12 @@ Preview, print, mobile, search, filtering, and future booklet assembly should co
 - `mobile-app-install.html`
 - `mobile-app-install.js`
 
+### Mobile reader runtime contract
+- The canonical mobile reader remains `mobile-app.*`.
+- The canonical mobile reader remains **iframe-based**.
+- The root worksheet pages remain the single worksheet source.
+- Mobile fixes must happen in the reader layer, not by duplicating worksheet pages.
+
 ### Legacy / compatibility mobile path
 - `preview/phone.html`
 - `preview/phone.js`
@@ -61,7 +67,7 @@ Preview, print, mobile, search, filtering, and future booklet assembly should co
 - `preview/sw.js`
 - `preview/install.html`
 
-### Known duplication
+### Known duplication / legacy-adjacent utilities
 - `preview/print-center.js`
 
 ---
@@ -115,7 +121,8 @@ Preview, print, mobile, search, filtering, and future booklet assembly should co
 1. preserve canonical worksheet source
 2. strengthen metadata backbone
 3. align all access surfaces to the same metadata truth
-4. improve UX for discovery, filtering, print, PDF, and future booklet assembly
+4. treat `mobile-app.*` as the canonical mobile runtime
+5. improve UX for discovery, filtering, print, PDF, and strong phone reading
 
 כלומר:
 - לא משפרים את הריפו דרך שינוי דפי המקור
@@ -126,7 +133,7 @@ Preview, print, mobile, search, filtering, and future booklet assembly should co
 ## 8. Immediate future target
 
 היעד המיידי הבטוח הוא:
-- יישור מלא של תיעוד חי
-- קיבוע metadata כעמוד שדרה
-- הכנה לאינדקס־על אחד של כל הדפים
-- הכנה לשכבת חוברות מתוך הדפים הקיימים
+- יישור מלא של תיעוד חי למצב המובייל הקנוני
+- חיזוק metadata כעמוד שדרה
+- שיפור reader engine במובייל בלי לשכפל דפים
+- שמירה על מסלולי legacy כ-compat בלבד עד החלטת cleanup מפורשת
