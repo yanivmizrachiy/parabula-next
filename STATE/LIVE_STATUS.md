@@ -1,6 +1,6 @@
 # LIVE_STATUS — parabula-next
 
-_Last updated: 2026-04-23_
+_Last updated: 2026-04-26_
 
 ## Purpose
 This file is a short, non-historical snapshot of the **live canonical state** of the repository.
@@ -27,6 +27,19 @@ This file does **not** replace `PROJECT_RULES.md`.
 - Preview server: `preview/server.mjs`
 - Print entry: `preview/print.js`
 - Active metadata backbone: `meta/topics.json`
+- Canonical mobile worksheet reader: `mobile-app.html`
+- Canonical mobile reader logic: `mobile-app.js`
+- Canonical mobile reader styles: `mobile-app.css`
+
+---
+
+## Canonical mobile direction
+
+- The dedicated mobile worksheet app is `mobile-app.*`.
+- The mobile reader remains **iframe-based by design**.
+- Root A4 worksheet pages remain the single source of truth for worksheet content.
+- Mobile rendering fixes must happen in the mobile reader layer, not by duplicating or forking worksheet pages.
+- `preview/phone.*` is compatibility / legacy-adjacent, not the canonical mobile runtime.
 
 ---
 
@@ -43,18 +56,19 @@ These files are live and useful, but may still require wording and structural al
 
 ---
 
-## Duplicated or conflicting
+## Duplicated or legacy-adjacent
 
 ### Print layer
 - Canonical active print entry: `preview/print.js`
 - Known duplicate / legacy-adjacent file: `preview/print-center.js`
 
 ### Mobile / phone layer
-- Live mobile app layer exists: `mobile-app.*`
-- Live preview phone layer also exists: `preview/phone.*`
+- Canonical mobile app layer: `mobile-app.*`
+- Compatibility / legacy-adjacent phone layer: `preview/phone.*`
 
-This means the repository currently contains more than one access path for mobile/phone usage and must be treated carefully.
-No destructive cleanup should happen before explicit alignment.
+This repository still contains more than one phone-oriented access surface, but they are **not equal**.
+The canonical direction is `mobile-app.*`.
+No destructive cleanup should happen before explicit role mapping and user approval.
 
 ---
 
@@ -90,13 +104,15 @@ The target user experience is:
 - easier discovery of all pages
 - better filtering by topic
 - better search
+- better phone reading experience
 - easier print/PDF flows
 - future booklet assembly from existing pages
 
 This implies the repository should evolve toward:
 1. one canonical worksheet source
 2. one metadata backbone
-3. multiple access surfaces consuming the same metadata
+3. one canonical mobile reader direction
+4. multiple access surfaces consuming the same metadata
 
 ---
 
