@@ -1,8 +1,8 @@
 {
-  "generated": "2026-04-26 10:11:14",
+  "generated": "2026-04-26 10:39:15",
   "total_checks": 29,
-  "passed": 28,
-  "failed": 1,
+  "passed": 29,
+  "failed": 0,
   "checks": [
     {
       "name": "rules_topic_first",
@@ -126,8 +126,8 @@
     },
     {
       "name": "no_demo_markers_in_live_surfaces",
-      "ok": false,
-      "details": "{\"preview/topics.html\": [\"placeholder\"], \"preview/print.html\": [\"placeholder\"], \"preview/all-pages.html\": [\"placeholder\"]}"
+      "ok": true,
+      "details": "{}"
     },
     {
       "name": "public_live_urls_all_ok",
