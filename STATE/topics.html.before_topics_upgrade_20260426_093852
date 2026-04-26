@@ -11,7 +11,7 @@
     <header class="hero">
       <div>
         <h1>דפדוף לפי נושאים</h1>
-        <p>הכניסה הראשית למערכת: בוחרים נושא, רואים רק את דפי אותו נושא, מדפדפים, פותחים, מדפיסים ושומרים כ-PDF.</p>
+        <p>כפתורי נושאים נוחים, דפדוף בדפים, פתיחה, בחירה והדפסה/PDF מתוך מה שחי עכשיו על main</p>
       </div>
       <div class="hero-badges">
         <span id="topicCountBadge" class="badge">0 נושאים</span>
@@ -23,14 +23,13 @@
       <input id="searchBox" type="search" placeholder="חיפוש נושא או דף" />
       <button id="clearBtn" type="button">נקה</button>
       <button id="printSelectionBtn" class="primary" type="button">הדפס בחירה</button>
-      <button id="openPrintPageBtn" type="button">מרכז הדפסה</button>
+      <button id="openPrintPageBtn" type="button">עבור למרכז ההדפסה</button>
     </section>
 
     <main class="layout">
       <aside class="topics-pane">
         <div id="topicsGrid" class="topics-grid"></div>
       </aside>
-
       <section class="pages-pane">
         <div class="pages-head">
           <div>
@@ -43,32 +42,10 @@
             <button id="renderSelectionBtn" class="primary" type="button">פתח בחירה</button>
           </div>
         </div>
-
-        <div class="reader-bar">
-          <div class="reader-meta">
-            <strong id="readerPageTitle">עדיין לא נבחר דף</strong>
-            <span id="readerPageMeta">בחר נושא ואז דף</span>
-          </div>
-          <div class="reader-actions">
-            <button id="firstPageBtn" type="button">עמוד ראשון</button>
-            <button id="prevPageBtn" type="button">הקודם</button>
-            <button id="nextPageBtn" type="button">הבא</button>
-            <button id="openCurrentBtn" type="button">פתח דף</button>
-            <button id="printCurrentBtn" class="primary" type="button">הדפס / PDF</button>
-          </div>
-        </div>
-
         <div id="pagesList" class="pages-list"></div>
         <div id="viewer" class="viewer-empty">בחר נושא כדי לראות את הדפים שלו</div>
       </section>
     </main>
-
-    <div class="mobile-reader-bar">
-      <button id="mFirstPageBtn" type="button">ראשון</button>
-      <button id="mPrevPageBtn" type="button">הקודם</button>
-      <button id="mNextPageBtn" type="button">הבא</button>
-      <button id="mPrintCurrentBtn" class="primary" type="button">PDF</button>
-    </div>
   </div>
 
   <script src="./topics.js"></script>

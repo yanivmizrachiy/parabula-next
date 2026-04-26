@@ -16,27 +16,11 @@ const renderSelectionBtn = document.getElementById('renderSelectionBtn');
 const pagesList = document.getElementById('pagesList');
 const viewer = document.getElementById('viewer');
 
-const readerPageTitle = document.getElementById('readerPageTitle');
-const readerPageMeta = document.getElementById('readerPageMeta');
-const firstPageBtn = document.getElementById('firstPageBtn');
-const prevPageBtn = document.getElementById('prevPageBtn');
-const nextPageBtn = document.getElementById('nextPageBtn');
-const openCurrentBtn = document.getElementById('openCurrentBtn');
-const printCurrentBtn = document.getElementById('printCurrentBtn');
-
-const mFirstPageBtn = document.getElementById('mFirstPageBtn');
-const mPrevPageBtn = document.getElementById('mPrevPageBtn');
-const mNextPageBtn = document.getElementById('mNextPageBtn');
-const mPrintCurrentBtn = document.getElementById('mPrintCurrentBtn');
-
 let db = [];
 let topics = [];
 let activeTopic = null;
-let currentFile = null;
 const selected = new Set();
 const STORE_KEY = 'parabula-selection-v1';
-const LAST_TOPIC_KEY = 'parabula-last-topic-v2';
-const LAST_FILE_KEY = 'parabula-last-file-v2';
 
 function norm(v) {
   return String(v || '').trim().toLowerCase();
@@ -45,22 +29,13 @@ function norm(v) {
 function saveSelection() {
   localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort()));
 }
+
 function loadSelection() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     const arr = raw ? JSON.parse(raw) : [];
     if (Array.isArray(arr)) arr.forEach(x => selected.add(x));
   } catch {}
-}
-function savePosition() {
-  if (activeTopic) localStorage.setItem(LAST_TOPIC_KEY, activeTopic);
-  if (currentFile) localStorage.setItem(LAST_FILE_KEY, currentFile);
-}
-function loadLastTopic() {
-  return localStorage.getItem(LAST_TOPIC_KEY);
-}
-function loadLastFile() {
-  return localStorage.getItem(LAST_FILE_KEY);
 }
 
 function sortPages(arr) {
@@ -111,40 +86,10 @@ function activePages() {
   return topic ? topic.pages : [];
 }
 
-function currentPage() {
-  return activePages().find(p => p.file === currentFile) || null;
-}
-
-function updateReaderMeta() {
-  const page = currentPage();
-  const pages = activePages();
-  if (!page) {
-    readerPageTitle.textContent = 'עדיין לא נבחר דף';
-    readerPageMeta.textContent = activeTopic ? 'בחר דף מתוך הנושא' : 'בחר נושא ואז דף';
-  } else {
-    const idx = pages.findIndex(p => p.file === page.file);
-    readerPageTitle.textContent = page.title || page.file;
-    readerPageMeta.textContent = `${page.topic} · עמוד ${page.number ?? ''} · ${idx + 1} / ${pages.length}`;
-  }
-
-  const idx = pages.findIndex(p => p.file === currentFile);
-  const has = idx >= 0;
-  prevPageBtn.disabled = !has || idx <= 0;
-  nextPageBtn.disabled = !has || idx >= pages.length - 1;
-  firstPageBtn.disabled = !has || idx === 0;
-  openCurrentBtn.disabled = !has;
-  printCurrentBtn.disabled = !has;
-  mPrevPageBtn.disabled = prevPageBtn.disabled;
-  mNextPageBtn.disabled = nextPageBtn.disabled;
-  mFirstPageBtn.disabled = firstPageBtn.disabled;
-  mPrintCurrentBtn.disabled = printCurrentBtn.disabled;
-}
-
 function pageCard(page) {
   const isSelected = selected.has(page.file);
-  const isActive = currentFile === page.file;
   return `
-    <div class="page-card ${isSelected ? 'selected' : ''} ${isActive ? 'active' : ''}" data-file="${page.file}">
+    <div class="page-card ${isSelected ? 'selected' : ''}" data-file="${page.file}">
       <div class="page-top">
         <div>
           <div class="page-title">${page.title || page.file}</div>
@@ -167,11 +112,10 @@ function renderPages() {
   currentTopicTitle.textContent = activeTopic || 'בחר נושא';
   currentTopicMeta.textContent = activeTopic ? `${pages.length} דפים בנושא זה` : 'כאן יופיעו הדפים של הנושא שנבחר';
   pagesList.innerHTML = pages.map(pageCard).join('');
-  updateReaderMeta();
 }
 
 function renderViewer(files = null) {
-  const list = files || (currentFile ? [currentFile] : [...selected]);
+  const list = files || [...selected];
   if (!list.length) {
     viewer.className = 'viewer-empty';
     viewer.textContent = activeTopic ? 'אפשר לפתוח דף בודד או לבחור כמה דפים להדפסה' : 'בחר נושא כדי לראות את הדפים שלו';
@@ -185,50 +129,11 @@ function renderViewer(files = null) {
   }).join('');
 }
 
-function setActiveTopic(topicName, preferredFile = null) {
+function setActiveTopic(topicName) {
   activeTopic = topicName;
-  const pages = activePages();
-  currentFile = preferredFile && pages.some(p => p.file === preferredFile)
-    ? preferredFile
-    : (pages[0]?.file || null);
-  savePosition();
   renderTopics();
   renderPages();
-  renderViewer(currentFile ? [currentFile] : null);
-}
-
-function showPage(file) {
-  const pages = activePages();
-  if (!pages.some(p => p.file === file)) return;
-  currentFile = file;
-  savePosition();
-  renderPages();
-  renderViewer([file]);
-}
-
-function stepPage(delta) {
-  const pages = activePages();
-  const idx = pages.findIndex(p => p.file === currentFile);
-  const next = idx + delta;
-  if (idx < 0 || next < 0 || next >= pages.length) return;
-  showPage(pages[next].file);
-}
-
-function goFirstPage() {
-  const first = activePages()[0];
-  if (first) showPage(first.file);
-}
-
-function openCurrent() {
-  const page = currentPage();
-  if (page) window.open(resolvePageUrl(page), '_blank', 'noopener');
-}
-
-function printCurrent() {
-  const page = currentPage();
-  if (!page) return;
-  renderViewer([page.file]);
-  setTimeout(() => window.print(), 250);
+  renderViewer();
 }
 
 topicsGrid.addEventListener('click', (e) => {
@@ -245,7 +150,7 @@ pagesList.addEventListener('click', (e) => {
   const file = btn.dataset.file;
   const action = btn.dataset.action;
   if (action === 'open-page') {
-    showPage(file);
+    renderViewer([file]);
   } else if (action === 'toggle-select') {
     if (selected.has(file)) selected.delete(file);
     else selected.add(file);
@@ -265,35 +170,24 @@ selectTopicBtn.addEventListener('click', () => {
   saveSelection();
   renderPages();
 });
+
 clearSelectionBtn.addEventListener('click', () => {
   selected.clear();
   saveSelection();
   renderPages();
-  renderViewer(currentFile ? [currentFile] : null);
+  renderViewer();
 });
-renderSelectionBtn.addEventListener('click', () => {
-  if (selected.size) renderViewer([...selected]);
-  else if (currentFile) renderViewer([currentFile]);
-});
+
+renderSelectionBtn.addEventListener('click', () => renderViewer());
+
 printSelectionBtn.addEventListener('click', () => {
-  if (selected.size) renderViewer([...selected]);
-  else if (currentFile) renderViewer([currentFile]);
+  renderViewer();
   setTimeout(() => window.print(), 250);
 });
+
 openPrintPageBtn.addEventListener('click', () => {
   location.href = './print.html';
 });
-
-firstPageBtn.addEventListener('click', goFirstPage);
-prevPageBtn.addEventListener('click', () => stepPage(-1));
-nextPageBtn.addEventListener('click', () => stepPage(1));
-openCurrentBtn.addEventListener('click', openCurrent);
-printCurrentBtn.addEventListener('click', printCurrent);
-
-mFirstPageBtn.addEventListener('click', goFirstPage);
-mPrevPageBtn.addEventListener('click', () => stepPage(-1));
-mNextPageBtn.addEventListener('click', () => stepPage(1));
-mPrintCurrentBtn.addEventListener('click', printCurrent);
 
 async function boot() {
   const response = await fetch(DATA_URL);
@@ -305,17 +199,9 @@ async function boot() {
   db = topics.flatMap(t => t.pages);
   loadSelection();
   renderTopics();
-
-  const rememberedTopic = loadLastTopic();
-  const rememberedFile = loadLastFile();
-  if (rememberedTopic && topics.some(t => t.name === rememberedTopic)) {
-    setActiveTopic(rememberedTopic, rememberedFile);
-  } else if (topics.length) {
-    setActiveTopic(topics[0].name);
-  } else {
-    renderPages();
-    renderViewer();
-  }
+  renderPages();
+  renderViewer();
+  if (topics.length && !activeTopic) setActiveTopic(topics[0].name);
 }
 
 boot().catch((error) => {
