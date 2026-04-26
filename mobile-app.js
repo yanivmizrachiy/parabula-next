@@ -1,4 +1,4 @@
-const VERSION = 'focus-20260417013000';
+const VERSION = 'focus-20260426002';
 
 const els = {
   appMeta: document.getElementById('appMeta'),
@@ -31,7 +31,7 @@ function esc(v){
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
+    .replace(/\"/g,'&quot;')
     .replace(/'/g,'&#39;');
 }
 function pageUrl(page){
@@ -59,74 +59,109 @@ function setProgress(page){
     els.globalProgress.textContent = '—';
     return;
   }
-  els.topicProgress.textContent = `${currentIndex + 1} / ${visiblePages.length}`;
+  els.topicProgress.textContent = `עמוד ${currentIndex + 1} מתוך ${visiblePages.length} בנושא`;
   const gi = flatPages.findIndex(p => p.file === page.file);
-  els.globalProgress.textContent = gi >= 0 ? `${gi + 1} / ${flatPages.length}` : '—';
+  els.globalProgress.textContent = gi >= 0 ? `עמוד ${gi + 1} מתוך ${flatPages.length} בספר` : '—';
 }
-function resizeReaderFrame(){
-  try{
-    const used =
-      (document.querySelector('.topbar')?.offsetHeight || 0) +
-      (document.querySelector('.reader-head')?.offsetHeight || 0) +
-      (document.querySelector('.bottom-nav')?.offsetHeight || 0) +
-      26;
-    const free = Math.max(520, window.innerHeight - used);
-    els.mobilePageFrame.style.height = free + 'px';
-    setTimeout(cleanupIframeUI, 40);
-  }catch(e){ console.error(e); }
+function setReaderFrameHeight(){
+  const topbarH = document.querySelector('.topbar')?.offsetHeight || 0;
+  const readerHeadH = document.querySelector('.reader-head')?.offsetHeight || 0;
+  const bottomH = document.querySelector('.bottom-nav')?.offsetHeight || 0;
+  const loadingH = els.mobileLoadingState.hidden ? 0 : (els.mobileLoadingState.offsetHeight || 0);
+  const used = topbarH + readerHeadH + bottomH + loadingH + 48;
+  const free = Math.max(380, window.innerHeight - used);
+  els.mobilePageFrame.style.height = `${free}px`;
 }
-function cleanupIframeUI(){
+function injectMobileReaderStyles(doc){
+  if(doc.getElementById('mobile-reader-cleanup-style')) return;
+  const style = doc.createElement('style');
+  style.id = 'mobile-reader-cleanup-style';
+  style.textContent = `
+    .preview-nav{display:none !important;}
+    html,body{
+      margin:0 !important;
+      padding:0 !important;
+      width:100% !important;
+      min-width:0 !important;
+      height:auto !important;
+      min-height:100% !important;
+      overflow:hidden !important;
+      background:#eef3f8 !important;
+    }
+    body{
+      display:flex !important;
+      justify-content:center !important;
+      align-items:flex-start !important;
+    }
+    .a4-page{
+      margin:0 !important;
+      box-shadow:none !important;
+      transform-origin: top center !important;
+      page-break-after:auto !important;
+    }
+  `;
+  (doc.head || doc.documentElement).appendChild(style);
+}
+function fitCurrentA4Page(){
   try{
     const frame = els.mobilePageFrame;
     const doc = frame.contentDocument || frame.contentWindow?.document;
     const win = frame.contentWindow;
     if(!doc || !win) return;
-
-    if(!doc.getElementById('mobile-reader-cleanup-style')){
-      const style = doc.createElement('style');
-      style.id = 'mobile-reader-cleanup-style';
-      style.textContent = `
-        .preview-nav{display:none !important;}
-        html,body{
-          margin:0 !important;
-          padding:0 !important;
-          width:100% !important;
-          height:100% !important;
-          overflow:hidden !important;
-          background:#eef3f8 !important;
-        }
-        body{
-          display:flex !important;
-          justify-content:center !important;
-          align-items:flex-start !important;
-        }
-        .a4-page{
-          margin:0 !important;
-          box-shadow:none !important;
-          transform-origin: top center !important;
-        }
-      `;
-      (doc.head || doc.documentElement).appendChild(style);
-    }
+    injectMobileReaderStyles(doc);
 
     const page = doc.querySelector('.a4-page');
     if(!page) return;
 
-    win.scrollTo(0,0);
     page.style.transform = 'none';
+    page.style.marginLeft = '0';
+    page.style.marginRight = '0';
 
-    const rect = page.getBoundingClientRect();
-    const vw = Math.max(doc.documentElement.clientWidth || 0, win.innerWidth || 0);
-    const vh = Math.max(doc.documentElement.clientHeight || 0, win.innerHeight || 0);
-    const scale = Math.min((vw - 8) / rect.width, (vh - 8) / rect.height, 1);
+    const hostWidth = Math.max(0, frame.clientWidth - 8);
+    const hostHeight = Math.max(0, frame.clientHeight - 8);
+    const rawWidth = page.scrollWidth || page.offsetWidth || page.getBoundingClientRect().width;
+    const rawHeight = page.scrollHeight || page.offsetHeight || page.getBoundingClientRect().height;
+    if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
+
+    const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
+    const scaledWidth = Math.round(rawWidth * scale);
+    const scaledHeight = Math.round(rawHeight * scale);
 
     page.style.transform = `scale(${scale})`;
-    doc.body.style.minHeight = Math.ceil(rect.height * scale) + 'px';
-    doc.body.style.minWidth = Math.ceil(rect.width * scale) + 'px';
+    page.style.transformOrigin = 'top center';
+
+    doc.documentElement.style.width = '100%';
+    doc.documentElement.style.minWidth = '0';
     doc.documentElement.style.overflow = 'hidden';
+    doc.documentElement.style.background = '#eef3f8';
+
+    doc.body.style.width = '100%';
+    doc.body.style.minWidth = '0';
+    doc.body.style.minHeight = `${scaledHeight}px`;
+    doc.body.style.height = `${scaledHeight}px`;
     doc.body.style.overflow = 'hidden';
-    requestAnimationFrame(() => { try { win.scrollTo(0,0); } catch(e) {} });
-  }catch(e){ console.error('cleanupIframeUI failed', e); }
+    doc.body.style.background = '#eef3f8';
+    doc.body.style.display = 'flex';
+    doc.body.style.justifyContent = 'center';
+    doc.body.style.alignItems = 'flex-start';
+
+    const leftPad = Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
+    const logicalPad = leftPad / Math.max(scale, 0.001);
+    page.style.marginLeft = `${logicalPad}px`;
+    page.style.marginRight = `${logicalPad}px`;
+
+    try { win.scrollTo(0,0); } catch(e) {}
+  }catch(e){
+    console.error('fitCurrentA4Page failed', e);
+  }
+}
+function scheduleFit(){
+  setReaderFrameHeight();
+  requestAnimationFrame(() => {
+    fitCurrentA4Page();
+    setTimeout(fitCurrentA4Page, 60);
+    setTimeout(fitCurrentA4Page, 180);
+  });
 }
 function showPage(file){
   const idx = visiblePages.findIndex(p => p.file === file);
@@ -136,7 +171,7 @@ function showPage(file){
   els.mobileLoadingState.hidden = false;
   const url = pageUrl(page);
   const sep = url.includes('?') ? '&' : '?';
-  els.mobilePageFrame.src = `${url}${sep}mobile=1&v=${VERSION}`;
+  els.mobilePageFrame.src = `${url}${sep}mobile=1&reader=1&v=${VERSION}`;
   els.currentPageTitle.textContent = page.title || page.h1 || page.file;
   els.currentPageMeta.textContent = `${page.topic} · עמוד ${page.number}`;
   localStorage.setItem('parabula:lastFile', page.file);
@@ -145,7 +180,7 @@ function showPage(file){
   updateButtons();
   document.body.classList.add('focus-reading');
   els.topicsPanel.classList.add('is-collapsed');
-  setTimeout(resizeReaderFrame, 50);
+  scheduleFit();
 }
 function renderTopics(){
   els.topicStrip.innerHTML = '';
@@ -217,7 +252,7 @@ async function boot(){
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
   renderPages();
-  resizeReaderFrame();
+  scheduleFit();
 }
 
 els.globalSearch.addEventListener('input', renderPages);
@@ -228,15 +263,14 @@ els.printBtn.addEventListener('click', printCurrent);
 els.toggleTopicsBtn.addEventListener('click', () => {
   els.topicsPanel.classList.toggle('is-collapsed');
   document.body.classList.toggle('focus-reading', els.topicsPanel.classList.contains('is-collapsed'));
-  setTimeout(resizeReaderFrame, 50);
+  setTimeout(scheduleFit, 40);
 });
 els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
-  cleanupIframeUI();
-  resizeReaderFrame();
+  scheduleFit();
 });
-window.addEventListener('resize', resizeReaderFrame);
-window.addEventListener('orientationchange', () => setTimeout(resizeReaderFrame, 120));
+window.addEventListener('resize', scheduleFit);
+window.addEventListener('orientationchange', () => setTimeout(scheduleFit, 140));
 
 boot().catch(err => {
   console.error(err);
