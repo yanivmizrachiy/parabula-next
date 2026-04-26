@@ -2,80 +2,29 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#09111f" />
-  <title>Parabula App Hub</title>
-  <link rel="stylesheet" href="./mobile.css" />
-  <link rel="stylesheet" href="./app-hub.css" />
-  <link rel="stylesheet" href="./ux-polish.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="0; url=./topics.html?v=topic-first-home" />
+  <title>מעביר לבחירה לפי נושאים</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f5f7fb;color:#162033;margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+    .card{background:#fff;border:1px solid #dfe5f1;border-radius:20px;max-width:680px;padding:24px;box-shadow:0 8px 24px rgba(15,23,42,.06);display:grid;gap:14px}
+    h1{margin:0;font-size:30px}
+    p{margin:0;color:#5a6780;line-height:1.6}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #d7deea;background:#fff;text-decoration:none;color:#162033;display:inline-flex;align-items:center;justify-content:center;font-weight:700}
+    .btn.primary{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+  </style>
 </head>
 <body>
-  <main class="hub-shell">
-    <section class="hub-card">
-      <div class="hub-row">
-        <span class="hub-badge">App Hub</span>
-        <span class="hub-badge">RTL</span>
-        <span class="hub-badge">A4</span>
-      </div>
-      <h1>דפי עבודה במתמטיקה — בחירה לפי נושאים</h1>
-      <p>זהו מסך הבית החי של המערכת. הכניסה הראשית היא לפי נושאים, ורק אחר כך בוחרים דפים, מדפיסים, שומרים כ-PDF או פותחים מסכי עזר.</p>
-
-      <div class="hub-actions">
-        <a class="hub-btn" href="./topics.html">
-          <div>
-            <strong>בחירה לפי נושאים</strong>
-            <span>הכניסה הראשית למערכת: בוחרים נושא, רואים רק את דפי אותו נושא, ומדפדפים בצורה נוחה</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="../mobile-app.html">
-          <div>
-            <strong>אפליקציית הדפים הראשית</strong>
-            <span>ספר דיגיטלי בעברית עם נושאים, דפדוף, תצוגת A4, פתיחה, הדפסה ו-PDF</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="./print.html">
-          <div>
-            <strong>מרכז הדפסה</strong>
-            <span>בחירת דפים אמיתיים מהריפו, פתיחת רצף הדפסה ושמירה כ-PDF</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="./all-pages.html">
-          <div>
-            <strong>כל הדפים</strong>
-            <span>מסך עזר משני לחיפוש, סינון, פתיחה, שיתוף והורדה של כל הדפים יחד</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="../mobile-app-install.html">
-          <div>
-            <strong>התקנת אפליקציית הנייד</strong>
-            <span>הוספה למסך הבית עם אייקון קבוע שיפתח את אפליקציית הקריאה הראשית</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="./index.html">
-          <div>
-            <strong>Preview Reader</strong>
-            <span>תצוגת preview למסך גדול, בדיקת A4 וניווט reader</span>
-          </div>
-          <span>↗</span>
-        </a>
-        <a class="hub-btn" href="../STATE/README.md">
-          <div>
-            <strong>מרכז תיעוד</strong>
-            <span>סטטוס חי, audit, רצף עבודה ומפת מצב של הפרויקט</span>
-          </div>
-          <span>↗</span>
-        </a>
-      </div>
-      <div class="hub-meta">
-        <strong>מצב נוכחי</strong>
-        <p>מסך הבית מיושר עכשיו ל-Topic First: נושאים הם הכניסה הראשית, <code>all-pages</code> הוא מסך עזר משני, ורק מסלולים שחיים בפועל על <code>main</code> מוצגים כאן.</p>
-      </div>
-    </section>
+  <main class="card">
+    <h1>מעביר למסך בחירה לפי נושאים…</h1>
+    <p>זהו מסלול הבית הראשי של המערכת. אם לא עברת אוטומטית, לחץ על הכפתור הראשי.</p>
+    <div class="actions">
+      <a class="btn primary" href="./topics.html?v=topic-first-home">לבחירה לפי נושאים</a>
+      <a class="btn" href="./print.html">מרכז הדפסה</a>
+      <a class="btn" href="./all-pages.html">כל הדפים</a>
+      <a class="btn" href="../mobile-app.html">אפליקציית הנייד</a>
+    </div>
   </main>
 </body>
 </html>
