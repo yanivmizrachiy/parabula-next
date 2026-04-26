@@ -1,10 +1,27 @@
 # PROJECT_RULES — Parabula (Single Source of Truth)
 
-This repository is a **self-validating, RTL-first A4 digital textbook**. This document is the **ground truth** for future edits and code generation.
+This repository is a **self-validating, RTL-first A4 digital textbook and worksheet system**. This document is the **ground truth** for future edits and code generation.
 
 ---
 
-## 0) Ground Truth (non-negotiable)
+## 0) Product goal (non-negotiable)
+
+- The main purpose of the site is to **create, present, organize, and print high-quality A4 math worksheets** under uniform rules.
+- The product must stay suitable for **thousands of future pages**, not only the current set.
+- The system must remain **topic-first**, not a raw file dump.
+- The primary reading flow is:
+  - Home / entry = **topic choice first**
+  - Topic screen = **only pages of that topic**
+  - Actions = open, browse, select, print, PDF, share, download
+- The site must work comfortably on **desktop and mobile**.
+- `preview/all-pages.*` is a **secondary utility screen**, not the primary home experience.
+- No AI session may add demo text, demo buttons, fake reports, fake workflows, or fake content.
+- No AI session may merge or blur separate math topics. For example, **"משוואות" and "משוואות ריבועיות" must remain distinct topics unless the user explicitly instructs otherwise**.
+- No pages may be deleted, merged, renamed, or reassigned between topics without explicit user approval and a rules update.
+
+---
+
+## 1) Ground Truth (non-negotiable)
 
 ### A4 page contract
 
@@ -98,7 +115,7 @@ This repository is a **self-validating, RTL-first A4 digital textbook**. This do
 
 ---
 
-## 1) Live Preview (permanent)
+## 2) Live Preview (permanent)
 
 ### The canonical preview server
 
@@ -130,7 +147,7 @@ Notes:
 
 ---
 
-## 2) Navigation engine (textbook hierarchy)
+## 3) Navigation engine (textbook hierarchy)
 
 ### System files must never appear in the Preview TOC (required)
 
@@ -151,9 +168,15 @@ Each page MUST contain a `.preview-nav` with:
 
 Prev/Next links must match the repo’s global reading order as defined by topics and per-topic page indices.
 
+### Product navigation requirement
+
+- The primary home experience must present **topics first**.
+- The primary topic experience must present **pages of the chosen topic only**.
+- `preview/all-pages.*` may exist as a utility surface, but it must not replace the topic-first home experience.
+
 ---
 
-## 2.1) Page numbering UI (design uniformity)
+## 3.1) Page numbering UI (design uniformity)
 
 ### Root A4 pages (`עמוד-N.html`)
 
@@ -174,7 +197,7 @@ Prev/Next links must match the repo’s global reading order as defined by topic
 
 ---
 
-## 3) Automated testing loop
+## 4) Automated testing loop
 
 ### One-command validation
 
@@ -201,7 +224,7 @@ Prev/Next links must match the repo’s global reading order as defined by topic
 
 ---
 
-## 4) Failure recovery protocol
+## 5) Failure recovery protocol
 
 1. Read the terminal error from `npm test`.
 2. Locate the matching rule section in this file.
@@ -210,7 +233,7 @@ Prev/Next links must match the repo’s global reading order as defined by topic
 
 ---
 
-## 5) Progress reporting (required)
+## 6) Progress reporting (required)
 
 When executing multi-step work (especially via Copilot/automation), **every step update** must include an explicit remaining-work percentage using this exact format:
 
@@ -224,12 +247,11 @@ Rules:
 
 ---
 
-## 6) Golden Preview Standard (required)
+## 7) Golden Preview Standard (required)
 
 - Preview background must be a **solid** neutral color; patterns/gradients/images are strictly forbidden outside the A4 boundary.
 - Preview pages must be **top-aligned** in the reading area (no vertical centering that starts mid-page).
 - In “all pages” mode, pages must appear as a **single vertical sequence** with stable spacing.
-- Do not claim an `all-pages` runtime surface exists on `main` unless the file is actually present in the repository.
 
 ### Zero Tolerance — Non-centered preview pages
 
@@ -240,7 +262,7 @@ Rules:
 
 ---
 
-## Preview Stability Contract (required)
+## 8) Preview Stability Contract (required)
 
 - `/preview` must never show a blank main reading area when valid TOC entries exist.
 - If a stored/selected file becomes invalid, the reader must clear the broken state and fall back to the first valid page.
@@ -255,27 +277,27 @@ Additional stability requirements:
 
 ---
 
-## 7) Shared cleanup permission (design only)
+## 9) Shared cleanup permission (design only)
 
 - Design-only shared cleanup is allowed for a page family such as equations when no learning content is changed.
 - The cleanup may remove stale styling, inconsistent title styling, inconsistent spacing, and legacy visual residue.
 - The no-inline-style rule applies to preview utility pages as well.
 - Mobile entry files under preview are an official part of the live system.
 
-## 8) Equations family cleanup
+## 10) Equations family cleanup
 
 - Pages belonging to the non-quadratic equations family may receive **design-only shared cleanup**.
 - This cleanup must not change the learning text.
 - It may normalize fonts, title presentation, spacing, visual residue from older styling, and SVG text styling.
 - Quadratic-equation pages are excluded unless explicitly requested.
 
-## 9) Metadata reality contract
+## 11) Metadata reality contract
 
 - `meta/topics.json` is present and remains the canonical source metadata for worksheet content structure.
-- Do not document `meta/all-pages-index.json` as live on `main` unless the file is actually present in the repository.
-- Planned metadata layers must be labeled as planned, not live.
+- Topic separation inside metadata must remain explicit and stable.
+- Distinct topics must not be collapsed merely because their names are similar.
 
-## 10) Live access system map (actual current main branch)
+## 12) Live access system map (actual current main branch)
 
 ### Canonical content layer
 - `עמוד-N.html`
@@ -290,6 +312,9 @@ Additional stability requirements:
 - `preview/app.html`
 - `preview/topics.html`
 - `preview/print.html`
+- `preview/all-pages.html`
+- `preview/all-pages.css`
+- `preview/all-pages.js`
 - `mobile-app.html`
 - `mobile-app-install.html`
 
@@ -300,14 +325,21 @@ Additional stability requirements:
 
 This map is intentionally limited to files that are actually present on `main`.
 
-## 11) Topics browser contract
+## 13) Topics browser contract
 
 - `preview/topics.html` is the dedicated topic-first browsing surface that exists on `main`.
 - It must expose clear topic buttons/cards, comfortable navigation, and topic-local page browsing.
 - It must remain suitable for phone usage.
-- If its runtime metadata source changes in the future, update this document only after the code exists on `main`.
+- Topic-first UX is the primary UX of the product.
 
-## 12) Mobile live entry contract
+## 14) All-pages utility contract
+
+- `preview/all-pages.*` is live on `main`.
+- It is a secondary utility surface for searching, filtering, selecting, sharing, downloading, and printing across all pages.
+- It must not replace topic-first home flow.
+- It must open live page links correctly under GitHub Pages.
+
+## 15) Mobile live entry contract
 
 - The primary mobile app is `mobile-app.html`.
 - The primary install page is `mobile-app-install.html`.
@@ -317,13 +349,13 @@ This map is intentionally limited to files that are actually present on `main`.
 - Legacy mobile entry files may exist, but the dedicated mobile app is the primary path.
 - `preview/phone.*` is a utility / legacy layer and must not be treated as the canonical mobile runtime.
 
-## 13) Preview UX polish contract
+## 16) Preview UX polish contract
 
-- `preview/app.html`, `preview/phone.html`, `preview/install.html`, `preview/print.html`, and `preview/topics.html` must keep a unified visual language.
+- `preview/app.html`, `preview/phone.html`, `preview/install.html`, `preview/print.html`, `preview/topics.html`, and `preview/all-pages.html` must keep a unified visual language.
 - Shared visual polish belongs in shared preview CSS, not inline style blocks.
 - UX polish may improve spacing, button clarity, focus states, mobile tap comfort, and visual consistency without changing worksheet content.
 
-## 14) Dedicated mobile worksheet app
+## 17) Dedicated mobile worksheet app
 
 - The dedicated mobile worksheet app must remain easy to edit.
 - Keep separate HTML / CSS / JS files.
@@ -331,55 +363,54 @@ This map is intentionally limited to files that are actually present on `main`.
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
 - New mobile fixes must land in `mobile-app.*` first, not in `preview/phone.*`.
 
-## 15) Planned but not yet live on `main`
+## 18) Planned but not yet live on `main`
 
 - The following surfaces were discussed or partially prototyped during AI planning, but must not be treated as live on `main` unless committed and present:
   - `meta/all-pages-index.json`
-  - `preview/all-pages.*`
   - `preview/booklet.*`
   - `preview/flow-shell.*`
   - `STATE/SAFE_IMPROVEMENT_REPORT.md`
 - Another AI must not assume these files exist just because they appeared in earlier planning or chat output.
 
-## 16) Mobile app navigation contract
+## 19) Mobile app navigation contract
 
 - The mobile app must support fast movement like a digital book on the phone.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
 
-## 17) Mobile app reading flow contract
+## 20) Mobile app reading flow contract
 
 - The dedicated mobile app must support quick movement to the first page of the current topic.
 - The dedicated mobile app must support quick movement to the first page of the whole book.
 - The dedicated mobile app should keep the selected page visible in the page list.
 - The dedicated mobile app should expose a clear loading signal while switching pages.
 
-## 18) Mobile app resume flow contract
+## 21) Mobile app resume flow contract
 
 - The mobile app should offer a clear resume-from-last-position flow.
 - The mobile app should expose a clear start-from-beginning action.
 - The opening state should feel like a useful reading app, not a raw technical viewer.
 
-## 19) Mobile topic home cards contract
+## 22) Mobile topic home cards contract
 
 - The mobile app should expose clear topic home cards near the opening state.
 - Topic home cards should allow fast entry into a topic from its first page.
 - The opening state on mobile should emphasize useful reading navigation, not raw technical structure.
 
-## 20) Print / PDF contract
+## 23) Print / PDF contract
 
 - `preview/print.html` is the live print/PDF handoff surface currently present on `main`.
 - The final print / Save as PDF step may remain browser-driven.
-- Do not claim a committed booklet runtime on `main` unless `preview/booklet.*` actually exists there.
+- `preview/all-pages.*` and `preview/topics.*` may prepare selections for print/PDF, but must not bypass real print flow.
 
-## 21) Live duplicate / legacy interpretation contract
+## 24) Live duplicate / legacy interpretation contract
 
 - A duplicate or legacy-adjacent file is not automatically an error.
 - `preview/print-center.js` is legacy/duplicate-adjacent relative to `preview/print.js`.
 - `preview/phone.*` is legacy/compat relative to `mobile-app.*`.
 - Future AI sessions must not delete these layers blindly; first map their role and inspect `scripts/audit-preview-overlaps.mjs`.
 
-## 22) Mobile app public publish contract
+## 25) Mobile app public publish contract
 
 - The public mobile app URL is `mobile-app.html`.
 - The public install page URL is `mobile-app-install.html`.
@@ -387,10 +418,11 @@ This map is intentionally limited to files that are actually present on `main`.
 - The public app must not depend on an alternate hidden worksheet source.
 - The same published files should exist in both root and `/docs` so either Pages source can work.
 
-## 23) Open-work policy for future AI sessions
+## 26) Open-work policy for future AI sessions
 
 - Preserve the canonical worksheet source first.
 - Prefer improvements above the pages, not inside the pages.
 - When planning new work, document what already exists before adding new surfaces.
 - If a requested change touches preview/mobile/topic/print flows, check the scripts and `package.json` that are actually present on `main` before calling the work complete.
+- Every real change must remain consistent with this file.
 - This file must reflect reality on `main`, not aspirational architecture from an earlier planning session.
