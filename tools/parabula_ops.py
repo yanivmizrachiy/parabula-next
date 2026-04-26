@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import json, subprocess, sys, datetime, os
+import json, subprocess, sys, datetime
 
 ROOT = Path('/data/data/com.termux/files/home/parabula-next')
 STATE = ROOT / 'STATE'
 AUDIT_JSON = STATE / 'MASTER_CONFORMANCE_AUDIT.json'
 AUDIT_MD = STATE / 'MASTER_CONFORMANCE_AUDIT.md'
+SUMMARY_MD = STATE / 'MASTER_STATUS_SUMMARY.md'
+POSTCHECK_MD = STATE / 'METADATA_REPAIR_POSTCHECK.md'
 
 URLS = {
     'topics': 'https://yanivmizrachiy.github.io/parabula-next/preview/topics.html',
@@ -17,10 +19,10 @@ URLS = {
 }
 
 def run(cmd, check=True):
-    return subprocess.run(cmd, check=check, text=True)
+    return subprocess.run(cmd, text=True, check=check)
 
 def run_capture(cmd):
-    return subprocess.run(cmd, check=True, text=True, capture_output=True)
+    return subprocess.run(cmd, text=True, check=True, capture_output=True)
 
 def open_url(url):
     try:
@@ -30,31 +32,13 @@ def open_url(url):
         print(f'OPEN_FAILED={url}')
         print(f'ERROR={e}')
 
-def status():
+def load_audit():
     if not AUDIT_JSON.exists():
-        print('STATUS=NO_AUDIT_YET')
-        return
-    data = json.loads(AUDIT_JSON.read_text(encoding='utf-8'))
-    total = data.get('total_checks', 0)
-    passed = data.get('passed', 0)
-    failed = data.get('failed', 0)
-    public = data.get('public_results', [])
-    public_ok = sum(1 for x in public if x.get('ok'))
-    print('STATUS=READY')
-    print(f'TOTAL_CHECKS={total}')
-    print(f'PASSED={passed}')
-    print(f'FAILED={failed}')
-    print(f'PUBLIC_OK={public_ok}/{len(public)}')
-    print(f'QUADRATIC_INSIDE_EQUATIONS={data.get("quadratic_inside_equations","?")}')
-    print(f'DUPLICATE_FILE_ENTRIES={data.get("duplicate_file_entries","?")}')
+        return None
+    return json.loads(AUDIT_JSON.read_text(encoding='utf-8'))
 
-def doctor():
-    os.chdir(ROOT)
-    run(['git', 'pull', '--ff-only', 'origin', 'main'], check=False)
-    run(['python3', 'tools/master_conformance_audit.py'], check=True)
+def write_summary(data):
     ts = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    summary = STATE / 'MASTER_STATUS_SUMMARY.md'
-    data = json.loads(AUDIT_JSON.read_text(encoding='utf-8'))
     total = data.get('total_checks', 0)
     passed = data.get('passed', 0)
     failed = data.get('failed', 0)
@@ -73,19 +57,67 @@ def doctor():
         f'- quadratic_inside_equations: {data.get("quadratic_inside_equations","?")}',
         f'- duplicate_file_entries: {data.get("duplicate_file_entries","?")}',
         '',
-        '## Final result',
+        '## Result',
         '- shell is stable and validated.' if failed == 0 else '- shell still has failing checks.',
     ]
-    summary.write_text('\n'.join(lines), encoding='utf-8')
-    run(['git', 'add', 'STATE/MASTER_CONFORMANCE_AUDIT.md', 'STATE/MASTER_CONFORMANCE_AUDIT.json', 'STATE/MASTER_STATUS_SUMMARY.md'], check=False)
+    if POSTCHECK_MD.exists():
+        lines += [
+            '',
+            '## Metadata repair postcheck',
+            '- STATE/METADATA_REPAIR_POSTCHECK.md exists and is kept as evidence.',
+        ]
+    SUMMARY_MD.write_text('\n'.join(lines), encoding='utf-8')
+
+def print_status(data):
+    total = data.get('total_checks', 0)
+    passed = data.get('passed', 0)
+    failed = data.get('failed', 0)
+    public = data.get('public_results', [])
+    public_ok = sum(1 for x in public if x.get('ok'))
+    print('STATUS=READY')
+    print(f'TOTAL_CHECKS={total}')
+    print(f'PASSED={passed}')
+    print(f'FAILED={failed}')
+    print(f'PUBLIC_OK={public_ok}/{len(public)}')
+    print(f'QUADRATIC_INSIDE_EQUATIONS={data.get("quadratic_inside_equations","?")}')
+    print(f'DUPLICATE_FILE_ENTRIES={data.get("duplicate_file_entries","?")}')
+
+def doctor():
+    import os
+    os.chdir(ROOT)
+    run(['git', 'pull', '--ff-only', 'origin', 'main'], check=False)
+    run(['python3', 'tools/master_conformance_audit.py'], check=True)
+    data = load_audit()
+    if data is None:
+        print('STATUS=NO_AUDIT_JSON')
+        sys.exit(1)
+    write_summary(data)
+    add_list = [
+        'tools/master_conformance_audit.py',
+        'tools/parabula_ops.py',
+        'STATE/MASTER_CONFORMANCE_AUDIT.md',
+        'STATE/MASTER_CONFORMANCE_AUDIT.json',
+        'STATE/MASTER_STATUS_SUMMARY.md',
+    ]
+    if POSTCHECK_MD.exists():
+        add_list.append('STATE/METADATA_REPAIR_POSTCHECK.md')
+    run(['git', 'add', *add_list], check=False)
     diff = run_capture(['git', 'status', '--short']).stdout.strip()
     if diff:
-      subprocess.run(['git', 'commit', '-m', 'docs(state): refresh master conformance audit and summary'], text=True, check=False)
-      subprocess.run(['git', 'push', 'origin', 'main'], text=True, check=False)
-      print('COMMITTED=YES')
+        subprocess.run(['git', 'commit', '-m', 'chore(ops): refresh audit, summary and pbook control'], text=True, check=False)
+        subprocess.run(['git', 'push', 'origin', 'main'], text=True, check=False)
+        print('COMMITTED=YES')
     else:
-      print('COMMITTED=NO')
-    status()
+        print('COMMITTED=NO')
+    print_status(data)
+
+def status():
+    data = load_audit()
+    if data is None:
+        print('STATUS=NO_AUDIT_YET')
+        return
+    write_summary(data)
+    print_status(data)
 
 def main():
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'status'
