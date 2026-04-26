@@ -1,125 +1,12 @@
 {
   "generated": "2026-04-26 13:07:27",
-  "total_checks": 22,
-  "passed": 22,
-  "failed": 0,
-  "checks": [
-    {
-      "name": "master_audit_all_green",
-      "ok": true,
-      "details": "passed=29 failed=0"
-    },
-    {
-      "name": "public_ok_5_of_5",
-      "ok": true,
-      "details": "public_ok=5/5"
-    },
-    {
-      "name": "metadata_clean",
-      "ok": true,
-      "details": "quadratic_inside_equations=0 duplicate_file_entries=0"
-    },
-    {
-      "name": "app_is_redirect_entry",
-      "ok": true,
-      "details": "preview/app.html should redirect to topics"
-    },
-    {
-      "name": "rules_document_redirect_entry",
-      "ok": true,
-      "details": "rules should document redirect entry"
-    },
-    {
-      "name": "rules_document_all_pages_secondary",
-      "ok": true,
-      "details": "rules should keep all-pages secondary"
-    },
-    {
-      "name": "topics_has_reader_bar",
-      "ok": true,
-      "details": "topics.html should expose main reader bar"
-    },
-    {
-      "name": "topics_has_mobile_bottom_bar",
-      "ok": true,
-      "details": "topics.html should expose mobile bottom bar"
-    },
-    {
-      "name": "topics_has_prev_next_first_logic",
-      "ok": true,
-      "details": "topics.js should support first/prev/next"
-    },
-    {
-      "name": "topics_has_persistence",
-      "ok": true,
-      "details": "topics.js should persist last place"
-    },
-    {
-      "name": "topics_has_mobile_css",
-      "ok": true,
-      "details": "topics.css should support phone UX"
-    },
-    {
-      "name": "all_pages_has_download_action",
-      "ok": true,
-      "details": "all-pages.js should expose download selection"
-    },
-    {
-      "name": "all_pages_has_print_action",
-      "ok": true,
-      "details": "all-pages.js should expose print selection"
-    },
-    {
-      "name": "all_pages_has_share_action",
-      "ok": true,
-      "details": "all-pages.js should expose share selection"
-    },
-    {
-      "name": "all_pages_surface_exists",
-      "ok": true,
-      "details": "all-pages.html should be live"
-    },
-    {
-      "name": "print_surface_exists",
-      "ok": true,
-      "details": "print.html should be live"
-    },
-    {
-      "name": "print_js_restore_selection",
-      "ok": true,
-      "details": "print.js should support restore/selection flow"
-    },
-    {
-      "name": "no_real_public_link_confusion",
-      "ok": true,
-      "details": "real_public_confusion=0"
-    },
-    {
-      "name": "no_duplicate_public_app_urls",
-      "ok": true,
-      "details": "duplicate_public_app_urls=0"
-    },
-    {
-      "name": "public_route_topics_ok",
-      "ok": true,
-      "details": "status=200 missing=[] final=https://yanivmizrachiy.github.io/parabula-next/preview/topics.html"
-    },
-    {
-      "name": "public_route_all_pages_ok",
-      "ok": true,
-      "details": "status=200 missing=[] final=https://yanivmizrachiy.github.io/parabula-next/preview/all-pages.html"
-    },
-    {
-      "name": "public_route_print_ok",
-      "ok": true,
-      "details": "status=200 missing=[] final=https://yanivmizrachiy.github.io/parabula-next/preview/print.html"
-    }
-  ],
-  "suspicious_findings_raw": [],
-  "real_public_confusion": [],
-  "duplicate_public_app_urls": {},
-  "duplicate_repo_github_urls": {},
-  "duplicate_other_external_urls": {
+  "scanned_files": 2527,
+  "total_link_records": 6311,
+  "public_app_links": 825,
+  "repo_github_links": 2,
+  "other_yaniv_pages_links": 2,
+  "external_links": 5024,
+  "duplicate_external_urls": {
     "http://127.0.0.1:5179": [
       "PROJECT_RULES.md",
       "STATE/PROJECT_RULES.before_app_redirect_sync_20260426_094305.md",
@@ -5676,5 +5563,16 @@
       "_stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json",
       "sources/legacy/parabula-old/package-lock.json"
     ]
-  }
+  },
+  "suspicious_findings": [],
+  "key_routes": {
+    "topics": "https://yanivmizrachiy.github.io/parabula-next/preview/topics.html",
+    "print": "https://yanivmizrachiy.github.io/parabula-next/preview/print.html",
+    "all_pages": "https://yanivmizrachiy.github.io/parabula-next/preview/all-pages.html",
+    "mobile": "https://yanivmizrachiy.github.io/parabula-next/mobile-app.html",
+    "app": "https://yanivmizrachiy.github.io/parabula-next/preview/app.html"
+  },
+  "phone_mobile_doc_ok": true,
+  "app_topics_doc_ok": true,
+  "all_pages_secondary_ok": true
 }

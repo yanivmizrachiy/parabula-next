@@ -1,0 +1,1771 @@
+# EXTERNAL_LINK_AUDIT
+
+Generated: 2026-04-26 13:07:27
+
+- scanned_files: 2527
+- total_link_records: 6311
+- public_app_links: 825
+- repo_github_links: 2
+- other_yaniv_pages_links: 2
+- external_links: 5024
+- duplicate_external_urls: 376
+- suspicious_findings: 0
+
+## Key public route coverage
+- topics: 6 references :: https://yanivmizrachiy.github.io/parabula-next/preview/topics.html
+- print: 6 references :: https://yanivmizrachiy.github.io/parabula-next/preview/print.html
+- all_pages: 6 references :: https://yanivmizrachiy.github.io/parabula-next/preview/all-pages.html
+- mobile: 4 references :: https://yanivmizrachiy.github.io/parabula-next/mobile-app.html
+- app: 4 references :: https://yanivmizrachiy.github.io/parabula-next/preview/app.html
+
+## Suspicious / review-needed findings
+- לא זוהו ממצאים חשודים בבדיקה זו.
+
+## Duplicate external URLs
+- http://${host}:${port}/preview`;
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+  - sources/legacy/parabula-old/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+- http://${shownHost}:${DEFAULT_PORT}/`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+  - sources/legacy/parabula-old/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+- http://${shownHost}:${port}/`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+  - sources/legacy/parabula-old/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+- http://127.0.0.1
+  - preview/server.mjs
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-073821/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-073821/preview/server.mjs
+- http://127.0.0.1:${port}/preview`
+  - preview/server.mjs
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-073821/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-073821/preview/server.mjs
+- http://127.0.0.1:5179
+  - PROJECT_RULES.md
+  - STATE/PROJECT_RULES.before_app_redirect_sync_20260426_094305.md
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/PROJECT_RULES.md
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/PROJECT_RULES.md
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/PROJECT_RULES.md
+  - sources/legacy/parabula-old/PROJECT_RULES.md
+  - sources/backups/pre-promotion-20260319-074035/PROJECT_RULES.md
+  - meta/backup/equations_cleanup_20260415_064704/PROJECT_RULES.md
+  - meta/backup/mobile_hardening_20260415_075546/PROJECT_RULES.md
+  - meta/backup/preview_polish_20260415_080746/PROJECT_RULES.md
+  - STATE/backup_20260416_231132/PROJECT_RULES.md
+  - STATE/backup_20260416_231444/PROJECT_RULES.md
+- http://127.0.0.1:5179/`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/rules.md
+  - sources/legacy/parabula-old/rules.md
+- http://127.0.0.1:5179/preview
+  - README.md
+  - rules.html
+  - .github/copilot-instructions.md
+  - .vscode/launch.json
+  - .vscode/tasks.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - docs/next-session.md
+  - _stray_parabula_next_20260415_120247/README.md
+  - _stray_parabula_next_20260415_120247/rules.html
+  - _stray_parabula_next_20260415_120247/.github/copilot-instructions.md
+  - _stray_parabula_next_20260415_120247/.vscode/launch.json
+  - _stray_parabula_next_20260415_120247/.vscode/tasks.json
+  - _stray_parabula_next_20260415_120247/docs/next-session.md
+  - ... +12 more
+- http://127.0.0.1:5179/preview?file=%D7%A2%D7%9E%D7%95%D7%93-3.html
+  - README.md
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/README.md
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/README.md
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/README.md
+  - sources/legacy/parabula-old/README.md
+  - sources/backups/pre-promotion-20260319-074035/README.md
+- http://127.0.0.1:5179/preview?file=...`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/GEMINI_CONTEXT.md
+  - sources/legacy/parabula-old/GEMINI_CONTEXT.md
+- http://127.0.0.1:5179/preview`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/COPILOT_CONTEXT.md
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/GEMINI_CONTEXT.md
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/REPORT.md
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/rules.md
+  - sources/legacy/parabula-old/COPILOT_CONTEXT.md
+  - sources/legacy/parabula-old/GEMINI_CONTEXT.md
+  - sources/legacy/parabula-old/REPORT.md
+  - sources/legacy/parabula-old/rules.md
+- http://127.0.0.1:53275
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - scripts/visual-regression.mjs
+  - _stray_parabula_next_20260415_120247/scripts/visual-regression.mjs
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/scripts/visual-regression.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/scripts/visual-regression.mjs
+  - sources/legacy/parabula-old/scripts/visual-regression.mjs
+  - sources/backups/pre-promotion-20260319-074035/scripts/visual-regression.mjs
+- http://localhost
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/preview/server.mjs
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+  - sources/legacy/parabula-old/preview/server.mjs
+  - sources/backups/pre-promotion-20260319-074035/preview/server.mjs
+- http://localhost:${port}`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - server/index.js
+  - _stray_parabula_next_20260415_120247/server/index.js
+- http://localhost:5173/
+  - rules.html
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/rules.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/rules.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/.vscode/tasks.json
+  - sources/legacy/parabula-old/rules.html
+  - sources/legacy/parabula-old/.vscode/tasks.json
+- http://localhost:5173`
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/REPORT.md
+  - sources/legacy/parabula-old/REPORT.md
+- http://www.w3.org/2000/svg
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/scripts/vectorize-pythagoras-figures.mjs
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/scripts/vectorize-pythagoras-pages.mjs
+  - sources/legacy/parabula-old/scripts/vectorize-pythagoras-figures.mjs
+  - sources/legacy/parabula-old/scripts/vectorize-pythagoras-pages.mjs
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/index.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-1.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-2.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-3.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-1.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-10.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-11.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-12.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-13.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-14.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-15.html
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/site/משוואות/עמוד-16.html
+  - ... +104 more
+- https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - rules.html
+  - עמוד-1.html
+  - עמוד-10.html
+  - עמוד-11.html
+  - עמוד-12.html
+  - עמוד-13.html
+  - עמוד-14.html
+  - עמוד-15.html
+  - עמוד-16.html
+  - עמוד-17.html
+  - עמוד-18.html
+  - עמוד-19.html
+  - עמוד-2.html
+  - עמוד-20.html
+  - עמוד-21.html
+  - ... +861 more
+- https://fonts.googleapis.com
+  - rules.html
+  - עמוד-1.html
+  - עמוד-10.html
+  - עמוד-11.html
+  - עמוד-12.html
+  - עמוד-13.html
+  - עמוד-14.html
+  - עמוד-15.html
+  - עמוד-16.html
+  - עמוד-17.html
+  - עמוד-18.html
+  - עמוד-19.html
+  - עמוד-2.html
+  - עמוד-20.html
+  - עמוד-21.html
+  - ... +861 more
+- https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap
+  - rules.html
+  - עמוד-1.html
+  - עמוד-10.html
+  - עמוד-11.html
+  - עמוד-12.html
+  - עמוד-13.html
+  - עמוד-14.html
+  - עמוד-15.html
+  - עמוד-16.html
+  - עמוד-17.html
+  - עמוד-18.html
+  - עמוד-19.html
+  - עמוד-2.html
+  - עמוד-20.html
+  - עמוד-21.html
+  - ... +861 more
+- https://fonts.gstatic.com
+  - rules.html
+  - עמוד-1.html
+  - עמוד-10.html
+  - עמוד-11.html
+  - עמוד-12.html
+  - עמוד-13.html
+  - עמוד-14.html
+  - עמוד-15.html
+  - עמוד-16.html
+  - עמוד-17.html
+  - עמוד-18.html
+  - עמוד-19.html
+  - עמוד-2.html
+  - עמוד-20.html
+  - עמוד-21.html
+  - ... +861 more
+- https://github.com/chalk/ansi-styles?sponsor=1
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/chalk/wrap-ansi?sponsor=1
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/Boshen
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://github.com/sponsors/Brooooooklyn
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://github.com/sponsors/SuperchupuDev
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/ai
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/colinhacks
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/d-fischer
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/epoberezkin
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/fastify
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/jonschlinkert
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/sponsors/sindresorhus
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/vitejs/vite?sponsor=1
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://github.com/yanivmizrachiy/parabula
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/import-manifest.json
+  - sources/legacy/parabula-old/import-manifest.json
+- https://github.com/yanivmizrachiy/parabula.git
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/REPO_STATUS_2026-03-12_20-39-51.md
+  - sources/legacy/parabula-old/REPO_STATUS_2026-03-12_20-39-51.md
+- https://github.com/yanivmizrachiy/parabula/actions/runs/22683729213
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/REPORT.md
+  - sources/legacy/parabula-old/REPORT.md
+- https://json-schema.org/draft/2020-12/schema
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - schemas/page-meta.schema.json
+  - _stray_parabula_next_20260415_120247/schemas/page-meta.schema.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/schemas/page-meta.schema.json
+  - _stray_parabula_next_20260415_120247/sources/backups/pre-promotion-20260319-074035/schemas/page-meta.schema.json
+  - sources/legacy/parabula-old/schemas/page-meta.schema.json
+  - sources/backups/pre-promotion-20260319-074035/schemas/page-meta.schema.json
+- https://opencollective.com/fastify
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://opencollective.com/parcel
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://opencollective.com/postcss/
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.29.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.28.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@emnapi/core/-/core-1.9.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.9.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@esbuild/aix-ppc64/-/aix-ppc64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/android-arm/-/android-arm-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/android-arm64/-/android-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/android-x64/-/android-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/freebsd-arm64/-/freebsd-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/freebsd-x64/-/freebsd-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-arm/-/linux-arm-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-arm64/-/linux-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-ia32/-/linux-ia32-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-loong64/-/linux-loong64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-mips64el/-/linux-mips64el-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-ppc64/-/linux-ppc64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-riscv64/-/linux-riscv64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-s390x/-/linux-s390x-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/netbsd-arm64/-/netbsd-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/netbsd-x64/-/netbsd-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/openbsd-arm64/-/openbsd-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/openbsd-x64/-/openbsd-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/openharmony-arm64/-/openharmony-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/sunos-x64/-/sunos-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/win32-arm64/-/win32-arm64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/win32-ia32/-/win32-ia32-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.1.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@oxc-project/types/-/types-0.120.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@puppeteer/browsers/-/browsers-2.13.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-android-arm64/-/binding-android-arm64-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-darwin-arm64/-/binding-darwin-arm64-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-darwin-x64/-/binding-darwin-x64-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-freebsd-x64/-/binding-freebsd-x64-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-linux-x64-musl/-/binding-linux-x64-musl-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-openharmony-arm64/-/binding-openharmony-arm64-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-wasm32-wasi/-/binding-wasm32-wasi-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-freebsd-arm64/-/rollup-freebsd-arm64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-freebsd-x64/-/rollup-freebsd-x64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-arm-musleabihf/-/rollup-linux-arm-musleabihf-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-loong64-gnu/-/rollup-linux-loong64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-loong64-musl/-/rollup-linux-loong64-musl-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-ppc64-gnu/-/rollup-linux-ppc64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-ppc64-musl/-/rollup-linux-ppc64-musl-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-riscv64-gnu/-/rollup-linux-riscv64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-riscv64-musl/-/rollup-linux-riscv64-musl-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-s390x-gnu/-/rollup-linux-s390x-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-openbsd-x64/-/rollup-openbsd-x64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-openharmony-arm64/-/rollup-openharmony-arm64-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-win32-x64-gnu/-/rollup-win32-x64-gnu-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/@types/estree/-/estree-1.0.8.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@types/node/-/node-25.3.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/@types/yauzl/-/yauzl-2.10.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/agent-base/-/agent-base-7.1.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ajv/-/ajv-8.18.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ast-types/-/ast-types-0.13.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/b4a/-/b4a-1.8.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-events/-/bare-events-2.8.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-fs/-/bare-fs-4.5.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-os/-/bare-os-3.7.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-path/-/bare-path-3.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-stream/-/bare-stream-2.8.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bare-url/-/bare-url-2.3.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/basic-ftp/-/basic-ftp-5.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/bmp-js/-/bmp-js-0.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/buffer-crc32/-/buffer-crc32-0.2.13.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/callsites/-/callsites-3.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/chromium-bidi/-/chromium-bidi-14.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/cliui/-/cliui-8.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/cosmiconfig/-/cosmiconfig-9.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-6.0.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/debug/-/debug-4.4.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/degenerator/-/degenerator-5.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/devtools-protocol/-/devtools-protocol-0.0.1566079.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.4.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/env-paths/-/env-paths-2.2.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/error-ex/-/error-ex-1.3.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/esbuild/-/esbuild-0.27.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/escodegen/-/escodegen-2.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/esprima/-/esprima-4.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/estraverse/-/estraverse-5.3.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/events-universal/-/events-universal-1.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/extract-zip/-/extract-zip-2.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fast-fifo/-/fast-fifo-1.3.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fast-uri/-/fast-uri-3.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fd-slicer/-/fd-slicer-1.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/get-stream/-/get-stream-5.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/get-uri/-/get-uri-6.0.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/http-proxy-agent/-/http-proxy-agent-7.0.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-7.0.6.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/idb-keyval/-/idb-keyval-6.2.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/imagetracerjs/-/imagetracerjs-1.2.6.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/import-fresh/-/import-fresh-3.3.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ip-address/-/ip-address-10.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/is-arrayish/-/is-arrayish-0.2.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/is-url/-/is-url-1.2.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/jpeg-js/-/jpeg-js-0.4.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/js-yaml/-/js-yaml-4.1.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/json-parse-even-better-errors/-/json-parse-even-better-errors-2.3.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/lightningcss-android-arm64/-/lightningcss-android-arm64-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-freebsd-x64/-/lightningcss-freebsd-x64-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-linux-arm-gnueabihf/-/lightningcss-linux-arm-gnueabihf-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-linux-arm64-gnu/-/lightningcss-linux-arm64-gnu-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-linux-arm64-musl/-/lightningcss-linux-arm64-musl-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-linux-x64-musl/-/lightningcss-linux-x64-musl-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-win32-arm64-msvc/-/lightningcss-win32-arm64-msvc-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lightningcss/-/lightningcss-1.32.0.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/lines-and-columns/-/lines-and-columns-1.2.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/lru-cache/-/lru-cache-7.18.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/mitt/-/mitt-3.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ms/-/ms-2.1.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/netmask/-/netmask-2.0.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/node-fetch/-/node-fetch-2.7.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/once/-/once-1.4.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/pac-proxy-agent/-/pac-proxy-agent-7.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/pac-resolver/-/pac-resolver-7.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/parent-module/-/parent-module-1.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/parse-json/-/parse-json-5.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/pend/-/pend-1.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/picomatch/-/picomatch-4.0.3.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/playwright-core/-/playwright-core-1.58.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/playwright/-/playwright-1.58.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/pngjs/-/pngjs-7.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/postcss/-/postcss-8.5.6.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/postcss/-/postcss-8.5.8.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/progress/-/progress-2.0.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/proxy-agent/-/proxy-agent-6.5.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/pump/-/pump-3.0.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/puppeteer-core/-/puppeteer-core-24.37.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/puppeteer/-/puppeteer-24.37.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/regenerator-runtime/-/regenerator-runtime-0.13.11.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/rolldown/-/rolldown-1.0.0-rc.10.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/rollup/-/rollup-4.59.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/semver/-/semver-7.7.4.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/smart-buffer/-/smart-buffer-4.2.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/socks-proxy-agent/-/socks-proxy-agent-8.0.5.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/socks/-/socks-2.8.7.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/source-map/-/source-map-0.6.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/streamx/-/streamx-2.23.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tar-fs/-/tar-fs-3.1.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tar-stream/-/tar-stream-3.1.8.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/teex/-/teex-1.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tesseract.js-core/-/tesseract.js-core-6.1.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tesseract.js/-/tesseract.js-6.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/text-decoder/-/text-decoder-1.2.7.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.15.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tr46/-/tr46-0.0.3.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/typed-query-selector/-/typed-query-selector-2.12.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/undici-types/-/undici-types-7.18.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/vite/-/vite-7.3.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/vite/-/vite-8.0.1.tgz
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+- https://registry.npmjs.org/wasm-feature-detect/-/wasm-feature-detect-1.8.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/webdriver-bidi-protocol/-/webdriver-bidi-protocol-0.4.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-3.0.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/whatwg-url/-/whatwg-url-5.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/ws/-/ws-8.19.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.1.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/yargs/-/yargs-17.7.2.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/yauzl/-/yauzl-2.10.0.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/zlibjs/-/zlibjs-0.3.1.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://registry.npmjs.org/zod/-/zod-3.25.76.tgz
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+- https://tidelift.com/funding/github/npm/postcss
+  - package-lock.json
+  - STATE/EXTERNAL_LINK_AUDIT.md
+  - STATE/EXTERNAL_LINK_AUDIT.json
+  - STATE/RELEASE_GATE_AUDIT.json
+  - _stray_parabula_next_20260415_120247/package-lock.json
+  - _stray_parabula_next_20260415_120247/sources/legacy/parabula-old/package-lock.json
+  - sources/legacy/parabula-old/package-lock.json
+
+## Canonical recommendation
+- canonical home entry: https://yanivmizrachiy.github.io/parabula-next/preview/app.html
+- canonical topic browser: https://yanivmizrachiy.github.io/parabula-next/preview/topics.html
+- canonical print entry: https://yanivmizrachiy.github.io/parabula-next/preview/print.html
+- canonical all-pages utility: https://yanivmizrachiy.github.io/parabula-next/preview/all-pages.html
+- canonical mobile entry: https://yanivmizrachiy.github.io/parabula-next/mobile-app.html
+- preview/phone.* should remain compatibility-only unless future rules change.
+
+## Final judgment
+- לא נמצאו כפילויות/בלבולים חיצוניים מהותיים בבדיקה זו.
