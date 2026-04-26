@@ -170,7 +170,7 @@ Prev/Next links must match the repo’s global reading order as defined by topic
 
 ### Product navigation requirement
 
-- The primary home experience must present **topics first**. `preview/app.html` now serves as a redirect entry into `preview/topics.html` rather than a standalone hub.
+- The primary home experience must present **topics first**.
 - The primary topic experience must present **pages of the chosen topic only**.
 - `preview/all-pages.*` may exist as a utility surface, but it must not replace the topic-first home experience.
 
@@ -309,7 +309,7 @@ Additional stability requirements:
 
 ### Access/UI layer currently present on `main`
 - `preview/index.html`
-- `preview/app.html` (topic-first redirect entry to `preview/topics.html`)
+- `preview/app.html`
 - `preview/topics.html`
 - `preview/print.html`
 - `preview/all-pages.html`
