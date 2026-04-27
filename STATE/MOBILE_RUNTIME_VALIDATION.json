@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-04-27T07:49:03.141Z",
+  "checks": [
+    {
+      "name": "meta_topics_exists",
+      "ok": true,
+      "details": "totalPages=95"
+    },
+    {
+      "name": "mobile_topics_exists",
+      "ok": true,
+      "details": "totalPages=95"
+    },
+    {
+      "name": "mobile_app_js_exists",
+      "ok": true,
+      "details": "mobile-app.js loaded"
+    },
+    {
+      "name": "mobile_app_html_exists",
+      "ok": true,
+      "details": "mobile-app.html loaded"
+    },
+    {
+      "name": "mobile_app_uses_canonical_meta_topics",
+      "ok": true,
+      "details": "mobile-app.js fetches ./meta/topics.json"
+    },
+    {
+      "name": "mobile_app_not_using_mobile_topics_json",
+      "ok": true,
+      "details": "mobile-app.js no longer depends on mobile-topics.json"
+    },
+    {
+      "name": "mobile_html_uses_mobile_app_js",
+      "ok": true,
+      "details": "mobile-app.html loads mobile-app.js"
+    },
+    {
+      "name": "mobile_topics_divergence_detected",
+      "ok": true,
+      "details": "meta/topics.json totalPages=95; mobile-topics.json totalPages=95"
+    },
+    {
+      "name": "topic_name_sets_match",
+      "ok": false,
+      "details": "missingInMobile=1; missingInMeta=0"
+    },
+    {
+      "name": "compat_phone_runtime_still_exists",
+      "ok": true,
+      "details": "preview/phone.* still exists as compat/legacy layer"
+    }
+  ]
+}
