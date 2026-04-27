@@ -5,6 +5,8 @@ const READER_MODES = Object.freeze({
   FULL: 'full',
   ZOOM: 'zoom'
 });
+const ZOOM_SCALE_MULTIPLIER = 1.22;
+const ZOOM_SCALE_ADDEND = 0.12;
 
 const els = {
   appMeta: document.getElementById('appMeta'),
@@ -174,6 +176,8 @@ function ensureReaderContainers(doc){
   if(page.parentElement !== canvas){
     canvas.appendChild(page);
   }
+  stage.setAttribute('data-mobile-reader-stage', 'true');
+  canvas.setAttribute('data-mobile-reader-canvas', 'true');
   return { page, stage, canvas };
 }
 function injectMobileReaderStyles(doc){
@@ -255,7 +259,7 @@ function fitCurrentA4Page(){
     const fitHeightScale = Math.min(hostHeight / rawHeight, 1);
     const fullScale = isPhoneViewport ? widthScale : Math.min(widthScale, fitHeightScale, 1);
     const zoomScale = isPhoneViewport
-      ? Math.min(1, Math.max(fullScale * 1.22, fullScale + 0.12))
+      ? Math.min(1, Math.max(fullScale * ZOOM_SCALE_MULTIPLIER, fullScale + ZOOM_SCALE_ADDEND))
       : fullScale;
     const scale = readerMode === READER_MODES.ZOOM ? zoomScale : fullScale;
     const scaledWidth = Math.round(rawWidth * scale);
@@ -294,9 +298,8 @@ function fitCurrentA4Page(){
     );
 
     stage.scrollTop = 0;
-    stage.scrollLeft = allowHorizontalPan
-      ? Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth)
-      : 0;
+    const rtlReadingStart = Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth);
+    stage.scrollLeft = allowHorizontalPan ? rtlReadingStart : 0;
   }catch(e){
     console.error('fitCurrentA4Page failed', e);
   }
