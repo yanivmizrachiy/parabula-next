@@ -1,6 +1,6 @@
 # LIVE_STATUS — parabula-next
 
-_Last updated: 2026-04-26_
+_Last updated: 2026-04-27_
 
 ## Purpose
 This file is a short, non-historical snapshot of the **live canonical state** of the repository.
@@ -39,6 +39,8 @@ This file does **not** replace `PROJECT_RULES.md`.
 - The mobile reader remains **iframe-based by design**.
 - Root A4 worksheet pages remain the single source of truth for worksheet content.
 - Mobile rendering fixes must happen in the mobile reader layer, not by duplicating or forking worksheet pages.
+- Mobile prev/next now follows the global book order, while topic entry still opens from the first page of the chosen topic.
+- Mobile PDF now hands off into `preview/print.html` for preview-before-print instead of jumping straight to a raw worksheet page.
 - `preview/phone.*` is compatibility / legacy-adjacent, not the canonical mobile runtime.
 
 ---
@@ -49,10 +51,17 @@ This file does **not** replace `PROJECT_RULES.md`.
 - `preview/README.md`
 - `preview/APP_CONTRACT.md`
 - `meta/system-state.json`
-- `mobile-topics.json`
 - `storage/system-state.json`
 
 These files are live and useful, but may still require wording and structural alignment with the canonical snapshot above.
+
+---
+
+## Recently aligned / verified
+- `mobile-topics.json` was realigned to `meta/topics.json` so distinct topics remain distinct.
+- `scripts/app-layer-check.mjs` now reflects the current canonical-vs-compat mobile architecture.
+- `scripts/validate-mobile-runtime.mjs` now checks preview-before-print handoff, book-order navigation, and URL-driven print selection.
+- The stray empty gitlink `_stray_parabula_next_20260415_120247` was removed because it was breaking checkout/deployment workflows.
 
 ---
 

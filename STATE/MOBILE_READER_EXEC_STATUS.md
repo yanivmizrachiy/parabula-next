@@ -20,11 +20,15 @@ _Last updated: 2026-04-27_
 - `mobile-app.css` עודכן כדי לחזק את משטח הקריאה, frame layout, bottom nav spacing, ו-reader-first mobile surface.
 - `mobile-app.js` הועבר לקריאה מתוך `meta/topics.json` כמקור הנתונים הקנוני, במקום להישען על `mobile-topics.json` כמקור runtime ראשי.
 - בשורת המידע של האפליקציה מוצג עכשיו גם מקור הנתונים, כדי שהמצב יהיה גלוי ולא סמוי.
+- `mobile-app.js` מנווט עכשיו קודם/הבא לפי סדר הספר הגלובלי, ולא נעצר בקצה הנושא הנוכחי.
+- בחירת נושא במובייל חוזרת לעמוד הראשון של הנושא, כדי לשמור על behavior עקבי וברור.
+- כפתור ה-PDF במובייל מעביר עכשיו ל-`preview/print.html` עם preview-before-print ממוקד לעמוד הנוכחי.
 
 ### Repository validation improved
 - נוסף סקריפט ממוקד: `scripts/validate-mobile-runtime.mjs`.
 - נוסף command ייעודי: `npm run validate:mobile`.
-- הסקריפט בודק שהמסלול הקנוני במובייל נשען על `meta/topics.json`, ש-`mobile-app.html` טוען את `mobile-app.js`, וששכבת `preview/phone.*` עדיין קיימת כ-compat עד cleanup audit נפרד.
+- הסקריפט בודק שהמסלול הקנוני במובייל נשען על `meta/topics.json`, ש-`mobile-app.html` טוען את `mobile-app.js`, שיש handoff ל-`preview/print.html`, שיש book-order navigation, וששכבת `preview/phone.*` עדיין קיימת כ-compat עד cleanup audit נפרד.
+- `mobile-topics.json` יושר מחדש ל-`meta/topics.json`, כדי למנוע drift ומיזוג שקט של נושאים נפרדים.
 
 ### Documentation aligned
 הקבצים הבאים כבר מיושרים לכיוון החדש:
@@ -51,6 +55,7 @@ _Last updated: 2026-04-27_
 - בדיקה שאין עוד gray empty area מביך.
 - בדיקה שהעמוד ממורכז, קריא, ושהמעבר בין דפים נוח באמת.
 - בדיקה ש-print / open / PDF handoff לא נשברו.
+- בדיקה ש-preview-before-print מהמובייל אכן פותח את `preview/print.html` עם העמוד הנכון.
 
 ### Only if visual check still fails
 - fine-tuning נוסף ב-`mobile-app.js`
@@ -71,10 +76,11 @@ _Last updated: 2026-04-27_
 - איחוד מקור הנתונים הקנוני למובייל: בוצע.
 - שדרוג reader engine: בוצע חלק משמעותי.
 - validator ייעודי למובייל: בוצע.
+- book-order navigation + preview-before-print handoff: בוצעו.
 - אימות חזותי חי: עדיין חסר.
 
 ## Progress snapshot
 
-הערכת מצב אמיתית כרגע: ~99%
+הערכת מצב אמיתית כרגע: ~90%
 
-הפער שנותר הוא בעיקר אימות חזותי חי ותיקון נקודתי אחרון אם יידרש.
+הפער שנותר הוא בעיקר אימות חזותי חי, בדיקת real-device לזרימת preview-before-print, ותיקון נקודתי אחרון אם יידרש.

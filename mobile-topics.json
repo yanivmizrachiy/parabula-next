@@ -53,62 +53,8 @@
     },
     {
       "name": "משוואות",
-      "count": 60,
+      "count": 54,
       "pages": [
-        {
-          "number": 31,
-          "file": "עמוד-31.html",
-          "title": "עמוד 1 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-31.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html"
-        },
-        {
-          "number": 32,
-          "file": "עמוד-32.html",
-          "title": "עמוד 2 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-32.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html"
-        },
-        {
-          "number": 33,
-          "file": "עמוד-33.html",
-          "title": "עמוד 3 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-33.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html"
-        },
-        {
-          "number": 34,
-          "file": "עמוד-34.html",
-          "title": "עמוד 4 — משוואה ריבועית",
-          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-34.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html"
-        },
-        {
-          "number": 35,
-          "file": "עמוד-35.html",
-          "title": "עמוד 5 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-35.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html"
-        },
-        {
-          "number": 36,
-          "file": "עמוד-36.html",
-          "title": "עמוד 6 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-36.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html"
-        },
         {
           "number": 42,
           "file": "עמוד-42.html",
@@ -891,6 +837,66 @@
           "topic": "פונקציות",
           "previewPath": "/עמוד-6.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-6.html"
+        }
+      ]
+    },
+    {
+      "name": "משוואות ריבועיות",
+      "count": 6,
+      "pages": [
+        {
+          "number": 31,
+          "file": "עמוד-31.html",
+          "title": "עמוד 1 — משוואה ריבועית",
+          "h1": "משוואה ריבועית",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-31.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html"
+        },
+        {
+          "number": 32,
+          "file": "עמוד-32.html",
+          "title": "עמוד 2 — משוואה ריבועית",
+          "h1": "משוואה ריבועית",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-32.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html"
+        },
+        {
+          "number": 33,
+          "file": "עמוד-33.html",
+          "title": "עמוד 3 — משוואה ריבועית",
+          "h1": "משוואה ריבועית",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-33.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html"
+        },
+        {
+          "number": 34,
+          "file": "עמוד-34.html",
+          "title": "עמוד 4 — משוואה ריבועית",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-34.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html"
+        },
+        {
+          "number": 35,
+          "file": "עמוד-35.html",
+          "title": "עמוד 5 — משוואה ריבועית",
+          "h1": "משוואה ריבועית",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-35.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html"
+        },
+        {
+          "number": 36,
+          "file": "עמוד-36.html",
+          "title": "עמוד 6 — משוואה ריבועית",
+          "h1": "משוואה ריבועית",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-36.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html"
         }
       ]
     }

@@ -26,6 +26,8 @@
 - `preview/phone.*` נשאר שכבת compat / legacy-adjacent ולא שכבת המימוש הראשית.
 - מנוע הקריאה הקנוני במובייל נשאר iframe-based.
 - `meta/topics.json` הוא עמוד שדרה פעיל של מטא־דאטה לדפים.
+- `mobile-topics.json` הוא metadata תומך בלבד וחייב להישאר מיושר ל-`meta/topics.json`.
+- preview-before-print עובר דרך `preview/print.html`, כולל handoff ממוקד מ-`mobile-app.html`.
 - `PROJECT_RULES.md` ו-`LIVE_STATUS.md` הם ההכרעה הקנונית כאשר יש סתירה מול חומר ישן.
 
 ## עיקרון עבודה
