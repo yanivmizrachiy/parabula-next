@@ -15,6 +15,14 @@ Do not approve or merge PR #3 until:
 - PDF handoff opens `preview/print.html`.
 - Protected worksheet source files remain untouched.
 
+## Completed in PR #3 after deeper audit
+
+- `mobile-app.js` now uses `pageLocalOrder()` and `sortTopicPages()` so topic-local titles such as `עמוד 1` are ordered before raw file/global number ordering.
+- Topic entry now chooses the first page with topic-local ordering, not only `number` ordering.
+- Visible page lists now use topic-local ordering.
+- Global book order now preserves repository topic order and topic-local page order.
+- `tests/contracts/access-surfaces.test.mjs` now guards this behavior so the mobile app does not silently regress to file-number-only ordering.
+
 ## Mandatory future improvements
 
 1. Final real-device mobile display fix.
