@@ -39,7 +39,7 @@
 ### הדפסה / PDF handoff
 - `print.html`
 - `print.js`
-- `print-center.js` עדיין קיים ככפילות / legacy-adjacent
+ עדיין קיים ככפילות / legacy-adjacent
 
 ### שער כניסה
 - `app.html`
