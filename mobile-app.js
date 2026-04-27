@@ -7,6 +7,7 @@ const READER_MODES = Object.freeze({
 });
 // Real-phone testing showed that enlarged mode needs to be visibly bigger than full-page mode
 // without jumping so far that horizontal panning becomes awkward immediately.
+// Applied as: Math.max(fullScale * ZOOM_SCALE_MULTIPLIER, fullScale + ZOOM_SCALE_ADDEND).
 const ZOOM_SCALE_MULTIPLIER = 1.22;
 const ZOOM_SCALE_ADDEND = 0.12;
 
@@ -304,8 +305,9 @@ function fitCurrentA4Page(){
     );
 
     stage.scrollTop = 0;
-    // The stage itself is laid out in LTR for stable centering, so in enlarged mode we
-    // scroll to the far edge first to show the natural RTL reading start of the worksheet.
+    // The stage itself is laid out in LTR because RTL iframe layout made centering drift on
+    // narrow screens. Once centering is stabilized that way, enlarged mode scrolls to the far
+    // edge first so the natural RTL reading start of the worksheet stays visible.
     const rtlReadingStart = stage.clientWidth > 0
       ? Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth)
       : 0;
