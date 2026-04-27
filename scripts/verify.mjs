@@ -29,6 +29,7 @@ function listTrackedGitlinks() {
       .map(([, , , file]) => file);
   } catch (error) {
     fail(`Unable to inspect repository gitlinks for stray submodule regressions: ${error.message}`);
+    return [];
   }
 }
 
