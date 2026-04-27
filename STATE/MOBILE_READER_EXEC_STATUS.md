@@ -24,7 +24,11 @@ _Last updated: 2026-04-27_
 - בחירת נושא במובייל חוזרת לעמוד הראשון של הנושא, כדי לשמור על behavior עקבי וברור.
 - כפתור ה-PDF במובייל מעביר עכשיו ל-`preview/print.html` עם preview-before-print ממוקד לעמוד הנוכחי.
 - `mobile-app.js` פותר עכשיו את דפי העבודה על אותו origin של הריפו הפעיל, כדי ש-local preview וה-site החי יתנהגו אותו דבר.
-- במובייל צר, הקורא עובר ל-width-first scaling עם הודעת קריאה מפורשת ו-scroll פנימי מבוקר, כדי לשפר קריאות ולהקטין empty area.
+- ולידציה אמיתית על טלפון גילתה ש-width-first לבד עדיין לא הספיק: תוכן/דיאגרמות בצד ימין נשארו פגיעים ל-clipping או ליציאה מחוץ לאזור הנוח לקריאה.
+- בעקבות זה נוספו לקורא שני מצבים מפורשים: `עמוד מלא` ו-`קריאה מוגדלת`.
+- `עמוד מלא` מתאים את הדף כך שכל רוחב ה-A4 יישאר גלוי בלי חיתוך צד מפתיע.
+- `קריאה מוגדלת` משתמשת עכשיו ב-stage/canvas פנימי ייעודי בתוך ה-iframe, עם pan/scroll פנימי מוסבר כדי לא להסתיר תוכן בצד ימין.
+- אזור topic chips הודק כדי להישאר usable יותר על טלפון אמיתי.
 - `mobile-app-install.html` קיבל layout קנוני עליון במקום מסך התקנה שמרגיש צף עם שטח אפור/ריק גדול מתחתיו.
 
 ### Repository validation improved
@@ -33,6 +37,7 @@ _Last updated: 2026-04-27_
 - הסקריפט בודק שהמסלול הקנוני במובייל נשען על `meta/topics.json`, ש-`mobile-app.html` טוען את `mobile-app.js`, שיש handoff ל-`preview/print.html`, שיש book-order navigation, וששכבת `preview/phone.*` עדיין קיימת כ-compat עד cleanup audit נפרד.
 - `mobile-topics.json` יושר מחדש ל-`meta/topics.json`, כדי למנוע drift ומיזוג שקט של נושאים נפרדים.
 - הסקריפט בודק עכשיו גם current-origin page resolution, reader notice wiring, print handoff context, ו-install flow wiring/standalone feedback.
+- הסקריפט בודק עכשיו גם נוכחות של reader-mode toggle מפורש ושל stage/canvas anti-clipping wrapper לקורא.
 
 ### Documentation aligned
 הקבצים הבאים כבר מיושרים לכיוון החדש:
@@ -55,7 +60,7 @@ _Last updated: 2026-04-27_
 ## Remaining real work
 
 ### Required before declaring success
-- אימות חזותי אמיתי של `mobile-app.html` בטלפון.
+- צילום מסך אמיתי מהטלפון שמראה `עמוד מלא` בלי חיתוך צד, או `קריאה מוגדלת` עם pan/scroll מכוון ולא מפתיע.
 - בדיקה שאין עוד gray empty area מביך.
 - בדיקה שהעמוד ממורכז, קריא, ושהמעבר בין דפים נוח באמת.
 - בדיקה ש-print / open / PDF handoff לא נשברו.
@@ -83,10 +88,10 @@ _Last updated: 2026-04-27_
 - validator ייעודי למובייל: בוצע.
 - book-order navigation + preview-before-print handoff: בוצעו.
 - current-origin local preview support + install-screen cleanup: בוצעו.
-- אימות חזותי חי: עדיין חסר.
+- אימות חזותי חי: בוצע חלקית, מצא clipping בצד ימין, ולכן בוצע pass נוסף עם mode toggle ו-anti-clipping wrapper; עדיין נדרש צילום אישור סופי מטלפון אמיתי.
 
 ## Progress snapshot
 
-הערכת מצב אמיתית כרגע: ~96%
+הערכת מצב אמיתית כרגע: ~97%
 
-הפער שנותר הוא בעיקר real-device validation אחרון לטלפון אמיתי, לא תיקון ארכיטקטוני גדול נוסף.
+הפער שנותר הוא אישור real-device סופי שה-pass החדש אכן פותר את clipping בצד ימין ושומר על נוחות קריאה אמיתית בטלפון.

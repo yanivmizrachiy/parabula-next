@@ -29,6 +29,8 @@ test('mobile app uses print center preview handoff and book navigation', () => {
   assert.ok(js.includes('goBookRelative('), 'mobile-app.js should expose global book navigation');
   assert.ok(js.includes("new URL(relativeFile, window.location.href).href"), 'mobile-app.js should resolve worksheet pages on the current origin');
   assert.ok(js.includes('readerNotice'), 'mobile-app.js should expose reader notice feedback');
+  assert.ok(js.includes('READER_MODES'), 'mobile-app.js should expose explicit reader modes');
+  assert.ok(js.includes('mobile-reader-stage'), 'mobile-app.js should build a dedicated mobile reader stage');
 });
 
 test('print center supports URL-driven selection for preview-before-print', () => {
@@ -42,6 +44,8 @@ test('mobile app html exposes install and reader guidance controls', () => {
   const html = read('mobile-app.html');
   assert.ok(html.includes('id="openInstallBtn"'), 'mobile-app.html should expose install entry button');
   assert.ok(html.includes('id="readerNotice"'), 'mobile-app.html should expose reader notice region');
+  assert.ok(html.includes('id="readerModeFullBtn"'), 'mobile-app.html should expose full-page reader mode control');
+  assert.ok(html.includes('id="readerModeZoomBtn"'), 'mobile-app.html should expose enlarged reader mode control');
 });
 
 test('mobile install flow keeps manifest and script wiring', () => {

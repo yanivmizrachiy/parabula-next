@@ -380,7 +380,9 @@ This map is intentionally limited to files that are actually present on `main`.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - Prev/Next in the mobile app should follow the global book order across topics, while topic entry still opens the first page of the selected topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
-- When the mobile reader enlarges a page for width-first reading, it should clearly tell the user that vertical scrolling inside the reader is expected.
+- The mobile app should keep the topic chip strip usable on a real phone, even when topic names are long.
+- The mobile reader should expose explicit reader modes when needed, including a full-page mode (`עמוד מלא`) and an enlarged-reading mode (`קריאה מוגדלת`).
+- When the mobile reader enlarges a page for width-first reading, it should clearly tell the user that scrolling inside the reader is expected and intentional.
 
 ## 20) Mobile app reading flow contract
 
@@ -443,7 +445,9 @@ This map is intentionally limited to files that are actually present on `main`.
 - Mobile rendering fixes must be applied in the mobile reader shell through controlled runtime presentation overrides and reader-engine logic.
 - Mobile reader progress copy should remain human-readable in Hebrew (for example, `עמוד X מתוך Y בנושא`), not raw technical counters.
 - Mobile reader fixes must prefer stable centering, stable scaling, and removal of desktop preview aesthetics before adding new gesture/polish features.
-- On narrow phone screens, the reader may prefer width-first scaling with controlled internal vertical scroll when that materially improves readability and removes awkward empty space.
+- Real-device finding: width-first enlargement alone is not sufficient if right-edge worksheet content can still be clipped or pushed outside the comfortable phone viewport.
+- On narrow phone screens, `עמוד מלא` must keep the entire A4 width visible without unexpected right-edge clipping.
+- On narrow phone screens, `קריאה מוגדלת` may enlarge the worksheet beyond viewport width only when the reader clearly explains the intentional internal pan/scroll behavior and preserves access to right-side worksheet content.
 
 ---
 

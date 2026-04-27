@@ -1,11 +1,11 @@
 # MOBILE_RUNTIME_VALIDATION
 
-Generated: 2026-04-27T12:56:09.253Z
+Generated: 2026-04-27T19:09:24.403Z
 
 ## Summary
 
-- total_checks: 22
-- passed: 22
+- total_checks: 24
+- passed: 24
 - failed: 0
 
 ## Checks
@@ -25,6 +25,8 @@ Generated: 2026-04-27T12:56:09.253Z
 - PASS — mobile_print_handoff_marks_source_and_topic — mobile-app.js annotates print handoff with source and topic
 - PASS — mobile_book_navigation_present — mobile-app.js includes global book navigation helper
 - PASS — mobile_reader_notice_present — mobile reader exposes notice feedback for reading mode/navigation
+- PASS — mobile_reader_mode_toggle_present — mobile reader exposes explicit full-page and enlarged reading modes
+- PASS — mobile_reader_stage_prevents_right_edge_clipping — mobile reader uses a dedicated stage/canvas wrapper to avoid right-edge clipping
 - PASS — print_center_accepts_url_selection — preview/print.js supports URL-driven page selection
 - PASS — print_center_explains_mobile_handoff — preview/print.js explains mobile preview-before-print handoff
 - PASS — mobile_install_flow_wired — mobile install page loads manifest and install handler

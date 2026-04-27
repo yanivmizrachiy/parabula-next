@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T12:56:09.253Z",
+  "generatedAt": "2026-04-27T19:09:24.403Z",
   "checks": [
     {
       "name": "meta_topics_exists",
@@ -75,6 +75,16 @@
       "name": "mobile_reader_notice_present",
       "ok": true,
       "details": "mobile reader exposes notice feedback for reading mode/navigation"
+    },
+    {
+      "name": "mobile_reader_mode_toggle_present",
+      "ok": true,
+      "details": "mobile reader exposes explicit full-page and enlarged reading modes"
+    },
+    {
+      "name": "mobile_reader_stage_prevents_right_edge_clipping",
+      "ok": true,
+      "details": "mobile reader uses a dedicated stage/canvas wrapper to avoid right-edge clipping"
     },
     {
       "name": "print_center_accepts_url_selection",

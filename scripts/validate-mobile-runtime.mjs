@@ -132,6 +132,22 @@ add(
 );
 
 add(
+  'mobile_reader_mode_toggle_present',
+  mobileHtml.includes('readerModeFullBtn') && mobileHtml.includes('readerModeZoomBtn') && mobileJs.includes('READER_MODES'),
+  mobileHtml.includes('readerModeFullBtn') && mobileHtml.includes('readerModeZoomBtn') && mobileJs.includes('READER_MODES')
+    ? 'mobile reader exposes explicit full-page and enlarged reading modes'
+    : 'mobile reader is missing explicit reading-mode controls'
+);
+
+add(
+  'mobile_reader_stage_prevents_right_edge_clipping',
+  mobileJs.includes('mobile-reader-stage') && mobileJs.includes('mobile-reader-canvas') && mobileJs.includes("stage.style.overflowX = allowHorizontalPan ? 'auto' : 'hidden'"),
+  mobileJs.includes('mobile-reader-stage') && mobileJs.includes('mobile-reader-canvas') && mobileJs.includes("stage.style.overflowX = allowHorizontalPan ? 'auto' : 'hidden'")
+    ? 'mobile reader uses a dedicated stage/canvas wrapper to avoid right-edge clipping'
+    : 'mobile reader is missing the dedicated stage/canvas anti-clipping wrapper'
+);
+
+add(
   'print_center_accepts_url_selection',
   printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')"),
   printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')")

@@ -42,8 +42,12 @@ This file does **not** replace `PROJECT_RULES.md`.
 - Mobile prev/next now follows the global book order, while topic entry still opens from the first page of the chosen topic.
 - Mobile PDF now hands off into `preview/print.html` for preview-before-print instead of jumping straight to a raw worksheet page.
 - The mobile reader now resolves worksheet pages on the current repository origin, so local preview and the published site use the same reader logic safely.
-- The mobile reader now uses width-first readable mode on narrow screens and explains when to scroll inside the reader to see the full A4 page.
+- Real-device phone validation found that width-first enlargement improved readability but still left right-edge worksheet content too fragile/clipped for approval.
+- The mobile reader now exposes explicit `עמוד מלא` / `קריאה מוגדלת` modes, with a dedicated anti-clipping stage/canvas wrapper inside the iframe.
+- In `עמוד מלא`, the reader keeps the entire A4 width visible without unexpected right-edge clipping.
+- In `קריאה מוגדלת`, the reader intentionally allows internal pan/scroll and explains that behavior to the user instead of silently hiding right-side content.
 - `mobile-app-install.html` is now top-aligned and no longer leaves a giant empty gray field below the main install card.
+- The topic chip strip was tightened for real-phone usability instead of staying as a crowded wrap-constrained row.
 - `preview/phone.*` is compatibility / legacy-adjacent, not the canonical mobile runtime.
 
 ---
