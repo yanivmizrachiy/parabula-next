@@ -18,6 +18,13 @@ _Last updated: 2026-04-27_
 - `mobile-app.js` עודכן כדי לחזק את התאמת ה-A4 בתוך iframe.
 - נוספה לוגיקת התאמה יציבה יותר לגובה התצוגה, scale, centering, ו-progress copy ידידותי בעברית.
 - `mobile-app.css` עודכן כדי לחזק את משטח הקריאה, frame layout, bottom nav spacing, ו-reader-first mobile surface.
+- `mobile-app.js` הועבר לקריאה מתוך `meta/topics.json` כמקור הנתונים הקנוני, במקום להישען על `mobile-topics.json` כמקור runtime ראשי.
+- בשורת המידע של האפליקציה מוצג עכשיו גם מקור הנתונים, כדי שהמצב יהיה גלוי ולא סמוי.
+
+### Repository validation improved
+- נוסף סקריפט ממוקד: `scripts/validate-mobile-runtime.mjs`.
+- נוסף command ייעודי: `npm run validate:mobile`.
+- הסקריפט בודק שהמסלול הקנוני במובייל נשען על `meta/topics.json`, ש-`mobile-app.html` טוען את `mobile-app.js`, וששכבת `preview/phone.*` עדיין קיימת כ-compat עד cleanup audit נפרד.
 
 ### Documentation aligned
 הקבצים הבאים כבר מיושרים לכיוון החדש:
@@ -61,11 +68,13 @@ _Last updated: 2026-04-27_
 ## Current execution status
 
 - תיעוד ויישור קנוני: הושלם.
+- איחוד מקור הנתונים הקנוני למובייל: בוצע.
 - שדרוג reader engine: בוצע חלק משמעותי.
+- validator ייעודי למובייל: בוצע.
 - אימות חזותי חי: עדיין חסר.
 
 ## Progress snapshot
 
-הערכת מצב אמיתית כרגע: ~98%
+הערכת מצב אמיתית כרגע: ~99%
 
 הפער שנותר הוא בעיקר אימות חזותי חי ותיקון נקודתי אחרון אם יידרש.
