@@ -22,9 +22,11 @@
 - ה-preview הקנוני הוא `preview/index.html` עם השרת `preview/server.mjs`.
 - מסלול ההדפסה הקנוני הוא `preview/print.js`.
 - קיימת כפילות חיה ידועה עם `preview/print-center.js`.
-- קיימות שתי שכבות גישה למובייל/טלפון: `mobile-app.*` וגם `preview/phone.*`.
+- מסלול המובייל הקנוני הוא `mobile-app.*`.
+- `preview/phone.*` נשאר שכבת compat / legacy-adjacent ולא שכבת המימוש הראשית.
+- מנוע הקריאה הקנוני במובייל נשאר iframe-based.
 - `meta/topics.json` הוא עמוד שדרה פעיל של מטא־דאטה לדפים.
-- `PROJECT_RULES.md` עדיין דורש סנכרון מלא עם כל שכבות הגישה והתיעוד החיים.
+- `PROJECT_RULES.md` ו-`LIVE_STATUS.md` הם ההכרעה הקנונית כאשר יש סתירה מול חומר ישן.
 
 ## עיקרון עבודה
 
