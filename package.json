@@ -12,6 +12,7 @@
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
     "verify": "node scripts/verify.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
+    "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs"
   },
