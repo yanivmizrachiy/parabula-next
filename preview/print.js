@@ -13,6 +13,7 @@ const topicFilter = document.getElementById('topicFilter');
 const selectionList = document.getElementById('selectionList');
 const printView = document.getElementById('printView');
 const selectionSummary = document.getElementById('selectionSummary');
+const handoffNote = document.getElementById('handoffNote');
 const restoreSelectionBtn = document.getElementById('restoreSelectionBtn');
 const selectVisibleBtn = document.getElementById('selectVisibleBtn');
 const clearBtn = document.getElementById('clearBtn');
@@ -69,6 +70,24 @@ function updateSummary() {
     ? `נבחרו ${count} דפים`
     : 'עדיין לא נבחרו דפים';
 }
+function updateHandoffNote() {
+  const source = urlState.searchParams.get('source');
+  const autopreview = urlState.searchParams.get('autopreview') === '1';
+  const fromMobile = source === 'mobile-app';
+  const topic = urlState.searchParams.get('topic');
+  if (!handoffNote) return;
+  if (!fromMobile && !autopreview) {
+    handoffNote.hidden = true;
+    handoffNote.textContent = '';
+    return;
+  }
+  const bits = [];
+  if (fromMobile) bits.push('נפתח מהמובייל');
+  if (topic) bits.push(`נושא: ${topic}`);
+  if (autopreview) bits.push('זהו שלב preview-before-print לפני PDF/הדפסה');
+  handoffNote.hidden = false;
+  handoffNote.textContent = bits.join(' · ');
+}
 
 function renderList() {
   const q = normalize(searchBox.value);
@@ -105,6 +124,7 @@ function renderList() {
   });
 
   updateSummary();
+  updateHandoffNote();
 }
 
 function renderPreview() {
@@ -120,6 +140,7 @@ function renderPreview() {
     });
 
   updateSummary();
+  updateHandoffNote();
 }
 function applyUrlSelection() {
   const requestedTopic = urlState.searchParams.get('topic');

@@ -27,10 +27,28 @@ test('mobile app uses print center preview handoff and book navigation', () => {
   assert.ok(js.includes('./preview/print.html'), 'mobile-app.js should deep-link to preview/print.html');
   assert.ok(js.includes('autopreview'), 'mobile-app.js should request preview-before-print');
   assert.ok(js.includes('goBookRelative('), 'mobile-app.js should expose global book navigation');
+  assert.ok(js.includes("new URL(relativeFile, window.location.href).href"), 'mobile-app.js should resolve worksheet pages on the current origin');
+  assert.ok(js.includes('readerNotice'), 'mobile-app.js should expose reader notice feedback');
 });
 
 test('print center supports URL-driven selection for preview-before-print', () => {
   const js = read('preview/print.js');
   assert.ok(js.includes("searchParams.get('files')"), 'preview/print.js should accept files query parameter');
   assert.ok(js.includes("searchParams.getAll('file')"), 'preview/print.js should accept repeated file query parameters');
+  assert.ok(js.includes("searchParams.get('source')"), 'preview/print.js should detect handoff source');
+});
+
+test('mobile app html exposes install and reader guidance controls', () => {
+  const html = read('mobile-app.html');
+  assert.ok(html.includes('id="openInstallBtn"'), 'mobile-app.html should expose install entry button');
+  assert.ok(html.includes('id="readerNotice"'), 'mobile-app.html should expose reader notice region');
+});
+
+test('mobile install flow keeps manifest and script wiring', () => {
+  const html = read('mobile-app-install.html');
+  const js = read('mobile-app-install.js');
+  assert.ok(html.includes('mobile-app.webmanifest'), 'mobile-app-install.html should load the mobile manifest');
+  assert.ok(html.includes('mobile-app-install.js'), 'mobile-app-install.html should load the install script');
+  assert.ok(js.includes('beforeinstallprompt'), 'mobile-app-install.js should handle beforeinstallprompt');
+  assert.ok(js.includes('display-mode: standalone'), 'mobile-app-install.js should detect standalone mode');
 });

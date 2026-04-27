@@ -13,11 +13,13 @@ const els = {
   mobileLoadingState: document.getElementById('mobileLoadingState'),
   globalSearch: document.getElementById('globalSearch'),
   toggleTopicsBtn: document.getElementById('toggleTopicsBtn'),
+  openInstallBtn: document.getElementById('openInstallBtn'),
   topicsPanel: document.getElementById('topicsPanel'),
   prevPageBtn: document.getElementById('prevPageBtn'),
   nextPageBtn: document.getElementById('nextPageBtn'),
   openLiveBtn: document.getElementById('openLiveBtn'),
-  printBtn: document.getElementById('printBtn')
+  printBtn: document.getElementById('printBtn'),
+  readerNotice: document.getElementById('readerNotice')
 };
 
 let db = null;
@@ -26,6 +28,7 @@ let visiblePages = [];
 let flatPages = [];
 let currentIndex = -1;
 const PRINT_SELECTION_KEY = 'parabula-selection-v1';
+let layoutNotice = '';
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
 function esc(v){
@@ -37,7 +40,9 @@ function esc(v){
     .replace(/'/g,'&#39;');
 }
 function pageUrl(page){
-  return page?.siteUrl || 'about:blank';
+  if(!page) return 'about:blank';
+  const relativeFile = String(page.file || page.previewPath || '').replace(/^\//,'').trim();
+  return relativeFile ? new URL(relativeFile, window.location.href).href : 'about:blank';
 }
 function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
@@ -49,6 +54,23 @@ function matchesQuery(page, query){
 function currentBookIndex(){
   const page = currentPage();
   return page ? flatPages.findIndex(p => p.file === page.file) : -1;
+}
+function setReaderNotice(message, { persistent = false } = {}){
+  if(persistent){
+    layoutNotice = message || '';
+  }
+  const text = message || layoutNotice;
+  if(!els.readerNotice) return;
+  els.readerNotice.hidden = !text;
+  els.readerNotice.textContent = text || '';
+}
+function showTransientReaderNotice(message){
+  if(!message) return;
+  setReaderNotice(message);
+  window.clearTimeout(window.__parabulaReaderNoticeTimeout);
+  window.__parabulaReaderNoticeTimeout = window.setTimeout(() => {
+    setReaderNotice(layoutNotice);
+  }, 2400);
 }
 function updateButtons(){
   const has = !!currentPage();
@@ -88,6 +110,7 @@ function setReaderFrameHeight(){
   const used = topbarH + readerHeadH + bottomH + loadingH + 48;
   const free = Math.max(380, window.innerHeight - used);
   els.mobilePageFrame.style.height = `${free}px`;
+  return free;
 }
 function injectMobileReaderStyles(doc){
   if(doc.getElementById('mobile-reader-cleanup-style')) return;
@@ -102,8 +125,8 @@ function injectMobileReaderStyles(doc){
       min-width:0 !important;
       height:auto !important;
       min-height:100% !important;
-      overflow:hidden !important;
-      background:#eef3f8 !important;
+      overflow-x:hidden !important;
+      background:#ffffff !important;
     }
     body{
       display:flex !important;
@@ -115,6 +138,7 @@ function injectMobileReaderStyles(doc){
       box-shadow:none !important;
       transform-origin: top center !important;
       page-break-after:auto !important;
+      background:#ffffff !important;
     }
   `;
   (doc.head || doc.documentElement).appendChild(style);
@@ -140,32 +164,50 @@ function fitCurrentA4Page(){
     const rawHeight = page.scrollHeight || page.offsetHeight || page.getBoundingClientRect().height;
     if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
 
-    const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
+    const isPhoneViewport = window.innerWidth <= 700;
+    const widthScale = Math.min(hostWidth / rawWidth, 1);
+    const fitHeightScale = Math.min(hostHeight / rawHeight, 1);
+    const scale = isPhoneViewport ? widthScale : Math.min(widthScale, fitHeightScale, 1);
     const scaledWidth = Math.round(rawWidth * scale);
     const scaledHeight = Math.round(rawHeight * scale);
+    const allowVerticalReaderScroll = isPhoneViewport && scaledHeight > hostHeight + 8;
 
     page.style.transform = `scale(${scale})`;
     page.style.transformOrigin = 'top center';
 
     doc.documentElement.style.width = '100%';
     doc.documentElement.style.minWidth = '0';
-    doc.documentElement.style.overflow = 'hidden';
-    doc.documentElement.style.background = '#eef3f8';
+    doc.documentElement.style.overflowX = 'hidden';
+    doc.documentElement.style.overflowY = allowVerticalReaderScroll ? 'auto' : 'hidden';
+    doc.documentElement.style.background = '#ffffff';
 
     doc.body.style.width = '100%';
     doc.body.style.minWidth = '0';
     doc.body.style.minHeight = `${scaledHeight}px`;
-    doc.body.style.height = `${scaledHeight}px`;
-    doc.body.style.overflow = 'hidden';
-    doc.body.style.background = '#eef3f8';
+    doc.body.style.height = allowVerticalReaderScroll ? 'auto' : `${scaledHeight}px`;
+    doc.body.style.overflowX = 'hidden';
+    doc.body.style.overflowY = allowVerticalReaderScroll ? 'auto' : 'hidden';
+    doc.body.style.background = '#ffffff';
     doc.body.style.display = 'flex';
     doc.body.style.justifyContent = 'center';
     doc.body.style.alignItems = 'flex-start';
+    doc.body.style.paddingBottom = allowVerticalReaderScroll ? '12px' : '0';
 
     const leftPad = Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
     const logicalPad = leftPad / Math.max(scale, 0.001);
     page.style.marginLeft = `${logicalPad}px`;
     page.style.marginRight = `${logicalPad}px`;
+
+    if(!allowVerticalReaderScroll && scaledHeight > 0){
+      frame.style.height = `${Math.max(320, scaledHeight + 2)}px`;
+    }
+
+    setReaderNotice(
+      allowVerticalReaderScroll
+        ? 'מצב קריאה נייד: הדף הוגדל לרוחב כדי לשפר קריאות. גלול בתוך התצוגה כדי לראות את כל ה־A4.'
+        : '',
+      { persistent: true }
+    );
 
     try { win.scrollTo(0,0); } catch(e) {}
   }catch(e){
@@ -186,6 +228,7 @@ function showPage(file){
   currentIndex = idx;
   const page = visiblePages[idx];
   els.mobileLoadingState.hidden = false;
+  setReaderNotice(layoutNotice, { persistent: true });
   const url = pageUrl(page);
   const sep = url.includes('?') ? '&' : '?';
   els.mobilePageFrame.src = `${url}${sep}mobile=1&reader=1&v=${VERSION}`;
@@ -267,16 +310,21 @@ function printCurrent(){
   url.searchParams.set('files', p.file);
   url.searchParams.set('autopreview', '1');
   url.searchParams.set('source', 'mobile-app');
+  url.searchParams.set('topic', p.topic || activeTopic);
   window.open(url.href, '_blank', 'noopener,noreferrer');
 }
 function goBookRelative(offset){
   const bookIndex = currentBookIndex();
+  const previousTopic = currentPage()?.topic || '';
   const target = flatPages[bookIndex + offset];
   if(!target) return;
   activeTopic = target.topic || activeTopic;
   const query = norm(els.globalSearch.value);
   if(query && !matchesQuery(target, query)){
     els.globalSearch.value = '';
+    showTransientReaderNotice('החיפוש נוקה כדי להמשיך ברצף הספר.');
+  }else if(previousTopic && previousTopic !== target.topic){
+    showTransientReaderNotice(`מעבר טבעי לנושא הבא: ${target.topic}`);
   }
   renderPages({ targetFile: target.file });
 }
@@ -297,6 +345,9 @@ els.prevPageBtn.addEventListener('click', () => goBookRelative(-1));
 els.nextPageBtn.addEventListener('click', () => goBookRelative(1));
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
+els.openInstallBtn?.addEventListener('click', () => {
+  window.open(new URL('./mobile-app-install.html', window.location.href).href, '_blank', 'noopener,noreferrer');
+});
 els.toggleTopicsBtn.addEventListener('click', () => {
   els.topicsPanel.classList.toggle('is-collapsed');
   document.body.classList.toggle('focus-reading', els.topicsPanel.classList.contains('is-collapsed'));

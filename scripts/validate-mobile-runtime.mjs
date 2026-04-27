@@ -15,6 +15,8 @@ let mobileMeta = null;
 let mobileJs = '';
 let mobileHtml = '';
 let printJs = '';
+let installHtml = '';
+let installJs = '';
 
 try {
   meta = JSON.parse(read('meta/topics.json'));
@@ -51,6 +53,20 @@ try {
   add('print_js_exists', false, String(err.message || err));
 }
 
+try {
+  installHtml = read('mobile-app-install.html');
+  add('mobile_install_html_exists', true, 'mobile-app-install.html loaded');
+} catch (err) {
+  add('mobile_install_html_exists', false, String(err.message || err));
+}
+
+try {
+  installJs = read('mobile-app-install.js');
+  add('mobile_install_js_exists', true, 'mobile-app-install.js loaded');
+} catch (err) {
+  add('mobile_install_js_exists', false, String(err.message || err));
+}
+
 add(
   'mobile_app_uses_canonical_meta_topics',
   mobileJs.includes("./meta/topics.json"),
@@ -76,11 +92,27 @@ add(
 );
 
 add(
+  'mobile_reader_uses_current_origin_pages',
+  mobileJs.includes('new URL(relativeFile, window.location.href).href') && !mobileJs.includes('page?.siteUrl ||'),
+  mobileJs.includes('new URL(relativeFile, window.location.href).href') && !mobileJs.includes('page?.siteUrl ||')
+    ? 'mobile-app.js resolves worksheet pages against the current origin'
+    : 'mobile-app.js is not resolving worksheet pages against the current origin'
+);
+
+add(
   'mobile_print_handoff_uses_print_center',
   mobileJs.includes('./preview/print.html') && mobileJs.includes('autopreview'),
   mobileJs.includes('./preview/print.html') && mobileJs.includes('autopreview')
     ? 'mobile-app.js deep-links into preview/print.html for preview-before-print'
     : 'mobile-app.js is not deep-linking into preview/print.html preview-before-print flow'
+);
+
+add(
+  'mobile_print_handoff_marks_source_and_topic',
+  mobileJs.includes("url.searchParams.set('source', 'mobile-app')") && mobileJs.includes("url.searchParams.set('topic'"),
+  mobileJs.includes("url.searchParams.set('source', 'mobile-app')") && mobileJs.includes("url.searchParams.set('topic'")
+    ? 'mobile-app.js annotates print handoff with source and topic'
+    : 'mobile-app.js is not annotating print handoff with source/topic'
 );
 
 add(
@@ -92,11 +124,43 @@ add(
 );
 
 add(
+  'mobile_reader_notice_present',
+  mobileHtml.includes('readerNotice') && mobileJs.includes('setReaderNotice('),
+  mobileHtml.includes('readerNotice') && mobileJs.includes('setReaderNotice(')
+    ? 'mobile reader exposes notice feedback for reading mode/navigation'
+    : 'mobile reader is missing notice feedback wiring'
+);
+
+add(
   'print_center_accepts_url_selection',
   printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')"),
   printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')")
     ? 'preview/print.js supports URL-driven page selection'
     : 'preview/print.js does not support URL-driven page selection'
+);
+
+add(
+  'print_center_explains_mobile_handoff',
+  printJs.includes("searchParams.get('source')") && printJs.includes('preview-before-print'),
+  printJs.includes("searchParams.get('source')") && printJs.includes('preview-before-print')
+    ? 'preview/print.js explains mobile preview-before-print handoff'
+    : 'preview/print.js is missing explicit mobile handoff explanation'
+);
+
+add(
+  'mobile_install_flow_wired',
+  installHtml.includes('mobile-app.webmanifest') && installHtml.includes('mobile-app-install.js') && installJs.includes('beforeinstallprompt'),
+  installHtml.includes('mobile-app.webmanifest') && installHtml.includes('mobile-app-install.js') && installJs.includes('beforeinstallprompt')
+    ? 'mobile install page loads manifest and install handler'
+    : 'mobile install page is missing manifest/install handler wiring'
+);
+
+add(
+  'mobile_install_supports_standalone_feedback',
+  installJs.includes('display-mode: standalone') && installJs.includes('appinstalled'),
+  installJs.includes('display-mode: standalone') && installJs.includes('appinstalled')
+    ? 'mobile install flow reports standalone/appinstalled state'
+    : 'mobile install flow is missing standalone/appinstalled feedback'
 );
 
 if (meta && mobileMeta) {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T12:40:39.106Z",
+  "generatedAt": "2026-04-27T12:48:26.993Z",
   "checks": [
     {
       "name": "meta_topics_exists",
@@ -27,6 +27,16 @@
       "details": "preview/print.js loaded"
     },
     {
+      "name": "mobile_install_html_exists",
+      "ok": true,
+      "details": "mobile-app-install.html loaded"
+    },
+    {
+      "name": "mobile_install_js_exists",
+      "ok": true,
+      "details": "mobile-app-install.js loaded"
+    },
+    {
       "name": "mobile_app_uses_canonical_meta_topics",
       "ok": true,
       "details": "mobile-app.js fetches ./meta/topics.json"
@@ -42,9 +52,19 @@
       "details": "mobile-app.html loads mobile-app.js"
     },
     {
+      "name": "mobile_reader_uses_current_origin_pages",
+      "ok": true,
+      "details": "mobile-app.js resolves worksheet pages against the current origin"
+    },
+    {
       "name": "mobile_print_handoff_uses_print_center",
       "ok": true,
       "details": "mobile-app.js deep-links into preview/print.html for preview-before-print"
+    },
+    {
+      "name": "mobile_print_handoff_marks_source_and_topic",
+      "ok": true,
+      "details": "mobile-app.js annotates print handoff with source and topic"
     },
     {
       "name": "mobile_book_navigation_present",
@@ -52,9 +72,29 @@
       "details": "mobile-app.js includes global book navigation helper"
     },
     {
+      "name": "mobile_reader_notice_present",
+      "ok": true,
+      "details": "mobile reader exposes notice feedback for reading mode/navigation"
+    },
+    {
       "name": "print_center_accepts_url_selection",
       "ok": true,
       "details": "preview/print.js supports URL-driven page selection"
+    },
+    {
+      "name": "print_center_explains_mobile_handoff",
+      "ok": true,
+      "details": "preview/print.js explains mobile preview-before-print handoff"
+    },
+    {
+      "name": "mobile_install_flow_wired",
+      "ok": true,
+      "details": "mobile install page loads manifest and install handler"
+    },
+    {
+      "name": "mobile_install_supports_standalone_feedback",
+      "ok": true,
+      "details": "mobile install flow reports standalone/appinstalled state"
     },
     {
       "name": "mobile_topics_divergence_detected",
