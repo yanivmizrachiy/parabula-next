@@ -20,6 +20,12 @@
 - `../mobile-app-install.js`
 - `../mobile-topics.json`
 
+### חוזה runtime של המובייל
+- `mobile-app.*` הוא מסלול המובייל הקנוני לשיפורים חדשים.
+- מנוע הקריאה במובייל נשאר **iframe-based**.
+- דפי `עמוד-N.html` נשארים מקור האמת היחיד של התוכן.
+- שיפורי מובייל צריכים לקרות בשכבת reader/runtime של `mobile-app.*`, לא דרך שכפול דפים.
+
 ### שכבת טלפון / legacy / תאימות
 - `phone.html`
 - `phone.js`
@@ -28,10 +34,12 @@
 - `icon.svg`
 - `sw.js`
 
+שכבת `preview/phone.*` נשמרת כרגע כשכבת compat / legacy-adjacent, ולא כמסלול המימוש הראשי.
+
 ### הדפסה / PDF handoff
 - `print.html`
 - `print.js`
- (כפילות / legacy-adjacent)
+- `print-center.js` עדיין קיים ככפילות / legacy-adjacent
 
 ### שער כניסה
 - `app.html`
@@ -40,24 +48,25 @@
 
 - שכבת `preview/` היא שכבת utility סביב דפי העבודה, לא תחליף לדפים הקנוניים.
 - אין להמציא דפים או נושאים. כל הרשימות חייבות להישען על `meta/topics.json`.
-- אין לגעת ב-`עמוד-N.html` כחלק מעבודות preview/app/print אלא אם המשתמש ביקש במפורש.
-- אם מתגלים פערים בין `preview/` לבין `PROJECT_RULES.md`, יש לתעד אותם במפורש עד לסנכרון מלא.
+- אין לגעת ב-`עמוד-N.html` כחלק מעבודות preview/app/print/mobile אלא אם המשתמש ביקש במפורש.
+- כאשר יש פער בין `preview/` לבין `PROJECT_RULES.md`, יש ליישר את שכבת `preview/` לכיוון הקנוני ולא להפך.
 
 ## מצב נוכחי אמיתי
 
 - קיים שער כניסה `app.html`.
 - קיים מרכז הדפסה פעיל.
 - `print.js` הוא קובץ ההדפסה הקנוני הפעיל בשכבת ההדפסה.
- עדיין קיים ככפילות / legacy-adjacent file.
+- `print-center.js` עדיין קיים ככפילות / legacy-adjacent file.
 - `mobile-app.html` הוא מסלול המובייל הקנוני היחיד לשיפורי מובייל חדשים.
-- `preview/phone.html` נשאר שכבת legacy / redirect-only mobile entry לתאימות לאחור.
+- `preview/phone.html` נשאר שכבת compat / redirect / legacy לתאימות לאחור.
 - שכבת המובייל והאייקון לנייד הם חלק רשמי מהמערכת החיה, ו-`PROJECT_RULES.md` חייב להישאר מסונכרן איתם.
+- האימות החזותי בפועל של `mobile-app.html` עדיין נדרש לפני הכרזה על השלמה מלאה.
 
 ## המשך בטוח
 
 1. לשמור על מסלולי הכניסה הקיימים יציבים.
 2. לאחד בהמשך את שכבת ההדפסה בלי לשבור את `print.html`.
-3. לסנכרן את `PROJECT_RULES.md` עם שכבת `preview/`.
+3. לשמור על `mobile-app.*` כמסלול המובייל הקנוני.
 4. להמשיך לשפר מובייל ו-PDF בלי לגעת בדפי העבודה עצמם.
 
 ## התקנה / אייקון לנייד
