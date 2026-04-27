@@ -184,6 +184,8 @@ function ensureReaderContainers(doc){
 }
 function calculateZoomScale(fullScale, isPhoneViewport){
   if(!isPhoneViewport) return fullScale;
+  // The multiplier keeps enlarged mode noticeably bigger than full-page mode,
+  // while the additive floor guarantees a visible bump even when fullScale is very small.
   return Math.min(1, Math.max(fullScale * ZOOM_SCALE_MULTIPLIER, fullScale + ZOOM_SCALE_ADDEND));
 }
 function injectMobileReaderStyles(doc){
@@ -304,7 +306,9 @@ function fitCurrentA4Page(){
     stage.scrollTop = 0;
     // The stage itself is laid out in LTR for stable centering, so in enlarged mode we
     // scroll to the far edge first to show the natural RTL reading start of the worksheet.
-    const rtlReadingStart = Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth);
+    const rtlReadingStart = stage.clientWidth > 0
+      ? Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth)
+      : 0;
     stage.scrollLeft = allowHorizontalPan ? rtlReadingStart : 0;
   }catch(e){
     console.error('fitCurrentA4Page failed', e);
