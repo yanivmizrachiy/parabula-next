@@ -1,4 +1,4 @@
-const VERSION = 'focus-20260427003';
+const VERSION = 'focus-20260427004';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 const READER_MODE_KEY = 'parabula:readerMode';
 const READER_MODES = Object.freeze({
@@ -65,6 +65,20 @@ function currentPage(){
 function matchesQuery(page, query){
   const searchableText = `${page?.topic || ''} ${page?.title || ''} ${page?.h1 || ''} ${page?.file || ''} ${page?.number || ''}`;
   return !query || norm(searchableText).includes(query);
+}
+function pageLocalOrder(page){
+  const title = String(page?.title || page?.h1 || '');
+  const titleMatch = title.match(/עמוד\s+(\d+)/);
+  if(titleMatch) return Number(titleMatch[1]);
+  const fileMatch = String(page?.file || '').match(/עמוד-(\d+)\.html/);
+  return Number(page?.number || fileMatch?.[1] || 0);
+}
+function sortTopicPages(pages){
+  return (pages || []).slice().sort((a,b) => (
+    pageLocalOrder(a) - pageLocalOrder(b)
+    || Number(a.number || 0) - Number(b.number || 0)
+    || String(a.file || '').localeCompare(String(b.file || ''), 'he')
+  ));
 }
 function currentBookIndex(){
   const page = currentPage();
@@ -135,9 +149,7 @@ function setProgress(page){
     els.globalProgress.textContent = '—';
     return;
   }
-  const topicPages = ((db?.topics || []).find(topic => topic.name === page.topic)?.pages || [])
-    .slice()
-    .sort((a,b) => a.number - b.number);
+  const topicPages = sortTopicPages((db?.topics || []).find(topic => topic.name === page.topic)?.pages || []);
   const topicIndex = topicPages.findIndex(topicPage => topicPage.file === page.file);
   els.topicProgress.textContent = topicIndex >= 0
     ? `עמוד ${topicIndex + 1} מתוך ${topicPages.length} בנושא`
@@ -354,7 +366,7 @@ function renderTopics(){
     b.textContent = `${topic.name} (${topic.count})`;
     b.onclick = () => {
       activeTopic = topic.name;
-      const firstPage = (topic.pages || []).slice().sort((a,b) => a.number - b.number)[0];
+      const firstPage = sortTopicPages(topic.pages || [])[0];
       renderPages({ targetFile: firstPage?.file || null });
       els.topicsPanel.classList.remove('is-collapsed');
     };
@@ -367,7 +379,7 @@ function renderPages(options = {}){
   const q = norm(els.globalSearch.value);
   const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
   activeTopic = topic?.name || '';
-  visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number).filter(page => matchesQuery(page, q));
+  visiblePages = sortTopicPages(topic?.pages || []).filter(page => matchesQuery(page, q));
 
   els.topicPages.innerHTML = '';
 
@@ -434,7 +446,7 @@ async function boot(){
   const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
   if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
   db = await r.json();
-  flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
+  flatPages = (db.topics || []).flatMap(t => sortTopicPages(t.pages || []));
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   updateReaderModeButtons();
