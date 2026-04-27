@@ -23,12 +23,16 @@ _Last updated: 2026-04-27_
 - `mobile-app.js` מנווט עכשיו קודם/הבא לפי סדר הספר הגלובלי, ולא נעצר בקצה הנושא הנוכחי.
 - בחירת נושא במובייל חוזרת לעמוד הראשון של הנושא, כדי לשמור על behavior עקבי וברור.
 - כפתור ה-PDF במובייל מעביר עכשיו ל-`preview/print.html` עם preview-before-print ממוקד לעמוד הנוכחי.
+- `mobile-app.js` פותר עכשיו את דפי העבודה על אותו origin של הריפו הפעיל, כדי ש-local preview וה-site החי יתנהגו אותו דבר.
+- במובייל צר, הקורא עובר ל-width-first scaling עם הודעת קריאה מפורשת ו-scroll פנימי מבוקר, כדי לשפר קריאות ולהקטין empty area.
+- `mobile-app-install.html` קיבל layout קנוני עליון במקום מסך התקנה שמרגיש צף עם שטח אפור/ריק גדול מתחתיו.
 
 ### Repository validation improved
 - נוסף סקריפט ממוקד: `scripts/validate-mobile-runtime.mjs`.
 - נוסף command ייעודי: `npm run validate:mobile`.
 - הסקריפט בודק שהמסלול הקנוני במובייל נשען על `meta/topics.json`, ש-`mobile-app.html` טוען את `mobile-app.js`, שיש handoff ל-`preview/print.html`, שיש book-order navigation, וששכבת `preview/phone.*` עדיין קיימת כ-compat עד cleanup audit נפרד.
 - `mobile-topics.json` יושר מחדש ל-`meta/topics.json`, כדי למנוע drift ומיזוג שקט של נושאים נפרדים.
+- הסקריפט בודק עכשיו גם current-origin page resolution, reader notice wiring, print handoff context, ו-install flow wiring/standalone feedback.
 
 ### Documentation aligned
 הקבצים הבאים כבר מיושרים לכיוון החדש:
@@ -56,6 +60,7 @@ _Last updated: 2026-04-27_
 - בדיקה שהעמוד ממורכז, קריא, ושהמעבר בין דפים נוח באמת.
 - בדיקה ש-print / open / PDF handoff לא נשברו.
 - בדיקה ש-preview-before-print מהמובייל אכן פותח את `preview/print.html` עם העמוד הנכון.
+- בדיקה ש-`mobile-app-install.html` נראה טוב בטלפון אמיתי ולא רק באמולציה.
 
 ### Only if visual check still fails
 - fine-tuning נוסף ב-`mobile-app.js`
@@ -77,10 +82,11 @@ _Last updated: 2026-04-27_
 - שדרוג reader engine: בוצע חלק משמעותי.
 - validator ייעודי למובייל: בוצע.
 - book-order navigation + preview-before-print handoff: בוצעו.
+- current-origin local preview support + install-screen cleanup: בוצעו.
 - אימות חזותי חי: עדיין חסר.
 
 ## Progress snapshot
 
-הערכת מצב אמיתית כרגע: ~90%
+הערכת מצב אמיתית כרגע: ~96%
 
-הפער שנותר הוא בעיקר אימות חזותי חי, בדיקת real-device לזרימת preview-before-print, ותיקון נקודתי אחרון אם יידרש.
+הפער שנותר הוא בעיקר real-device validation אחרון לטלפון אמיתי, לא תיקון ארכיטקטוני גדול נוסף.

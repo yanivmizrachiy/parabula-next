@@ -362,6 +362,7 @@ This map is intentionally limited to files that are actually present on `main`.
 - Use repository metadata as the source of truth for topics and worksheet pages.
 - The mobile app must provide topic browsing, fast page navigation, live preview, open, print, and PDF handoff.
 - The mobile app PDF action must hand off into `preview/print.html` for preview-before-print, not skip directly to a raw worksheet page.
+- The canonical mobile reader should resolve worksheet pages against the current repository origin so local preview and published runtime both stay usable and same-origin.
 - New mobile fixes must land in `mobile-app.*` first, not in `preview/phone.*`.
 
 ## 18) Planned but not yet live on `main`
@@ -379,6 +380,7 @@ This map is intentionally limited to files that are actually present on `main`.
 - The user must be able to move to the next page, next topic, and the first page of the current topic.
 - Prev/Next in the mobile app should follow the global book order across topics, while topic entry still opens the first page of the selected topic.
 - The mobile app should expose direct actions for install flow and PDF/print flow.
+- When the mobile reader enlarges a page for width-first reading, it should clearly tell the user that vertical scrolling inside the reader is expected.
 
 ## 20) Mobile app reading flow contract
 
@@ -403,6 +405,7 @@ This map is intentionally limited to files that are actually present on `main`.
 
 - `preview/print.html` is the live print/PDF handoff surface currently present on `main`.
 - `preview/print.js` may accept URL-driven page selection (for example from the mobile app) as long as it still previews only real worksheet pages from repository metadata.
+- The print/PDF handoff should show explicit context when it was opened from the mobile app so preview-before-print feels intentional, not accidental.
 - The final print / Save as PDF step may remain browser-driven.
 - `preview/all-pages.*` and `preview/topics.*` may prepare selections for print/PDF, but must not bypass real print flow.
 
@@ -419,6 +422,7 @@ This map is intentionally limited to files that are actually present on `main`.
 - The public install page URL is `mobile-app-install.html`.
 - Published runtime topic data must come from repository runtime metadata.
 - Supporting metadata such as `mobile-topics.json` must stay aligned with `meta/topics.json` and must not silently merge distinct topics.
+- The public install page should stay top-aligned and useful on phone screens; avoid vertically centered layouts that create large empty gray regions below the primary install card.
 - The public app must not depend on an alternate hidden worksheet source.
 - The same published files should exist in both root and `/docs` so either Pages source can work.
 
@@ -439,6 +443,7 @@ This map is intentionally limited to files that are actually present on `main`.
 - Mobile rendering fixes must be applied in the mobile reader shell through controlled runtime presentation overrides and reader-engine logic.
 - Mobile reader progress copy should remain human-readable in Hebrew (for example, `עמוד X מתוך Y בנושא`), not raw technical counters.
 - Mobile reader fixes must prefer stable centering, stable scaling, and removal of desktop preview aesthetics before adding new gesture/polish features.
+- On narrow phone screens, the reader may prefer width-first scaling with controlled internal vertical scroll when that materially improves readability and removes awkward empty space.
 
 ---
 

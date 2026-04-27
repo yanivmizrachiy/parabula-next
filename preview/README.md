@@ -26,6 +26,7 @@
 - דפי `עמוד-N.html` נשארים מקור האמת היחיד של התוכן.
 - שיפורי מובייל צריכים לקרות בשכבת reader/runtime של `mobile-app.*`, לא דרך שכפול דפים.
 - ניווט הבא/הקודם במובייל צריך להרגיש כמו ספר ולנוע לפי סדר הספר הגלובלי, גם במעבר בין נושאים.
+- במובייל narrow, width-first scaling עם הודעת קריאה ו-scroll פנימי מבוקר הוא behavior קנוני תקין כאשר הוא משפר קריאות ומקטין empty area.
 
 ### שכבת טלפון / legacy / תאימות
 - `phone.html`
@@ -42,6 +43,7 @@
 - `print.js`
 - `print-center.js` עדיין קיים ככפילות / legacy-adjacent
 - `print.html` הוא שכבת preview-before-print החיה, ויכול לקבל בחירת דפים דרך URL ממסלולים אחרים
+- כאשר `print.html` נפתח מהמובייל, הוא צריך להסביר שזהו שלב preview-before-print לפני PDF/הדפסה.
 
 ### שער כניסה
 - `app.html`
@@ -62,6 +64,7 @@
 - `mobile-app.html` הוא מסלול המובייל הקנוני היחיד לשיפורי מובייל חדשים.
 - `preview/phone.html` נשאר שכבת compat / redirect / legacy לתאימות לאחור.
 - `preview/install.html` צריך להוביל קודם כל ל-`../mobile-app.html`, לא ל-`preview/phone.html` כמסלול ראשי.
+- `mobile-app-install.html` צריך להישאר מסך התקנה קנוני, נוח, וטופ-אליינד במובייל בלי empty gray area גדול.
 - שכבת המובייל והאייקון לנייד הם חלק רשמי מהמערכת החיה, ו-`PROJECT_RULES.md` חייב להישאר מסונכרן איתם.
 - האימות החזותי בפועל של `mobile-app.html` עדיין נדרש לפני הכרזה על השלמה מלאה.
 

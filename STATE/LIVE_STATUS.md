@@ -41,6 +41,9 @@ This file does **not** replace `PROJECT_RULES.md`.
 - Mobile rendering fixes must happen in the mobile reader layer, not by duplicating or forking worksheet pages.
 - Mobile prev/next now follows the global book order, while topic entry still opens from the first page of the chosen topic.
 - Mobile PDF now hands off into `preview/print.html` for preview-before-print instead of jumping straight to a raw worksheet page.
+- The mobile reader now resolves worksheet pages on the current repository origin, so local preview and the published site use the same reader logic safely.
+- The mobile reader now uses width-first readable mode on narrow screens and explains when to scroll inside the reader to see the full A4 page.
+- `mobile-app-install.html` is now top-aligned and no longer leaves a giant empty gray field below the main install card.
 - `preview/phone.*` is compatibility / legacy-adjacent, not the canonical mobile runtime.
 
 ---
@@ -62,6 +65,7 @@ These files are live and useful, but may still require wording and structural al
 - `scripts/app-layer-check.mjs` now reflects the current canonical-vs-compat mobile architecture.
 - `scripts/validate-mobile-runtime.mjs` now checks preview-before-print handoff, book-order navigation, and URL-driven print selection.
 - The stray empty gitlink `_stray_parabula_next_20260415_120247` was removed because it was breaking checkout/deployment workflows.
+- Live second-pass checks confirmed cross-topic next/previous behavior, explicit print handoff context, and improved install-page layout.
 
 ---
 

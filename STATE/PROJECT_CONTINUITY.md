@@ -40,17 +40,17 @@
 ## 5. מה עדיין לא הושלם
 
 - אימות חזותי מלא של חוויית הקריאה במובייל אחרי עדכוני `mobile-app.*` עדיין לא הושלם.
-- אימות ידני על טלפון אמיתי לזרימת preview-before-print עדיין לא הושלם.
+- בוצע אימות חי באמולציית מובייל לזרימת preview-before-print, ל-cross-topic next/previous, ולמסך ההתקנה; אימות ידני על טלפון אמיתי עדיין לא הושלם.
 - שכבת restore אוטומטית מלאה עדיין לא קיימת; כרגע יש detection/audit בלבד.
 - שכבת print עדיין דורשת יישור תיעודי מלא סביב `preview/print.js` מול קבצי compat ישנים.
 - cleanup מבוקר של שכבות legacy/compat עדיין לא אושר לביצוע.
 
 ## 6. סדר העבודה הבא
 
-1. לאמת בפועל את תצוגת `mobile-app.html` בטלפון.
-2. לאמת בפועל שהניווט הבא/הקודם במובייל מרגיש כמו ספר אמיתי גם במעבר בין נושאים.
-3. לאמת בפועל ש-`preview/print.html` מקבל handoff תקין מ-`mobile-app.html` ל-preview-before-print.
-4. לתקן רק מה שנשאר שבור ב-reader engine או ב-print handoff, בלי לגעת בדפי ה-A4 עצמם.
+1. לאמת בפועל על טלפון אמיתי שהקריאה במובייל עדיין נוחה, כולל scroll פנימי במצב width-first.
+2. לאמת בפועל על טלפון אמיתי שאין חזרת empty gray area חריגה במסך הקורא ובמסך ההתקנה.
+3. לאמת בפועל על טלפון אמיתי ש-`preview/print.html` מקבל handoff תקין מ-`mobile-app.html` ל-preview-before-print.
+4. לתקן רק מה שנשאר שבור ב-reader engine או ב-print/install handoff, בלי לגעת בדפי ה-A4 עצמם.
 5. לשמור בכל מקום ש-`mobile-app.*` הוא מסלול המובייל הקנוני ו-`preview/phone.*` הוא compat בלבד.
 
 ## 7. כללי עבודה מחייבים להמשך
