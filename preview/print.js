@@ -5,6 +5,7 @@ const BASE = (() => {
 
 const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
+// Allow the preview iframe to render before opening the browser print dialog.
 const PRINT_DIALOG_DELAY = 250;
 const urlState = new URL(window.location.href);
 
