@@ -1,4 +1,4 @@
-const VERSION = 'focus-20260427001';
+const VERSION = 'focus-20260427002';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -25,6 +25,7 @@ let activeTopic = '';
 let visiblePages = [];
 let flatPages = [];
 let currentIndex = -1;
+const PRINT_SELECTION_KEY = 'parabula-selection-v1';
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
 function esc(v){
@@ -41,10 +42,19 @@ function pageUrl(page){
 function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
 }
+function matchesQuery(page, query){
+  const hay = `${page?.topic || ''} ${page?.title || ''} ${page?.h1 || ''} ${page?.file || ''} ${page?.number || ''}`;
+  return !query || norm(hay).includes(query);
+}
+function currentBookIndex(){
+  const page = currentPage();
+  return page ? flatPages.findIndex(p => p.file === page.file) : -1;
+}
 function updateButtons(){
   const has = !!currentPage();
-  els.prevPageBtn.disabled = !has || currentIndex <= 0;
-  els.nextPageBtn.disabled = !has || currentIndex >= visiblePages.length - 1;
+  const bookIndex = currentBookIndex();
+  els.prevPageBtn.disabled = !has || bookIndex <= 0;
+  els.nextPageBtn.disabled = !has || bookIndex >= flatPages.length - 1;
   els.openLiveBtn.disabled = !has;
   els.printBtn.disabled = !has;
   document.querySelectorAll('.topic-btn').forEach(btn => {
@@ -60,7 +70,13 @@ function setProgress(page){
     els.globalProgress.textContent = '—';
     return;
   }
-  els.topicProgress.textContent = `עמוד ${currentIndex + 1} מתוך ${visiblePages.length} בנושא`;
+  const topicPages = ((db?.topics || []).find(topic => topic.name === page.topic)?.pages || [])
+    .slice()
+    .sort((a,b) => a.number - b.number);
+  const topicIndex = topicPages.findIndex(topicPage => topicPage.file === page.file);
+  els.topicProgress.textContent = topicIndex >= 0
+    ? `עמוד ${topicIndex + 1} מתוך ${topicPages.length} בנושא`
+    : '—';
   const gi = flatPages.findIndex(p => p.file === page.file);
   els.globalProgress.textContent = gi >= 0 ? `עמוד ${gi + 1} מתוך ${flatPages.length} בספר` : '—';
 }
@@ -193,21 +209,20 @@ function renderTopics(){
     b.textContent = `${topic.name} (${topic.count})`;
     b.onclick = () => {
       activeTopic = topic.name;
-      renderPages();
+      const firstPage = (topic.pages || []).slice().sort((a,b) => a.number - b.number)[0];
+      renderPages({ targetFile: firstPage?.file || null });
       els.topicsPanel.classList.remove('is-collapsed');
     };
     els.topicStrip.appendChild(b);
   });
   updateButtons();
 }
-function renderPages(){
+function renderPages(options = {}){
+  const { targetFile = null } = options;
   const q = norm(els.globalSearch.value);
   const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
   activeTopic = topic?.name || '';
-  visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number).filter(p => {
-    const hay = `${p.topic} ${p.title} ${p.h1} ${p.file} ${p.number}`;
-    return !q || norm(hay).includes(q);
-  });
+  visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number).filter(page => matchesQuery(page, q));
 
   els.topicPages.innerHTML = '';
 
@@ -232,8 +247,11 @@ function renderPages(){
     els.topicPages.appendChild(b);
   });
 
+  const currentFile = currentPage()?.file;
   const lastFile = localStorage.getItem('parabula:lastFile');
-  const target = lastFile && visiblePages.some(p => p.file === lastFile) ? lastFile : visiblePages[0].file;
+  const target = [targetFile, currentFile, lastFile, visiblePages[0]?.file].find(file => (
+    file && visiblePages.some(page => page.file === file)
+  ));
   showPage(target);
 }
 function openCurrent(){
@@ -242,7 +260,24 @@ function openCurrent(){
 }
 function printCurrent(){
   const p = currentPage();
-  if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
+  if(!p) return;
+  localStorage.setItem(PRINT_SELECTION_KEY, JSON.stringify([p.file]));
+  const url = new URL('./preview/print.html', window.location.href);
+  url.searchParams.set('files', p.file);
+  url.searchParams.set('autopreview', '1');
+  url.searchParams.set('source', 'mobile-app');
+  window.open(url.href, '_blank', 'noopener,noreferrer');
+}
+function goBookRelative(offset){
+  const bookIndex = currentBookIndex();
+  const target = flatPages[bookIndex + offset];
+  if(!target) return;
+  activeTopic = target.topic || activeTopic;
+  const query = norm(els.globalSearch.value);
+  if(query && !matchesQuery(target, query)){
+    els.globalSearch.value = '';
+  }
+  renderPages({ targetFile: target.file });
 }
 async function boot(){
   const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
@@ -257,8 +292,8 @@ async function boot(){
 }
 
 els.globalSearch.addEventListener('input', renderPages);
-els.prevPageBtn.addEventListener('click', () => { if(currentIndex > 0) showPage(visiblePages[currentIndex - 1].file); });
-els.nextPageBtn.addEventListener('click', () => { if(currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file); });
+els.prevPageBtn.addEventListener('click', () => goBookRelative(-1));
+els.nextPageBtn.addEventListener('click', () => goBookRelative(1));
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
 els.toggleTopicsBtn.addEventListener('click', () => {

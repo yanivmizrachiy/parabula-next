@@ -14,6 +14,7 @@ let meta = null;
 let mobileMeta = null;
 let mobileJs = '';
 let mobileHtml = '';
+let printJs = '';
 
 try {
   meta = JSON.parse(read('meta/topics.json'));
@@ -43,6 +44,13 @@ try {
   add('mobile_app_html_exists', false, String(err.message || err));
 }
 
+try {
+  printJs = read('preview/print.js');
+  add('print_js_exists', true, 'preview/print.js loaded');
+} catch (err) {
+  add('print_js_exists', false, String(err.message || err));
+}
+
 add(
   'mobile_app_uses_canonical_meta_topics',
   mobileJs.includes("./meta/topics.json"),
@@ -65,6 +73,30 @@ add(
   mobileHtml.includes('./mobile-app.js')
     ? 'mobile-app.html loads mobile-app.js'
     : 'mobile-app.html does not load mobile-app.js as expected'
+);
+
+add(
+  'mobile_print_handoff_uses_print_center',
+  mobileJs.includes('./preview/print.html') && mobileJs.includes('autopreview'),
+  mobileJs.includes('./preview/print.html') && mobileJs.includes('autopreview')
+    ? 'mobile-app.js deep-links into preview/print.html for preview-before-print'
+    : 'mobile-app.js is not deep-linking into preview/print.html preview-before-print flow'
+);
+
+add(
+  'mobile_book_navigation_present',
+  mobileJs.includes('goBookRelative('),
+  mobileJs.includes('goBookRelative(')
+    ? 'mobile-app.js includes global book navigation helper'
+    : 'mobile-app.js is missing global book navigation helper'
+);
+
+add(
+  'print_center_accepts_url_selection',
+  printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')"),
+  printJs.includes("searchParams.get('files')") && printJs.includes("searchParams.getAll('file')")
+    ? 'preview/print.js supports URL-driven page selection'
+    : 'preview/print.js does not support URL-driven page selection'
 );
 
 if (meta && mobileMeta) {

@@ -5,6 +5,7 @@ const BASE = (() => {
 
 const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
+const urlState = new URL(window.location.href);
 
 const searchBox = document.getElementById('searchBox');
 const topicFilter = document.getElementById('topicFilter');
@@ -27,6 +28,17 @@ function normalize(value) {
 
 function pageUrl(file) {
   return new URL(file, PAGE_BASE).href;
+}
+function unique(list) {
+  return [...new Set(list.filter(Boolean))];
+}
+function requestedFilesFromUrl() {
+  const direct = urlState.searchParams.getAll('file');
+  const csv = (urlState.searchParams.get('files') || '')
+    .split(',')
+    .map((file) => file.trim())
+    .filter(Boolean);
+  return unique([...direct, ...csv]);
 }
 
 function allPages() {
@@ -108,6 +120,21 @@ function renderPreview() {
 
   updateSummary();
 }
+function applyUrlSelection() {
+  const requestedTopic = urlState.searchParams.get('topic');
+  if (requestedTopic && db.topics.some((topic) => topic.name === requestedTopic)) {
+    topicFilter.value = requestedTopic;
+  }
+
+  const validFiles = new Set(allPages().map((page) => page.file));
+  const requestedFiles = requestedFilesFromUrl().filter((file) => validFiles.has(file));
+  if (!requestedFiles.length) return false;
+
+  selected.clear();
+  requestedFiles.forEach((file) => selected.add(file));
+  saveSelection();
+  return true;
+}
 
 async function boot() {
   const response = await fetch(new URL('../meta/topics.json', BASE));
@@ -121,7 +148,14 @@ async function boot() {
   });
 
   restoreSelection();
+  const selectedFromUrl = applyUrlSelection();
   renderList();
+  if (selectedFromUrl || urlState.searchParams.get('autopreview') === '1') {
+    renderPreview();
+  }
+  if (selectedFromUrl && urlState.searchParams.get('autoprint') === '1') {
+    setTimeout(() => window.print(), 250);
+  }
 }
 
 searchBox.addEventListener('input', renderList);

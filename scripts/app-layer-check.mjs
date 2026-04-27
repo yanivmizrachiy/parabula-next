@@ -35,14 +35,23 @@ function requireIncludes(file, phrase) {
   }
 }
 
-requireIncludes('preview/app.html', './phone.html');
+function requireAnyIncludes(file, phrases, description) {
+  if (!exists(file)) return;
+  const text = read(file);
+  if (!phrases.some((phrase) => text.includes(phrase))) {
+    errors.push(`${file} missing expected reference for ${description}: ${phrases.join(' OR ')}`);
+  }
+}
+
+requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
-requireIncludes('preview/app.html', '../STATE/README.md');
-requireIncludes('preview/phone.html', './phone.js');
-requireIncludes('preview/phone.html', './mobile.css');
-requireIncludes('preview/phone.html', './manifest.webmanifest');
+requireIncludes('preview/app.html', '../mobile-app.html');
+requireAnyIncludes('preview/app.html', ['../STATE/README.md', 'STATE'], 'state documentation access');
+requireAnyIncludes('preview/phone.html', ['../mobile-app.html', './phone.js'], 'compat redirect or compat runtime');
+requireAnyIncludes('preview/phone.html', ['./mobile.css', './manifest.webmanifest', '../mobile-app.html'], 'compat assets or canonical redirect');
 requireIncludes('preview/install.html', './phone.html');
 requireIncludes('preview/install.html', './print.html');
+requireIncludes('preview/install.html', '../mobile-app.html');
 requireIncludes('preview/print.html', './print.js');
 
 if (exists('preview/README.md')) {
