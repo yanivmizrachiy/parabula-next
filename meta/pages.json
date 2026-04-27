@@ -1,1 +1,857 @@
-[]
+[
+  {
+    "number": 1,
+    "file": "עמוד-1.html",
+    "title": "עמוד 1 — חוקיות",
+    "h1": "חוקיות",
+    "topic": "סדרות וחוקיות",
+    "previewPath": "/עמוד-1.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-1.html"
+  },
+  {
+    "number": 2,
+    "file": "עמוד-2.html",
+    "title": "עמוד 2 — חוקיות",
+    "h1": "חוקיות",
+    "topic": "סדרות וחוקיות",
+    "previewPath": "/עמוד-2.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-2.html"
+  },
+  {
+    "number": 3,
+    "file": "עמוד-3.html",
+    "title": "עמוד 1 — פונקציה ריבועית",
+    "h1": "פונקציה ריבועית",
+    "topic": "פונקציות",
+    "previewPath": "/עמוד-3.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-3.html"
+  },
+  {
+    "number": 4,
+    "file": "עמוד-4.html",
+    "title": "עמוד 3 — פונקציה ריבועית",
+    "h1": "פונקציה ריבועית",
+    "topic": "פונקציות",
+    "previewPath": "/עמוד-4.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-4.html"
+  },
+  {
+    "number": 5,
+    "file": "עמוד-5.html",
+    "title": "עמוד 4 — פונקציה ריבועית",
+    "h1": "פונקציה ריבועית",
+    "topic": "פונקציות",
+    "previewPath": "/עמוד-5.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-5.html"
+  },
+  {
+    "number": 6,
+    "file": "עמוד-6.html",
+    "title": "עמוד 2 — פונקציה ריבועית",
+    "h1": "פונקציה ריבועית",
+    "topic": "פונקציות",
+    "previewPath": "/עמוד-6.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-6.html"
+  },
+  {
+    "number": 7,
+    "file": "עמוד-7.html",
+    "title": "עמוד 3 — חוקיות",
+    "h1": "חוקיות",
+    "topic": "סדרות וחוקיות",
+    "previewPath": "/עמוד-7.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-7.html"
+  },
+  {
+    "number": 8,
+    "file": "עמוד-8.html",
+    "title": "עמוד 4 — חוקיות",
+    "h1": "חוקיות",
+    "topic": "סדרות וחוקיות",
+    "previewPath": "/עמוד-8.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-8.html"
+  },
+  {
+    "number": 9,
+    "file": "עמוד-9.html",
+    "title": "עמוד 1 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-9.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-9.html"
+  },
+  {
+    "number": 10,
+    "file": "עמוד-10.html",
+    "title": "עמוד 2 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-10.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-10.html"
+  },
+  {
+    "number": 11,
+    "file": "עמוד-11.html",
+    "title": "עמוד 3 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-11.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-11.html"
+  },
+  {
+    "number": 12,
+    "file": "עמוד-12.html",
+    "title": "עמוד 4 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-12.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-12.html"
+  },
+  {
+    "number": 13,
+    "file": "עמוד-13.html",
+    "title": "עמוד 5 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-13.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-13.html"
+  },
+  {
+    "number": 14,
+    "file": "עמוד-14.html",
+    "title": "עמוד 6 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-14.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-14.html"
+  },
+  {
+    "number": 15,
+    "file": "עמוד-15.html",
+    "title": "עמוד 7 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-15.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-15.html"
+  },
+  {
+    "number": 16,
+    "file": "עמוד-16.html",
+    "title": "עמוד 8 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-16.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-16.html"
+  },
+  {
+    "number": 17,
+    "file": "עמוד-17.html",
+    "title": "עמוד 9 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-17.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-17.html"
+  },
+  {
+    "number": 18,
+    "file": "עמוד-18.html",
+    "title": "עמוד 10 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-18.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-18.html"
+  },
+  {
+    "number": 19,
+    "file": "עמוד-19.html",
+    "title": "עמוד 11 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-19.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-19.html"
+  },
+  {
+    "number": 20,
+    "file": "עמוד-20.html",
+    "title": "עמוד 12 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-20.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-20.html"
+  },
+  {
+    "number": 21,
+    "file": "עמוד-21.html",
+    "title": "עמוד 13 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-21.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-21.html"
+  },
+  {
+    "number": 22,
+    "file": "עמוד-22.html",
+    "title": "עמוד 14 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-22.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-22.html"
+  },
+  {
+    "number": 23,
+    "file": "עמוד-23.html",
+    "title": "עמוד 15 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-23.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-23.html"
+  },
+  {
+    "number": 24,
+    "file": "עמוד-24.html",
+    "title": "עמוד 16 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-24.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-24.html"
+  },
+  {
+    "number": 25,
+    "file": "עמוד-25.html",
+    "title": "עמוד 17 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-25.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-25.html"
+  },
+  {
+    "number": 26,
+    "file": "עמוד-26.html",
+    "title": "עמוד 18 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-26.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-26.html"
+  },
+  {
+    "number": 27,
+    "file": "עמוד-27.html",
+    "title": "עמוד 19 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-27.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-27.html"
+  },
+  {
+    "number": 28,
+    "file": "עמוד-28.html",
+    "title": "עמוד 20 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-28.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-28.html"
+  },
+  {
+    "number": 29,
+    "file": "עמוד-29.html",
+    "title": "עמוד 21 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-29.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-29.html"
+  },
+  {
+    "number": 30,
+    "file": "עמוד-30.html",
+    "title": "עמוד 22 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-30.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-30.html"
+  },
+  {
+    "number": 31,
+    "file": "עמוד-31.html",
+    "title": "עמוד 1 — משוואה ריבועית",
+    "h1": "משוואה ריבועית",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-31.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html"
+  },
+  {
+    "number": 32,
+    "file": "עמוד-32.html",
+    "title": "עמוד 2 — משוואה ריבועית",
+    "h1": "משוואה ריבועית",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-32.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html"
+  },
+  {
+    "number": 33,
+    "file": "עמוד-33.html",
+    "title": "עמוד 3 — משוואה ריבועית",
+    "h1": "משוואה ריבועית",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-33.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html"
+  },
+  {
+    "number": 34,
+    "file": "עמוד-34.html",
+    "title": "עמוד 4 — משוואה ריבועית",
+    "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-34.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html"
+  },
+  {
+    "number": 35,
+    "file": "עמוד-35.html",
+    "title": "עמוד 5 — משוואה ריבועית",
+    "h1": "משוואה ריבועית",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-35.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html"
+  },
+  {
+    "number": 36,
+    "file": "עמוד-36.html",
+    "title": "עמוד 6 — משוואה ריבועית",
+    "h1": "משוואה ריבועית",
+    "topic": "משוואות ריבועיות",
+    "previewPath": "/עמוד-36.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html"
+  },
+  {
+    "number": 37,
+    "file": "עמוד-37.html",
+    "title": "עמוד 1 — פילוג מורחב",
+    "h1": "פילוג מורחב",
+    "topic": "כללי",
+    "previewPath": "/עמוד-37.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-37.html"
+  },
+  {
+    "number": 38,
+    "file": "עמוד-38.html",
+    "title": "עמוד 2 — פילוג מורחב",
+    "h1": "פילוג מורחב",
+    "topic": "כללי",
+    "previewPath": "/עמוד-38.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-38.html"
+  },
+  {
+    "number": 39,
+    "file": "עמוד-39.html",
+    "title": "עמוד 1 — מקבילית",
+    "h1": "מקבילית",
+    "topic": "גיאומטריה",
+    "previewPath": "/עמוד-39.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-39.html"
+  },
+  {
+    "number": 40,
+    "file": "עמוד-40.html",
+    "title": "עמוד 2 — מקבילית",
+    "h1": "מקבילית",
+    "topic": "גיאומטריה",
+    "previewPath": "/עמוד-40.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-40.html"
+  },
+  {
+    "number": 41,
+    "file": "עמוד-41.html",
+    "title": "עמוד 23 — משפט פיתגורס",
+    "h1": "משפט פיתגורס",
+    "topic": "משפט פיתגורס",
+    "previewPath": "/עמוד-41.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-41.html"
+  },
+  {
+    "number": 42,
+    "file": "עמוד-42.html",
+    "title": "עמוד 2 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-42.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-42.html"
+  },
+  {
+    "number": 43,
+    "file": "עמוד-43.html",
+    "title": "עמוד 3 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-43.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-43.html"
+  },
+  {
+    "number": 44,
+    "file": "עמוד-44.html",
+    "title": "עמוד 4 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-44.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-44.html"
+  },
+  {
+    "number": 45,
+    "file": "עמוד-45.html",
+    "title": "עמוד 5 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-45.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-45.html"
+  },
+  {
+    "number": 46,
+    "file": "עמוד-46.html",
+    "title": "עמוד 6 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-46.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-46.html"
+  },
+  {
+    "number": 47,
+    "file": "עמוד-47.html",
+    "title": "עמוד 7 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-47.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-47.html"
+  },
+  {
+    "number": 48,
+    "file": "עמוד-48.html",
+    "title": "עמוד 8 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-48.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-48.html"
+  },
+  {
+    "number": 49,
+    "file": "עמוד-49.html",
+    "title": "עמוד 9 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-49.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-49.html"
+  },
+  {
+    "number": 50,
+    "file": "עמוד-50.html",
+    "title": "עמוד 10 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-50.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-50.html"
+  },
+  {
+    "number": 51,
+    "file": "עמוד-51.html",
+    "title": "עמוד 11 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-51.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-51.html"
+  },
+  {
+    "number": 52,
+    "file": "עמוד-52.html",
+    "title": "עמוד 12 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-52.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-52.html"
+  },
+  {
+    "number": 53,
+    "file": "עמוד-53.html",
+    "title": "עמוד 13 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-53.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-53.html"
+  },
+  {
+    "number": 54,
+    "file": "עמוד-54.html",
+    "title": "עמוד 14 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-54.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-54.html"
+  },
+  {
+    "number": 55,
+    "file": "עמוד-55.html",
+    "title": "עמוד 15 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-55.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-55.html"
+  },
+  {
+    "number": 56,
+    "file": "עמוד-56.html",
+    "title": "עמוד 16 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-56.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-56.html"
+  },
+  {
+    "number": 57,
+    "file": "עמוד-57.html",
+    "title": "עמוד 17 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-57.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-57.html"
+  },
+  {
+    "number": 58,
+    "file": "עמוד-58.html",
+    "title": "עמוד 18 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-58.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-58.html"
+  },
+  {
+    "number": 59,
+    "file": "עמוד-59.html",
+    "title": "עמוד 19 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-59.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-59.html"
+  },
+  {
+    "number": 60,
+    "file": "עמוד-60.html",
+    "title": "עמוד 20 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-60.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-60.html"
+  },
+  {
+    "number": 61,
+    "file": "עמוד-61.html",
+    "title": "עמוד 21 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-61.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-61.html"
+  },
+  {
+    "number": 62,
+    "file": "עמוד-62.html",
+    "title": "עמוד 22 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-62.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-62.html"
+  },
+  {
+    "number": 63,
+    "file": "עמוד-63.html",
+    "title": "עמוד 23 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-63.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-63.html"
+  },
+  {
+    "number": 64,
+    "file": "עמוד-64.html",
+    "title": "עמוד 24 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-64.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-64.html"
+  },
+  {
+    "number": 65,
+    "file": "עמוד-65.html",
+    "title": "עמוד 25 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-65.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-65.html"
+  },
+  {
+    "number": 66,
+    "file": "עמוד-66.html",
+    "title": "עמוד 26 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-66.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-66.html"
+  },
+  {
+    "number": 67,
+    "file": "עמוד-67.html",
+    "title": "עמוד 27 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-67.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-67.html"
+  },
+  {
+    "number": 68,
+    "file": "עמוד-68.html",
+    "title": "עמוד 28 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-68.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-68.html"
+  },
+  {
+    "number": 69,
+    "file": "עמוד-69.html",
+    "title": "עמוד 29 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-69.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-69.html"
+  },
+  {
+    "number": 70,
+    "file": "עמוד-70.html",
+    "title": "עמוד 30 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-70.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-70.html"
+  },
+  {
+    "number": 71,
+    "file": "עמוד-71.html",
+    "title": "עמוד 31 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-71.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-71.html"
+  },
+  {
+    "number": 72,
+    "file": "עמוד-72.html",
+    "title": "עמוד 32 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-72.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-72.html"
+  },
+  {
+    "number": 73,
+    "file": "עמוד-73.html",
+    "title": "עמוד 33 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-73.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-73.html"
+  },
+  {
+    "number": 74,
+    "file": "עמוד-74.html",
+    "title": "עמוד 34 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-74.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-74.html"
+  },
+  {
+    "number": 75,
+    "file": "עמוד-75.html",
+    "title": "עמוד 35 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-75.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-75.html"
+  },
+  {
+    "number": 76,
+    "file": "עמוד-76.html",
+    "title": "עמוד 36 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-76.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-76.html"
+  },
+  {
+    "number": 77,
+    "file": "עמוד-77.html",
+    "title": "עמוד 37 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-77.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-77.html"
+  },
+  {
+    "number": 78,
+    "file": "עמוד-78.html",
+    "title": "עמוד 38 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-78.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-78.html"
+  },
+  {
+    "number": 79,
+    "file": "עמוד-79.html",
+    "title": "עמוד 39 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-79.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-79.html"
+  },
+  {
+    "number": 80,
+    "file": "עמוד-80.html",
+    "title": "עמוד 40 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-80.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-80.html"
+  },
+  {
+    "number": 81,
+    "file": "עמוד-81.html",
+    "title": "עמוד 41 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-81.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-81.html"
+  },
+  {
+    "number": 82,
+    "file": "עמוד-82.html",
+    "title": "עמוד 42 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-82.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-82.html"
+  },
+  {
+    "number": 83,
+    "file": "עמוד-83.html",
+    "title": "עמוד 43 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-83.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-83.html"
+  },
+  {
+    "number": 84,
+    "file": "עמוד-84.html",
+    "title": "עמוד 44 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-84.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-84.html"
+  },
+  {
+    "number": 85,
+    "file": "עמוד-85.html",
+    "title": "עמוד 45 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-85.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-85.html"
+  },
+  {
+    "number": 86,
+    "file": "עמוד-86.html",
+    "title": "עמוד 46 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-86.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-86.html"
+  },
+  {
+    "number": 87,
+    "file": "עמוד-87.html",
+    "title": "עמוד 47 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-87.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-87.html"
+  },
+  {
+    "number": 88,
+    "file": "עמוד-88.html",
+    "title": "עמוד 48 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-88.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-88.html"
+  },
+  {
+    "number": 89,
+    "file": "עמוד-89.html",
+    "title": "עמוד 49 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-89.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-89.html"
+  },
+  {
+    "number": 90,
+    "file": "עמוד-90.html",
+    "title": "עמוד 50 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-90.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-90.html"
+  },
+  {
+    "number": 91,
+    "file": "עמוד-91.html",
+    "title": "עמוד 51 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-91.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-91.html"
+  },
+  {
+    "number": 92,
+    "file": "עמוד-92.html",
+    "title": "עמוד 52 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-92.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-92.html"
+  },
+  {
+    "number": 93,
+    "file": "עמוד-93.html",
+    "title": "עמוד 53 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-93.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-93.html"
+  },
+  {
+    "number": 94,
+    "file": "עמוד-94.html",
+    "title": "עמוד 54 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-94.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-94.html"
+  },
+  {
+    "number": 95,
+    "file": "עמוד-95.html",
+    "title": "עמוד 1 — משוואות",
+    "h1": "משוואות",
+    "topic": "משוואות",
+    "previewPath": "/עמוד-95.html",
+    "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-95.html"
+  }
+]

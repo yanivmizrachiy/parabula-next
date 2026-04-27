@@ -436,6 +436,39 @@ This map is intentionally limited to files that are actually present on `main`.
 - Mobile reader progress copy should remain human-readable in Hebrew (for example, `עמוד X מתוך Y בנושא`), not raw technical counters.
 - Mobile reader fixes must prefer stable centering, stable scaling, and removal of desktop preview aesthetics before adding new gesture/polish features.
 
+## 28) GitHub Pages deployment contract
+
+- The live external site is: `https://yanivmizrachiy.github.io/parabula-next/`
+- Deployment is triggered by push to `main` via `.github/workflows/deploy-pages.yml`.
+- The canonical deploy workflow is `deploy-pages.yml`; all other build-related workflows are secondary.
+- The root URL (`/parabula-next/`) must serve `catalog.html` as the public-facing entry point.
+  - **`catalog.html`** = the textbook catalog landing page (topics overview, read/navigate/print actions).
+  - The Vite entry `main.js` redirects to `catalog.html`; after build the workflow overwrites `dist/index.html` with `catalog.html`.
+- The public reading URL is: `https://yanivmizrachiy.github.io/parabula-next/mobile-app.html`
+- All worksheet HTML files (`עמוד-N.html`) are deployed to the root of `dist/`.
+- All CSS files (`styles/`, `catalog.css`, `mobile-app.css`, etc.) must be present in `dist/`.
+- `meta/topics.json` is the runtime data source for both the catalog and the mobile reader.
+- `meta/pages.json` is a flat list of all pages, derived from `meta/topics.json`. Do not edit it manually.
+
+## 29) Catalog page contract (`catalog.html`)
+
+- `catalog.html` is the **public-facing textbook entry page**.
+- It must load topic data dynamically from `meta/topics.json`.
+- It must show all topics as cards with page counts.
+- Each topic card must have a direct "read" link (to `mobile-app.html?topic=NAME`) and a navigation link (to `preview/topics.html`).
+- It must work correctly on mobile and desktop browsers.
+- Do NOT add inline `<style>` blocks to `catalog.html`; all styles go in `catalog.css`.
+- `catalog.css` uses the Rubik font and the design system color tokens (`--accent: #1d4ed8`, etc.).
+- `catalog.html` must be deployed at the root of the dist folder so it is served as the site homepage.
+
+## 30) Local URL resolution contract (mobile-app.js)
+
+- `mobile-app.js` must detect whether it is running on localhost/127.0.0.1.
+- When running locally, page URLs are constructed from `page.file` relative to `BASE_URL`, not from `page.siteUrl`.
+- When running on GitHub Pages (or any non-local host), page URLs use `page.siteUrl`.
+- This ensures the reader works both in local VS Code preview (`npm run preview`) and on the public site.
+- The `?topic=` query parameter must be supported in `mobile-app.html` to allow direct deep-links into a specific topic.
+
 ---
 
 ## 7) Shared cleanup permission (design only)

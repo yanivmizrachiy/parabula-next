@@ -1,5 +1,7 @@
-const VERSION = 'focus-20260427001';
-const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
+const VERSION = 'focus-20260427002';
+const BASE_URL = new URL('./', window.location.href);
+const TOPICS_URL = new URL('meta/topics.json', BASE_URL).href;
+const IS_LOCAL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
 const els = {
   appMeta: document.getElementById('appMeta'),
@@ -36,7 +38,12 @@ function esc(v){
     .replace(/'/g,'&#39;');
 }
 function pageUrl(page){
-  return page?.siteUrl || 'about:blank';
+  if (!page) return 'about:blank';
+  // On localhost use relative path so local preview works without GitHub Pages
+  if (IS_LOCAL && page.file) {
+    return new URL(page.file, BASE_URL).href;
+  }
+  return page.siteUrl || new URL(page.file || '', BASE_URL).href;
 }
 function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
@@ -249,8 +256,13 @@ async function boot(){
   if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
   db = await r.json();
   flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
-  els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
-  activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
+  els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים`;
+  // Support ?topic= query param from catalog.html links
+  const urlTopic = new URL(window.location.href).searchParams.get('topic');
+  const topicNames = (db.topics || []).map(t => t.name);
+  activeTopic = (urlTopic && topicNames.includes(urlTopic))
+    ? urlTopic
+    : (localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '');
   renderTopics();
   renderPages();
   scheduleFit();

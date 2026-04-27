@@ -51,6 +51,9 @@ jobs:
           for f in *.css *.js mobile-app.webmanifest sw.js icon.svg; do
             [ -f "$f" ] && cp "$f" dist/ || true
           done
+          # Replace Vite's generic index.html with catalog redirect page
+          # so the root URL leads to the textbook catalog
+          cp catalog.html dist/index.html
           ls dist/
 
       - name: Setup Pages

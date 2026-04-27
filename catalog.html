@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="description" content="ספר דפי העבודה של יניב — גלישה בדפים לפי נושא על נייד ונייח" />
+  <title>ספר דפי העבודה של יניב — קטלוג</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./catalog.css" />
+</head>
+<body>
+  <div class="catalog-shell">
+
+    <header class="catalog-hero">
+      <div class="hero-icon">📚</div>
+      <h1 class="hero-title">ספר דפי העבודה של יניב</h1>
+      <p class="hero-sub">גלישה בדפי עבודה לפי נושא — כמו ספר לימוד אמיתי, בנייד ובנייח</p>
+      <div id="heroStats" class="hero-stats">
+        <span class="stat-badge stat-primary">טוען…</span>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="./mobile-app.html">▶ התחל לקרוא</a>
+        <a class="btn btn-secondary" href="./preview/topics.html">🗂 ניווט לפי נושאים</a>
+        <a class="btn btn-ghost" href="./preview/all-pages.html">📋 כל הדפים</a>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="section-heading">נושאים</h2>
+      <div id="topicsGrid" class="topics-grid">
+        <div class="topic-skeleton"></div>
+        <div class="topic-skeleton"></div>
+        <div class="topic-skeleton"></div>
+        <div class="topic-skeleton"></div>
+      </div>
+    </main>
+
+    <footer class="catalog-footer">
+      <p>
+        <a href="https://yanivmizrachiy.github.io/parabula-next/" class="footer-link">🌐 אתר חיצוני (GitHub Pages)</a>
+        &nbsp;·&nbsp;
+        <a href="./preview/print.html" class="footer-link">🖨 מרכז הדפסה</a>
+        &nbsp;·&nbsp;
+        <a href="./preview/index.html" class="footer-link">🖥 תצוגה מקדימה</a>
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const BASE = new URL('./', window.location.href);
+      const TOPICS_URL = new URL('meta/topics.json', BASE).href;
+
+      // Detect local vs production to use correct page URLs
+      function pageUrl(page) {
+        const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        if (isLocal && page.file) {
+          return new URL(page.file, BASE).href;
+        }
+        return page.siteUrl || new URL(page.file, BASE).href;
+      }
+
+      function esc(v) {
+        return String(v || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      // Topic color map
+      const TOPIC_COLORS = {
+        'משוואות': '#1d4ed8',
+        'משפט פיתגורס': '#0f766e',
+        'משוואות ריבועיות': '#7c3aed',
+        'פונקציות': '#b45309',
+        'סדרות וחוקיות': '#be185d',
+        'גיאומטריה': '#0369a1',
+        'כללי': '#374151',
+      };
+      const DEFAULT_COLOR = '#1d4ed8';
+
+      function topicReaderUrl(topicName) {
+        return './mobile-app.html?topic=' + encodeURIComponent(topicName);
+      }
+      function topicDesktopUrl(topicName) {
+        return './preview/topics.html?topic=' + encodeURIComponent(topicName);
+      }
+
+      function renderTopics(data) {
+        const grid = document.getElementById('topicsGrid');
+        const statsEl = document.getElementById('heroStats');
+        const topics = data.topics || [];
+        const totalPages = data.totalPages || topics.reduce((s, t) => s + (t.count || 0), 0);
+
+        statsEl.innerHTML =
+          '<span class="stat-badge stat-primary">' + topics.length + ' נושאים</span>' +
+          '<span class="stat-badge stat-soft">' + totalPages + ' דפים</span>';
+
+        if (!topics.length) {
+          grid.innerHTML = '<p class="empty-state">לא נמצאו נושאים</p>';
+          return;
+        }
+
+        grid.innerHTML = topics.map(function (topic) {
+          const color = TOPIC_COLORS[topic.name] || DEFAULT_COLOR;
+          const pages = (topic.pages || []).sort(function (a, b) { return (a.number || 0) - (b.number || 0); });
+          const firstPage = pages[0];
+          const previewLink = firstPage ? pageUrl(firstPage) : '#';
+
+          return '<article class="topic-card" style="--topic-color:' + color + '">' +
+            '<div class="topic-header">' +
+            '<span class="topic-name">' + esc(topic.name) + '</span>' +
+            '<span class="topic-count">' + (topic.count || 0) + ' דפים</span>' +
+            '</div>' +
+            '<div class="topic-pages-strip">' +
+            pages.slice(0, 8).map(function (p) {
+              return '<a class="page-chip" href="' + esc(pageUrl(p)) + '" title="' + esc(p.title) + '">' + (p.number || '') + '</a>';
+            }).join('') +
+            (pages.length > 8 ? '<span class="page-chip more">+' + (pages.length - 8) + '</span>' : '') +
+            '</div>' +
+            '<div class="topic-actions">' +
+            '<a class="btn btn-topic-primary" href="' + esc(topicReaderUrl(topic.name)) + '">▶ קרא</a>' +
+            '<a class="btn btn-topic-ghost" href="' + esc(topicDesktopUrl(topic.name)) + '">🗂 נווט</a>' +
+            '<a class="btn btn-topic-ghost" href="' + esc(previewLink) + '" target="_blank" rel="noopener">📄 עמוד ראשון</a>' +
+            '</div>' +
+            '</article>';
+        }).join('');
+      }
+
+      fetch(TOPICS_URL + '?v=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(renderTopics)
+        .catch(function () {
+          document.getElementById('topicsGrid').innerHTML =
+            '<p class="empty-state">שגיאה בטעינת הנושאים. <a href="./mobile-app.html">עבור לקורא</a></p>';
+          document.getElementById('heroStats').innerHTML =
+            '<span class="stat-badge stat-soft">לא ניתן לטעון</span>';
+        });
+    }());
+  </script>
+</body>
+</html>
