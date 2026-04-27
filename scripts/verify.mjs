@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
+const GIT_STAGE_FIELD_COUNT = 4;
 
 function fail(message) {
   console.error(`VERIFY FAIL: ${message}`);
@@ -23,11 +24,11 @@ function listTrackedGitlinks() {
     return output
       .split('\n')
       .filter(Boolean)
-      .map(line => line.split(/\s+/, 4))
+      .map(line => line.split(/\s+/, GIT_STAGE_FIELD_COUNT))
       .filter(([mode]) => mode === '160000')
       .map(([, , , file]) => file);
   } catch (error) {
-    fail(`Unable to inspect repository gitlinks: ${error.message}`);
+    fail(`Unable to inspect repository gitlinks for stray submodule regressions: ${error.message}`);
   }
 }
 
