@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-27T08:03:28.025Z",
+  "generatedAt": "2026-04-27T10:38:42.359Z",
   "checks": [
     {
       "name": "meta_topics_exists",
@@ -22,6 +22,11 @@
       "details": "mobile-app.html loaded"
     },
     {
+      "name": "print_js_exists",
+      "ok": true,
+      "details": "preview/print.js loaded"
+    },
+    {
       "name": "mobile_app_uses_canonical_meta_topics",
       "ok": true,
       "details": "mobile-app.js fetches ./meta/topics.json"
@@ -35,6 +40,21 @@
       "name": "mobile_html_uses_mobile_app_js",
       "ok": true,
       "details": "mobile-app.html loads mobile-app.js"
+    },
+    {
+      "name": "mobile_print_handoff_uses_print_center",
+      "ok": true,
+      "details": "mobile-app.js deep-links into preview/print.html for preview-before-print"
+    },
+    {
+      "name": "mobile_book_navigation_present",
+      "ok": true,
+      "details": "mobile-app.js includes global book navigation helper"
+    },
+    {
+      "name": "print_center_accepts_url_selection",
+      "ok": true,
+      "details": "preview/print.js supports URL-driven page selection"
     },
     {
       "name": "mobile_topics_divergence_detected",
