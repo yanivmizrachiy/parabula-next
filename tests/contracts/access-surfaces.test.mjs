@@ -33,6 +33,15 @@ test('mobile app uses print center preview handoff and book navigation', () => {
   assert.ok(js.includes('mobile-reader-stage'), 'mobile-app.js should build a dedicated mobile reader stage');
 });
 
+test('mobile app protects topic-local page ordering before file-number ordering', () => {
+  const js = read('mobile-app.js');
+  assert.ok(js.includes('function pageLocalOrder(page)'), 'mobile-app.js should define pageLocalOrder');
+  assert.ok(js.includes('function sortTopicPages(pages)'), 'mobile-app.js should define sortTopicPages');
+  assert.ok(js.includes('const firstPage = sortTopicPages(topic.pages || [])[0];'), 'topic entry should use topic-local ordering for first page');
+  assert.ok(js.includes('visiblePages = sortTopicPages(topic?.pages || []).filter'), 'visible topic page list should use topic-local ordering');
+  assert.ok(js.includes('flatPages = (db.topics || []).flatMap(t => sortTopicPages(t.pages || []));'), 'global book order should preserve topic order and topic-local page order');
+});
+
 test('print center supports URL-driven selection for preview-before-print', () => {
   const js = read('preview/print.js');
   assert.ok(js.includes("searchParams.get('files')"), 'preview/print.js should accept files query parameter');
