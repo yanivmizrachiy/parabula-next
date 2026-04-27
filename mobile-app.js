@@ -1,4 +1,5 @@
-const VERSION = 'focus-20260426002';
+const VERSION = 'focus-20260427001';
+const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
   appMeta: document.getElementById('appMeta'),
@@ -244,11 +245,11 @@ function printCurrent(){
   if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
 }
 async function boot(){
-  const r = await fetch('./mobile-topics.json?v=' + VERSION, {cache:'no-store'});
+  const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
   if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
   db = await r.json();
   flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
-  els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים`;
+  els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
   renderPages();
