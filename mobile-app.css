@@ -155,13 +155,11 @@ button:disabled{opacity:.45}
   padding-bottom:4px;
   margin-bottom:8px;
   scrollbar-width:thin;
-  scroll-snap-type:x proximity;
   overscroll-behavior-x:contain;
 }
 .topic-btn{
   white-space:nowrap;
   flex:0 0 auto;
-  scroll-snap-align:start;
 }
 .topic-btn.active{
   border-color:var(--accent);
@@ -361,7 +359,6 @@ button:disabled{opacity:.45}
     overflow-x:auto;
     overflow-y:hidden;
     scrollbar-width:thin;
-    scroll-snap-type:x proximity;
   }
   .topic-btn{
     min-height:36px;

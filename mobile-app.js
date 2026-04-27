@@ -5,6 +5,8 @@ const READER_MODES = Object.freeze({
   FULL: 'full',
   ZOOM: 'zoom'
 });
+// Real-phone testing showed that enlarged mode needs to be visibly bigger than full-page mode
+// without jumping so far that horizontal panning becomes awkward immediately.
 const ZOOM_SCALE_MULTIPLIER = 1.22;
 const ZOOM_SCALE_ADDEND = 0.12;
 
@@ -180,6 +182,10 @@ function ensureReaderContainers(doc){
   canvas.setAttribute('data-mobile-reader-canvas', 'true');
   return { page, stage, canvas };
 }
+function calculateZoomScale(fullScale, isPhoneViewport){
+  if(!isPhoneViewport) return fullScale;
+  return Math.min(1, Math.max(fullScale * ZOOM_SCALE_MULTIPLIER, fullScale + ZOOM_SCALE_ADDEND));
+}
 function injectMobileReaderStyles(doc){
   if(doc.getElementById('mobile-reader-cleanup-style')) return;
   const style = doc.createElement('style');
@@ -258,9 +264,7 @@ function fitCurrentA4Page(){
     const widthScale = Math.min(safeWidth / rawWidth, 1);
     const fitHeightScale = Math.min(hostHeight / rawHeight, 1);
     const fullScale = isPhoneViewport ? widthScale : Math.min(widthScale, fitHeightScale, 1);
-    const zoomScale = isPhoneViewport
-      ? Math.min(1, Math.max(fullScale * ZOOM_SCALE_MULTIPLIER, fullScale + ZOOM_SCALE_ADDEND))
-      : fullScale;
+    const zoomScale = calculateZoomScale(fullScale, isPhoneViewport);
     const scale = readerMode === READER_MODES.ZOOM ? zoomScale : fullScale;
     const scaledWidth = Math.round(rawWidth * scale);
     const scaledHeight = Math.round(rawHeight * scale);
@@ -298,6 +302,8 @@ function fitCurrentA4Page(){
     );
 
     stage.scrollTop = 0;
+    // The stage itself is laid out in LTR for stable centering, so in enlarged mode we
+    // scroll to the far edge first to show the natural RTL reading start of the worksheet.
     const rtlReadingStart = Math.max(0, scaledWidth + horizontalInset * 2 - stage.clientWidth);
     stage.scrollLeft = allowHorizontalPan ? rtlReadingStart : 0;
   }catch(e){
