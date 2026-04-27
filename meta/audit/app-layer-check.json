@@ -1,6 +1,8 @@
 {
-  "generatedAt": "2026-04-27T10:38:42.190Z",
+  "generatedAt": "2026-04-27T10:41:31.185Z",
   "status": "pass",
   "errors": [],
-  "warnings": []
+  "warnings": [
+    "preview/README.md documents print-center.js; review whether duplication is still required"
+  ]
 }

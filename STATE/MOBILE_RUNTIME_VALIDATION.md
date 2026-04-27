@@ -1,12 +1,12 @@
 # MOBILE_RUNTIME_VALIDATION
 
-Generated: 2026-04-27T10:38:42.359Z
+Generated: 2026-04-27T10:41:31.120Z
 
 ## Summary
 
 - total_checks: 14
-- passed: 13
-- failed: 1
+- passed: 14
+- failed: 0
 
 ## Checks
 
@@ -22,9 +22,5 @@ Generated: 2026-04-27T10:38:42.359Z
 - PASS — mobile_book_navigation_present — mobile-app.js includes global book navigation helper
 - PASS — print_center_accepts_url_selection — preview/print.js supports URL-driven page selection
 - PASS — mobile_topics_divergence_detected — meta/topics.json totalPages=95; mobile-topics.json totalPages=95
-- FAIL — topic_name_sets_match — missingInMobile=1; missingInMeta=0
+- PASS — topic_name_sets_match — missingInMobile=0; missingInMeta=0
 - PASS — compat_phone_runtime_still_exists — preview/phone.* still exists as compat/legacy layer
-
-## Failures
-
-- topic_name_sets_match: missingInMobile=1; missingInMeta=0
