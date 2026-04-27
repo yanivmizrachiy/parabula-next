@@ -5,6 +5,7 @@ const BASE = (() => {
 
 const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
+const PRINT_DIALOG_DELAY = 250;
 const urlState = new URL(window.location.href);
 
 const searchBox = document.getElementById('searchBox');
@@ -29,7 +30,7 @@ function normalize(value) {
 function pageUrl(file) {
   return new URL(file, PAGE_BASE).href;
 }
-function unique(list) {
+function deduplicateFiles(list) {
   return [...new Set(list.filter(Boolean))];
 }
 function requestedFilesFromUrl() {
@@ -38,7 +39,7 @@ function requestedFilesFromUrl() {
     .split(',')
     .map((file) => file.trim())
     .filter(Boolean);
-  return unique([...direct, ...csv]);
+  return deduplicateFiles([...direct, ...csv]);
 }
 
 function allPages() {
@@ -154,7 +155,7 @@ async function boot() {
     renderPreview();
   }
   if (selectedFromUrl && urlState.searchParams.get('autoprint') === '1') {
-    setTimeout(() => window.print(), 250);
+    setTimeout(() => window.print(), PRINT_DIALOG_DELAY);
   }
 }
 
@@ -182,7 +183,7 @@ openSelectedBtn.addEventListener('click', () => {
 
 printNowBtn.addEventListener('click', () => {
   renderPreview();
-  setTimeout(() => window.print(), 250);
+  setTimeout(() => window.print(), PRINT_DIALOG_DELAY);
 });
 
 boot().catch((error) => {

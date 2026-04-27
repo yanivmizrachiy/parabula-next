@@ -43,8 +43,8 @@ function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
 }
 function matchesQuery(page, query){
-  const hay = `${page?.topic || ''} ${page?.title || ''} ${page?.h1 || ''} ${page?.file || ''} ${page?.number || ''}`;
-  return !query || norm(hay).includes(query);
+  const searchableText = `${page?.topic || ''} ${page?.title || ''} ${page?.h1 || ''} ${page?.file || ''} ${page?.number || ''}`;
+  return !query || norm(searchableText).includes(query);
 }
 function currentBookIndex(){
   const page = currentPage();
@@ -249,7 +249,8 @@ function renderPages(options = {}){
 
   const currentFile = currentPage()?.file;
   const lastFile = localStorage.getItem('parabula:lastFile');
-  const target = [targetFile, currentFile, lastFile, visiblePages[0]?.file].find(file => (
+  const targetPriority = [targetFile, currentFile, lastFile, visiblePages[0]?.file];
+  const target = targetPriority.find(file => (
     file && visiblePages.some(page => page.file === file)
   ));
   showPage(target);
