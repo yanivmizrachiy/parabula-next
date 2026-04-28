@@ -13,6 +13,9 @@
     "verify": "node scripts/verify.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
+    "validate:health": "node scripts/repo-health.mjs",
+    "validate:health:strict": "node scripts/repo-health.mjs --strict",
+    "validate:all": "node scripts/repo-health.mjs && npm test && npm run verify && npm run validate:access && npm run validate:mobile && node scripts/app-layer-check.mjs && node scripts/audit-preview-overlaps.mjs && npm run build",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs"
   },
