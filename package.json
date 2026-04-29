@@ -13,6 +13,7 @@
     "verify": "node scripts/verify.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
+    "validate:equations": "node scripts/validate-equations-app.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs"
   },
