@@ -79,7 +79,9 @@ A dedicated validator was added:
 
 - `npm run validate:equations`
 
-The validator checks:
+The validator now checks both the app shell and the underlying equations worksheet family.
+
+App and print-shell checks:
 - required files exist
 - `preview/equations.html` is RTL
 - no inline `<style>` or `style="..."` appears in the equations app shell
@@ -89,8 +91,29 @@ The validator checks:
 - the app reads `meta/topics.json`
 - the print center supports `topic` and `autoselect=topic`
 - the print center uses topic-local sorting
+
+Metadata checks:
 - the exact equations topic currently has 54 pages
+- every equations page has `topic=משוואות`
+- no equations page has `topic=משוואות ריבועיות`
+- the topic-local page indexes 1–54 are continuous and unique
 - `עמוד-95.html` is validated as topic-local page 1 for equations
+
+Worksheet-family checks across all 54 pages:
+- every root `עמוד-N.html` file exists
+- every matching `styles/pages/עמוד-N.css` file exists
+- every expected `pages/משוואות/assets/page-XX.svg` asset exists
+- every page preserves RTL
+- every page links `styles/a4-base.css`
+- every page links its dedicated CSS file
+- every page contains the expected `main.a4-page.page-N` wrapper
+- every page contains correct topic-local nav metadata
+- every page contains the correct local page-number badge
+- every page points to the expected SVG asset
+- every page avoids references to `משוואות ריבועיות`
+- previous/next links are checked by topic-local order
+- CSS page layout rules are checked for page-scoped selectors
+- legacy global CSS overrides are reported as warnings rather than hidden
 
 A dedicated GitHub Actions workflow was added:
 
@@ -107,6 +130,10 @@ No root A4 worksheet page was rewritten.
 No equation SVG asset was edited.
 No quadratic-equation topic was touched.
 
+## Known smart warning
+
+The new validator is expected to warn that some equations CSS files still contain legacy global overrides such as `.header-container`, `.page-title`, or `body,html,.a4-page` from the previous equations cleanup. These are reported as warnings, not immediate failures, because changing all 54 CSS files may affect visual layout and should be done only after test/preview confirmation.
+
 ## Remaining verification before 100%
 
 Not yet verified in this ChatGPT tool session:
@@ -119,4 +146,4 @@ Not yet verified in this ChatGPT tool session:
 ## Current status
 
 Implementation committed to `main` through GitHub API.
-Status: implemented, repository-visible, CI guard added, not yet locally test-run from a cloned workspace.
+Status: implemented, repository-visible, deep validator added, CI guard added, not yet locally test-run from a cloned workspace.
