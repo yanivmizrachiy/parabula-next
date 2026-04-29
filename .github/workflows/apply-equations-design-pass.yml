@@ -1,0 +1,48 @@
+name: Apply Equations Design Pass
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/apply-equations-design-pass.mjs"
+      - ".github/workflows/apply-equations-design-pass.yml"
+      - "STATE/EQUATIONS_DESIGN_PASS_RULES.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-equations-design-pass:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Apply equations design pass
+        run: node scripts/apply-equations-design-pass.mjs
+
+      - name: Validate equations app and worksheet family
+        run: npm run validate:equations
+
+      - name: Validate access layer
+        run: npm run validate:access
+
+      - name: Commit design pass output
+        run: |
+          if git diff --quiet; then
+            echo "No design-pass changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add styles/pages/עמוד-*.css STATE/EQUATIONS_DESIGN_PASS_APPLIED.md
+          git commit -m "Apply scoped equations design pass"
+          git push
