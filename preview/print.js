@@ -5,6 +5,9 @@ const BASE = (() => {
 
 const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
+const urlParams = new URLSearchParams(window.location.search);
+const requestedTopic = urlParams.get('topic');
+const autoSelectMode = urlParams.get('autoselect');
 
 const searchBox = document.getElementById('searchBox');
 const topicFilter = document.getElementById('topicFilter');
@@ -109,6 +112,14 @@ function renderPreview() {
   updateSummary();
 }
 
+function selectTopicPages(topicName) {
+  selected.clear();
+  allPages()
+    .filter((page) => page.topic === topicName)
+    .forEach((page) => selected.add(page.file));
+  saveSelection();
+}
+
 async function boot() {
   const response = await fetch(new URL('../meta/topics.json', BASE));
   db = await response.json();
@@ -120,8 +131,19 @@ async function boot() {
     topicFilter.appendChild(option);
   });
 
-  restoreSelection();
+  if (requestedTopic && db.topics.some((topic) => topic.name === requestedTopic)) {
+    topicFilter.value = requestedTopic;
+    if (autoSelectMode === 'topic') {
+      selectTopicPages(requestedTopic);
+    } else {
+      restoreSelection();
+    }
+  } else {
+    restoreSelection();
+  }
+
   renderList();
+  renderPreview();
 }
 
 searchBox.addEventListener('input', renderList);
