@@ -11,10 +11,13 @@ Created files:
 - `preview/equations.css`
 - `preview/equations.js`
 - `preview/print.css`
+- `scripts/validate-equations-app.mjs`
+- `.github/workflows/equations-app-validation.yml`
 
 Updated files:
 - `preview/print.html`
 - `preview/print.js`
+- `package.json`
 
 ## Purpose
 
@@ -70,6 +73,33 @@ The print center now supports:
 - topic-local sorting, so a page like `עמוד-95.html` can correctly appear as `עמוד 1 — משוואות`
 - extracted stylesheet `preview/print.css` instead of inline CSS in `preview/print.html`
 
+## Smart validation added
+
+A dedicated validator was added:
+
+- `npm run validate:equations`
+
+The validator checks:
+- required files exist
+- `preview/equations.html` is RTL
+- no inline `<style>` or `style="..."` appears in the equations app shell
+- `preview/print.html` uses `preview/print.css`, not inline CSS
+- the equations app targets the exact topic `משוואות`
+- the separate topic `משוואות ריבועיות` is explicitly protected from merging
+- the app reads `meta/topics.json`
+- the print center supports `topic` and `autoselect=topic`
+- the print center uses topic-local sorting
+- the exact equations topic currently has 54 pages
+- `עמוד-95.html` is validated as topic-local page 1 for equations
+
+A dedicated GitHub Actions workflow was added:
+
+- `.github/workflows/equations-app-validation.yml`
+
+It runs on relevant pushes, pull requests, and manual dispatch, and executes:
+- `npm run validate:equations`
+- `npm run validate:access`
+
 ## What was intentionally not changed
 
 No educational worksheet content was changed.
@@ -80,8 +110,8 @@ No quadratic-equation topic was touched.
 ## Remaining verification before 100%
 
 Not yet verified in this ChatGPT tool session:
-- `npm test`
-- `npm run validate:access`
+- actual GitHub Actions run result after the workflow commit
+- `npm test` from a cloned workspace
 - real browser preview on GitHub Pages after deployment cache refresh
 - real phone check for clipping / iframe comfort
 - browser print / Save as PDF test for all 54 equations pages
@@ -89,4 +119,4 @@ Not yet verified in this ChatGPT tool session:
 ## Current status
 
 Implementation committed to `main` through GitHub API.
-Status: implemented, repository-visible, not yet locally test-run from a cloned workspace.
+Status: implemented, repository-visible, CI guard added, not yet locally test-run from a cloned workspace.
