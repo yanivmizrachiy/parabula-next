@@ -1,0 +1,50 @@
+name: Equations App Validation
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "preview/equations.html"
+      - "preview/equations.css"
+      - "preview/equations.js"
+      - "preview/print.html"
+      - "preview/print.css"
+      - "preview/print.js"
+      - "meta/topics.json"
+      - "scripts/validate-equations-app.mjs"
+      - "package.json"
+      - ".github/workflows/equations-app-validation.yml"
+  pull_request:
+    paths:
+      - "preview/equations.html"
+      - "preview/equations.css"
+      - "preview/equations.js"
+      - "preview/print.html"
+      - "preview/print.css"
+      - "preview/print.js"
+      - "meta/topics.json"
+      - "scripts/validate-equations-app.mjs"
+      - "package.json"
+      - ".github/workflows/equations-app-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-equations-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate dedicated equations app
+        run: npm run validate:equations
+
+      - name: Validate access layer
+        run: npm run validate:access
