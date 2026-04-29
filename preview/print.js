@@ -36,6 +36,24 @@ function allPages() {
   return db.topics.flatMap((entry) => entry.pages);
 }
 
+function topicIndex(page) {
+  return db.topics.findIndex((topic) => topic.name === page.topic);
+}
+
+function localPageIndex(page) {
+  const fromTitle = String(page.title || '').match(/עמוד\s+(\d+)/);
+  if (fromTitle) return Number(fromTitle[1]);
+  const topic = db.topics.find((entry) => entry.name === page.topic);
+  const indexInTopic = topic?.pages?.findIndex((entry) => entry.file === page.file) ?? -1;
+  return indexInTopic >= 0 ? indexInTopic + 1 : Number(page.number || 0);
+}
+
+function pageSort(a, b) {
+  const topicDiff = topicIndex(a) - topicIndex(b);
+  if (topicDiff !== 0) return topicDiff;
+  return localPageIndex(a) - localPageIndex(b);
+}
+
 function saveSelection() {
   localStorage.setItem(STORE_KEY, JSON.stringify([...selected].sort()));
 }
@@ -70,7 +88,7 @@ function renderList() {
       if (!q) return true;
       return normalize(`${page.title} ${page.topic} ${page.file} ${page.number}`).includes(q);
     })
-    .sort((a, b) => a.number - b.number);
+    .sort(pageSort);
 
   selectionList.innerHTML = '';
 
@@ -101,7 +119,7 @@ function renderPreview() {
   printView.innerHTML = '';
   allPages()
     .filter((page) => selected.has(page.file))
-    .sort((a, b) => a.number - b.number)
+    .sort(pageSort)
     .forEach((page) => {
       const wrap = document.createElement('section');
       wrap.className = 'sheet-frame';
@@ -116,6 +134,7 @@ function selectTopicPages(topicName) {
   selected.clear();
   allPages()
     .filter((page) => page.topic === topicName)
+    .sort(pageSort)
     .forEach((page) => selected.add(page.file));
   saveSelection();
 }
