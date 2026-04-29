@@ -21,37 +21,77 @@
   transform-origin: top center;
 }
 
-/* EQUATIONS_STRICT_UNIFY */
-.header-container{
-  margin-bottom:10px !important;
-  padding-bottom:8px !important;
-  align-items:flex-end !important;
+/* EQUATIONS_DESIGN_PASS_20260429 */
+.page-51 {
+  --eq-ink: #172033;
+  --eq-muted: #5b6473;
+  --eq-paper: #ffffff;
+  --eq-line: #d8e0ed;
+  --eq-soft: #f6f8fc;
+  --eq-blue: #234b8f;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
-.page-title{
-  font-family:'Rubik','Assistant',Arial,sans-serif !important;
-  font-weight:500 !important;
-  letter-spacing:0 !important;
-  line-height:1.25 !important;
+
+.page-51 .question-block {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-.q-main,.q-sub{
-  margin-bottom:8px !important;
-  align-items:flex-start !important;
+
+.page-51 .pdf-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--eq-line);
+  border-radius: 12px;
+  background: var(--eq-paper);
 }
-.q-text{
-  font-family:'Rubik','Assistant',Arial,sans-serif !important;
-  line-height:1.55 !important;
+
+.page-51 .pdf-page {
+  width: 100%;
+  height: calc(100% + 118px);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateY(-118px);
+  transform-origin: top center;
 }
-.answer-box{
-  vertical-align:middle !important;
-  transform:none !important;
+
+.page-51 .pdf-wrap img,
+.page-51 svg {
+  max-width: 100%;
 }
-.explain-box{
-  margin-top:8px !important;
+
+.page-51 .q-main,
+.page-51 .q-sub {
+  align-items: flex-start;
+  margin-bottom: 8px;
 }
-.math-table td,.label-cell,.ordered-pair,.sym-item,.axis-label{
-  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+
+.page-51 .q-text {
+  color: var(--eq-ink);
+  line-height: 1.55;
 }
-body,html,.a4-page{
-  font-family:'Rubik','Assistant',Arial,sans-serif !important;
+
+.page-51 .answer-box {
+  vertical-align: middle;
+  transform: none;
+}
+
+.page-51 .explain-box {
+  margin-top: 8px;
+}
+
+.page-51 .math-table td,
+.page-51 .label-cell,
+.page-51 .ordered-pair,
+.page-51 .sym-item,
+.page-51 .axis-label {
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
 
