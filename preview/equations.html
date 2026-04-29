@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07111f" />
+  <title>משוואות — צפייה, הורדה והדפסה</title>
+  <link rel="stylesheet" href="./equations.css" />
+</head>
+<body>
+  <div class="eq-app-shell">
+    <header class="eq-hero">
+      <div class="eq-hero-copy">
+        <p class="eq-kicker">ParabulaNext · נושא מדויק</p>
+        <h1>משוואות</h1>
+        <p>אפליקציית צפייה, הורדה והדפסה לדפי משוואות בלבד. משוואות ריבועיות אינן נכללות כאן.</p>
+      </div>
+      <div class="eq-stats" aria-label="סיכום הנושא">
+        <span id="topicNameBadge">טוען…</span>
+        <strong id="pageCountBadge">0 דפים</strong>
+        <span id="selectedCountBadge">0 נבחרו</span>
+      </div>
+    </header>
+
+    <section class="eq-toolbar" aria-label="פעולות ראשיות">
+      <input id="searchBox" type="search" placeholder="חיפוש לפי מספר, כותרת או שם קובץ" />
+      <button id="selectAllBtn" type="button">בחר הכל</button>
+      <button id="clearSelectionBtn" type="button">נקה בחירה</button>
+      <button id="openPrintBtn" class="primary" type="button">מרכז הדפסה</button>
+      <button id="printAllBtn" class="primary strong" type="button">PDF / הדפסה</button>
+      <button id="downloadLinksBtn" type="button">הורד קובץ קישורים</button>
+    </section>
+
+    <main class="eq-layout">
+      <aside class="eq-pages-panel" aria-label="רשימת דפי משוואות">
+        <div class="eq-panel-head">
+          <h2>דפי הנושא</h2>
+          <p id="listMeta">טוען דפים מהריפו…</p>
+        </div>
+        <div id="pagesList" class="eq-pages-list"></div>
+      </aside>
+
+      <section class="eq-reader" aria-label="תצוגת דף">
+        <div class="eq-reader-head">
+          <div>
+            <strong id="currentTitle">טוען…</strong>
+            <span id="currentMeta">—</span>
+          </div>
+          <div class="eq-reader-actions">
+            <button id="prevBtn" type="button">הקודם</button>
+            <button id="nextBtn" type="button">הבא</button>
+            <a id="openFullLink" href="#" target="_blank" rel="noopener">פתח מלא</a>
+            <a id="downloadCurrentLink" href="#" download>הורד HTML</a>
+          </div>
+        </div>
+        <div id="loadingState" class="eq-loading" hidden>טוען דף…</div>
+        <div class="eq-frame-wrap">
+          <iframe id="pageFrame" title="תצוגת דף משוואות" src="about:blank" loading="eager"></iframe>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="./equations.js"></script>
+</body>
+</html>
