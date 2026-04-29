@@ -95,6 +95,14 @@ Every real design change must be documented in:
 - `STATE/EQUATIONS_APP_STATUS.md` when relevant
 - `PROJECT_RULES.md` if the operating contract changes
 
+## Execution trigger
+
+A safe documentation-only trigger was committed on 2026-04-29 to make GitHub Actions run the real design-pass workflow:
+
+- `.github/workflows/apply-equations-design-pass.yml`
+
+The workflow is expected to run `scripts/apply-equations-design-pass.mjs`, validate the equations family, and commit the resulting scoped CSS changes if any are produced.
+
 ## Completion standard
 
 Do not mark the design pass as complete until:
@@ -108,6 +116,6 @@ Do not mark the design pass as complete until:
 
 ## Current status
 
-Status: design pass formally defined and documented.
+Status: design pass formally defined, documented, and a workflow trigger has been committed.
 
-No claim is made yet that all 54 equations pages have been redesigned or visually verified.
+No claim is made yet that all 54 equations pages have been redesigned or visually verified until the workflow output commit and validation results are confirmed.
