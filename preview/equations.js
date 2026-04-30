@@ -2,6 +2,8 @@ const DATA_URL = new URL('../meta/topics.json', window.location.href);
 const STORE_KEY = 'parabula-equations-selection-v1';
 const TARGET_TOPIC = 'משוואות';
 const EXCLUDED_TOPIC = 'משוואות ריבועיות';
+const A4_SCREEN_WIDTH = 794;
+const A4_SCREEN_HEIGHT = 1123;
 
 const topicNameBadge = document.getElementById('topicNameBadge');
 const pageCountBadge = document.getElementById('pageCountBadge');
@@ -34,6 +36,19 @@ function norm(value) {
 
 function pageUrl(page) {
   return page.siteUrl || new URL(`../${page.file}`, window.location.href).href;
+}
+
+function fitEquationA4ToViewport() {
+  const wrap = pageFrame?.parentElement;
+  if (!wrap) return;
+  const available = Math.max(260, wrap.clientWidth - 4);
+  const scale = Math.min(1, available / A4_SCREEN_WIDTH);
+  document.documentElement.style.setProperty('--eq-a4-scale', String(scale));
+  document.documentElement.style.setProperty('--eq-a4-width', `${Math.floor(A4_SCREEN_WIDTH * scale)}px`);
+  document.documentElement.style.setProperty('--eq-a4-height', `${Math.floor(A4_SCREEN_HEIGHT * scale)}px`);
+  pageFrame.style.width = `${A4_SCREEN_WIDTH}px`;
+  pageFrame.style.height = `${A4_SCREEN_HEIGHT}px`;
+  wrap.style.minHeight = `${Math.floor(A4_SCREEN_HEIGHT * scale) + 22}px`;
 }
 
 function saveSelection() {
@@ -112,6 +127,7 @@ function updateReader() {
   nextBtn.disabled = currentIndex >= pages.length - 1;
 
   loadingState.hidden = false;
+  fitEquationA4ToViewport();
   pageFrame.src = pageUrl(page);
   renderList();
 }
@@ -209,7 +225,10 @@ nextBtn.addEventListener('click', () => {
 });
 pageFrame.addEventListener('load', () => {
   loadingState.hidden = true;
+  fitEquationA4ToViewport();
 });
+window.addEventListener('resize', fitEquationA4ToViewport);
+window.addEventListener('orientationchange', () => setTimeout(fitEquationA4ToViewport, 250));
 
 async function boot() {
   const response = await fetch(DATA_URL);
@@ -233,6 +252,7 @@ async function boot() {
   });
   saveSelection();
   updateBadges();
+  fitEquationA4ToViewport();
   updateReader();
 }
 
