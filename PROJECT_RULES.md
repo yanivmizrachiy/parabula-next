@@ -443,3 +443,23 @@ This map is intentionally limited to files that are actually present on `main`.
 - Design-only shared cleanup is allowed for a page family such as equations when no learning content is changed.
 - The no-inline-style rule applies to preview utility pages as well.
 - Mobile entry files under preview are an official part of the live system.
+
+<!-- EQUATIONS_ROUTE_AND_DESIGN_PASS_RULES -->
+## 28) Dedicated equations route and scoped design pass
+
+- `preview/equations.html` is the dedicated live access route for the exact non-quadratic equations topic: `משוואות`.
+- The dedicated equations route must read worksheet structure from `meta/topics.json` and must not create an alternate worksheet source.
+- The route must not include, merge, rename, or blur the separate topic `משוואות ריבועיות`.
+- Current verified non-quadratic equations topic size: 54 pages.
+- The scoped design pass for the 54 non-quadratic equations pages is real repository work, not a demo.
+- Design-pass execution report: `STATE/EQUATIONS_DESIGN_PASS_APPLIED.md`.
+- Design-pass operating rules: `STATE/EQUATIONS_DESIGN_PASS_RULES.md`.
+- Design-pass script: `scripts/apply-equations-design-pass.mjs`.
+- Strict design guard: `scripts/validate-equations-design-pass-strict.mjs`.
+- Required validation command for this family: `npm run validate:equations:strict`.
+- The design pass may change only page-specific CSS under `styles/pages/עמוד-N.css` for pages in the exact `משוואות` topic.
+- The design pass must not change worksheet learning content, root worksheet HTML, `styles/a4-base.css`, or any quadratic-equation page.
+- Equations CSS must remain page-scoped. Forbidden regressions include global selectors such as `.header-container`, `.page-title`, `body,html,.a4-page`, and the legacy marker `EQUATIONS_STRICT_UNIFY`.
+- The equations print/PDF route is browser-driven through `preview/print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic`.
+- Do not mark this family fully complete unless real preview, phone viewing, and browser print / Save as PDF have been checked.
+
