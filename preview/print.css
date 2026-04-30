@@ -78,27 +78,34 @@
 
 .print-view {
   padding: 18px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: grid;
   gap: 18px;
   place-items: start center;
+  max-width: 100%;
 }
 
 .sheet-frame {
-  width: min(100%, 980px);
-  aspect-ratio: 210 / 297;
+  width: var(--print-a4-width, 794px);
+  height: var(--print-a4-height, 1123px);
+  max-width: 100%;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid #1f2937;
   background: #fff;
   box-shadow: 0 10px 28px rgba(0, 0, 0, .26);
+  display: grid;
+  place-items: start center;
 }
 
 .sheet-frame iframe {
-  width: 100%;
-  height: 100%;
+  width: 794px;
+  height: 1123px;
   border: 0;
   background: #fff;
+  transform: scale(var(--print-a4-scale, 1));
+  transform-origin: top center;
 }
 
 .print-toolbar {
@@ -159,5 +166,41 @@
 
   .print-view {
     padding: 12px;
+    overflow-x: hidden;
+  }
+
+  .sheet-frame {
+    border-radius: 14px;
+  }
+}
+
+@media print {
+  .print-panel {
+    display: none !important;
+  }
+
+  .print-shell,
+  .print-view {
+    display: block;
+    padding: 0;
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .sheet-frame {
+    width: 210mm !important;
+    height: 297mm !important;
+    max-width: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .sheet-frame iframe {
+    width: 210mm !important;
+    height: 297mm !important;
+    transform: none !important;
   }
 }
