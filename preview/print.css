@@ -78,32 +78,47 @@
 
 .print-view {
   padding: 18px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
   display: grid;
   gap: 18px;
   place-items: start center;
-  max-width: 100%;
 }
 
 .sheet-frame {
-  width: var(--print-a4-width, 794px);
-  height: var(--print-a4-height, 1123px);
-  max-width: 100%;
+  width: min(100%, 980px);
+  aspect-ratio: 210 / 297;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid #1f2937;
   background: #fff;
   box-shadow: 0 10px 28px rgba(0, 0, 0, .26);
+}
+
+.sheet-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+body.equations-print-mode .print-view {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+body.equations-print-mode .sheet-frame {
+  width: var(--print-a4-width, 794px);
+  height: var(--print-a4-height, 1123px);
+  max-width: 100%;
+  aspect-ratio: auto;
   display: grid;
   place-items: start center;
 }
 
-.sheet-frame iframe {
+body.equations-print-mode .sheet-frame iframe {
   width: 794px;
   height: 1123px;
-  border: 0;
-  background: #fff;
   transform: scale(var(--print-a4-scale, 1));
   transform-origin: top center;
 }
@@ -166,6 +181,9 @@
 
   .print-view {
     padding: 12px;
+  }
+
+  body.equations-print-mode .print-view {
     overflow-x: hidden;
   }
 
@@ -187,7 +205,8 @@
     min-height: 0;
   }
 
-  .sheet-frame {
+  .sheet-frame,
+  body.equations-print-mode .sheet-frame {
     width: 210mm !important;
     height: 297mm !important;
     max-width: none;
@@ -198,7 +217,8 @@
     page-break-after: always;
   }
 
-  .sheet-frame iframe {
+  .sheet-frame iframe,
+  body.equations-print-mode .sheet-frame iframe {
     width: 210mm !important;
     height: 297mm !important;
     transform: none !important;
