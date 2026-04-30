@@ -1,13 +1,10 @@
 # LIVE_STATUS — parabula-next
 
-_Last updated: 2026-04-26_
+_Last updated: 2026-04-29_
 
 ## Purpose
 This file is a short, non-historical snapshot of the **live canonical state** of the repository.
-It exists to reduce ambiguity between canonical, active-but-needs-alignment, legacy, and duplicated layers.
-
-This file does **not** replace `PROJECT_RULES.md`.
-`PROJECT_RULES.md` remains the repository source of truth.
+It does not replace `PROJECT_RULES.md`; `PROJECT_RULES.md` remains the source of truth.
 
 ---
 
@@ -26,10 +23,47 @@ This file does **not** replace `PROJECT_RULES.md`.
 - Preview UI: `preview/index.html`
 - Preview server: `preview/server.mjs`
 - Print entry: `preview/print.js`
+- Dedicated equations route: `preview/equations.html`
+- Dedicated equations styles: `preview/equations.css`
+- Dedicated equations logic: `preview/equations.js`
 - Active metadata backbone: `meta/topics.json`
 - Canonical mobile worksheet reader: `mobile-app.html`
 - Canonical mobile reader logic: `mobile-app.js`
 - Canonical mobile reader styles: `mobile-app.css`
+
+---
+
+## Equations design-pass live status
+
+The non-quadratic equations family has a real scoped design pass applied on `main`.
+
+Verified repository facts:
+- Topic: `משוואות`
+- Pages covered: 54
+- Quadratic-equation pages touched: 0
+- Design-pass output commit: `13b017a3f93bd025b3f4f5da9c86382e2fdcb172`
+- Execution report: `STATE/EQUATIONS_DESIGN_PASS_APPLIED.md`
+- Design rules: `STATE/EQUATIONS_DESIGN_PASS_RULES.md`
+- Design script: `scripts/apply-equations-design-pass.mjs`
+- Strict guard: `scripts/validate-equations-design-pass-strict.mjs`
+- Dedicated route status: `STATE/EQUATIONS_APP_STATUS.md`
+
+Design-pass contract:
+- No educational worksheet content was changed.
+- No root worksheet HTML was rewritten by the design pass.
+- `styles/a4-base.css` remains untouched.
+- Old global equations cleanup selectors were replaced by scoped `.page-N` selectors.
+- Future regressions should be caught by `npm run validate:equations:strict`.
+
+Public routes:
+- `https://yanivmizrachiy.github.io/parabula-next/preview/equations.html`
+- `https://yanivmizrachiy.github.io/parabula-next/preview/print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic`
+
+Remaining verification before full completion:
+- real browser preview after Pages cache refresh
+- phone check for clipping and comfort
+- browser print / Save as PDF for equations pages
+- visible green CI/status confirmation
 
 ---
 
@@ -43,19 +77,6 @@ This file does **not** replace `PROJECT_RULES.md`.
 
 ---
 
-## Active but needs alignment
-- `STATE/README.md`
-- `STATE/PROJECT_CONTINUITY.md`
-- `preview/README.md`
-- `preview/APP_CONTRACT.md`
-- `meta/system-state.json`
-- `mobile-topics.json`
-- `storage/system-state.json`
-
-These files are live and useful, but may still require wording and structural alignment with the canonical snapshot above.
-
----
-
 ## Duplicated or legacy-adjacent
 
 ### Print layer
@@ -66,8 +87,6 @@ These files are live and useful, but may still require wording and structural al
 - Canonical mobile app layer: `mobile-app.*`
 - Compatibility / legacy-adjacent phone layer: `preview/phone.*`
 
-This repository still contains more than one phone-oriented access surface, but they are **not equal**.
-The canonical direction is `mobile-app.*`.
 No destructive cleanup should happen before explicit role mapping and user approval.
 
 ---
@@ -77,8 +96,6 @@ No destructive cleanup should happen before explicit role mapping and user appro
 - `sources/backups/*`
 - `STATE/backup_*`
 - `meta/backup/*`
-
-These areas must be preserved until their exact role is fully mapped and documented.
 
 ---
 
@@ -95,24 +112,7 @@ The following must **not** be modified during documentation/alignment cleanup un
 ## Current verified counts
 - Root worksheet pages: 95
 - Root worksheet page CSS files: 95
-
----
-
-## UX direction for future safe improvements
-Future safe improvements should improve access to existing worksheets without changing worksheet source content.
-The target user experience is:
-- easier discovery of all pages
-- better filtering by topic
-- better search
-- better phone reading experience
-- easier print/PDF flows
-- future booklet assembly from existing pages
-
-This implies the repository should evolve toward:
-1. one canonical worksheet source
-2. one metadata backbone
-3. one canonical mobile reader direction
-4. multiple access surfaces consuming the same metadata
+- Non-quadratic equations pages: 54
 
 ---
 
