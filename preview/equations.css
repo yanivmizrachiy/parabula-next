@@ -9,11 +9,14 @@
   --eq-primary-soft: #dbeafe;
   --eq-radius: 22px;
   --eq-shadow: 0 22px 55px rgba(0, 0, 0, .28);
+  --eq-a4-scale: 1;
+  --eq-a4-width: 794px;
+  --eq-a4-height: 1123px;
 }
 
 * { box-sizing: border-box; }
 
-html, body { min-height: 100%; }
+html, body { min-height: 100%; overflow-x: hidden; }
 
 body {
   margin: 0;
@@ -62,6 +65,7 @@ button:disabled, a[aria-disabled="true"] {
   width: min(1600px, 100%);
   margin: 0 auto;
   padding: 18px;
+  overflow-x: hidden;
 }
 
 .eq-hero {
@@ -233,18 +237,32 @@ button:disabled, a[aria-disabled="true"] {
   padding: 14px;
   display: grid;
   place-items: start center;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   direction: ltr;
+  max-width: 100%;
 }
 
 .eq-frame-wrap iframe {
-  width: min(100%, 980px);
-  aspect-ratio: 210 / 297;
-  min-height: 720px;
+  width: 794px;
+  height: 1123px;
   border: 0;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0 16px 38px rgba(0, 0, 0, .34);
+  transform: scale(var(--eq-a4-scale));
+  transform-origin: top center;
+}
+
+.eq-frame-wrap::before {
+  content: "";
+  width: var(--eq-a4-width);
+  height: 0;
+  grid-area: 1 / 1;
+}
+
+.eq-frame-wrap iframe {
+  grid-area: 1 / 1;
 }
 
 @media (max-width: 980px) {
@@ -259,7 +277,7 @@ button:disabled, a[aria-disabled="true"] {
   .eq-reader-head { display: grid; }
   .eq-reader-actions { justify-content: stretch; display: grid; grid-template-columns: repeat(2, 1fr); }
   .eq-frame-wrap { padding: 10px; min-height: 62vh; }
-  .eq-frame-wrap iframe { min-height: 620px; border-radius: 12px; }
+  .eq-frame-wrap iframe { border-radius: 12px; }
 }
 
 @media print {
@@ -268,5 +286,6 @@ button:disabled, a[aria-disabled="true"] {
   .eq-app-shell { width: auto; padding: 0; }
   .eq-layout, .eq-reader { display: block; border: 0; box-shadow: none; min-height: 0; }
   .eq-frame-wrap { display: block; padding: 0; overflow: visible; min-height: 0; }
-  .eq-frame-wrap iframe { width: 210mm; height: 297mm; min-height: 297mm; border-radius: 0; box-shadow: none; display: block; page-break-after: always; }
+  .eq-frame-wrap::before { display: none; }
+  .eq-frame-wrap iframe { width: 210mm; height: 297mm; min-height: 297mm; border-radius: 0; box-shadow: none; display: block; page-break-after: always; transform: none !important; }
 }
