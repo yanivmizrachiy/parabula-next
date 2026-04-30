@@ -5,6 +5,8 @@ const BASE = (() => {
 
 const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
+const A4_SCREEN_WIDTH = 794;
+const A4_SCREEN_HEIGHT = 1123;
 const urlParams = new URLSearchParams(window.location.search);
 const requestedTopic = urlParams.get('topic');
 const autoSelectMode = urlParams.get('autoselect');
@@ -52,6 +54,16 @@ function pageSort(a, b) {
   const topicDiff = topicIndex(a) - topicIndex(b);
   if (topicDiff !== 0) return topicDiff;
   return localPageIndex(a) - localPageIndex(b);
+}
+
+function fitA4FramesToViewport() {
+  const available = Math.max(260, printView.clientWidth - 4);
+  const scale = Math.min(1, available / A4_SCREEN_WIDTH);
+  const width = Math.floor(A4_SCREEN_WIDTH * scale);
+  const height = Math.floor(A4_SCREEN_HEIGHT * scale);
+  document.documentElement.style.setProperty('--print-a4-scale', String(scale));
+  document.documentElement.style.setProperty('--print-a4-width', `${width}px`);
+  document.documentElement.style.setProperty('--print-a4-height', `${height}px`);
 }
 
 function saveSelection() {
@@ -127,6 +139,7 @@ function renderPreview() {
       printView.appendChild(wrap);
     });
 
+  fitA4FramesToViewport();
   updateSummary();
 }
 
@@ -167,6 +180,8 @@ async function boot() {
 
 searchBox.addEventListener('input', renderList);
 topicFilter.addEventListener('change', renderList);
+window.addEventListener('resize', fitA4FramesToViewport);
+window.addEventListener('orientationchange', () => setTimeout(fitA4FramesToViewport, 250));
 
 restoreSelectionBtn.addEventListener('click', restoreSelection);
 
