@@ -20,6 +20,7 @@ html, body { min-height: 100%; overflow-x: hidden; }
 
 body {
   margin: 0;
+  padding-bottom: 76px;
   background: var(--eq-bg);
   color: var(--eq-text);
   font-family: "Rubik", "Assistant", Arial, sans-serif;
@@ -46,7 +47,7 @@ button, .eq-reader-actions a {
   padding: 10px 14px;
 }
 
-button.primary, .eq-toolbar .primary {
+button.primary, .eq-toolbar .primary, .eq-mobile-actions .primary {
   background: #12336c;
   border-color: #2f6fed;
   color: var(--eq-primary-soft);
@@ -258,6 +259,27 @@ button:disabled, a[aria-disabled="true"] {
   transform-origin: top center;
 }
 
+.eq-mobile-actions {
+  position: fixed;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(7, 17, 31, .96);
+  border-top: 1px solid var(--eq-border);
+  backdrop-filter: blur(12px);
+}
+
+.eq-mobile-actions button {
+  min-height: 48px;
+  padding: 8px 10px;
+  font-weight: 700;
+}
+
 @media (max-width: 980px) {
   .eq-app-shell { padding: 10px; }
   .eq-hero { grid-template-columns: 1fr; padding: 16px; }
@@ -267,14 +289,14 @@ button:disabled, a[aria-disabled="true"] {
   .eq-layout { grid-template-columns: 1fr; }
   .eq-pages-panel { position: static; max-height: none; }
   .eq-pages-list { max-height: 360px; }
-  .eq-reader-head { display: grid; }
-  .eq-reader-actions { justify-content: stretch; display: grid; grid-template-columns: repeat(2, 1fr); }
+  .eq-reader-head { display: none; }
+  .eq-mobile-actions { display: grid; }
   .eq-frame-wrap { padding: 8px 0 10px; }
 }
 
 @media print {
-  body { background: #fff; }
-  .eq-hero, .eq-toolbar, .eq-pages-panel, .eq-reader-head, .eq-loading { display: none !important; }
+  body { background: #fff; padding-bottom: 0; }
+  .eq-hero, .eq-toolbar, .eq-pages-panel, .eq-reader-head, .eq-mobile-actions, .eq-loading { display: none !important; }
   .eq-app-shell { width: auto; padding: 0; }
   .eq-layout, .eq-reader { display: block; border: 0; box-shadow: none; min-height: 0; }
   .eq-frame-wrap { display: block; height: auto; min-height: 0; padding: 0; overflow: visible; background: #fff; }
