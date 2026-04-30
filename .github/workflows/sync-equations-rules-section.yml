@@ -1,0 +1,41 @@
+name: Sync Equations Rules Section
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/sync-equations-rules-section.mjs"
+      - ".github/workflows/sync-equations-rules-section.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-equations-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sync PROJECT_RULES equations section
+        run: node scripts/sync-equations-rules-section.mjs
+
+      - name: Commit rules sync
+        run: |
+          if git diff --quiet; then
+            echo "No PROJECT_RULES changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add PROJECT_RULES.md
+          git commit -m "Document dedicated equations route and design pass in rules"
+          git push
