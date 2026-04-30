@@ -11,7 +11,9 @@ on:
       - "preview/print.css"
       - "preview/print.js"
       - "meta/topics.json"
+      - "styles/pages/עמוד-*.css"
       - "scripts/validate-equations-app.mjs"
+      - "scripts/validate-equations-design-pass-strict.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   pull_request:
@@ -23,7 +25,9 @@ on:
       - "preview/print.css"
       - "preview/print.js"
       - "meta/topics.json"
+      - "styles/pages/עמוד-*.css"
       - "scripts/validate-equations-app.mjs"
+      - "scripts/validate-equations-design-pass-strict.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   workflow_dispatch:
@@ -45,6 +49,9 @@ jobs:
 
       - name: Validate dedicated equations app
         run: npm run validate:equations
+
+      - name: Validate strict equations design pass
+        run: npm run validate:equations:strict
 
       - name: Validate access layer
         run: npm run validate:access
