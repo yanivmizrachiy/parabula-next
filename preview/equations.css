@@ -233,36 +233,29 @@ button:disabled, a[aria-disabled="true"] {
 }
 
 .eq-frame-wrap {
-  min-height: calc(100vh - 238px);
-  padding: 14px;
-  display: grid;
-  place-items: start center;
+  height: calc(var(--eq-a4-height) + 22px);
+  min-height: calc(var(--eq-a4-height) + 22px);
+  padding: 10px 0 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   overflow-x: hidden;
   overflow-y: auto;
   direction: ltr;
   max-width: 100%;
+  background: #e5e7eb;
 }
 
 .eq-frame-wrap iframe {
+  flex: 0 0 794px;
   width: 794px;
   height: 1123px;
   border: 0;
-  border-radius: 16px;
+  border-radius: 0;
   background: #fff;
-  box-shadow: 0 16px 38px rgba(0, 0, 0, .34);
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .22);
   transform: scale(var(--eq-a4-scale));
   transform-origin: top center;
-}
-
-.eq-frame-wrap::before {
-  content: "";
-  width: var(--eq-a4-width);
-  height: 0;
-  grid-area: 1 / 1;
-}
-
-.eq-frame-wrap iframe {
-  grid-area: 1 / 1;
 }
 
 @media (max-width: 980px) {
@@ -276,8 +269,7 @@ button:disabled, a[aria-disabled="true"] {
   .eq-pages-list { max-height: 360px; }
   .eq-reader-head { display: grid; }
   .eq-reader-actions { justify-content: stretch; display: grid; grid-template-columns: repeat(2, 1fr); }
-  .eq-frame-wrap { padding: 10px; min-height: 62vh; }
-  .eq-frame-wrap iframe { border-radius: 12px; }
+  .eq-frame-wrap { padding: 8px 0 10px; }
 }
 
 @media print {
@@ -285,7 +277,6 @@ button:disabled, a[aria-disabled="true"] {
   .eq-hero, .eq-toolbar, .eq-pages-panel, .eq-reader-head, .eq-loading { display: none !important; }
   .eq-app-shell { width: auto; padding: 0; }
   .eq-layout, .eq-reader { display: block; border: 0; box-shadow: none; min-height: 0; }
-  .eq-frame-wrap { display: block; padding: 0; overflow: visible; min-height: 0; }
-  .eq-frame-wrap::before { display: none; }
+  .eq-frame-wrap { display: block; height: auto; min-height: 0; padding: 0; overflow: visible; background: #fff; }
   .eq-frame-wrap iframe { width: 210mm; height: 297mm; min-height: 297mm; border-radius: 0; box-shadow: none; display: block; page-break-after: always; transform: none !important; }
 }
