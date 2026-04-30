@@ -7,9 +7,11 @@ const PAGE_BASE = new URL('../', BASE).href;
 const STORE_KEY = 'parabula-selection-v1';
 const A4_SCREEN_WIDTH = 794;
 const A4_SCREEN_HEIGHT = 1123;
+const EQUATIONS_TOPIC = 'משוואות';
 const urlParams = new URLSearchParams(window.location.search);
 const requestedTopic = urlParams.get('topic');
 const autoSelectMode = urlParams.get('autoselect');
+const isEquationsPrintMode = requestedTopic === EQUATIONS_TOPIC;
 
 const searchBox = document.getElementById('searchBox');
 const topicFilter = document.getElementById('topicFilter');
@@ -25,6 +27,10 @@ const printNowBtn = document.getElementById('printNowBtn');
 let db = null;
 let visiblePages = [];
 const selected = new Set();
+
+if (isEquationsPrintMode) {
+  document.body.classList.add('equations-print-mode');
+}
 
 function normalize(value) {
   return String(value || '').trim().toLowerCase();
@@ -57,6 +63,7 @@ function pageSort(a, b) {
 }
 
 function fitA4FramesToViewport() {
+  if (!isEquationsPrintMode) return;
   const available = Math.max(260, printView.clientWidth - 4);
   const scale = Math.min(1, available / A4_SCREEN_WIDTH);
   const width = Math.floor(A4_SCREEN_WIDTH * scale);
