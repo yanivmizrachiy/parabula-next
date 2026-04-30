@@ -24,6 +24,10 @@ const openFullLink = document.getElementById('openFullLink');
 const downloadCurrentLink = document.getElementById('downloadCurrentLink');
 const loadingState = document.getElementById('loadingState');
 const pageFrame = document.getElementById('pageFrame');
+const mobilePrevBtn = document.getElementById('mobilePrevBtn');
+const mobileNextBtn = document.getElementById('mobileNextBtn');
+const mobilePrintBtn = document.getElementById('mobilePrintBtn');
+const mobileOpenBtn = document.getElementById('mobileOpenBtn');
 
 let pages = [];
 let visiblePages = [];
@@ -71,6 +75,16 @@ function updateBadges() {
 
 function getCurrentPage() {
   return pages[currentIndex] || pages[0] || null;
+}
+
+function updateActionState() {
+  const page = getCurrentPage();
+  const prevDisabled = currentIndex <= 0;
+  const nextDisabled = currentIndex >= pages.length - 1;
+  [prevBtn, mobilePrevBtn].forEach((btn) => { if (btn) btn.disabled = prevDisabled; });
+  [nextBtn, mobileNextBtn].forEach((btn) => { if (btn) btn.disabled = nextDisabled; });
+  if (openFullLink && page) openFullLink.href = pageUrl(page);
+  if (downloadCurrentLink && page) downloadCurrentLink.href = pageUrl(page);
 }
 
 function renderList() {
@@ -121,14 +135,11 @@ function updateReader() {
 
   currentTitle.textContent = page.title || page.file;
   currentMeta.textContent = `משוואות בלבד · דף ${currentIndex + 1} מתוך ${pages.length} · ${page.file}`;
-  openFullLink.href = pageUrl(page);
-  downloadCurrentLink.href = pageUrl(page);
-  prevBtn.disabled = currentIndex <= 0;
-  nextBtn.disabled = currentIndex >= pages.length - 1;
 
   loadingState.hidden = false;
   fitEquationA4ToViewport();
   pageFrame.src = pageUrl(page);
+  updateActionState();
   renderList();
 }
 
@@ -154,6 +165,23 @@ function selectedPagesOrAll() {
 function openPrintCenter() {
   localStorage.setItem('parabula-selection-v1', JSON.stringify(selectedPagesOrAll().map((page) => page.file)));
   window.location.href = './print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic';
+}
+
+function openCurrentFullPage() {
+  const page = getCurrentPage();
+  if (page) window.open(pageUrl(page), '_blank', 'noopener');
+}
+
+function goPrev() {
+  if (currentIndex <= 0) return;
+  currentIndex -= 1;
+  updateReader();
+}
+
+function goNext() {
+  if (currentIndex >= pages.length - 1) return;
+  currentIndex += 1;
+  updateReader();
 }
 
 function downloadLinks() {
@@ -207,22 +235,14 @@ clearSelectionBtn.addEventListener('click', () => {
   renderList();
 });
 openPrintBtn.addEventListener('click', openPrintCenter);
-printAllBtn.addEventListener('click', () => {
-  openPrintCenter();
-});
+printAllBtn.addEventListener('click', openPrintCenter);
 downloadLinksBtn.addEventListener('click', downloadLinks);
-prevBtn.addEventListener('click', () => {
-  if (currentIndex > 0) {
-    currentIndex -= 1;
-    updateReader();
-  }
-});
-nextBtn.addEventListener('click', () => {
-  if (currentIndex < pages.length - 1) {
-    currentIndex += 1;
-    updateReader();
-  }
-});
+prevBtn.addEventListener('click', goPrev);
+nextBtn.addEventListener('click', goNext);
+mobilePrevBtn?.addEventListener('click', goPrev);
+mobileNextBtn?.addEventListener('click', goNext);
+mobilePrintBtn?.addEventListener('click', openPrintCenter);
+mobileOpenBtn?.addEventListener('click', openCurrentFullPage);
 pageFrame.addEventListener('load', () => {
   loadingState.hidden = true;
   fitEquationA4ToViewport();
