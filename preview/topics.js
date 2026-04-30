@@ -1,5 +1,8 @@
 const BASE = new URL('../', window.location.href);
 const DATA_URL = new URL('meta/topics.json', BASE);
+const EQUATIONS_TOPIC = 'משוואות';
+const EQUATIONS_APP_URL = './equations.html';
+const EQUATIONS_PRINT_URL = './print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic';
 
 const searchBox = document.getElementById('searchBox');
 const clearBtn = document.getElementById('clearBtn');
@@ -87,13 +90,20 @@ function filteredTopics() {
 function topicCard(topic) {
   const first = topic.pages[0];
   const active = activeTopic === topic.name;
+  const isEquations = topic.name === EQUATIONS_TOPIC;
+  const equationsActions = isEquations ? `
+        <a class="equations-special" href="${EQUATIONS_APP_URL}">אפליקציית משוואות</a>
+        <a class="equations-special print" href="${EQUATIONS_PRINT_URL}">PDF / הדפסה משוואות</a>
+  ` : '';
   return `
-    <div class="topic-card ${active ? 'active' : ''}" data-topic="${topic.name}">
+    <div class="topic-card ${active ? 'active' : ''} ${isEquations ? 'equations-feature' : ''}" data-topic="${topic.name}">
       <div class="topic-title">${topic.name}</div>
       <div class="topic-meta">${topic.pages.length} דפים · מתחיל ב-${first?.title || first?.file || ''}</div>
+      ${isEquations ? '<div class="topic-meta equations-note">מסלול ייעודי מעוצב ומוגן בבדיקות ל־54 דפי משוואות בלבד</div>' : ''}
       <div class="topic-actions">
         <button class="primary" data-action="open-topic" data-topic="${topic.name}">פתח נושא</button>
         <a href="${resolvePageUrl(first)}" target="_blank" rel="noopener">פתח עמוד ראשון</a>
+        ${equationsActions}
       </div>
     </div>
   `;
@@ -236,6 +246,7 @@ topicsGrid.addEventListener('click', (e) => {
   const card = e.target.closest('.topic-card');
   const topicName = btn?.dataset.topic || card?.dataset.topic;
   if (!topicName) return;
+  if (e.target.closest('a')) return;
   setActiveTopic(topicName);
 });
 
