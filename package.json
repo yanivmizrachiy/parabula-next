@@ -15,6 +15,7 @@
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:equations": "node scripts/validate-equations-app.mjs",
     "validate:equations:strict": "node scripts/validate-equations-design-pass-strict.mjs",
+    "validate:equations:print-scope": "node scripts/validate-equations-print-scope.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs"
   },
