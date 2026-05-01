@@ -84,9 +84,9 @@ A page may be marked **finally approved** only if it passes the following checkl
 ## Progress
 
 - Pages in scope: 54
-- Pages checked: 2 / 54
+- Pages checked: 3 / 54
 - Pages finally approved: 0 / 54
-- Audit progress: 3.7%
+- Audit progress: 5.6%
 - Final approval progress: 0%
 
 ## Page 1 audit
@@ -205,3 +205,63 @@ Before approving page 2, implement one real correction path:
 3. Rebuild the page content as structured HTML/CSS.
 
 Until then, page 2 remains **not finally approved**.
+
+---
+
+## Page 3 audit
+
+### Identity
+
+- Topic-local page: 3 / 54
+- Root page file: `עמוד-43.html`
+- CSS file: `styles/pages/עמוד-43.css`
+- SVG/content file: `pages/משוואות/assets/page-03.svg`
+
+### HTML check
+
+Status: structurally OK.
+
+Findings:
+- The page is RTL.
+- It links `styles/a4-base.css`.
+- It links `styles/pages/עמוד-43.css`.
+- It contains `main.a4-page.page-43`.
+- It points to the expected SVG: `pages/משוואות/assets/page-03.svg`.
+- Navigation metadata says `משוואות — עמוד 3 / 54`.
+- Previous/next links are topic-local: previous `עמוד-42.html`, next `עמוד-44.html`.
+
+### CSS check
+
+Status: partially OK.
+
+Findings:
+- CSS is scoped to `.page-43`.
+- The design-pass marker exists.
+- No global `.header-container`, `.page-title`, or `body,html,.a4-page` override was identified in the current page CSS.
+- However, the CSS mainly styles the container/image placement and does not truly restyle the internal SVG captions if the SVG text is not live text.
+
+### SVG / captions check
+
+Status: not finally approved.
+
+Findings:
+- The page content is loaded as an external SVG image.
+- The SVG includes a font-unify style marker, but the visible caption layer is represented through glyph/path definitions rather than confirmed live `<text>` content.
+- Because of that, the root page CSS cannot be treated as a full caption redesign according to the project SVG/caption-source rule.
+
+### Project-rules decision
+
+Page 3 is checked, but **not approved as fully redesigned under `PROJECT_RULES.md`**.
+
+Reason:
+- The A4 shell, RTL structure, navigation, and scoped CSS are aligned with the project rules, but the caption/source layer still requires SVG-level redesign or reconstruction before final approval.
+
+### Required next action for page 3
+
+Before approving page 3, implement one real correction path:
+
+1. Verify and restyle live SVG text if it exists, or
+2. Update the SVG/vector caption layer directly, or
+3. Rebuild the page content as structured HTML/CSS.
+
+Until then, page 3 remains **not finally approved**.
