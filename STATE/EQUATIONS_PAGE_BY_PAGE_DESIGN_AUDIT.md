@@ -14,6 +14,73 @@ Excluded topic:
 
 This audit is not a bulk claim. A page is approved only after checking its HTML, CSS, SVG/content source, A4 behavior, mobile behavior, and whether captions/text are genuinely styled according to the project rules.
 
+## Project-rules approval checklist
+
+A page may be marked **finally approved** only if it passes the following checklist derived from `PROJECT_RULES.md`:
+
+### A. Topic and reality rules
+
+- The page belongs to the exact topic `משוואות`.
+- The page does not belong to or reference `משוואות ריבועיות` as the active topic.
+- No demo content, fake buttons, fake reports, fake workflows, placeholder rows, or invented content were added.
+- The learning content is not changed unless explicitly required by the user.
+
+### B. A4 page contract
+
+- The page is a root worksheet page: `עמוד-N.html`.
+- The page contains exactly one `main.a4-page.page-N` wrapper.
+- It relies on the immutable `styles/a4-base.css` foundation.
+- The A4 page remains `210mm × 297mm`.
+- No fake height fix such as `overflow: auto` on the A4 page is introduced.
+- The visible content uses the available A4 area without large unintended empty regions.
+
+### C. HTML / CSS separation
+
+- No `<style>` block exists in the root worksheet HTML.
+- No `style="..."` attribute exists in the root worksheet HTML.
+- Page-specific styling is only in `styles/pages/עמוד-N.css`.
+- `styles/a4-base.css` is not edited.
+
+### D. RTL and math rules
+
+- `dir="rtl"` is preserved.
+- MathJax delimiters remain `\( ... \)` and `$$ ... $$`.
+- `$...$` math delimiters are not introduced.
+- Hebrew mathematical writing remains correct.
+
+### E. Navigation and numbering rules
+
+- `.preview-nav` exists.
+- `.nav-meta` uses `{Topic} — עמוד {i} / {total}`.
+- `.page-number` equals the topic-local page index.
+- The active topic link uses `.is-active` and `aria-current="page"`.
+- Previous/next links match topic-local order.
+- `.page-number` and `.header-container` are not overridden in the page CSS.
+
+### F. Page CSS design rules
+
+- CSS is scoped to the page class, for example `.page-42`.
+- No global `.header-container` override exists.
+- No global `.page-title` override exists.
+- No global `body,html,.a4-page` override exists.
+- No legacy `EQUATIONS_STRICT_UNIFY` block remains.
+- Design changes are real design changes, not cosmetic marker-only changes.
+
+### G. SVG / caption-source rules
+
+- SVG strokes must be non-scaling where SVG strokes exist.
+- Captions/text must be evaluated in their real source layer.
+- If the visible captions are live SVG/HTML text, they must be styled according to project typography and layout rules.
+- If the visible captions are glyphs/paths inside an external SVG image, page CSS alone is not enough for final approval.
+- A page with path/glyph-only captions can be finally approved only after a verified SVG-level design pass or reconstruction as structured HTML/CSS.
+
+### H. Mobile / preview / print rules
+
+- The page must be viewable comfortably on mobile through the equations route.
+- The A4 preview must be horizontally centered and must not drift right under RTL.
+- The A4 preview must show the real print boundary without horizontal scrolling.
+- Browser print / Save as PDF must preserve real A4 dimensions.
+
 ## Progress
 
 - Pages in scope: 54
@@ -62,12 +129,12 @@ Finding:
 - The root HTML/CSS cannot reliably restyle captions inside an external SVG image.
 - Initial SVG inspection did not find live `<text>` elements in the SVG, which means the visible Hebrew/math captions are likely vector glyphs/paths from the original source rather than editable styled text.
 
-### Decision
+### Project-rules decision
 
-Page 1 is checked, but **not approved as fully redesigned**.
+Page 1 is checked, but **not approved as fully redesigned under `PROJECT_RULES.md`**.
 
 Reason:
-- The page shell and CSS are improved, but the actual visible captions inside the SVG cannot yet be certified as redesigned according to project rules.
+- The page shell and CSS are improved, but the actual visible captions inside the SVG cannot yet be certified as redesigned according to the SVG/caption-source rules.
 
 ### Required next action for page 1
 
@@ -122,9 +189,9 @@ Findings:
 - The SVG contains a font-unify style marker, but the actual visible captions appear to be glyph/path based rather than simple live HTML/SVG text.
 - Therefore the page shell CSS cannot honestly be treated as full caption redesign.
 
-### Decision
+### Project-rules decision
 
-Page 2 is checked, but **not approved as fully redesigned**.
+Page 2 is checked, but **not approved as fully redesigned under `PROJECT_RULES.md`**.
 
 Reason:
 - The page shell and CSS are improved, but the visible caption layer inside the SVG still needs SVG-level verification or reconstruction before final approval.
