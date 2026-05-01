@@ -17,9 +17,9 @@ This audit is not a bulk claim. A page is approved only after checking its HTML,
 ## Progress
 
 - Pages in scope: 54
-- Pages checked: 1 / 54
+- Pages checked: 2 / 54
 - Pages finally approved: 0 / 54
-- Audit progress: 1.9%
+- Audit progress: 3.7%
 - Final approval progress: 0%
 
 ## Page 1 audit
@@ -78,3 +78,63 @@ Choose and implement one real correction path before approving page 1:
 3. Produce a verified SVG-level design pass that updates the visual caption styling directly inside the SVG.
 
 Until one of these is done and visually checked, page 1 remains **not finally approved**.
+
+---
+
+## Page 2 audit
+
+### Identity
+
+- Topic-local page: 2 / 54
+- Root page file: `עמוד-42.html`
+- CSS file: `styles/pages/עמוד-42.css`
+- SVG/content file: `pages/משוואות/assets/page-02.svg`
+
+### HTML check
+
+Status: structurally OK.
+
+Findings:
+- The page is RTL.
+- It links `styles/a4-base.css`.
+- It links `styles/pages/עמוד-42.css`.
+- It contains `main.a4-page.page-42`.
+- It points to the expected SVG: `pages/משוואות/assets/page-02.svg`.
+- Navigation metadata says `משוואות — עמוד 2 / 54`.
+- Previous/next links are topic-local: previous `עמוד-95.html`, next `עמוד-43.html`.
+
+### CSS check
+
+Status: partially OK.
+
+Findings:
+- CSS is scoped to `.page-42`.
+- The design-pass marker exists.
+- No global `.header-container`, `.page-title`, or `body,html,.a4-page` override was identified in the current page CSS.
+- However, the CSS mainly styles the container/image placement and does not truly restyle the internal SVG captions if the SVG text is not live text.
+
+### SVG / captions check
+
+Status: not finally approved.
+
+Findings:
+- The page content is loaded as an external SVG image.
+- The SVG contains a font-unify style marker, but the actual visible captions appear to be glyph/path based rather than simple live HTML/SVG text.
+- Therefore the page shell CSS cannot honestly be treated as full caption redesign.
+
+### Decision
+
+Page 2 is checked, but **not approved as fully redesigned**.
+
+Reason:
+- The page shell and CSS are improved, but the visible caption layer inside the SVG still needs SVG-level verification or reconstruction before final approval.
+
+### Required next action for page 2
+
+Before approving page 2, implement one real correction path:
+
+1. Verify and restyle live SVG text if it exists, or
+2. Update the SVG/vector caption layer directly, or
+3. Rebuild the page content as structured HTML/CSS.
+
+Until then, page 2 remains **not finally approved**.
