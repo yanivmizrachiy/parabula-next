@@ -1,0 +1,41 @@
+name: Audit Equations SVG Captions
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "scripts/audit-equations-svg-captions.mjs"
+      - ".github/workflows/audit-equations-svg-captions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-equations-svg-captions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate SVG caption audit
+        run: node scripts/audit-equations-svg-captions.mjs
+
+      - name: Commit SVG caption audit report
+        run: |
+          if git diff --quiet; then
+            echo "No SVG caption audit changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add STATE/EQUATIONS_SVG_CAPTION_AUDIT.md
+          git commit -m "Audit equations SVG caption layer"
+          git push
