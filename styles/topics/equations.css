@@ -8,6 +8,7 @@
   --equations-soft: var(--bg-subtle);
   --equations-title: var(--title-blue);
   --equations-text: var(--text-main);
+  --equations-crop-top: 118px;
   font-family: 'Rubik', sans-serif;
 }
 
@@ -35,11 +36,11 @@
 
 .equations-page .pdf-page {
   width: 100%;
-  height: calc(100% + 118px);
+  height: calc(100% + var(--equations-crop-top));
   object-fit: cover;
   object-position: center top;
   display: block;
-  transform: translateY(-118px);
+  transform: translateY(calc(-1 * var(--equations-crop-top)));
   transform-origin: top center;
 }
 
