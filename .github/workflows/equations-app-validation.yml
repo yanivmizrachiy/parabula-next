@@ -11,10 +11,13 @@ on:
       - "preview/print.css"
       - "preview/print.js"
       - "meta/topics.json"
+      - "styles/topics/equations.css"
       - "styles/pages/עמוד-*.css"
+      - "עמוד-95.html"
       - "scripts/validate-equations-app.mjs"
       - "scripts/validate-equations-design-pass-strict.mjs"
       - "scripts/validate-equations-print-scope.mjs"
+      - "scripts/validate-equations-pilot-page-1.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   pull_request:
@@ -26,10 +29,13 @@ on:
       - "preview/print.css"
       - "preview/print.js"
       - "meta/topics.json"
+      - "styles/topics/equations.css"
       - "styles/pages/עמוד-*.css"
+      - "עמוד-95.html"
       - "scripts/validate-equations-app.mjs"
       - "scripts/validate-equations-design-pass-strict.mjs"
       - "scripts/validate-equations-print-scope.mjs"
+      - "scripts/validate-equations-pilot-page-1.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   workflow_dispatch:
@@ -57,6 +63,9 @@ jobs:
 
       - name: Validate equations-only print scope
         run: npm run validate:equations:print-scope
+
+      - name: Validate equations pilot page 1
+        run: npm run validate:equations:pilot
 
       - name: Validate access layer
         run: npm run validate:access
