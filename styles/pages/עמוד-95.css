@@ -1,8 +1,42 @@
-/* עמוד 95 — משוואות
-   Pilot page: uses the shared equations design standard.
-   Keep this file limited to page-local differences only. */
+/* Page 95 — equations pilot.
+   The imported SVG contains its own title area. Keep the project header visible
+   and crop only the SVG top area inside the content box. */
 
 /* EQUATIONS_DESIGN_PASS_20260429 */
 .page-95.equations-page {
   --equations-crop-top: 118px;
+}
+
+.page-95 {
+}
+
+.page-95 .question-block {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.page-95 .pdf-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-95 .pdf-page {
+  width: 100%;
+  height: calc(100% + var(--equations-crop-top));
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transform: translateY(calc(-1 * var(--equations-crop-top))) !important;
+  transform-origin: top center;
 }
