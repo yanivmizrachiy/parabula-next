@@ -1,0 +1,64 @@
+/* משוואות — שכבת עריכה קלה לתיקונים נקודתיים
+   המטרה: לא לערוך SVG/PDF סגור עבור תיקון קטן. במקום זאת מוסיפים תיקון טקסטואלי
+   ממוקם מעל הדף, עם CSS ברור וקל לשינוי. */
+
+.equations-page .pdf-wrap {
+  position: relative;
+}
+
+.equation-edit-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  direction: rtl;
+}
+
+.equation-edit {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--edit-width, 96px);
+  min-height: var(--edit-height, 24px);
+  padding: 0 6px;
+  background: var(--bg-paper);
+  color: var(--text-main);
+  font-family: 'Rubik', sans-serif;
+  font-size: var(--edit-font-size, 15px);
+  font-weight: 400;
+  line-height: 1.15;
+  white-space: nowrap;
+  border-radius: 3px;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/*
+  עריכה פעילה — דף 1 במשוואות:
+  מקור הבקשה: להחליף את המשוואה החריגה "6 + x = 1/2" ל־"6 + x = 6.5".
+  כדי לדייק מיקום בעתיד, משנים רק את המשתנים הבאים ולא נוגעים ב-SVG.
+*/
+.page-95 .equation-edit-page-95-x-plus-6 {
+  --edit-width: 118px;
+  --edit-height: 25px;
+  --edit-font-size: 15px;
+  top: 29.2%;
+  left: 18.5%;
+}
+
+@media screen and (max-width: 900px) {
+  .equation-edit {
+    font-size: calc(var(--edit-font-size, 15px) * 0.72);
+    min-width: calc(var(--edit-width, 96px) * 0.72);
+    min-height: calc(var(--edit-height, 24px) * 0.72);
+    padding-inline: 4px;
+  }
+}
+
+@media print {
+  .equation-edit {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
