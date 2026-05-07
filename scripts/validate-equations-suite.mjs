@@ -18,6 +18,10 @@ const checks = [
     command: ['node', 'scripts/validate-equations-pilot-page-1.mjs']
   },
   {
+    name: 'temporary easy-edit overlay guard',
+    command: ['node', 'scripts/validate-equations-easy-edits.mjs']
+  },
+  {
     name: 'access layer',
     command: ['node', 'scripts/validate-access-layer.mjs']
   }
