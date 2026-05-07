@@ -1,6 +1,6 @@
 # EQUATIONS_APP_STATUS — ParabulaNext
 
-_Last updated: 2026-04-29_
+_Last updated: 2026-05-07_
 
 ## Verified real repository change
 
@@ -12,11 +12,17 @@ Created files:
 - `preview/equations.js`
 - `preview/print.css`
 - `scripts/validate-equations-app.mjs`
+- `scripts/validate-equations-design-pass-strict.mjs`
+- `scripts/validate-equations-print-scope.mjs`
+- `scripts/validate-equations-pilot-page-1.mjs`
+- `scripts/validate-equations-suite.mjs`
 - `.github/workflows/equations-app-validation.yml`
 
 Updated files:
 - `preview/print.html`
 - `preview/print.js`
+- `preview/topics.js`
+- `preview/topics.css`
 - `package.json`
 
 ## Purpose
@@ -71,17 +77,35 @@ The print center now supports:
 - dedicated `topic` URL parameter
 - `autoselect=topic` preselection mode
 - topic-local sorting, so a page like `עמוד-95.html` can correctly appear as `עמוד 1 — משוואות`
+- equations-only A4 viewport fitting through `body.equations-print-mode`
 - extracted stylesheet `preview/print.css` instead of inline CSS in `preview/print.html`
+
+The topics screen now exposes dedicated equations actions from the exact `משוואות` topic card:
+- `אפליקציית משוואות`
+- `PDF / הדפסה משוואות`
+
+The topics click handler now avoids opening the topic card when a real link inside the card is clicked.
 
 ## Smart validation added
 
-A dedicated validator was added:
+The main one-command validation suite is:
 
+- `npm run validate:equations:all`
+
+It runs:
+- `node scripts/validate-equations-app.mjs`
+- `node scripts/validate-equations-design-pass-strict.mjs`
+- `node scripts/validate-equations-print-scope.mjs`
+- `node scripts/validate-equations-pilot-page-1.mjs`
+- `node scripts/validate-access-layer.mjs`
+
+Individual validators are still available:
 - `npm run validate:equations`
+- `npm run validate:equations:strict`
+- `npm run validate:equations:print-scope`
+- `npm run validate:equations:pilot`
 
-The validator now checks both the app shell and the underlying equations worksheet family.
-
-App and print-shell checks:
+The validation checks cover:
 - required files exist
 - `preview/equations.html` is RTL
 - no inline `<style>` or `style="..."` appears in the equations app shell
@@ -91,15 +115,14 @@ App and print-shell checks:
 - the app reads `meta/topics.json`
 - the print center supports `topic` and `autoselect=topic`
 - the print center uses topic-local sorting
-
-Metadata checks:
+- the print center applies A4 fitting only in exact equations print mode
+- the topics screen exposes dedicated equations links
+- clicking dedicated links inside the topics card is protected from triggering topic-card open behavior
 - the exact equations topic currently has 54 pages
 - every equations page has `topic=משוואות`
 - no equations page has `topic=משוואות ריבועיות`
 - the topic-local page indexes 1–54 are continuous and unique
 - `עמוד-95.html` is validated as topic-local page 1 for equations
-
-Worksheet-family checks across all 54 pages:
 - every root `עמוד-N.html` file exists
 - every matching `styles/pages/עמוד-N.css` file exists
 - every expected `pages/משוואות/assets/page-XX.svg` asset exists
@@ -113,37 +136,50 @@ Worksheet-family checks across all 54 pages:
 - every page avoids references to `משוואות ריבועיות`
 - previous/next links are checked by topic-local order
 - CSS page layout rules are checked for page-scoped selectors
-- legacy global CSS overrides are reported as warnings rather than hidden
 
-A dedicated GitHub Actions workflow was added:
+## GitHub Actions guard
+
+A dedicated GitHub Actions workflow exists:
 
 - `.github/workflows/equations-app-validation.yml`
 
-It runs on relevant pushes, pull requests, and manual dispatch, and executes:
-- `npm run validate:equations`
-- `npm run validate:access`
+It runs on relevant pushes, pull requests, and manual dispatch, and now executes:
+- `npm run validate:equations:all`
+
+The workflow is triggered by relevant changes in:
+- `preview/equations.*`
+- `preview/print.*`
+- `preview/topics.*`
+- `meta/topics.json`
+- `styles/pages/עמוד-*.css`
+- `עמוד-*.html`
+- `pages/משוואות/assets/page-*.svg`
+- equations validator scripts
+- `package.json`
+- the workflow file itself
 
 ## What was intentionally not changed
 
 No educational worksheet content was changed.
-No root A4 worksheet page was rewritten.
-No equation SVG asset was edited.
+No root A4 worksheet page was rewritten as learning content.
 No quadratic-equation topic was touched.
+No mass cleanup was applied to all equations CSS files without a live preview/test run.
 
-## Known smart warning
+## Known smart warning / unresolved risk
 
-The new validator is expected to warn that some equations CSS files still contain legacy global overrides such as `.header-container`, `.page-title`, or `body,html,.a4-page` from the previous equations cleanup. These are reported as warnings, not immediate failures, because changing all 54 CSS files may affect visual layout and should be done only after test/preview confirmation.
+Some equations CSS files may still contain legacy global overrides such as `.header-container`, `.page-title`, or `body,html,.a4-page` from earlier cleanup work. These must not be removed blindly across all 54 files without confirming visual behavior in preview and print.
 
 ## Remaining verification before 100%
 
 Not yet verified in this ChatGPT tool session:
-- actual GitHub Actions run result after the workflow commit
+- actual GitHub Actions green result after the workflow commits
+- `npm run validate:equations:all` from a cloned workspace
 - `npm test` from a cloned workspace
-- real browser preview on GitHub Pages after deployment cache refresh
+- real browser preview on GitHub Pages after deployment/cache refresh
 - real phone check for clipping / iframe comfort
 - browser print / Save as PDF test for all 54 equations pages
 
 ## Current status
 
 Implementation committed to `main` through GitHub API.
-Status: implemented, repository-visible, deep validator added, CI guard added, not yet locally test-run from a cloned workspace.
+Status: implemented, repository-visible, one-command validation suite added, CI guard updated, not yet locally test-run from a cloned workspace and not yet visually verified on a real phone/browser.
