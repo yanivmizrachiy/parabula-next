@@ -19,7 +19,8 @@
     "validate:equations:pilot": "node scripts/validate-equations-pilot-page-1.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
     "page:new": "node scripts/new-page.mjs",
-    "rules:sync": "node scripts/sync-rules.mjs"
+    "rules:sync": "node scripts/sync-rules.mjs",
+    "validate:equations:easy-edits": "node scripts/validate-equations-easy-edits.mjs"
   },
   "devDependencies": {
     "vite": "^8.0.1"

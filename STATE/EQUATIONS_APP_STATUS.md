@@ -183,3 +183,13 @@ Not yet verified in this ChatGPT tool session:
 
 Implementation committed to `main` through GitHub API.
 Status: implemented, repository-visible, one-command validation suite added, CI guard updated, not yet locally test-run from a cloned workspace and not yet visually verified on a real phone/browser.
+
+## 2026-05-07 — Easy equations edit layer
+
+- Added `styles/topics/equations-edits.css` as the official easy-edit overlay layer for equations corrections.
+- Connected `עמוד-95.html` to the edit layer.
+- Added a visible text correction overlay for the page 1 equation: `6 + x = 6.5`.
+- Added `scripts/validate-equations-easy-edits.mjs`.
+- Added npm script: `validate:equations:easy-edits`.
+- Educational SVG/PDF source was not edited directly.
+- This makes future equation corrections easier: add/edit a small overlay entry instead of editing a closed SVG.
