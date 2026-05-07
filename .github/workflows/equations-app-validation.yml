@@ -22,6 +22,7 @@ on:
       - "scripts/validate-equations-design-pass-strict.mjs"
       - "scripts/validate-equations-print-scope.mjs"
       - "scripts/validate-equations-pilot-page-1.mjs"
+      - "scripts/validate-equations-suite.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   pull_request:
@@ -44,6 +45,7 @@ on:
       - "scripts/validate-equations-design-pass-strict.mjs"
       - "scripts/validate-equations-print-scope.mjs"
       - "scripts/validate-equations-pilot-page-1.mjs"
+      - "scripts/validate-equations-suite.mjs"
       - "package.json"
       - ".github/workflows/equations-app-validation.yml"
   workflow_dispatch:
@@ -63,17 +65,5 @@ jobs:
         with:
           node-version: 20
 
-      - name: Validate dedicated equations app
-        run: npm run validate:equations
-
-      - name: Validate strict equations design pass
-        run: npm run validate:equations:strict
-
-      - name: Validate equations-only print scope
-        run: npm run validate:equations:print-scope
-
-      - name: Validate equations pilot page 1
-        run: npm run validate:equations:pilot
-
-      - name: Validate access layer
-        run: npm run validate:access
+      - name: Run complete equations validation suite
+        run: npm run validate:equations:all
