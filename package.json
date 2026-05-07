@@ -17,6 +17,7 @@
     "validate:equations:strict": "node scripts/validate-equations-design-pass-strict.mjs",
     "validate:equations:print-scope": "node scripts/validate-equations-print-scope.mjs",
     "validate:equations:pilot": "node scripts/validate-equations-pilot-page-1.mjs",
+    "validate:equations:all": "node scripts/validate-equations-suite.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs"
   },
