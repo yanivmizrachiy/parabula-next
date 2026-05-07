@@ -1,10 +1,10 @@
 /* Page 95 — equations pilot.
-   The imported SVG contains its own title area. Keep the project header visible
-   and crop only the SVG top area inside the content box. */
+   Safety fix: do not use object-fit: cover here, because it can hide the left side
+   of the worksheet in preview. Keep the full SVG visible and place edits above it. */
 
 /* EQUATIONS_DESIGN_PASS_20260429 */
 .page-95.equations-page {
-  --equations-crop-top: 118px;
+  --equations-crop-top: 0px;
 }
 
 .page-95 {
@@ -29,14 +29,15 @@
   border: 1px solid var(--border-light);
   border-radius: 8px;
   background: var(--bg-paper);
+  position: relative;
 }
 
 .page-95 .pdf-page {
   width: 100%;
-  height: calc(100% + var(--equations-crop-top));
-  object-fit: cover;
-  object-position: center top;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
   display: block;
-  transform: translateY(calc(-1 * var(--equations-crop-top))) !important;
-  transform-origin: top center;
+  transform: none !important;
+  transform-origin: center center;
 }
