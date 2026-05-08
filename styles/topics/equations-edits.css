@@ -1,6 +1,6 @@
-/* משוואות — שכבת עריכה קלה לתיקונים נקודתיים
-   המטרה: לא לערוך SVG/PDF סגור עבור תיקון קטן.
-   במקום זאת מוסיפים תיקון טקסטואלי ממוקם מעל הדף, עם CSS ברור וקל לשינוי. */
+/* משוואות — שכבת עריכה חיה לתיקונים נקודתיים
+   חשוב: זו שכבת מעבר בלבד עד המרה מלאה של דף ה-SVG ל-HTML/MathJax.
+   כל טקסט חדש כאן חייב להיות טקסט חי בגופן הפרויקט, לא path בתוך SVG. */
 
 .equations-page .pdf-wrap {
   position: relative;
@@ -9,7 +9,7 @@
 .equation-edit-layer {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 6;
   pointer-events: none;
   direction: rtl;
 }
@@ -24,7 +24,7 @@
   padding: 0 6px;
   background: var(--bg-paper);
   color: var(--text-main);
-  font-family: 'Rubik', sans-serif;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
   font-size: var(--edit-font-size, 15px);
   font-weight: 400;
   line-height: 1.15;
@@ -32,6 +32,43 @@
   border-radius: 3px;
   direction: ltr;
   unicode-bidi: isolate;
+}
+
+.equation-live-edit-panel {
+  position: absolute;
+  z-index: 7;
+  top: 14px;
+  right: 14px;
+  left: 14px;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 2px solid var(--title-blue);
+  border-radius: 10px;
+  background: var(--bg-paper);
+  color: var(--text-main);
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  pointer-events: none;
+}
+
+.equation-live-edit-panel .edit-label {
+  color: var(--title-blue);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.equation-live-edit-panel .edit-math {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 400;
 }
 
 /*
@@ -54,10 +91,28 @@
     min-height: calc(var(--edit-height, 24px) * 0.72);
     padding-inline: 4px;
   }
+
+  .equation-live-edit-panel {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    min-height: 46px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .equation-live-edit-panel .edit-label {
+    font-size: 11px;
+  }
+
+  .equation-live-edit-panel .edit-math {
+    font-size: 17px;
+  }
 }
 
 @media print {
-  .equation-edit {
+  .equation-edit,
+  .equation-live-edit-panel {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
