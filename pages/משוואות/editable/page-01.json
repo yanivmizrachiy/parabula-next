@@ -1,0 +1,22 @@
+{
+  "schema": "parabula.equations.editable-source.v1",
+  "topic": "משוואות",
+  "topicLocalPage": 1,
+  "publicPage": "עמוד-95.html",
+  "legacySvg": "pages/משוואות/assets/page-01.svg",
+  "status": "needs_full_manual_or_ocr_text_reconstruction",
+  "knownVerifiedCorrection": {
+    "before": "6 + x = 1/2",
+    "after": "6 + x = 6.5",
+    "mathjax": "\\(6 + x = 6.5\\)"
+  },
+  "rules": [
+    "Do not show system/debug/prototype text in public worksheet pages.",
+    "Do not treat closed SVG paths as editable math text.",
+    "Do not invent missing worksheet equations.",
+    "Final reconstructed pages must be real HTML + MathJax + CSS.",
+    "HTML and CSS must remain separated.",
+    "No inline style blocks and no style attributes."
+  ],
+  "nextStep": "Reconstruct the full page worksheet content from verified visual/text source, then replace the SVG-only page with live HTML/MathJax."
+}

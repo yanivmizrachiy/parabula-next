@@ -21,7 +21,9 @@
     "validate:equations:editable-page-1": "node scripts/validate-page-95-editable.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
     "page:new": "node scripts/new-page.mjs",
-    "rules:sync": "node scripts/sync-rules.mjs"
+    "rules:sync": "node scripts/sync-rules.mjs",
+    "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
+    "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs"
   },
   "devDependencies": {
     "vite": "^8.0.1"

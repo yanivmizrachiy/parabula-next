@@ -1,13 +1,10 @@
-/* Page 95 — equations pilot.
-   Safety fix: do not use object-fit: cover here, because it can hide the left side
-   of the worksheet in preview. Keep the full SVG visible and place edits above it. */
+/* Page 95 — equations page 1.
+   Public worksheet view must stay clean: no system/debug/prototype text.
+   SVG is still the legacy visual source; corrections must not create visible system clutter.
+   Important preview fix: keep the full page visible, do not crop the left side. */
 
-/* EQUATIONS_DESIGN_PASS_20260429 */
 .page-95.equations-page {
   --equations-crop-top: 0px;
-}
-
-.page-95 {
 }
 
 .page-95 .question-block {

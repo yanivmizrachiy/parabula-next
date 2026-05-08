@@ -4,9 +4,6 @@ const TARGET_TOPIC = 'משוואות';
 const EXCLUDED_TOPIC = 'משוואות ריבועיות';
 const A4_SCREEN_WIDTH = 794;
 const A4_SCREEN_HEIGHT = 1123;
-const EDITABLE_PAGE_URLS = {
-  'עמוד-95.html': '../עמוד-95-editable.html'
-};
 
 const topicNameBadge = document.getElementById('topicNameBadge');
 const pageCountBadge = document.getElementById('pageCountBadge');
@@ -45,10 +42,6 @@ function pageUrl(page) {
   return page.siteUrl || new URL(`../${page.file}`, window.location.href).href;
 }
 
-function editablePageUrl(page) {
-  const href = EDITABLE_PAGE_URLS[page?.file];
-  return href ? new URL(href, window.location.href).href : '';
-}
 
 function fitEquationA4ToViewport() {
   const wrap = pageFrame?.parentElement;
@@ -110,10 +103,6 @@ function renderList() {
     const realIndex = pages.findIndex((entry) => entry.file === page.file);
     const isActive = realIndex === currentIndex;
     const isSelected = selected.has(page.file);
-    const editableUrl = editablePageUrl(page);
-    const editableAction = editableUrl
-      ? `<a href="${editableUrl}" target="_blank" rel="noopener" class="eq-editable-link">גרסה עריכה</a>`
-      : `<span class="eq-editable-pending">טרם הומר לעריכה</span>`;
     return `
       <article class="eq-page-card ${isActive ? 'is-active' : ''}" data-file="${page.file}">
         <div class="eq-page-card-top">
@@ -128,7 +117,6 @@ function renderList() {
           <a href="${pageUrl(page)}" target="_blank" rel="noopener">פתח מלא</a>
           <button type="button" data-action="toggle">${isSelected ? 'הסר' : 'בחר'}</button>
           <a href="${pageUrl(page)}" download>הורד HTML</a>
-          ${editableAction}
         </div>
       </article>
     `;
@@ -203,13 +191,11 @@ function downloadLinks() {
     topic: TARGET_TOPIC,
     excludedTopic: EXCLUDED_TOPIC,
     count: pages.length,
-    editablePages: EDITABLE_PAGE_URLS,
     pages: selectedPagesOrAll().map((page, index) => ({
       index: index + 1,
       title: page.title,
       file: page.file,
-      url: pageUrl(page),
-      editableUrl: editablePageUrl(page)
+      url: pageUrl(page)
     }))
   };
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
