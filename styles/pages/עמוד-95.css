@@ -1,10 +1,10 @@
 /* Page 95 — equations page 1.
-   Live worksheet rebuild: HTML + MathJax + separated page CSS.
-   Uses project A4 shell, RTL navigation, and shared equations tokens. */
+   Final worksheet rebuild: HTML + MathJax + separated page CSS.
+   Keeps the global A4 contract from styles/a4-base.css intact. */
 
 .page-95.equations-page {
   justify-content: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .page-95 .worksheet-card {
@@ -12,83 +12,91 @@
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 14px;
-  padding: 30px 36px 34px;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 18px 22px 20px;
   border: 1px solid var(--border-light);
   border-radius: 8px;
   background: var(--bg-paper);
 }
 
 .page-95 .worksheet-badge {
-  width: 42px;
-  height: 42px;
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid var(--title-blue);
+  border: 2px solid var(--title-blue);
   border-radius: 50%;
   color: var(--title-blue);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1;
+  background: var(--bg-paper);
 }
 
 .page-95 .worksheet-instruction {
   margin: 0;
+  padding: 4px 50px 0 0;
   color: var(--text-main);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.55;
   font-weight: 400;
+  text-align: right;
 }
 
 .page-95 .equations-grid {
   min-height: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 34px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 28px;
   align-items: stretch;
 }
 
 .page-95 .equation-list {
   margin: 0;
   padding: 0;
-  list-style-position: inside;
+  list-style: none;
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  gap: 18px;
+  grid-template-rows: repeat(6, minmax(54px, 1fr));
+  gap: 14px;
+  min-width: 0;
 }
 
 .page-95 .equation-list-left {
   border-left: 1px dashed var(--grid-line);
-  padding-left: 28px;
+  padding-left: 24px;
 }
 
 .page-95 .equation-item {
-  min-height: 52px;
+  min-width: 0;
   display: grid;
-  grid-template-columns: minmax(110px, auto) 1fr;
-  gap: 14px;
+  grid-template-columns: minmax(92px, auto) minmax(78px, 1fr);
+  gap: 12px;
   align-items: center;
   direction: ltr;
   unicode-bidi: isolate;
   color: var(--text-main);
-  font-size: 17px;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.25;
 }
 
 .page-95 .equation-math {
+  min-width: 0;
   display: inline-flex;
   align-items: center;
   justify-content: flex-start;
-  min-width: 110px;
   font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
 
 .page-95 .answer-line {
   display: block;
-  min-width: 92px;
-  height: 1.35em;
+  width: 100%;
+  min-width: 58px;
+  height: 1.15em;
   border-bottom: 1px solid var(--grid-line);
 }
 
