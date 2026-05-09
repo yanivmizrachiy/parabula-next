@@ -39,11 +39,11 @@
    Requested correction: 6 + x = 1/2 -> 6 + x = 6.5
    Position still needs visual verification against the real worksheet image. */
 .page-95 .equation-edit-page-95-x-plus-6 {
-  --edit-width: 118px;
-  --edit-height: 25px;
-  --edit-font-size: 15px;
-  top: 29.2%;
-  left: 18.5%;
+  --edit-width: 126px;
+  --edit-height: 30px;
+  --edit-font-size: 14px;
+  top: 86.6%;
+  left: 55.8%;
 }
 
 @media screen and (max-width: 900px) {
