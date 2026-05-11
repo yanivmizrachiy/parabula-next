@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "status": "seed",
+  "authority": "planning-seed; not canonical until reviewed and approved",
+  "source": "STATE/WORKFLOW_RISK_MAP.md",
+  "policy": {
+    "defaultForWriteCapableWorkflows": "branch-pr-review",
+    "directPushToMain": "not allowed by default",
+    "requiresExplicitApproval": true
+  },
+  "workflows": [
+    {
+      "file": ".github/workflows/deploy-pages.yml",
+      "status": "NEEDS_REVIEW",
+      "risk": "MEDIUM",
+      "writeCapability": "unknown until inspected",
+      "role": "GitHub Pages deployment workflow"
+    },
+    {
+      "file": ".github/workflows/pages.yml",
+      "status": "NEEDS_REVIEW",
+      "risk": "MEDIUM",
+      "writeCapability": "unknown until inspected",
+      "role": "Pages/build workflow"
+    },
+    {
+      "file": ".github/workflows/repository-health.yml",
+      "status": "READ_ONLY_AUDIT",
+      "risk": "LOW",
+      "writeCapability": "none expected",
+      "role": "repository health checks"
+    },
+    {
+      "file": ".github/workflows/preview-health.yml",
+      "status": "READ_ONLY_AUDIT",
+      "risk": "LOW",
+      "writeCapability": "none expected",
+      "role": "preview health checks"
+    },
+    {
+      "file": ".github/workflows/preview-guard.yml",
+      "status": "WRITES_ARTIFACT",
+      "risk": "LOW",
+      "writeCapability": "artifact only expected",
+      "role": "preview guard report"
+    },
+    {
+      "file": ".github/workflows/worksheet-intake-guard.yml",
+      "status": "WRITES_ARTIFACT",
+      "risk": "LOW",
+      "writeCapability": "artifact only expected",
+      "role": "worksheet intake guard report"
+    },
+    {
+      "file": ".github/workflows/recovery-audit.yml",
+      "status": "WRITES_ARTIFACT",
+      "risk": "LOW",
+      "writeCapability": "artifact only expected",
+      "role": "recovery audit artifact"
+    },
+    {
+      "file": ".github/workflows/system-state-generation.yml",
+      "status": "WRITES_ARTIFACT",
+      "risk": "LOW",
+      "writeCapability": "artifact only expected",
+      "role": "system state generation artifact"
+    },
+    {
+      "file": ".github/workflows/equations-app-validation.yml",
+      "status": "READ_ONLY_AUDIT",
+      "risk": "LOW",
+      "writeCapability": "none expected",
+      "role": "equations app validation"
+    },
+    {
+      "file": ".github/workflows/apply-equations-design-pass.yml",
+      "status": "WRITES_REPO",
+      "risk": "HIGH",
+      "writeCapability": "can commit repository changes",
+      "role": "equations design pass apply workflow",
+      "requiredPolicy": "branch-pr-review only"
+    },
+    {
+      "file": ".github/workflows/audit-equations-svg-captions.yml",
+      "status": "WRITES_REPO",
+      "risk": "MEDIUM_HIGH",
+      "writeCapability": "can write STATE audit file",
+      "role": "equations SVG caption audit workflow",
+      "requiredPolicy": "branch-pr-review or artifact-only review"
+    },
+    {
+      "file": ".github/workflows/sync-equations-rules-section.yml",
+      "status": "WRITES_REPO",
+      "risk": "HIGH",
+      "writeCapability": "can edit PROJECT_RULES.md",
+      "role": "sync equations section into rules",
+      "requiredPolicy": "manual branch-pr-review only"
+    },
+    {
+      "file": ".github/workflows/strict-preview-cleanup.yml",
+      "status": "WRITES_REPO",
+      "risk": "HIGH",
+      "writeCapability": "can modify preview docs/contracts/rules",
+      "role": "strict preview cleanup",
+      "requiredPolicy": "manual branch-pr-review only"
+    },
+    {
+      "file": ".github/workflows/strict-preview-cleanup-force.yml",
+      "status": "DIRECT_PUSH_RISK",
+      "risk": "CRITICAL",
+      "writeCapability": "can push directly to main according to risk map",
+      "role": "force cleanup workflow",
+      "requiredPolicy": "do not run casually; replace with PR-only flow"
+    }
+  ]
+}
