@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yanivmizrachiy.github.io/parabula-next/schemas/validators.schema.json",
+  "title": "Parabula Next Validators Registry",
+  "type": "object",
+  "required": ["schemaVersion", "status", "authority", "source", "validators"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string" },
+    "authority": { "type": "string" },
+    "source": { "type": "string" },
+    "validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "script", "status", "scope", "blocksMain"],
+        "additionalProperties": true,
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "script": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "scope": { "type": "string" },
+          "blocksMain": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
