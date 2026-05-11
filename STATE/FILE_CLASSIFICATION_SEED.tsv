@@ -1,0 +1,44 @@
+path	labels	risk	canonical	legacy	generated	referenced_by	decision	notes
+PROJECT_RULES.md	CANONICAL_RULES;DO_NOT_TOUCH	HIGH	yes	no	no	all future agents	keep	Living constitution after approved rewrite; not replaced in PR5.
+meta/topics.json	CANONICAL_METADATA;DO_NOT_TOUCH	HIGH	yes	no	no	mobile-app;preview surfaces	keep	Canonical metadata source.
+עמוד-N.html	CANONICAL_CONTENT;DO_NOT_TOUCH	HIGH	yes	no	no	meta/topics;preview;mobile;print	keep	Pattern for canonical root worksheet pages; do not edit blindly.
+styles/pages/עמוד-N.css	CANONICAL_STYLE	HIGH	yes	no	no	root worksheet pages	keep	Pattern for page-scoped CSS.
+styles/a4-base.css	CANONICAL_STYLE;DO_NOT_TOUCH	HIGH	yes	no	no	all worksheet pages	keep	Protected A4 base.
+mobile-app.html	MOBILE_APP;RUNTIME_APP	HIGH	yes	no	no	public mobile entry	keep	Canonical mobile app entry.
+mobile-app.js	MOBILE_APP;RUNTIME_APP	HIGH	yes	no	no	mobile-app.html	keep	Canonical mobile runtime JS; should use meta/topics.json.
+mobile-app.css	MOBILE_APP;RUNTIME_APP	MEDIUM	yes	no	no	mobile-app.html	keep	Canonical mobile styles.
+mobile-app.webmanifest	MOBILE_APP	MEDIUM	yes	no	no	mobile install	keep	Root mobile manifest.
+sw.js	MOBILE_APP;RUNTIME_APP	MEDIUM	yes	no	no	root mobile/cache	keep	Root service worker; stronger than docs sw per audit.
+preview/topics.html	PREVIEW_APP;RUNTIME_APP	HIGH	yes	no	no	public topic route	keep	Canonical topic-first browsing surface.
+preview/topics.js	PREVIEW_APP;RUNTIME_APP	HIGH	yes	no	no	preview/topics.html	keep	Topic reader runtime.
+preview/topics.css	PREVIEW_APP	MEDIUM	yes	no	no	preview/topics.html	keep	Topic reader styles.
+preview/all-pages.html	PREVIEW_APP;UTILITY	MEDIUM	yes	no	no	public all-pages route	keep	Catalog/selection utility.
+preview/all-pages.js	PREVIEW_APP;UTILITY	MEDIUM	yes	no	no	preview/all-pages.html	keep	All-pages runtime.
+preview/all-pages.css	PREVIEW_APP;UTILITY	LOW	yes	no	no	preview/all-pages.html	keep	All-pages styles.
+preview/print.html	PRINT_APP;RUNTIME_APP	HIGH	yes	no	no	public print route	keep	Canonical print/PDF entry.
+preview/print.js	PRINT_APP;RUNTIME_APP	HIGH	yes	no	no	preview/print.html	keep	Canonical browser print runtime.
+preview/print.css	PRINT_APP	MEDIUM	yes	no	no	preview/print.html	keep	Print styles; must avoid global equations leakage.
+preview/equations.html	PREVIEW_APP;DEDICATED	MEDIUM	yes	no	no	equations route	keep	Dedicated route for non-quadratic משוואות.
+preview/equations.js	PREVIEW_APP;DEDICATED	MEDIUM	yes	no	no	preview/equations.html	keep	Equations route runtime.
+preview/equations.css	PREVIEW_APP;DEDICATED	LOW	yes	no	no	preview/equations.html	keep	Equations route styles.
+preview/index.html	PREVIEW_APP;INTERNAL_DEV	MEDIUM	yes	no	no	local preview	keep	Internal preview reader.
+preview/server.mjs	PREVIEW_APP;INTERNAL_DEV	MEDIUM	yes	no	no	local dev	keep	Local preview server.
+preview/phone.html	LEGACY_COMPAT	MEDIUM	no	yes	no	legacy phone route	keep_until_review	Old phone reader; not canonical mobile.
+preview/phone.js	LEGACY_COMPAT	MEDIUM	no	yes	no	preview/phone.html	keep_until_review	Old phone runtime.
+preview/mobile.css	LEGACY_COMPAT	MEDIUM	no	yes	no	preview/phone.html	keep_until_review	Old phone styling.
+preview/print-center.js	LEGACY_COMPAT;DEPRECATED	MEDIUM	no	yes	no	legacy print flow	keep_until_review	Duplicate-adjacent to preview/print.js.
+mobile-topics.json	LEGACY_COMPAT;GENERATED_CANDIDATE	MEDIUM	no	yes	possible	old mobile metadata	keep_until_policy	Not canonical; known mismatch vs meta/topics.json.
+docs/mobile-topics.json	DOCS_SNAPSHOT;LEGACY_COMPAT	MEDIUM	no	yes	possible	docs mobile snapshot	keep_until_policy	Not canonical; docs snapshot metadata.
+docs/mobile-app.html	DOCS_SNAPSHOT	MEDIUM	no	yes	possible	docs surface	keep_until_policy	Docs mobile snapshot entry.
+docs/mobile-app.js	DOCS_SNAPSHOT	MEDIUM	no	yes	possible	docs surface	keep_until_policy	Docs mobile runtime differs from root mobile.
+docs/mobile-app.css	DOCS_SNAPSHOT	LOW	no	yes	possible	docs surface	keep_until_policy	Docs mobile styles.
+docs/sw.js	DOCS_SNAPSHOT	LOW	no	yes	possible	docs surface	keep_until_policy	Minimal docs service worker.
+עמוד-95.html	CANONICAL_CONTENT;EQUATIONS_LIVE_HTML	HIGH	yes	no	no	meta/topics;mobile;preview;print	keep	Public live HTML/MathJax page 95.
+עמוד-95-editable.html	TRANSITION_SOURCE;LEGACY_COMPAT	MEDIUM	no	yes	no	page95 migration	keep_until_policy	Internal/editable transition source, not canonical public worksheet.
+styles/pages/עמוד-95.css	CANONICAL_STYLE;EQUATIONS_LIVE_HTML	HIGH	yes	no	no	עמוד-95.html	keep	Public page 95 CSS.
+styles/pages/עמוד-95-editable.css	TRANSITION_SOURCE;LEGACY_COMPAT	MEDIUM	no	yes	no	עמוד-95-editable.html	keep_until_policy	Editable page 95 CSS.
+styles/topics/equations-edits.css	TRANSITION_SOURCE;LEGACY_COMPAT	MEDIUM	no	yes	no	old equations validators/overlay	keep_until_validator_update	Old correction/edit overlay layer.
+meta/audit/*	GENERATED_ARTIFACT	MEDIUM	no	no	yes	audit scripts/workflows	policy_required	Artifact policy required before source assumptions.
+STATE/*	STATE_MIXED	MEDIUM	no	no	mixed	state docs	index_required	Requires STATE_INDEX before authority decisions.
+.github/workflows/*.yml	WORKFLOW_MIXED	HIGH	no	no	no	GitHub Actions	risk_map_required	Some workflows are write-capable.
+scripts/*.mjs	SCRIPT_MIXED	HIGH	no	no	no	npm/workflows/manual	risk_map_required	Some scripts write files or modify rules/runtime.
