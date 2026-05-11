@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "status": "seed",
+  "authority": "planning-seed; not canonical until reviewed and approved",
+  "source": "STATE/APP_SURFACE_REGISTRY_PLAN.md",
+  "surfaces": [
+    {
+      "id": "mobile",
+      "entry": "mobile-app.html",
+      "files": ["mobile-app.html", "mobile-app.js", "mobile-app.css", "mobile-app.webmanifest", "sw.js"],
+      "metadata": "meta/topics.json",
+      "status": "CANONICAL",
+      "role": "Mobile worksheet reader",
+      "validationRequired": ["phone UX test", "metadata check", "navigation check", "iframe/page fit check"]
+    },
+    {
+      "id": "topics",
+      "entry": "preview/topics.html",
+      "files": ["preview/topics.html", "preview/topics.js", "preview/topics.css"],
+      "metadata": "meta/topics.json",
+      "status": "CANONICAL",
+      "role": "Topic-first browsing and reading",
+      "validationRequired": ["topic list", "page selection", "prev/next", "persistence"]
+    },
+    {
+      "id": "all-pages",
+      "entry": "preview/all-pages.html",
+      "files": ["preview/all-pages.html", "preview/all-pages.js", "preview/all-pages.css"],
+      "metadata": "meta/topics.json",
+      "status": "UTILITY",
+      "role": "Catalog/search/selection surface for all worksheets",
+      "validationRequired": ["catalog load", "selection", "print action", "share action", "download action"]
+    },
+    {
+      "id": "print",
+      "entry": "preview/print.html",
+      "files": ["preview/print.html", "preview/print.js", "preview/print.css"],
+      "metadata": "meta/topics.json",
+      "status": "CANONICAL",
+      "role": "Browser-driven print and Save as PDF",
+      "validationRequired": ["page selection", "topic selection", "browser print", "Save as PDF"]
+    },
+    {
+      "id": "equations",
+      "entry": "preview/equations.html",
+      "files": ["preview/equations.html", "preview/equations.js", "preview/equations.css"],
+      "metadata": "meta/topics.json",
+      "status": "DEDICATED",
+      "role": "Dedicated route for non-quadratic equations topic",
+      "topicScope": "משוואות",
+      "mustNotInclude": ["משוואות ריבועיות"],
+      "validationRequired": ["exact topic scoping", "no quadratic-equation mixing"]
+    },
+    {
+      "id": "preview-reader",
+      "entry": "preview/index.html",
+      "files": ["preview/index.html", "styles/preview.css"],
+      "metadata": "root pages / metadata",
+      "status": "INTERNAL_DEV",
+      "role": "Internal preview reader",
+      "validationRequired": ["local preview load"]
+    },
+    {
+      "id": "preview-server",
+      "entry": "preview/server.mjs",
+      "files": ["preview/server.mjs"],
+      "metadata": "local files",
+      "status": "INTERNAL_DEV",
+      "role": "Local preview server",
+      "validationRequired": ["local server start", "page route load"]
+    },
+    {
+      "id": "phone-legacy",
+      "entry": "preview/phone.html",
+      "files": ["preview/phone.html", "preview/phone.js", "preview/mobile.css"],
+      "metadata": "legacy flow",
+      "status": "LEGACY_COMPAT",
+      "role": "Old phone reader; not canonical mobile",
+      "canonicalReplacement": "mobile",
+      "validationRequired": ["reference/fallback check only"]
+    },
+    {
+      "id": "print-legacy",
+      "entry": "preview/print-center.js",
+      "files": ["preview/print-center.js"],
+      "metadata": "legacy flow",
+      "status": "LEGACY_COMPAT",
+      "role": "Old/duplicate-adjacent print controller",
+      "canonicalReplacement": "print",
+      "validationRequired": ["reference/fallback check only"]
+    },
+    {
+      "id": "docs-mobile",
+      "entry": "docs/mobile-app.html",
+      "files": ["docs/mobile-app.html", "docs/mobile-app.js", "docs/mobile-app.css"],
+      "metadata": "docs/mobile-topics.json",
+      "status": "SNAPSHOT",
+      "role": "Docs/GitHub Pages snapshot until role is decided",
+      "canonicalReplacement": "mobile",
+      "validationRequired": ["docs routing", "snapshot freshness if kept"]
+    },
+    {
+      "id": "docs-install",
+      "entry": "docs/mobile-app-install.html",
+      "files": ["docs/mobile-app-install.html", "docs/mobile-app-install.js", "docs/mobile-app.webmanifest", "docs/sw.js"],
+      "metadata": "docs snapshot",
+      "status": "SNAPSHOT",
+      "role": "Docs PWA/install layer",
+      "validationRequired": ["docs install route", "snapshot policy"]
+    }
+  ]
+}
