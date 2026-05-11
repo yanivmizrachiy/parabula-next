@@ -56,28 +56,44 @@ Attempted next intended script:
 validate:registries = node scripts/validate-registries.mjs
 ```
 
-The file update to `package.json` was blocked by the tool safety layer, so this report must not claim that the npm script was added.
+The file update to `package.json` was blocked by the tool safety layer during the earlier API update attempt, so this report must not claim that the npm script was added.
 
 ## Validation run status
 
-Not run yet in this environment.
+Completed manually in Termux against a fresh clone of the PR #5 branch.
 
-Reason:
+Environment / evidence provided by user:
 
-- The validator file was created through GitHub API.
-- No local checkout/test execution was performed in this step.
-- No GitHub Actions validation run was triggered or verified for this registry validator.
+```text
+working_directory=/data/data/com.termux/files/home/parabula-next-pr5-registry-check-20260511-170341
+report=/data/data/com.termux/files/home/PARABULA_NEXT_REGISTRY_VALIDATION_20260511-170341.txt
+Node.js v25.8.2
+checkedRegistries=5
+passed=5
+failed=0
+```
 
-Therefore, the correct status is:
+Therefore, the correct current status is:
 
 ```text
 registries_created = yes
 schemas_created = yes
 validator_created = yes
 package_script_added = no
-validation_run = no
-validation_result = not verified
+validation_run = yes
+validation_result = pass
+checked_registries = 5
+passed = 5
+failed = 0
 ```
+
+## Validation warnings
+
+The validator emitted seed-status warnings. These warnings are expected and correct:
+
+- the registries are still marked as `seed`;
+- the registries are not final canonical metadata;
+- they must not override `PROJECT_RULES.md`, `meta/topics.json`, or live runtime files until reviewed and approved.
 
 ## What is still seed / not canonical
 
@@ -94,8 +110,8 @@ They should not override `PROJECT_RULES.md`, `meta/topics.json`, or live runtime
 ## Next required steps
 
 1. Add `validate:registries` to `package.json` when safe/tooling allows.
-2. Run `node scripts/validate-registries.mjs` or `npm run validate:registries` after package script is added.
-3. Record real output in this file or a follow-up report.
+2. Optionally re-run `node scripts/validate-registries.mjs` after any registry change.
+3. Add schema validation beyond structural field checks if/when needed.
 4. Keep PR #5 as Draft until reviewed.
 
 ## Safety confirmation
