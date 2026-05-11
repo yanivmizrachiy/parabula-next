@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "status": "seed",
+  "authority": "planning-seed; not canonical until reviewed and approved",
+  "source": "STATE/FILE_CLASSIFICATION_SEED.tsv",
+  "patterns": [
+    {
+      "pattern": "PROJECT_RULES.md",
+      "labels": ["CANONICAL_RULES", "DO_NOT_TOUCH"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Living repository constitution after approved rewrite."
+    },
+    {
+      "pattern": "meta/topics.json",
+      "labels": ["CANONICAL_METADATA", "DO_NOT_TOUCH"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Single canonical topic/page metadata source."
+    },
+    {
+      "pattern": "עמוד-N.html",
+      "labels": ["CANONICAL_CONTENT", "DO_NOT_TOUCH"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Canonical root worksheet page pattern."
+    },
+    {
+      "pattern": "styles/pages/עמוד-N.css",
+      "labels": ["CANONICAL_STYLE"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Canonical page-scoped CSS pattern."
+    },
+    {
+      "pattern": "styles/a4-base.css",
+      "labels": ["CANONICAL_STYLE", "DO_NOT_TOUCH"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Protected A4 base."
+    },
+    {
+      "pattern": "mobile-app.*",
+      "labels": ["MOBILE_APP", "RUNTIME_APP"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Canonical mobile runtime family."
+    },
+    {
+      "pattern": "preview/topics.*",
+      "labels": ["PREVIEW_APP", "RUNTIME_APP"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Canonical topic reader."
+    },
+    {
+      "pattern": "preview/all-pages.*",
+      "labels": ["PREVIEW_APP", "UTILITY"],
+      "risk": "MEDIUM",
+      "decision": "keep",
+      "notes": "All-pages catalog/utility surface."
+    },
+    {
+      "pattern": "preview/print.*",
+      "labels": ["PRINT_APP", "RUNTIME_APP"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Canonical browser print/PDF surface."
+    },
+    {
+      "pattern": "preview/equations.*",
+      "labels": ["PREVIEW_APP", "DEDICATED"],
+      "risk": "MEDIUM",
+      "decision": "keep",
+      "notes": "Dedicated route for non-quadratic equations."
+    },
+    {
+      "pattern": "preview/phone.*",
+      "labels": ["LEGACY_COMPAT"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_review",
+      "notes": "Old phone reader; not canonical mobile."
+    },
+    {
+      "pattern": "preview/print-center.js",
+      "labels": ["LEGACY_COMPAT", "DEPRECATED"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_review",
+      "notes": "Legacy or duplicate-adjacent print controller."
+    },
+    {
+      "pattern": "mobile-topics.json",
+      "labels": ["LEGACY_COMPAT", "GENERATED_CANDIDATE"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_policy",
+      "notes": "Not canonical; known mismatch risk vs meta/topics.json."
+    },
+    {
+      "pattern": "docs/mobile-topics.json",
+      "labels": ["DOCS_SNAPSHOT", "LEGACY_COMPAT"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_policy",
+      "notes": "Docs snapshot metadata, not canonical."
+    },
+    {
+      "pattern": "docs/mobile-app.*",
+      "labels": ["DOCS_SNAPSHOT"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_policy",
+      "notes": "Docs mobile snapshot layer."
+    },
+    {
+      "pattern": "עמוד-95.html",
+      "labels": ["CANONICAL_CONTENT", "EQUATIONS_LIVE_HTML"],
+      "risk": "HIGH",
+      "decision": "keep",
+      "notes": "Public live HTML/MathJax page 95."
+    },
+    {
+      "pattern": "עמוד-95-editable.html",
+      "labels": ["TRANSITION_SOURCE", "LEGACY_COMPAT"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_policy",
+      "notes": "Internal/editable transition source, not canonical public worksheet."
+    },
+    {
+      "pattern": "styles/topics/equations-edits.css",
+      "labels": ["TRANSITION_SOURCE", "LEGACY_COMPAT"],
+      "risk": "MEDIUM",
+      "decision": "keep_until_validator_update",
+      "notes": "Old correction/edit overlay layer."
+    },
+    {
+      "pattern": "meta/audit/*",
+      "labels": ["GENERATED_ARTIFACT"],
+      "risk": "MEDIUM",
+      "decision": "policy_required",
+      "notes": "Artifact policy required before source assumptions."
+    },
+    {
+      "pattern": "STATE/*",
+      "labels": ["STATE_MIXED"],
+      "risk": "MEDIUM",
+      "decision": "index_required",
+      "notes": "Requires STATE index before authority decisions."
+    },
+    {
+      "pattern": ".github/workflows/*.yml",
+      "labels": ["WORKFLOW_MIXED"],
+      "risk": "HIGH",
+      "decision": "risk_map_required",
+      "notes": "Some workflows are write-capable."
+    },
+    {
+      "pattern": "scripts/*.mjs",
+      "labels": ["SCRIPT_MIXED"],
+      "risk": "HIGH",
+      "decision": "risk_map_required",
+      "notes": "Some scripts write files or modify rules/runtime."
+    }
+  ]
+}
