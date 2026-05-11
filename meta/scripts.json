@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "status": "seed",
+  "authority": "planning-seed; not canonical until reviewed and approved",
+  "source": "STATE/SCRIPT_RISK_MAP.md",
+  "policy": {
+    "defaultMode": "inspect-before-run",
+    "runWriteCapableScriptsOnMain": false,
+    "preferTempCopyOrBranch": true,
+    "requiresExplicitApprovalForSourceChanges": true
+  },
+  "scripts": [
+    {
+      "file": "scripts/recovery-audit.mjs",
+      "status": "WRITES_REPORT",
+      "risk": "LOW_MEDIUM",
+      "writes": ["meta/audit/recovery-audit.json"],
+      "notes": "Useful audit output; artifact/commit policy must be explicit."
+    },
+    {
+      "file": "scripts/app-layer-check.mjs",
+      "status": "WRITES_REPORT_NEEDS_UPDATE",
+      "risk": "MEDIUM",
+      "writes": ["meta/audit/app-layer-check.json"],
+      "notes": "Appears aligned with older phone flow; review before gate usage."
+    },
+    {
+      "file": "scripts/duplicate-audit.mjs",
+      "status": "WRITES_REPORT",
+      "risk": "LOW_MEDIUM",
+      "writes": ["meta/audit/duplicate-audit.json"],
+      "notes": "Useful for duplicate detection."
+    },
+    {
+      "file": "scripts/generate-system-state-auto.mjs",
+      "status": "WRITES_REPORT",
+      "risk": "LOW_MEDIUM",
+      "writes": ["meta/audit/generated-system-state.json"],
+      "notes": "Generated state artifact, not necessarily canonical source."
+    },
+    {
+      "file": "scripts/rules-sync-check.mjs",
+      "status": "READ_ONLY_NEEDS_UPDATE",
+      "risk": "MEDIUM",
+      "writes": [],
+      "notes": "Assertions need alignment with rewritten rules and audit artifact policy."
+    },
+    {
+      "file": "scripts/sync-rules.mjs",
+      "status": "MODIFIES_RULES",
+      "risk": "HIGH",
+      "writes": ["rules-derived files"],
+      "notes": "Do not run without inspecting outputs."
+    },
+    {
+      "file": "scripts/sync-equations-rules-section.mjs",
+      "status": "MODIFIES_RULES",
+      "risk": "HIGH",
+      "writes": ["PROJECT_RULES.md"],
+      "notes": "Can overwrite equations rules section. Use only after rules rewrite policy is approved."
+    },
+    {
+      "file": "scripts/strict-preview-cleanup.mjs",
+      "status": "MODIFIES_RUNTIME_OR_RULES",
+      "risk": "HIGH",
+      "writes": ["preview docs/contracts/rules"],
+      "notes": "Cleanup script; run only on branch with review."
+    },
+    {
+      "file": "scripts/upgrade-mobile-app.mjs",
+      "status": "MODIFIES_RUNTIME",
+      "risk": "HIGH",
+      "writes": ["mobile/preview references"],
+      "notes": "Runtime modifying script. Do not run on main."
+    },
+    {
+      "file": "scripts/apply-equations-design-pass.mjs",
+      "status": "MODIFIES_WORKSHEET_STYLE",
+      "risk": "HIGH",
+      "writes": ["styles/pages/עמוד-N.css"],
+      "notes": "Can change equations page CSS. Requires strict scope and validation."
+    },
+    {
+      "file": "scripts/audit-equations-svg-captions.mjs",
+      "status": "MODIFIES_STATE",
+      "risk": "MEDIUM",
+      "writes": ["STATE/EQUATIONS_SVG_CAPTION_AUDIT.md"],
+      "notes": "Writes STATE report. Safe only if expected."
+    },
+    {
+      "file": "scripts/worksheet-intake-guard.mjs",
+      "status": "WRITES_REPORT",
+      "risk": "LOW_MEDIUM",
+      "writes": ["meta/audit worksheet intake report"],
+      "notes": "Useful guard; passed in temp probe."
+    },
+    {
+      "file": "scripts/preview-guard.mjs",
+      "status": "WRITES_REPORT",
+      "risk": "LOW_MEDIUM",
+      "writes": ["meta/audit preview guard report"],
+      "notes": "Useful guard; passed in temp probe."
+    },
+    {
+      "file": "scripts/visual-regression.mjs",
+      "status": "WRITES_REPORT_OR_ARTIFACTS",
+      "risk": "MEDIUM",
+      "writes": ["visual artifacts/screenshots"],
+      "notes": "Run only with controlled output/artifact policy."
+    },
+    {
+      "file": "scripts/watch-page.mjs",
+      "status": "DEV_TOOL",
+      "risk": "LOW",
+      "writes": [],
+      "notes": "Local watch utility."
+    },
+    {
+      "file": "scripts/validate-meta.mjs",
+      "status": "READ_ONLY_REVIEW",
+      "risk": "LOW_MEDIUM",
+      "writes": [],
+      "notes": "May validate older meta/pages.json path; align with meta/topics.json policy."
+    },
+    {
+      "file": "scripts/validate-mobile-runtime.mjs",
+      "status": "MODIFIES_STATE_NEEDS_UPDATE",
+      "risk": "MEDIUM",
+      "writes": ["STATE/MOBILE_RUNTIME_VALIDATION.md", "STATE/MOBILE_RUNTIME_VALIDATION.json"],
+      "notes": "Exit-code policy should match internal failures."
+    },
+    {
+      "file": "scripts/verify.mjs",
+      "status": "ACTIVE_REVIEW",
+      "risk": "MEDIUM",
+      "writes": [],
+      "notes": "Broad verification script; inspect included checks before relying on it."
+    },
+    {
+      "file": "scripts/validate-access-layer.mjs",
+      "status": "ACTIVE_REVIEW",
+      "risk": "LOW_MEDIUM",
+      "writes": [],
+      "notes": "Access/runtime layer validation."
+    }
+  ]
+}
