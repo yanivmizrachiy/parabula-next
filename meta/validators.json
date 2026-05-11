@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "status": "seed",
+  "authority": "planning-seed; not canonical until reviewed and approved",
+  "source": "STATE/VALIDATOR_STATUS_MAP.md",
+  "validators": [
+    {
+      "name": "preview_guard",
+      "script": "scripts/preview-guard.mjs",
+      "status": "ACTIVE",
+      "scope": "preview guard",
+      "blocksMain": true,
+      "notes": "Passed in temp runtime probe."
+    },
+    {
+      "name": "worksheet_intake_guard",
+      "script": "scripts/worksheet-intake-guard.mjs",
+      "status": "ACTIVE",
+      "scope": "worksheet intake hygiene",
+      "blocksMain": true,
+      "notes": "Passed in temp runtime probe."
+    },
+    {
+      "name": "rules_sync_check",
+      "script": "scripts/rules-sync-check.mjs",
+      "status": "NEEDS_UPDATE",
+      "scope": "rules/system-state sync",
+      "blocksMain": false,
+      "notes": "Failed because generated audit output and old expected phrases are not aligned with new policy."
+    },
+    {
+      "name": "validate_page_95_editable",
+      "script": "scripts/validate-page-95-editable.mjs",
+      "status": "TRANSITION",
+      "scope": "page 95 editable transition flow",
+      "blocksMain": false,
+      "notes": "Requires public page to link editable source; conflicts with clean public page-95 contract."
+    },
+    {
+      "name": "validate_equations_public_clean",
+      "script": "scripts/validate-equations-public-clean.mjs",
+      "status": "LEGACY_NEEDS_UPDATE",
+      "scope": "old equations SVG/correction CSS flow",
+      "blocksMain": false,
+      "notes": "Requires equations-edits.css and object-fit contain from old page-95 SVG flow."
+    },
+    {
+      "name": "validate_equations_easy_edits",
+      "script": "scripts/validate-equations-easy-edits.mjs",
+      "status": "TRANSITION",
+      "scope": "old overlay edit layer",
+      "blocksMain": false,
+      "notes": "Requires edit overlay in public page; should not force public page backwards."
+    },
+    {
+      "name": "validate_equations_pilot_page_1",
+      "script": "scripts/validate-equations-pilot-page-1.mjs",
+      "status": "LEGACY",
+      "scope": "old SVG page-95 pilot",
+      "blocksMain": false,
+      "notes": "Requires exact SVG asset and design marker; page 95 is now live HTML/MathJax."
+    },
+    {
+      "name": "validate_equations_print_scope",
+      "script": "scripts/validate-equations-print-scope.mjs",
+      "status": "ACTIVE_NEEDS_FIX",
+      "scope": "print CSS/runtime scoping",
+      "blocksMain": true,
+      "notes": "Scope concern is real: equations print behavior must not leak globally."
+    },
+    {
+      "name": "validate_mobile_runtime",
+      "script": "scripts/validate-mobile-runtime.mjs",
+      "status": "NEEDS_UPDATE",
+      "scope": "mobile runtime validation",
+      "blocksMain": false,
+      "notes": "Reported 9 passed / 1 failed but exit policy needs alignment."
+    },
+    {
+      "name": "a4_pages_rules_test",
+      "script": "tests/a4-pages.rules.test.mjs",
+      "status": "ACTIVE",
+      "scope": "A4 worksheet contract",
+      "blocksMain": true,
+      "notes": "Protects core worksheet contract."
+    },
+    {
+      "name": "root_pages_contract_test",
+      "script": "tests/contracts/root-pages.test.mjs",
+      "status": "ACTIVE",
+      "scope": "root worksheet page contract",
+      "blocksMain": true,
+      "notes": "Should remain active."
+    }
+  ]
+}
