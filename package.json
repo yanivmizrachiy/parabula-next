@@ -13,6 +13,7 @@
     "verify": "node scripts/verify.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
+    "validate:registries": "node scripts/validate-registries.mjs",
     "validate:equations": "node scripts/validate-equations-app.mjs",
     "validate:equations:strict": "node scripts/validate-equations-design-pass-strict.mjs",
     "validate:equations:print-scope": "node scripts/validate-equations-print-scope.mjs",
