@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yanivmizrachiy.github.io/parabula-next/schemas/app-surfaces.schema.json",
+  "title": "Parabula Next App Surfaces Registry",
+  "type": "object",
+  "required": ["schemaVersion", "status", "authority", "source", "surfaces"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string" },
+    "authority": { "type": "string" },
+    "source": { "type": "string" },
+    "surfaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "entry", "files", "metadata", "status", "role", "validationRequired"],
+        "additionalProperties": true,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "entry": { "type": "string", "minLength": 1 },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "metadata": { "type": "string" },
+          "status": { "type": "string" },
+          "role": { "type": "string" },
+          "validationRequired": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}
