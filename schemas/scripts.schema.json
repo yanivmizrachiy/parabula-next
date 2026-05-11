@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yanivmizrachiy.github.io/parabula-next/schemas/scripts.schema.json",
+  "title": "Parabula Next Scripts Registry",
+  "type": "object",
+  "required": ["schemaVersion", "status", "authority", "source", "policy", "scripts"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "status": { "type": "string" },
+    "authority": { "type": "string" },
+    "source": { "type": "string" },
+    "policy": { "type": "object", "additionalProperties": true },
+    "scripts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["file", "status", "risk"],
+        "additionalProperties": true,
+        "properties": {
+          "file": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "risk": { "type": "string", "minLength": 1 },
+          "writes": { "type": "array", "items": { "type": "string" } },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}
