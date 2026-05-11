@@ -48,19 +48,19 @@ The validator checks:
 
 ## Package script status
 
-Not completed yet.
+Completed.
 
-Attempted next intended script:
+Added to `package.json` on the PR #5 branch:
 
 ```text
 validate:registries = node scripts/validate-registries.mjs
 ```
 
-The file update to `package.json` was blocked by the tool safety layer during the earlier API update attempt, so this report must not claim that the npm script was added.
+Verified from GitHub after update: `package.json` contains `"validate:registries": "node scripts/validate-registries.mjs"`.
 
 ## Validation run status
 
-Completed manually in Termux against a fresh clone of the PR #5 branch.
+Completed manually in Termux against a fresh clone of the PR #5 branch before the npm script was added.
 
 Environment / evidence provided by user:
 
@@ -79,12 +79,13 @@ Therefore, the correct current status is:
 registries_created = yes
 schemas_created = yes
 validator_created = yes
-package_script_added = no
-validation_run = yes
-validation_result = pass
+package_script_added = yes
+validation_run_direct_node = yes
+validation_result_direct_node = pass
 checked_registries = 5
 passed = 5
 failed = 0
+validation_run_via_npm_script = not yet verified
 ```
 
 ## Validation warnings
@@ -109,8 +110,8 @@ They should not override `PROJECT_RULES.md`, `meta/topics.json`, or live runtime
 
 ## Next required steps
 
-1. Add `validate:registries` to `package.json` when safe/tooling allows.
-2. Optionally re-run `node scripts/validate-registries.mjs` after any registry change.
+1. Re-run validation via `npm run validate:registries` after pulling the latest PR #5 branch.
+2. Record the npm-script run output in a follow-up report.
 3. Add schema validation beyond structural field checks if/when needed.
 4. Keep PR #5 as Draft until reviewed.
 
