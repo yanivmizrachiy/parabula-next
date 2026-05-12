@@ -463,3 +463,107 @@ This map is intentionally limited to files that are actually present on `main`.
 - The equations print/PDF route is browser-driven through `preview/print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic`.
 - Do not mark this family fully complete unless real preview, phone viewing, and browser print / Save as PDF have been checked.
 
+
+<!-- YANIV_CLAUDE_RULES_LAYER_START -->
+
+## Claude / AI rules layer — Yaniv requirements
+
+This section is the mandatory rules layer for Claude Code and any AI assistant working on this repository.
+
+### Product identity
+
+Parabula Next is a long-term Hebrew RTL printable math worksheet production system.
+
+The core product is high-quality A4 printable worksheets. Desktop and mobile views are support layers for preview, review, navigation, editing, and printing. They are not a replacement for print-quality worksheets.
+
+### Long-term goal
+
+The repository must evolve into a comfortable worksheet book/library application that presents all existing printable pages like a digital textbook/workbook, while preserving A4 print quality and enabling future expansion to hundreds or thousands of worksheets.
+
+Future worksheets must be organized by topic, grade, skill, worksheet type, and learning sequence.
+
+### Preservation rules
+
+- Preserve all existing worksheet pages.
+- Preserve Hebrew RTL correctness.
+- Preserve A4 print quality.
+- Preserve what already works well.
+- Do not rewrite working systems just because they can be rewritten.
+- Do not remove legacy files without evidence and explicit approval.
+- Do not introduce demo content, fake buttons, fake flows, or placeholder behavior.
+
+### Editing architecture rules
+
+Future worksheet creation and correction must be fast and safe.
+
+Prefer clear separation between:
+
+1. HTML/content structure
+2. CSS styling
+3. print-specific CSS
+4. mobile/preview CSS
+5. JavaScript behavior
+6. worksheet/task data
+7. reusable math/diagram components
+8. validation scripts
+9. build/export/print logic
+
+CSS should be separated from HTML where practical to improve editing, reuse, and maintainability.
+
+### Math graphics quality
+
+Math graphics must aim for textbook/workbook quality.
+
+Graphs, coordinate systems, diagrams, illustrations, SVG/vector graphics, MathJax notation, typography, and layout must be precise, printable, visually consistent, and easy to maintain.
+
+Use stronger tools only when they clearly improve quality, print, editing speed, reuse, or maintainability. Do not replace a good working tool just because a newer tool exists.
+
+### Repository organization
+
+The repo should be organized with clear folders and meaningful filenames. If the structure needs improvement, propose staged reorganization first. Do not break existing pages or workflows.
+
+### Automation and scripting policy
+
+Safe automation only. Scripts may read, validate, and report by default.
+
+Destructive operations require explicit approval from Yaniv.
+
+Forbidden without explicit approval:
+
+- deleting files
+- force push
+- git add .
+- changing protected worksheet source files
+- changing A4/print core files
+- changing mobile runtime files
+- rewriting architecture
+- removing legacy files
+- committing reports, temp files, backups, logs, or secrets
+
+### Pre-execution requirements
+
+Before any non-trivial implementation:
+
+1. State which files will be affected.
+2. State the risks.
+3. State the success criteria.
+4. Get explicit approval from Yaniv.
+5. Execute in small steps.
+6. Test/verify after each meaningful change.
+7. Document the result in STATE/ or the relevant source-of-truth file when needed.
+
+### Mandatory workflow order
+
+Learn -> Rules -> Plan -> Small Execute -> Test -> Document
+
+Skipping any step violates this file's authority.
+
+### Relationship between CLAUDE.md and PROJECT_RULES.md
+
+CLAUDE.md is the Claude Code entry point for this repository.
+
+PROJECT_RULES.md remains the governing source of truth. If CLAUDE.md and PROJECT_RULES.md conflict, PROJECT_RULES.md wins.
+
+Both files must be kept synchronized when rules change.
+
+<!-- YANIV_CLAUDE_RULES_LAYER_END -->
