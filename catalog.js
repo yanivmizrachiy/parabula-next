@@ -341,12 +341,17 @@ function renderPagesGrid(pages, container, query = '') {
 /* ═══════════════════════════════════════════
    VIEWER
    ═══════════════════════════════════════════ */
+function getPageUrl(page) {
+  const raw = page.siteUrl || page.file;
+  return new URL(raw, window.location.href).href;
+}
+
 function openViewer(page) {
   state.activePage  = page;
   state.viewerOpen  = true;
 
   // Load iframe — use the local relative path
-  const src = page.file; // e.g. "עמוד-42.html"
+  const src = getPageUrl(page);
   dom.viewerFrame.src = src;
   dom.btnOpen.href    = src;
 
@@ -410,7 +415,8 @@ function handlePrint() {
 function printPage(page) {
   // Open the A4 worksheet directly in a new tab — the browser's print dialog
   // will print it exactly as it was designed (A4, no UI chrome).
-  const w = window.open(page.file, '_blank', 'noopener');
+  const url = getPageUrl(page);
+  const w = window.open(url, '_blank', 'noopener');
   if (w) {
     w.addEventListener('load', () => {
       setTimeout(() => w.print(), 300);
@@ -533,3 +539,4 @@ function highlight(text, query) {
    BOOT
    ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', init);
+
