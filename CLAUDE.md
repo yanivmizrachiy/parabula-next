@@ -52,6 +52,9 @@ meta/backup/*        ← גיבויי מטא-דאטה
 2. `STATE/LIVE_STATUS.md` — תמונת מצב חיה קצרה (**חובה**)
 3. `STATE/ARCHITECTURE_MAP.md` — מפת שכבות (**כדאי**)
 4. `STATE/PROJECT_CONTINUITY.md` — רצף עבודה בין שיחות (**כדאי**)
+5. `WORKSHEET_BOOK_PLATFORM_VISION.md` — חזון המוצר לטווח ארוך (**כשרלוונטי**)
+6. `REPO_ORGANIZATION.md` — סטנדרט ארגון הריפו (**כשמוסיפים קבצים**)
+7. `REPO_CLEANUP_PLAN.md` — ממצאי hygiene + תוכנית ניקוי (**כשעובדים על ארגון**)
 
 אם יש סתירה בין מסמכים — `PROJECT_RULES.md` + `STATE/LIVE_STATUS.md` גוברים.
 

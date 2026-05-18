@@ -58,3 +58,41 @@
 - אין למחוק backups או legacy לפני מיפוי וקיבוע תפקיד.
 - כל שיחה עתידית צריכה להתחיל מבדיקה של `PROJECT_RULES.md`, `STATE/LIVE_STATUS.md`, ו-`STATE/PROJECT_CONTINUITY.md`.
 - כאשר יש סתירה בין תיעוד ישן לבין הכיוון החדש של `PROJECT_RULES.md`, יש ליישר את מסמכי ה-STATE לכיוון הקנוני ולא להפך.
+
+---
+
+## 8. עדכון 2026-05-18 — Claude helper layer מלא + תיעוד חזון
+
+### מה נוסף בשיחה זו
+
+**Claude helper layer (branch: work/parabula-claude-skills-continue):**
+- 14 commands פעילים (ראה `.claude/README.md` למפה מלאה)
+- 7 agents פעילים
+- תזרים עבודה אוטומטי מתועד ב-CLAUDE.md סעיף 16
+- `.claude/README.md` — מדריך תפעולי מלא
+
+**מסמכי חזון וארגון (root level):**
+- `WORKSHEET_BOOK_PLATFORM_VISION.md` — חזון מוצר לטווח ארוך
+- `REPO_ORGANIZATION.md` — סטנדרט ארגון ריפו
+- `REPO_CLEANUP_PLAN.md` — תוכנית ניקוי עם ממצאי audit
+
+**ממצאי ה-hygiene audit:**
+ראה `REPO_CLEANUP_PLAN.md` לפירוט מלא. תיקיות/קבצים שנמצאו כמועמדים לבדיקה:
+- `app/` — Next.js automation system נפרד (לא חלק מ-parabula worksheets)
+- `components/`, `lib/`, `server/`, `storage/` — קשורים ל-app/ הנ"ל
+- `next.config.js`, `next-env.d.ts` — artifacts של Next.js (פרויקט עבר ל-Vite)
+- `_stray_parabula_next_20260415_120247/` — תיקייה זמנית מ-April 2026
+- `STATE/` — עשרות קבצים היסטוריים, מתועדים ב-REPO_CLEANUP_PLAN.md
+
+**לא נעשה (ממתין לאישור Yaniv):**
+- לא נמחק שום קובץ
+- לא הוזז שום קובץ
+- לא נגע בקבצי ייצור
+
+### מה פתוח
+
+1. PR מ-`work/parabula-claude-skills-continue` → `main` (מוכן)
+2. cleanup בפועל של `app/`, `_stray_*`, `next.config.js` — ממתין לאישור
+3. בדיקת state sync: `mobile-topics.json` מוקפא מ-19.03.2026 (קריטי)
+4. תיקון `scripts/new-page.mjs` שבור (`/api/toc` לא קיים)
+5. פתרון כפילות `sw.js` + `preview/sw.js`

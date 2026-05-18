@@ -21,21 +21,39 @@ The core product is printable worksheets. Mobile and desktop views are support l
 - Do not use `git add .`.
 - Do not change protected files without explicit approval.
 
-## Claude commands in main
+## Claude commands (13 active — branch: work/parabula-claude-skills-continue)
 
-- `.claude/commands/verify.md`
-- `.claude/commands/audit.md`
-- `.claude/commands/next.md`
+**Safety & orientation:**
+- `.claude/commands/safety.md` — `/safety` — שער בטיחות לפני שינויים
+- `.claude/commands/repo.md` — `/repo` — מפת ריפו + פעולה הבאה
+- `.claude/commands/continue.md` — `/continue` — המשך שיחה מהמצב הנוכחי
+- `.claude/commands/next.md` — `/next` — פעולה בטוחה אחת הבאה
 
-## Claude agents in main
+**Validation:**
+- `.claude/commands/verify.md` — `/verify` — npm test + verify + validate:access
+- `.claude/commands/audit.md` — `/audit` — full repo audit
 
-- `.claude/agents/source-of-truth-guardian.md`
-- `.claude/agents/a4-print-guardian.md`
-- `.claude/agents/mobile-preview-auditor.md`
-- `.claude/agents/math-graphics-reviewer.md`
-- `.claude/agents/editing-architecture-reviewer.md`
-- `.claude/agents/test-validation-runner.md`
-- `.claude/agents/git-safety-manager.md`
+**Domain review:**
+- `.claude/commands/print.md` — `/print` — A4 / CSS / הדפסה
+- `.claude/commands/mobile.md` — `/mobile` — mobile-app + sync
+- `.claude/commands/math.md` — `/math` — MathJax + SVG
+- `.claude/commands/ui.md` — `/ui` — UI + RTL + עיצוב
+
+**Workflow:**
+- `.claude/commands/rules.md` — `/rules` — ניהול PROJECT_RULES.md
+- `.claude/commands/worksheet.md` — `/worksheet` — הוספת דף עבודה
+- `.claude/commands/pr-pack.md` — `/pr-pack` — חבילת PR
+- `.claude/commands/hygiene.md` — `/hygiene` — ניקוי וארגון ריפו
+
+## Claude agents (7 active)
+
+- `.claude/agents/git-safety-manager.md` — שמירת בטיחות git
+- `.claude/agents/source-of-truth-guardian.md` — אכיפת PROJECT_RULES.md
+- `.claude/agents/a4-print-guardian.md` — שמירת A4 / הדפסה / RTL
+- `.claude/agents/mobile-preview-auditor.md` — mobile + desktop preview
+- `.claude/agents/math-graphics-reviewer.md` — MathJax + SVG + גרפיקה
+- `.claude/agents/editing-architecture-reviewer.md` — ארכיטקטורת עריכה
+- `.claude/agents/test-validation-runner.md` — הרצת בדיקות ופרשנות
 
 ## Last known validation baseline
 
