@@ -74,6 +74,19 @@ mobile-topics.json      ← עותק נפרד לאפליקציית הנייד (�
 schemas/                ← schemas של מטא-דאטה
 ```
 
+### שכבת הספר הדיגיטלי (catalog layer) ← חדש, 2026-05-18
+```
+catalog.html            ← ממשק ספר לימוד דיגיטלי (ניתן לערוך חופשי)
+catalog.css             ← עיצוב פרימיום — dark sidebar, card grid, viewer
+catalog.js              ← לוגיקה: fetch meta/topics.json, חיפוש, URL state
+```
+
+**כל 3 הקבצים קוראים מ-meta/topics.json בלבד — לא כותבים אליו.**
+ראה `docs/DIGITAL_TEXTBOOK_ARCHITECTURE.md` + `STATE/CATALOG_STATUS.md`
+
+**⚠️ בעיה ידועה בגרסה החיה:** ב-GitHub Pages יש שגיאת טעינה.
+Fix committed: `11824ff` — טרם נדחף (push pending).
+
 ### שכבת גישה (access surfaces)
 ```
 preview/app.html        ← Hub — שער כניסה לכל המסכים
@@ -368,13 +381,27 @@ base path:  /parabula-next/ (מוגדר ב-vite.config.js)
 - `/rules` — עדכן PROJECT_RULES.md
 - `/verify` — הרץ npm test + verify + validate:access
 
-### סוכנים מומלצים (עדיין לא נוצרו)
-- `a4-print-guardian` — בדיקת A4 overflow בכל הדפים
-- `repo-cartographer` — מיפוי הריפו לפני כל שיחה
-- `source-of-truth-guardian` — בדיקת עמידה בכללים
-- `math-graphics-reviewer` — הערכת SVG + MathJax quality
+### סוכנים קיימים ב-`.claude/agents/`
+
+| Agent | מטרה |
+|---|---|
+| `a4-print-guardian` | בדיקת A4 + print quality |
+| `print-a4-guardian` | הגנת A4 בשכבות catalog + viewer |
+| `source-of-truth-guardian` | בדיקת עמידה ב-RULES.md |
+| `repo-governor` | guard על קבצים מוגנים + demo content |
+| `digital-textbook-manager` | ניהול catalog.html/css/js |
+| `premium-ui-designer` | שיפור עיצוב RTL, כרטיסים, מובייל |
+| `worksheet-designer` | הנחיית יצירת דפי עבודה חדשים |
+| `math-graphics-reviewer` | איכות SVG + MathJax |
+| `mobile-preview-auditor` | preview נייד + דסקטופ |
+| `editing-architecture-reviewer` | ארכיטקטורת עריכה ועתידית |
+| `test-validation-runner` | הרצת + פרשנות בדיקות |
+| `git-safety-manager` | בטיחות git |
+| `live-site-verifier` | בדיקת האתר החי אחרי deploy |
+| `release-manager` | הכנת commit/PR, בדיקות, עצירה לפני push |
 
 ---
 
 _CLAUDE.md נוצר: 2026-05-12_
+_עודכן: 2026-05-18 — הוספת catalog layer + agents_
 _לא נוגע בדפי עבודה, CSS הדפסה, mobile-app.*, package.json, או קוד אפליקציה._
