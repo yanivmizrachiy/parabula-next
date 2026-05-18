@@ -108,7 +108,7 @@ async function init() {
     await loadData();
     readURLState();
   } catch (err) {
-    showError('לא ניתן לטעון את הנתונים. ודא שהשרת פעיל.');
+    showError(`שגיאת טעינה: ${err.message || String(err)}`);
     console.error('[catalog] load error:', err);
   }
 }
@@ -117,8 +117,10 @@ async function init() {
    DATA LOADING
    ═══════════════════════════════════════════ */
 async function loadData() {
-  const res = await fetch('./meta/topics.json');
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  // Build absolute URL so the fetch is unambiguous regardless of SW scope or base-URL quirks
+  const dataUrl = new URL('./meta/topics.json', location.href).href;
+  const res = await fetch(dataUrl, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} — ${dataUrl}`);
   const data = await res.json();
 
   state.topics = data.topics || [];
