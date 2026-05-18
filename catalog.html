@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>פרבולה — ספר עבודה מתמטי</title>
+  <meta name="description" content="ספר עבודה מתמטי דיגיטלי — 95 דפי עבודה A4 בעברית לפי נושאים" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="catalog.css" />
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="header-brand">
+        <span class="brand-icon" aria-hidden="true">📐</span>
+        <div class="brand-text">
+          <span class="brand-title">פרבולה</span>
+          <span class="brand-sub">ספר עבודה מתמטי</span>
+        </div>
+      </div>
+
+      <div class="header-search">
+        <label for="globalSearch" class="sr-only">חיפוש דפים ונושאים</label>
+        <div class="search-wrap">
+          <svg class="search-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+            <line x1="12.5" y1="12.5" x2="17" y2="17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <input id="globalSearch" type="search" placeholder="חיפוש נושא או דף…" autocomplete="off" />
+          <button id="clearSearch" class="search-clear" aria-label="נקה חיפוש" hidden>✕</button>
+        </div>
+      </div>
+
+      <div class="header-stats">
+        <span id="statPages" class="stat-chip">95 דפים</span>
+        <span id="statTopics" class="stat-chip soft">7 נושאים</span>
+      </div>
+
+      <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="פתח תפריט נושאים" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ LAYOUT ═══ -->
+  <div class="app-layout">
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside id="sidebar" class="sidebar" role="navigation" aria-label="נושאים">
+      <div class="sidebar-inner">
+        <div class="sidebar-header">
+          <h2 class="sidebar-title">נושאים</h2>
+        </div>
+        <nav id="topicsNav" class="topics-nav" aria-label="רשימת נושאים">
+          <!-- filled by JS -->
+        </nav>
+        <div class="sidebar-footer">
+          <a href="preview/topics.html" class="sidebar-link-out" target="_blank" rel="noopener">
+            תצוגת preview ←
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═══ MAIN ═══ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- STATE: loading -->
+      <div id="stateLoading" class="state-panel" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>טוען נתונים…</p>
+      </div>
+
+      <!-- STATE: error -->
+      <div id="stateError" class="state-panel state-error" role="alert" hidden>
+        <p class="state-icon" aria-hidden="true">⚠️</p>
+        <p id="errorMsg">לא ניתן לטעון את הנתונים.</p>
+        <button id="retryBtn" class="btn-primary">נסה שוב</button>
+      </div>
+
+      <!-- STATE: search results -->
+      <section id="stateSearch" class="content-section" hidden aria-live="polite">
+        <div class="section-header">
+          <h2 id="searchResultsTitle" class="section-title">תוצאות חיפוש</h2>
+          <span id="searchResultsCount" class="badge"></span>
+        </div>
+        <div id="searchResultsGrid" class="pages-grid"></div>
+      </section>
+
+      <!-- STATE: topic view -->
+      <section id="stateTopic" class="content-section" hidden>
+        <div class="section-header">
+          <div class="section-title-row">
+            <h2 id="topicTitle" class="section-title"></h2>
+            <span id="topicCount" class="badge"></span>
+          </div>
+          <p id="topicSubtitle" class="section-subtitle"></p>
+        </div>
+
+        <div id="topicPagesGrid" class="pages-grid"></div>
+
+        <!-- VIEWER -->
+        <div id="viewer" class="viewer" hidden role="region" aria-label="תצוגת דף עבודה">
+          <div class="viewer-toolbar">
+            <div class="viewer-info">
+              <span id="viewerTopicLabel" class="viewer-topic"></span>
+              <strong id="viewerPageTitle" class="viewer-title"></strong>
+            </div>
+            <div class="viewer-actions">
+              <button id="btnPrev" class="btn-nav" aria-label="דף קודם">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="10,3 5,8 10,13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                קודם
+              </button>
+              <span id="viewerProgress" class="viewer-progress"></span>
+              <button id="btnNext" class="btn-nav" aria-label="דף הבא">
+                הבא
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,3 11,8 6,13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="viewer-divider"></div>
+              <button id="btnPrint" class="btn-action" aria-label="הדפס / שמור כ-PDF">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="6" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6V3h6v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="5" y="9" width="6" height="1.5" rx=".5" fill="currentColor"/></svg>
+                הדפס / PDF
+              </button>
+              <a id="btnOpen" class="btn-action btn-open" href="#" target="_blank" rel="noopener" aria-label="פתח בטאב חדש">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                פתח
+              </a>
+              <button id="btnCloseViewer" class="btn-close-viewer" aria-label="סגור תצוגה">✕</button>
+            </div>
+          </div>
+          <div class="viewer-frame-wrap">
+            <iframe id="viewerFrame"
+                    title="תצוגת דף עבודה"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    loading="lazy"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATE: home (no topic selected) -->
+      <section id="stateHome" class="content-section state-home" hidden>
+        <div class="home-hero">
+          <h2 class="home-title">ספר עבודה מתמטי</h2>
+          <p class="home-sub">בחר נושא מהרשימה כדי לצפות בדפי העבודה</p>
+          <div id="homeTopicsGrid" class="home-topics-grid"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ═══ MOBILE BOTTOM NAV ═══ -->
+  <nav class="mobile-bottom-nav" aria-label="ניווט מהיר" id="mobileBottomNav" hidden>
+    <button id="mbPrev" class="mbn-btn" aria-label="דף קודם">◄ קודם</button>
+    <button id="mbTopics" class="mbn-btn mbn-topics" aria-label="נושאים">נושאים</button>
+    <button id="mbNext" class="mbn-btn" aria-label="דף הבא">הבא ►</button>
+    <button id="mbPrint" class="mbn-btn mbn-print" aria-label="הדפס">🖨</button>
+  </nav>
+
+  <!-- ═══ SIDEBAR OVERLAY (mobile) ═══ -->
+  <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
+
+  <script src="catalog.js"></script>
+</body>
+</html>
