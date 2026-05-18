@@ -360,21 +360,61 @@ base path:  /parabula-next/ (מוגדר ב-vite.config.js)
 
 ## 15. תכנות Claude Code לריפו זה
 
-### פקודות מומלצות ל-`.claude/commands/` (עדיין לא נוצרו)
-- `/audit` — הרץ doctor + recovery-audit + overlap-audit
-- `/worksheet` — הוסף דף עבודה חדש
-- `/print` — בדוק print CSS + A4 overflow
-- `/mobile` — בדוק mobile-app.* + sync
-- `/rules` — עדכן PROJECT_RULES.md
-- `/verify` — הרץ npm test + verify + validate:access
+### פקודות פעילות ב-`.claude/commands/`
 
-### סוכנים מומלצים (עדיין לא נוצרו)
-- `a4-print-guardian` — בדיקת A4 overflow בכל הדפים
-- `repo-cartographer` — מיפוי הריפו לפני כל שיחה
-- `source-of-truth-guardian` — בדיקת עמידה בכללים
-- `math-graphics-reviewer` — הערכת SVG + MathJax quality
+| פקודה | תפקיד |
+|---|---|
+| `/safety` | שער בטיחות מהיר לפני שינויים |
+| `/repo` | מפת ריפו + פעולה בטוחה הבאה |
+| `/audit` | audit מלא: doctor + recovery + overlap |
+| `/verify` | npm test + verify + validate:access |
+| `/print` | בדיקת CSS הדפסה + A4 overflow |
+| `/mobile` | בדיקת mobile-app + סנכרון topics |
+| `/math` | בדיקת MathJax + SVG + איכות גרפית |
+| `/ui` | בדיקת UI + RTL + עיצוב ויזואלי |
+| `/next` | פעולה בטוחה אחת הבאה |
+| `/rules` | סקירה / עדכון PROJECT_RULES.md |
+| `/worksheet` | הוספת דף עבודה חדש (תהליך מאושר) |
+| `/pr-pack` | חבילת סיכום PR לפני פתיחה |
+| `/continue` | המשך עבודה מהמצב הנוכחי |
+
+### סוכנים פעילים ב-`.claude/agents/`
+- `git-safety-manager` — שמירת בטיחות git
+- `source-of-truth-guardian` — אכיפת PROJECT_RULES.md + CLAUDE.md
+- `a4-print-guardian` — שמירת A4 / הדפסה / RTL
+- `mobile-preview-auditor` — mobile + desktop preview
+- `math-graphics-reviewer` — MathJax + SVG + גרפיקה
+- `editing-architecture-reviewer` — ארכיטקטורת עריכה עתידית
+- `test-validation-runner` — הרצת בדיקות ופרשנות
+
+**מדריך תפעולי מלא: `.claude/README.md`**
 
 ---
 
-_CLAUDE.md נוצר: 2026-05-12_
+## 16. תזרים עבודה אוטומטי — כלל מחייב
+
+**לכל משימה עתידית בפרויקט, Claude חייב לפעול לפי הכלל הבא אוטומטית:**
+
+| מצב | כלי שמופעל אוטומטית |
+|---|---|
+| לפני שינוי קבצים | `/safety` → `git-safety-manager` |
+| מצב ריפו לא ברור | `/repo` → קריאת `STATE/LIVE_STATUS.md` |
+| עבודה על mobile-app | `/mobile` → `mobile-preview-auditor` |
+| עבודה על A4 / הדפסה / CSS / PDF | `/print` → `a4-print-guardian` |
+| עבודה על תוכן / מתמטיקה / דיאגרמות | `/math` → `math-graphics-reviewer` |
+| עבודה על UI / RTL / עיצוב | `/ui` → `mobile-preview-auditor` + `editing-architecture-reviewer` |
+| לפני הצהרת "גמרנו" | `/verify` → `test-validation-runner` |
+| אחרי שינויים אמיתיים | עדכן `STATE/LIVE_STATUS.md` |
+| לפני פתיחת PR | `/pr-pack` → `git-safety-manager` |
+| תחילת שיחה חדשה | `/continue` → קרא `STATE/PROJECT_CONTINUITY.md` |
+
+### עקרון על
+- אין לדלג על שער הבטיחות לפני שינויים.
+- אין להצהיר "גמרנו" לפני `/verify`.
+- אין לפתוח PR לפני `/pr-pack`.
+- אין לשנות קבצים מוגנים בלי אישור מפורש — גם אם הכלי מאפשר זאת.
+
+---
+
+_CLAUDE.md נוצר: 2026-05-12 | עודכן: 2026-05-18_
 _לא נוגע בדפי עבודה, CSS הדפסה, mobile-app.*, package.json, או קוד אפליקציה._
