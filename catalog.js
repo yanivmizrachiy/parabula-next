@@ -117,13 +117,28 @@ async function init() {
    DATA LOADING
    ═══════════════════════════════════════════ */
 async function loadData() {
-  // Build absolute URL so the fetch is unambiguous regardless of SW scope or base-URL quirks
-  const dataUrl = new URL('./meta/topics.json', location.href).href;
-  const res = await fetch(dataUrl, { cache: 'no-store' });
-  if (!res.ok) throw new Error(`HTTP ${res.status} — ${dataUrl}`);
-  const data = await res.json();
+  // Absolute URL + timestamp cache-bust bypasses SW cache and CDN cache
+  const dataUrl = new URL('meta/topics.json', window.location.href).href + '?v=' + Date.now();
+  let res;
+  try {
+    res = await fetch(dataUrl, { cache: 'no-store' });
+  } catch (fetchErr) {
+    throw new Error(`fetch נכשל: ${fetchErr.message}`);
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.url}`);
 
-  state.topics = data.topics || [];
+  let data;
+  try {
+    data = await res.json();
+  } catch (jsonErr) {
+    throw new Error(`JSON parse נכשל: ${jsonErr.message}`);
+  }
+
+  if (!data.topics || !Array.isArray(data.topics)) {
+    throw new Error('topics.json missing valid topics array');
+  }
+
+  state.topics = data.topics;
   state.allPages = [];
 
   for (const topic of state.topics) {
@@ -147,6 +162,8 @@ async function loadData() {
 
   renderSidebar();
   renderHome();
+  // Explicitly hide error state before showing home (belt-and-suspenders)
+  dom.stateError.hidden = true;
   showState('home');
 }
 
