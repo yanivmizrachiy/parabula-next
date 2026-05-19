@@ -23,10 +23,10 @@ The Premium Catalog is a digital textbook shell that presents all 95 worksheets 
 ## GitHub Pages live status
 
 - URL: `https://yanivmizrachiy.github.io/parabula-next/catalog.html`
-- **Known issue (as of 2026-05-18):** page loads but shows error "לא ניתן לטעון את הנתונים"
-- Root cause under investigation: SW (sw.js) intercepts all same-origin GET requests; `cache.put()` may throw on some GitHub Pages responses, propagating a fetch error to catalog.js
-- Fix committed: `11824ff` — explicit absolute URL + `cache: 'no-store'` + real error message in UI
-- **Fix requires push to deploy**
+- **Status (2026-05-19):** catalog.html deployed correctly with all state IDs. topics.json accessible (HTTP 200). Catalog likely works in real browsers.
+- Fixes deployed: `11824ff`, `83fa67c`, `71b4344`, `9c9e0f6`, `549976e`
+- Topic "כללי" renamed to "פילוג מורחב" (commit `549976e`, push pending)
+- Equations page ordering fixed: page 95 is now first in array (commit `549976e`)
 
 ---
 

@@ -4,23 +4,23 @@ _Last updated: 2026-05-18_
 
 ---
 
-## 🔴 PRIORITY 1 — Do immediately
+## 🔴 PRIORITY 1 — Push + Verify
 
-### 1.1 Push catalog.js fix and verify live site
+### 1.1 Push commit 549976e to deploy topic rename + equations ordering fix
 
 **Action:** `git push origin main`
-**Why:** Fix committed (11824ff) that shows real error message + uses explicit URL + `cache: 'no-store'`. Live site currently shows generic load error.
-**After push:** Wait ~2 minutes for deploy, then verify `https://yanivmizrachiy.github.io/parabula-next/catalog.html` loads topics.
-**Requires:** Explicit approval from Yaniv before push.
+**What's in the commit:**
+- "כללי" → "פילוג מורחב" in meta/topics.json, mobile-topics.json, catalog.js
+- Page 95 moved to front of equations array (badge numbers now match page titles)
+**After push:** Wait ~2 minutes for GitHub Actions, verify catalog shows "פילוג מורחב" topic.
 
-### 1.2 Diagnose real cause if still failing
+### 1.2 Deploy equations SVG assets — NEEDS YANIV APPROVAL
 
-If after push the catalog still fails, the UI will now show the actual error (e.g., "HTTP 404", "Failed to fetch"). Diagnose from there.
+**Problem:** 53 equations pages (עמוד-42 through עמוד-94) use `<img>` tags pointing to `/parabula-next/pages/משוואות/assets/page-XX.svg`. These SVG files ARE in git but are NOT copied to `dist/` during deploy. Result: broken images on GitHub Pages.
 
-**Likely causes in priority order:**
-1. SW (`sw.js`) `cache.put()` failing on GitHub Pages headers — fix: wrap `cache.put()` in its own try-catch in sw.js (requires approval to touch sw.js)
-2. Actual 404 on meta/topics.json — unlikely, WebFetch confirmed it's accessible
-3. JavaScript runtime error after successful fetch — check browser console
+**Fix:** Add `cp -r pages dist/` to `.github/workflows/deploy-pages.yml` in the "Copy all assets to dist" step.
+
+**⚠️ Requires explicit Yaniv approval** (workflow file change).
 
 ---
 
