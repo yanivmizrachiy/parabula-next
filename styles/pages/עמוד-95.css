@@ -21,26 +21,12 @@
 }
 
 .page-95 .worksheet-badge {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--title-blue);
-  border-radius: 50%;
-  color: var(--title-blue);
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1;
-  background: var(--bg-paper);
+  display: none;
 }
 
 .page-95 .worksheet-instruction {
   margin: 0;
-  padding: 4px 48px 0 0;
+  padding: 4px 0 0 0;
   color: var(--text-main);
   font-size: 13.5px;
   line-height: 1.5;
@@ -64,35 +50,28 @@
   grid-template-rows: repeat(6, minmax(46px, 1fr));
   gap: 10px;
   min-width: 0;
-  counter-reset: equation-counter;
 }
 
 .page-95 .equation-list-left {
   border-left: 1px dashed var(--grid-line);
   padding-left: 20px;
-  counter-reset: equation-counter 6;
 }
 
 .page-95 .equation-item {
   min-width: 0;
   display: grid;
-  grid-template-columns: 22px minmax(86px, auto) minmax(62px, 1fr);
-  gap: 8px;
+  grid-template-columns: minmax(86px, auto) minmax(62px, 1fr);
+  gap: 12px;
   align-items: center;
   direction: ltr;
   unicode-bidi: isolate;
   color: var(--text-main);
   font-size: 14.5px;
   line-height: 1.22;
-  counter-increment: equation-counter;
 }
 
 .page-95 .equation-item::before {
-  content: counter(equation-counter) '.';
-  color: var(--text-main);
-  font-size: 13px;
-  text-align: right;
-  direction: ltr;
+  content: none;
 }
 
 .page-95 .equation-math {
