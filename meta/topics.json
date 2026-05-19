@@ -28,7 +28,7 @@
       ]
     },
     {
-      "name": "כללי",
+      "name": "פילוג מורחב",
       "count": 2,
       "pages": [
         {
@@ -36,7 +36,7 @@
           "file": "עמוד-37.html",
           "title": "עמוד 1 — פילוג מורחב",
           "h1": "פילוג מורחב",
-          "topic": "כללי",
+          "topic": "פילוג מורחב",
           "previewPath": "/עמוד-37.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-37.html"
         },
@@ -45,7 +45,7 @@
           "file": "עמוד-38.html",
           "title": "עמוד 2 — פילוג מורחב",
           "h1": "פילוג מורחב",
-          "topic": "כללי",
+          "topic": "פילוג מורחב",
           "previewPath": "/עמוד-38.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-38.html"
         }
@@ -55,6 +55,15 @@
       "name": "משוואות",
       "count": 54,
       "pages": [
+        {
+          "number": 95,
+          "file": "עמוד-95.html",
+          "title": "עמוד 1 — משוואות",
+          "h1": "משוואות",
+          "topic": "משוואות",
+          "previewPath": "/עמוד-95.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-95.html"
+        },
         {
           "number": 42,
           "file": "עמוד-42.html",
@@ -531,15 +540,6 @@
           "topic": "משוואות",
           "previewPath": "/עמוד-94.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-94.html"
-        },
-        {
-          "number": 95,
-          "file": "עמוד-95.html",
-          "title": "עמוד 1 — משוואות",
-          "h1": "משוואות",
-          "topic": "משוואות",
-          "previewPath": "/עמוד-95.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-95.html"
         }
       ]
     },
