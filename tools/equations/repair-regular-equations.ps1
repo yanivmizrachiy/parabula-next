@@ -27,8 +27,20 @@ if ($dirtyBefore) {
 
 Write-Host '=== LOAD EQUATIONS TOPIC ==='
 $topics = Get-Content '.\meta\topics.json' -Raw -Encoding UTF8 | ConvertFrom-Json
-$eqTopic = $topics.topics | Where-Object { $_.name -eq 'משוואות' }
-if (!$eqTopic) { throw "Missing topic: משוואות" }
+
+# Avoid Hebrew string literals here: Windows PowerShell 5.1 can misread UTF-8 scripts without BOM.
+# The regular-equations chapter is the only large topic with more than 50 pages.
+$eqTopic = $topics.topics | Where-Object {
+  ($_.count -ge 50) -or (@($_.pages).Count -ge 50)
+} | Select-Object -First 1
+
+if (!$eqTopic) {
+  Write-Host 'TOPICS_FOUND:'
+  $topics.topics | ForEach-Object { Write-Host (($_.name) + ' count=' + $_.count + ' pages=' + @($_.pages).Count) }
+  throw 'Missing equations topic by large-topic detection.'
+}
+
+Write-Host ('Selected topic: ' + $eqTopic.name + ' count=' + $eqTopic.count + ' pages=' + @($eqTopic.pages).Count)
 $pages = @($eqTopic.pages | ForEach-Object { $_.file } | Sort-Object -Unique)
 if ($pages.Count -eq 0) { throw 'No equations pages found.' }
 
@@ -168,6 +180,7 @@ $report = '.\STATE\EQUATIONS_REGULAR_DESIGN_REPAIR.md'
 
 Date: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
 
+Selected topic: $($eqTopic.name)
 Pages checked: $($pages.Count)
 HTML files cleaned: $htmlChanged
 CSS files aligned: $cssChanged
