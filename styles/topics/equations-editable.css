@@ -1,0 +1,30 @@
+
+/* YANIV_NO_EXERCISE_NUMBERING */
+.equations-page .equations-grid,
+.equations-page .equations-grid ol,
+.equations-page .equations-grid ul {
+  list-style: none !important;
+  counter-reset: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.equations-page li::marker,
+.equations-page .exercise-box::marker,
+.equations-page .exercise-box::before,
+.equations-page .equation-line::before {
+  content: none !important;
+}
+
+.equations-page .exercise-box .exercise-number,
+.equations-page .exercise-box .item-number,
+.equations-page .exercise-box .question-number,
+.equations-page .exercise-box .q-number,
+.equations-page .exercise-box .eq-number,
+.equations-page .exercise-box .sub-number,
+.equations-page .exercise-box .number-badge,
+.equations-page .exercise-box .exercise-badge,
+.equations-page .exercise-box .badge-number,
+.equations-page .exercise-box .ordinal {
+  display: none !important;
+}
