@@ -1,8 +1,139 @@
-/* עמוד 42 — משוואות
-   Uses the shared equations design standard.
-   Keep this file limited to page-local differences only. */
+/* עמוד 42 — משוואות עמוד 2 (חיסור)
+   Source: sources/legacy/parabula-old/sources/משוואות.pdf page 2
+   Mirrors עמוד-95.css structure, scoped to .page-42. */
 
-/* EQUATIONS_DESIGN_PASS_20260429 */
 .page-42.equations-page {
-  --equations-crop-top: 118px;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.page-42 .worksheet-card {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 16px 20px 18px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-42 .worksheet-badge {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--title-blue);
+  border-radius: 50%;
+  color: var(--title-blue);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--bg-paper);
+}
+
+.page-42 .worksheet-instruction {
+  margin: 0;
+  padding: 4px 48px 0 0;
+  color: var(--text-main);
+  font-size: 13.5px;
+  line-height: 1.5;
+  font-weight: 400;
+  text-align: right;
+}
+
+.page-42 .equations-grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.page-42 .equation-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(46px, 1fr));
+  gap: 10px;
+  min-width: 0;
+  counter-reset: equation-counter;
+}
+
+.page-42 .equation-list-left {
+  border-left: 1px dashed var(--grid-line);
+  padding-left: 20px;
+  counter-reset: equation-counter 5;
+}
+
+.page-42 .exercise {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 22px minmax(86px, auto) minmax(62px, 1fr);
+  gap: 8px;
+  align-items: center;
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--text-main);
+  font-size: 14.5px;
+  line-height: 1.22;
+  counter-increment: equation-counter;
+}
+
+.page-42 .exercise::before {
+  content: counter(equation-counter) '.';
+  color: var(--text-main);
+  font-size: 13px;
+  text-align: right;
+  direction: ltr;
+}
+
+.page-42 .eq {
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+}
+
+.page-42 .answer-line {
+  display: block;
+  width: 100%;
+  min-width: 50px;
+  height: 1.05em;
+  border-bottom: 1px solid var(--grid-line);
+}
+
+@media screen and (max-width: 900px) {
+  .preview-nav {
+    zoom: 0.48;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .page-42.a4-page {
+    zoom: 0.48;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 900px) {
+  .preview-nav,
+  .page-42.a4-page {
+    zoom: 0.64;
+  }
+}
+
+@media print {
+  .page-42 .worksheet-card {
+    box-shadow: none;
+  }
 }
