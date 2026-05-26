@@ -1,29 +1,35 @@
 /* עמוד 43 — משוואות עמוד 3
-   Uses the shared equations design standard.
-   The mathematical content remains the verified original SVG source; this file only controls safe A4 presentation. */
+   Safe presentation pass only.
+   The mathematical content remains the verified original SVG source; this file controls A4 presentation. */
 
 /* EQUATIONS_FIRST3_FINAL_20260526 */
 .page-43.equations-page {
   --equations-crop-top: 0px;
   justify-content: flex-start;
+  gap: 8px;
+}
+
+.page-43 .header-container {
+  margin-bottom: 8px;
 }
 
 .page-43 .question-block {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
 .page-43 .pdf-wrap {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid var(--border-light);
+  padding: 8px 10px;
+  border: 1px solid rgba(142, 163, 196, 0.42);
   border-radius: 8px;
   background: var(--bg-paper);
 }
@@ -31,6 +37,8 @@
 .page-43 .pdf-page {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   object-position: center center;
   display: block;
@@ -38,9 +46,35 @@
   transform-origin: center center;
 }
 
+@media screen and (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .preview-nav {
+    zoom: 0.48;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .page-43.a4-page {
+    zoom: 0.48;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 900px) {
+  .preview-nav,
+  .page-43.a4-page {
+    zoom: 0.64;
+  }
+}
+
 @media print {
   .page-43 .pdf-wrap {
-    border-color: var(--border-light);
+    padding: 6px 8px;
+    border-color: rgba(142, 163, 196, 0.38);
     box-shadow: none;
   }
 
