@@ -1,121 +1,142 @@
 /* Page 95 — equations page 1.
-   Final worksheet rebuild: HTML + MathJax + separated page CSS.
-   Keeps the global A4 print contract intact and uses the regular-equations box standard. */
+   Deep worksheet layout pass for the actual HTML structure in עמוד-95.html.
+   Scope: only page 1 of regular equations. No mathematical content changes. */
 
 .page-95.equations-page {
   justify-content: flex-start;
-  gap: 10px;
+  gap: 8px;
 }
 
-.page-95 .worksheet-card {
-  position: relative;
+.page-95 .header-container {
+  margin-bottom: 8px;
+}
+
+.page-95 .question-block {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-95 .eq-body {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 16px;
-  padding: 16px 20px 18px;
+  gap: 8px;
+  padding: 12px 18px 14px;
   border: 1px solid var(--border-light);
   border-radius: 8px;
   background: var(--bg-paper);
 }
 
-.page-95 .worksheet-badge {
-  display: none;
+.page-95 .q-main {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-main);
 }
 
-.page-95 .worksheet-instruction {
-  margin: 0;
-  padding: 4px 0 0 0;
-  color: var(--text-main);
+.page-95 .bullet-container {
+  width: 10px;
+  min-width: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-95 .bullet-large {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-main);
+}
+
+.page-95 .q-text {
   font-size: 13.5px;
-  line-height: 1.5;
-  font-weight: 400;
+  line-height: 1.45;
   text-align: right;
 }
 
-.page-95 .equations-grid {
+.page-95 .eq-grid {
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 18px;
-  align-items: stretch;
-}
-
-.page-95 .equation-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
   grid-template-rows: repeat(6, minmax(70px, 1fr));
-  gap: 8px;
+  grid-auto-flow: column;
+  gap: 8px 16px;
+  align-items: stretch;
+  direction: rtl;
+}
+
+.page-95 .problem-block {
   min-width: 0;
-  counter-reset: none;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(142, 163, 196, 0.42);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  overflow: hidden;
+  break-inside: avoid;
 }
 
-.page-95 .equation-list-left {
-  border-left: 1px dashed var(--grid-line);
-  padding-left: 18px;
-}
-
-.page-95 .equation-item,
-.page-95 .equation-item::before {
-  counter-increment: none;
-}
-
-.page-95 .equation-item::before {
-  content: none;
-  display: none;
-}
-
-.page-95 .equation-item {
-  min-width: 0;
+.page-95 .problem-work {
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 6px;
-  align-items: stretch;
-  direction: ltr;
-  unicode-bidi: isolate;
-  color: var(--text-main);
-  font-size: 14.5px;
-  line-height: 1.22;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
-  padding: 7px 8px;
-  overflow: hidden;
+  gap: 5px;
+  padding: 7px 8px 8px;
 }
 
-.page-95 .equation-math {
-  min-width: 0;
+.page-95 .problem-figure {
+  min-height: 20px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.page-95 .problem-equation {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 20px;
   font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.15;
   font-weight: 500;
+  color: var(--text-main);
   text-align: center;
 }
 
-.page-95 .answer-line {
-  display: block;
-  width: 100%;
-  min-width: 0;
+.page-95 .solution-space {
   min-height: 38px;
-  height: auto;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(142, 163, 196, 0.42);
   border-radius: 6px;
   background-color: var(--bg-paper);
   background-image:
-    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
-    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+    linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.20) 21px, rgba(142, 163, 196, 0.20) 22px),
+    linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.15) 21px, rgba(142, 163, 196, 0.15) 22px);
   background-size: 22px 22px;
   background-repeat: repeat;
 }
 
-.page-95 .is-corrected .equation-math {
-  color: var(--text-main);
-  font-weight: 500;
+.page-95 .problem-answer {
+  display: none;
+}
+
+.page-95 .answer-box,
+.page-95 .box-sm {
+  display: none;
+}
+
+.page-95 .problem-block::before,
+.page-95 .problem-block::after {
+  content: none;
+  display: none;
 }
 
 @media screen and (max-width: 900px) {
@@ -144,7 +165,15 @@
 }
 
 @media print {
-  .page-95 .worksheet-card {
+  .page-95 .eq-body,
+  .page-95 .problem-block {
     box-shadow: none;
+  }
+
+  .page-95 .solution-space {
+    border-color: rgba(142, 163, 196, 0.38);
+    background-image:
+      linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.18) 21px, rgba(142, 163, 196, 0.18) 22px),
+      linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.13) 21px, rgba(142, 163, 196, 0.13) 22px);
   }
 }
