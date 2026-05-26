@@ -11,6 +11,8 @@ const EQUATIONS_TOPIC = 'משוואות';
 const urlParams = new URLSearchParams(window.location.search);
 const requestedTopic = urlParams.get('topic');
 const autoSelectMode = urlParams.get('autoselect');
+const maxLocalPageParam = Number(urlParams.get('maxLocalPage') || 0);
+const maxLocalPage = Number.isFinite(maxLocalPageParam) && maxLocalPageParam > 0 ? maxLocalPageParam : null;
 const isEquationsPrintMode = requestedTopic === EQUATIONS_TOPIC;
 
 const searchBox = document.getElementById('searchBox');
@@ -62,6 +64,12 @@ function pageSort(a, b) {
   return localPageIndex(a) - localPageIndex(b);
 }
 
+function isWithinRequestedScope(page) {
+  if (requestedTopic && page.topic !== requestedTopic) return false;
+  if (maxLocalPage && localPageIndex(page) > maxLocalPage) return false;
+  return true;
+}
+
 function fitA4FramesToViewport() {
   if (!isEquationsPrintMode) return;
   const available = Math.max(260, printView.clientWidth - 4);
@@ -92,9 +100,14 @@ function restoreSelection() {
 
 function updateSummary() {
   const count = selected.size;
+  const scopeText = requestedTopic && maxLocalPage
+    ? ` — ${requestedTopic}, עמודים 1–${maxLocalPage}`
+    : requestedTopic
+      ? ` — ${requestedTopic}`
+      : '';
   selectionSummary.textContent = count
-    ? `נבחרו ${count} דפים`
-    : 'עדיין לא נבחרו דפים';
+    ? `נבחרו ${count} דפים${scopeText}`
+    : `עדיין לא נבחרו דפים${scopeText}`;
 }
 
 function renderList() {
@@ -103,6 +116,7 @@ function renderList() {
 
   visiblePages = allPages()
     .filter((page) => topic === '__all__' || page.topic === topic)
+    .filter((page) => !requestedTopic || isWithinRequestedScope(page))
     .filter((page) => {
       if (!q) return true;
       return normalize(`${page.title} ${page.topic} ${page.file} ${page.number}`).includes(q);
@@ -138,6 +152,7 @@ function renderPreview() {
   printView.innerHTML = '';
   allPages()
     .filter((page) => selected.has(page.file))
+    .filter((page) => !requestedTopic || isWithinRequestedScope(page))
     .sort(pageSort)
     .forEach((page) => {
       const wrap = document.createElement('section');
@@ -154,6 +169,7 @@ function selectTopicPages(topicName) {
   selected.clear();
   allPages()
     .filter((page) => page.topic === topicName)
+    .filter((page) => !maxLocalPage || localPageIndex(page) <= maxLocalPage)
     .sort(pageSort)
     .forEach((page) => selected.add(page.file));
   saveSelection();
