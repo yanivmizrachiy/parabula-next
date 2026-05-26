@@ -1,10 +1,14 @@
 /* עמוד 42 — משוואות עמוד 2 (חיסור)
-   Final worksheet rebuild: HTML + MathJax + separated page CSS.
-   Keeps the global A4 print contract intact and uses the regular-equations box standard. */
+   Deep worksheet layout pass for the actual HTML structure in עמוד-42.html.
+   Scope: only page 2 of regular equations. No mathematical content changes. */
 
 .page-42.equations-page {
   justify-content: flex-start;
-  gap: 10px;
+  gap: 8px;
+}
+
+.page-42 .header-container {
+  margin-bottom: 8px;
 }
 
 .page-42 .worksheet-card {
@@ -13,9 +17,9 @@
   min-height: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: 16px;
-  padding: 16px 20px 18px;
-  border: 1px solid var(--border-light);
+  gap: 12px;
+  padding: 12px 18px 14px;
+  border: 1px solid rgba(142, 163, 196, 0.42);
   border-radius: 8px;
   background: var(--bg-paper);
 }
@@ -26,10 +30,10 @@
 
 .page-42 .worksheet-instruction {
   margin: 0;
-  padding: 4px 0 0 0;
+  padding: 0;
   color: var(--text-main);
   font-size: 13.5px;
-  line-height: 1.5;
+  line-height: 1.45;
   font-weight: 400;
   text-align: right;
 }
@@ -38,8 +42,9 @@
   min-height: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 18px;
+  gap: 16px;
   align-items: stretch;
+  direction: rtl;
 }
 
 .page-42 .equation-list {
@@ -54,8 +59,8 @@
 }
 
 .page-42 .equation-list-left {
-  border-left: 1px dashed var(--grid-line);
-  padding-left: 18px;
+  border-left: 1px dashed rgba(142, 163, 196, 0.26);
+  padding-left: 16px;
   counter-reset: none;
 }
 
@@ -81,10 +86,11 @@
   font-size: 14.5px;
   line-height: 1.22;
   background: var(--bg-subtle);
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(142, 163, 196, 0.42);
   border-radius: 8px;
   padding: 7px 8px;
   overflow: hidden;
+  break-inside: avoid;
 }
 
 .page-42 .eq {
@@ -108,8 +114,8 @@
   border-radius: 6px;
   background-color: var(--bg-paper);
   background-image:
-    linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.24) 21px, rgba(142, 163, 196, 0.24) 22px),
-    linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.18) 21px, rgba(142, 163, 196, 0.18) 22px);
+    linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.20) 21px, rgba(142, 163, 196, 0.20) 22px),
+    linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.15) 21px, rgba(142, 163, 196, 0.15) 22px);
   background-size: 22px 22px;
   background-repeat: repeat;
 }
@@ -136,14 +142,15 @@
 }
 
 @media print {
-  .page-42 .worksheet-card {
+  .page-42 .worksheet-card,
+  .page-42 .exercise {
     box-shadow: none;
   }
 
   .page-42 .answer-line {
     border-color: rgba(142, 163, 196, 0.38);
     background-image:
-      linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.20) 21px, rgba(142, 163, 196, 0.20) 22px),
-      linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.15) 21px, rgba(142, 163, 196, 0.15) 22px);
+      linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.18) 21px, rgba(142, 163, 196, 0.18) 22px),
+      linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.13) 21px, rgba(142, 163, 196, 0.13) 22px);
   }
 }
