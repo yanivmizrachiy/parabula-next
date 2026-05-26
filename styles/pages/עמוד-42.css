@@ -104,12 +104,12 @@
   min-width: 0;
   min-height: 40px;
   height: auto;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(142, 163, 196, 0.42);
   border-radius: 6px;
   background-color: var(--bg-paper);
   background-image:
-    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
-    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+    linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.24) 21px, rgba(142, 163, 196, 0.24) 22px),
+    linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.18) 21px, rgba(142, 163, 196, 0.18) 22px);
   background-size: 22px 22px;
   background-repeat: repeat;
 }
@@ -138,5 +138,12 @@
 @media print {
   .page-42 .worksheet-card {
     box-shadow: none;
+  }
+
+  .page-42 .answer-line {
+    border-color: rgba(142, 163, 196, 0.38);
+    background-image:
+      linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.20) 21px, rgba(142, 163, 196, 0.20) 22px),
+      linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.15) 21px, rgba(142, 163, 196, 0.15) 22px);
   }
 }
