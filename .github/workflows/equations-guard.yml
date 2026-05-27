@@ -58,6 +58,9 @@ jobs:
       - name: Run equations print smoke validation
         run: npm run validate:equations:print-smoke
 
+      - name: Run page 1 source lock guard
+        run: node scripts/validate-equations-page1-source-lock.mjs
+
       - name: Run smart equations queue in read-only mode
         run: npm run audit:equations:smart-queue
 
