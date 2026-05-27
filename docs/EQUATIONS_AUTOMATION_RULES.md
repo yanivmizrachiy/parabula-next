@@ -106,3 +106,24 @@ Current requirements:
 - No broad rewrite of the equations topic.
 - No changes to quadratic equations unless explicitly requested.
 - No mathematical content changes without source evidence.
+
+## Termux visual source evidence helper
+
+For source verification when PDF text extraction is inconclusive, use:
+
+- `scripts/termux-render-equations-source-pages.mjs`
+
+Purpose:
+
+- render real source PDF pages into images;
+- create a visual proof gallery;
+- help compare worksheet pages against visual source evidence;
+- avoid guessing mathematical content from SVG outlines.
+
+Rules:
+
+- this helper is for manual/visual source evidence only;
+- it must not modify worksheet HTML/CSS files;
+- it must not mark pages as verified by itself;
+- it must not touch `משוואות ריבועיות`;
+- use visual source evidence before locking page 1 as source-matched.
