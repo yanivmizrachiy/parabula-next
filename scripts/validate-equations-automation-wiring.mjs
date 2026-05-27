@@ -21,12 +21,16 @@ function requireText(source, needle, label) {
 
 const packageJson = read('package.json');
 const guardWorkflow = read('.github/workflows/equations-guard.yml');
+const automationRules = read('docs/EQUATIONS_AUTOMATION_RULES.md');
 
 const requiredFiles = [
   'scripts/equations-smart-queue.mjs',
   'scripts/validate-equations-print-smoke.mjs',
   'scripts/audit-equations-svg-conversion-plan.mjs',
-  'scripts/validate-equations-page1-source-lock.mjs'
+  'scripts/validate-equations-page1-source-lock.mjs',
+  'scripts/validate-equations-automation-wiring.mjs',
+  'scripts/validate-equations-first3-readiness.mjs',
+  'docs/EQUATIONS_AUTOMATION_RULES.md'
 ];
 
 for (const file of requiredFiles) {
@@ -37,13 +41,22 @@ requireText(packageJson, 'audit:equations:smart-queue', 'package.json');
 requireText(packageJson, 'validate:equations:print-smoke', 'package.json');
 requireText(packageJson, 'audit:equations:svg-plan', 'package.json');
 
+requireText(guardWorkflow, 'workflow_dispatch', 'equations guard workflow');
 requireText(guardWorkflow, 'contents: read', 'equations guard workflow');
+requireText(guardWorkflow, 'node scripts/validate-equations-automation-wiring.mjs', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run validate:equations:all', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run validate:equations:print-smoke', 'equations guard workflow');
 requireText(guardWorkflow, 'node scripts/validate-equations-page1-source-lock.mjs', 'equations guard workflow');
+requireText(guardWorkflow, 'node scripts/validate-equations-first3-readiness.mjs', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run audit:equations:smart-queue', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run audit:equations:svg-plan', 'equations guard workflow');
 requireText(guardWorkflow, 'git status --porcelain', 'equations guard workflow');
+
+requireText(automationRules, 'Applies only to `משוואות`', 'equations automation rules');
+requireText(automationRules, 'Does not apply to `משוואות ריבועיות`', 'equations automation rules');
+requireText(automationRules, 'Do not create another preview route', 'equations automation rules');
+requireText(automationRules, 'workflow_dispatch', 'equations automation rules');
+requireText(automationRules, 'Do not change the expression `4 + x = \\square`', 'equations automation rules');
 
 if (failures.length) {
   console.error('EQUATIONS_AUTOMATION_WIRING_FAILED');
@@ -54,7 +67,9 @@ if (failures.length) {
 }
 
 console.log('EQUATIONS_AUTOMATION_WIRING_OK');
-console.log('required_files=4');
+console.log(`required_files=${requiredFiles.length}`);
 console.log('package_scripts=connected');
 console.log('guard_workflow=connected');
+console.log('manual_guard=YES');
+console.log('rules_doc=protected');
 console.log('read_only_guard=YES');
