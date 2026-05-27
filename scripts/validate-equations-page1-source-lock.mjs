@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const root = process.cwd();
 const pagePath = path.join(root, 'עמוד-95.html');
+const sourcePdfPath = path.join(root, 'sources', 'legacy', 'parabula-old', 'sources', 'משוואות.pdf');
 const sourceProofPath = path.join(root, 'STATE', 'EQUATIONS_PAGE_1_SOURCE_VERIFICATION.md');
 
 function read(pathname) {
@@ -25,12 +26,16 @@ const answers = count(html, /class\s*=\s*"[^"]*\banswer-line\b[^"]*"/g);
 const verified = count(html, /data-correction\s*=\s*"verified"/g);
 const preserved = count(html, /data-correction\s*=\s*"existing-content-preserved"/g);
 const squareEquationPresent = /4\s*\+\s*x\s*=\s*\\square/.test(html);
+const sourcePdfExists = fs.existsSync(sourcePdfPath);
+const sourcePdfBytes = sourcePdfExists ? fs.statSync(sourcePdfPath).size : 0;
+const sourcePdfReady = sourcePdfExists && sourcePdfBytes > 0;
 const proofExists = proof.includes('PAGE_1_SOURCE_VERIFIED=YES') && proof.includes('4 + x = \\square');
 
 const failures = [];
 
 if (exercises !== 12) failures.push(`expected 12 page-1 exercises, found ${exercises}`);
 if (answers !== 12) failures.push(`expected 12 page-1 answer areas, found ${answers}`);
+if (!sourcePdfReady) failures.push('missing or empty source PDF: sources/legacy/parabula-old/sources/משוואות.pdf');
 
 if (verified === 12 && squareEquationPresent && !proofExists) {
   failures.push('page 1 is fully marked verified while 4 + x = \\square is still present without STATE/EQUATIONS_PAGE_1_SOURCE_VERIFICATION.md proof marker');
@@ -52,4 +57,6 @@ console.log(`answers=${answers}`);
 console.log(`verified=${verified}`);
 console.log(`preserved=${preserved}`);
 console.log(`square_equation_present=${squareEquationPresent ? 'YES' : 'NO'}`);
+console.log(`source_pdf=${sourcePdfReady ? 'YES' : 'NO'}`);
+console.log(`source_pdf_bytes=${sourcePdfBytes}`);
 console.log(`source_proof=${proofExists ? 'YES' : 'NO'}`);
