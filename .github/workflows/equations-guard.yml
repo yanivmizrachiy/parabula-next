@@ -1,0 +1,67 @@
+name: Equations Guard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'scripts/**'
+      - 'meta/topics.json'
+      - 'preview/**'
+      - 'styles/pages/**'
+      - 'styles/topics/equations.css'
+      - 'עמוד-*.html'
+      - 'pages/משוואות/**'
+      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - '.github/workflows/equations-guard.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'scripts/**'
+      - 'meta/topics.json'
+      - 'preview/**'
+      - 'styles/pages/**'
+      - 'styles/topics/equations.css'
+      - 'עמוד-*.html'
+      - 'pages/משוואות/**'
+      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - '.github/workflows/equations-guard.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  equations-guard:
+    name: Equations read-only guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies when lockfile exists
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Run equations validation suite
+        run: npm run validate:equations:all
+
+      - name: Run smart equations queue in read-only mode
+        run: npm run audit:equations:smart-queue
+
+      - name: Ensure smart queue did not create tracked changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Smart queue or validation created unexpected repository changes:"
+            git status --short
+            exit 1
+          fi
