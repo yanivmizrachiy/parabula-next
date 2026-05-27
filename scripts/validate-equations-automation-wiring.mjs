@@ -28,6 +28,7 @@ const requiredFiles = [
   'scripts/validate-equations-print-smoke.mjs',
   'scripts/audit-equations-svg-conversion-plan.mjs',
   'scripts/validate-equations-page1-source-lock.mjs',
+  'scripts/audit-equations-page1-source-checklist.mjs',
   'scripts/validate-equations-automation-wiring.mjs',
   'scripts/validate-equations-first3-readiness.mjs',
   'docs/EQUATIONS_AUTOMATION_RULES.md'
@@ -47,6 +48,7 @@ requireText(guardWorkflow, 'node scripts/validate-equations-automation-wiring.mj
 requireText(guardWorkflow, 'npm run validate:equations:all', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run validate:equations:print-smoke', 'equations guard workflow');
 requireText(guardWorkflow, 'node scripts/validate-equations-page1-source-lock.mjs', 'equations guard workflow');
+requireText(guardWorkflow, 'node scripts/audit-equations-page1-source-checklist.mjs', 'equations guard workflow');
 requireText(guardWorkflow, 'node scripts/validate-equations-first3-readiness.mjs', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run audit:equations:smart-queue', 'equations guard workflow');
 requireText(guardWorkflow, 'npm run audit:equations:svg-plan', 'equations guard workflow');
@@ -70,6 +72,7 @@ console.log('EQUATIONS_AUTOMATION_WIRING_OK');
 console.log(`required_files=${requiredFiles.length}`);
 console.log('package_scripts=connected');
 console.log('guard_workflow=connected');
+console.log('page1_source_checklist=connected');
 console.log('manual_guard=YES');
 console.log('rules_doc=protected');
 console.log('read_only_guard=YES');
