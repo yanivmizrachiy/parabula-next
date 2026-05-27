@@ -61,6 +61,9 @@ jobs:
       - name: Run smart equations queue in read-only mode
         run: npm run audit:equations:smart-queue
 
+      - name: Run SVG conversion plan audit
+        run: npm run audit:equations:svg-plan
+
       - name: Ensure audits did not create tracked changes
         run: |
           if [ -n "$(git status --porcelain)" ]; then
