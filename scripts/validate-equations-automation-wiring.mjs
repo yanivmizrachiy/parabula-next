@@ -29,6 +29,9 @@ const requiredFiles = [
   'scripts/audit-equations-svg-conversion-plan.mjs',
   'scripts/validate-equations-page1-source-lock.mjs',
   'scripts/audit-equations-page1-source-checklist.mjs',
+  'scripts/termux-equations-status.mjs',
+  'scripts/termux-equations-agent.mjs',
+  'scripts/termux-render-equations-source-pages.mjs',
   'scripts/validate-equations-automation-wiring.mjs',
   'scripts/validate-equations-first3-readiness.mjs',
   'docs/EQUATIONS_AUTOMATION_RULES.md'
@@ -59,6 +62,8 @@ requireText(automationRules, 'Does not apply to `משוואות ריבועיות
 requireText(automationRules, 'Do not create another preview route', 'equations automation rules');
 requireText(automationRules, 'workflow_dispatch', 'equations automation rules');
 requireText(automationRules, 'Do not change the expression `4 + x = \\square`', 'equations automation rules');
+requireText(automationRules, 'termux-render-equations-source-pages.mjs', 'equations automation rules');
+requireText(automationRules, 'visual source evidence', 'equations automation rules');
 
 if (failures.length) {
   console.error('EQUATIONS_AUTOMATION_WIRING_FAILED');
@@ -73,6 +78,7 @@ console.log(`required_files=${requiredFiles.length}`);
 console.log('package_scripts=connected');
 console.log('guard_workflow=connected');
 console.log('page1_source_checklist=connected');
+console.log('termux_helpers=tracked');
 console.log('manual_guard=YES');
 console.log('rules_doc=protected');
 console.log('read_only_guard=YES');
