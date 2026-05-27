@@ -22,6 +22,7 @@
     "validate:equations:editable-page-1": "node scripts/validate-page-95-editable.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
     "audit:equations:smart-queue": "node scripts/equations-smart-queue.mjs",
+    "audit:equations:svg-plan": "node scripts/audit-equations-svg-conversion-plan.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs",
     "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
