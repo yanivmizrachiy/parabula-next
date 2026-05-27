@@ -55,13 +55,16 @@ jobs:
       - name: Run equations validation suite
         run: npm run validate:equations:all
 
+      - name: Run equations print smoke validation
+        run: npm run validate:equations:print-smoke
+
       - name: Run smart equations queue in read-only mode
         run: npm run audit:equations:smart-queue
 
-      - name: Ensure smart queue did not create tracked changes
+      - name: Ensure audits did not create tracked changes
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            echo "Smart queue or validation created unexpected repository changes:"
+            echo "Equation validation or audit created unexpected repository changes:"
             git status --short
             exit 1
           fi
