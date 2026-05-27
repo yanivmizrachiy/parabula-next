@@ -5,8 +5,12 @@ const root = process.cwd();
 const topicName = 'משוואות';
 const excludedTopic = 'משוואות ריבועיות';
 const maxPages = Number(process.env.EQUATIONS_QUEUE_LIMIT || 10);
+const writeReport = process.env.EQUATIONS_QUEUE_WRITE_REPORT === '1' || process.argv.includes('--write-report');
 const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-const reportPath = path.join(root, 'STATE', `EQUATIONS_SMART_QUEUE_${stamp}.md`);
+const requestedReportPath = process.env.EQUATIONS_QUEUE_REPORT_PATH || '';
+const reportPath = requestedReportPath
+  ? path.resolve(root, requestedReportPath)
+  : path.join(root, 'STATE', `EQUATIONS_SMART_QUEUE_${stamp}.md`);
 
 function readText(rel) {
   const full = path.join(root, rel);
@@ -148,6 +152,7 @@ Generated: ${new Date().toISOString()}
 - Topic: \`${topicName}\`
 - Excluded: \`${excludedTopic}\`
 - Pages inspected: first ${rows.length} pages only
+- Default mode is read-only: no file is written unless \`EQUATIONS_QUEUE_WRITE_REPORT=1\` or \`--write-report\` is used.
 - This script does not modify worksheet pages, preview files, or source files.
 
 ## Canonical preview rule
@@ -177,20 +182,30 @@ ${next ? `- local page: ${next.local}\n- file: \`${next.file}\`\n- status: ${nex
 2. Improve one worksheet page at a time.
 3. If page is HTML-live: adjust only that page HTML/CSS and preserve source provenance.
 4. If page is SVG-only: do not invent exercises; first extract/verify source from PDF or SVG evidence.
-5. After each page: run this queue script and add a STATE lock report.
+5. After each page: run this queue script and add a STATE lock report only for meaningful milestones.
 6. Never commit from a dirty local repo; use a clean clone or exact \`git add\` file list.
 `;
 
-fs.mkdirSync(path.dirname(reportPath), { recursive: true });
-fs.writeFileSync(reportPath, report, 'utf8');
+if (writeReport) {
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, report, 'utf8');
+}
 
 console.log('EQUATIONS_SMART_QUEUE_OK');
 console.log(`pages_inspected=${rows.length}`);
 console.log(`canonical_preview=${hasCanonicalPrint ? 'YES' : 'NO'}`);
 console.log(`print_scope=${printSupportsScope ? 'YES' : 'NO'}`);
+console.log(`write_report=${writeReport ? 'YES' : 'NO'}`);
 if (next) {
   console.log(`next_local_page=${next.local}`);
   console.log(`next_file=${next.file}`);
   console.log(`next_status=${next.status}`);
 }
-console.log(`report=${path.relative(root, reportPath)}`);
+if (writeReport) {
+  console.log(`report=${path.relative(root, reportPath)}`);
+} else {
+  console.log('report=not_written_default_read_only');
+}
+console.log('--- EQUATIONS_SMART_QUEUE_REPORT_START ---');
+console.log(report.trimEnd());
+console.log('--- EQUATIONS_SMART_QUEUE_REPORT_END ---');
