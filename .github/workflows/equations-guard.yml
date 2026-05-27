@@ -65,6 +65,9 @@ jobs:
       - name: Run page 1 source lock guard
         run: node scripts/validate-equations-page1-source-lock.mjs
 
+      - name: Run page 1 source checklist audit
+        run: node scripts/audit-equations-page1-source-checklist.mjs
+
       - name: Run first three equations readiness guard
         run: node scripts/validate-equations-first3-readiness.mjs
 
