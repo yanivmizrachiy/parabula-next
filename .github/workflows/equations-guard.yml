@@ -52,6 +52,9 @@ jobs:
             npm install --no-audit --no-fund
           fi
 
+      - name: Run equations automation wiring validation
+        run: node scripts/validate-equations-automation-wiring.mjs
+
       - name: Run equations validation suite
         run: npm run validate:equations:all
 
