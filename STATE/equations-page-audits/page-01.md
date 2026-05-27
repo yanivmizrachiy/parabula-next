@@ -1,6 +1,6 @@
-# Page 01 Pilot Audit — Equations
+# Page 01 Audit — Equations
 
-_Last updated: 2026-05-02_
+_Last updated: 2026-05-27_
 
 ## Identity
 
@@ -10,159 +10,87 @@ _Last updated: 2026-05-02_
 - Root page file: `עמוד-95.html`
 - Page CSS file: `styles/pages/עמוד-95.css`
 - Shared family CSS: `styles/topics/equations.css`
-- SVG/content file: `pages/משוואות/assets/page-01.svg`
+- Source PDF candidate: `sources/legacy/parabula-old/sources/משוואות.pdf`
 
-## User requirement status
+## Current truth
 
-This page is the current pilot. It is not a demo and it must not be used to claim that all equations pages are complete.
+Page 1 is no longer an SVG-only pilot.
 
-The goal is to verify one real page first, according to `PROJECT_RULES.md`, then expand only after the pilot is actually good.
+Current `עמוד-95.html` is an HTML-live worksheet page with:
 
-## Changes already applied to this pilot
+- 12 exercise rows.
+- 12 answer areas.
+- MathJax inline notation.
+- A `worksheet-card` container.
+- Two equation columns: `equation-list-right` and `equation-list-left`.
+- Source metadata on the worksheet and on each exercise.
+- All 12 exercises still marked `data-correction="existing-content-preserved"`.
 
-### Shared equations design standard attached
+This means page 1 is structurally improved, but it is still not fully source-verified.
 
-Status: done.
+## Current exercise list from HTML
 
-`עמוד-95.html` now links:
+1. `31 = 6 + x`
+2. `10 = 6 + x`
+3. `8 = 4 + x`
+4. `14 = 8 + x`
+5. `10 + x = 10`
+6. `6 + x = 6.5`
+7. `4 + x = 24`
+8. `4 + x = \square`
+9. `55 = 5 + x`
+10. `16 + x = 32`
+11. `20 + x = 100`
+12. `2 + x = 81`
 
-- `styles/a4-base.css`
-- `styles/topics/equations.css`
-- `styles/pages/עמוד-95.css`
+## Current blockers
 
-### Pilot page class attached
+### Source verification blocker
 
-Status: done.
+The page must not be marked fully `verified` until the 12 equations above are checked against the real source PDF.
 
-`main` now uses:
+Special attention:
 
-- `a4-page`
-- `page-95`
-- `equations-page`
+- `4 + x = \square` must not be changed, removed, or marked verified without source proof.
 
-### Page-local CSS reduced
+### Visual verification blocker
 
-Status: done.
+The page still requires visual confirmation in the canonical preview/print flow:
 
-`styles/pages/עמוד-95.css` now contains only the local crop override:
+- Browser preview.
+- Mobile preview if relevant.
+- Print / Save as PDF.
 
-- `--equations-crop-top: 118px`
+## Current automated protection
 
-The common visual rules live in `styles/topics/equations.css`.
+The following automation now protects page 1 and the first-three-pages flow:
 
-### Wrong previous-page escape fixed
+- `scripts/validate-equations-page1-source-lock.mjs`
+  - verifies 12 exercises and 12 answer areas;
+  - requires the source PDF to exist and be non-empty;
+  - blocks fully verified status when `4 + x = \square` exists without a source-verification marker.
+- `scripts/validate-equations-first3-readiness.mjs`
+  - checks the first-three-pages order and page-specific readiness rules.
+- `.github/workflows/equations-guard.yml`
+  - runs the relevant validations automatically;
+  - can also run manually through `workflow_dispatch`.
 
-Status: done.
+## Operational decision
 
-The previous link no longer escapes from the first equations page to `עמוד-40.html`.
-The first page now marks the left control as `תחילת הנושא`.
-
-## PROJECT_RULES checklist
-
-### A. Topic and reality rules
-
-Status: structurally OK.
-
-- Topic is `משוואות`.
-- No intentional merge with `משוואות ריבועיות`.
-- No fake/demo worksheet content was added.
-- No learning content was changed.
-
-### B. A4 page contract
-
-Status: structurally OK, visual verification still required.
-
-- Root page exists as `עמוד-95.html`.
-- The page contains one `main.a4-page.page-95` wrapper.
-- A4 base is still `styles/a4-base.css`.
-- `styles/a4-base.css` was not edited.
-- Visual A4 usage still requires browser/phone verification.
-
-### C. HTML / CSS separation
-
-Status: OK.
-
-- No inline CSS added.
-- Styling is separated into CSS files.
-- Shared family styling is in `styles/topics/equations.css`.
-- Local page styling is in `styles/pages/עמוד-95.css`.
-
-### D. RTL and math rules
-
-Status: structurally OK.
-
-- `dir="rtl"` is preserved.
-- MathJax still uses `\( ... \)` inline delimiters.
-- No `$...$` math delimiters were introduced.
-
-### E. Navigation and numbering rules
-
-Status: improved, structurally OK.
-
-- `.preview-nav` exists.
-- `.nav-meta` says `משוואות — עמוד 1 / 54`.
-- `.page-number` equals `1`.
-- The active topic link is `משוואות` with `.is-active` and `aria-current="page"`.
-- The previous control was corrected so the first equations page does not escape to another topic.
-
-### F. Shared equations design rules
-
-Status: improved but not final.
-
-- The pilot uses the shared equations design standard.
-- The shared standard uses project tokens from `styles/a4-base.css`:
-  - `var(--border-light)`
-  - `var(--grid-line)`
-  - `var(--bg-paper)`
-  - `var(--bg-subtle)`
-  - `var(--title-blue)`
-  - `var(--text-main)`
-- The style is not invented from outside the project.
-- The page-local CSS is now minimal.
-
-### G. SVG / caption-source rules
-
-Status: still blocking final approval.
-
-- The visible worksheet content is still an external SVG image.
-- The SVG includes glyph/path content.
-- Page CSS and shared CSS cannot honestly prove that every visible caption was redesigned at the real source layer.
-- Final approval still requires SVG-level verification/redesign or reconstruction of the content layer.
-
-### H. Mobile / preview / print rules
-
-Status: not finally verified.
-
-- The equations route exists and has been improved.
-- This exact pilot page still requires real visual verification on phone.
-- Browser print / Save as PDF still requires real visual verification.
-
-## Decision
-
-Page 1 is now a **real pilot with improved structure**, but it is **not finally approved**.
-
-## Why it is not approved yet
-
-The shell, shared standard, CSS separation, topic separation, and first-page navigation are now better aligned with `PROJECT_RULES.md`.
-
-The remaining blocker is the actual SVG/caption layer and real visual proof:
-
-- captions are not yet verified as redesigned at source level;
-- mobile A4 preview still needs user-visible confirmation;
-- print/PDF output still needs confirmation.
+- Do not rebuild page 1 from scratch.
+- Do not mark page 1 as `verified` yet.
+- Do not alter mathematical content until source proof exists.
+- Continue using page 1 as the HTML-live pilot for the equations cleanup process.
 
 ## Next required action
 
-The next action should be one of these, in this order:
-
-1. Visually inspect `עמוד-95.html` through `preview/equations.html` on phone and desktop.
-2. Verify that the A4 boundary uses the page well and does not crop incorrectly.
-3. Verify print / Save as PDF.
-4. Decide whether the SVG layer is good enough as a source-level visual layer, or whether page 1 must be reconstructed as live HTML/CSS.
+1. Verify the 12 listed equations against `sources/legacy/parabula-old/sources/משוואות.pdf`.
+2. If the source confirms all items, create `STATE/EQUATIONS_PAGE_1_SOURCE_VERIFICATION.md` with `PAGE_1_SOURCE_VERIFIED=YES`.
+3. Only after that, page 1 may be considered for changing `existing-content-preserved` to `verified`.
+4. If source proof is not available, keep the current preserved status.
 
 ## Current progress
 
-- Pilot page structurally improved: 1 / 54
-- Pages checked manually: 5 / 54
-- Pages finally approved: 0 / 54
-- Final approval progress: 0%
+- Page 1 structurally improved: yes.
+- Page 1 source-verified: no.
+- Page 1 final approval: no.
