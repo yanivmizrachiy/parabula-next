@@ -1,35 +1,15 @@
-/* עמוד 80 - משוואות */
+/* עמוד 80 — משוואות עמוד 40 (נעלם אחד)
+   נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד 40.
+   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
+   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
 
-.page-80 .question-block {
+.page-80.equations-page {
   justify-content: flex-start;
+  gap: 10px;
 }
 
-.page-80 .pdf-wrap {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  overflow: hidden;
-}
-
-.page-80 .pdf-page {
-  width: 100%;
-  height: calc(100% + 118px);
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transform: translateY(-118px);
-  transform-origin: top center;
-}
-
-/* EQUATIONS_DESIGN_PASS_20260429 */
-.page-80 {
-  --eq-ink: #172033;
-  --eq-muted: #5b6473;
-  --eq-paper: #ffffff;
-  --eq-line: #d8e0ed;
-  --eq-soft: #f6f8fc;
-  --eq-blue: #234b8f;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+.page-80 .header-container {
+  margin-bottom: 8px;
 }
 
 .page-80 .question-block {
@@ -37,61 +17,149 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
 }
 
-.page-80 .pdf-wrap {
+.page-80 .eq-body {
   flex: 1;
   min-height: 0;
   display: flex;
-  align-items: stretch;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--eq-line);
-  border-radius: 12px;
-  background: var(--eq-paper);
+  flex-direction: column;
+  gap: 10px;
 }
 
-.page-80 .pdf-page {
-  width: 100%;
-  height: calc(100% + 118px);
-  object-fit: cover;
-  object-position: center top;
-  display: block;
-  transform: translateY(-118px);
-  transform-origin: top center;
-}
-
-.page-80 .pdf-wrap img,
-.page-80 svg {
-  max-width: 100%;
-}
-
-.page-80 .q-main,
-.page-80 .q-sub {
+.page-80 .q-main {
   align-items: flex-start;
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .page-80 .q-text {
-  color: var(--eq-ink);
-  line-height: 1.55;
+  color: var(--text-main);
+  line-height: 1.5;
+  font-size: 14px;
 }
 
-.page-80 .answer-box {
-  vertical-align: middle;
-  transform: none;
+.page-80 .eq-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  column-gap: 14px;
+  width: 100%;
+  align-items: stretch;
+  direction: rtl;
 }
 
-.page-80 .explain-box {
-  margin-top: 8px;
+.page-80 .eq-col {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  row-gap: 8px;
 }
 
-.page-80 .math-table td,
-.page-80 .label-cell,
-.page-80 .ordered-pair,
-.page-80 .sym-item,
-.page-80 .axis-label {
+.page-80 .problem-block {
+  min-height: 0;
+  height: 100%;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  break-inside: avoid;
+}
+
+.page-80 .problem-work {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* המשוואה כמוקד מרכזי בתוך השטח האפור של הכרטיס — ללא מספור */
+.page-80 .problem-figure {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 6px 4px 4px;
+}
+
+.page-80 .problem-equation {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: center;
   font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 25px;
 }
 
+.page-80 .solution-space {
+  flex: 1;
+  min-height: 30px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+  background-size: 22px 22px;
+  background-repeat: repeat;
+}
+
+.page-80 .problem-answer {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  text-align: center;
+  padding-top: 5px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px;
+}
+
+.page-80 .problem-answer .answer-box {
+  height: 18px;
+  transform: translateY(-1px);
+}
+
+@media screen and (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .preview-nav {
+    zoom: 0.48;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .page-80.a4-page {
+    zoom: 0.48;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 900px) {
+  .preview-nav,
+  .page-80.a4-page {
+    zoom: 0.64;
+  }
+}
+
+@media print {
+  .page-80 .problem-block {
+    box-shadow: none;
+  }
+
+  .page-80 .solution-space {
+    background-image:
+      linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+  }
+}

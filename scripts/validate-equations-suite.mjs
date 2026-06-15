@@ -1,29 +1,39 @@
 import { spawnSync } from 'node:child_process';
 
+/**
+ * Equations validation suite — realigned 2026-06 to the live HTML + MathJax
+ * rebuild of every משוואות.pdf source page.
+ *
+ * The previous suite asserted a design that no longer exists (a separate
+ * preview "equations app", SVG/PDF-image worksheet wrappers with .pdf-wrap /
+ * .pdf-page, a page-1 SVG "pilot" shell, a page-95 "editable" prototype, and a
+ * temporary easy-edit overlay). Those checks were retired because the
+ * production conversion replaced that design with live, per-page HTML+MathJax
+ * worksheets (see STATE/EQUATIONS_DESIGN_PASS_RULES.md).
+ *
+ * Retired checks (no longer run — superseded design):
+ *   - validate-equations-app.mjs              (separate equations app + SVG content)
+ *   - validate-equations-design-pass-strict.mjs (.pdf-wrap/.pdf-page markers)
+ *   - validate-equations-print-scope.mjs      (separate equations/print/topics app)
+ *   - validate-equations-pilot-page-1.mjs     (SVG pilot shell for page 1)
+ *   - validate-equations-easy-edits.mjs       (overlay on the PDF image)
+ *   - validate-page-95-editable.mjs           (separate editable prototype)
+ * The script files are kept in scripts/ for history; they are not part of the
+ * canonical gate.
+ *
+ * Canonical gate for the live design:
+ *   1. master-map consistency (audit-equations-master-map.mjs)
+ *   2. live design validation of all 52 converted pages (validate-equations-live.mjs)
+ *   3. access layer (validate-access-layer.mjs)
+ */
 const checks = [
   {
-    name: 'equations app + worksheet family',
-    command: ['node', 'scripts/validate-equations-app.mjs']
+    name: 'equations master map consistency',
+    command: ['node', 'scripts/audit-equations-master-map.mjs']
   },
   {
-    name: 'strict equations design pass',
-    command: ['node', 'scripts/validate-equations-design-pass-strict.mjs']
-  },
-  {
-    name: 'equations-only print and topics scope',
-    command: ['node', 'scripts/validate-equations-print-scope.mjs']
-  },
-  {
-    name: 'equations pilot page 1',
-    command: ['node', 'scripts/validate-equations-pilot-page-1.mjs']
-  },
-  {
-    name: 'temporary easy-edit overlay guard',
-    command: ['node', 'scripts/validate-equations-easy-edits.mjs']
-  },
-  {
-    name: 'editable MathJax page 1 prototype',
-    command: ['node', 'scripts/validate-page-95-editable.mjs']
+    name: 'equations live HTML + MathJax design',
+    command: ['node', 'scripts/validate-equations-live.mjs']
   },
   {
     name: 'access layer',
@@ -67,5 +77,6 @@ if (failed.length) {
 
 console.log('VALIDATE_EQUATIONS_SUITE_OK');
 console.log('scope=משוואות only');
+console.log('design=live HTML + MathJax');
 console.log('quadratic_equations_touched=0');
 console.log(`finished_at=${new Date().toISOString()}`);

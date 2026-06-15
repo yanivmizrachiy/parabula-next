@@ -1,8 +1,165 @@
-/* עמוד 47 — משוואות
-   Uses the shared equations design standard.
-   Keep this file limited to page-local differences only. */
+/* עמוד 47 — משוואות עמוד 7 (נעלם אחד)
+   נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד 7.
+   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
+   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
 
-/* EQUATIONS_DESIGN_PASS_20260429 */
 .page-47.equations-page {
-  --equations-crop-top: 118px;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.page-47 .header-container {
+  margin-bottom: 8px;
+}
+
+.page-47 .question-block {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-47 .eq-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-47 .q-main {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.page-47 .q-text {
+  color: var(--text-main);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.page-47 .eq-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 14px;
+  width: 100%;
+  align-items: stretch;
+  direction: rtl;
+}
+
+.page-47 .eq-col {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  row-gap: 8px;
+}
+
+.page-47 .problem-block {
+  min-height: 0;
+  height: 100%;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  break-inside: avoid;
+}
+
+.page-47 .problem-work {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* המשוואה כמוקד מרכזי בתוך השטח האפור של הכרטיס — ללא מספור */
+.page-47 .problem-figure {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 6px 4px 4px;
+}
+
+.page-47 .problem-equation {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: center;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.page-47 .solution-space {
+  flex: 1;
+  min-height: 30px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+  background-size: 22px 22px;
+  background-repeat: repeat;
+}
+
+.page-47 .problem-answer {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  text-align: center;
+  padding-top: 5px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px;
+}
+
+.page-47 .problem-answer .answer-box {
+  height: 18px;
+  transform: translateY(-1px);
+}
+
+@media screen and (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .preview-nav {
+    zoom: 0.48;
+    margin-top: 10px;
+    margin-bottom: 6px;
+  }
+
+  .page-47.a4-page {
+    zoom: 0.48;
+    margin-top: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 900px) {
+  .preview-nav,
+  .page-47.a4-page {
+    zoom: 0.64;
+  }
+}
+
+@media print {
+  .page-47 .problem-block {
+    box-shadow: none;
+  }
+
+  .page-47 .solution-space {
+    background-image:
+      linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+  }
 }
