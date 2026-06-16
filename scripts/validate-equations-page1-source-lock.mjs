@@ -15,7 +15,7 @@ import path from 'node:path';
 const root = process.cwd();
 const PAGE = 'עמוד-95.html';
 const pagePath = path.join(root, PAGE);
-const sourcePdfPath = path.join(root, 'sources', 'legacy', 'parabula-old', 'sources', 'משוואות.pdf');
+const sourcePdfPath = path.join(root, 'sources', 'equations', 'משוואות-52.pdf');
 const contentPath = path.join(root, 'meta', 'equations-content.json');
 
 const read = (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
@@ -53,7 +53,7 @@ if (Number.isInteger(expected) && expected > 0) {
 
 if (!html.includes('data-source="משוואות.pdf"')) failures.push('page 1 missing data-source="משוואות.pdf" provenance');
 if (!html.includes('data-source-page="1"')) failures.push('page 1 missing data-source-page="1" provenance');
-if (!sourcePdfReady) failures.push('missing or empty source PDF: sources/legacy/parabula-old/sources/משוואות.pdf');
+if (!sourcePdfReady) failures.push('missing or empty source PDF: sources/equations/משוואות-52.pdf');
 
 // retired-design residue must be gone (no regression to SVG/overlay/placeholder)
 if (/<img[^>]*class="pdf-page"/.test(html)) failures.push('page 1 must not use img.pdf-page as content');

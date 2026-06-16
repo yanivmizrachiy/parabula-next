@@ -1,5 +1,7 @@
 # Equations Page 3 Temporary SVG Lock — עמוד-43.html
 
+> SUPERSEDED (2026-06-15): מסמך זה מתאר את ה-SVG lock הזמני ואת ה-PDF הישן בן 54 העמודים (כולל `4 + x = \square`). מקור האמת הנוכחי הוא `sources/equations/משוואות-52.pdf` (52 עמודים), ועמוד-43 הומר ל-HTML+MathJax חי. ראה `STATE/EQUATIONS_DESIGN_PASS_RULES.md`.
+
 Status: TEMPORARY SVG LOCK / PRINTABLE PRESENTATION
 
 Scope:

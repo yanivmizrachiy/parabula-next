@@ -13,7 +13,7 @@ on:
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
       - 'pages/משוואות/**'
-      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - 'sources/equations/משוואות-52.pdf'
       - '.github/workflows/equations-guard.yml'
   pull_request:
     branches: [main]
@@ -26,7 +26,7 @@ on:
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
       - 'pages/משוואות/**'
-      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - 'sources/equations/משוואות-52.pdf'
       - '.github/workflows/equations-guard.yml'
 
 permissions:

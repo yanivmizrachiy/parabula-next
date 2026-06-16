@@ -13,11 +13,11 @@ import path from 'node:path';
 const root = process.cwd();
 const PAGE = 'עמוד-95.html';
 const pagePath = path.join(root, PAGE);
-const sourcePdfPath = path.join(root, 'sources', 'legacy', 'parabula-old', 'sources', 'משוואות.pdf');
+const sourcePdfPath = path.join(root, 'sources', 'equations', 'משוואות-52.pdf');
 const contentPath = path.join(root, 'meta', 'equations-content.json');
 
 if (!fs.existsSync(pagePath)) throw new Error(`Missing page file: ${PAGE}`);
-if (!fs.existsSync(sourcePdfPath)) throw new Error('Missing source PDF: sources/legacy/parabula-old/sources/משוואות.pdf');
+if (!fs.existsSync(sourcePdfPath)) throw new Error('Missing source PDF: sources/equations/משוואות-52.pdf');
 if (!fs.existsSync(contentPath)) throw new Error('Missing meta/equations-content.json');
 
 const html = fs.readFileSync(pagePath, 'utf8');
@@ -50,7 +50,7 @@ cards.forEach((card, index) => {
 
 console.log('EQUATIONS_PAGE1_SOURCE_CHECKLIST');
 console.log(`page=${PAGE}`);
-console.log(`source_pdf=sources/legacy/parabula-old/sources/משוואות.pdf`);
+console.log(`source_pdf=sources/equations/משוואות-52.pdf`);
 console.log(`source_pdf_bytes=${sourcePdfBytes}`);
 console.log(`cards=${cards.length}`);
 console.log('--- PAGE1_SOURCE_CHECKLIST_START ---');

@@ -1,13 +1,15 @@
 {
   "topic": "משוואות",
-  "generatedAt": "2026-06-15T06:19:54.031Z",
+  "generatedAt": "2026-06-16T04:50:21.321Z",
   "total": 54,
   "counts": {
     "LIVE": 52,
     "WRAP": 2
   },
-  "contentSource": "משוואות.pdf",
-  "note": "logical page === source PDF page. file column is the canonical on-disk worksheet. LIVE = converted HTML+MathJax, WRAP = still SVG wrapper.",
+  "contentSource": "sources/equations/משוואות-52.pdf",
+  "sourcePdf": "sources/equations/משוואות-52.pdf",
+  "sourcePdfSha256": "d4605a9294f2f8065b2255d041e755e676d90661194dd6673e18fac78c61d983",
+  "note": "logical page === source PDF page. file column is the canonical on-disk worksheet. LIVE = converted HTML+MathJax, WRAP = still SVG wrapper. Source of truth = sources/equations/משוואות-52.pdf (52 pages); the 54-page sources/legacy/parabula-old/sources/משוואות.pdf is superseded.",
   "pages": [
     {
       "logical": 1,

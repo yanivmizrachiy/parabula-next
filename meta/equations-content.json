@@ -1,7 +1,10 @@
 {
   "topic": "משוואות",
-  "contentSource": "משוואות.pdf",
-  "note": "Faithful visual transcription from משוואות.pdf. Equations are listed in worksheet reading order: right column top-to-bottom, then left column top-to-bottom. logical page === source PDF page. Never edited or invented.",
+  "contentSource": "sources/equations/משוואות-52.pdf",
+  "sourcePdf": "sources/equations/משוואות-52.pdf",
+  "sourcePdfSha256": "d4605a9294f2f8065b2255d041e755e676d90661194dd6673e18fac78c61d983",
+  "sourcePdfPages": 52,
+  "note": "Faithful visual transcription from sources/equations/משוואות-52.pdf (52 pages, the canonical user-provided source). Equations are listed in worksheet reading order: right column top-to-bottom, then left column top-to-bottom. logical page === source PDF page. Never edited or invented. The 54-page sources/legacy/parabula-old/sources/משוואות.pdf is a different, superseded document and is NOT the source for this conversion.",
   "instruction": "פתרו את המשוואות הבאות ומצאו את ערך הנעלם בכל סעיף.",
   "pages": {
     "1": {

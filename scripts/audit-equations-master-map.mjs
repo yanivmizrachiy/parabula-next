@@ -19,10 +19,20 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 const root = process.cwd();
 const TOPIC = 'משוואות';
 const OUT = path.join(root, 'meta', 'equations-master-map.json');
+
+// Canonical content source: the 52-page user-provided PDF (NOT the superseded
+// 54-page sources/legacy/parabula-old/sources/משוואות.pdf). The sha256 is
+// computed at runtime so the recorded provenance always matches the file.
+const SOURCE_PDF = 'sources/equations/משוואות-52.pdf';
+const sourcePdfAbs = path.join(root, SOURCE_PDF);
+const sourcePdfSha256 = fs.existsSync(sourcePdfAbs)
+  ? crypto.createHash('sha256').update(fs.readFileSync(sourcePdfAbs)).digest('hex')
+  : null;
 
 const files = fs.readdirSync(root).filter((f) => /^עמוד-\d+\.html$/.test(f));
 
@@ -81,10 +91,14 @@ const map = {
   generatedAt: new Date().toISOString(),
   total: pages.length,
   counts,
-  contentSource: 'משוואות.pdf',
+  contentSource: SOURCE_PDF,
+  sourcePdf: SOURCE_PDF,
+  sourcePdfSha256,
   note:
     'logical page === source PDF page. file column is the canonical on-disk worksheet. ' +
-    'LIVE = converted HTML+MathJax, WRAP = still SVG wrapper.',
+    'LIVE = converted HTML+MathJax, WRAP = still SVG wrapper. ' +
+    'Source of truth = sources/equations/משוואות-52.pdf (52 pages); the 54-page ' +
+    'sources/legacy/parabula-old/sources/משוואות.pdf is superseded.',
   pages,
 };
 
