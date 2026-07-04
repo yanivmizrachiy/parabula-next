@@ -11,6 +11,9 @@
     "test": "node --test tests/contracts/root-pages.test.mjs",
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
     "verify": "node scripts/verify.mjs",
+    "validate:meta": "node scripts/validate-meta-schema.mjs",
+    "registry:generate": "node scripts/generate-pages-registry.mjs",
+    "registry:validate": "node scripts/validate-meta-schema.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:equations": "node scripts/validate-equations-app.mjs",
@@ -21,12 +24,13 @@
     "validate:equations:easy-edits": "node scripts/validate-equations-easy-edits.mjs",
     "validate:equations:editable-page-1": "node scripts/validate-page-95-editable.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
+    "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
     "audit:equations:smart-queue": "node scripts/equations-smart-queue.mjs",
     "audit:equations:svg-plan": "node scripts/audit-equations-svg-conversion-plan.mjs",
+    "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs",
-    "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
-    "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs"
+    "ci:all": "npm test && npm run verify && npm run validate:meta"
   },
   "devDependencies": {
     "vite": "^8.0.1"
