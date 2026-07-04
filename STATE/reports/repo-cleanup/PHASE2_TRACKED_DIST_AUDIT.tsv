@@ -1,0 +1,4 @@
+"Path"	"Exists"	"Length"	"Hash"	"Recommendation"
+"dist/assets/index-B019fC-r.css"	"True"	"92"	"2C3EE61C97E07539FD4983E143A9BAABC98BE675E361F252DA5D8E35DAF9A38F"	"review-if-dist-should-be-build-output-not-source"
+"dist/assets/index-pjbXpN-_.js"	"True"	"868"	"5D1BF9E044DAB25A61D43499A2EE3B51809DDD435549009E2A566D11F4F494FE"	"review-if-dist-should-be-build-output-not-source"
+"dist/index.html"	"True"	"415"	"C2B29142A6C9887B853BD08D2676AD4109F9007A2F10F6B945B9B70A7D1A6AA4"	"review-if-dist-should-be-build-output-not-source"
