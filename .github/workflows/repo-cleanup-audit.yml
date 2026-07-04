@@ -1,0 +1,47 @@
+name: Repo Cleanup Audit
+
+on:
+  push:
+    branches:
+      - cleanup/repo-cleanup-audit
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    name: Safe repo cleanup audit
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: npm ci
+
+      - name: Run safe cleanup audit
+        shell: pwsh
+        run: .\scripts\repo-cleanup-audit.ps1 -RunChecks
+
+      - name: Commit generated audit reports
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add STATE/REPO_CLEANUP_AUDIT.md STATE/ASSET_EXISTENCE_AUDIT.md STATE/REPO_CLEANUP_npm-test.log STATE/REPO_CLEANUP_npm-verify.log STATE/REPO_CLEANUP_npm-build.log
+          if (git diff --cached --quiet) {
+            Write-Host "No audit report changes to commit."
+          } else {
+            git commit -m "chore: generate safe repo cleanup audit reports"
+            git push
+          }
