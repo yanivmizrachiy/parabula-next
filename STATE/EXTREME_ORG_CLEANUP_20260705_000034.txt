@@ -1,0 +1,308 @@
+**********************
+PowerShell transcript start
+Start time: 20260705000034
+Username: MIZRACHI\yaniv
+RunAs User: MIZRACHI\yaniv
+Configuration Name: 
+Machine: MIZRACHI (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.3.0_x64__8wekyb3d8bbwe\pwsh.dll
+Process ID: 20164
+PSVersion: 7.6.3
+PSEdition: Core
+GitCommitId: 7.6.3
+OS: Microsoft Windows 10.0.26200
+Platform: Win32NT
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1, 6.0, 7.0
+PSRemotingProtocolVersion: 2.4
+SerializationVersion: 1.1.0.1
+WSManStackVersion: 3.0
+**********************
+Transcript started, output file is C:\Users\yaniv\Desktop\parabula-cleanup-audit-20260704-234952\repo\STATE\EXTREME_ORG_CLEANUP_20260705_000034.txt
+===== EXTREME SMART REPO ORGANIZATION CLEANUP =====
+REPO=C:\Users\yaniv\Desktop\parabula-cleanup-audit-20260704-234952\repo
+TIME=2026-07-05 00:00:34
+===== CREATED REPORTS =====
+
+Name                                       Length LastWriteTime
+----                                       ------ -------------
+EXTREME_DUPLICATE_FILENAMES.tsv            182118 05/07/2026 00:00:35
+EXTREME_GENERATED_NOISE_CANDIDATES.tsv       6448 05/07/2026 00:00:35
+EXTREME_ORG_CLEANUP_20260705_000034.txt       918 05/07/2026 00:00:34
+EXTREME_SMART_REPO_ORGANIZATION_CLEANUP.md  35740 05/07/2026 00:00:34
+EXTREME_STATE_ARCHIVE_CANDIDATES.tsv         3093 05/07/2026 00:00:35
+EXTREME_UNKNOWN_SCRIPTS.tsv                   792 05/07/2026 00:00:35
+
+===== SUMMARY =====
+# EXTREME SMART REPO ORGANIZATION CLEANUP
+Generated: 2026-07-05 00:00:34
+
+## Guardrail
+No delete. No move. No worksheet edits. Organization and cleanup mapping only.
+
+## Counts
+- Total scanned files: 2106
+- Root worksheet pages: 96
+- Page CSS files: 96
+- Topic CSS files: 5
+- Scripts: 46
+- Workflows: 16
+- STATE files: 171
+- Docs files: 213
+- Legacy files: 892
+- Assets files: 0
+- Duplicate filename groups: 356
+- Backup-like STATE files: 37
+- Large STATE reports over 50KB: 3
+- Unknown scripts: 12
+- Generated/noise-like files: 85
+
+## Protected - absolutely do not touch
+- עמוד-N.html
+- styles/pages/עמוד-N.css
+- styles/a4-base.css
+- meta/topics.json
+- sources/legacy
+- sources/backups
+- meta/backup
+- STATE/LIVE_STATUS.md
+- STATE/ARCHITECTURE_MAP.md
+- STATE/PROJECT_CONTINUITY.md
+
+## Extreme cleanup priority order
+- 1. Do not delete anything yet.
+- 2. First organize STATE reports/backups by category.
+- 3. Review duplicate filenames.
+- 4. Review unknown scripts.
+- 5. Review generated/noise-like files.
+- 6. Preserve legacy, especially graph up/down/constant topic.
+- 7. Only after review: create cleanup PR with moves/archives, not deletion.
+
+## Duplicate filename groups
+### index.html — 66 copies
+- index.html
+- dist/index.html
+- docs/index.html
+- preview/index.html
+- sources/backups/pre-promotion-20260319-073821/preview/index.html
+- sources/backups/pre-promotion-20260319-074035/preview/index.html
+- sources/legacy/parabula-old/index.html
+- sources/legacy/parabula-old/pages/גרף-עולה-יורד-קבוע/עמוד-1/index.html
+- sources/legacy/parabula-old/pages/גרף-עולה-יורד-קבוע/עמוד-2/index.html
+- sources/legacy/parabula-old/pages/גרף-עולה-יורד-קבוע/עמוד-3/index.html
+- sources/legacy/parabula-old/pages/משוואות/עמוד-1/index.html
+- sources/legacy/parabula-old/pages/משוואות/עמוד-10/index.html
+- sources/legacy/parabula-old/pages/משוואות/עמוד-11/index.html
+- sources/legacy/parabula-old/pages/משוואות/עמוד-12/index.html
+- sources/legacy/parabula-old/pages/משוואות/עמוד-13/index.html
+### page.tsx — 12 copies
+- app/page.tsx
+- app/automations/page.tsx
+- app/data-sources/page.tsx
+- app/devices/page.tsx
+- app/diagnostics/page.tsx
+- app/github/page.tsx
+- app/google/page.tsx
+- app/logs/page.tsx
+- app/microsoft/page.tsx
+- app/n8n/page.tsx
+- app/openai/page.tsx
+- app/settings/page.tsx
+### PROJECT_RULES.md — 9 copies
+- PROJECT_RULES.md
+- meta/backup/equations_cleanup_20260415_064704/PROJECT_RULES.md
+- meta/backup/mobile_hardening_20260415_075546/PROJECT_RULES.md
+- meta/backup/preview_polish_20260415_080746/PROJECT_RULES.md
+- sources/backups/pre-promotion-20260319-073821/PROJECT_RULES.md
+- sources/backups/pre-promotion-20260319-074035/PROJECT_RULES.md
+- sources/legacy/parabula-old/PROJECT_RULES.md
+- STATE/backup_20260416_231132/PROJECT_RULES.md
+- STATE/backup_20260416_231444/PROJECT_RULES.md
+### עמוד-1.html — 8 copies
+- עמוד-1.html
+- docs/עמוד-1.html
+- sources/backups/pre-promotion-20260319-073821/עמוד-1.html
+- sources/backups/pre-promotion-20260319-074035/עמוד-1.html
+- sources/legacy/parabula-old/עמוד-1.html
+- sources/legacy/parabula-old/site/עמוד-1.html
+- sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-1.html
+- sources/legacy/parabula-old/site/משוואות/עמוד-1.html
+### mobile-app.js — 7 copies
+- mobile-app.js
+- docs/mobile-app.js
+- preview/mobile-app.js
+- STATE/a4fit_backup_20260417_003550/mobile-app.js
+- STATE/backup_20260416_231132/mobile-app.js
+- STATE/mobile_release_backups_20260416231848/mobile-app.js
+- STATE/release_backup_20260416234242/mobile-app.js
+### עמוד-3.html — 7 copies
+- עמוד-3.html
+- docs/עמוד-3.html
+- sources/backups/pre-promotion-20260319-074035/עמוד-3.html
+- sources/legacy/parabula-old/עמוד-3.html
+- sources/legacy/parabula-old/site/עמוד-3.html
+- sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-3.html
+- sources/legacy/parabula-old/site/משוואות/עמוד-3.html
+### mobile-app.css — 7 copies
+- mobile-app.css
+- docs/mobile-app.css
+- preview/mobile-app.css
+- STATE/a4fit_backup_20260417_003550/mobile-app.css
+- STATE/backup_20260416_231132/mobile-app.css
+- STATE/mobile_release_backups_20260416231848/mobile-app.css
+- STATE/release_backup_20260416234242/mobile-app.css
+### עמוד-2.html — 7 copies
+- עמוד-2.html
+- docs/עמוד-2.html
+- sources/backups/pre-promotion-20260319-074035/עמוד-2.html
+- sources/legacy/parabula-old/עמוד-2.html
+- sources/legacy/parabula-old/site/עמוד-2.html
+- sources/legacy/parabula-old/site/גרף-עולה-יורד-קבוע/עמוד-2.html
+- sources/legacy/parabula-old/site/משוואות/עמוד-2.html
+### עמוד-65.css — 6 copies
+- docs/styles/pages/עמוד-65.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-65.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-65.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-65.css
+- sources/legacy/parabula-old/styles/pages/עמוד-65.css
+- styles/pages/עמוד-65.css
+### עמוד-66.css — 6 copies
+- docs/styles/pages/עמוד-66.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-66.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-66.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-66.css
+- sources/legacy/parabula-old/styles/pages/עמוד-66.css
+- styles/pages/עמוד-66.css
+### עמוד-67.css — 6 copies
+- docs/styles/pages/עמוד-67.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-67.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-67.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-67.css
+- sources/legacy/parabula-old/styles/pages/עמוד-67.css
+- styles/pages/עמוד-67.css
+### עמוד-68.css — 6 copies
+- docs/styles/pages/עמוד-68.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-68.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-68.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-68.css
+- sources/legacy/parabula-old/styles/pages/עמוד-68.css
+- styles/pages/עמוד-68.css
+### עמוד-69.css — 6 copies
+- docs/styles/pages/עמוד-69.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-69.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-69.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-69.css
+- sources/legacy/parabula-old/styles/pages/עמוד-69.css
+- styles/pages/עמוד-69.css
+### עמוד-7.html — 6 copies
+- עמוד-7.html
+- docs/עמוד-7.html
+- sources/backups/pre-promotion-20260319-074035/עמוד-7.html
+- sources/legacy/parabula-old/עמוד-7.html
+- sources/legacy/parabula-old/site/עמוד-7.html
+- sources/legacy/parabula-old/site/משוואות/עמוד-7.html
+### עמוד-70.css — 6 copies
+- docs/styles/pages/עמוד-70.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-70.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-70.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-70.css
+- sources/legacy/parabula-old/styles/pages/עמוד-70.css
+- styles/pages/עמוד-70.css
+### עמוד-71.css — 6 copies
+- docs/styles/pages/עמוד-71.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-71.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-71.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-71.css
+- sources/legacy/parabula-old/styles/pages/עמוד-71.css
+- styles/pages/עמוד-71.css
+### עמוד-73.css — 6 copies
+- docs/styles/pages/עמוד-73.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-73.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-73.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-73.css
+- sources/legacy/parabula-old/styles/pages/עמוד-73.css
+- styles/pages/עמוד-73.css
+### עמוד-74.css — 6 copies
+- docs/styles/pages/עמוד-74.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-74.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-74.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-74.css
+- sources/legacy/parabula-old/styles/pages/עמוד-74.css
+- styles/pages/עמוד-74.css
+### עמוד-75.css — 6 copies
+- docs/styles/pages/עמוד-75.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-75.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-75.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-75.css
+- sources/legacy/parabula-old/styles/pages/עמוד-75.css
+- styles/pages/עמוד-75.css
+### עמוד-76.css — 6 copies
+- docs/styles/pages/עמוד-76.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-76.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-76.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-76.css
+- sources/legacy/parabula-old/styles/pages/עמוד-76.css
+- styles/pages/עמוד-76.css
+### עמוד-77.css — 6 copies
+- docs/styles/pages/עמוד-77.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-77.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-77.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-77.css
+- sources/legacy/parabula-old/styles/pages/עמוד-77.css
+- styles/pages/עמוד-77.css
+### עמוד-78.css — 6 copies
+- docs/styles/pages/עמוד-78.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-78.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-78.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-78.css
+- sources/legacy/parabula-old/styles/pages/עמוד-78.css
+- styles/pages/עמוד-78.css
+### עמוד-79.css — 6 copies
+- docs/styles/pages/עמוד-79.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-79.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-79.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-79.css
+- sources/legacy/parabula-old/styles/pages/עמוד-79.css
+- styles/pages/עמוד-79.css
+### עמוד-64.css — 6 copies
+- docs/styles/pages/עמוד-64.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-64.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-64.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-64.css
+- sources/legacy/parabula-old/styles/pages/עמוד-64.css
+- styles/pages/עמוד-64.css
+### עמוד-88.css — 6 copies
+- docs/styles/pages/עמוד-88.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-88.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-88.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-88.css
+- sources/legacy/parabula-old/styles/pages/עמוד-88.css
+- styles/pages/עמוד-88.css
+### עמוד-63.css — 6 copies
+- docs/styles/pages/עמוד-63.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-63.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-63.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-63.css
+- sources/legacy/parabula-old/styles/pages/עמוד-63.css
+- styles/pages/עמוד-63.css
+### עמוד-62.css — 6 copies
+- docs/styles/pages/עמוד-62.css
+- meta/backup/equations_cleanup_20260415_064704/styles/pages/עמוד-62.css
+- sources/backups/pre-promotion-20260319-074035/styles/pages/עמוד-62.css
+- sources/legacy/parabula-old/site/styles/pages/עמוד-62.css
+- sources/legacy/parabula-old/styles/pages/עמוד-62.css
+- styles/pages/עמוד-62.css
+### עמוד-5.html — 6 copies
+- עמוד-5.html
+===== GIT STATUS =====
+?? STATE/EXTREME_DUPLICATE_FILENAMES.tsv
+?? STATE/EXTREME_GENERATED_NOISE_CANDIDATES.tsv
+?? STATE/EXTREME_ORG_CLEANUP_20260705_000034.txt
+?? STATE/EXTREME_SMART_REPO_ORGANIZATION_CLEANUP.md
+?? STATE/EXTREME_STATE_ARCHIVE_CANDIDATES.tsv
+?? STATE/EXTREME_UNKNOWN_SCRIPTS.tsv
+===== FULL LOG =====
+C:\Users\yaniv\Desktop\parabula-cleanup-audit-20260704-234952\repo\STATE\EXTREME_ORG_CLEANUP_20260705_000034.txt
+**********************
+PowerShell transcript end
+End time: 20260705000035
+**********************
