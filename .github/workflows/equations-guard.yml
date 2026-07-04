@@ -12,21 +12,21 @@ on:
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
-      - 'pages/משוואות/**'
-      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - 'pages/משואוות/**'
+      - 'sources/legacy/parabula-old/sources/משואוות.pdf'
       - '.github/workflows/equations-guard.yml'
   pull_request:
     branches: [main]
     paths:
-      - 'package.json'
-      - 'scripts/**'
       - 'meta/topics.json'
       - 'preview/**'
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
-      - 'pages/משוואות/**'
-      - 'sources/legacy/parabula-old/sources/משוואות.pdf'
+      - 'pages/משואוות/**'
+      - 'sources/legacy/parabula-old/sources/משואוות.pdf'
+      - 'scripts/validate-equations-*.mjs'
+      - 'scripts/audit-equations-*.mjs'
       - '.github/workflows/equations-guard.yml'
 
 permissions:
