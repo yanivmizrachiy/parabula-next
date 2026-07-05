@@ -28,7 +28,7 @@ jobs:
       - name: Run verify
         run: npm run verify
       - name: Validate meta schema
-        run: node scripts/validate-meta-schema.mjs
+        run: npm run validate:meta
       - name: Build Vite
         run: npm run build
       - name: Copy all assets to dist
