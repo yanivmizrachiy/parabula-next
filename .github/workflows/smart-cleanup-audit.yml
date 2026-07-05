@@ -1,0 +1,55 @@
+name: Smart Cleanup Audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'scripts/smart-cleanup-audit.ps1'
+      - '.github/workflows/smart-cleanup-audit.yml'
+      - 'meta/topics.json'
+      - 'עמוד-*.html'
+      - 'styles/**'
+      - 'preview/**'
+      - 'catalog.*'
+      - 'mobile-app.*'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Protected smart cleanup audit
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        shell: pwsh
+        run: |
+          if (Test-Path package-lock.json) {
+            npm ci
+          } else {
+            npm install --no-audit --no-fund
+          }
+
+      - name: Run protected smart cleanup audit
+        shell: pwsh
+        run: .\scripts\smart-cleanup-audit.ps1 -RunChecks
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smart-cleanup-audit
+          path: |
+            STATE/reports/repo-cleanup/SMART_*.md
+            STATE/reports/repo-cleanup/SMART_*.tsv
+            STATE/reports/repo-cleanup/SMART_CLEANUP_*.log
+          if-no-files-found: warn
