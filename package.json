@@ -14,6 +14,7 @@
     "validate:meta": "node scripts/generate-pages-registry.mjs && node scripts/validate-meta-schema.mjs",
     "registry:generate": "node scripts/generate-pages-registry.mjs",
     "registry:validate": "node scripts/validate-meta-schema.mjs",
+    "health:report": "node scripts/repo-health-report.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:equations": "node scripts/validate-equations-app.mjs",
@@ -30,7 +31,7 @@
     "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs",
-    "ci:all": "npm test && npm run verify && npm run validate:meta"
+    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run health:report && npm run build"
   },
   "devDependencies": {
     "vite": "^8.0.1"
