@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-03-19T16:04:41",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 95,
+  "totalPages": 98,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -837,6 +837,39 @@
           "topic": "פונקציות",
           "previewPath": "/עמוד-6.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-6.html"
+        }
+      ]
+    },
+    {
+      "name": "גרף עולה, יורד ושיפוע",
+      "count": 3,
+      "pages": [
+        {
+          "number": 96,
+          "file": "עמוד-96.html",
+          "title": "עמוד 1 — גרף עולה, יורד ושיפוע",
+          "h1": "גרף עולה, יורד או קבוע",
+          "topic": "גרף עולה, יורד ושיפוע",
+          "previewPath": "/עמוד-96.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-96.html"
+        },
+        {
+          "number": 97,
+          "file": "עמוד-97.html",
+          "title": "עמוד 2 — גרף עולה, יורד ושיפוע",
+          "h1": "גרף עולה, יורד או קבוע",
+          "topic": "גרף עולה, יורד ושיפוע",
+          "previewPath": "/עמוד-97.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-97.html"
+        },
+        {
+          "number": 98,
+          "file": "עמוד-98.html",
+          "title": "עמוד 3 — גרף עולה, יורד ושיפוע",
+          "h1": "גרף עולה, יורד או קבוע",
+          "topic": "גרף עולה, יורד ושיפוע",
+          "previewPath": "/עמוד-98.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-98.html"
         }
       ]
     },
