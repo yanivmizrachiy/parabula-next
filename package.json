@@ -11,7 +11,7 @@
     "test": "node --test tests/contracts/root-pages.test.mjs",
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
     "verify": "node scripts/verify.mjs",
-    "validate:meta": "node scripts/validate-meta-schema.mjs",
+    "validate:meta": "node scripts/generate-pages-registry.mjs && node scripts/validate-meta-schema.mjs",
     "registry:generate": "node scripts/generate-pages-registry.mjs",
     "registry:validate": "node scripts/validate-meta-schema.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
