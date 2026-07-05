@@ -11,32 +11,25 @@ Set-Location $repo
 
 Write-Host 'Cleaning local generated build artifacts...' -ForegroundColor Cyan
 
-$trackedGenerated = @(
-  'dist/index.html',
+$restorePaths = @(
+  'dist',
   'meta/pages.json',
   'package-lock.json'
 )
 
-foreach ($path in $trackedGenerated) {
-  if (Test-Path $path) {
-    git checkout -- $path
-  }
+foreach ($path in $restorePaths) {
+  git restore --worktree --staged -- $path 2>$null
 }
 
-if (Test-Path 'dist/assets') {
-  git checkout -- dist/assets 2>$null
-}
-
-$untrackedGenerated = @(
+$cleanPaths = @(
+  'dist',
   'node_modules/.vite',
   '.vite',
   '.cache'
 )
 
-foreach ($path in $untrackedGenerated) {
-  if (Test-Path $path) {
-    Remove-Item -Recurse -Force $path
-  }
+foreach ($path in $cleanPaths) {
+  git clean -fd -- $path 2>$null
 }
 
 Write-Host 'Current git status:' -ForegroundColor Cyan
