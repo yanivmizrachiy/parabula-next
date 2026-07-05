@@ -50,11 +50,8 @@ if (Test-Path 'package-lock.json') {
 }
 
 if (-not $SkipChecks) {
-  Step 'Run full validations'
-  Run 'npm test' { npm test }
-  Run 'npm run verify' { npm run verify }
-  Run 'npm run validate:meta' { npm run validate:meta }
-  Run 'npm run build' { npm run build }
+  Step 'Run full consolidated validation'
+  Run 'npm run ci:all' { npm run ci:all }
 }
 
 Step 'Clean local generated artifacts'
