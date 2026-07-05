@@ -1,9 +1,13 @@
 # Dependencies
 node_modules
 
-# Next.js / build tools
+# Generated build outputs
+dist/
 .next
 out
+
+# Generated metadata
+meta/pages.json
 
 # Environment
 .env
