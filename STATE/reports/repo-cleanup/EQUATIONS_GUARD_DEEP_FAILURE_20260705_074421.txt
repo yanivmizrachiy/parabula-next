@@ -1,0 +1,593 @@
+===== EQUATIONS GUARD DEEP FAILURE INVESTIGATION =====
+Generated: 2026-07-05 07:44:21
+Branch: cleanup/repo-cleanup-audit
+
+===== GIT STATUS =====
+?? STATE/reports/repo-cleanup/EQUATIONS_GUARD_DEEP_FAILURE_20260705_074421.txt
+===== NPM TEST =====
+
+> parabula-next@0.1.0 test
+> node --test tests/contracts/root-pages.test.mjs
+
+✔ root pages exist (1.4418ms)
+✔ contract עמוד-1.html (1.9094ms)
+✔ contract עמוד-10.html (1.0507ms)
+✔ contract עמוד-11.html (0.715ms)
+✔ contract עמוד-12.html (0.5067ms)
+✔ contract עמוד-13.html (0.5589ms)
+✔ contract עמוד-14.html (0.419ms)
+✔ contract עמוד-15.html (0.3848ms)
+✔ contract עמוד-16.html (0.4491ms)
+✔ contract עמוד-17.html (0.4869ms)
+✔ contract עמוד-18.html (0.4166ms)
+✔ contract עמוד-19.html (0.4086ms)
+✔ contract עמוד-2.html (0.6361ms)
+✔ contract עמוד-20.html (0.449ms)
+✔ contract עמוד-21.html (0.3983ms)
+✔ contract עמוד-22.html (0.3752ms)
+✔ contract עמוד-23.html (0.4156ms)
+✔ contract עמוד-24.html (0.4378ms)
+✔ contract עמוד-25.html (0.6265ms)
+✔ contract עמוד-26.html (1.3879ms)
+✔ contract עמוד-27.html (0.7213ms)
+✔ contract עמוד-28.html (0.4108ms)
+✔ contract עמוד-29.html (0.5277ms)
+✔ contract עמוד-3.html (0.7787ms)
+✔ contract עמוד-30.html (0.5737ms)
+✔ contract עמוד-31.html (0.49ms)
+✔ contract עמוד-32.html (0.5747ms)
+✔ contract עמוד-33.html (0.5374ms)
+✔ contract עמוד-34.html (0.4406ms)
+✔ contract עמוד-35.html (0.3909ms)
+✔ contract עמוד-36.html (0.4925ms)
+✔ contract עמוד-37.html (0.4864ms)
+✔ contract עמוד-38.html (0.8768ms)
+✔ contract עמוד-39.html (0.5347ms)
+✔ contract עמוד-4.html (0.5452ms)
+✔ contract עמוד-40.html (0.7184ms)
+✔ contract עמוד-41.html (0.4596ms)
+✔ contract עמוד-42.html (0.4644ms)
+✔ contract עמוד-43.html (0.4465ms)
+✔ contract עמוד-44.html (0.8983ms)
+✔ contract עמוד-45.html (0.5296ms)
+✔ contract עמוד-46.html (0.5214ms)
+✔ contract עמוד-47.html (0.4694ms)
+✔ contract עמוד-48.html (1.0969ms)
+✔ contract עמוד-49.html (0.7484ms)
+✔ contract עמוד-5.html (0.7834ms)
+✔ contract עמוד-50.html (0.7374ms)
+✔ contract עמוד-51.html (0.7653ms)
+✔ contract עמוד-52.html (1.239ms)
+✔ contract עמוד-53.html (0.7887ms)
+✔ contract עמוד-54.html (0.6935ms)
+✔ contract עמוד-55.html (0.6062ms)
+✔ contract עמוד-56.html (0.4272ms)
+✔ contract עמוד-57.html (0.5534ms)
+✔ contract עמוד-58.html (0.5966ms)
+✔ contract עמוד-59.html (0.2913ms)
+✔ contract עמוד-6.html (0.4034ms)
+✔ contract עמוד-60.html (0.6283ms)
+✔ contract עמוד-61.html (0.5647ms)
+✔ contract עמוד-62.html (0.5468ms)
+✔ contract עמוד-63.html (0.6467ms)
+✔ contract עמוד-64.html (0.5578ms)
+✔ contract עמוד-65.html (0.4014ms)
+✔ contract עמוד-66.html (0.5751ms)
+✔ contract עמוד-67.html (0.7194ms)
+✔ contract עמוד-68.html (0.6243ms)
+✔ contract עמוד-69.html (0.5322ms)
+✔ contract עמוד-7.html (0.5966ms)
+✔ contract עמוד-70.html (0.7105ms)
+✔ contract עמוד-71.html (0.4708ms)
+✔ contract עמוד-72.html (1.033ms)
+✔ contract עמוד-73.html (0.8293ms)
+✔ contract עמוד-74.html (0.8551ms)
+✔ contract עמוד-75.html (0.7056ms)
+✔ contract עמוד-76.html (0.5513ms)
+✔ contract עמוד-77.html (0.6355ms)
+✔ contract עמוד-78.html (0.4483ms)
+✔ contract עמוד-79.html (0.5771ms)
+✔ contract עמוד-8.html (0.494ms)
+✔ contract עמוד-80.html (0.476ms)
+✔ contract עמוד-81.html (0.5086ms)
+✔ contract עמוד-82.html (0.6029ms)
+✔ contract עמוד-83.html (0.6147ms)
+✔ contract עמוד-84.html (0.5551ms)
+✔ contract עמוד-85.html (0.5422ms)
+✔ contract עמוד-86.html (0.5637ms)
+✔ contract עמוד-87.html (0.6431ms)
+✔ contract עמוד-88.html (0.6007ms)
+✔ contract עמוד-89.html (0.6143ms)
+✔ contract עמוד-9.html (0.5531ms)
+✔ contract עמוד-90.html (0.6269ms)
+✔ contract עמוד-91.html (0.5551ms)
+✔ contract עמוד-92.html (0.6026ms)
+✔ contract עמוד-93.html (0.6223ms)
+✔ contract עמוד-94.html (0.6788ms)
+✔ contract עמוד-95.html (0.4269ms)
+ℹ tests 96
+ℹ suites 0
+ℹ pass 96
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 161.4049
+===== NPM VERIFY =====
+
+> parabula-next@0.1.0 verify
+> node scripts/verify.mjs
+
+OK: Canonical contracts passed
+===== NPM BUILD =====
+
+> parabula-next@0.1.0 build
+> vite build
+
+[36mvite v8.0.1 [32mbuilding client environment for production...[36m[39m
+[2K
+transforming...✓ 2 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html  0.41 kB │ gzip: 0.32 kB
+
+[32m✓ built in 46ms[39m
+===== EQUATIONS SUITE =====
+
+> parabula-next@0.1.0 validate:equations:all
+> node scripts/validate-equations-suite.mjs
+
+VALIDATE_EQUATIONS_SUITE_START
+started_at=2026-07-05T04:44:22.943Z
+
+--- RUN equations app + worksheet family ---
+VALIDATE_EQUATIONS_APP_FAILED
+- עמוד-95.html must contain main.a4-page.page-95.
+- עמוד-95.html must use the expected equations SVG asset pages/משוואות/assets/page-01.svg.
+- styles/pages/עמוד-95.css must scope question-block styles to .page-95.
+- styles/pages/עמוד-95.css must scope pdf-wrap styles to .page-95.
+- styles/pages/עמוד-95.css must scope pdf-page styles to .page-95.
+- עמוד-42.html must contain main.a4-page.page-42.
+- עמוד-42.html must use the expected equations SVG asset pages/משוואות/assets/page-02.svg.
+- styles/pages/עמוד-42.css must scope question-block styles to .page-42.
+- styles/pages/עמוד-42.css must scope pdf-wrap styles to .page-42.
+- styles/pages/עמוד-42.css must scope pdf-page styles to .page-42.
+- עמוד-43.html must contain main.a4-page.page-43.
+- עמוד-43.html must use the expected equations SVG asset pages/משוואות/assets/page-03.svg.
+- עמוד-44.html must contain main.a4-page.page-44.
+- styles/pages/עמוד-44.css must scope question-block styles to .page-44.
+- styles/pages/עמוד-44.css must scope pdf-wrap styles to .page-44.
+- styles/pages/עמוד-44.css must scope pdf-page styles to .page-44.
+- עמוד-45.html must contain main.a4-page.page-45.
+- styles/pages/עמוד-45.css must scope question-block styles to .page-45.
+- styles/pages/עמוד-45.css must scope pdf-wrap styles to .page-45.
+- styles/pages/עמוד-45.css must scope pdf-page styles to .page-45.
+- עמוד-46.html must contain main.a4-page.page-46.
+- styles/pages/עמוד-46.css must scope question-block styles to .page-46.
+- styles/pages/עמוד-46.css must scope pdf-wrap styles to .page-46.
+- styles/pages/עמוד-46.css must scope pdf-page styles to .page-46.
+- עמוד-47.html must contain main.a4-page.page-47.
+- styles/pages/עמוד-47.css must scope question-block styles to .page-47.
+- styles/pages/עמוד-47.css must scope pdf-wrap styles to .page-47.
+- styles/pages/עמוד-47.css must scope pdf-page styles to .page-47.
+- עמוד-48.html must contain main.a4-page.page-48.
+- styles/pages/עמוד-48.css must scope question-block styles to .page-48.
+- styles/pages/עמוד-48.css must scope pdf-wrap styles to .page-48.
+- styles/pages/עמוד-48.css must scope pdf-page styles to .page-48.
+- עמוד-49.html must contain main.a4-page.page-49.
+- styles/pages/עמוד-49.css must scope question-block styles to .page-49.
+- styles/pages/עמוד-49.css must scope pdf-wrap styles to .page-49.
+- styles/pages/עמוד-49.css must scope pdf-page styles to .page-49.
+- עמוד-50.html must contain main.a4-page.page-50.
+- styles/pages/עמוד-50.css must scope question-block styles to .page-50.
+- styles/pages/עמוד-50.css must scope pdf-wrap styles to .page-50.
+- styles/pages/עמוד-50.css must scope pdf-page styles to .page-50.
+- עמוד-51.html must contain main.a4-page.page-51.
+- styles/pages/עמוד-51.css must scope question-block styles to .page-51.
+- styles/pages/עמוד-51.css must scope pdf-wrap styles to .page-51.
+- styles/pages/עמוד-51.css must scope pdf-page styles to .page-51.
+- עמוד-52.html must contain main.a4-page.page-52.
+- styles/pages/עמוד-52.css must scope question-block styles to .page-52.
+- styles/pages/עמוד-52.css must scope pdf-wrap styles to .page-52.
+- styles/pages/עמוד-52.css must scope pdf-page styles to .page-52.
+- עמוד-53.html must contain main.a4-page.page-53.
+- styles/pages/עמוד-53.css must scope question-block styles to .page-53.
+- styles/pages/עמוד-53.css must scope pdf-wrap styles to .page-53.
+- styles/pages/עמוד-53.css must scope pdf-page styles to .page-53.
+- עמוד-54.html must contain main.a4-page.page-54.
+- styles/pages/עמוד-54.css must scope question-block styles to .page-54.
+- styles/pages/עמוד-54.css must scope pdf-wrap styles to .page-54.
+- styles/pages/עמוד-54.css must scope pdf-page styles to .page-54.
+- עמוד-55.html must contain main.a4-page.page-55.
+- styles/pages/עמוד-55.css must scope question-block styles to .page-55.
+- styles/pages/עמוד-55.css must scope pdf-wrap styles to .page-55.
+- styles/pages/עמוד-55.css must scope pdf-page styles to .page-55.
+- עמוד-56.html must contain main.a4-page.page-56.
+- styles/pages/עמוד-56.css must scope question-block styles to .page-56.
+- styles/pages/עמוד-56.css must scope pdf-wrap styles to .page-56.
+- styles/pages/עמוד-56.css must scope pdf-page styles to .page-56.
+- עמוד-57.html must contain main.a4-page.page-57.
+- styles/pages/עמוד-57.css must scope question-block styles to .page-57.
+- styles/pages/עמוד-57.css must scope pdf-wrap styles to .page-57.
+- styles/pages/עמוד-57.css must scope pdf-page styles to .page-57.
+- עמוד-58.html must contain main.a4-page.page-58.
+- styles/pages/עמוד-58.css must scope question-block styles to .page-58.
+- styles/pages/עמוד-58.css must scope pdf-wrap styles to .page-58.
+- styles/pages/עמוד-58.css must scope pdf-page styles to .page-58.
+- עמוד-59.html must contain main.a4-page.page-59.
+- styles/pages/עמוד-59.css must scope question-block styles to .page-59.
+- styles/pages/עמוד-59.css must scope pdf-wrap styles to .page-59.
+- styles/pages/עמוד-59.css must scope pdf-page styles to .page-59.
+- עמוד-60.html must contain main.a4-page.page-60.
+- styles/pages/עמוד-60.css must scope question-block styles to .page-60.
+- styles/pages/עמוד-60.css must scope pdf-wrap styles to .page-60.
+- styles/pages/עמוד-60.css must scope pdf-page styles to .page-60.
+- עמוד-61.html must contain main.a4-page.page-61.
+- styles/pages/עמוד-61.css must scope question-block styles to .page-61.
+- styles/pages/עמוד-61.css must scope pdf-wrap styles to .page-61.
+- styles/pages/עמוד-61.css must scope pdf-page styles to .page-61.
+- עמוד-62.html must contain main.a4-page.page-62.
+--- FAIL equations app + worksheet family ---
+
+--- RUN strict equations design pass ---
+VALIDATE_EQUATIONS_DESIGN_PASS_STRICT_FAILED
+- styles/pages/עמוד-95.css is missing design-pass marker
+- styles/pages/עמוד-95.css is missing scoped root .page-95
+- styles/pages/עמוד-95.css does not scope question-block to .page-95
+- styles/pages/עמוד-95.css does not scope pdf-wrap to .page-95
+- styles/pages/עמוד-95.css does not scope pdf-page to .page-95
+- styles/pages/עמוד-42.css is missing design-pass marker
+- styles/pages/עמוד-42.css is missing scoped root .page-42
+- styles/pages/עמוד-42.css does not scope question-block to .page-42
+- styles/pages/עמוד-42.css does not scope pdf-wrap to .page-42
+- styles/pages/עמוד-42.css does not scope pdf-page to .page-42
+- styles/pages/עמוד-43.css is missing design-pass marker
+- styles/pages/עמוד-43.css is missing scoped root .page-43
+- styles/pages/עמוד-44.css is missing scoped root .page-44
+- styles/pages/עמוד-44.css does not scope question-block to .page-44
+- styles/pages/עמוד-44.css does not scope pdf-wrap to .page-44
+- styles/pages/עמוד-44.css does not scope pdf-page to .page-44
+- styles/pages/עמוד-45.css is missing scoped root .page-45
+- styles/pages/עמוד-45.css does not scope question-block to .page-45
+- styles/pages/עמוד-45.css does not scope pdf-wrap to .page-45
+- styles/pages/עמוד-45.css does not scope pdf-page to .page-45
+- styles/pages/עמוד-46.css is missing scoped root .page-46
+- styles/pages/עמוד-46.css does not scope question-block to .page-46
+- styles/pages/עמוד-46.css does not scope pdf-wrap to .page-46
+- styles/pages/עמוד-46.css does not scope pdf-page to .page-46
+- styles/pages/עמוד-47.css is missing scoped root .page-47
+- styles/pages/עמוד-47.css does not scope question-block to .page-47
+- styles/pages/עמוד-47.css does not scope pdf-wrap to .page-47
+- styles/pages/עמוד-47.css does not scope pdf-page to .page-47
+- styles/pages/עמוד-48.css is missing scoped root .page-48
+- styles/pages/עמוד-48.css does not scope question-block to .page-48
+- styles/pages/עמוד-48.css does not scope pdf-wrap to .page-48
+- styles/pages/עמוד-48.css does not scope pdf-page to .page-48
+- styles/pages/עמוד-49.css is missing scoped root .page-49
+- styles/pages/עמוד-49.css does not scope question-block to .page-49
+- styles/pages/עמוד-49.css does not scope pdf-wrap to .page-49
+- styles/pages/עמוד-49.css does not scope pdf-page to .page-49
+- styles/pages/עמוד-50.css is missing scoped root .page-50
+- styles/pages/עמוד-50.css does not scope question-block to .page-50
+- styles/pages/עמוד-50.css does not scope pdf-wrap to .page-50
+- styles/pages/עמוד-50.css does not scope pdf-page to .page-50
+- styles/pages/עמוד-51.css is missing scoped root .page-51
+- styles/pages/עמוד-51.css does not scope question-block to .page-51
+- styles/pages/עמוד-51.css does not scope pdf-wrap to .page-51
+- styles/pages/עמוד-51.css does not scope pdf-page to .page-51
+- styles/pages/עמוד-52.css is missing scoped root .page-52
+- styles/pages/עמוד-52.css does not scope question-block to .page-52
+- styles/pages/עמוד-52.css does not scope pdf-wrap to .page-52
+- styles/pages/עמוד-52.css does not scope pdf-page to .page-52
+- styles/pages/עמוד-53.css is missing scoped root .page-53
+- styles/pages/עמוד-53.css does not scope question-block to .page-53
+- styles/pages/עמוד-53.css does not scope pdf-wrap to .page-53
+- styles/pages/עמוד-53.css does not scope pdf-page to .page-53
+- styles/pages/עמוד-54.css is missing scoped root .page-54
+- styles/pages/עמוד-54.css does not scope question-block to .page-54
+- styles/pages/עמוד-54.css does not scope pdf-wrap to .page-54
+- styles/pages/עמוד-54.css does not scope pdf-page to .page-54
+- styles/pages/עמוד-55.css is missing scoped root .page-55
+- styles/pages/עמוד-55.css does not scope question-block to .page-55
+- styles/pages/עמוד-55.css does not scope pdf-wrap to .page-55
+- styles/pages/עמוד-55.css does not scope pdf-page to .page-55
+- styles/pages/עמוד-56.css is missing scoped root .page-56
+- styles/pages/עמוד-56.css does not scope question-block to .page-56
+- styles/pages/עמוד-56.css does not scope pdf-wrap to .page-56
+- styles/pages/עמוד-56.css does not scope pdf-page to .page-56
+- styles/pages/עמוד-57.css is missing scoped root .page-57
+- styles/pages/עמוד-57.css does not scope question-block to .page-57
+- styles/pages/עמוד-57.css does not scope pdf-wrap to .page-57
+- styles/pages/עמוד-57.css does not scope pdf-page to .page-57
+- styles/pages/עמוד-58.css is missing scoped root .page-58
+- styles/pages/עמוד-58.css does not scope question-block to .page-58
+- styles/pages/עמוד-58.css does not scope pdf-wrap to .page-58
+- styles/pages/עמוד-58.css does not scope pdf-page to .page-58
+- styles/pages/עמוד-59.css is missing scoped root .page-59
+- styles/pages/עמוד-59.css does not scope question-block to .page-59
+- styles/pages/עמוד-59.css does not scope pdf-wrap to .page-59
+--- FAIL strict equations design pass ---
+- styles/pages/עמוד-59.css does not scope pdf-page to .page-59
+- styles/pages/עמוד-60.css is missing scoped root .page-60
+- styles/pages/עמוד-60.css does not scope question-block to .page-60
+- styles/pages/עמוד-60.css does not scope pdf-wrap to .page-60
+- styles/pages/עמוד-60.css does not scope pdf-page to .page-60
+- styles/pages/עמוד-61.css is missing scoped root .page-61
+- styles/pages/עמוד-61.css does not scope question-block to .page-61
+- styles/pages/עמוד-61.css does not scope pdf-wrap to .page-61
+- styles/pages/עמוד-61.css does not scope pdf-page to .page-61
+
+--- RUN equations-only print and topics scope ---
+VALIDATE_EQUATIONS_PRINT_SCOPE_FAILED
+- equations-print-mode must not be applied as a general fallback.
+- default .print-view must not globally force horizontal hiding for all topics.
+- default .sheet-frame must not globally use equations A4 fit width.
+- default print iframe must not globally use equations scaling.
+--- FAIL equations-only print and topics scope ---
+
+--- RUN equations pilot page 1 ---
+VALIDATE_EQUATIONS_PILOT_PAGE_1_FAILED
+- Pilot page must keep exact SVG asset.
+- Pilot page CSS must keep the equations design marker.
+--- FAIL equations pilot page 1 ---
+
+--- RUN temporary easy-edit overlay guard ---
+VALIDATE_EQUATIONS_EASY_EDITS_FAILED
+- עמוד-95.html must link equations-edits.css
+- עמוד-95.html must contain the page-95 equation edit overlay
+--- FAIL temporary easy-edit overlay guard ---
+
+--- RUN editable MathJax page 1 prototype ---
+VALIDATE_PAGE_95_EDITABLE_FAILED
+- Main page must link to editable version.
+--- FAIL editable MathJax page 1 prototype ---
+
+--- RUN access layer ---
+ACCESS LAYER VALIDATION OK
+--- PASS access layer ---
+
+VALIDATE_EQUATIONS_SUITE_SUMMARY
+FAIL :: equations app + worksheet family
+FAIL :: strict equations design pass
+FAIL :: equations-only print and topics scope
+FAIL :: equations pilot page 1
+FAIL :: temporary easy-edit overlay guard
+FAIL :: editable MathJax page 1 prototype
+PASS :: access layer
+VALIDATE_EQUATIONS_SUITE_FAILED
+failed_checks=6
+===== INDIVIDUAL EQUATIONS CHECKS =====
+===== RUN validate:equations =====
+
+> parabula-next@0.1.0 validate:equations
+> node scripts/validate-equations-app.mjs
+
+VALIDATE_EQUATIONS_APP_FAILED
+- עמוד-95.html must contain main.a4-page.page-95.
+- עמוד-95.html must use the expected equations SVG asset pages/משוואות/assets/page-01.svg.
+- styles/pages/עמוד-95.css must scope question-block styles to .page-95.
+- styles/pages/עמוד-95.css must scope pdf-wrap styles to .page-95.
+- styles/pages/עמוד-95.css must scope pdf-page styles to .page-95.
+- עמוד-42.html must contain main.a4-page.page-42.
+- עמוד-42.html must use the expected equations SVG asset pages/משוואות/assets/page-02.svg.
+- styles/pages/עמוד-42.css must scope question-block styles to .page-42.
+- styles/pages/עמוד-42.css must scope pdf-wrap styles to .page-42.
+- styles/pages/עמוד-42.css must scope pdf-page styles to .page-42.
+- עמוד-43.html must contain main.a4-page.page-43.
+- עמוד-43.html must use the expected equations SVG asset pages/משוואות/assets/page-03.svg.
+- עמוד-44.html must contain main.a4-page.page-44.
+- styles/pages/עמוד-44.css must scope question-block styles to .page-44.
+- styles/pages/עמוד-44.css must scope pdf-wrap styles to .page-44.
+- styles/pages/עמוד-44.css must scope pdf-page styles to .page-44.
+- עמוד-45.html must contain main.a4-page.page-45.
+- styles/pages/עמוד-45.css must scope question-block styles to .page-45.
+- styles/pages/עמוד-45.css must scope pdf-wrap styles to .page-45.
+- styles/pages/עמוד-45.css must scope pdf-page styles to .page-45.
+- עמוד-46.html must contain main.a4-page.page-46.
+- styles/pages/עמוד-46.css must scope question-block styles to .page-46.
+- styles/pages/עמוד-46.css must scope pdf-wrap styles to .page-46.
+- styles/pages/עמוד-46.css must scope pdf-page styles to .page-46.
+- עמוד-47.html must contain main.a4-page.page-47.
+- styles/pages/עמוד-47.css must scope question-block styles to .page-47.
+- styles/pages/עמוד-47.css must scope pdf-wrap styles to .page-47.
+- styles/pages/עמוד-47.css must scope pdf-page styles to .page-47.
+- עמוד-48.html must contain main.a4-page.page-48.
+- styles/pages/עמוד-48.css must scope question-block styles to .page-48.
+- styles/pages/עמוד-48.css must scope pdf-wrap styles to .page-48.
+- styles/pages/עמוד-48.css must scope pdf-page styles to .page-48.
+- עמוד-49.html must contain main.a4-page.page-49.
+- styles/pages/עמוד-49.css must scope question-block styles to .page-49.
+- styles/pages/עמוד-49.css must scope pdf-wrap styles to .page-49.
+- styles/pages/עמוד-49.css must scope pdf-page styles to .page-49.
+- עמוד-50.html must contain main.a4-page.page-50.
+- styles/pages/עמוד-50.css must scope question-block styles to .page-50.
+- styles/pages/עמוד-50.css must scope pdf-wrap styles to .page-50.
+- styles/pages/עמוד-50.css must scope pdf-page styles to .page-50.
+- עמוד-51.html must contain main.a4-page.page-51.
+- styles/pages/עמוד-51.css must scope question-block styles to .page-51.
+- styles/pages/עמוד-51.css must scope pdf-wrap styles to .page-51.
+- styles/pages/עמוד-51.css must scope pdf-page styles to .page-51.
+- עמוד-52.html must contain main.a4-page.page-52.
+- styles/pages/עמוד-52.css must scope question-block styles to .page-52.
+- styles/pages/עמוד-52.css must scope pdf-wrap styles to .page-52.
+- styles/pages/עמוד-52.css must scope pdf-page styles to .page-52.
+- עמוד-53.html must contain main.a4-page.page-53.
+- styles/pages/עמוד-53.css must scope question-block styles to .page-53.
+- styles/pages/עמוד-53.css must scope pdf-wrap styles to .page-53.
+- styles/pages/עמוד-53.css must scope pdf-page styles to .page-53.
+- עמוד-54.html must contain main.a4-page.page-54.
+- styles/pages/עמוד-54.css must scope question-block styles to .page-54.
+- styles/pages/עמוד-54.css must scope pdf-wrap styles to .page-54.
+- styles/pages/עמוד-54.css must scope pdf-page styles to .page-54.
+- עמוד-55.html must contain main.a4-page.page-55.
+- styles/pages/עמוד-55.css must scope question-block styles to .page-55.
+- styles/pages/עמוד-55.css must scope pdf-wrap styles to .page-55.
+- styles/pages/עמוד-55.css must scope pdf-page styles to .page-55.
+- עמוד-56.html must contain main.a4-page.page-56.
+- styles/pages/עמוד-56.css must scope question-block styles to .page-56.
+- styles/pages/עמוד-56.css must scope pdf-wrap styles to .page-56.
+- styles/pages/עמוד-56.css must scope pdf-page styles to .page-56.
+- עמוד-57.html must contain main.a4-page.page-57.
+- styles/pages/עמוד-57.css must scope question-block styles to .page-57.
+- styles/pages/עמוד-57.css must scope pdf-wrap styles to .page-57.
+- styles/pages/עמוד-57.css must scope pdf-page styles to .page-57.
+- עמוד-58.html must contain main.a4-page.page-58.
+- styles/pages/עמוד-58.css must scope question-block styles to .page-58.
+- styles/pages/עמוד-58.css must scope pdf-wrap styles to .page-58.
+- styles/pages/עמוד-58.css must scope pdf-page styles to .page-58.
+- עמוד-59.html must contain main.a4-page.page-59.
+- styles/pages/עמוד-59.css must scope question-block styles to .page-59.
+- styles/pages/עמוד-59.css must scope pdf-wrap styles to .page-59.
+- styles/pages/עמוד-59.css must scope pdf-page styles to .page-59.
+- עמוד-60.html must contain main.a4-page.page-60.
+- styles/pages/עמוד-60.css must scope question-block styles to .page-60.
+- styles/pages/עמוד-60.css must scope pdf-wrap styles to .page-60.
+- styles/pages/עמוד-60.css must scope pdf-page styles to .page-60.
+- עמוד-61.html must contain main.a4-page.page-61.
+- styles/pages/עמוד-61.css must scope question-block styles to .page-61.
+- styles/pages/עמוד-61.css must scope pdf-wrap styles to .page-61.
+- styles/pages/עמוד-61.css must scope pdf-page styles to .page-61.
+- עמוד-62.html must contain main.a4-page.page-62.
+EXIT_CODE_validate:equations=1
+===== RUN validate:equations:strict =====
+
+> parabula-next@0.1.0 validate:equations:strict
+> node scripts/validate-equations-design-pass-strict.mjs
+
+VALIDATE_EQUATIONS_DESIGN_PASS_STRICT_FAILED
+- styles/pages/עמוד-95.css is missing design-pass marker
+- styles/pages/עמוד-95.css is missing scoped root .page-95
+- styles/pages/עמוד-95.css does not scope question-block to .page-95
+- styles/pages/עמוד-95.css does not scope pdf-wrap to .page-95
+- styles/pages/עמוד-95.css does not scope pdf-page to .page-95
+- styles/pages/עמוד-42.css is missing design-pass marker
+- styles/pages/עמוד-42.css is missing scoped root .page-42
+- styles/pages/עמוד-42.css does not scope question-block to .page-42
+- styles/pages/עמוד-42.css does not scope pdf-wrap to .page-42
+- styles/pages/עמוד-42.css does not scope pdf-page to .page-42
+- styles/pages/עמוד-43.css is missing design-pass marker
+- styles/pages/עמוד-43.css is missing scoped root .page-43
+- styles/pages/עמוד-44.css is missing scoped root .page-44
+- styles/pages/עמוד-44.css does not scope question-block to .page-44
+- styles/pages/עמוד-44.css does not scope pdf-wrap to .page-44
+- styles/pages/עמוד-44.css does not scope pdf-page to .page-44
+- styles/pages/עמוד-45.css is missing scoped root .page-45
+- styles/pages/עמוד-45.css does not scope question-block to .page-45
+- styles/pages/עמוד-45.css does not scope pdf-wrap to .page-45
+- styles/pages/עמוד-45.css does not scope pdf-page to .page-45
+- styles/pages/עמוד-46.css is missing scoped root .page-46
+- styles/pages/עמוד-46.css does not scope question-block to .page-46
+- styles/pages/עמוד-46.css does not scope pdf-wrap to .page-46
+- styles/pages/עמוד-46.css does not scope pdf-page to .page-46
+- styles/pages/עמוד-47.css is missing scoped root .page-47
+- styles/pages/עמוד-47.css does not scope question-block to .page-47
+- styles/pages/עמוד-47.css does not scope pdf-wrap to .page-47
+- styles/pages/עמוד-47.css does not scope pdf-page to .page-47
+- styles/pages/עמוד-48.css is missing scoped root .page-48
+- styles/pages/עמוד-48.css does not scope question-block to .page-48
+- styles/pages/עמוד-48.css does not scope pdf-wrap to .page-48
+- styles/pages/עמוד-48.css does not scope pdf-page to .page-48
+- styles/pages/עמוד-49.css is missing scoped root .page-49
+- styles/pages/עמוד-49.css does not scope question-block to .page-49
+- styles/pages/עמוד-49.css does not scope pdf-wrap to .page-49
+- styles/pages/עמוד-49.css does not scope pdf-page to .page-49
+- styles/pages/עמוד-50.css is missing scoped root .page-50
+- styles/pages/עמוד-50.css does not scope question-block to .page-50
+- styles/pages/עמוד-50.css does not scope pdf-wrap to .page-50
+- styles/pages/עמוד-50.css does not scope pdf-page to .page-50
+- styles/pages/עמוד-51.css is missing scoped root .page-51
+- styles/pages/עמוד-51.css does not scope question-block to .page-51
+- styles/pages/עמוד-51.css does not scope pdf-wrap to .page-51
+- styles/pages/עמוד-51.css does not scope pdf-page to .page-51
+- styles/pages/עמוד-52.css is missing scoped root .page-52
+- styles/pages/עמוד-52.css does not scope question-block to .page-52
+- styles/pages/עמוד-52.css does not scope pdf-wrap to .page-52
+- styles/pages/עמוד-52.css does not scope pdf-page to .page-52
+- styles/pages/עמוד-53.css is missing scoped root .page-53
+- styles/pages/עמוד-53.css does not scope question-block to .page-53
+- styles/pages/עמוד-53.css does not scope pdf-wrap to .page-53
+- styles/pages/עמוד-53.css does not scope pdf-page to .page-53
+- styles/pages/עמוד-54.css is missing scoped root .page-54
+- styles/pages/עמוד-54.css does not scope question-block to .page-54
+- styles/pages/עמוד-54.css does not scope pdf-wrap to .page-54
+- styles/pages/עמוד-54.css does not scope pdf-page to .page-54
+- styles/pages/עמוד-55.css is missing scoped root .page-55
+- styles/pages/עמוד-55.css does not scope question-block to .page-55
+- styles/pages/עמוד-55.css does not scope pdf-wrap to .page-55
+- styles/pages/עמוד-55.css does not scope pdf-page to .page-55
+- styles/pages/עמוד-56.css is missing scoped root .page-56
+- styles/pages/עמוד-56.css does not scope question-block to .page-56
+- styles/pages/עמוד-56.css does not scope pdf-wrap to .page-56
+- styles/pages/עמוד-56.css does not scope pdf-page to .page-56
+- styles/pages/עמוד-57.css is missing scoped root .page-57
+- styles/pages/עמוד-57.css does not scope question-block to .page-57
+- styles/pages/עמוד-57.css does not scope pdf-wrap to .page-57
+- styles/pages/עמוד-57.css does not scope pdf-page to .page-57
+- styles/pages/עמוד-58.css is missing scoped root .page-58
+- styles/pages/עמוד-58.css does not scope question-block to .page-58
+- styles/pages/עמוד-58.css does not scope pdf-wrap to .page-58
+- styles/pages/עמוד-58.css does not scope pdf-page to .page-58
+- styles/pages/עמוד-59.css is missing scoped root .page-59
+- styles/pages/עמוד-59.css does not scope question-block to .page-59
+- styles/pages/עמוד-59.css does not scope pdf-wrap to .page-59
+- styles/pages/עמוד-59.css does not scope pdf-page to .page-59
+- styles/pages/עמוד-60.css is missing scoped root .page-60
+- styles/pages/עמוד-60.css does not scope question-block to .page-60
+- styles/pages/עמוד-60.css does not scope pdf-wrap to .page-60
+- styles/pages/עמוד-60.css does not scope pdf-page to .page-60
+- styles/pages/עמוד-61.css is missing scoped root .page-61
+- styles/pages/עמוד-61.css does not scope question-block to .page-61
+- styles/pages/עמוד-61.css does not scope pdf-wrap to .page-61
+- styles/pages/עמוד-61.css does not scope pdf-page to .page-61
+EXIT_CODE_validate:equations:strict=1
+===== RUN validate:equations:print-scope =====
+
+> parabula-next@0.1.0 validate:equations:print-scope
+> node scripts/validate-equations-print-scope.mjs
+
+VALIDATE_EQUATIONS_PRINT_SCOPE_FAILED
+- equations-print-mode must not be applied as a general fallback.
+- default .print-view must not globally force horizontal hiding for all topics.
+- default .sheet-frame must not globally use equations A4 fit width.
+- default print iframe must not globally use equations scaling.
+EXIT_CODE_validate:equations:print-scope=1
+===== RUN validate:equations:pilot =====
+
+> parabula-next@0.1.0 validate:equations:pilot
+> node scripts/validate-equations-pilot-page-1.mjs
+
+VALIDATE_EQUATIONS_PILOT_PAGE_1_FAILED
+- Pilot page must keep exact SVG asset.
+- Pilot page CSS must keep the equations design marker.
+EXIT_CODE_validate:equations:pilot=1
+===== RUN validate:equations:easy-edits =====
+
+> parabula-next@0.1.0 validate:equations:easy-edits
+> node scripts/validate-equations-easy-edits.mjs
+
+VALIDATE_EQUATIONS_EASY_EDITS_FAILED
+- עמוד-95.html must link equations-edits.css
+- עמוד-95.html must contain the page-95 equation edit overlay
+EXIT_CODE_validate:equations:easy-edits=1
+===== RUN validate:equations:editable-page-1 =====
+
+> parabula-next@0.1.0 validate:equations:editable-page-1
+> node scripts/validate-page-95-editable.mjs
+
+VALIDATE_PAGE_95_EDITABLE_FAILED
+- Main page must link to editable version.
+EXIT_CODE_validate:equations:editable-page-1=1
+===== RUN validate:access =====
+
+> parabula-next@0.1.0 validate:access
+> node scripts/validate-access-layer.mjs
+
+ACCESS LAYER VALIDATION OK
+EXIT_CODE_validate:access=0
+===== EXIT CODES =====
+npm_test=0
+npm_verify=0
+npm_build=0
+equations_suite=1
+===== FINAL STATUS =====
+?? STATE/reports/repo-cleanup/EQUATIONS_GUARD_DEEP_FAILURE_20260705_074421.txt
