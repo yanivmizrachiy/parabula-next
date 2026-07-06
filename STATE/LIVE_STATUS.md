@@ -1,120 +1,112 @@
 # LIVE_STATUS — parabula-next
 
-_Last updated: 2026-04-29_
+_Last updated: 2026-07-06_
 
-## Purpose
-This file is a short, non-historical snapshot of the **live canonical state** of the repository.
-It does not replace `PROJECT_RULES.md`; `PROJECT_RULES.md` remains the source of truth.
+This file is the short, current, non-historical snapshot of the live canonical state of the repository. It does not replace `PROJECT_RULES.md` or `PROJECT_MEMORY.md`.
 
 ---
 
 ## Canonical core
 
 ### Canonical worksheet source
-- Root worksheet pages: `עמוד-N.html`
-- Page CSS: `styles/pages/עמוד-N.css`
-- Shared A4 base CSS: `styles/a4-base.css`
 
-### Canonical rules and contract
-- Source of truth: `PROJECT_RULES.md`
-- Human-readable rules page: `rules.html`
+- Root worksheet pages: `עמוד-N.html`.
+- Page CSS: `styles/pages/עמוד-N.css`.
+- Shared A4 base CSS: `styles/a4-base.css`.
+
+### Canonical rules and memory
+
+- Main source of truth: `PROJECT_RULES.md`.
+- Permanent project memory: `PROJECT_MEMORY.md`.
+- Claude entry file: `CLAUDE.md`.
+- Continuity file: `STATE/PROJECT_CONTINUITY.md`.
 
 ### Canonical access paths
-- Preview UI: `preview/index.html`
-- Preview server: `preview/server.mjs`
-- Print entry: `preview/print.js`
-- Dedicated equations route: `preview/equations.html`
-- Dedicated equations styles: `preview/equations.css`
-- Dedicated equations logic: `preview/equations.js`
-- Active metadata backbone: `meta/topics.json`
-- Canonical mobile worksheet reader: `mobile-app.html`
-- Canonical mobile reader logic: `mobile-app.js`
-- Canonical mobile reader styles: `mobile-app.css`
+
+- Preview UI: `preview/index.html`.
+- Preview server: `preview/server.mjs`.
+- Active metadata backbone: `meta/topics.json`.
+- Generated metadata registry: `meta/pages.json`.
+- Digital textbook catalog: `catalog.html`, `catalog.css`, `catalog.js`.
+- Canonical mobile worksheet reader: `mobile-app.html`, `mobile-app.js`, `mobile-app.css`.
 
 ---
 
-## Equations design-pass live status
+## Current verified counts
 
-The non-quadratic equations family has a real scoped design pass applied on `main`.
+Latest verified state:
 
-Verified repository facts:
-- Topic: `משוואות`
-- Pages covered: 54
-- Quadratic-equation pages touched: 0
-- Design-pass output commit: `13b017a3f93bd025b3f4f5da9c86382e2fdcb172`
-- Execution report: `STATE/EQUATIONS_DESIGN_PASS_APPLIED.md`
-- Design rules: `STATE/EQUATIONS_DESIGN_PASS_RULES.md`
-- Design script: `scripts/apply-equations-design-pass.mjs`
-- Strict guard: `scripts/validate-equations-design-pass-strict.mjs`
-- Dedicated route status: `STATE/EQUATIONS_APP_STATUS.md`
+- Root worksheet pages: 98.
+- Root worksheet page CSS files: 98.
+- Topics: 8.
+- Tests: 99 passed, 0 failed.
+- `verify`: passed.
+- `validate:meta`: passed.
+- `health:report`: passed.
+- `build`: passed.
+- Playwright A4 visual audit: passed for all 98 pages.
+- PDF sample export: passed for key sample pages.
 
-Design-pass contract:
-- No educational worksheet content was changed.
-- No root worksheet HTML was rewritten by the design pass.
-- `styles/a4-base.css` remains untouched.
-- Old global equations cleanup selectors were replaced by scoped `.page-N` selectors.
-- Future regressions should be caught by `npm run validate:equations:strict`.
+Current topics:
 
-Public routes:
-- `https://yanivmizrachiy.github.io/parabula-next/preview/equations.html`
-- `https://yanivmizrachiy.github.io/parabula-next/preview/print.html?topic=%D7%9E%D7%A9%D7%95%D7%95%D7%90%D7%95%D7%AA&autoselect=topic`
-
-Remaining verification before full completion:
-- real browser preview after Pages cache refresh
-- phone check for clipping and comfort
-- browser print / Save as PDF for equations pages
-- visible green CI/status confirmation
+- גיאומטריה: 2.
+- פילוג מורחב: 2.
+- משוואות: 54.
+- משפט פיתגורס: 23.
+- סדרות וחוקיות: 4.
+- פונקציות: 4.
+- גרף עולה, יורד ושיפוע: 3.
+- משוואות ריבועיות: 6.
 
 ---
 
-## Canonical mobile direction
+## Current technology pipeline
 
-- The dedicated mobile worksheet app is `mobile-app.*`.
-- The mobile reader remains **iframe-based by design**.
-- Root A4 worksheet pages remain the single source of truth for worksheet content.
-- Mobile rendering fixes must happen in the mobile reader layer, not by duplicating or forking worksheet pages.
-- `preview/phone.*` is compatibility / legacy-adjacent, not the canonical mobile runtime.
+Core:
+
+- Static HTML + CSS A4 pages.
+- MathJax.
+- SVG.
+- Vite.
+- GitHub Pages.
+- Node validation scripts.
+- PowerShell automation.
+
+Quality gates:
+
+- `npm run ci:all` — test, verify, metadata validation, health report, build.
+- `npm run tech:max` — `ci:all` plus Playwright A4 visual audit plus PDF sample export.
+- `scripts/a4-visual-audit.mjs` — browser-based A4 screenshot/overflow audit.
+- `scripts/export-pdf-sample.mjs` — PDF export for key sample pages.
+- `scripts/repo-health-report.mjs` — validates counts, duplicate page numbers, HTML presence, CSS presence.
 
 ---
 
-## Duplicated or legacy-adjacent
+## Recent completed changes
 
-### Print layer
-- Canonical active print entry: `preview/print.js`
-- Known duplicate / legacy-adjacent file: `preview/print-center.js`
+- Added permanent project memory file: `PROJECT_MEMORY.md`.
+- Added pages 96–98.
+- Added topic: `גרף עולה, יורד ושיפוע`.
+- Added Playwright A4 visual audit.
+- Added PDF sample export.
+- Merged PR #26: `tech: add Playwright A4 visual audit and PDF export pipeline`.
 
-### Mobile / phone layer
-- Canonical mobile app layer: `mobile-app.*`
-- Compatibility / legacy-adjacent phone layer: `preview/phone.*`
+---
+
+## No-touch guardrails
+
+Do not modify without explicit user instruction:
+
+- Educational worksheet content.
+- Existing root worksheet pages `עמוד-N.html`.
+- Existing topic classification.
+- `styles/a4-base.css`.
+- Backups and legacy material.
 
 No destructive cleanup should happen before explicit role mapping and user approval.
 
 ---
 
-## Legacy to preserve
-- `sources/legacy/*`
-- `sources/backups/*`
-- `STATE/backup_*`
-- `meta/backup/*`
-
----
-
-## No-touch guardrails for safe improvement work
-The following must **not** be modified during documentation/alignment cleanup unless explicitly requested:
-- The educational content of worksheet pages
-- Canonical root worksheet pages `עמוד-N.html`
-- `styles/a4-base.css`
-- Canonical worksheet navigation behavior
-- Backups / legacy material
-
----
-
-## Current verified counts
-- Root worksheet pages: 95
-- Root worksheet page CSS files: 95
-- Non-quadratic equations pages: 54
-
----
-
 ## Interpretation rule
-If there is a contradiction between historical notes, backups, and the live repository behavior, prefer the **live canonical state** described here together with `PROJECT_RULES.md`, unless explicitly overridden by the user.
+
+If older documentation says 95 pages or 7 topics, treat it as outdated unless current validation proves otherwise. The current verified state is 98 pages and 8 topics.
