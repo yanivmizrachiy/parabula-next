@@ -23,12 +23,13 @@ This file is the short, current, non-historical snapshot of the live canonical s
 
 ### Canonical access paths
 
+- Root entry: `index.html`, which redirects to `mobile-app.html`.
+- Current main reader: `mobile-app.html`, `mobile-app.js`, `mobile-app.css`.
 - Preview UI: `preview/index.html`.
 - Preview server: `preview/server.mjs`.
 - Active metadata backbone: `meta/topics.json`.
 - Generated metadata registry: `meta/pages.json`.
 - Digital textbook catalog: `catalog.html`, `catalog.css`, `catalog.js`.
-- Canonical mobile worksheet reader: `mobile-app.html`, `mobile-app.js`, `mobile-app.css`.
 
 ---
 
@@ -69,6 +70,7 @@ Core:
 - SVG.
 - Vite.
 - GitHub Pages.
+- Vercel static deployment support.
 - Node validation scripts.
 - PowerShell automation.
 
@@ -80,6 +82,12 @@ Quality gates:
 - `scripts/export-pdf-sample.mjs` — PDF export for key sample pages.
 - `scripts/repo-health-report.mjs` — validates counts, duplicate page numbers, HTML presence, CSS presence.
 
+Static deployment:
+
+- `vercel.json` configures Vercel to install with `npm ci`, build with `npm run build`, and serve `dist`.
+- `postbuild` copies worksheet/static assets into `dist` through `scripts/copy-static-site.mjs`.
+- GitHub Pages still deploys through `.github/workflows/deploy-pages.yml`.
+
 ---
 
 ## Recent completed changes
@@ -90,6 +98,8 @@ Quality gates:
 - Added Playwright A4 visual audit.
 - Added PDF sample export.
 - Merged PR #26: `tech: add Playwright A4 visual audit and PDF export pipeline`.
+- Added Vercel static deployment support.
+- Recorded main page technology and Vercel sync requirement in `PROJECT_MEMORY.md`.
 
 ---
 
