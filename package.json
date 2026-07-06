@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/copy-static-site.mjs",
     "preview:vite": "vite preview",
     "preview": "node preview/server.mjs",
     "test": "node --test tests/contracts/root-pages.test.mjs",
