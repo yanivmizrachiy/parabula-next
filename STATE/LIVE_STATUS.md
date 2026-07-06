@@ -2,7 +2,7 @@
 
 _Last updated: 2026-07-06_
 
-This file is the short, current, non-historical snapshot of the live canonical state of the repository. It does not replace `PROJECT_RULES.md` or `PROJECT_MEMORY.md`.
+This file is the short current snapshot of the live canonical state of the repository. It does not replace `PROJECT_RULES.md` or `PROJECT_MEMORY.md`.
 
 ---
 
@@ -23,13 +23,14 @@ This file is the short, current, non-historical snapshot of the live canonical s
 
 ### Canonical access paths
 
-- Root entry: `index.html`, which redirects to `mobile-app.html`.
-- Current main reader: `mobile-app.html`, `mobile-app.js`, `mobile-app.css`.
+- Root entry: `index.html`, `index.js`, `index.css`.
+- Root behavior: desktop opens `catalog.html`; mobile opens `mobile-app.html`.
+- Desktop reader: `catalog.html`, `catalog.css`, `catalog.js`.
+- Mobile reader: `mobile-app.html`, `mobile-app.js`, `mobile-app.css`.
 - Preview UI: `preview/index.html`.
 - Preview server: `preview/server.mjs`.
 - Active metadata backbone: `meta/topics.json`.
 - Generated metadata registry: `meta/pages.json`.
-- Digital textbook catalog: `catalog.html`, `catalog.css`, `catalog.js`.
 
 ---
 
@@ -97,8 +98,9 @@ Static deployment:
 - Added topic: `גרף עולה, יורד ושיפוע`.
 - Added Playwright A4 visual audit.
 - Added PDF sample export.
-- Merged PR #26: `tech: add Playwright A4 visual audit and PDF export pipeline`.
+- Merged PR #26.
 - Added Vercel static deployment support.
+- Replaced mobile-only root redirect with smart root entry.
 - Recorded main page technology and Vercel sync requirement in `PROJECT_MEMORY.md`.
 
 ---
