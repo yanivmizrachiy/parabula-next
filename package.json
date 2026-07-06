@@ -31,9 +31,13 @@
     "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs",
-    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run health:report && npm run build"
+    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run health:report && npm run build",
+    "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
+    "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
+    "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run export:pdf:sample"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "vite": "^8.0.1"
   }
 }
