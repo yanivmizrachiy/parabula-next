@@ -16,6 +16,7 @@ This file is the permanent working memory for the Parabula Next repository. It r
 - Avoid fake/demo content. Every page, topic, link, test, and report should be real.
 - Do not make broad destructive changes without explicit approval.
 - Preserve backups and legacy material until its role is mapped and approved for cleanup.
+- Yaniv wants the project to stay permanently deployable from GitHub to both GitHub Pages and Vercel.
 
 ---
 
@@ -75,9 +76,18 @@ Core stack:
 - MathJax math rendering.
 - Vite build.
 - GitHub Pages deployment.
+- Vercel static deployment support.
 - Node.js validation scripts.
 - GitHub Actions deployment workflow.
 - PowerShell local automation scripts.
+
+Main page display technology:
+
+- Root `index.html` performs an immediate redirect to `mobile-app.html`.
+- `mobile-app.html` is the current main entry reader.
+- `mobile-app.js` loads `meta/topics.json`, renders topic buttons and page cards, remembers last page/topic in `localStorage`, and displays the selected worksheet inside an iframe.
+- `mobile-app.css` controls the current main-reader layout, bottom navigation, topic panel, page cards, and iframe container.
+- `sw.js` is registered by `mobile-app.js` for the PWA/service-worker layer.
 
 Recent advanced additions:
 
@@ -85,6 +95,14 @@ Recent advanced additions:
 - `scripts/a4-visual-audit.mjs` for browser-based A4 visual and overflow audit.
 - `scripts/export-pdf-sample.mjs` for Chromium PDF export of important sample pages.
 - `npm run tech:max` for consolidated maximum validation: core CI + A4 visual audit + PDF sample export.
+
+Vercel deployment support:
+
+- `vercel.json` declares Vercel deployment settings.
+- Vercel output directory is `dist`.
+- Vercel build command currently runs `npm run build`.
+- `postbuild` runs `scripts/copy-static-site.mjs`, so the static worksheet files, metadata, styles, preview files, and app files are copied into `dist` after Vite builds.
+- One-time Vercel dashboard/GitHub import may still be required outside the repo. After that, each push to GitHub can trigger a Vercel deployment.
 
 ---
 
@@ -106,6 +124,12 @@ Core validation only:
 
 ```powershell
 Set-Location "C:\Users\yaniv\parabula-next"; npm run ci:all
+```
+
+Vercel-ready local build:
+
+```powershell
+Set-Location "C:\Users\yaniv\parabula-next"; npm run build
 ```
 
 Preview server:
@@ -141,10 +165,11 @@ Metadata and catalog:
 
 Preview and mobile:
 
+- `index.html` — root redirect to `mobile-app.html`.
+- `mobile-app.*` — current main reader and canonical mobile reader layer.
 - `preview/index.html` — canonical preview reader.
 - `preview/server.mjs` — local preview server.
 - `preview/print.html` / print scripts — print surface.
-- `mobile-app.*` — canonical mobile reader layer.
 - `preview/phone.*` — compatibility / legacy-adjacent, not canonical.
 
 Automation:
@@ -155,6 +180,8 @@ Automation:
 - `scripts/repo-health-report.mjs` — repo health report.
 - `scripts/a4-visual-audit.mjs` — Playwright A4 audit.
 - `scripts/export-pdf-sample.mjs` — PDF sample export.
+- `scripts/copy-static-site.mjs` — copies static app/worksheet assets into `dist` for static hosting providers such as Vercel.
+- `vercel.json` — Vercel static deployment configuration.
 
 ---
 
@@ -228,6 +255,8 @@ When adding or editing a worksheet:
 - Added Playwright A4 visual audit.
 - Added PDF sample export.
 - Merged PR #26: `tech: add Playwright A4 visual audit and PDF export pipeline`.
+- Added Vercel static deployment support with `vercel.json` and `scripts/copy-static-site.mjs`.
+- Recorded main page display technology and Vercel sync requirement in `PROJECT_MEMORY.md`.
 
 ---
 
@@ -243,6 +272,8 @@ Highest-value next upgrades:
 - Better page generator that creates HTML + CSS + metadata safely.
 - Content-authoring assistant for new worksheet pages.
 - Mobile reader verification on a real phone.
+- Main page technology upgrade: consider making `catalog.html` or a redesigned topic-first reader the canonical home instead of redirecting root `index.html` to `mobile-app.html`.
+- Vercel project import/linking in the Vercel dashboard, if not already done.
 
 Do not migrate the whole project to Next.js or Astro unless there is a clear benefit and migration plan. The current static Vite architecture is appropriate for printable A4 worksheet delivery.
 
