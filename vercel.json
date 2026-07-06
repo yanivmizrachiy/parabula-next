@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build:site",
+  "outputDirectory": "dist",
+  "installCommand": "npm ci",
+  "framework": "vite",
+  "cleanUrls": false,
+  "trailingSlash": false
+}
