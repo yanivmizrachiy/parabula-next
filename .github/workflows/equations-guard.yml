@@ -30,6 +30,7 @@ on:
       - 'sources/legacy/parabula-old/sources/משואוות.pdf'
       - 'scripts/validate-equations-*.mjs'
       - 'scripts/audit-equations-*.mjs'
+      - 'scripts/validate-access-layer.mjs'
       - '.github/workflows/equations-guard.yml'
 
 permissions:
@@ -54,8 +55,26 @@ jobs:
       - name: Run equations automation wiring validation
         run: node scripts/validate-equations-automation-wiring.mjs
 
-      - name: Run equations validation suite
-        run: npm run validate:equations:all
+      - name: Run equations app and worksheet family validation
+        run: node scripts/validate-equations-app.mjs
+
+      - name: Run strict equations design pass
+        run: node scripts/validate-equations-design-pass-strict.mjs
+
+      - name: Run equations print and topics scope validation
+        run: node scripts/validate-equations-print-scope.mjs
+
+      - name: Run equations pilot page 1 validation
+        run: node scripts/validate-equations-pilot-page-1.mjs
+
+      - name: Run temporary easy edit overlay guard
+        run: node scripts/validate-equations-easy-edits.mjs
+
+      - name: Run editable MathJax page 1 prototype validation
+        run: node scripts/validate-page-95-editable.mjs
+
+      - name: Run access layer validation
+        run: node scripts/validate-access-layer.mjs
 
       - name: Run equations print smoke validation
         run: npm run validate:equations:print-smoke
