@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
-const port = 5179;
+const host = process.env.HOST || '127.0.0.1';
+const port = Number(process.env.PORT || 5179);
 
 const clients = new Set();
 let reloadTimer = null;
@@ -46,11 +47,10 @@ function contentType(filePath) {
 }
 
 const server = http.createServer((req, res) => {
-  const url = new URL(req.url, 'http://127.0.0.1');
+  const url = new URL(req.url, `http://${host}:${port}`);
   let pathname = decodeURIComponent(url.pathname);
 
   function isForbiddenForServing(relPath) {
-    // Repo-internal docs: never expose via preview server.
     return relPath === 'rules.html' || relPath === 'rules.md';
   }
 
@@ -96,6 +96,6 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(filePath).pipe(res);
 });
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`Preview server running: http://127.0.0.1:${port}/preview`);
+server.listen(port, host, () => {
+  console.log(`Preview server running: http://${host}:${port}/preview`);
 });
