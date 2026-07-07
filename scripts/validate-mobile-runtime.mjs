@@ -69,7 +69,7 @@ add(
 
 if (meta && mobileMeta) {
   add(
-    'mobile_topics_divergence_detected',
+    'mobile_topics_total_pages_match',
     meta.totalPages === mobileMeta.totalPages,
     `meta/topics.json totalPages=${meta.totalPages}; mobile-topics.json totalPages=${mobileMeta.totalPages}`
   );
@@ -133,3 +133,7 @@ console.log(`JSON=${reportJson}`);
 console.log(`TOTAL_CHECKS=${checks.length}`);
 console.log(`PASSED=${checks.length - failed.length}`);
 console.log(`FAILED=${failed.length}`);
+
+if (failed.length) {
+  process.exit(1);
+}
