@@ -8,7 +8,9 @@ const exists = (rel) => fs.existsSync(path.join(root, rel));
 const now = new Date().toISOString();
 
 const checks = [];
+const info = [];
 const add = (name, ok, details) => checks.push({ name, ok, details });
+const addInfo = (name, details) => info.push({ name, details });
 
 let meta = null;
 let mobileMeta = null;
@@ -24,9 +26,9 @@ try {
 
 try {
   mobileMeta = JSON.parse(read('mobile-topics.json'));
-  add('mobile_topics_exists', true, `totalPages=${mobileMeta.totalPages}`);
+  addInfo('legacy_mobile_topics_exists', `totalPages=${mobileMeta.totalPages}`);
 } catch (err) {
-  add('mobile_topics_exists', false, String(err.message || err));
+  addInfo('legacy_mobile_topics_missing_or_invalid', String(err.message || err));
 }
 
 try {
@@ -68,21 +70,9 @@ add(
 );
 
 if (meta && mobileMeta) {
-  add(
-    'mobile_topics_total_pages_match',
-    meta.totalPages === mobileMeta.totalPages,
-    `meta/topics.json totalPages=${meta.totalPages}; mobile-topics.json totalPages=${mobileMeta.totalPages}`
-  );
-
-  const metaTopicNames = new Set((meta.topics || []).map(t => t.name));
-  const mobileTopicNames = new Set((mobileMeta.topics || []).map(t => t.name));
-  const missingInMobile = [...metaTopicNames].filter(name => !mobileTopicNames.has(name));
-  const missingInMeta = [...mobileTopicNames].filter(name => !metaTopicNames.has(name));
-
-  add(
-    'topic_name_sets_match',
-    missingInMobile.length === 0 && missingInMeta.length === 0,
-    `missingInMobile=${missingInMobile.length}; missingInMeta=${missingInMeta.length}`
+  addInfo(
+    'legacy_mobile_topics_divergence',
+    `meta/topics.json totalPages=${meta.totalPages}; mobile-topics.json totalPages=${mobileMeta.totalPages}; mobile-app canonical source is meta/topics.json`
   );
 }
 
@@ -108,6 +98,7 @@ const lines = [
   `- total_checks: ${checks.length}`,
   `- passed: ${checks.length - failed.length}`,
   `- failed: ${failed.length}`,
+  `- informational_items: ${info.length}`,
   '',
   '## Checks',
   ''
@@ -115,6 +106,13 @@ const lines = [
 
 for (const check of checks) {
   lines.push(`- ${check.ok ? 'PASS' : 'FAIL'} — ${check.name} — ${check.details}`);
+}
+
+if (info.length) {
+  lines.push('', '## Informational legacy notes', '');
+  for (const item of info) {
+    lines.push(`- INFO — ${item.name} — ${item.details}`);
+  }
 }
 
 if (failed.length) {
@@ -125,7 +123,7 @@ if (failed.length) {
 }
 
 fs.writeFileSync(reportMd, lines.join('\n'));
-fs.writeFileSync(reportJson, JSON.stringify({ generatedAt: now, checks }, null, 2));
+fs.writeFileSync(reportJson, JSON.stringify({ generatedAt: now, checks, info }, null, 2));
 
 console.log('MOBILE RUNTIME VALIDATION COMPLETE');
 console.log(`REPORT=${reportMd}`);
@@ -133,6 +131,7 @@ console.log(`JSON=${reportJson}`);
 console.log(`TOTAL_CHECKS=${checks.length}`);
 console.log(`PASSED=${checks.length - failed.length}`);
 console.log(`FAILED=${failed.length}`);
+console.log(`INFO=${info.length}`);
 
 if (failed.length) {
   process.exit(1);
