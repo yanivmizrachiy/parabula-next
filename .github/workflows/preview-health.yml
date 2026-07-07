@@ -3,6 +3,20 @@ name: Preview Health
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'preview/**'
+      - 'scripts/preview-style-audit.mjs'
+      - 'scripts/app-layer-check.mjs'
+      - 'scripts/duplicate-audit.mjs'
+      - '.github/workflows/preview-health.yml'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'preview/**'
+      - 'scripts/preview-style-audit.mjs'
+      - 'scripts/app-layer-check.mjs'
+      - 'scripts/duplicate-audit.mjs'
+      - '.github/workflows/preview-health.yml'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +32,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run preview style audit
         run: node scripts/preview-style-audit.mjs
@@ -29,7 +43,7 @@ jobs:
       - name: Run duplicate audit
         run: node scripts/duplicate-audit.mjs
 
-      - name: Upload preview audit outputs
+      - name: Upload reports
         uses: actions/upload-artifact@v4
         with:
           name: preview-health-audits
