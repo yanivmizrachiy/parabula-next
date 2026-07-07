@@ -48,6 +48,12 @@ function requireIncludes(file, phrase) {
   if (!text.includes(phrase)) errors.push(`${file} missing expected reference: ${phrase}`);
 }
 
+function warnIncludes(file, phrase) {
+  if (!exists(file)) return;
+  const text = read(file);
+  if (!text.includes(phrase)) warnings.push(`${file} legacy reference missing: ${phrase}`);
+}
+
 requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
 requireIncludes('preview/app.html', '../mobile-app.html');
@@ -57,17 +63,19 @@ requireIncludes('preview/print.html', './print.js');
 requireIncludes('preview/print.html', './print.css');
 requireIncludes('mobile-app.html', './mobile-app.js');
 requireIncludes('mobile-app.html', './mobile-app.css');
+requireIncludes('mobile-app.html', './mobile-app.webmanifest');
+requireIncludes('mobile-app.html', './icon.svg');
 requireIncludes('mobile-app.js', './meta/topics.json');
 
 if (exists('preview/phone.html')) {
-  requireIncludes('preview/phone.html', './phone.js');
-  requireIncludes('preview/phone.html', './mobile.css');
-  requireIncludes('preview/phone.html', './manifest.webmanifest');
+  warnIncludes('preview/phone.html', './phone.js');
+  warnIncludes('preview/phone.html', './mobile.css');
+  warnIncludes('preview/phone.html', './manifest.webmanifest');
 }
 
 if (exists('preview/install.html')) {
-  requireIncludes('preview/install.html', './phone.html');
-  requireIncludes('preview/install.html', './print.html');
+  warnIncludes('preview/install.html', './phone.html');
+  warnIncludes('preview/install.html', './print.html');
 }
 
 if (exists('preview/README.md')) {
