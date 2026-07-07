@@ -3,6 +3,16 @@ name: Preview Guard
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'preview/**'
+      - 'scripts/preview-guard.mjs'
+      - '.github/workflows/preview-guard.yml'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'preview/**'
+      - 'scripts/preview-guard.mjs'
+      - '.github/workflows/preview-guard.yml'
   workflow_dispatch:
 
 permissions:
@@ -15,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - name: Run preview guard
         run: node scripts/preview-guard.mjs
       - name: Upload preview guard report

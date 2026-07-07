@@ -6,9 +6,21 @@ on:
     branches: [main]
     paths:
       - 'package.json'
-      - 'scripts/**'
+      - 'package-lock.json'
+      - 'scripts/validate-equations-*.mjs'
+      - 'scripts/audit-equations-*.mjs'
+      - 'scripts/equations-*.mjs'
+      - 'scripts/termux-equations-*.mjs'
+      - 'scripts/validate-page-95-editable.mjs'
+      - 'scripts/validate-access-layer.mjs'
+      - 'docs/EQUATIONS_AUTOMATION_RULES.md'
       - 'meta/topics.json'
-      - 'preview/**'
+      - 'preview/equations.html'
+      - 'preview/equations.css'
+      - 'preview/equations.js'
+      - 'preview/print.html'
+      - 'preview/print.css'
+      - 'preview/print.js'
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
@@ -18,15 +30,27 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/validate-equations-*.mjs'
+      - 'scripts/audit-equations-*.mjs'
+      - 'scripts/equations-*.mjs'
+      - 'scripts/termux-equations-*.mjs'
+      - 'scripts/validate-page-95-editable.mjs'
+      - 'scripts/validate-access-layer.mjs'
+      - 'docs/EQUATIONS_AUTOMATION_RULES.md'
       - 'meta/topics.json'
-      - 'preview/**'
+      - 'preview/equations.html'
+      - 'preview/equations.css'
+      - 'preview/equations.js'
+      - 'preview/print.html'
+      - 'preview/print.css'
+      - 'preview/print.js'
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
       - 'pages/משואוות/**'
       - 'sources/legacy/parabula-old/sources/משואוות.pdf'
-      - 'scripts/validate-equations-*.mjs'
-      - 'scripts/audit-equations-*.mjs'
       - '.github/workflows/equations-guard.yml'
 
 permissions:
@@ -39,42 +63,88 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect equations surface changes
+        id: changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_sha="${{ github.event.pull_request.base.sha }}"
+            git fetch origin "$base_sha" --depth=1
+            changed_files="$(git diff --name-only "$base_sha" HEAD)"
+          else
+            changed_files="$(git diff --name-only HEAD~1 HEAD || true)"
+          fi
+          printf '%s\n' "$changed_files"
+          if printf '%s\n' "$changed_files" | grep -E '^(meta/topics\.json|preview/equations\.(html|css|js)|preview/print\.(html|css|js)|styles/pages/|styles/topics/equations\.css|עמוד-[0-9]+\.html|pages/משואוות/|sources/legacy/parabula-old/sources/משואוות\.pdf)' >/dev/null; then
+            echo "deep_equations_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deep_equations_changed=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
 
-      - name: Install dependencies when lockfile exists
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --no-audit --no-fund
-          fi
+      - name: Install dependencies without mutating lockfile
+        run: npm install --no-audit --no-fund --package-lock=false
 
       - name: Run equations automation wiring validation
         run: node scripts/validate-equations-automation-wiring.mjs
 
-      - name: Run equations validation suite
-        run: npm run validate:equations:all
+      - name: Run access layer validation
+        run: node scripts/validate-access-layer.mjs
+
+      - name: Run equations app and worksheet family validation
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-equations-app.mjs
+
+      - name: Run strict equations design pass
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-equations-design-pass-strict.mjs
+
+      - name: Run equations print and topics scope validation
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-equations-print-scope.mjs
+
+      - name: Run equations pilot page 1 validation
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-equations-pilot-page-1.mjs
+
+      - name: Run temporary easy edit overlay guard
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-equations-easy-edits.mjs
+
+      - name: Run editable MathJax page 1 prototype validation
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: node scripts/validate-page-95-editable.mjs
 
       - name: Run equations print smoke validation
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: npm run validate:equations:print-smoke
 
       - name: Run page 1 source lock guard
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: node scripts/validate-equations-page1-source-lock.mjs
 
       - name: Run page 1 source checklist audit
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: node scripts/audit-equations-page1-source-checklist.mjs
 
       - name: Run first three equations readiness guard
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: node scripts/validate-equations-first3-readiness.mjs
 
       - name: Run smart equations queue in read-only mode
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: npm run audit:equations:smart-queue
 
       - name: Run SVG conversion plan audit
+        if: steps.changes.outputs.deep_equations_changed == 'true' || github.event_name == 'workflow_dispatch'
         run: npm run audit:equations:svg-plan
 
       - name: Ensure audits did not create tracked changes

@@ -16,11 +16,21 @@ function assert(condition, message) {
   if (!condition) failures.push(message);
 }
 
+function assertNoInlineStyle(file) {
+  if (!exists(file)) return;
+  const s = read(file);
+  assert(!/<style[\s>]/i.test(s), `${file} must not include inline style block`);
+  assert(!/\sstyle\s*=\s*["']/i.test(s), `${file} must not include inline style attributes`);
+}
+
 const requiredFiles = [
   'PROJECT_RULES.md',
   'package.json',
   'meta/topics.json',
+  'mobile-app.html',
+  'mobile-app.js',
   'preview/index.html',
+  'preview/index.css',
   'preview/app.html',
   'preview/topics.html',
   'preview/print.html',
@@ -37,14 +47,35 @@ for (const file of requiredFiles) {
 
 if (exists('preview/app.html')) {
   const s = read('preview/app.html');
-  for (const link of ['./topics.html', './print.html', './mobile-app.html']) {
+  for (const link of ['./topics.html', './print.html', '../mobile-app.html']) {
     assert(s.includes(link), `preview/app.html must include ${link}`);
   }
+}
+
+if (exists('preview/index.html')) {
+  const s = read('preview/index.html');
+  assert(s.includes('/preview/index.css'), 'preview/index.html must load /preview/index.css');
+}
+
+for (const file of [
+  'preview/index.html',
+  'preview/app.html',
+  'preview/topics.html',
+  'preview/print.html',
+  'mobile-app.html'
+]) {
+  assertNoInlineStyle(file);
 }
 
 if (exists('preview/topics.html')) {
   const s = read('preview/topics.html');
   assert(s.includes('dir="rtl"') || s.includes("dir='rtl'"), 'preview/topics.html must preserve RTL');
+}
+
+if (exists('mobile-app.js')) {
+  const s = read('mobile-app.js');
+  assert(s.includes('./meta/topics.json'), 'mobile-app.js must use canonical ./meta/topics.json');
+  assert(!s.includes('mobile-topics.json'), 'mobile-app.js must not depend on legacy mobile-topics.json');
 }
 
 if (exists('package.json')) {
