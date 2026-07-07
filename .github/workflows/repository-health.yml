@@ -3,6 +3,24 @@ name: Repository Health
 on:
   push:
     branches: ["main"]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'meta/**'
+      - 'STATE/**'
+      - '.github/workflows/repository-health.yml'
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'meta/**'
+      - 'STATE/**'
+      - '.github/workflows/repository-health.yml'
   workflow_dispatch:
 
 permissions:
@@ -18,11 +36,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund --package-lock=false
 
       - name: Run tests
         run: npm test
