@@ -3,8 +3,8 @@ import path from 'node:path';
 
 const root = process.cwd();
 const join = (...parts) => path.join(root, ...parts);
-const exists = (rel) => fs.existsSync(join(rel));
-const read = (rel) => fs.readFileSync(join(rel), 'utf8');
+const exists = rel => fs.existsSync(join(rel));
+const read = rel => fs.readFileSync(join(rel), 'utf8');
 
 const errors = [];
 const warnings = [];
@@ -12,38 +12,63 @@ const warnings = [];
 const requiredFiles = [
   'preview/app.html',
   'preview/README.md',
+  'preview/topics.html',
+  'preview/topics.js',
+  'preview/topics.css',
+  'preview/print.html',
+  'preview/print.js',
+  'preview/print.css',
+  'mobile-app.html',
+  'mobile-app.js',
+  'mobile-app.css',
+  'mobile-app.webmanifest',
+  'icon.svg'
+];
+
+const legacyFiles = [
   'preview/phone.html',
   'preview/phone.js',
   'preview/mobile.css',
   'preview/manifest.webmanifest',
-  'preview/icon.svg',
   'preview/sw.js',
-  'preview/install.html',
-  'preview/print.html',
-  'preview/print.js'
+  'preview/install.html'
 ];
 
 for (const rel of requiredFiles) {
   if (!exists(rel)) errors.push(`Missing app-layer file: ${rel}`);
 }
 
+for (const rel of legacyFiles) {
+  if (!exists(rel)) warnings.push(`Legacy app-layer file missing: ${rel}`);
+}
+
 function requireIncludes(file, phrase) {
   if (!exists(file)) return;
   const text = read(file);
-  if (!text.includes(phrase)) {
-    errors.push(`${file} missing expected reference: ${phrase}`);
-  }
+  if (!text.includes(phrase)) errors.push(`${file} missing expected reference: ${phrase}`);
 }
 
-requireIncludes('preview/app.html', './phone.html');
+requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
-requireIncludes('preview/app.html', '../STATE/README.md');
-requireIncludes('preview/phone.html', './phone.js');
-requireIncludes('preview/phone.html', './mobile.css');
-requireIncludes('preview/phone.html', './manifest.webmanifest');
-requireIncludes('preview/install.html', './phone.html');
-requireIncludes('preview/install.html', './print.html');
+requireIncludes('preview/app.html', '../mobile-app.html');
+requireIncludes('preview/topics.html', './topics.js');
+requireIncludes('preview/topics.html', './topics.css');
 requireIncludes('preview/print.html', './print.js');
+requireIncludes('preview/print.html', './print.css');
+requireIncludes('mobile-app.html', './mobile-app.js');
+requireIncludes('mobile-app.html', './mobile-app.css');
+requireIncludes('mobile-app.js', './meta/topics.json');
+
+if (exists('preview/phone.html')) {
+  requireIncludes('preview/phone.html', './phone.js');
+  requireIncludes('preview/phone.html', './mobile.css');
+  requireIncludes('preview/phone.html', './manifest.webmanifest');
+}
+
+if (exists('preview/install.html')) {
+  requireIncludes('preview/install.html', './phone.html');
+  requireIncludes('preview/install.html', './print.html');
+}
 
 if (exists('preview/README.md')) {
   const text = read('preview/README.md');
