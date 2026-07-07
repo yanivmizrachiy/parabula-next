@@ -18,8 +18,6 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'package.json'
-      - 'scripts/**'
       - 'meta/topics.json'
       - 'preview/**'
       - 'styles/pages/**'
@@ -27,6 +25,8 @@ on:
       - 'עמוד-*.html'
       - 'pages/משוואות/**'
       - 'sources/equations/משוואות-52.pdf'
+      - 'scripts/validate-equations-*.mjs'
+      - 'scripts/audit-equations-*.mjs'
       - '.github/workflows/equations-guard.yml'
 
 permissions:

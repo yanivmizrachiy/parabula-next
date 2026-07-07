@@ -6,11 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/copy-static-site.mjs",
     "preview:vite": "vite preview",
     "preview": "node preview/server.mjs",
     "test": "node --test tests/contracts/root-pages.test.mjs",
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs",
     "verify": "node scripts/verify.mjs",
+    "validate:meta": "node scripts/generate-pages-registry.mjs && node scripts/validate-meta-schema.mjs",
+    "registry:generate": "node scripts/generate-pages-registry.mjs",
+    "registry:validate": "node scripts/validate-meta-schema.mjs",
+    "health:report": "node scripts/repo-health-report.mjs",
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:equations": "node scripts/validate-equations-app.mjs",
@@ -21,14 +26,19 @@
     "validate:equations:easy-edits": "node scripts/validate-equations-easy-edits.mjs",
     "validate:equations:editable-page-1": "node scripts/validate-page-95-editable.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
+    "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
     "audit:equations:smart-queue": "node scripts/equations-smart-queue.mjs",
     "audit:equations:svg-plan": "node scripts/audit-equations-svg-conversion-plan.mjs",
+    "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs",
     "page:new": "node scripts/new-page.mjs",
     "rules:sync": "node scripts/sync-rules.mjs",
-    "validate:equations:public-clean": "node scripts/validate-equations-public-clean.mjs",
-    "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs"
+    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run health:report && npm run build",
+    "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
+    "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
+    "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run export:pdf:sample"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "vite": "^8.0.1"
   }
 }
