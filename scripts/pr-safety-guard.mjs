@@ -27,6 +27,10 @@ const allowedInfrastructurePatterns = [
   /^preview\.ps1$/u
 ];
 
+const selfScanExclusions = new Set([
+  'scripts/pr-safety-guard.mjs'
+]);
+
 function runGit(args) {
   return execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
 }
@@ -51,9 +55,11 @@ function getChangedFiles() {
 }
 
 function hasUnsafeContent(file) {
-  if (!fs.existsSync(path.join(root, file))) return false;
+  if (selfScanExclusions.has(file)) return false;
+  const fullPath = path.join(root, file);
+  if (!fs.existsSync(fullPath)) return false;
   if (!/\.(mjs|js|html|css|md|json|ps1|yml|yaml)$/u.test(file)) return false;
-  const text = fs.readFileSync(path.join(root, file), 'utf8');
+  const text = fs.readFileSync(fullPath, 'utf8');
   return /תוכן חדש|TODO_DEMO|PLACEHOLDER_WORKSHEET|fake content|demo worksheet/iu.test(text);
 }
 
