@@ -19,7 +19,7 @@ function assert(condition, message) {
 function assertNoInlineStyle(file) {
   if (!exists(file)) return;
   const s = read(file);
-  assert(!/<style[\s>]/i.test(s), `${file} must not include inline <style>`);
+  assert(!/<style[\s>]/i.test(s), `${file} must not include inline style block`);
   assert(!/\sstyle\s*=\s*["']/i.test(s), `${file} must not include inline style attributes`);
 }
 
@@ -54,7 +54,7 @@ if (exists('preview/app.html')) {
 
 if (exists('preview/index.html')) {
   const s = read('preview/index.html');
-  assert(s.includes('./index.css'), 'preview/index.html must load ./index.css');
+  assert(s.includes('/preview/index.css'), 'preview/index.html must load /preview/index.css');
 }
 
 for (const file of [
