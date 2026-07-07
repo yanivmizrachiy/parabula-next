@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'package.json'
+      - 'package-lock.json'
       - 'scripts/**'
       - 'meta/topics.json'
       - 'preview/**'
@@ -18,6 +19,8 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'package.json'
+      - 'package-lock.json'
       - 'meta/topics.json'
       - 'preview/**'
       - 'styles/pages/**'
@@ -45,13 +48,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies when lockfile exists
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install --no-audit --no-fund
-          fi
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
 
       - name: Run equations automation wiring validation
         run: node scripts/validate-equations-automation-wiring.mjs
