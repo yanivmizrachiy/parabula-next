@@ -29,19 +29,22 @@ jobs:
           ref: test/open-full-all-98-pages-20260710
           fetch-depth: 0
 
-      - name: Finalize canonical mobile rules
-        run: node scripts/one-time-finalize-mobile-rules.mjs
+      - name: Clean canonical mobile rules
+        run: node scripts/one-time-clean-canonical-mobile-rules.mjs
 
       - name: Validate canonical rules
         run: node scripts/single-rules-source-check.mjs
 
-      - name: Commit canonical rules only
+      - name: Commit canonical rules and remove migration tools
         shell: bash
         run: |
+          rm -f scripts/one-time-clean-canonical-mobile-rules.mjs
+          rm -f scripts/one-time-finalize-mobile-rules.mjs
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CLAUDE.md scripts/single-rules-source-check.mjs
-          git commit -m "docs: finalize strict all-pages mobile quality rules"
+          git add CLAUDE.md
+          git add -u scripts/one-time-clean-canonical-mobile-rules.mjs scripts/one-time-finalize-mobile-rules.mjs
+          git commit -m "docs: finalize canonical deep mobile quality rules"
           git push origin HEAD:test/open-full-all-98-pages-20260710
 
   build:
