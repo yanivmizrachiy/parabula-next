@@ -42,7 +42,10 @@ const forbiddenLegacy = [
   'mobile-topics.json',
   'mobile-app-install.html',
   'mobile-app-install.js',
-  'scripts/ship_mobile_release.sh'
+  'scripts/ship_mobile_release.sh',
+  'scripts/one-time-clean-mobile-architecture.mjs',
+  '.github/workflows/one-time-clean-mobile-architecture.yml',
+  'STATE/mobile-app-cleanup-trigger.tmp'
 ];
 for (const rel of forbiddenLegacy) {
   if (exists(rel)) errors.push(`Obsolete duplicate app-layer file must be removed: ${rel}`);
@@ -59,6 +62,8 @@ requireIncludes('preview/app.html', './print.html');
 requireIncludes('preview/app.html', '../mobile-app.html');
 requireIncludes('preview/print.html', './print.js');
 requireIncludes('mobile-app.js', './meta/topics.json');
+requireIncludes('mobile-app.js', 'beforeinstallprompt');
+requireIncludes('mobile-app.js', 'display-mode: standalone');
 
 const output = {
   generatedAt: new Date().toISOString(),
