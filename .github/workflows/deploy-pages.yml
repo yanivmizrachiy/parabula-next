@@ -17,56 +17,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # BEGIN ONE-TIME MOBILE CLEANUP
-  mobile-architecture-cleanup:
-    if: github.event_name == 'pull_request' && github.head_ref == 'test/mobile-production-browser-gate-20260710' && github.actor != 'github-actions[bot]'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout cleanup branch
-        uses: actions/checkout@v4
-        with:
-          ref: test/mobile-production-browser-gate-20260710
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Clean mobile architecture
-        run: node scripts/one-time-clean-mobile-architecture.mjs
-
-      - name: Validate cleaned state
-        run: |
-          npm run validate:access
-          npm run validate:mobile
-          npm run build
-
-      - name: Package atomic cleanup diff
-        shell: bash
-        run: |
-          mkdir -p cleanup-output/files
-          git diff --name-only --diff-filter=ACMRT -z | while IFS= read -r -d '' file; do
-            mkdir -p "cleanup-output/files/$(dirname "$file")"
-            cp "$file" "cleanup-output/files/$file"
-          done
-          git diff --name-only --diff-filter=D > cleanup-output/deleted-files.txt
-          git diff --name-status > cleanup-output/name-status.txt
-          git diff --stat > cleanup-output/stat.txt
-
-      - name: Upload atomic cleanup diff
-        uses: actions/upload-artifact@v4
-        with:
-          name: canonical-mobile-cleanup
-          path: cleanup-output
-          if-no-files-found: error
-          retention-days: 1
-  # END ONE-TIME MOBILE CLEANUP
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -116,6 +66,9 @@ jobs:
           npm run validate:mobile:browser
           code=$?
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ -f meta/audit/mobile-browser-validation.json ]; then
+            jq '{status, failures: [.checks[] | select(.ok == false)]}' meta/audit/mobile-browser-validation.json
+          fi
           exit 0
 
       - name: Upload Android validation report
@@ -130,21 +83,6 @@ jobs:
       - name: Enforce Android gate result
         if: steps.mobile_gate.outputs.exit_code != '0'
         run: exit 1
-
-  mobile-browser-report:
-    if: always()
-    needs: mobile-browser-gate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Android validation report
-        uses: actions/download-artifact@v4
-        with:
-          name: mobile-browser-report
-          path: ./mobile-report
-
-      - name: Print failed Android checks only
-        run: |
-          jq '{status, failures: [.checks[] | select(.ok == false)]}' ./mobile-report/mobile-browser-validation.json
 
   deploy:
     if: github.event_name != 'pull_request'
