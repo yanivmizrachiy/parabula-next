@@ -26,7 +26,9 @@
       "canonical_css": "mobile-app.css",
       "canonical_manifest": "mobile-app.webmanifest",
       "canonical_install_html": "mobile-app-install.html",
+      "canonical_service_worker": "sw.js",
       "canonical_metadata": "meta/topics.json",
+      "single_scale_owner": "mobile-app.js",
       "parity_required": true
     },
     "preview": {
@@ -41,13 +43,13 @@
     "doctor_script": "scripts/doctor.mjs",
     "single_rules_source_check": "scripts/single-rules-source-check.mjs",
     "access_check": "scripts/validate-access-layer.mjs",
-    "recovery_audit": "scripts/recovery-audit.mjs",
-    "topics_sync": "scripts/sync-mobile-topics.mjs"
+    "mobile_check": "scripts/validate-mobile-runtime.mjs",
+    "recovery_audit": "scripts/recovery-audit.mjs"
   },
   "known_open_tasks": [
-    "Bring the mobile home, topic discovery, global search, and actions into full desktop-mobile parity",
+    "Verify the cleaned canonical mobile runtime on Yaniv's real Android phone after deployment",
+    "Verify direct Android print and Save as PDF after deployment",
     "Resolve duplication between preview/print.js and preview/print-center.js",
-    "Verify mobile behavior on a real phone after parity fixes",
     "Resolve protected equations raster overflow only with Yaniv approval",
     "Resolve the page 36 topic-name mismatch only with Yaniv approval"
   ]
