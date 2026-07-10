@@ -92,8 +92,9 @@ jobs:
           name: mobile-browser-report
           path: ./mobile-report
 
-      - name: Print Android validation report
-        run: cat ./mobile-report/mobile-browser-validation.json
+      - name: Print failed Android checks only
+        run: |
+          jq '{status, failures: [.checks[] | select(.ok == false)]}' ./mobile-report/mobile-browser-validation.json
 
   deploy:
     if: github.event_name != 'pull_request'
