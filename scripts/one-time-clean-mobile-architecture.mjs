@@ -14,11 +14,6 @@ const replaceOnce = (text, from, to, label) => {
   if (count !== 1) throw new Error(`${label}: expected one match, found ${count}`);
   return text.replace(from, to);
 };
-const replaceRegexOnce = (text, pattern, replacement, label) => {
-  const matches = text.match(pattern) || [];
-  if (matches.length !== 1) throw new Error(`${label}: expected one match, found ${matches.length}`);
-  return text.replace(pattern, replacement);
-};
 
 // Keep installation inside the canonical mobile app only.
 {
@@ -179,24 +174,5 @@ for (const rel of tracked) {
   removedHistorical += 1;
 }
 
-// Remove the temporary cleanup job from the permanent workflow.
-{
-  const file = '.github/workflows/deploy-pages.yml';
-  let text = read(file);
-  text = replaceRegexOnce(
-    text,
-    /\n  # BEGIN ONE-TIME MOBILE CLEANUP[\s\S]*?  # END ONE-TIME MOBILE CLEANUP\n/,
-    '\n',
-    'remove temporary cleanup job'
-  );
-  write(file, text);
-}
-
-// Remove all one-time mechanism files. Final repository retains no cleanup layer.
-for (const rel of [
-  'scripts/one-time-clean-mobile-architecture.mjs',
-  '.github/workflows/one-time-clean-mobile-architecture.yml',
-  'STATE/mobile-app-cleanup-trigger.tmp'
-]) remove(rel);
-
+remove('STATE/mobile-app-cleanup-trigger.tmp');
 console.log(JSON.stringify({ removedHistorical, status: 'cleaned' }, null, 2));
