@@ -83,6 +83,14 @@ async function waitForMath(page) {
   };
 }
 
+async function ensureTopicsPanelOpen(app) {
+  const panel = app.locator('#topicsPanel');
+  if (await panel.evaluate(element => element.classList.contains('is-collapsed'))) {
+    await app.locator('#toggleTopicsBtn').click();
+  }
+  await app.locator('#globalSearch').waitFor({ state: 'visible', timeout: 5000 });
+}
+
 async function run() {
   if (!fs.existsSync(path.join(distDir, 'index.html'))) {
     throw new Error('dist/index.html is missing. Run npm run build first.');
@@ -104,6 +112,7 @@ async function run() {
     userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36',
     serviceWorkers: 'block'
   });
+  context.setDefaultTimeout(10000);
 
   const app = await context.newPage();
   const appErrors = [];
@@ -127,9 +136,10 @@ async function run() {
       const failedResponses = [];
       let popup = null;
       let state = null;
-      let failures = [];
+      const failures = [];
 
       try {
+        await ensureTopicsPanelOpen(app);
         await app.locator('#globalSearch').fill(pageMeta.file);
         const card = app.locator(`.page-card[data-file="${pageMeta.file}"]`);
         await card.waitFor({ state: 'visible', timeout: 10000 });
