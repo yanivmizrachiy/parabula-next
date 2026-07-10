@@ -19,7 +19,7 @@
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:mobile:browser": "node scripts/validate-mobile-runtime.mjs --browser",
-    "validate:mobile:open-full-all": "node scripts/validate-open-full-all-pages.mjs",
+    "validate:mobile:deep": "node scripts/validate-mobile-all-pages.mjs --shard-index=0 --shard-count=1",
     "validate:equations": "node scripts/validate-equations-app.mjs",
     "validate:equations:strict": "node scripts/validate-equations-design-pass-strict.mjs",
     "validate:equations:print-scope": "node scripts/validate-equations-print-scope.mjs",
@@ -42,7 +42,7 @@
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
     "audit:a4:utilization": "node scripts/a4-utilization-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
-    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:open-full-all && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
+    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:deep && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
