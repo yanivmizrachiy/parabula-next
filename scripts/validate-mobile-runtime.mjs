@@ -116,17 +116,32 @@ async function startServer(distDir) {
 }
 
 async function waitForFrame(shell, file) {
-  await shell.waitForFunction(expected => {
-    const frame = document.querySelector('#mobilePageFrame');
-    const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
-    return pathname.endsWith(`/${expected}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
-  }, file, { timeout: 15000 });
-  await shell.evaluate(async () => {
-    const frame = document.querySelector('#mobilePageFrame');
-    if (frame?.contentDocument?.fonts?.ready) await frame.contentDocument.fonts.ready;
-    if (frame?.contentWindow?.MathJax?.startup?.promise) await frame.contentWindow.MathJax.startup.promise;
-  });
-  await shell.waitForTimeout(350);
+  await shell.locator('#mobilePageFrame').waitFor({ state: 'attached', timeout: 15000 });
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline) {
+    const matchingFrame = shell.frames().find(frame => {
+      try {
+        return decodeURIComponent(new URL(frame.url()).pathname).endsWith(`/${file}`);
+      } catch {
+        return false;
+      }
+    });
+    if (matchingFrame) {
+      try {
+        await matchingFrame.locator('.a4-page').waitFor({ state: 'visible', timeout: 1200 });
+        await matchingFrame.evaluate(async () => {
+          if (document.fonts?.ready) await document.fonts.ready;
+          if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
+        });
+        await shell.waitForTimeout(350);
+        return;
+      } catch (error) {
+        if (!/Execution context was destroyed|Target page, context or browser has been closed/i.test(String(error))) throw error;
+      }
+    }
+    await shell.waitForTimeout(100);
+  }
+  throw new Error(`Timed out waiting for stable worksheet frame: ${file}`);
 }
 
 async function readerState(shell) {
