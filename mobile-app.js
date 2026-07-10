@@ -1,4 +1,4 @@
-const VERSION = 'mobile-hardening-20260710003';
+const VERSION = 'mobile-hardening-20260710004';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -220,7 +220,9 @@ function injectMobileReaderStyles(doc){
       }
     }
   `;
-  (doc.head || doc.documentElement).appendChild(style);
+  const styleHost = doc.head || doc.documentElement;
+  if(!styleHost) return;
+  styleHost.appendChild(style);
 }
 
 function enforceCanonicalPageGeometry(page){
@@ -530,9 +532,10 @@ if('serviceWorker' in navigator && !window.__parabulaSwRegistered){
   window.__parabulaSwRegistered = true;
   window.addEventListener('load', () => {
     navigator.serviceWorker.register(`./sw.js?v=${VERSION}`, {updateViaCache:'none'}).then(registration => {
+      if(!registration) return;
       registration.update?.();
       registration.waiting?.postMessage({type:'SKIP_WAITING'});
-      registration.addEventListener('updatefound', () => {
+      registration.addEventListener?.('updatefound', () => {
         const worker = registration.installing;
         worker?.addEventListener('statechange', () => {
           if(worker.state === 'installed' && navigator.serviceWorker.controller){
@@ -541,12 +544,5 @@ if('serviceWorker' in navigator && !window.__parabulaSwRegistered){
         });
       });
     }).catch(console.error);
-  });
-
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    const reloadKey = `parabula:sw-reloaded:${VERSION}`;
-    if(sessionStorage.getItem(reloadKey)) return;
-    sessionStorage.setItem(reloadKey, '1');
-    window.location.reload();
   });
 }
