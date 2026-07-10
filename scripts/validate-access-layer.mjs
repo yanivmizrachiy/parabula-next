@@ -3,18 +3,9 @@ import path from 'node:path';
 
 const root = process.cwd();
 const failures = [];
-
-function read(file) {
-  return fs.readFileSync(path.join(root, file), 'utf8');
-}
-
-function exists(file) {
-  return fs.existsSync(path.join(root, file));
-}
-
-function assert(condition, message) {
-  if (!condition) failures.push(message);
-}
+const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
+const exists = (file) => fs.existsSync(path.join(root, file));
+const assert = (condition, message) => { if (!condition) failures.push(message); };
 
 const requiredFiles = [
   'CLAUDE.md',
@@ -25,6 +16,9 @@ const requiredFiles = [
   'mobile-app.html',
   'mobile-app.js',
   'mobile-app.css',
+  'mobile-app.webmanifest',
+  'mobile-app-install.html',
+  'sw.js',
   'preview/index.html',
   'preview/app.html',
   'preview/topics.html',
@@ -34,40 +28,51 @@ const requiredFiles = [
   'scripts/single-rules-source-check.mjs'
 ];
 
-for (const file of requiredFiles) {
-  assert(exists(file), `Missing required file: ${file}`);
-}
+for (const file of requiredFiles) assert(exists(file), `Missing required file: ${file}`);
+
+const forbiddenLegacy = [
+  'mobile-topics.json',
+  'preview/phone.html',
+  'preview/phone.js',
+  'preview/mobile.html',
+  'preview/mobile-app.html',
+  'preview/mobile-app.js',
+  'preview/mobile-app.css',
+  'preview/mobile-app-install.html',
+  'preview/mobile-app-install.js',
+  'preview/manifest.webmanifest',
+  'preview/sw.js',
+  'preview/install.html'
+];
+for (const file of forbiddenLegacy) assert(!exists(file), `Obsolete duplicate must be removed: ${file}`);
 
 if (exists('preview/app.html')) {
-  const s = read('preview/app.html');
-  for (const link of ['./topics.html', './print.html', './mobile-app.html']) {
-    assert(s.includes(link), `preview/app.html must include ${link}`);
+  const text = read('preview/app.html');
+  for (const link of ['./topics.html', './print.html', '../mobile-app.html']) {
+    assert(text.includes(link), `preview/app.html must include ${link}`);
   }
 }
 
 if (exists('preview/topics.html')) {
-  const s = read('preview/topics.html');
-  assert(s.includes('dir="rtl"') || s.includes("dir='rtl'"), 'preview/topics.html must preserve RTL');
+  const text = read('preview/topics.html');
+  assert(text.includes('dir="rtl"') || text.includes("dir='rtl'"), 'preview/topics.html must preserve RTL');
 }
 
 if (exists('mobile-app.js')) {
-  const s = read('mobile-app.js');
-  assert(s.includes('meta/topics.json'), 'mobile-app.js must read meta/topics.json');
+  const text = read('mobile-app.js');
+  assert(text.includes('./meta/topics.json'), 'mobile-app.js must read meta/topics.json');
+  assert(!text.includes('mobile-topics.json'), 'mobile-app.js must not use a metadata mirror');
 }
 
 if (exists('catalog.js')) {
-  const s = read('catalog.js');
-  assert(s.includes('meta/topics.json'), 'catalog.js must read meta/topics.json');
+  assert(read('catalog.js').includes('meta/topics.json'), 'catalog.js must read meta/topics.json');
 }
 
 if (exists('package.json')) {
-  const pkg = JSON.parse(read('package.json'));
-  const scripts = pkg?.scripts || {};
-  assert(!!scripts['validate:access'], 'package.json must include validate:access');
-  assert(!!scripts['rules:check'], 'package.json must include rules:check');
-  assert(!!scripts['preview'], 'package.json must include preview');
-  assert(!!scripts['test'], 'package.json must include test');
-  assert(!!scripts['verify'], 'package.json must include verify');
+  const scripts = JSON.parse(read('package.json'))?.scripts || {};
+  for (const name of ['validate:access', 'validate:mobile', 'rules:check', 'preview', 'test', 'verify']) {
+    assert(!!scripts[name], `package.json must include ${name}`);
+  }
 }
 
 if (failures.length) {
@@ -75,5 +80,4 @@ if (failures.length) {
   for (const failure of failures) console.error('- ' + failure);
   process.exit(1);
 }
-
 console.log('ACCESS LAYER VALIDATION OK');

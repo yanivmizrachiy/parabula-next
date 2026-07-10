@@ -1,15 +1,16 @@
 {
   "name": "אפליקציית הדפים של יניב",
   "short_name": "דפי יניב",
-  "start_url": "./mobile-app.html?v=20260416234242",
+  "start_url": "./mobile-app.html?v=20260710002",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#09111f",
-  "theme_color": "#09111f",
+  "background_color": "#eef3f8",
+  "theme_color": "#0b1220",
   "lang": "he",
   "dir": "rtl",
   "icons": [
     {
-      "src": "./icon.svg?v=20260416234242",
+      "src": "./icon.svg?v=20260710002",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"

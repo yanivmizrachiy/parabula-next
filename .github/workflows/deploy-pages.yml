@@ -1,59 +1,46 @@
 name: Deploy parabula-next to GitHub Pages
+
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
       - name: Install dependencies
         run: npm ci
-      - name: Run tests
-        run: npm test
-      - name: Run verify
-        run: npm run verify
-      - name: Validate meta schema
-        run: npm run validate:meta
-      - name: Check mobile-topics mirror sync
-        run: npm run topics:check
-      - name: Build Vite
-        run: npm run build
-      - name: Copy all assets to dist
-        run: |
-          cp -r styles dist/
-          cp -r meta dist/
-          cp -r preview dist/
-          cp -r pages dist/
-          [ -d vendor ] && cp -r vendor dist/ || true
-          [ -f mobile-topics.json ] && cp mobile-topics.json dist/ || true
-          for f in *.html; do
-            [ "$f" != "index.html" ] && cp "$f" dist/ || true
-          done
-          for f in *.css *.js mobile-app.webmanifest sw.js icon.svg; do
-            [ -f "$f" ] && cp "$f" dist/ || true
-          done
-          ls dist/
+
+      - name: Run canonical validation and build
+        run: npm run ci:all
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: ./dist
+
   deploy:
     needs: build
     permissions:

@@ -10,39 +10,54 @@ const errors = [];
 const warnings = [];
 
 const requiredFiles = [
+  'index.html',
+  'catalog.html',
+  'mobile-app.html',
+  'mobile-app.js',
+  'mobile-app.css',
+  'mobile-app.webmanifest',
+  'mobile-app-install.html',
+  'mobile-app-install.js',
+  'sw.js',
   'preview/app.html',
-  'preview/README.md',
-  'preview/phone.html',
-  'preview/phone.js',
-  'preview/mobile.css',
-  'preview/manifest.webmanifest',
-  'preview/icon.svg',
-  'preview/sw.js',
-  'preview/install.html',
+  'preview/topics.html',
   'preview/print.html',
   'preview/print.js'
 ];
 
 for (const rel of requiredFiles) {
-  if (!exists(rel)) errors.push(`Missing app-layer file: ${rel}`);
+  if (!exists(rel)) errors.push(`Missing canonical app-layer file: ${rel}`);
+}
+
+const forbiddenLegacy = [
+  'preview/phone.html',
+  'preview/phone.js',
+  'preview/mobile.html',
+  'preview/mobile-app.html',
+  'preview/mobile-app.js',
+  'preview/mobile-app.css',
+  'preview/mobile-app-install.html',
+  'preview/mobile-app-install.js',
+  'preview/manifest.webmanifest',
+  'preview/sw.js',
+  'preview/install.html',
+  'mobile-topics.json'
+];
+for (const rel of forbiddenLegacy) {
+  if (exists(rel)) errors.push(`Obsolete duplicate app-layer file must be removed: ${rel}`);
 }
 
 function requireIncludes(file, phrase) {
   if (!exists(file)) return;
   const text = read(file);
-  if (!text.includes(phrase)) {
-    errors.push(`${file} missing expected reference: ${phrase}`);
-  }
+  if (!text.includes(phrase)) errors.push(`${file} missing expected reference: ${phrase}`);
 }
 
 requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
 requireIncludes('preview/app.html', '../mobile-app.html');
-requireIncludes('preview/phone.html', '../mobile-app.html');
-requireIncludes('preview/install.html', './phone.html');
-requireIncludes('preview/install.html', './print.html');
 requireIncludes('preview/print.html', './print.js');
-
+requireIncludes('mobile-app.js', './meta/topics.json');
 
 const output = {
   generatedAt: new Date().toISOString(),

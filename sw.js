@@ -1,4 +1,4 @@
-const CACHE_NAME = 'parabula-mobile-20260416234242';
+const CACHE_NAME = 'parabula-mobile-20260710002';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -7,7 +7,7 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)));
+    await Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)));
     await self.clients.claim();
   })());
 });
@@ -24,10 +24,10 @@ self.addEventListener('fetch', event => {
       const cache = await caches.open(CACHE_NAME);
       cache.put(req, fresh.clone());
       return fresh;
-    } catch (err) {
+    } catch (error) {
       const cached = await caches.match(req);
       if (cached) return cached;
-      throw err;
+      throw error;
     }
   })());
 });
