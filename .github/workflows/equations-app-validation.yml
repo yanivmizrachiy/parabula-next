@@ -2,8 +2,11 @@ name: Equations App Validation
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "main"
+      - "test/open-full-all-98-pages-20260710"
     paths:
+      - "CLAUDE.md"
       - "preview/equations.html"
       - "preview/equations.css"
       - "preview/equations.js"
@@ -55,12 +58,12 @@ permissions:
 
 jobs:
   repair-canonical-rules:
-    if: github.event_name == 'pull_request' && github.head_ref == 'test/open-full-all-98-pages-20260710' && github.actor != 'github-actions[bot]'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/test/open-full-all-98-pages-20260710' && github.actor != 'github-actions[bot]'
     permissions:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout PR branch
+      - name: Checkout branch
         uses: actions/checkout@v4
         with:
           ref: test/open-full-all-98-pages-20260710
