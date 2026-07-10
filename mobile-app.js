@@ -44,7 +44,7 @@ function pageUrl(page){
 }
 function topicPagesOf(name){
   const topic = (db?.topics || []).find(t => t.name === name);
-  return (topic?.pages || []).slice().sort((a,b) => a.number - b.number);
+  return (topic?.pages || []).slice(); // canonical topics.json order (CLAUDE.md §9)
 }
 function setTopicsPanelOpen(open){
   els.topicsPanel.classList.toggle('is-collapsed', !open);
@@ -255,7 +255,7 @@ function renderPages(opts = {}){
   } else {
     const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
     activeTopic = topic?.name || '';
-    visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number);
+    visiblePages = (topic?.pages || []).slice(); // canonical topics.json order
     els.searchMeta.hidden = true;
     els.searchMeta.textContent = '';
   }
@@ -314,7 +314,7 @@ async function boot(){
   const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
   if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
   db = await r.json();
-  flatPages = (db.topics || []).flatMap(t => t.pages || []).sort((a,b) => a.number - b.number);
+  flatPages = (db.topics || []).flatMap(t => t.pages || []); // canonical global reading order
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();

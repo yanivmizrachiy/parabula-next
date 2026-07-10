@@ -180,8 +180,8 @@ async function loadData() {
     });
   }
 
-  // Sort allPages by page number ascending
-  state.allPages.sort((a, b) => a.number - b.number);
+  // Keep canonical meta/topics.json array order — it is the binding reading
+  // order (CLAUDE.md §9); do not re-sort numerically.
 
   // Update header stats
   dom.statPages.textContent = `${data.totalPages} דפים`;
