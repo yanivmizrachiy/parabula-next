@@ -1,0 +1,45 @@
+name: One-time strengthen mobile quality rules
+
+on:
+  push:
+    branches:
+      - test/open-full-all-98-pages-20260710
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: test/open-full-all-98-pages-20260710
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Strengthen canonical rules
+        run: node scripts/one-time-strengthen-mobile-rules.mjs
+
+      - name: Validate canonical rules
+        run: node scripts/single-rules-source-check.mjs
+
+      - name: Remove temporary migration script
+        run: rm scripts/one-time-strengthen-mobile-rules.mjs
+
+      - name: Commit rules migration
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CLAUDE.md scripts/single-rules-source-check.mjs
+          git rm --cached scripts/one-time-strengthen-mobile-rules.mjs || true
+          git add -u scripts/one-time-strengthen-mobile-rules.mjs
+          git commit -m "docs: enforce deep mobile quality rules"
+          git push origin HEAD:test/open-full-all-98-pages-20260710
