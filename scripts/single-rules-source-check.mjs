@@ -18,10 +18,28 @@ if (!exists(canonical)) {
     'שוויון מלא בין מחשב לנייד',
     'כל מה שקיים באתר ובריפו חייב להיות זמין, גלוי, מובן ושמיש גם בנייד',
     'meta/topics.json',
-    'scripts/single-rules-source-check.mjs'
+    'scripts/single-rules-source-check.mjs',
+    'חפיפות',
+    'scripts/validate-mobile-all-pages.mjs',
+    'validate:mobile:deep',
+    'רוחב קשיח',
+    '360×800',
+    '412×915',
+    '915×412',
+    'פתח מלא',
+    'shards'
   ];
   for (const phrase of requiredPhrases) {
     if (!text.includes(phrase)) errors.push(`${canonical} missing required phrase: ${phrase}`);
+  }
+  for (const obsolete of [
+    'npm run topics:sync',
+    'npm run topics:check',
+    'mobile-topics.json',
+    'mobile-app-install.html',
+    'preview/phone.html'
+  ]) {
+    if (text.includes(obsolete)) errors.push(`${canonical} still contains obsolete mobile architecture reference: ${obsolete}`);
   }
 }
 
@@ -38,6 +56,18 @@ const forbiddenActiveRuleFiles = [
 
 for (const rel of forbiddenActiveRuleFiles) {
   if (exists(rel)) errors.push(`Duplicate active rules source must not exist: ${rel}`);
+}
+
+const forbiddenTemporaryQualityFiles = [
+  'scripts/one-time-strengthen-mobile-rules.mjs',
+  '.github/workflows/one-time-strengthen-mobile-rules.yml',
+  'scripts/tmp-audit-equations-page-16.mjs',
+  '.github/workflows/tmp-audit-equations-page-16.yml',
+  'STATE/trigger-mobile-rules-migration.tmp',
+  'STATE/tmp-page16-visual-audit-trigger.txt'
+];
+for (const rel of forbiddenTemporaryQualityFiles) {
+  if (exists(rel)) errors.push(`Temporary mobile-quality file must not remain: ${rel}`);
 }
 
 if (exists('README.md')) {
