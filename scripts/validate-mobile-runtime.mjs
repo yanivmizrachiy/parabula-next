@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import http from 'node:http';
 import path from 'node:path';
 import process from 'node:process';
 
@@ -8,6 +9,7 @@ const exists = rel => fs.existsSync(path.join(root, rel));
 const checks = [];
 const add = (name, ok, details) => checks.push({ name, ok, details });
 const releaseToken = '20260710003';
+const browserMode = process.argv.includes('--browser');
 
 const required = [
   'index.html',
@@ -16,8 +18,6 @@ const required = [
   'mobile-app.css',
   'mobile-app.js',
   'mobile-app.webmanifest',
-  'mobile-app-install.html',
-  'mobile-app-install.js',
   'sw.js',
   'meta/topics.json',
   'meta/equations-master-map.json',
@@ -39,7 +39,10 @@ const forbiddenLegacy = [
   'preview/sw.js',
   'preview/install.html',
   '.github/workflows/one-time-clean-equations-mobile-css.yml',
-  'scripts/one-time-clean-equations-mobile-css.mjs'
+  'scripts/one-time-clean-equations-mobile-css.mjs',
+  'mobile-app-install.html',
+  'mobile-app-install.js',
+  'scripts/ship_mobile_release.sh'
 ];
 for (const rel of forbiddenLegacy) add(`legacy-absent:${rel}`, !exists(rel), exists(rel) ? 'must be removed' : 'absent');
 
@@ -94,8 +97,6 @@ const js = files['mobile-app.js'];
 const indexHtml = files['index.html'];
 const indexJs = files['index.js'];
 const manifest = files['mobile-app.webmanifest'];
-const installHtml = files['mobile-app-install.html'];
-const installJs = files['mobile-app-install.js'];
 const sw = files['sw.js'];
 
 add('mobile-uses-canonical-meta', js.includes('./meta/topics.json'), 'mobile-app.js must use meta/topics.json');
@@ -115,8 +116,10 @@ add('unscaled-print-preparation', js.includes('prepareFrameForPrint') && js.incl
 add('print-restores-reader', js.includes("addEventListener('afterprint', scheduleFit") && js.includes('setTimeout(scheduleFit, 1200)'), 'reader restores after printing');
 add('phone-detection-hardening', indexJs.includes('userAgentData') && indexJs.includes('pointer: coarse') && indexJs.includes('maxTouchPoints'), 'entry detects real phones even in desktop-site mode');
 add('explicit-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile') && indexHtml.includes('?view=catalog'), 'manual view choice remains available');
-add('pwa-no-cache-update', js.includes("updateViaCache:'none'") && installJs.includes("updateViaCache:'none'"), 'service worker update bypasses stale HTTP cache');
+add('pwa-no-cache-update', js.includes("updateViaCache:'none'"), 'service worker update bypasses stale HTTP cache');
 add('pwa-controller-refresh', js.includes('controllerchange') && js.includes('SKIP_WAITING'), 'installed app activates and reloads the new worker');
+add('single-real-install-flow', html.includes('id="installAppBtn"') && js.includes('beforeinstallprompt') && js.includes('appinstalled') && js.includes('display-mode: standalone'), 'installation exists only inside the canonical mobile app');
+add('install-button-hidden-unless-eligible', html.includes('id="installAppBtn" type="button" hidden') && js.includes('deferredInstallPrompt'), 'install action is hidden unless the browser exposes a real prompt');
 add('shared-equations-mobile-owner', equationsCss.includes('@media screen and (max-width: 900px)') && equationsCss.includes('zoom: 1 !important'), 'shared topic CSS is the only direct-page mobile owner');
 add('generator-does-not-create-zoom', !/zoom:\s*0\./.test(generator), 'equations generator must not emit page zoom');
 add('generator-uses-canonical-rules', generator.includes('CLAUDE.md') && !generator.includes('STATE/EQUATIONS_DESIGN_PASS_RULES.md'), 'generator references only the canonical rules source');
@@ -127,8 +130,6 @@ const releaseFiles = {
   'mobile-app.html': html,
   'mobile-app.js': js,
   'mobile-app.webmanifest': manifest,
-  'mobile-app-install.html': installHtml,
-  'mobile-app-install.js': installJs,
   'sw.js': sw
 };
 for (const [name, text] of Object.entries(releaseFiles)) {
@@ -136,15 +137,264 @@ for (const [name, text] of Object.entries(releaseFiles)) {
   add(`no-stale-release:${name}`, !text.includes('20260710002'), `${name} must not reference the previous mobile release`);
 }
 
+function contentType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const map = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'application/javascript; charset=utf-8',
+    '.mjs': 'application/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.webmanifest': 'application/manifest+json; charset=utf-8',
+    '.svg': 'image/svg+xml',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.woff': 'font/woff',
+    '.woff2': 'font/woff2'
+  };
+  return map[ext] || 'application/octet-stream';
+}
+
+async function startProductionServer(distDir) {
+  return await new Promise((resolve, reject) => {
+    const server = http.createServer((req, res) => {
+      try {
+        const url = new URL(req.url, 'http://127.0.0.1');
+        let pathname = decodeURIComponent(url.pathname);
+        if (pathname === '/') pathname = '/index.html';
+        const filePath = path.resolve(distDir, `.${pathname}`);
+        const allowedPrefix = `${distDir}${path.sep}`;
+        if (filePath !== distDir && !filePath.startsWith(allowedPrefix)) {
+          res.writeHead(403);
+          res.end('Forbidden');
+          return;
+        }
+        if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end('Not found');
+          return;
+        }
+        res.writeHead(200, {
+          'Content-Type': contentType(filePath),
+          'Cache-Control': 'no-store, max-age=0'
+        });
+        fs.createReadStream(filePath).pipe(res);
+      } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end(error.message);
+      }
+    });
+    server.once('error', reject);
+    server.listen(0, '127.0.0.1', () => {
+      const address = server.address();
+      resolve({ server, origin: `http://127.0.0.1:${address.port}` });
+    });
+  });
+}
+
+async function runBrowserAudit() {
+  const distDir = path.join(root, 'dist');
+  if (!exists('dist/index.html')) {
+    add('browser-production-build-present', false, 'dist/index.html missing; run npm run build before browser audit');
+    return;
+  }
+  add('browser-production-build-present', true, 'testing the built dist artifact');
+
+  let server = null;
+  let browser = null;
+  try {
+    const { chromium } = await import('playwright');
+    const started = await startProductionServer(distDir);
+    server = started.server;
+    browser = await chromium.launch({ headless: true });
+
+    const pageErrors = [];
+    const failedResponses = [];
+    const phoneContext = await browser.newContext({
+      viewport: { width: 412, height: 915 },
+      screen: { width: 412, height: 915 },
+      deviceScaleFactor: 3,
+      isMobile: true,
+      hasTouch: true,
+      locale: 'he-IL',
+      userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36',
+      serviceWorkers: 'block'
+    });
+    const phonePage = await phoneContext.newPage();
+    phonePage.on('pageerror', error => pageErrors.push(error.message));
+    phonePage.on('response', response => {
+      if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) {
+        failedResponses.push(`${response.status()} ${response.url()}`);
+      }
+    });
+
+    await phonePage.goto(`${started.origin}/?view=mobile`, { waitUntil: 'networkidle' });
+    await phonePage.waitForURL(/mobile-app\.html/, { timeout: 10000 });
+    await phonePage.locator('.topic-btn').first().waitFor({ state: 'visible', timeout: 10000 });
+
+    const topicState = await phonePage.locator('.topic-btn').evaluateAll(buttons => ({
+      count: buttons.length,
+      hidden: buttons.filter(button => {
+        const style = getComputedStyle(button);
+        const rect = button.getBoundingClientRect();
+        return style.display === 'none' || style.visibility === 'hidden' || rect.width <= 0 || rect.height <= 0;
+      }).length
+    }));
+    const expectedTopics = meta?.topics?.length || 0;
+    add('browser-all-topics-rendered', topicState.count === expectedTopics, `rendered=${topicState.count}; expected=${expectedTopics}`);
+    add('browser-all-topics-discoverable', topicState.hidden === 0, `hidden=${topicState.hidden}`);
+
+    const appMetaText = (await phonePage.locator('#appMeta').textContent()) || '';
+    add('browser-all-pages-declared', appMetaText.includes(String(meta?.totalPages || 98)), appMetaText.trim());
+
+    const initialLayout = await phonePage.evaluate(() => {
+      const root = document.documentElement;
+      const strip = document.querySelector('.topic-strip');
+      return {
+        horizontalOverflow: Math.max(root.scrollWidth, document.body.scrollWidth) - window.innerWidth,
+        topicStripOverflow: strip ? strip.scrollWidth - strip.clientWidth : 999
+      };
+    });
+    add('browser-no-horizontal-overflow-portrait', initialLayout.horizontalOverflow <= 1, `overflow=${initialLayout.horizontalOverflow}px`);
+    add('browser-topic-grid-does-not-scroll-sideways', initialLayout.topicStripOverflow <= 1, `overflow=${initialLayout.topicStripOverflow}px`);
+
+    await phonePage.locator('#globalSearch').fill('עמוד-48.html');
+    const pageEightCard = phonePage.locator('.page-card[data-file="עמוד-48.html"]');
+    await pageEightCard.waitFor({ state: 'visible', timeout: 10000 });
+    add('browser-global-search-finds-equations-page-8', await pageEightCard.count() === 1, 'עמוד-48.html found through global search');
+    await pageEightCard.click();
+
+    await phonePage.waitForFunction(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      return frame?.contentDocument?.readyState === 'complete' && Boolean(frame.contentDocument.querySelector('.a4-page'));
+    }, null, { timeout: 15000 });
+    await phonePage.waitForTimeout(1700);
+
+    const readerState = await phonePage.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const doc = frame?.contentDocument;
+      const a4 = doc?.querySelector('.a4-page');
+      if (!frame || !doc || !a4) return null;
+      const rect = a4.getBoundingClientRect();
+      const bodyOverflowX = getComputedStyle(doc.body).overflowX;
+      const htmlOverflowX = getComputedStyle(doc.documentElement).overflowX;
+      return {
+        frameWidth: frame.clientWidth,
+        frameHeight: frame.clientHeight,
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        width: rect.width,
+        height: rect.height,
+        ratio: rect.height / rect.width,
+        offsetWidth: a4.offsetWidth,
+        offsetHeight: a4.offsetHeight,
+        transform: a4.style.transform,
+        equationCount: doc.querySelectorAll('.problem-equation').length,
+        rasterCount: doc.querySelectorAll('.pdf-page').length,
+        bodyOverflowX,
+        htmlOverflowX
+      };
+    });
+
+    const fitsFrame = Boolean(readerState)
+      && readerState.left >= -2
+      && readerState.top >= -2
+      && readerState.right <= readerState.frameWidth + 2
+      && readerState.bottom <= readerState.frameHeight + 2;
+    add('browser-equations-page-8-fits-reader', fitsFrame, JSON.stringify(readerState));
+    add('browser-equations-page-8-a4-ratio', Boolean(readerState) && Math.abs(readerState.ratio - (297 / 210)) < 0.03, `ratio=${readerState?.ratio}`);
+    add('browser-equations-page-8-live-math', readerState?.equationCount === 10 && readerState?.rasterCount === 0, `equations=${readerState?.equationCount}; raster=${readerState?.rasterCount}`);
+    add('browser-reader-owns-one-scale', Boolean(readerState?.transform?.startsWith('scale(')), `transform=${readerState?.transform}`);
+    add('browser-iframe-clips-unscaled-layout', ['hidden', 'clip'].includes(readerState?.bodyOverflowX) && ['hidden', 'clip'].includes(readerState?.htmlOverflowX), `body=${readerState?.bodyOverflowX}; html=${readerState?.htmlOverflowX}`);
+
+    await phonePage.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const win = frame?.contentWindow;
+      if (win) win.dispatchEvent(new win.Event('beforeprint'));
+    });
+    const printState = await phonePage.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const doc = frame?.contentDocument;
+      const a4 = doc?.querySelector('.a4-page');
+      return a4 && doc ? {
+        transform: a4.style.transform,
+        bodyHeight: doc.body.style.height,
+        bodyOverflow: doc.body.style.overflow,
+        bodyDisplay: doc.body.style.display
+      } : null;
+    });
+    add('browser-print-removes-screen-scale', printState?.transform === 'none', JSON.stringify(printState));
+    add('browser-print-removes-viewport-clipping', printState?.bodyHeight === 'auto' && printState?.bodyOverflow === 'visible' && printState?.bodyDisplay === 'block', JSON.stringify(printState));
+    await phonePage.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const win = frame?.contentWindow;
+      if (win) win.dispatchEvent(new win.Event('afterprint'));
+    });
+
+    await phonePage.setViewportSize({ width: 915, height: 412 });
+    await phonePage.waitForTimeout(1700);
+    const landscapeState = await phonePage.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const doc = frame?.contentDocument;
+      const a4 = doc?.querySelector('.a4-page');
+      const rect = a4?.getBoundingClientRect();
+      return {
+        documentOverflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth,
+        frameWidth: frame?.clientWidth || 0,
+        frameHeight: frame?.clientHeight || 0,
+        right: rect?.right || 9999,
+        bottom: rect?.bottom || 9999
+      };
+    });
+    add('browser-no-horizontal-overflow-landscape', landscapeState.documentOverflow <= 1, `overflow=${landscapeState.documentOverflow}px`);
+    add('browser-a4-fits-landscape-reader', landscapeState.right <= landscapeState.frameWidth + 2 && landscapeState.bottom <= landscapeState.frameHeight + 2, JSON.stringify(landscapeState));
+
+    add('browser-no-page-errors', pageErrors.length === 0, pageErrors.length ? pageErrors.join(' | ') : 'none');
+    add('browser-no-failed-assets', failedResponses.length === 0, failedResponses.length ? failedResponses.join(' | ') : 'none');
+    await phoneContext.close();
+
+    const desktopSiteContext = await browser.newContext({
+      viewport: { width: 980, height: 700 },
+      screen: { width: 980, height: 700 },
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: true,
+      locale: 'he-IL',
+      userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+      serviceWorkers: 'block'
+    });
+    const desktopSitePage = await desktopSiteContext.newPage();
+    await desktopSitePage.goto(`${started.origin}/`, { waitUntil: 'domcontentloaded' });
+    await desktopSitePage.waitForURL(/mobile-app\.html/, { timeout: 10000 });
+    add('browser-phone-detected-in-desktop-site-mode', /mobile-app\.html/.test(desktopSitePage.url()), desktopSitePage.url());
+
+    await desktopSitePage.goto(`${started.origin}/?view=catalog`, { waitUntil: 'domcontentloaded' });
+    await desktopSitePage.waitForURL(/catalog\.html/, { timeout: 10000 });
+    add('browser-explicit-catalog-override-works', /catalog\.html/.test(desktopSitePage.url()), desktopSitePage.url());
+    await desktopSiteContext.close();
+  } catch (error) {
+    add('browser-audit-execution', false, error?.stack || error?.message || String(error));
+  } finally {
+    if (browser) await browser.close().catch(() => {});
+    if (server) await new Promise(resolve => server.close(resolve));
+  }
+}
+
+if (browserMode) await runBrowserAudit();
+
 const failed = checks.filter(check => !check.ok);
 const report = {
   generatedAt: new Date().toISOString(),
   releaseToken,
+  browserMode,
   status: failed.length ? 'fail' : 'pass',
   checks
 };
 
 fs.mkdirSync(path.join(root, 'meta', 'audit'), { recursive: true });
-fs.writeFileSync(path.join(root, 'meta', 'audit', 'mobile-runtime-validation.json'), JSON.stringify(report, null, 2) + '\n');
+fs.writeFileSync(path.join(root, 'meta', 'audit', browserMode ? 'mobile-browser-validation.json' : 'mobile-runtime-validation.json'), JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report, null, 2));
 if (failed.length) process.exit(1);

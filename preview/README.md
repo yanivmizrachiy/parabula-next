@@ -16,8 +16,6 @@
 - `../mobile-app.js`
 - `../mobile-app.css`
 - `../mobile-app.webmanifest`
-- `../mobile-app-install.html`
-- `../mobile-app-install.js`
 - `../mobile-topics.json`
 
 ### חוזה runtime של המובייל
