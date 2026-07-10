@@ -1,28 +1,35 @@
-# parabula — דפי עבודה A4
+# Parabula Next — דפי עבודה במתמטיקה A4
 
-## תצוגה מקדימה (מומלץ)
+מערכת לייצור, ניהול ותצוגה של דפי עבודה במתמטיקה בעברית RTL, באיכות הדפסה מלאה.
 
-הדרך הכי יציבה לראות CSS/MathJax היא דרך שרת מקומי.
+**האתר החי:** https://yanivmizrachiy.github.io/parabula-next/
 
-1. הרצה:
-   - PowerShell: `./preview.ps1`
-   - לשיתוף באותה רשת (טלפון/מחשב אחר על אותו Wi‑Fi): `./preview.ps1 -Lan`
-   - או: `npm run preview`
+## מקור הכללים היחיד
 
-2. פתיחה בדפדפן:
-   - Reader (דפדוף): http://127.0.0.1:5179/preview
-   - פתיחה על קובץ מסוים: http://127.0.0.1:5179/preview?file=%D7%A2%D7%9E%D7%95%D7%93-3.html
+לפני כל שינוי בריפו יש לקרוא את [`CLAUDE.md`](./CLAUDE.md) במלואו.
 
-> הערה: במצב `-Lan` הסקריפט ידפיס קישור כמו `http://<IP>:5179/preview`.
-> אם ה־Windows Firewall חוסם, צריך לאפשר כניסות ל־פורט 5179.
+`CLAUDE.md` הוא המקור היחיד לכל דרישות יניב, כללי העבודה, מפת הריפו, מצב המוצר והוראות לבינה מלאכותית. אין מסמך כללים או זיכרון מחייב נוסף.
+
+## מה יש כאן
+
+- **98 דפי עבודה** קנוניים בשורש (`עמוד-N.html`) ב-8 נושאים.
+- **catalog.html** — ספר לימוד דיגיטלי לנייח.
+- **mobile-app.html** — אפליקציית קריאה לנייד.
+- **preview/** — סביבת עבודה מקומית עם live-reload וזיהוי חריגות A4.
+- **meta/topics.json** — מקור האמת של הנושאים והדפים.
+
+## עבודה מקומית
+
+```bash
+npm install
+npm run preview
+npm test
+npm run doctor
+npm run ci:all
+```
+
+Windows: אפשר גם `./preview.ps1` עם `-Lan` לשיתוף ברשת המקומית.
 
 ## הדפסה
 
-בכל עמוד: Print → לבחור A4 → ללא margins (ה-CSS כבר מגדיר `@page margin: 0`).
-
-## כללים
-
-הסטנדרט והכללים נמצאים כאן:
-- rules.html
-- styles/a4-base.css
-- styles/pages/עמוד-*.css
+בכל דף: Print → A4 → ללא שוליים. ה-CSS מגדיר `@page margin: 0`.

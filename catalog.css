@@ -677,8 +677,8 @@ body {
 .viewer-progress {
   font-size: var(--fs-xs);
   color: var(--clr-text-3);
-  min-width: 50px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .viewer-divider {
@@ -709,12 +709,14 @@ body {
   border-color: var(--clr-accent-hover);
 }
 
-.btn-open {
+.btn-open,
+.btn-action.ghost {
   background: transparent;
   border-color: var(--clr-accent);
   color: var(--clr-accent);
 }
-.btn-open:hover {
+.btn-open:hover,
+.btn-action.ghost:hover {
   background: var(--clr-accent-soft);
   border-color: var(--clr-accent-hover);
   color: var(--clr-accent-hover);
@@ -757,6 +759,17 @@ body {
   height: 100%;
   border: none;
   background: #fff;
+}
+
+/* Loading overlay while the worksheet iframe loads */
+.viewer-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(232, 232, 232, .78);
+  z-index: 2;
 }
 
 /* ════════════════════════════════════════

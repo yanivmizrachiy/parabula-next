@@ -20,6 +20,12 @@ const state = {
   viewerOpen: false,
 };
 
+/* localStorage key for restoring last topic+page */
+const LS_LAST_POSITION = 'parabula-catalog:last-position';
+
+/* URLs already prefetched via <link rel="prefetch"> — avoid duplicates */
+const prefetchedUrls = new Set();
+
 /* ═══════════════════════════════════════════
    DOM REFS
    ═══════════════════════════════════════════ */
@@ -50,7 +56,10 @@ const dom = {
   btnPrev:            $('btnPrev'),
   btnNext:            $('btnNext'),
   btnPrint:           $('btnPrint'),
+  btnPdf:             $('btnPdf'),
+  btnDownload:        $('btnDownload'),
   btnOpen:            $('btnOpen'),
+  viewerLoading:      $('viewerLoading'),
   btnCloseViewer:     $('btnCloseViewer'),
   globalSearch:       $('globalSearch'),
   clearSearch:        $('clearSearch'),
@@ -86,10 +95,13 @@ function topicIcon(name) {
 /* ═══════════════════════════════════════════
    INIT
    ═══════════════════════════════════════════ */
-async function init() {
-  showState('loading');
+let listenersBound = false;
+
+function bindEvents() {
   dom.retryBtn.addEventListener('click', init);
   dom.btnPrint.addEventListener('click', handlePrint);
+  dom.btnPdf.addEventListener('click', handlePrint);
+  dom.btnDownload.addEventListener('click', handleDownload);
   dom.btnCloseViewer.addEventListener('click', closeViewer);
   dom.btnPrev.addEventListener('click', () => navigatePage(-1));
   dom.btnNext.addEventListener('click', () => navigatePage(1));
@@ -102,7 +114,22 @@ async function init() {
   dom.mbTopics.addEventListener('click', toggleSidebar);
   dom.mbPrint.addEventListener('click', handlePrint);
 
+  // Hide the loading overlay whenever the worksheet finishes loading
+  dom.viewerFrame.addEventListener('load', () => {
+    dom.viewerLoading.hidden = true;
+  });
+
   document.addEventListener('keydown', handleKeyboard);
+}
+
+async function init() {
+  // Bind listeners exactly once — retry must not stack duplicate handlers
+  if (!listenersBound) {
+    listenersBound = true;
+    bindEvents();
+  }
+
+  showState('loading');
 
   try {
     await loadData();
@@ -170,23 +197,54 @@ async function loadData() {
 /* ═══════════════════════════════════════════
    URL STATE
    ═══════════════════════════════════════════ */
+/**
+ * Apply a topic (+ optional page) position. Returns true on success.
+ * Shared by URL deep links and localStorage restore.
+ */
+function applyPosition(topicName, pageNum) {
+  const topic = state.topics.find(t => t.name === topicName);
+  if (!topic) return false;
+
+  selectTopic(topic.name, false);
+  if (pageNum != null && pageNum !== '') {
+    const page = state.allPages.find(
+      p => p.topicName === topicName && String(p.number) === String(pageNum)
+    );
+    if (page) openViewer(page);
+  }
+  return true;
+}
+
 function readURLState() {
   const params = new URLSearchParams(window.location.search);
   const topicParam = params.get('topic');
   const pageParam  = params.get('page');
 
-  if (topicParam) {
-    const topic = state.topics.find(t => t.name === topicParam);
-    if (topic) {
-      selectTopic(topic.name, false);
-      if (pageParam) {
-        const page = state.allPages.find(
-          p => p.topicName === topicParam && String(p.number) === pageParam
-        );
-        if (page) openViewer(page);
-      }
-      return;
-    }
+  // 1) Deep link wins
+  if (topicParam && applyPosition(topicParam, pageParam)) return;
+
+  // 2) Otherwise restore last position from localStorage
+  const saved = readLastPosition();
+  if (saved && saved.topic) applyPosition(saved.topic, saved.page);
+}
+
+/* ═══════════════════════════════════════════
+   LAST POSITION (localStorage)
+   ═══════════════════════════════════════════ */
+function saveLastPosition(topicName, pageNum) {
+  try {
+    localStorage.setItem(LS_LAST_POSITION, JSON.stringify({
+      topic: topicName || null,
+      page:  pageNum != null ? pageNum : null,
+    }));
+  } catch (_) { /* storage unavailable — non-fatal */ }
+}
+
+function readLastPosition() {
+  try {
+    return JSON.parse(localStorage.getItem(LS_LAST_POSITION) || 'null');
+  } catch (_) {
+    return null;
   }
 }
 
@@ -276,6 +334,7 @@ function selectTopic(topicName, updateURL = true) {
 
   showState('topic');
   if (updateURL) pushURL(topicName, null);
+  saveLastPosition(topicName, null);
 
   // Scroll to top
   document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
@@ -341,19 +400,32 @@ function renderPagesGrid(pages, container, query = '') {
 /* ═══════════════════════════════════════════
    VIEWER
    ═══════════════════════════════════════════ */
+/**
+ * Same-origin URL of the worksheet, resolved relative to the catalog page.
+ * Relative resolution works both locally and under the GitHub Pages base path,
+ * and keeps the iframe same-origin (required for contentWindow.print()).
+ */
 function getPageUrl(page) {
-  const raw = page.siteUrl || page.file;
-  return new URL(raw, window.location.href).href;
+  return new URL(page.file, window.location.href).href;
+}
+
+/** Pages of the topic the given page belongs to (falls back to active topic). */
+function topicPagesFor(page) {
+  const name = (page && page.topicName) || state.activeTopic;
+  return state.allPages.filter(p => p.topicName === name);
 }
 
 function openViewer(page) {
   state.activePage  = page;
   state.viewerOpen  = true;
 
-  // Load iframe — use the local relative path
+  // Load iframe — reuse the single frame; skip reload if same page already shown
   const src = getPageUrl(page);
-  dom.viewerFrame.src = src;
-  dom.btnOpen.href    = src;
+  if (dom.viewerFrame.src !== src) {
+    dom.viewerLoading.hidden = false;
+    dom.viewerFrame.src = src;
+  }
+  dom.btnOpen.href = src;
 
   dom.viewerTopicLabel.textContent = page.topicName || state.activeTopic || '';
   dom.viewerPageTitle.textContent  = page.title || page.h1 || page.file;
@@ -366,8 +438,12 @@ function openViewer(page) {
   // Update active card
   updateActiveCard(page.file);
 
-  // Push URL
+  // Push URL + remember position
   pushURL(state.activeTopic || page.topicName, page.number);
+  saveLastPosition(page.topicName || state.activeTopic, page.number);
+
+  // Warm the browser cache for adjacent pages — instant prev/next
+  prefetchAdjacent(page);
 
   // Scroll viewer into view
   setTimeout(() => dom.viewer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -379,6 +455,7 @@ function closeViewer(updateURL = true) {
   state.activePage  = null;
   dom.viewer.hidden = true;
   dom.viewerFrame.src = 'about:blank';
+  dom.viewerLoading.hidden = true;
   dom.mobileBottomNav.hidden = true;
   updateActiveCard(null);
   if (updateURL && state.activeTopic) pushURL(state.activeTopic, null);
@@ -387,21 +464,42 @@ function closeViewer(updateURL = true) {
 function updateViewerNav() {
   if (!state.activePage) return;
 
-  const topicPages = state.allPages.filter(p => p.topicName === state.activeTopic);
+  const topicPages = topicPagesFor(state.activePage);
   const idx = topicPages.findIndex(p => p.file === state.activePage.file);
 
   dom.btnPrev.disabled = idx <= 0;
   dom.btnNext.disabled = idx >= topicPages.length - 1;
-  dom.viewerProgress.textContent = `${idx + 1} / ${topicPages.length}`;
+  dom.viewerProgress.textContent = `עמוד ${idx + 1} מתוך ${topicPages.length} בנושא`;
 }
 
 function navigatePage(delta) {
   if (!state.activePage) return;
 
-  const topicPages = state.allPages.filter(p => p.topicName === state.activeTopic);
+  const topicPages = topicPagesFor(state.activePage);
   const idx = topicPages.findIndex(p => p.file === state.activePage.file);
   const next = topicPages[idx + delta];
   if (next) openViewer(next);
+}
+
+/* ═══════════════════════════════════════════
+   PREFETCH — adjacent pages load instantly
+   ═══════════════════════════════════════════ */
+function prefetchAdjacent(page) {
+  const topicPages = topicPagesFor(page);
+  const idx = topicPages.findIndex(p => p.file === page.file);
+
+  for (const adjacent of [topicPages[idx - 1], topicPages[idx + 1]]) {
+    if (!adjacent) continue;
+    const url = getPageUrl(adjacent);
+    if (prefetchedUrls.has(url)) continue;
+    prefetchedUrls.add(url);
+
+    const link = document.createElement('link');
+    link.rel  = 'prefetch';
+    link.as   = 'document';
+    link.href = url;
+    document.head.appendChild(link);
+  }
 }
 
 /* ═══════════════════════════════════════════
@@ -409,18 +507,59 @@ function navigatePage(delta) {
    ═══════════════════════════════════════════ */
 function handlePrint() {
   if (!state.activePage) return;
+
+  // Preferred: print the worksheet iframe directly (A4 CSS applies inside it,
+  // the catalog UI is never printed). Same-origin, so contentWindow is reachable.
+  if (state.viewerOpen) {
+    try {
+      const win = dom.viewerFrame.contentWindow;
+      if (win && win.document && win.document.readyState === 'complete') {
+        win.focus();
+        win.print();
+        return;
+      }
+    } catch (_) { /* cross-origin or not ready — fall back below */ }
+  }
+
   printPage(state.activePage);
 }
 
 function printPage(page) {
-  // Open the A4 worksheet directly in a new tab — the browser's print dialog
-  // will print it exactly as it was designed (A4, no UI chrome).
+  // Fallback / card action: open the A4 worksheet in a new tab and trigger
+  // the print dialog there — preserves A4 format, never prints the catalog UI.
   const url = getPageUrl(page);
-  const w = window.open(url, '_blank', 'noopener');
-  if (w) {
-    w.addEventListener('load', () => {
-      setTimeout(() => w.print(), 300);
-    });
+  const w = window.open(url, '_blank');
+  if (!w) return; // popup blocked — the user can print via the viewer button
+  w.addEventListener('load', () => {
+    setTimeout(() => w.print(), 300);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   DOWNLOAD HTML
+   ═══════════════════════════════════════════ */
+function handleDownload() {
+  if (!state.activePage) return;
+  downloadPage(state.activePage);
+}
+
+async function downloadPage(page) {
+  try {
+    const res = await fetch(getPageUrl(page), { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = page.file;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+  } catch (err) {
+    console.error('[catalog] download error:', err);
+    // Fallback: open the raw page so the user can save it manually
+    window.open(getPageUrl(page), '_blank', 'noopener');
   }
 }
 
@@ -467,11 +606,18 @@ function clearSearch() {
    KEYBOARD
    ═══════════════════════════════════════════ */
 function handleKeyboard(e) {
-  if (e.target.matches('input, textarea')) return;
+  // Never hijack keys while typing
+  const t = e.target;
+  if (t instanceof Element && (t.matches('input, textarea, select') || t.isContentEditable)) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
 
-  if (e.key === 'ArrowRight' && state.viewerOpen) { e.preventDefault(); navigatePage(-1); }
-  if (e.key === 'ArrowLeft'  && state.viewerOpen) { e.preventDefault(); navigatePage(1);  }
-  if (e.key === 'Escape' && state.viewerOpen) closeViewer();
+  if (state.viewerOpen) {
+    // RTL-aware: ArrowLeft = next page, ArrowRight = previous page
+    if (e.key === 'ArrowRight' || e.key === 'PageUp')   { e.preventDefault(); navigatePage(-1); return; }
+    if (e.key === 'ArrowLeft'  || e.key === 'PageDown') { e.preventDefault(); navigatePage(1);  return; }
+    if (e.key === 'Escape') { closeViewer(); return; }
+  }
+
   if (e.key === '/' || e.key === 'f') { e.preventDefault(); dom.globalSearch.focus(); }
 }
 

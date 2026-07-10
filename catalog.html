@@ -123,18 +123,30 @@
                 <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,3 11,8 6,13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <div class="viewer-divider"></div>
-              <button id="btnPrint" class="btn-action" aria-label="הדפס / שמור כ-PDF">
+              <button id="btnPrint" class="btn-action" aria-label="הדפסת דף העבודה">
                 <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="6" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6V3h6v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="5" y="9" width="6" height="1.5" rx=".5" fill="currentColor"/></svg>
-                הדפס / PDF
+                הדפסה
               </button>
-              <a id="btnOpen" class="btn-action btn-open" href="#" target="_blank" rel="noopener" aria-label="פתח בטאב חדש">
+              <button id="btnPdf" class="btn-action ghost" aria-label="שמירה כ-PDF דרך חלון ההדפסה">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                שמירה כ-PDF
+              </button>
+              <button id="btnDownload" class="btn-action ghost" aria-label="הורדת קובץ ה-HTML של הדף">
+                <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v8M8 10l-3-3M8 10l3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                הורדת HTML
+              </button>
+              <a id="btnOpen" class="btn-action btn-open" href="#" target="_blank" rel="noopener" aria-label="פתיחה בחלון מלא בטאב חדש">
                 <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 2h4v4M14 2L8.5 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                פתח
+                פתיחה בחלון מלא
               </a>
               <button id="btnCloseViewer" class="btn-close-viewer" aria-label="סגור תצוגה">✕</button>
             </div>
           </div>
           <div class="viewer-frame-wrap">
+            <div id="viewerLoading" class="viewer-loading" hidden role="status" aria-live="polite">
+              <div class="spinner" aria-hidden="true"></div>
+              <span class="sr-only">טוען דף עבודה…</span>
+            </div>
             <iframe id="viewerFrame"
                     title="תצוגת דף עבודה"
                     sandbox="allow-same-origin allow-scripts allow-popups allow-forms"

@@ -7,9 +7,9 @@
   <title>ספר דפי העבודה של יניב</title>
   <link rel="manifest" href="./mobile-app.webmanifest?v=20260417013000" />
   <link rel="icon" href="./icon.svg?v=20260417013000" type="image/svg+xml" />
-  <link rel="stylesheet" href="./mobile-app.css?v=20260417013000" />
+  <link rel="stylesheet" href="./mobile-app.css?v=20260710120000" />
 </head>
-<body class="focus-reading">
+<body>
   <div class="app-shell">
     <header class="topbar">
       <div class="topbar-main">
@@ -17,15 +17,16 @@
         <div id="appMeta" class="app-meta">טוען…</div>
       </div>
       <div class="topbar-actions">
-        <button id="toggleTopicsBtn" type="button">נושאים ודפים</button>
+        <button id="toggleTopicsBtn" type="button" aria-controls="topicsPanel" aria-expanded="true">נושאים ודפים</button>
       </div>
     </header>
 
-    <section id="topicsPanel" class="topics-panel is-collapsed">
-      <div class="section-title">נושאים</div>
-      <div id="topicStrip" class="topic-strip"></div>
-      <input id="globalSearch" type="search" placeholder="חיפוש לפי נושא, כותרת או מספר עמוד" />
-      <section id="topicPages" class="pages-list"></section>
+    <section id="topicsPanel" class="topics-panel" aria-label="נושאים ודפים">
+      <div class="section-title" id="topicsTitle">כל הנושאים</div>
+      <div id="topicStrip" class="topic-strip" role="group" aria-labelledby="topicsTitle"></div>
+      <input id="globalSearch" type="search" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
+      <div id="searchMeta" class="search-meta" role="status" hidden></div>
+      <section id="topicPages" class="pages-list" aria-label="רשימת דפים"></section>
     </section>
 
     <section class="reader-box">
@@ -47,13 +48,13 @@
       </div>
     </section>
 
-    <nav class="bottom-nav">
-      <button id="prevPageBtn" type="button">הקודם</button>
-      <button id="nextPageBtn" type="button">הבא</button>
-      <button id="openLiveBtn" type="button">פתח מלא</button>
-      <button id="printBtn" type="button">PDF</button>
+    <nav class="bottom-nav" aria-label="ניווט ופעולות">
+      <button id="prevPageBtn" type="button" aria-label="הדף הקודם">הקודם</button>
+      <button id="nextPageBtn" type="button" aria-label="הדף הבא">הבא</button>
+      <button id="openLiveBtn" type="button" aria-label="פתיחת הדף המלא בכרטיסייה חדשה">פתח מלא</button>
+      <button id="printBtn" type="button" aria-label="הדפסה או שמירה כ-PDF">הדפסה / PDF</button>
     </nav>
   </div>
-  <script src="./mobile-app.js?v=20260417013000"></script>
+  <script src="./mobile-app.js?v=20260710120000"></script>
 </body>
 </html>

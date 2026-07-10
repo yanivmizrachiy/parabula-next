@@ -33,7 +33,7 @@ const required = [
   'preview/print.html',
   'preview/print.js',
   '.github/workflows/equations-guard.yml',
-  'docs/EQUATIONS_AUTOMATION_RULES.md',
+  'CLAUDE.md',
   'sources/equations/משוואות-52.pdf'
 ];
 
