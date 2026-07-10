@@ -33,6 +33,12 @@ jobs:
       - name: Run canonical validation and build
         run: npm run ci:all
 
+      - name: Install Chromium for production mobile gate
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Android production browser gate
+        run: npm run validate:mobile:browser
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
