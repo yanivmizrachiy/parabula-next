@@ -397,13 +397,10 @@ base path:  /parabula-next/ (מוגדר ב-vite.config.js)
 
 ## 15. תכנות Claude Code לריפו זה
 
-### פקודות מומלצות ל-`.claude/commands/` (עדיין לא נוצרו)
-- `/audit` — הרץ doctor + recovery-audit + overlap-audit
-- `/worksheet` — הוסף דף עבודה חדש
-- `/print` — בדוק print CSS + A4 overflow
-- `/mobile` — בדוק mobile-app.* + sync
-- `/rules` — עדכן PROJECT_RULES.md
-- `/verify` — הרץ npm test + verify + validate:access
+### פקודות קיימות ב-`.claude/commands/`
+- `/audit` — audit בטוח של הריפו ודיווח בלבד
+- `/next` — הפעולה הבטוחה הבאה לפרויקט
+- `/verify` — הרצת חבילת האימות המלאה
 
 ### סוכנים קיימים ב-`.claude/agents/`
 

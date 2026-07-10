@@ -34,6 +34,14 @@ This file is the permanent working memory for the Parabula Next repository. It r
 15. עדכון מסמכי זיכרון: כל שינוי מהותי מתועד ב-`PROJECT_MEMORY.md` + `STATE/LIVE_STATUS.md`. CLAUDE.md ו-PROJECT_RULES.md חייבים להישאר מסונכרנים עם המציאות.
 16. **GitHub (origin/main) הוא מקור האמת** — התיקייה המקומית `C:\Users\yaniv\parabula-next` מסונכרנת אליו.
 
+### מפה מדויקת — מה קיים בפרויקט (נכון ל-2026-07-10)
+- **תוכן:** 98 דפי `עמוד-N.html` בשורש, 8 נושאים, CSS-לדף תחת `styles/pages/`, בסיס `styles/a4-base.css`, CSS-לנושא תחת `styles/topics/`, נכסי SVG של משוואות תחת `pages/משוואות/assets/`.
+- **מטא-דאטה:** `meta/topics.json` (מקור אמת) → ראי `mobile-topics.json` (מסונכרן ע"י `npm run topics:sync`, נאכף ב-CI) → `meta/pages.json` (מיוצר, לא בקומיט).
+- **גישה:** `index.html` (כניסה חכמה) → `catalog.html` (נייח) / `mobile-app.html` (נייד, PWA). `preview/` = סביבת עבודה מקומית (פורט 5179). `preview/phone.*` = legacy בלבד.
+- **טכנולוגיות:** HTML סטטי + CSS + SVG inline + MathJax 3 (CDN) + גופן Rubik (CDN) | Vite 8 build | Node 22 ESM scripts | Playwright (אודיט חזותי + PDF) | GitHub Actions → GitHub Pages (מ-`dist/` בלבד) | Vercel (vercel.json) | PowerShell לאוטומציה מקומית.
+- **שערי איכות:** `npm test` (99 בדיקות חוזה) · `npm run verify` · `npm run validate:meta` · `npm run topics:check` · `npm run health:report` · `npm run doctor` (6 בדיקות) · `npm run ci:all` · `npm run tech:max` (+ אודיט A4 חזותי + PDF).
+- **איך יוצרים דף חדש:** לפי `docs/WORKSHEET_CREATION_RULES.md` (מבנה HTML מחייב, CSS scoped ל-`.page-N`, MathJax, SVG, עדכון topics.json, topics:sync, בדיקות). מדריך מלא בעברית — `WORKSHEET_AUTHORING_GUIDE.md` (מגיע עם מיזוג PR #28). כלי עזר: `npm run page:new`.
+
 ### סגנון עבודה מול יניב
 17. תקשורת בעברית. יניב מצפה לביצוע עצמאי מקצה לקצה ("אל תעצור עד לסיום") — לא הסברים בלי ביצוע.
 18. יניב מביא חומרי לימוד (PDF/תמונות/טקסט); ה-AI ממיר אותם לדפי HTML מאורגנים לפי הכללים למעלה ומוסיף למערכת (דף + CSS + עדכון topics.json + סנכרון + בדיקות).

@@ -181,8 +181,8 @@ After creating `עמוד-N.html`, add an entry to `meta/topics.json`:
 Where:
 - `N` = global file number (e.g., 96)
 - `X` = position within the topic (e.g., 3 if it's the 3rd page on this topic)
-- After updating `meta/topics.json`, also update `mobile-topics.json` (manual copy)
-- Run `npm test` to verify the contract
+- After updating `meta/topics.json`, run `npm run topics:sync` (updates `mobile-topics.json`; CI fails if you forget)
+- Run `npm test` and `npm run verify` to verify the contract
 
 ---
 
