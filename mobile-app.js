@@ -1,4 +1,4 @@
-const VERSION = 'mobile-clean-20260710002';
+const VERSION = 'mobile-hardening-20260710003';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -27,6 +27,8 @@ let visiblePages = [];
 let flatPages = [];
 let currentIndex = -1;
 let shownPage = null;
+let frameResizeObserver = null;
+let frameMutationObserver = null;
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
 function esc(v){
@@ -50,6 +52,7 @@ function setTopicsPanelOpen(open){
   els.topicsPanel.classList.toggle('is-collapsed', !open);
   document.body.classList.toggle('focus-reading', !open);
   els.toggleTopicsBtn.setAttribute('aria-expanded', String(open));
+  els.toggleTopicsBtn.textContent = open ? 'הסתר נושאים' : 'נושאים ודפים';
 }
 function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
@@ -84,13 +87,16 @@ function setProgress(page){
   const gi = flatPages.findIndex(p => p.file === page.file);
   els.globalProgress.textContent = gi >= 0 ? `עמוד ${gi + 1} מתוך ${flatPages.length} בספר` : '—';
 }
+function viewportHeight(){
+  return Math.max(0, Math.round(window.visualViewport?.height || window.innerHeight || 0));
+}
 function setReaderFrameHeight(){
   const topbarH = document.querySelector('.topbar')?.offsetHeight || 0;
   const readerHeadH = document.querySelector('.reader-head')?.offsetHeight || 0;
   const bottomH = document.querySelector('.bottom-nav')?.offsetHeight || 0;
   const loadingH = els.mobileLoadingState.hidden ? 0 : (els.mobileLoadingState.offsetHeight || 0);
   const used = topbarH + readerHeadH + bottomH + loadingH + 48;
-  const free = Math.max(380, window.innerHeight - used);
+  const free = Math.max(380, viewportHeight() - used);
   els.mobilePageFrame.style.height = `${free}px`;
 }
 function injectMobileReaderStyles(doc){
@@ -114,11 +120,12 @@ function injectMobileReaderStyles(doc){
       justify-content:center !important;
       align-items:flex-start !important;
     }
-    .a4-page{
+    html body .a4-page,
+    html body .a4-page.equations-page{
       width:210mm !important;
       height:297mm !important;
-      max-width:none !important;
       min-width:210mm !important;
+      max-width:none !important;
       margin:0 !important;
       box-shadow:none !important;
       zoom:1 !important;
@@ -135,10 +142,12 @@ function injectMobileReaderStyles(doc){
         min-height:0 !important;
         background:#fff !important;
       }
-      .a4-page{
+      html body .a4-page,
+      html body .a4-page.equations-page{
         width:210mm !important;
         height:297mm !important;
         min-width:210mm !important;
+        max-width:none !important;
         zoom:1 !important;
         transform:none !important;
         margin:0 !important;
@@ -146,6 +155,16 @@ function injectMobileReaderStyles(doc){
     }
   `;
   (doc.head || doc.documentElement).appendChild(style);
+}
+function enforceCanonicalPageGeometry(page){
+  page.style.setProperty('width', '210mm', 'important');
+  page.style.setProperty('height', '297mm', 'important');
+  page.style.setProperty('min-width', '210mm', 'important');
+  page.style.setProperty('max-width', 'none', 'important');
+  page.style.setProperty('margin', '0', 'important');
+  page.style.setProperty('zoom', '1', 'important');
+  page.style.setProperty('flex-shrink', '0', 'important');
+  page.style.setProperty('transform-origin', 'top center', 'important');
 }
 function fitCurrentA4Page(){
   try{
@@ -158,42 +177,35 @@ function fitCurrentA4Page(){
     const page = doc.querySelector('.a4-page');
     if(!page) return;
 
-    page.style.transform = 'none';
-    page.style.marginLeft = '0';
-    page.style.marginRight = '0';
+    enforceCanonicalPageGeometry(page);
+    page.style.setProperty('transform', 'none', 'important');
 
     const hostWidth = Math.max(0, frame.clientWidth - 8);
     const hostHeight = Math.max(0, frame.clientHeight - 8);
-    const rawWidth = page.offsetWidth || page.scrollWidth || page.getBoundingClientRect().width;
-    const rawHeight = page.offsetHeight || page.scrollHeight || page.getBoundingClientRect().height;
+    const rawRect = page.getBoundingClientRect();
+    const rawWidth = page.offsetWidth || page.scrollWidth || rawRect.width;
+    const rawHeight = page.offsetHeight || page.scrollHeight || rawRect.height;
     if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
 
     const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
-    const scaledWidth = Math.round(rawWidth * scale);
-    const scaledHeight = Math.round(rawHeight * scale);
+    const scaledHeight = Math.max(1, Math.round(rawHeight * scale));
 
-    page.style.transform = `scale(${scale})`;
-    page.style.transformOrigin = 'top center';
+    page.style.setProperty('transform', `scale(${scale})`, 'important');
 
-    doc.documentElement.style.width = '100%';
-    doc.documentElement.style.minWidth = '0';
-    doc.documentElement.style.overflow = 'hidden';
-    doc.documentElement.style.background = '#eef3f8';
+    doc.documentElement.style.setProperty('width', '100%', 'important');
+    doc.documentElement.style.setProperty('min-width', '0', 'important');
+    doc.documentElement.style.setProperty('overflow', 'hidden', 'important');
+    doc.documentElement.style.setProperty('background', '#eef3f8', 'important');
 
-    doc.body.style.width = '100%';
-    doc.body.style.minWidth = '0';
-    doc.body.style.minHeight = `${scaledHeight}px`;
-    doc.body.style.height = `${scaledHeight}px`;
-    doc.body.style.overflow = 'hidden';
-    doc.body.style.background = '#eef3f8';
-    doc.body.style.display = 'flex';
-    doc.body.style.justifyContent = 'center';
-    doc.body.style.alignItems = 'flex-start';
-
-    const leftPad = Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
-    const logicalPad = leftPad / Math.max(scale, 0.001);
-    page.style.marginLeft = `${logicalPad}px`;
-    page.style.marginRight = `${logicalPad}px`;
+    doc.body.style.setProperty('width', '100%', 'important');
+    doc.body.style.setProperty('min-width', '0', 'important');
+    doc.body.style.setProperty('min-height', `${scaledHeight}px`, 'important');
+    doc.body.style.setProperty('height', `${scaledHeight}px`, 'important');
+    doc.body.style.setProperty('overflow', 'hidden', 'important');
+    doc.body.style.setProperty('background', '#eef3f8', 'important');
+    doc.body.style.setProperty('display', 'flex', 'important');
+    doc.body.style.setProperty('justify-content', 'center', 'important');
+    doc.body.style.setProperty('align-items', 'flex-start', 'important');
 
     try { win.scrollTo(0,0); } catch(e) {}
   }catch(e){
@@ -202,11 +214,31 @@ function fitCurrentA4Page(){
 }
 function scheduleFit(){
   setReaderFrameHeight();
-  requestAnimationFrame(() => {
-    fitCurrentA4Page();
-    setTimeout(fitCurrentA4Page, 60);
-    setTimeout(fitCurrentA4Page, 180);
-  });
+  requestAnimationFrame(fitCurrentA4Page);
+  [60, 180, 500, 1200].forEach(delay => setTimeout(fitCurrentA4Page, delay));
+}
+function watchFrameContent(){
+  try{
+    frameResizeObserver?.disconnect();
+    frameMutationObserver?.disconnect();
+
+    const doc = els.mobilePageFrame.contentDocument || els.mobilePageFrame.contentWindow?.document;
+    const page = doc?.querySelector('.a4-page');
+    if(!doc || !page) return;
+
+    if('ResizeObserver' in window){
+      frameResizeObserver = new ResizeObserver(() => scheduleFit());
+      frameResizeObserver.observe(page);
+    }
+
+    frameMutationObserver = new MutationObserver(() => scheduleFit());
+    frameMutationObserver.observe(page, {childList:true, subtree:true});
+
+    doc.fonts?.ready?.then(scheduleFit).catch(() => {});
+    doc.defaultView?.MathJax?.startup?.promise?.then(scheduleFit).catch(() => {});
+  }catch(error){
+    console.error('watchFrameContent failed', error);
+  }
 }
 function showPage(file, opts = {}){
   const idx = visiblePages.findIndex(p => p.file === file);
@@ -240,7 +272,7 @@ function renderTopics(){
     b.onclick = () => {
       activeTopic = topic.name;
       if(els.globalSearch.value) els.globalSearch.value = '';
-      renderPages();
+      renderPages({autoShow:true, collapse:false});
       setTopicsPanelOpen(true);
     };
     els.topicStrip.appendChild(b);
@@ -329,7 +361,7 @@ async function boot(){
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
-  renderPages({autoShow: true, collapse: false});
+  renderPages({autoShow:true, collapse:false});
   setTopicsPanelOpen(true);
   scheduleFit();
 }
@@ -345,10 +377,16 @@ els.toggleTopicsBtn.addEventListener('click', () => {
 });
 els.mobilePageFrame.addEventListener('load', () => {
   els.mobileLoadingState.hidden = true;
+  watchFrameContent();
   scheduleFit();
 });
 window.addEventListener('resize', scheduleFit);
 window.addEventListener('orientationchange', () => setTimeout(scheduleFit, 140));
+window.addEventListener('pageshow', scheduleFit);
+window.visualViewport?.addEventListener('resize', scheduleFit);
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible') scheduleFit();
+});
 
 boot().catch(err => {
   console.error(err);
@@ -356,11 +394,18 @@ boot().catch(err => {
   els.topicPages.innerHTML = '<div class="empty-box">אירעה שגיאה בטעינת הספר. נסה לרענן.</div>';
 });
 
-if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
+if('serviceWorker' in navigator && !window.__parabulaSwRegistered){
   window.__parabulaSwRegistered = true;
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`./sw.js?v=${VERSION}`).then(reg => {
-      if (reg.update) reg.update();
+    navigator.serviceWorker.register(`./sw.js?v=${VERSION}`, {updateViaCache:'none'}).then(reg => {
+      reg.update?.();
     }).catch(console.error);
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    const key = `parabula:sw-reloaded:${VERSION}`;
+    if(sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+    window.location.reload();
   });
 }
