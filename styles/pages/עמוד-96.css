@@ -1,1 +1,6 @@
 @import url('../topics/graph-slope.css');
+
+/* ניצול מלא של גובה ה-A4 (CLAUDE.md §5) — פריסה בלבד, אפס שינוי תוכן */
+.page-96 .question-block { min-height: 244mm; }
+.page-96 .graph-row { flex: 1; align-items: stretch; }
+.page-96 .graph-row .graph-card { display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }

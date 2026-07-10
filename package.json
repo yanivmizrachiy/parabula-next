@@ -40,8 +40,9 @@
     "doctor": "node scripts/doctor.mjs",
     "ci:all": "npm test && npm run verify && npm run validate:meta && npm run validate:schema && npm run topics:check && npm run rules:check && npm run validate:html && npm run vendorize:check && npm run health:report && npm run build",
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
+    "audit:a4:utilization": "node scripts/a4-utilization-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
-    "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run export:pdf:sample"
+    "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",

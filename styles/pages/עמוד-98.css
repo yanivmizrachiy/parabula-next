@@ -1,1 +1,9 @@
+/* עמוד 98 — גרף עולה, יורד ושיפוע */
 @import url('../topics/graph-slope.css');
+
+/* ניצול מלא של גובה ה-A4 (CLAUDE.md §5) — פריסה בלבד, אפס שינוי תוכן */
+.page-98 .question-block { min-height: 244mm; }
+.page-98 .table-card { flex: 1; display: flex; flex-direction: column; }
+.page-98 .slope-table { flex: 1; }
+.page-98 .slope-table svg { width: 126px; height: 92px; }
+.page-98 .slope-table td { padding: 6px; }
