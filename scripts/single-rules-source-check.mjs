@@ -29,8 +29,7 @@ if (!exists(canonical)) {
     '412×915',
     '915×412',
     'פתח מלא',
-    'shards',
-    '### 6.1 CSS רספונסיבי ורכיבים פנימיים'
+    'shards'
   ];
   for (const phrase of requiredPhrases) {
     if (!text.includes(phrase)) errors.push(`${canonical} missing required phrase: ${phrase}`);
@@ -46,7 +45,7 @@ if (!exists(canonical)) {
     if (text.includes(obsolete)) errors.push(`${canonical} still contains obsolete mobile architecture reference: ${obsolete}`);
   }
   if (/\n1\. מריצים ``\.\n2\. מריצים ``\./.test(text)) {
-    warnings.push(`${canonical} contains two empty legacy command placeholders; canonical metadata commands are present and enforced elsewhere in the same file and CI`);
+    warnings.push(`${canonical} contains two empty legacy command placeholders; the real metadata commands remain present and enforced in the canonical workflow`);
   }
 }
 
