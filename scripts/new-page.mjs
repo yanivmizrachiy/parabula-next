@@ -485,8 +485,14 @@ async function main() {
 
     const topicBlock = extractTopicsBlock(lastHtml);
 
-    // Find all pages in the same topic according to meta/topics.json
-    const topicObj = Array.isArray(toc.topics) ? toc.topics.find((t) => t && t.name === topic) : null;
+    // Find all pages in the same topic according to meta/topics.json.
+    // Resolve by the entry's canonical topic field, not by the page's display
+    // label — e.g. the quadratics pages display "משוואה ריבועית" (singular)
+    // while the canonical topic name is "משוואות ריבועיות".
+    const canonicalTopic = String(lastEntry.topic || '').trim() || topic;
+    const topicObj = Array.isArray(toc.topics)
+      ? toc.topics.find((t) => t && (t.name === canonicalTopic || t.name === topic))
+      : null;
     const topicFiles = topicObj && Array.isArray(topicObj.pages) ? topicObj.pages.map((p) => String(p.file || '')).filter(Boolean) : [];
 
     if (topicFiles.length === 0) throw new Error(`Unable to resolve topic pages for "${topic}" from meta/topics.json`);
