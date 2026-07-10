@@ -30,7 +30,7 @@ line('It is informational by default and should fail only when a truly live cano
 line('');
 
 const requiredCanonical = [
-  'PROJECT_RULES.md',
+  'CLAUDE.md',
   'meta/topics.json',
   'preview/index.html',
   'preview/app.html',

@@ -45,14 +45,15 @@ test('Golden Preview: calm background + centered host (no LTR hacks)', async () 
   assert.ok(/background-image\s*:\s*none/iu.test(css), 'styles/preview.css: expected background-image: none guards (no patterns outside A4)');
 });
 
-test('Rules doc must explicitly require /preview topic buttons', async () => {
-  const rules = await readText('rules.html');
+test('Single rules source (CLAUDE.md) must cover /preview navigation rules', async () => {
+  const rules = await readText('CLAUDE.md');
 
-  assert.ok(rules.includes('/preview'), 'rules.html: expected to mention /preview');
+  assert.ok(rules.includes('/preview'), 'CLAUDE.md: expected to mention /preview');
   assert.ok(
-    /Reader[^\n]*\/preview[\s\S]*מעבר בין נושאים[\s\S]*כפתורי נושא/iu.test(rules),
-    'rules.html: missing explicit requirement for topic buttons inside /preview Reader'
+    rules.includes('הניווט נשאר גלוי'),
+    'CLAUDE.md: missing the visible-navigation rule for the preview reader'
   );
+  assert.ok(rules.includes('topic-link'), 'CLAUDE.md: missing the topic-link navigation contract');
 });
 
 test('Preview server must not serve rules.html', async () => {

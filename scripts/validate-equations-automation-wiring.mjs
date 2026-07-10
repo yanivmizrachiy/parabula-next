@@ -21,7 +21,8 @@ function requireText(source, needle, label) {
 
 const packageJson = read('package.json');
 const guardWorkflow = read('.github/workflows/equations-guard.yml');
-const automationRules = read('docs/EQUATIONS_AUTOMATION_RULES.md');
+// Equations automation rules were folded into CLAUDE.md (single rules source).
+const automationRules = read('CLAUDE.md');
 
 const requiredFiles = [
   'scripts/equations-smart-queue.mjs',
@@ -34,7 +35,7 @@ const requiredFiles = [
   'scripts/termux-render-equations-source-pages.mjs',
   'scripts/validate-equations-automation-wiring.mjs',
   'scripts/validate-equations-first3-readiness.mjs',
-  'docs/EQUATIONS_AUTOMATION_RULES.md'
+  'CLAUDE.md'
 ];
 
 for (const file of requiredFiles) {
@@ -57,13 +58,9 @@ requireText(guardWorkflow, 'npm run audit:equations:smart-queue', 'equations gua
 requireText(guardWorkflow, 'npm run audit:equations:svg-plan', 'equations guard workflow');
 requireText(guardWorkflow, 'git status --porcelain', 'equations guard workflow');
 
-requireText(automationRules, 'Applies only to `משוואות`', 'equations automation rules');
-requireText(automationRules, 'Does not apply to `משוואות ריבועיות`', 'equations automation rules');
-requireText(automationRules, 'Do not create another preview route', 'equations automation rules');
-requireText(automationRules, 'workflow_dispatch', 'equations automation rules');
-requireText(automationRules, 'Do not change the expression `4 + x = \\square`', 'equations automation rules');
-requireText(automationRules, 'termux-render-equations-source-pages.mjs', 'equations automation rules');
-requireText(automationRules, 'visual source evidence', 'equations automation rules');
+requireText(automationRules, 'משוואות ריבועיות` הוא נושא נפרד', 'equations rules in CLAUDE.md');
+requireText(automationRules, '4 + x = \\square', 'equations rules in CLAUDE.md');
+requireText(automationRules, 'read-only', 'equations rules in CLAUDE.md');
 
 if (failures.length) {
   console.error('EQUATIONS_AUTOMATION_WIRING_FAILED');
