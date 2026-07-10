@@ -59,16 +59,41 @@ jobs:
         run: npm run build
 
       - name: Run Android production browser gate
+        id: mobile_gate
         shell: bash
         run: |
           set +e
           npm run validate:mobile:browser
           code=$?
-          if [ -f meta/audit/mobile-browser-validation.json ]; then
-            echo "===== MOBILE BROWSER REPORT ====="
-            cat meta/audit/mobile-browser-validation.json
-          fi
-          exit $code
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload Android validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-browser-report
+          path: meta/audit/mobile-browser-validation.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Enforce Android gate result
+        if: steps.mobile_gate.outputs.exit_code != '0'
+        run: exit 1
+
+  mobile-browser-report:
+    if: always()
+    needs: mobile-browser-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Android validation report
+        uses: actions/download-artifact@v4
+        with:
+          name: mobile-browser-report
+          path: ./mobile-report
+
+      - name: Print Android validation report
+        run: cat ./mobile-report/mobile-browser-validation.json
 
   deploy:
     if: github.event_name != 'pull_request'
