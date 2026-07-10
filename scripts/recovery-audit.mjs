@@ -34,9 +34,7 @@ for (const file of pages) {
   if (!exists(cssRel)) missingPageCss.push({ file, css: cssRel });
   if (!html.includes('styles/a4-base.css')) missingA4BaseLink.push(file);
   if (!html.includes(`page-${n}`)) missingPageClass.push(file);
-  if (/\sstyle\s*=\s*["']/.test(html) || /<style[\s>]/i.test(html)) {
-    inlineCssViolations.push(file);
-  }
+  if (/\sstyle\s*=\s*["']/.test(html) || /<style[\s>]/i.test(html)) inlineCssViolations.push(file);
 }
 
 const report = {
@@ -48,9 +46,9 @@ const report = {
     missingA4BaseLink: missingA4BaseLink.length,
     missingPageClass: missingPageClass.length,
     inlineCssViolations: inlineCssViolations.length,
-    hasProjectRules: exists('PROJECT_RULES.md'),
+    hasCanonicalRules: exists('CLAUDE.md'),
     hasPreview: exists('preview/index.html'),
-    hasPhoneViewer: exists('preview/phone.html'),
+    hasPhoneViewer: exists('mobile-app.html'),
     hasMetaTopics: exists('meta/topics.json'),
     hasLegacy: exists('sources/legacy'),
     hasBackups: exists('sources/backups')
@@ -65,11 +63,11 @@ const report = {
     backupEntries: statDir('sources/backups')
   },
   requiredFiles: {
-    projectRules: exists('PROJECT_RULES.md'),
+    canonicalRules: exists('CLAUDE.md'),
     packageJson: exists('package.json'),
     a4Base: exists('styles/a4-base.css'),
     previewIndex: exists('preview/index.html'),
-    previewPhone: exists('preview/phone.html'),
+    mobileApp: exists('mobile-app.html'),
     metaTopics: exists('meta/topics.json'),
     deployWorkflow: exists('.github/workflows/deploy-pages.yml')
   }
@@ -83,6 +81,6 @@ fs.writeFileSync(outFile, JSON.stringify(report, null, 2) + '\n', 'utf8');
 console.log(`Recovery audit written to ${path.relative(root, outFile)}`);
 console.log(JSON.stringify(report.summary, null, 2));
 
-if (missingPageCss.length || missingA4BaseLink.length || missingPageClass.length) {
+if (missingPageCss.length || missingA4BaseLink.length || missingPageClass.length || !exists('CLAUDE.md')) {
   process.exitCode = 1;
 }
