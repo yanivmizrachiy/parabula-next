@@ -35,8 +35,10 @@
     "topics:check": "node scripts/sync-mobile-topics.mjs --check",
     "validate:html": "html-validate \"עמוד-*.html\"",
     "validate:schema": "node scripts/validate-topics-schema.mjs",
+    "vendorize": "node scripts/vendorize-cdn.mjs",
+    "vendorize:check": "node scripts/vendorize-cdn.mjs --check",
     "doctor": "node scripts/doctor.mjs",
-    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run validate:schema && npm run topics:check && npm run rules:check && npm run validate:html && npm run health:report && npm run build",
+    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run validate:schema && npm run topics:check && npm run rules:check && npm run validate:html && npm run vendorize:check && npm run health:report && npm run build",
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
     "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run export:pdf:sample"

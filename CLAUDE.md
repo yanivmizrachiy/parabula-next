@@ -230,7 +230,9 @@ _עודכן: 2026-07-10_
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>עמוד X — שם הנושא</title>
   <link rel="stylesheet" href="styles/a4-base.css" />
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+  <link rel="stylesheet" href="vendor/fonts/rubik.css" />
+  <script>MathJax = { tex: { inlineMath: [["\\(", "\\)"]] }, chtml: { fontURL: 'vendor/mathjax/output/chtml/fonts/woff-v2' } };</script>
+  <script src="vendor/mathjax/tex-mml-chtml.js" id="MathJax-script" async></script>
   <link rel="stylesheet" href="styles/pages/עמוד-N.css" />
 </head>
 <body>
@@ -536,13 +538,13 @@ npm run page:new
 ## 17. בעיות פתוחות ידועות
 
 1. parity הנייד תוקן ב-2026-07-10 (נושאים גלויים בכניסה, רשת אנכית, חיפוש גלובלי, הדפסה/PDF); נותר אימות במכשיר אמיתי — ראה §1.1.
-2. כ-33 דפי משוואות (`עמוד-62` עד `עמוד-94`) כוללים `<img class="pdf-page">` raster וחלקם חורגים מגבול A4; נדרש אישור יניב לשינוי תוכן מוגן.
+2. ~~כ-33 דפי משוואות raster~~ — נפתר ב-2026-07-10 עם מיזוג PR #28: כל 52 דפי `משוואות` הם עכשיו HTML+MathJax חי (תמלול נאמן מ-`sources/equations/משוואות-52.pdf`).
 3. `עמוד-36.html` מציג שם נושא ביחיד מול `משוואות ריבועיות` ב-`meta/topics.json`; יש ליישב רק לאחר החלטת יניב.
 4. קיימת כפילות legacy בין `preview/print.js` ל-`preview/print-center.js`.
 5. `preview/sw.js` הוא legacy כמעט ריק לצד `sw.js` הקנוני.
 6. ניווט קודם/הבא בתוך 98 דפי HTML קשיח כרגע; שינוי רחב דורש תכנון ובדיקות.
 7. יש לבדוק את חוויית הנייד במכשיר אמיתי לאחר תיקון parity.
-8. PR #28 ממתין למיזוג של יניב (מיזוג-עצמי של ה-AI חסום בכוונה): המרת 52 דפי `משוואות` ל-HTML+MathJax חי (פותר את בעיה 2) + יישור ולידטורי המשוואות. ה-PR מעודכן מול main וירוק; `WORKSHEET_AUTHORING_GUIDE.md` כבר קופל לתוך קובץ זה והוסר מהענף. אחרי המיזוג יש להריץ `node scripts/vendorize-cdn.mjs` (עצמאות מ-CDN) ולאמת.
+8. ~~PR #28~~ — מוזג ב-2026-07-10 באישור מפורש של יניב. מיד אחריו הופעל `vendorize-cdn`: כל 98 הדפים טוענים Rubik + MathJax מ-`vendor/` בלבד (אומת בדפדפן: אפס בקשות חיצוניות, נוסחאות וגופן תקינים) — הדפסה עובדת גם ללא אינטרנט. `npm run vendorize:check` שומר שלא יחזרו קישורי CDN.
 9. ~~שתי בדיקות ישנות ב-`tests/preview.rules.test.mjs`~~ — יושבו ב-2026-07-10 מול חוזי ה-reader הנוכחיים (ניווט נושאים + חיפוש + viewer; CSS חיצוני בלבד). הקובץ ירוק 7/7.
 
 ---
