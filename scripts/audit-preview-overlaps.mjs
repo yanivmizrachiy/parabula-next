@@ -54,7 +54,6 @@ for (const file of requiredCanonical) {
 }
 line('');
 
-checkPair('Print layer', 'preview/print.js', 'preview/print-center.js');
 checkPair('Mobile layer', 'mobile-app.html', 'preview/phone.html');
 checkPair('Mobile JS', 'mobile-app.js', 'preview/phone.js');
 checkPair('Mobile styles', 'mobile-app.css', 'preview/mobile.css');

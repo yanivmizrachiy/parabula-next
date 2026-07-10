@@ -43,12 +43,6 @@ requireIncludes('preview/install.html', './phone.html');
 requireIncludes('preview/install.html', './print.html');
 requireIncludes('preview/print.html', './print.js');
 
-if (exists('preview/README.md')) {
-  const text = read('preview/README.md');
-  if (text.includes('print-center.js')) {
-    warnings.push('preview/README.md documents print-center.js; review whether duplication is still required');
-  }
-}
 
 const output = {
   generatedAt: new Date().toISOString(),
