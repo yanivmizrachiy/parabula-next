@@ -1,0 +1,137 @@
+name: Audit open-full on mobile
+
+on:
+  push:
+    branches:
+      - test/open-full-mobile-audit-20260710
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Start production preview
+        shell: bash
+        run: |
+          npm run preview:vite -- --host 127.0.0.1 --port 4173 > /tmp/parabula-preview.log 2>&1 &
+          echo $! > /tmp/parabula-preview.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/parabula-preview.log
+          exit 1
+
+      - name: Click open-full and audit the new page
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { chromium } from 'playwright';
+
+          const browser = await chromium.launch({ headless: true });
+          const context = await browser.newContext({
+            viewport: { width: 412, height: 915 },
+            screen: { width: 412, height: 915 },
+            deviceScaleFactor: 3,
+            isMobile: true,
+            hasTouch: true,
+            locale: 'he-IL',
+            userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Mobile Safari/537.36',
+            serviceWorkers: 'block'
+          });
+
+          const app = await context.newPage();
+          const appErrors = [];
+          app.on('pageerror', error => appErrors.push(error.message));
+          await app.goto('http://127.0.0.1:4173/?view=mobile', { waitUntil: 'networkidle' });
+          await app.waitForURL(/mobile-app\.html/);
+          await app.locator('#globalSearch').fill('עמוד-48.html');
+          await app.locator('.page-card[data-file="עמוד-48.html"]').click();
+          await app.waitForFunction(() => {
+            const frame = document.querySelector('#mobilePageFrame');
+            return frame?.contentDocument?.querySelector('.a4-page');
+          });
+
+          const popupErrors = [];
+          const failedResponses = [];
+          const popupPromise = context.waitForEvent('page');
+          await app.locator('#openLiveBtn').click();
+          const popup = await popupPromise;
+          popup.on('pageerror', error => popupErrors.push(error.message));
+          popup.on('response', response => {
+            if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) {
+              failedResponses.push(`${response.status()} ${response.url()}`);
+            }
+          });
+          await popup.waitForLoadState('networkidle');
+          await popup.waitForTimeout(1800);
+
+          const state = await popup.evaluate(() => {
+            const page = document.querySelector('.a4-page');
+            const nav = document.querySelector('.preview-nav');
+            const prev = document.querySelector('.preview-nav .nav-side:first-child a');
+            const next = document.querySelector('.preview-nav .nav-side:last-child a');
+            const rect = page?.getBoundingClientRect();
+            const navRect = nav?.getBoundingClientRect();
+            return {
+              url: location.href,
+              title: document.title,
+              openerIsNull: window.opener === null,
+              hasA4: Boolean(page),
+              hasNav: Boolean(nav),
+              navVisible: Boolean(navRect && navRect.width > 0 && navRect.height > 0),
+              prevHref: prev?.getAttribute('href') || null,
+              nextHref: next?.getAttribute('href') || null,
+              equationCount: document.querySelectorAll('.problem-equation').length,
+              rasterCount: document.querySelectorAll('.pdf-page').length,
+              a4Width: rect?.width || 0,
+              a4Height: rect?.height || 0,
+              a4Ratio: rect ? rect.height / rect.width : 0,
+              viewportWidth: window.innerWidth,
+              pageLeft: rect?.left ?? 9999,
+              pageRight: rect?.right ?? 9999,
+              horizontalOverflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth,
+              bodyOverflowX: getComputedStyle(document.body).overflowX,
+              htmlOverflowX: getComputedStyle(document.documentElement).overflowX,
+              mathJaxContainers: document.querySelectorAll('mjx-container').length
+            };
+          });
+
+          const checks = {
+            correctUrl: /%D7%A2%D7%9E%D7%95%D7%93-48\.html$/.test(state.url) || /עמוד-48\.html$/.test(decodeURI(state.url)),
+            titleCorrect: state.title.includes('עמוד 8') && state.title.includes('משוואות'),
+            openerIsolated: state.openerIsNull,
+            a4Exists: state.hasA4,
+            navigationExists: state.hasNav && state.navVisible,
+            navigationTargetsCorrect: state.prevHref === 'עמוד-47.html' && state.nextHref === 'עמוד-49.html',
+            liveMathSource: state.equationCount === 10 && state.rasterCount === 0,
+            mathJaxRendered: state.mathJaxContainers >= 10,
+            a4RatioCorrect: Math.abs(state.a4Ratio - (297 / 210)) < 0.03,
+            fitsMobileWidth: state.pageLeft >= 8 && state.pageRight <= state.viewportWidth - 8,
+            noHorizontalOverflow: state.horizontalOverflow <= 1,
+            noAppErrors: appErrors.length === 0,
+            noPopupErrors: popupErrors.length === 0,
+            noFailedAssets: failedResponses.length === 0
+          };
+
+          const failures = Object.entries(checks).filter(([, ok]) => !ok).map(([name]) => name);
+          const report = { status: failures.length ? 'fail' : 'pass', checks, failures, state, appErrors, popupErrors, failedResponses };
+          console.log(JSON.stringify(report, null, 2));
+          await browser.close();
+          if (failures.length) process.exit(1);
+          NODE
