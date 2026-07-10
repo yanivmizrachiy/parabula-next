@@ -21,13 +21,14 @@ if (!exists(canonical)) {
     'scripts/single-rules-source-check.mjs',
     'חפיפות',
     'scripts/validate-mobile-all-pages.mjs',
-    'validate:mobile:all-pages',
+    'validate:mobile:deep',
     'רוחב קשיח',
     '360×800',
     '412×915',
     '915×412',
     'פתח מלא',
-    'shards'
+    'shards',
+    '### 6.1 CSS רספונסיבי ורכיבים פנימיים'
   ];
   for (const phrase of requiredPhrases) {
     if (!text.includes(phrase)) errors.push(`${canonical} missing required phrase: ${phrase}`);
@@ -35,11 +36,15 @@ if (!exists(canonical)) {
   for (const obsolete of [
     'npm run topics:sync',
     'npm run topics:check',
+    'validate:mobile:all-pages',
     'mobile-topics.json',
     'mobile-app-install.html',
     'preview/phone.html'
   ]) {
     if (text.includes(obsolete)) errors.push(`${canonical} still contains obsolete mobile architecture reference: ${obsolete}`);
+  }
+  if (/\n1\. מריצים ``\.\n2\. מריצים ``\./.test(text)) {
+    errors.push(`${canonical} contains empty metadata validation commands`);
   }
 }
 
@@ -53,7 +58,6 @@ const forbiddenActiveRuleFiles = [
   'docs/EQUATIONS_AUTOMATION_RULES.md',
   'STATE/EQUATIONS_DESIGN_PASS_RULES.md'
 ];
-
 for (const rel of forbiddenActiveRuleFiles) {
   if (exists(rel)) errors.push(`Duplicate active rules source must not exist: ${rel}`);
 }
@@ -61,9 +65,13 @@ for (const rel of forbiddenActiveRuleFiles) {
 const forbiddenTemporaryQualityFiles = [
   'scripts/one-time-strengthen-mobile-rules.mjs',
   '.github/workflows/one-time-strengthen-mobile-rules.yml',
+  'scripts/one-time-clean-canonical-mobile-rules.mjs',
+  'scripts/one-time-finalize-mobile-rules.mjs',
+  '.github/workflows/one-time-finalize-mobile-rules.yml',
   'scripts/tmp-audit-equations-page-16.mjs',
   '.github/workflows/tmp-audit-equations-page-16.yml',
   'STATE/trigger-mobile-rules-migration.tmp',
+  'STATE/trigger-finalize-mobile-rules.tmp',
   'STATE/tmp-page16-visual-audit-trigger.txt'
 ];
 for (const rel of forbiddenTemporaryQualityFiles) {
