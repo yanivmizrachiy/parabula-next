@@ -1,0 +1,38 @@
+name: One-time anchor mobile A4
+
+on:
+  push:
+    branches:
+      - test/mobile-production-browser-gate-20260710
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: test/mobile-production-browser-gate-20260710
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Anchor mobile A4 deterministically
+        run: node scripts/one-time-anchor-mobile-a4.mjs
+
+      - name: Commit atomic fix
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No A4 anchoring changes required."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mobile-app.js
+          git commit -m "fix: position scaled mobile A4 deterministically"
+          git push origin HEAD:test/mobile-production-browser-gate-20260710
