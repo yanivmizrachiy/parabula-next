@@ -182,26 +182,34 @@ function auditWorksheet() {
   };
 }
 
-async function waitForReaderReady(app) {
+function frameMatchesFile(frame, file) {
+  try {
+    return decodeURIComponent(new URL(frame.url()).pathname).endsWith(`/${file}`);
+  } catch {
+    return false;
+  }
+}
+
+async function waitForWorksheetFrame(shell, file) {
   const deadline = Date.now() + 15000;
   while (Date.now() < deadline) {
-    try {
-      await app.evaluate(async () => {
-        const frame = document.querySelector('#mobilePageFrame');
-        const doc = frame?.contentDocument;
-        const win = frame?.contentWindow;
-        if (!doc?.querySelector('.a4-page')) throw new Error('worksheet frame is not ready');
-        if (doc.fonts?.ready) await doc.fonts.ready;
-        if (win?.MathJax?.startup?.promise) await win.MathJax.startup.promise;
-      });
-      await app.waitForTimeout(220);
-      return;
-    } catch (error) {
-      if (!/Execution context was destroyed|worksheet frame is not ready|Target page, context or browser has been closed/i.test(String(error))) throw error;
-      await app.waitForTimeout(100);
+    const frame = shell.frames().find(candidate => frameMatchesFile(candidate, file));
+    if (frame) {
+      try {
+        await frame.locator('.a4-page').waitFor({ state: 'visible', timeout: 1200 });
+        await frame.evaluate(async () => {
+          if (document.fonts?.ready) await document.fonts.ready;
+          if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
+        });
+        await shell.waitForTimeout(220);
+        if (frameMatchesFile(frame, file)) return frame;
+      } catch (error) {
+        if (!/Execution context was destroyed|Target page, context or browser has been closed|Frame was detached/i.test(String(error))) throw error;
+      }
     }
+    await shell.waitForTimeout(100);
   }
-  throw new Error('Timed out waiting for a stable worksheet frame');
+  throw new Error(`Timed out waiting for worksheet frame: ${file}`);
 }
 
 async function selectPage(shell, file) {
@@ -216,27 +224,15 @@ async function selectPage(shell, file) {
   await card.waitFor({ state: 'visible', timeout: 10000 });
   if (await card.count() !== 1) throw new Error(`Search result is not unique for ${file}`);
   await card.click();
-  await shell.waitForFunction(expectedFile => {
-    const frame = document.querySelector('#mobilePageFrame');
-    const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
-    return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
-  }, file, { timeout: 15000 });
-  await waitForReaderReady(shell);
+  return await waitForWorksheetFrame(shell, file);
 }
 
-async function auditFrame(shell, auditSource) {
-  return await shell.evaluate(source => {
-    const frame = document.querySelector('#mobilePageFrame');
-    if (!frame?.contentWindow) return { issues: [{ code: 'missing-reader-frame' }], metrics: {} };
-    return frame.contentWindow.eval(`(${source})()`);
-  }, auditSource);
+async function auditFrame(frame, auditSource) {
+  return await frame.evaluate(source => globalThis.eval(`(${source})()`), auditSource);
 }
 
-async function frameNavigationTargets(shell) {
-  return await shell.evaluate(() => {
-    const doc = document.querySelector('#mobilePageFrame')?.contentDocument;
-    return [...(doc?.querySelectorAll('.preview-nav a[href]') || [])].map(link => link.getAttribute('href'));
-  });
+async function frameNavigationTargets(frame) {
+  return await frame.locator('.preview-nav a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
 }
 
 async function captureFailure(page, file, viewport, surface) {
@@ -286,6 +282,7 @@ async function run() {
       if (shellOverflow > 2) shellIssues.push({ code: 'app-horizontal-overflow', value: shellOverflow });
 
       for (const pageMeta of pages) {
+        appErrors.length = 0;
         const result = {
           file: pageMeta.file,
           topic: pageMeta.topic,
@@ -300,8 +297,8 @@ async function run() {
         let popup = null;
 
         try {
-          await selectPage(app, pageMeta.file);
-          const appReaderAudit = await auditFrame(app, auditSource);
+          const appFrame = await selectPage(app, pageMeta.file);
+          const appReaderAudit = await auditFrame(appFrame, auditSource);
           result.surfaces.appReader = appReaderAudit;
           result.issues.push(...appReaderAudit.issues.map(issue => ({ ...issue, surface: 'app-reader' })));
 
@@ -324,12 +321,7 @@ async function run() {
             result.issues.push({ code: 'wrong-open-full-url', actual: popup.url() });
           }
           if (!(await popup.evaluate(() => window.opener === null))) result.issues.push({ code: 'opener-not-isolated' });
-          await popup.waitForFunction(expectedFile => {
-            const frame = document.querySelector('#mobilePageFrame');
-            const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
-            return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
-          }, pageMeta.file, { timeout: 15000 });
-          await waitForReaderReady(popup);
+          const fullFrame = await waitForWorksheetFrame(popup, pageMeta.file);
 
           const fullShell = await popup.evaluate(() => ({
             fullMode: document.body.classList.contains('full-mode'),
@@ -342,11 +334,11 @@ async function run() {
           if (fullShell.backText !== 'חזרה') result.issues.push({ code: 'missing-full-mode-back-action' });
           if (!fullShell.visibleFrame) result.issues.push({ code: 'hidden-full-mode-frame' });
 
-          const openFullAudit = await auditFrame(popup, auditSource);
+          const openFullAudit = await auditFrame(fullFrame, auditSource);
           result.surfaces.openFull = openFullAudit;
           result.issues.push(...openFullAudit.issues.map(issue => ({ ...issue, surface: 'open-full' })));
 
-          const navTargets = await frameNavigationTargets(popup);
+          const navTargets = await frameNavigationTargets(fullFrame);
           const invalidTargets = navTargets.filter(href => /^עמוד-\d+\.html$/.test(href || '') && !canonicalFiles.has(href));
           if (invalidTargets.length) result.issues.push({ code: 'navigation-target-missing', targets: invalidTargets });
         } catch (error) {
