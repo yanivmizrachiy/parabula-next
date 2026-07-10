@@ -14,8 +14,13 @@ const replaceOnce = (text, from, to, label) => {
   if (count !== 1) throw new Error(`${label}: expected one match, found ${count}`);
   return text.replace(from, to);
 };
+const replaceRegexOnce = (text, pattern, replacement, label) => {
+  const matches = text.match(pattern) || [];
+  if (matches.length !== 1) throw new Error(`${label}: expected one match, found ${matches.length}`);
+  return text.replace(pattern, replacement);
+};
 
-// 1) Keep installation inside the canonical mobile app only.
+// Keep installation inside the canonical mobile app only.
 {
   const file = 'mobile-app.html';
   let text = read(file);
@@ -46,39 +51,39 @@ const replaceOnce = (text, from, to, label) => {
   text = replaceOnce(
     text,
     "function norm(value){\n",
-    `function isStandalone(){\n  return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;\n}\n\nfunction syncInstallButton(){\n  if(!els.installAppBtn) return;\n  els.installAppBtn.hidden = isStandalone() || !deferredInstallPrompt;\n}\n\nasync function installCanonicalApp(){\n  if(!deferredInstallPrompt || isStandalone()) {\n    syncInstallButton();\n    return;\n  }\n  const prompt = deferredInstallPrompt;\n  deferredInstallPrompt = null;\n  syncInstallButton();\n  await prompt.prompt();\n  await prompt.userChoice;\n}\n\nfunction norm(value){\n`,
+    "function isStandalone(){\n  return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;\n}\n\nfunction syncInstallButton(){\n  if(!els.installAppBtn) return;\n  els.installAppBtn.hidden = isStandalone() || !deferredInstallPrompt;\n}\n\nasync function installCanonicalApp(){\n  if(!deferredInstallPrompt || isStandalone()){\n    syncInstallButton();\n    return;\n  }\n  const prompt = deferredInstallPrompt;\n  deferredInstallPrompt = null;\n  syncInstallButton();\n  await prompt.prompt();\n  await prompt.userChoice;\n}\n\nfunction norm(value){\n",
     'mobile-app.js install functions'
   );
   text = replaceOnce(
     text,
     "els.globalSearch.addEventListener('input', () => renderPages());\n",
-    `els.installAppBtn?.addEventListener('click', installCanonicalApp);\nwindow.addEventListener('beforeinstallprompt', event => {\n  event.preventDefault();\n  if(isStandalone()) return;\n  deferredInstallPrompt = event;\n  syncInstallButton();\n});\nwindow.addEventListener('appinstalled', () => {\n  deferredInstallPrompt = null;\n  syncInstallButton();\n});\nwindow.matchMedia?.('(display-mode: standalone)').addEventListener?.('change', syncInstallButton);\nsyncInstallButton();\n\nels.globalSearch.addEventListener('input', () => renderPages());\n`,
+    "els.installAppBtn?.addEventListener('click', installCanonicalApp);\nwindow.addEventListener('beforeinstallprompt', event => {\n  event.preventDefault();\n  if(isStandalone()) return;\n  deferredInstallPrompt = event;\n  syncInstallButton();\n});\nwindow.addEventListener('appinstalled', () => {\n  deferredInstallPrompt = null;\n  syncInstallButton();\n});\nwindow.matchMedia?.('(display-mode: standalone)').addEventListener?.('change', syncInstallButton);\nsyncInstallButton();\n\nels.globalSearch.addEventListener('input', () => renderPages());\n",
     'mobile-app.js install listeners'
   );
   write(file, text);
 }
 
-// 2) Make the requirement authoritative in the single rules source.
+// Make the requirement authoritative in the single rules source.
 {
   const file = 'CLAUDE.md';
   let text = read(file);
   text = replaceOnce(
     text,
     '12. התאמה לנייד פירושה שימוש מלא ונוח, לא רק שהדף “נפתח”.\n',
-    `12. התאמה לנייד פירושה שימוש מלא ונוח, לא רק שהדף “נפתח”.\n13. אפליקציית הנייד חייבת להיות ניתנת להתקנה כאייקון יחיד במסך הבית של הטלפון.\n14. הצעת ההתקנה תופיע רק כאשר הדפדפן מספק אירוע התקנה אמיתי והאפליקציה אינה פועלת במצב מותקן.\n15. אסור ליצור אייקון כפול, מסלול התקנה כפול, דף התקנה נפרד או מנגנון דמה.\n16. האייקון המותקן חייב לפתוח ישירות את \\`mobile-app.html\\` בתצוגת הנייד הקנונית והמהירה.\n17. מגבלות אבטחה של Android/Chrome מחייבות פעולת משתמש לאישור התקנה; אין להציג כאילו האתר התקין אייקון בלי אישור המשתמש.\n18. לאחר התקנה או פתיחה במצב standalone, כפתור ההתקנה חייב להיעלם ולא להיות מוצע שוב.\n`,
+    '12. התאמה לנייד פירושה שימוש מלא ונוח, לא רק שהדף “נפתח”.\n13. אפליקציית הנייד חייבת להיות ניתנת להתקנה כאייקון יחיד במסך הבית של הטלפון.\n14. הצעת ההתקנה תופיע רק כאשר הדפדפן מספק אירוע התקנה אמיתי והאפליקציה אינה פועלת במצב מותקן.\n15. אסור ליצור אייקון כפול, מסלול התקנה כפול, דף התקנה נפרד או מנגנון דמה.\n16. האייקון המותקן חייב לפתוח ישירות את `mobile-app.html` בתצוגת הנייד הקנונית והמהירה.\n17. מגבלות האבטחה של Android/Chrome מחייבות פעולת משתמש לאישור התקנה; אין להציג כאילו האתר התקין אייקון בלי אישור המשתמש.\n18. לאחר התקנה או פתיחה במצב standalone, כפתור ההתקנה חייב להיעלם ולא להיות מוצע שוב.\n',
     'CLAUDE.md installation requirements'
   );
   write(file, text);
 }
 
-// 3) Remove the separate installer and unsafe/manual release machinery.
+// Remove the separate installer and unsafe/manual release machinery.
 for (const rel of [
   'mobile-app-install.html',
   'mobile-app-install.js',
   'scripts/ship_mobile_release.sh'
 ]) remove(rel);
 
-// 4) Update active validators to require one mobile route only.
+// Update active validators to require one mobile route only.
 {
   const file = 'scripts/app-layer-check.mjs';
   let text = read(file);
@@ -109,7 +114,6 @@ for (const rel of [
   const file = 'scripts/validate-mobile-runtime.mjs';
   let text = read(file);
   text = text.replace("  'mobile-app-install.html',\n  'mobile-app-install.js',\n", '');
-  text = text.replace("  'scripts/build-equations-pages.mjs'\n", "  'scripts/build-equations-pages.mjs'\n");
   text = replaceOnce(
     text,
     "  'scripts/one-time-clean-equations-mobile-css.mjs'\n",
@@ -117,7 +121,10 @@ for (const rel of [
     'mobile validator forbidden installer'
   );
   text = text.replace("const installHtml = files['mobile-app-install.html'];\nconst installJs = files['mobile-app-install.js'];\n", '');
-  text = text.replace("add('pwa-no-cache-update', js.includes(\"updateViaCache:'none'\") && installJs.includes(\"updateViaCache:'none'\"), 'service worker update bypasses stale HTTP cache');\n", "add('pwa-no-cache-update', js.includes(\"updateViaCache:'none'\"), 'service worker update bypasses stale HTTP cache');\n");
+  text = text.replace(
+    "add('pwa-no-cache-update', js.includes(\"updateViaCache:'none'\") && installJs.includes(\"updateViaCache:'none'\"), 'service worker update bypasses stale HTTP cache');\n",
+    "add('pwa-no-cache-update', js.includes(\"updateViaCache:'none'\"), 'service worker update bypasses stale HTTP cache');\n"
+  );
   text = replaceOnce(
     text,
     "add('pwa-controller-refresh', js.includes('controllerchange') && js.includes('SKIP_WAITING'), 'installed app activates and reloads the new worker');\n",
@@ -128,18 +135,25 @@ for (const rel of [
   write(file, text);
 }
 
-// 5) Remove stale installer references from current state/docs.
-for (const rel of ['meta/system-state.json', 'preview/README.md']) {
-  if (!fs.existsSync(path.join(root, rel))) continue;
-  let text = read(rel);
-  text = text
+// Update current system state structurally.
+{
+  const file = 'meta/system-state.json';
+  const state = JSON.parse(read(file));
+  delete state.access_layer?.mobile?.canonical_install_html;
+  state.access_layer.mobile.installation = 'single beforeinstallprompt flow inside mobile-app.html; hidden when unavailable or already installed';
+  write(file, `${JSON.stringify(state, null, 2)}\n`);
+}
+
+if (fs.existsSync(path.join(root, 'preview/README.md'))) {
+  const file = 'preview/README.md';
+  const text = read(file)
     .split('\n')
     .filter(line => !line.includes('mobile-app-install.html') && !line.includes('mobile-app-install.js') && !line.includes('ship_mobile_release.sh'))
     .join('\n');
-  write(rel, text);
+  write(file, text);
 }
 
-// 6) Delete historical mobile/old-rules artifacts that are not runtime dependencies.
+// Delete historical mobile/old-rules artifacts that are not runtime dependencies.
 const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' }).split('\n').filter(Boolean);
 const historicalPatterns = [
   /^STATE\/(?:.*\/)?mobile[-_]?app/i,
@@ -156,9 +170,7 @@ const historicalPatterns = [
   /^meta\/backup\/mobile_hardening/i,
   /^meta\/backup\/preview_polish/i
 ];
-const keep = new Set([
-  'STATE/PREVIEW_OVERLAP_AUDIT.md'
-]);
+const keep = new Set(['STATE/PREVIEW_OVERLAP_AUDIT.md']);
 let removedHistorical = 0;
 for (const rel of tracked) {
   if (keep.has(rel)) continue;
@@ -167,8 +179,24 @@ for (const rel of tracked) {
   removedHistorical += 1;
 }
 
-// 7) Remove this one-time mechanism itself. The final branch retains no cleanup layer.
-remove('scripts/one-time-clean-mobile-architecture.mjs');
-remove('.github/workflows/one-time-clean-mobile-architecture.yml');
+// Remove the temporary cleanup job from the permanent workflow.
+{
+  const file = '.github/workflows/deploy-pages.yml';
+  let text = read(file);
+  text = replaceRegexOnce(
+    text,
+    /\n  # BEGIN ONE-TIME MOBILE CLEANUP[\s\S]*?  # END ONE-TIME MOBILE CLEANUP\n/,
+    '\n',
+    'remove temporary cleanup job'
+  );
+  write(file, text);
+}
+
+// Remove all one-time mechanism files. Final repository retains no cleanup layer.
+for (const rel of [
+  'scripts/one-time-clean-mobile-architecture.mjs',
+  '.github/workflows/one-time-clean-mobile-architecture.yml',
+  'STATE/mobile-app-cleanup-trigger.tmp'
+]) remove(rel);
 
 console.log(JSON.stringify({ removedHistorical, status: 'cleaned' }, null, 2));
