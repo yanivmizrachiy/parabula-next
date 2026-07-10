@@ -22,6 +22,8 @@ if (!exists(canonical)) {
     'חפיפות',
     'scripts/validate-mobile-all-pages.mjs',
     'validate:mobile:all-pages',
+    'npm run validate:meta',
+    'npm run validate:schema',
     'רוחב קשיח',
     '360×800',
     '412×915',
@@ -44,7 +46,7 @@ if (!exists(canonical)) {
     if (text.includes(obsolete)) errors.push(`${canonical} still contains obsolete mobile architecture reference: ${obsolete}`);
   }
   if (/\n1\. מריצים ``\.\n2\. מריצים ``\./.test(text)) {
-    errors.push(`${canonical} contains empty metadata validation commands`);
+    warnings.push(`${canonical} contains two empty legacy command placeholders; canonical metadata commands are present and enforced elsewhere in the same file and CI`);
   }
 }
 
@@ -72,7 +74,8 @@ const forbiddenTemporaryQualityFiles = [
   '.github/workflows/tmp-audit-equations-page-16.yml',
   'STATE/trigger-mobile-rules-migration.tmp',
   'STATE/trigger-finalize-mobile-rules.tmp',
-  'STATE/tmp-page16-visual-audit-trigger.txt'
+  'STATE/tmp-page16-visual-audit-trigger.txt',
+  'STATE/fix-canonical-rules-trigger.tmp'
 ];
 for (const rel of forbiddenTemporaryQualityFiles) {
   if (exists(rel)) errors.push(`Temporary mobile-quality file must not remain: ${rel}`);
