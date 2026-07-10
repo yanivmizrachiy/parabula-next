@@ -1,61 +1,92 @@
-name: Deploy parabula-next to GitHub Pages
+name: Validate and deploy parabula-next
+
 on:
+  pull_request:
+    branches: ["main"]
   push:
     branches: ["main"]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
-  group: "pages"
+  group: "pages-${{ github.event.pull_request.number || github.ref }}"
   cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
+
       - name: Install dependencies
         run: npm ci
-      - name: Run tests
-        run: npm test
-      - name: Run verify
-        run: npm run verify
-      - name: Validate meta schema
-        run: npm run validate:meta
-      - name: Check mobile-topics mirror sync
-        run: npm run topics:check
-      - name: Build Vite
-        run: npm run build
-      - name: Copy all assets to dist
-        run: |
-          cp -r styles dist/
-          cp -r meta dist/
-          cp -r preview dist/
-          cp -r pages dist/
-          [ -d vendor ] && cp -r vendor dist/ || true
-          [ -f mobile-topics.json ] && cp mobile-topics.json dist/ || true
-          for f in *.html; do
-            [ "$f" != "index.html" ] && cp "$f" dist/ || true
-          done
-          for f in *.css *.js mobile-app.webmanifest sw.js icon.svg; do
-            [ -f "$f" ] && cp "$f" dist/ || true
-          done
-          ls dist/
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+
+      - name: Run canonical validation and build
+        run: npm run ci:all
+
+      - name: Upload production build for deployment
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
         with:
+          name: production-dist
           path: ./dist
+          if-no-files-found: error
+          retention-days: 1
+
+  mobile-browser-gate:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Run Android production browser gate
+        id: mobile_gate
+        shell: bash
+        run: |
+          set +e
+          npm run validate:mobile:browser
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ -f meta/audit/mobile-browser-validation.json ]; then
+            jq '{status, failures: [.checks[] | select(.ok == false)]}' meta/audit/mobile-browser-validation.json
+          fi
+          exit 0
+
+      - name: Upload Android validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-browser-report
+          path: meta/audit/mobile-browser-validation.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Enforce Android gate result
+        if: steps.mobile_gate.outputs.exit_code != '0'
+        run: exit 1
+
   deploy:
-    needs: build
+    if: github.event_name != 'pull_request'
+    needs: [build, mobile-browser-gate]
     permissions:
       pages: write
       id-token: write
@@ -64,6 +95,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Download production build
+        uses: actions/download-artifact@v4
+        with:
+          name: production-dist
+          path: ./dist
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4

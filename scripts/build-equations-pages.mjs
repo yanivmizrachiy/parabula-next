@@ -4,24 +4,16 @@
  *
  * Data-driven generator for the non-quadratic equations topic (משוואות).
  * Reads:
- *   - meta/equations-master-map.json  (logical page -> on-disk file)
- *   - meta/equations-content.json     (faithful PDF transcription per page)
+ *   - meta/equations-master-map.json
+ *   - meta/equations-content.json
  *
  * For every logical page that has transcribed content it rewrites the worksheet
- * body of `עמוד-<file>.html` to the locked v2 gold design (numbered pages only,
- * equation centered in the gray card, grid-paper solution area, `var = ▭`) and
- * writes the matching scoped `styles/pages/עמוד-<file>.css`.
+ * body of `עמוד-<file>.html` to the locked live HTML + MathJax design and writes
+ * the matching scoped `styles/pages/עמוד-<file>.css`.
  *
- * Design contract: STATE/EQUATIONS_DESIGN_PASS_RULES.md
- *   - no per-exercise numbering (only the page badge)
- *   - equation centered/prominent inside the gray card, above the writing area
- *   - content is transcribed only, never invented
- *
- * Pages without transcribed content are left untouched (e.g. logical 53-54 have
- * no source PDF page -> EXTRA_UNVERIFIED).
- *
- * Nav, header, page number and title of each file are preserved as-is; only the
- * worksheet body and the page CSS are produced here.
+ * The authoritative design and repository contract is CLAUDE.md.
+ * Mobile scaling belongs only to the canonical mobile reader and shared topic
+ * layer. This generator must never emit page-level zoom or viewport scaling.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,7 +25,7 @@ const content = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'equations-co
 const fileByLogical = new Map(map.pages.map((p) => [p.logical, p]));
 const instruction = content.instruction;
 
-const onlyArg = process.argv[2]; // optional "1-8" or "9" range filter
+const onlyArg = process.argv[2];
 let lo = 1, hi = Infinity;
 if (onlyArg) {
   const m = onlyArg.match(/^(\d+)(?:-(\d+))?$/);
@@ -41,7 +33,7 @@ if (onlyArg) {
 }
 
 const unknownOf = (eq) => (/y/.test(eq) ? 'y' : 'x');
-const esc = (s) => s; // equations are author-controlled TeX-safe strings
+const esc = (s) => s;
 
 function card(eq, i) {
   const v = unknownOf(eq);
@@ -55,24 +47,21 @@ function card(eq, i) {
 }
 
 function buildBody(sourcePage, equations, columns) {
-  // Explicit columns for engine-independent RTL ordering (no auto-flow guesswork).
-  // 1 column = single list (long/sparse pages). 2 columns: first=right (reading order
-  // 1..k), second=left (k+1..n) — matches the source worksheet layout.
   let colsHtml;
   if (columns === 1) {
     colsHtml = `            <div class="eq-col">
 ${equations.map((e, i) => card(e, i)).join('\n\n')}
-            </div>`;
+             </div>`;
   } else {
     const k = Math.ceil(equations.length / 2);
     const right = equations.slice(0, k).map((e, i) => card(e, i)).join('\n\n');
     const left = equations.slice(k).map((e, i) => card(e, i + k)).join('\n\n');
     colsHtml = `            <div class="eq-col eq-col-right">
 ${right}
-            </div>
-            <div class="eq-col eq-col-left">
+             </div>
+             <div class="eq-col eq-col-left">
 ${left}
-            </div>`;
+             </div>`;
   }
 
   return `
@@ -98,8 +87,7 @@ function buildCss(fileNum, logical, n, columns, fontSize) {
     '    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px)';
   return `/* עמוד ${fileNum} — משוואות עמוד ${logical} (נעלם אחד)
    נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד ${logical}.
-   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
-   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
+   מבנה HTML + MathJax חי. חוזה עיצוב: CLAUDE.md. ללא שינוי או המצאת תוכן לימודי. */
 
 .page-${fileNum}.equations-page {
   justify-content: flex-start;
@@ -176,7 +164,6 @@ function buildCss(fileNum, logical, n, columns, fontSize) {
   gap: 6px;
 }
 
-/* המשוואה כמוקד מרכזי בתוך השטח האפור של הכרטיס — ללא מספור */
 .page-${fileNum} .problem-figure {
   flex: 0 0 auto;
   display: flex;
@@ -224,31 +211,6 @@ function buildCss(fileNum, logical, n, columns, fontSize) {
   transform: translateY(-1px);
 }
 
-@media screen and (max-width: 900px) {
-  body {
-    overflow-x: hidden;
-  }
-
-  .preview-nav {
-    zoom: 0.48;
-    margin-top: 10px;
-    margin-bottom: 6px;
-  }
-
-  .page-${fileNum}.a4-page {
-    zoom: 0.48;
-    margin-top: 8px;
-    margin-bottom: 16px;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 900px) {
-  .preview-nav,
-  .page-${fileNum}.a4-page {
-    zoom: 0.64;
-  }
-}
-
 @media print {
   .page-${fileNum} .problem-block {
     box-shadow: none;
@@ -274,8 +236,6 @@ for (const [logicalStr, data] of Object.entries(content.pages)) {
   let html = fs.readFileSync(htmlPath, 'utf8');
 
   const columns = data.columns || 2;
-  // Visual length proxy: TeX fraction markup (\frac{a}{b}) renders compact, so it
-  // must not inflate the length-based font heuristic. Collapse it to ~3 glyphs.
   const visualLen = (e) =>
     e.replace(/\\frac\{([^}]*)\}\{([^}]*)\}/g, '$1/$2').replace(/\\[a-zA-Z]+/g, 'x').length;
   const maxLen = Math.max(...data.equations.map(visualLen));
@@ -285,7 +245,6 @@ for (const [logicalStr, data] of Object.entries(content.pages)) {
     skipped.push(`logical ${logical} (${entry.file}): no <header>/<main> found`);
     continue;
   }
-  // normalize <main> class and replace the worksheet body between </header> and </main>
   html = html.replace(/<main class="[^"]*">/, `<main class="a4-page page-${entry.fileNum} equations-page">`);
   const body = buildBody(data.sourcePage, data.equations, columns);
   const replaced = html.replace(/(<\/header>)[\s\S]*?(<\/main>)/, `$1\n${body}$2`);

@@ -1,5 +1,5 @@
-/* משוואות — תקן עיצוב משותף לפי PROJECT_RULES.md
-   מבוסס על טוקני styles/a4-base.css, ללא צבעים מומצאים וללא שינוי תוכן לימודי. */
+/* משוואות — עיצוב משותף לפי CLAUDE.md.
+   מבוסס על טוקני styles/a4-base.css, ללא שינוי תוכן לימודי. */
 
 .equations-page {
   --equations-border: var(--border-light);
@@ -100,6 +100,7 @@
     margin: 10px auto 12px;
     padding: 10px;
     overflow: hidden;
+    zoom: 1 !important;
   }
 
   .preview-nav:has(+ .equations-page) .preview-nav-top {
@@ -137,6 +138,7 @@
     padding: 4.8vw 8.5vw;
     box-shadow: 0 0 10px rgba(0,0,0,0.15);
     flex-shrink: 0;
+    zoom: 1 !important;
   }
 
   .a4-page.equations-page .header-container {
@@ -168,5 +170,6 @@
     margin: 0;
     padding: 10mm 18mm;
     box-shadow: none;
+    zoom: 1 !important;
   }
 }

@@ -1,1 +1,0 @@
-# Mobile app resume flow\n\n- preview/mobile-app.html\n- preview/mobile-app.js\n- preview/mobile-app.css\n- PROJECT_RULES.md\n

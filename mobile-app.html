@@ -5,18 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
   <title>ספר דפי העבודה של יניב</title>
-  <link rel="manifest" href="./mobile-app.webmanifest?v=20260417013000" />
-  <link rel="icon" href="./icon.svg?v=20260417013000" type="image/svg+xml" />
-  <link rel="stylesheet" href="./mobile-app.css?v=20260710120000" />
+  <link rel="manifest" href="./mobile-app.webmanifest?v=20260710003" />
+  <link rel="icon" href="./icon.svg?v=20260710003" type="image/svg+xml" />
+  <link rel="stylesheet" href="./mobile-app.css?v=20260710003" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <div class="topbar-main">
         <strong class="app-title">ספר דפי העבודה של יניב</strong>
-        <div id="appMeta" class="app-meta">טוען…</div>
+        <div id="appMeta" class="app-meta" role="status" aria-live="polite">טוען…</div>
       </div>
       <div class="topbar-actions">
+        <button id="installAppBtn" type="button" hidden>התקן במסך הבית</button>
         <button id="toggleTopicsBtn" type="button" aria-controls="topicsPanel" aria-expanded="true">נושאים ודפים</button>
       </div>
     </header>
@@ -24,15 +25,15 @@
     <section id="topicsPanel" class="topics-panel" aria-label="נושאים ודפים">
       <div class="section-title" id="topicsTitle">כל הנושאים</div>
       <div id="topicStrip" class="topic-strip" role="group" aria-labelledby="topicsTitle"></div>
-      <input id="globalSearch" type="search" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
-      <div id="searchMeta" class="search-meta" role="status" hidden></div>
+      <input id="globalSearch" type="search" inputmode="search" autocomplete="off" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
+      <div id="searchMeta" class="search-meta" role="status" aria-live="polite" hidden></div>
       <section id="topicPages" class="pages-list" aria-label="רשימת דפים"></section>
     </section>
 
-    <section class="reader-box">
+    <section class="reader-box" aria-label="תצוגת דף העבודה">
       <div class="reader-head">
         <div class="reader-copy">
-          <strong id="currentPageTitle">טוען…</strong>
+          <strong id="currentPageTitle" aria-live="polite">טוען…</strong>
           <span id="currentPageMeta">—</span>
         </div>
         <div class="reader-progress">
@@ -41,7 +42,7 @@
         </div>
       </div>
 
-      <div id="mobileLoadingState" class="loading-state" hidden>טוען דף…</div>
+      <div id="mobileLoadingState" class="loading-state" role="status" aria-live="polite" hidden>טוען דף…</div>
 
       <div class="frame-wrap">
         <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank" loading="eager"></iframe>
@@ -55,6 +56,6 @@
       <button id="printBtn" type="button" aria-label="הדפסה או שמירה כ-PDF">הדפסה / PDF</button>
     </nav>
   </div>
-  <script src="./mobile-app.js?v=20260710120000"></script>
+  <script src="./mobile-app.js?v=20260710003"></script>
 </body>
 </html>
