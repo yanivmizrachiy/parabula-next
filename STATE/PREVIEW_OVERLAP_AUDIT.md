@@ -4,7 +4,7 @@ This report distinguishes files that are actually live on main from legacy or du
 It is informational by default and should fail only when a truly live canonical file is missing.
 
 ## Canonical runtime presence
-PROJECT_RULES.md: YES
+CLAUDE.md: YES
 meta/topics.json: YES
 preview/index.html: YES
 preview/app.html: YES
@@ -17,10 +17,6 @@ scripts/audit-preview-overlaps.mjs: YES
 STATE/LIVE_STATUS.md: YES
 STATE/ARCHITECTURE_MAP.md: YES
 STATE/PROJECT_CONTINUITY.md: YES
-
-## Print layer
-canonical: preview/print.js => YES
-legacy_or_duplicate: preview/print-center.js => YES
 
 ## Mobile layer
 canonical: mobile-app.html => YES
