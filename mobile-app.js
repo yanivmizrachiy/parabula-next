@@ -1,4 +1,4 @@
-const VERSION = 'focus-20260427001';
+const VERSION = 'parity-20260710001';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -12,6 +12,7 @@ const els = {
   mobilePageFrame: document.getElementById('mobilePageFrame'),
   mobileLoadingState: document.getElementById('mobileLoadingState'),
   globalSearch: document.getElementById('globalSearch'),
+  searchMeta: document.getElementById('searchMeta'),
   toggleTopicsBtn: document.getElementById('toggleTopicsBtn'),
   topicsPanel: document.getElementById('topicsPanel'),
   prevPageBtn: document.getElementById('prevPageBtn'),
@@ -25,6 +26,7 @@ let activeTopic = '';
 let visiblePages = [];
 let flatPages = [];
 let currentIndex = -1;
+let shownPage = null;
 
 function norm(v){ return String(v || '').trim().toLowerCase(); }
 function esc(v){
@@ -36,7 +38,18 @@ function esc(v){
     .replace(/'/g,'&#39;');
 }
 function pageUrl(page){
-  return page?.siteUrl || 'about:blank';
+  if(!page) return 'about:blank';
+  if(page.file) return new URL('./' + encodeURIComponent(page.file), window.location.href).href;
+  return page.siteUrl || 'about:blank';
+}
+function topicPagesOf(name){
+  const topic = (db?.topics || []).find(t => t.name === name);
+  return (topic?.pages || []).slice().sort((a,b) => a.number - b.number);
+}
+function setTopicsPanelOpen(open){
+  els.topicsPanel.classList.toggle('is-collapsed', !open);
+  document.body.classList.toggle('focus-reading', !open);
+  els.toggleTopicsBtn.setAttribute('aria-expanded', String(open));
 }
 function currentPage(){
   return currentIndex >= 0 ? visiblePages[currentIndex] : null;
@@ -45,13 +58,18 @@ function updateButtons(){
   const has = !!currentPage();
   els.prevPageBtn.disabled = !has || currentIndex <= 0;
   els.nextPageBtn.disabled = !has || currentIndex >= visiblePages.length - 1;
-  els.openLiveBtn.disabled = !has;
-  els.printBtn.disabled = !has;
+  els.openLiveBtn.disabled = !shownPage;
+  els.printBtn.disabled = !shownPage;
   document.querySelectorAll('.topic-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.topic === activeTopic);
+    const on = btn.dataset.topic === activeTopic;
+    btn.classList.toggle('active', on);
+    btn.setAttribute('aria-pressed', String(on));
   });
   document.querySelectorAll('.page-card').forEach(btn => {
-    btn.classList.toggle('active', has && btn.dataset.file === currentPage().file);
+    const on = has && btn.dataset.file === currentPage().file;
+    btn.classList.toggle('active', on);
+    if(on) btn.setAttribute('aria-current', 'page');
+    else btn.removeAttribute('aria-current');
   });
 }
 function setProgress(page){
@@ -60,7 +78,9 @@ function setProgress(page){
     els.globalProgress.textContent = '—';
     return;
   }
-  els.topicProgress.textContent = `עמוד ${currentIndex + 1} מתוך ${visiblePages.length} בנושא`;
+  const tp = topicPagesOf(page.topic);
+  const ti = tp.findIndex(p => p.file === page.file);
+  els.topicProgress.textContent = ti >= 0 ? `עמוד ${ti + 1} מתוך ${tp.length} בנושא` : '—';
   const gi = flatPages.findIndex(p => p.file === page.file);
   els.globalProgress.textContent = gi >= 0 ? `עמוד ${gi + 1} מתוך ${flatPages.length} בספר` : '—';
 }
@@ -99,6 +119,19 @@ function injectMobileReaderStyles(doc){
       box-shadow:none !important;
       transform-origin: top center !important;
       page-break-after:auto !important;
+    }
+    @media print{
+      html,body{
+        display:block !important;
+        overflow:visible !important;
+        height:auto !important;
+        min-height:0 !important;
+        background:#fff !important;
+      }
+      .a4-page{
+        transform:none !important;
+        margin:0 !important;
+      }
     }
   `;
   (doc.head || doc.documentElement).appendChild(style);
@@ -164,11 +197,13 @@ function scheduleFit(){
     setTimeout(fitCurrentA4Page, 180);
   });
 }
-function showPage(file){
+function showPage(file, opts = {}){
   const idx = visiblePages.findIndex(p => p.file === file);
   if(idx < 0) return;
   currentIndex = idx;
   const page = visiblePages[idx];
+  shownPage = page;
+  if(page.topic) activeTopic = page.topic;
   els.mobileLoadingState.hidden = false;
   const url = pageUrl(page);
   const sep = url.includes('?') ? '&' : '?';
@@ -179,8 +214,7 @@ function showPage(file){
   localStorage.setItem('parabula:lastTopic', page.topic || activeTopic);
   setProgress(page);
   updateButtons();
-  document.body.classList.add('focus-reading');
-  els.topicsPanel.classList.add('is-collapsed');
+  if(opts.collapse !== false) setTopicsPanelOpen(false);
   scheduleFit();
 }
 function renderTopics(){
@@ -191,33 +225,46 @@ function renderTopics(){
     b.className = 'topic-btn';
     b.dataset.topic = topic.name;
     b.textContent = `${topic.name} (${topic.count})`;
+    b.setAttribute('aria-label', `נושא ${topic.name}, ${topic.count} דפים`);
     b.onclick = () => {
       activeTopic = topic.name;
+      if(els.globalSearch.value) els.globalSearch.value = '';
       renderPages();
-      els.topicsPanel.classList.remove('is-collapsed');
+      setTopicsPanelOpen(true);
     };
     els.topicStrip.appendChild(b);
   });
   updateButtons();
 }
-function renderPages(){
+function matchesQuery(page, q){
+  const hay = norm(`${page.topic} ${page.title} ${page.h1} ${page.file} עמוד ${page.number}`);
+  return hay.includes(q);
+}
+function renderPages(opts = {}){
   const q = norm(els.globalSearch.value);
-  const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
-  activeTopic = topic?.name || '';
-  visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number).filter(p => {
-    const hay = `${p.topic} ${p.title} ${p.h1} ${p.file} ${p.number}`;
-    return !q || norm(hay).includes(q);
-  });
+  const searching = !!q;
+  const curFile = currentPage()?.file || null;
 
+  if(searching){
+    visiblePages = flatPages.filter(p => matchesQuery(p, q));
+    const topicsFound = new Set(visiblePages.map(p => p.topic)).size;
+    els.searchMeta.hidden = false;
+    els.searchMeta.textContent = visiblePages.length
+      ? `נמצאו ${visiblePages.length} דפים ב-${topicsFound} נושאים בכל הספר`
+      : 'לא נמצאו דפים תואמים בכל הספר';
+  } else {
+    const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
+    activeTopic = topic?.name || '';
+    visiblePages = (topic?.pages || []).slice().sort((a,b) => a.number - b.number);
+    els.searchMeta.hidden = true;
+    els.searchMeta.textContent = '';
+  }
+
+  currentIndex = curFile ? visiblePages.findIndex(p => p.file === curFile) : -1;
   els.topicPages.innerHTML = '';
 
   if(!visiblePages.length){
-    currentIndex = -1;
-    els.topicPages.innerHTML = '<div class="empty-box">לא נמצאו דפים.</div>';
-    els.currentPageTitle.textContent = 'לא נמצאו דפים';
-    els.currentPageMeta.textContent = 'נסה חיפוש אחר';
-    els.mobilePageFrame.src = 'about:blank';
-    setProgress(null);
+    els.topicPages.innerHTML = '<div class="empty-box">לא נמצאו דפים תואמים. נסה חיפוש אחר.</div>';
     updateButtons();
     return;
   }
@@ -227,22 +274,41 @@ function renderPages(){
     b.type = 'button';
     b.className = 'page-card';
     b.dataset.file = page.file;
+    b.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${page.topic || ''}, עמוד ${page.number}`);
     b.innerHTML = `<strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
     b.onclick = () => showPage(page.file);
     els.topicPages.appendChild(b);
   });
 
-  const lastFile = localStorage.getItem('parabula:lastFile');
-  const target = lastFile && visiblePages.some(p => p.file === lastFile) ? lastFile : visiblePages[0].file;
-  showPage(target);
+  if(opts.autoShow){
+    const lastFile = localStorage.getItem('parabula:lastFile');
+    const target = lastFile && visiblePages.some(p => p.file === lastFile) ? lastFile : visiblePages[0].file;
+    showPage(target, {collapse: opts.collapse !== false});
+    return;
+  }
+
+  updateButtons();
 }
 function openCurrent(){
-  const p = currentPage();
+  const p = shownPage || currentPage();
   if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
 }
 function printCurrent(){
-  const p = currentPage();
-  if(p) window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
+  const p = shownPage || currentPage();
+  if(!p) return;
+  try{
+    const frame = els.mobilePageFrame;
+    const win = frame.contentWindow;
+    const doc = frame.contentDocument || win?.document;
+    if(win && doc && doc.readyState === 'complete' && doc.querySelector('.a4-page')){
+      win.focus();
+      win.print();
+      return;
+    }
+  }catch(e){
+    console.error('iframe print failed, falling back to new tab', e);
+  }
+  window.open(pageUrl(p), '_blank', 'noopener,noreferrer');
 }
 async function boot(){
   const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
@@ -252,18 +318,18 @@ async function boot(){
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
-  renderPages();
+  renderPages({autoShow: true, collapse: false});
+  setTopicsPanelOpen(true);
   scheduleFit();
 }
 
-els.globalSearch.addEventListener('input', renderPages);
+els.globalSearch.addEventListener('input', () => renderPages());
 els.prevPageBtn.addEventListener('click', () => { if(currentIndex > 0) showPage(visiblePages[currentIndex - 1].file); });
 els.nextPageBtn.addEventListener('click', () => { if(currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file); });
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
 els.toggleTopicsBtn.addEventListener('click', () => {
-  els.topicsPanel.classList.toggle('is-collapsed');
-  document.body.classList.toggle('focus-reading', els.topicsPanel.classList.contains('is-collapsed'));
+  setTopicsPanelOpen(els.topicsPanel.classList.contains('is-collapsed'));
   setTimeout(scheduleFit, 40);
 });
 els.mobilePageFrame.addEventListener('load', () => {
