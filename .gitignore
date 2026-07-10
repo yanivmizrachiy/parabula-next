@@ -60,3 +60,4 @@ STATE/reports/a4-visual-audit/
 STATE/reports/pdf-export/
 playwright-report/
 test-results/
+meta/audit/

@@ -1,6 +1,6 @@
 # LIVE_STATUS — parabula-next
 
-_Last updated: 2026-07-06_
+_Last updated: 2026-07-10_
 
 This file is the short current snapshot of the live canonical state of the repository. It does not replace `PROJECT_RULES.md` or `PROJECT_MEMORY.md`.
 
@@ -93,15 +93,16 @@ Static deployment:
 
 ## Recent completed changes
 
+- 2026-07-10 repo cleanup: removed dead Next.js remnants (`next.config.js`, `next-env.d.ts`, `tsconfig.json`, `app/`, `components/`, `lib/`, `server/`), the stale `docs/` site mirror (documentation `.md` files kept), dead Vite scaffold (`main.js`, `style.css`), orphaned `redirects.json`, placeholder workflow `pages.yml`, and a dangling gitlink `_stray_parabula_next_*`.
+- 2026-07-10: `mobile-topics.json` re-synced from `meta/topics.json` (now 8 topics / 98 pages; was frozen at 6 / 95).
+- 2026-07-10: deploy fix — `pages/` (equations SVG assets referenced by `עמוד-42+`) is now copied into `dist/` by both `scripts/copy-static-site.mjs` and `deploy-pages.yml`; previously those images were broken on the live site.
+- 2026-07-10: `scripts/app-layer-check.mjs` aligned with current reality (`preview/app.html` redirects to `topics.html`, `preview/phone.html` redirects to `mobile-app.html`) — `node scripts/doctor.mjs` is green again.
+- 2026-07-10: `preview/index.html` inline `<style>` extracted to `preview/reader.css` (no-inline-CSS rule).
 - Added permanent project memory file: `PROJECT_MEMORY.md`.
-- Added pages 96–98.
-- Added topic: `גרף עולה, יורד ושיפוע`.
-- Added Playwright A4 visual audit.
-- Added PDF sample export.
-- Merged PR #26.
+- Added pages 96–98 and topic `גרף עולה, יורד ושיפוע`.
+- Added Playwright A4 visual audit and PDF sample export (PR #26).
 - Added Vercel static deployment support.
 - Replaced mobile-only root redirect with smart root entry.
-- Recorded main page technology and Vercel sync requirement in `PROJECT_MEMORY.md`.
 
 ---
 

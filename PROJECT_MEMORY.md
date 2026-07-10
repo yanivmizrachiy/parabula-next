@@ -1,6 +1,6 @@
 # PROJECT_MEMORY — Parabula Next
 
-_Last updated: 2026-07-06_
+_Last updated: 2026-07-10_
 
 This file is the permanent working memory for the Parabula Next repository. It records the important product decisions, user requirements, workflow rules, current technical state, and recent upgrades so future AI sessions and maintainers do not lose context.
 
@@ -261,6 +261,22 @@ When adding or editing a worksheet:
 - Added Vercel static deployment support with `vercel.json` and `scripts/copy-static-site.mjs`.
 - Added smart root entry with `index.html`, `index.js`, and `index.css`.
 - Recorded main page display technology and Vercel sync requirement in `PROJECT_MEMORY.md`.
+
+2026-07-10 comprehensive cleanup (all removals recoverable from git history):
+
+- Removed dead Next.js remnants: `next.config.js`, `next-env.d.ts`, `tsconfig.json`, and the orphaned Next dashboard (`app/`, `components/`, `lib/`, `server/`) — it could not run (next/react were never in package.json) and contradicted the no-Next-migration decision. `storage/` was kept.
+- Removed the stale `docs/` static site mirror (95-page copy frozen at 2026-05-28); the six real documentation `.md` files in `docs/` were kept. GitHub Pages deploys only from `dist/` via Actions — the `/docs` mirror rule in PROJECT_RULES §25 was updated accordingly.
+- Removed dead Vite scaffold (`main.js`, `style.css`), orphaned `redirects.json`, placeholder workflow `.github/workflows/pages.yml`, and a dangling gitlink `_stray_parabula_next_20260415_120247`.
+- Re-synced `mobile-topics.json` from `meta/topics.json` (was frozen at 6 topics / 95 pages; now 8 / 98). The runtime no longer reads it (`mobile-app.js` reads `meta/topics.json`), but deploy and `validate:mobile` still reference it — copy it again on every topics.json change until it is fully retired.
+- Fixed deploy gap: `pages/משוואות/assets/*.svg` (embedded by עמוד-42+) is now copied into `dist/` by both `scripts/copy-static-site.mjs` and `deploy-pages.yml`; those images were broken on the live site before.
+- Fixed `scripts/new-page.mjs` and `scripts/preview-check.mjs`: ported from missing puppeteer to the installed Playwright, and replaced the nonexistent `/api/toc` endpoint with reading `meta/topics.json` directly. Both now load and run.
+- Aligned `scripts/app-layer-check.mjs` with current reality (app.html → topics.html redirect; phone.html → mobile-app.html redirect). `node scripts/doctor.mjs` is fully green again.
+- Extracted the inline `<style>` block from `preview/index.html` into `preview/reader.css` (no-inline-CSS rule).
+
+Content issues surfaced on 2026-07-10 that require Yaniv's decision (protected files, NOT touched):
+
+- ~33 equations pages (עמוד-62 … עמוד-94) embed `<img class="pdf-page">` raster images that overflow ~29px above the A4 top edge (detected by the ported preview-check guardrail). Raster images also conflict with the vector-only graphics rule.
+- Topic-name mismatch: `עמוד-36.html` nav-meta says "משוואה ריבועית" while `meta/topics.json` names the topic "משוואות ריבועיות" — this makes `page:new` fail its resolve step.
 
 ---
 

@@ -1,15 +1,15 @@
 {
-  "generatedAt": "2026-04-27T08:03:28.025Z",
+  "generatedAt": "2026-07-10T04:42:48.526Z",
   "checks": [
     {
       "name": "meta_topics_exists",
       "ok": true,
-      "details": "totalPages=95"
+      "details": "totalPages=98"
     },
     {
       "name": "mobile_topics_exists",
       "ok": true,
-      "details": "totalPages=95"
+      "details": "totalPages=98"
     },
     {
       "name": "mobile_app_js_exists",
@@ -39,12 +39,12 @@
     {
       "name": "mobile_topics_divergence_detected",
       "ok": true,
-      "details": "meta/topics.json totalPages=95; mobile-topics.json totalPages=95"
+      "details": "meta/topics.json totalPages=98; mobile-topics.json totalPages=98"
     },
     {
       "name": "topic_name_sets_match",
-      "ok": false,
-      "details": "missingInMobile=1; missingInMeta=0"
+      "ok": true,
+      "details": "missingInMobile=0; missingInMeta=0"
     },
     {
       "name": "compat_phone_runtime_still_exists",

@@ -1,7 +1,7 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import puppeteer from 'puppeteer';
+import { chromium } from '@playwright/test';
 
 const ROOT_PAGE_RE = /^עמוד-\d+\.html$/u;
 const SITE_PAGE_RE = /^site\/[\s\S]+?\/עמוד-\d+\.html$/u;
@@ -79,11 +79,10 @@ function collectFilesFromToc(toc) {
 async function runHeadlessGuardrails(base, files) {
   const executablePath = findBrowserExecutable();
   const launchOptions = {
-    headless: 'new',
     ...(executablePath ? { executablePath } : {})
   };
 
-  const browser = await puppeteer.launch(launchOptions);
+  const browser = await chromium.launch(launchOptions);
 
   try {
     const page = await browser.newPage();
@@ -279,12 +278,12 @@ async function main() {
 
     await fetchOk(`${base}/preview`);
 
-    const tocRes = await fetchOk(`${base}/api/toc`);
-    const toc = await tocRes.json();
+    // Canonical metadata source: meta/topics.json (read from disk, never written here).
+    const toc = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'meta', 'topics.json'), 'utf8'));
 
     const files = Array.from(new Set(collectFilesFromToc(toc)));
     if (files.length === 0) {
-      throw new Error('/api/toc returned no files');
+      throw new Error('meta/topics.json returned no files');
     }
 
     // The TOC may include non-A4 HTML (e.g. built site pages under site/**).
@@ -295,7 +294,7 @@ async function main() {
 
     if (rootFiles.length === 0) {
       const sample = files.slice(0, 10).join(', ');
-      throw new Error(`/api/toc returned no root A4 pages (עמוד-*.html). Sample: ${sample}`);
+      throw new Error(`meta/topics.json returned no root A4 pages (עמוד-*.html). Sample: ${sample}`);
     }
 
     const failures = await runHeadlessGuardrails(base, rootFiles);
@@ -310,7 +309,7 @@ async function main() {
     }
 
     console.log(
-      `OK: preview server up (${base}), /preview=200, /api/toc ok (${files.length} entries; ${rootFiles.length} root A4 pages), headless guardrails ok`
+      `OK: preview server up (${base}), /preview=200, meta/topics.json ok (${files.length} entries; ${rootFiles.length} root A4 pages), headless guardrails ok`
     );
   } finally {
     if (server?.child) await stopPreviewServer(server.child);

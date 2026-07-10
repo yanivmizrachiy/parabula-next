@@ -33,7 +33,7 @@
 ```
 קבצים מוגנים — אסור לשנות ללא אישור מפורש של Yaniv:
 
-עמוד-N.html          ← תוכן חינוכי קנוני (כל 95 הדפים)
+עמוד-N.html          ← תוכן חינוכי קנוני (כל 98 הדפים)
 styles/a4-base.css   ← בסיס A4 בלתי ניתן לשינוי
 meta/topics.json     ← עמוד שדרה של מטא-דאטה
 sources/legacy/*     ← ארכיון לשימור בלבד
@@ -61,20 +61,24 @@ meta/backup/*        ← גיבויי מטא-דאטה
 
 ### שכבת תוכן קנונית
 ```
-עמוד-N.html                    ← 95 דפי עבודה A4 (שורש הריפו)
+עמוד-N.html                    ← 98 דפי עבודה A4 (שורש הריפו)
 styles/pages/עמוד-N.css        ← CSS ייעודי לכל דף
 styles/a4-base.css             ← בסיס CSS משותף + print CSS
-styles/topics/pythagoras.css   ← CSS משותף לנושא (נטען ב-@import)
+styles/topics/*.css            ← CSS משותף לנושא (נטען ב-@import)
+pages/משוואות/assets/          ← נכסי SVG שדפי המשוואות (עמוד-42+) מטמיעים — חייב להיות מועתק ל-dist בפריסה
 ```
 
 ### שכבת מטא-דאטה
 ```
-meta/topics.json        ← מקור אמת של נושאים ודפים (95 דפים, 7 נושאים)
-mobile-topics.json      ← עותק נפרד לאפליקציית הנייד (חייב להיות מסונכרן!)
+meta/topics.json        ← מקור אמת של נושאים ודפים (98 דפים, 8 נושאים)
+meta/pages.json         ← רישום מיוצר אוטומטית — לא לערוך ידנית, לא בקומיט
+mobile-topics.json      ← עותק-ראי היסטורי (סונכרן מחדש 2026-07-10). הרנטיים כבר לא קורא אותו —
+                          mobile-app.js קורא meta/topics.json. בכל שינוי topics.json יש לסנכרן:
+                          cp meta/topics.json mobile-topics.json
 schemas/                ← schemas של מטא-דאטה
 ```
 
-### שכבת הספר הדיגיטלי (catalog layer) ← חדש, 2026-05-18
+### שכבת הספר הדיגיטלי (catalog layer)
 ```
 catalog.html            ← ממשק ספר לימוד דיגיטלי (ניתן לערוך חופשי)
 catalog.css             ← עיצוב פרימיום — dark sidebar, card grid, viewer
@@ -84,12 +88,14 @@ catalog.js              ← לוגיקה: fetch meta/topics.json, חיפוש, UR
 **כל 3 הקבצים קוראים מ-meta/topics.json בלבד — לא כותבים אליו.**
 ראה `docs/DIGITAL_TEXTBOOK_ARCHITECTURE.md` + `STATE/CATALOG_STATUS.md`
 
-**⚠️ בעיה ידועה בגרסה החיה:** ב-GitHub Pages יש שגיאת טעינה.
-Fix committed: `11824ff` — טרם נדחף (push pending).
+### כניסה חכמה (root entry)
+```
+index.html + index.js + index.css  ← נקודת הכניסה: נייח → catalog.html, נייד → mobile-app.html
+```
 
 ### שכבת גישה (access surfaces)
 ```
-preview/app.html        ← Hub — שער כניסה לכל המסכים
+preview/app.html        ← redirect ל-topics.html (הבית הוא topic-first)
 preview/index.html      ← Preview Reader (נייח, dark sidebar + iframe)
 preview/topics.html     ← דפדוף לפי נושאים
 preview/all-pages.html  ← כל הדפים עם חיפוש וסינון
@@ -97,7 +103,7 @@ preview/print.html      ← מרכז הדפסה
 preview/server.mjs      ← שרת מקומי, port 5179, live-reload SSE
 
 mobile-app.html         ← אפליקציית נייד ראשית (PWA)
-mobile-app.js           ← לוגיקה: fetch mobile-topics.json, iframe, scale
+mobile-app.js           ← לוגיקה: fetch meta/topics.json, iframe, scale
 mobile-app.css          ← עיצוב
 mobile-app.webmanifest  ← PWA manifest
 mobile-app-install.html ← עמוד התקנה
@@ -111,9 +117,14 @@ scripts/verify.mjs              ← בדיקת מבנה בסיסית
 scripts/recovery-audit.mjs      ← audit שלמות הריפו
 scripts/validate-access-layer.mjs ← בדיקת קבצים קנוניים
 scripts/audit-preview-overlaps.mjs ← בדיקת כפילויות
-scripts/doctor.mjs              ← מריץ כל הבדיקות ברצף
-scripts/new-page.mjs            ← ⚠️ שבור — קורא ל-/api/toc שלא קיים בשרת
-scripts/sync-rules.mjs          ← סנכרון כללים
+scripts/doctor.mjs              ← מריץ 6 בדיקות ברצף (test, verify, recovery, rules-sync, app-layer, duplicates)
+scripts/new-page.mjs            ← יצירת דף חדש (Playwright + meta/topics.json)
+scripts/generate-pages-registry.mjs ← מייצר meta/pages.json
+scripts/repo-health-report.mjs  ← דוח בריאות (ספירות, כפילויות)
+scripts/a4-visual-audit.mjs     ← audit חזותי A4 בדפדפן (Playwright)
+scripts/export-pdf-sample.mjs   ← ייצוא PDF לדפי דגימה
+scripts/copy-static-site.mjs    ← postbuild: מעתיק נכסים סטטיים ל-dist (כולל pages/)
+scripts/sync-rules.mjs          ← מייצר rules.md מ-PROJECT_RULES.md
 ```
 
 ### שכבת בדיקות
@@ -235,15 +246,16 @@ shape-rendering: geometricPrecision; /* חובה ב-SVG גיאומטרי */
 **הנתיב הקנוני:** `mobile-app.html` + `mobile-app.js` + `mobile-app.css`
 
 **איך `mobile-app.js` עובד:**
-1. מבצע `fetch('./mobile-topics.json')` — **לא** `meta/topics.json`!
-2. בונה רשימת נושאים ודפים
+1. מבצע `fetch('./meta/topics.json')` — מקור האמת הקנוני (עודכן; בעבר קרא mobile-topics.json)
+2. בונה רשימת נושאים ודפים, זוכר מיקום אחרון ב-localStorage
 3. מציג דף נבחר ב-iframe עם scale transform
 4. מסיר `.preview-nav` בתוך ה-iframe (ניווט מובנה)
+5. רושם את `sw.js` (שכבת PWA)
 
-**⚠️ בעיה קריטית ידועה:**
-`mobile-topics.json` הוא עותק **מוקפא** של `meta/topics.json` מ-19.03.2026.
-אם יוסיפו דפים ל-`meta/topics.json` — חייבים לעדכן גם את `mobile-topics.json`.
-**עדיין אין סנכרון אוטומטי.**
+**הערה על `mobile-topics.json`:**
+עותק-ראי היסטורי בלבד. סונכרן מחדש ב-2026-07-10 (8 נושאים / 98 דפים).
+הרנטיים לא תלוי בו יותר, אבל `validate:mobile` וה-deploy עדיין מפנים אליו —
+בכל שינוי `meta/topics.json` הריצו `cp meta/topics.json mobile-topics.json`.
 
 **נתיב לגאצי:** `preview/phone.*` — קיים אבל לא הנתיב הרשמי.
 
@@ -256,13 +268,17 @@ npm run preview          # שרת מקומי http://127.0.0.1:5179/preview
 npm test                 # בדיקות חוזה (tests/contracts/)
 npm run verify           # בדיקת מבנה בסיסית
 npm run validate:access  # בדיקת קבצים קנוניים
-npm run rules:sync       # סנכרון כללים
+npm run validate:meta    # מייצר pages.json + מאמת סכימה
+npm run validate:mobile  # בדיקת רנטיים נייד + סנכרון mobile-topics.json
+npm run health:report    # דוח בריאות
+npm run rules:sync       # מייצר rules.md מ-PROJECT_RULES.md
+npm run page:new         # יצירת דף חדש (דורש שרת preview רץ)
 
-# ⚠️ שבור כרגע:
-npm run page:new         # קורא ל-/api/toc שלא קיים בשרת
+npm run ci:all           # test + verify + validate:meta + health + build
+npm run tech:max         # ci:all + audit חזותי A4 + ייצוא PDF (דורש Playwright browsers)
 ```
 
-**להרצת doctor מלא:**
+**להרצת doctor מלא (6 בדיקות):**
 ```bash
 node scripts/doctor.mjs
 ```
@@ -306,18 +322,23 @@ demo content             ← אסור
 
 ---
 
-## 12. בעיות ידועות (שצריכות תיקון — לא פתרו עדיין)
+## 12. בעיות ידועות (עודכן 2026-07-10 אחרי ניקוי מקיף)
 
-| בעיה | קובץ | חומרה |
+**נפתרו ב-2026-07-10:** new-page.mjs (הוסב ל-Playwright + meta/topics.json), puppeteer (לא נדרש יותר),
+mobile-topics.json (סונכרן), inline style ב-preview/index.html (חולץ ל-reader.css) וב-preview/print.html (נוקה עוד קודם),
+docs/ (העותק הסטטי המיושן נמחק, נשארו מסמכי MD), pages/ לא הועתק ל-dist (תוקן בשני מסלולי הפריסה),
+app-layer-check מיושן (יושר; doctor ירוק).
+
+| בעיה שעדיין פתוחה | קובץ | חומרה |
 |---|---|---|
-| `new-page.mjs` קורא ל-`/api/toc` שלא קיים בשרת | `scripts/new-page.mjs:448` | קריטי |
-| `Puppeteer` לא ב-`package.json` | `package.json` | קריטי |
-| `mobile-topics.json` מוקפא מ-19.03.2026 | `mobile-topics.json` | קריטי |
-| `preview/print.html` עם `<style>` inline | `preview/print.html:9` | בינוני |
-| `preview/index.html` עם `<style>` inline | `preview/index.html:7` | בינוני |
-| שני Service Workers (`sw.js` + `preview/sw.js`) | שורש + preview/ | בינוני |
-| `docs/` — עותק סטטי שאולי לא מעודכן | `docs/` | נמוך |
-| ניווט הקודם/הבא קשיח ב-HTML | כל 95 דפים | נמוך (ידוע, מכוון) |
+| ~33 דפי משוואות (עמוד-62…94) מכילים `<img class="pdf-page">` (raster!) שחורג ~29px מעל גבול ה-A4 — דורש החלטת Yaniv (קבצים מוגנים) | `עמוד-62.html` … `עמוד-94.html` | גבוה |
+| אי-התאמת שם נושא: `עמוד-36.html` אומר "משוואה ריבועית" (יחיד) מול "משוואות ריבועיות" ב-topics.json — מפיל את page:new בשלב resolve; דורש החלטת Yaniv | `עמוד-36.html` / `meta/topics.json` | בינוני |
+| אין סנכרון אוטומטי של `mobile-topics.json` — נדרש `cp` ידני בכל שינוי topics | `mobile-topics.json` | בינוני |
+| 2 בדיקות ב-`tests/preview.rules.test.mjs` נכשלות (topic buttons, fitA4InHost) — מצפות לעיצוב Reader ישן; לא ב-CI | `tests/preview.rules.test.mjs` | בינוני |
+| `preview/sw.js` הוא כמעט no-op (skipWaiting בלבד) לצד `sw.js` האמיתי | `preview/sw.js` | נמוך |
+| `עמוד-95-editable.html` — אב-טיפוס שנפסל אבל ולידטורים סותרים עדיין מפנים אליו | `scripts/validate-page-95-editable.mjs` | נמוך |
+| `tools/` — כלי פרסום ישנים מעידן GitHub-Pages הידני; דורש החלטת Yaniv לפני הסרה | `tools/` | נמוך |
+| ניווט הקודם/הבא קשיח ב-HTML | כל 98 הדפים | נמוך (ידוע, מכוון) |
 
 ---
 
@@ -352,7 +373,7 @@ demo content             ← אסור
 2. Claude בונה HTML מ-template ייעודי לנושא
 3. SVG גיאומטרי / גרפי נוצר inline
 4. MathJax מוסיף למשוואות
-5. סקריפט מייצר דף + CSS + מעדכן meta/topics.json + mobile-topics.json
+5. סקריפט מייצר דף + CSS + מעדכן meta/topics.json (+ סנכרון mobile-topics.json)
 6. CI מריץ tests + deploys
 
 ---
@@ -403,5 +424,6 @@ base path:  /parabula-next/ (מוגדר ב-vite.config.js)
 ---
 
 _CLAUDE.md נוצר: 2026-05-12_
-_עודכן: 2026-05-18 — הוספת catalog layer + agents_
-_לא נוגע בדפי עבודה, CSS הדפסה, mobile-app.*, package.json, או קוד אפליקציה._
+_עודכן: 2026-07-10 — ניקוי מקיף (Next.js remnants, docs mirror, dead files), סנכרון mobile-topics,
+תיקון פריסת pages/, יישור app-layer-check, עדכון מונים ל-98 דפים / 8 נושאים._
+_לא נוגע בדפי עבודה, CSS הדפסה, או styles/a4-base.css._

@@ -416,7 +416,7 @@ This map is intentionally limited to files that are actually present on `main`.
 - The public install page URL is `mobile-app-install.html`.
 - Published runtime topic data must come from repository runtime metadata.
 - The public app must not depend on an alternate hidden worksheet source.
-- The same published files should exist in both root and `/docs` so either Pages source can work.
+- GitHub Pages deploys exclusively through GitHub Actions (`.github/workflows/deploy-pages.yml` → `dist/`). There is no `/docs` Pages mirror; `docs/` holds documentation markdown only. Do not recreate a static site copy under `docs/`.
 
 ## 26) Open-work policy for future AI sessions
 

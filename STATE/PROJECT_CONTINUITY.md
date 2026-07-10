@@ -19,7 +19,7 @@
 - מסלול ההדפסה הקנוני הוא `preview/print.js`.
 - מטא-דאטה של דפים מונעת מתוך `meta/topics.json`.
 - GitHub Pages פעיל דרך `.github/workflows/deploy-pages.yml`.
-- נכון לעכשיו יש 95 דפי שורש ו-95 קבצי CSS תואמים.
+- נכון לעכשיו יש 98 דפי שורש ו-98 קבצי CSS תואמים (8 נושאים).
 - שכבת המובייל הקנונית היא `mobile-app.*`.
 - מנוע הקריאה הקנוני במובייל נשאר iframe-based.
 
@@ -28,6 +28,7 @@
 - `preview/phone.*` עדיין קיים כשכבת compat / legacy-adjacent לצד `mobile-app.*`.
 - `preview/print-center.js` עדיין קיים לצד `preview/print.js`.
 - קיימות שכבות מצב פעילות: `STATE/*`, `meta/system-state.json`, `storage/system-state.json`.
+- בניקוי 2026-07-10 הוסרו: שרידי Next.js (`next.config.js`, `next-env.d.ts`, `tsconfig.json`, `app/`, `components/`, `lib/`, `server/`), עותק אתר מיושן תחת `docs/` (נשמרו רק מסמכי ה-MD), `main.js`+`style.css` (שלד Vite מת), `redirects.json`, workflow פלייסהולדר `pages.yml`, ו-gitlink תלוי `_stray_parabula_next_*`. הכול ניתן לשחזור מהיסטוריית git.
 - מסמכי STATE נוספים עדיין עלולים לדרוש יישור נקודתי כשמתבצע שינוי קנוני חדש.
 
 ## 4. שכבת בטיחות / התאוששות

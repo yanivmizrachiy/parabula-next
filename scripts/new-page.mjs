@@ -1,7 +1,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
-import puppeteer from 'puppeteer';
+import { chromium } from '@playwright/test';
 
 const ROOT = process.cwd();
 const PAGE_FILE_RE = /^עמוד-(\d+)\.html$/u;
@@ -61,7 +61,7 @@ function buildNewPageHtml({
     topicsHtml = topicsHtml.replace(/\bis-active\b/u, '');
     topicsHtml = topicsHtml.replace(/\s+aria-current="page"/gu, '');
 
-    const linkRe = /<a\s+class="topic-link[^\"]*"\s+href="([^"]+)"([^>]*)>([\s\S]*?)<\/a>/giu;
+    const linkRe = /<a\s+class="topic-link[^"]*"\s+href="([^"]+)"([^>]*)>([\s\S]*?)<\/a>/giu;
     let replaced = false;
     topicsHtml = topicsHtml.replace(linkRe, (full, href, attrs, inner) => {
       const name = stripHtml(inner);
@@ -147,9 +147,9 @@ function updateTopicTotalInHtml(html, topic, newTotal) {
 
 function updateNextLinkInHtml(html, nextFile) {
   // Replace a disabled 'הבא' span with a link, or update existing link href.
-  if (/<span\b[^>]*\bclass="nav-link[^\"]*\bis-disabled\b[^\"]*"[^>]*>\s*הבא\s*<\/span>/iu.test(html)) {
+  if (/<span\b[^>]*\bclass="nav-link[^"]*\bis-disabled\b[^"]*"[^>]*>\s*הבא\s*<\/span>/iu.test(html)) {
     return html.replace(
-      /<span\b[^>]*\bclass="nav-link[^\"]*\bis-disabled\b[^\"]*"[^>]*>\s*הבא\s*<\/span>/iu,
+      /<span\b[^>]*\bclass="nav-link[^"]*\bis-disabled\b[^"]*"[^>]*>\s*הבא\s*<\/span>/iu,
       `<a class="nav-link" href="${nextFile}">הבא</a>`
     );
   }
@@ -241,7 +241,7 @@ async function stopPreviewServer(child) {
 }
 
 async function runGuardrails(base, files) {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await chromium.launch();
 
   try {
     const page = await browser.newPage();
@@ -443,13 +443,20 @@ async function main() {
     server = await startPreviewServer();
     const base = server.base;
 
-    // 1) Validate preview endpoints quickly
+    // 1) Validate preview endpoint quickly
     await fetchOk(`${base}/preview`);
-    const tocRes = await fetchOk(`${base}/api/toc`);
-    const toc = await tocRes.json();
 
-    if (!toc || !Array.isArray(toc.flat) || toc.flat.length === 0) {
-      throw new Error('Invalid /api/toc payload (missing flat list)');
+    // Canonical metadata source: meta/topics.json (read from disk, never written here).
+    const topicsRaw = await fs.readFile(path.join(ROOT, 'meta', 'topics.json'), 'utf8');
+    const topicsJson = JSON.parse(topicsRaw);
+    const tocTopics = Array.isArray(topicsJson?.topics) ? topicsJson.topics : [];
+    const toc = {
+      topics: tocTopics,
+      flat: tocTopics.flatMap((t) => (t && Array.isArray(t.pages) ? t.pages : []))
+    };
+
+    if (toc.flat.length === 0) {
+      throw new Error('Invalid meta/topics.json payload (no pages found)');
     }
 
     // 2) Guardrails across all existing pages (no overflow, title/number present, grid aligned)
@@ -464,10 +471,10 @@ async function main() {
       return;
     }
 
-    // 3) Determine last page in reading order (from /api/toc)
+    // 3) Determine last page in reading order (from meta/topics.json)
     const lastEntry = toc.flat[toc.flat.length - 1];
     const lastFile = String(lastEntry.file || '').trim();
-    if (!lastFile) throw new Error('Unable to determine last page from /api/toc');
+    if (!lastFile) throw new Error('Unable to determine last page from meta/topics.json');
 
     const lastHtml = await fs.readFile(path.join(ROOT, lastFile), 'utf8');
     const lastMeta = parseNavMetaFromHtml(lastHtml, lastFile);
@@ -478,11 +485,11 @@ async function main() {
 
     const topicBlock = extractTopicsBlock(lastHtml);
 
-    // Find all pages in the same topic according to /api/toc
+    // Find all pages in the same topic according to meta/topics.json
     const topicObj = Array.isArray(toc.topics) ? toc.topics.find((t) => t && t.name === topic) : null;
     const topicFiles = topicObj && Array.isArray(topicObj.pages) ? topicObj.pages.map((p) => String(p.file || '')).filter(Boolean) : [];
 
-    if (topicFiles.length === 0) throw new Error(`Unable to resolve topic pages for "${topic}" from /api/toc`);
+    if (topicFiles.length === 0) throw new Error(`Unable to resolve topic pages for "${topic}" from meta/topics.json`);
 
     // 4) Update all pages in the last topic to new total
     for (const file of topicFiles) {

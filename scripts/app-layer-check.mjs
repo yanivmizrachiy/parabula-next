@@ -35,12 +35,10 @@ function requireIncludes(file, phrase) {
   }
 }
 
-requireIncludes('preview/app.html', './phone.html');
+requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
-requireIncludes('preview/app.html', '../STATE/README.md');
-requireIncludes('preview/phone.html', './phone.js');
-requireIncludes('preview/phone.html', './mobile.css');
-requireIncludes('preview/phone.html', './manifest.webmanifest');
+requireIncludes('preview/app.html', '../mobile-app.html');
+requireIncludes('preview/phone.html', '../mobile-app.html');
 requireIncludes('preview/install.html', './phone.html');
 requireIncludes('preview/install.html', './print.html');
 requireIncludes('preview/print.html', './print.js');
