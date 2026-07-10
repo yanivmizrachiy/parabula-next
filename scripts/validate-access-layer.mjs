@@ -17,7 +17,6 @@ const requiredFiles = [
   'mobile-app.js',
   'mobile-app.css',
   'mobile-app.webmanifest',
-  'mobile-app-install.html',
   'sw.js',
   'preview/index.html',
   'preview/app.html',
@@ -42,7 +41,10 @@ const forbiddenLegacy = [
   'preview/mobile-app-install.js',
   'preview/manifest.webmanifest',
   'preview/sw.js',
-  'preview/install.html'
+  'preview/install.html',
+  'mobile-app-install.html',
+  'mobile-app-install.js',
+  'scripts/ship_mobile_release.sh'
 ];
 for (const file of forbiddenLegacy) assert(!exists(file), `Obsolete duplicate must be removed: ${file}`);
 

@@ -16,8 +16,6 @@ const requiredFiles = [
   'mobile-app.js',
   'mobile-app.css',
   'mobile-app.webmanifest',
-  'mobile-app-install.html',
-  'mobile-app-install.js',
   'sw.js',
   'preview/app.html',
   'preview/topics.html',
@@ -41,7 +39,10 @@ const forbiddenLegacy = [
   'preview/manifest.webmanifest',
   'preview/sw.js',
   'preview/install.html',
-  'mobile-topics.json'
+  'mobile-topics.json',
+  'mobile-app-install.html',
+  'mobile-app-install.js',
+  'scripts/ship_mobile_release.sh'
 ];
 for (const rel of forbiddenLegacy) {
   if (exists(rel)) errors.push(`Obsolete duplicate app-layer file must be removed: ${rel}`);

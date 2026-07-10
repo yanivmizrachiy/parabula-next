@@ -18,8 +18,6 @@ const required = [
   'mobile-app.css',
   'mobile-app.js',
   'mobile-app.webmanifest',
-  'mobile-app-install.html',
-  'mobile-app-install.js',
   'sw.js',
   'meta/topics.json',
   'meta/equations-master-map.json',
@@ -41,7 +39,10 @@ const forbiddenLegacy = [
   'preview/sw.js',
   'preview/install.html',
   '.github/workflows/one-time-clean-equations-mobile-css.yml',
-  'scripts/one-time-clean-equations-mobile-css.mjs'
+  'scripts/one-time-clean-equations-mobile-css.mjs',
+  'mobile-app-install.html',
+  'mobile-app-install.js',
+  'scripts/ship_mobile_release.sh'
 ];
 for (const rel of forbiddenLegacy) add(`legacy-absent:${rel}`, !exists(rel), exists(rel) ? 'must be removed' : 'absent');
 
@@ -96,8 +97,6 @@ const js = files['mobile-app.js'];
 const indexHtml = files['index.html'];
 const indexJs = files['index.js'];
 const manifest = files['mobile-app.webmanifest'];
-const installHtml = files['mobile-app-install.html'];
-const installJs = files['mobile-app-install.js'];
 const sw = files['sw.js'];
 
 add('mobile-uses-canonical-meta', js.includes('./meta/topics.json'), 'mobile-app.js must use meta/topics.json');
@@ -117,8 +116,10 @@ add('unscaled-print-preparation', js.includes('prepareFrameForPrint') && js.incl
 add('print-restores-reader', js.includes("addEventListener('afterprint', scheduleFit") && js.includes('setTimeout(scheduleFit, 1200)'), 'reader restores after printing');
 add('phone-detection-hardening', indexJs.includes('userAgentData') && indexJs.includes('pointer: coarse') && indexJs.includes('maxTouchPoints'), 'entry detects real phones even in desktop-site mode');
 add('explicit-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile') && indexHtml.includes('?view=catalog'), 'manual view choice remains available');
-add('pwa-no-cache-update', js.includes("updateViaCache:'none'") && installJs.includes("updateViaCache:'none'"), 'service worker update bypasses stale HTTP cache');
+add('pwa-no-cache-update', js.includes("updateViaCache:'none'"), 'service worker update bypasses stale HTTP cache');
 add('pwa-controller-refresh', js.includes('controllerchange') && js.includes('SKIP_WAITING'), 'installed app activates and reloads the new worker');
+add('single-real-install-flow', html.includes('id="installAppBtn"') && js.includes('beforeinstallprompt') && js.includes('appinstalled') && js.includes('display-mode: standalone'), 'installation exists only inside the canonical mobile app');
+add('install-button-hidden-unless-eligible', html.includes('id="installAppBtn" type="button" hidden') && js.includes('deferredInstallPrompt'), 'install action is hidden unless the browser exposes a real prompt');
 add('shared-equations-mobile-owner', equationsCss.includes('@media screen and (max-width: 900px)') && equationsCss.includes('zoom: 1 !important'), 'shared topic CSS is the only direct-page mobile owner');
 add('generator-does-not-create-zoom', !/zoom:\s*0\./.test(generator), 'equations generator must not emit page zoom');
 add('generator-uses-canonical-rules', generator.includes('CLAUDE.md') && !generator.includes('STATE/EQUATIONS_DESIGN_PASS_RULES.md'), 'generator references only the canonical rules source');
@@ -129,8 +130,6 @@ const releaseFiles = {
   'mobile-app.html': html,
   'mobile-app.js': js,
   'mobile-app.webmanifest': manifest,
-  'mobile-app-install.html': installHtml,
-  'mobile-app-install.js': installJs,
   'sw.js': sw
 };
 for (const [name, text] of Object.entries(releaseFiles)) {

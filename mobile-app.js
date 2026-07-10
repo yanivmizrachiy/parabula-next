@@ -14,6 +14,7 @@ const els = {
   globalSearch: document.getElementById('globalSearch'),
   searchMeta: document.getElementById('searchMeta'),
   toggleTopicsBtn: document.getElementById('toggleTopicsBtn'),
+  installAppBtn: document.getElementById('installAppBtn'),
   topicsPanel: document.getElementById('topicsPanel'),
   prevPageBtn: document.getElementById('prevPageBtn'),
   nextPageBtn: document.getElementById('nextPageBtn'),
@@ -29,6 +30,28 @@ let currentIndex = -1;
 let shownPage = null;
 let frameResizeObserver = null;
 let frameMutationObserver = null;
+let deferredInstallPrompt = null;
+
+function isStandalone(){
+  return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+}
+
+function syncInstallButton(){
+  if(!els.installAppBtn) return;
+  els.installAppBtn.hidden = isStandalone() || !deferredInstallPrompt;
+}
+
+async function installCanonicalApp(){
+  if(!deferredInstallPrompt || isStandalone()){
+    syncInstallButton();
+    return;
+  }
+  const prompt = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  syncInstallButton();
+  await prompt.prompt();
+  await prompt.userChoice;
+}
 
 function norm(value){
   return String(value || '').trim().toLowerCase();
@@ -456,6 +479,20 @@ async function boot(){
   setTopicsPanelOpen(true);
   scheduleFit();
 }
+
+els.installAppBtn?.addEventListener('click', installCanonicalApp);
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  if(isStandalone()) return;
+  deferredInstallPrompt = event;
+  syncInstallButton();
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  syncInstallButton();
+});
+window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change', syncInstallButton);
+syncInstallButton();
 
 els.globalSearch.addEventListener('input', () => renderPages());
 els.prevPageBtn.addEventListener('click', () => {

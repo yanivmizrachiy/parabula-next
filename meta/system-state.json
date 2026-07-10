@@ -25,11 +25,11 @@
       "canonical_js": "mobile-app.js",
       "canonical_css": "mobile-app.css",
       "canonical_manifest": "mobile-app.webmanifest",
-      "canonical_install_html": "mobile-app-install.html",
       "canonical_service_worker": "sw.js",
       "canonical_metadata": "meta/topics.json",
       "single_scale_owner": "mobile-app.js",
-      "parity_required": true
+      "parity_required": true,
+      "installation": "single beforeinstallprompt flow inside mobile-app.html; hidden when unavailable or already installed"
     },
     "preview": {
       "reader": "preview/index.html",
