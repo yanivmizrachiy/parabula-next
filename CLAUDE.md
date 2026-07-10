@@ -160,7 +160,7 @@ _עודכן: 2026-07-10_
 ### 4.2 מטא-דאטה
 
 - `meta/topics.json` — מקור האמת היחיד למבנה הנושאים והדפים.
-- `mobile-topics.json` — עותק ראי היסטורי שנדרש עדיין בחלק מבדיקות/פריסה; אינו מקור אמת ואסור לרנטיים להסתמך עליו במקום `meta/topics.json`.
+- `mobile-topics.json` — **בוטל ונמחק (2026-07-10)**: הנייד קורא ישירות מ-`meta/topics.json`. הבדיקות (`validate:access`, `validate:mobile`, audit) נכשלות אם הקובץ חוזר.
 - `meta/pages.json` — קובץ מיוצר; לא עורכים ידנית ולא מתחייבים לשמור בקומיט.
 - `schemas/` — סכמות מטא-דאטה.
 
@@ -209,7 +209,6 @@ _עודכן: 2026-07-10_
 - `scripts/a4-visual-audit.mjs`
 - `scripts/export-pdf-sample.mjs`
 - `scripts/copy-static-site.mjs`
-- `scripts/sync-mobile-topics.mjs`
 - `scripts/single-rules-source-check.mjs`
 - `scripts/validate-topics-schema.mjs` — ולידציית ajv מלאה של `meta/topics.json` מול `schemas/topics.schema.json`.
 - `scripts/vendorize-cdn.mjs` — החלפת תלות CDN (Rubik + MathJax) בעותקים מקומיים תחת `vendor/` (מופעל לפי החלטה; `--check` בודק מצב).
@@ -335,12 +334,11 @@ _עודכן: 2026-07-10_
 - קבצי מערכת, redirects, 404 וכללים אינם מופיעים ב-TOC של הדפים.
 - אין למזג נושאים דומים בשם.
 
-`meta/topics.json` הוא מקור האמת היחיד למבנה התוכן. לאחר שינויו:
+`meta/topics.json` הוא מקור האמת היחיד למבנה התוכן — הנייח והנייד קוראים ממנו ישירות (אין עותק ראי). לאחר שינויו:
 
-1. מריצים `npm run topics:sync`.
-2. מריצים `npm run topics:check`.
-3. מריצים בדיקות מלאות.
-4. מאמתים שמספרי הנושאים והדפים זהים בנייח ובנייד.
+1. מריצים `npm run validate:meta` ו-`npm run validate:schema`.
+2. מריצים בדיקות מלאות (`npm run ci:all`).
+3. מאמתים שמספרי הנושאים והדפים זהים בנייח ובנייד.
 
 ---
 
@@ -395,8 +393,7 @@ _עודכן: 2026-07-10_
 }
 ```
 
-6. מריצים `npm run topics:sync`.
-7. מריצים `npm test`, `npm run verify`, `npm run validate:meta` ולפי היקף `npm run tech:max`.
+6. מריצים `npm test`, `npm run verify`, `npm run validate:meta` ולפי היקף `npm run tech:max`.
 8. בודקים בפועל נייח, נייד והדפסה.
 9. לא מסמנים השלמה אם הדף אינו מופיע ונגיש גם בנייד.
 
@@ -513,8 +510,6 @@ npm run verify
 npm run validate:access
 npm run validate:meta
 npm run validate:mobile
-npm run topics:sync
-npm run topics:check
 npm run health:report
 npm run validate:schema
 npm run validate:html
@@ -531,7 +526,6 @@ npm run page:new
 - `npm run verify` — מבנה בסיסי.
 - `npm run validate:access` — שכבת גישה.
 - `npm run validate:meta` — registry וסכמת metadata.
-- `npm run topics:check` — מונע divergence בין `meta/topics.json` לראי הישן.
 - `npm run doctor` — בדיקות בריאות כולל מקור כללים יחיד.
 - `npm run ci:all` — בדיקות ליבה + build.
 - `npm run tech:max` — CI מלא + audit חזותי A4 + PDF samples.
