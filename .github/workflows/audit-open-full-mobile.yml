@@ -1,9 +1,8 @@
 name: Audit open-full on mobile
 
 on:
-  push:
-    branches:
-      - test/open-full-mobile-audit-20260710
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
