@@ -13,12 +13,12 @@
 
 .page-93 .pdf-page {
   width: 100%;
-  height: calc(100% + 118px);
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center bottom;
   display: block;
-  transform: translateY(-118px);
-  transform-origin: top center;
+  transform: none;
+  transform-origin: center;
 }
 
 /* EQUATIONS_DESIGN_PASS_20260429 */
@@ -54,12 +54,12 @@
 
 .page-93 .pdf-page {
   width: 100%;
-  height: calc(100% + 118px);
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center bottom;
   display: block;
-  transform: translateY(-118px);
-  transform-origin: top center;
+  transform: none;
+  transform-origin: center;
 }
 
 .page-93 .pdf-wrap img,
@@ -94,4 +94,3 @@
 .page-93 .axis-label {
   font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
-

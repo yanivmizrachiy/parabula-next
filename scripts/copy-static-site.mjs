@@ -38,6 +38,13 @@ for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
 }
 
+const pythagorasSource = 'sources/legacy/parabula-old/assets/pythagoras/vector';
+const pythagorasTarget = 'assets/pythagoras/vector';
+if (!copyDirIfExists(pythagorasSource, pythagorasTarget)) {
+  throw new Error(`Missing required Pythagoras source assets: ${pythagorasSource}`);
+}
+log(`promoted Pythagoras vector assets to ${pythagorasTarget}/`);
+
 const rootFiles = fs.readdirSync(root);
 for (const file of rootFiles) {
   if (/^עמוד-\d+\.html$/.test(file)) copyFileIfExists(file);
@@ -55,6 +62,8 @@ const required = [
   'meta/topics.json',
   'styles/a4-base.css',
   'preview/index.html',
+  'assets/pythagoras/vector/page-05.svg',
+  'assets/pythagoras/vector/page-22.svg'
 ];
 
 const missing = required.filter(rel => !fs.existsSync(path.join(dist, rel)));

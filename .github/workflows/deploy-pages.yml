@@ -32,8 +32,35 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run canonical validation and build
-        run: npm run ci:all
+      - name: Contract tests
+        run: npm test
+
+      - name: Canonical page verification
+        run: npm run verify
+
+      - name: Metadata registry and schema
+        run: |
+          npm run validate:meta
+          npm run validate:schema
+
+      - name: Access and mobile architecture
+        run: |
+          npm run validate:access
+          npm run validate:mobile
+
+      - name: Canonical rules
+        run: npm run rules:check
+
+      - name: HTML and vendored dependencies
+        run: |
+          npm run validate:html
+          npm run vendorize:check
+
+      - name: Repository health
+        run: npm run health:report
+
+      - name: Build production artifact
+        run: npm run build
 
       - name: Upload production build for deployment
         if: github.event_name != 'pull_request'
@@ -46,6 +73,7 @@ jobs:
 
   mobile-browser-gate:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     container:
       image: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
@@ -59,19 +87,9 @@ jobs:
         run: npm run build
 
       - name: Run Android production browser gate
-        id: mobile_gate
-        shell: bash
-        run: |
-          set +e
-          npm run validate:mobile:browser
-          code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          if [ -f meta/audit/mobile-browser-validation.json ]; then
-            jq '{status, failures: [.checks[] | select(.ok == false)]}' meta/audit/mobile-browser-validation.json
-          fi
-          exit 0
+        run: npm run validate:mobile:browser
 
-      - name: Upload Android validation report
+      - name: Upload Android browser report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -80,13 +98,43 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-      - name: Enforce Android gate result
-        if: steps.mobile_gate.outputs.exit_code != '0'
-        run: exit 1
+  mobile-deep-gate:
+    name: Deep mobile audit shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Audit every assigned page in app-reader and open-full
+        run: node scripts/validate-mobile-all-pages.mjs --shard-index=${{ matrix.shard }} --shard-count=8
+
+      - name: Upload deep mobile report and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-deep-shard-${{ matrix.shard }}
+          path: |
+            meta/audit/mobile-all-pages-shard-${{ matrix.shard }}.json
+            meta/audit/mobile-layout-failures-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 3
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: [build, mobile-browser-gate]
+    needs: [build, mobile-browser-gate, mobile-deep-gate]
     permissions:
       pages: write
       id-token: write
