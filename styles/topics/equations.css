@@ -98,36 +98,56 @@
     width: calc(100vw - 20px);
     max-width: calc(100vw - 20px);
     margin: 10px auto 12px;
-    padding: 10px;
-    overflow: hidden;
+    padding: 8px;
+    gap: 7px;
+    overflow: visible;
     zoom: 1 !important;
   }
 
   .preview-nav:has(+ .equations-page) .preview-nav-top {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
     text-align: center;
   }
 
   .preview-nav:has(+ .equations-page) .nav-side,
   .preview-nav:has(+ .equations-page) .nav-link {
     width: 100%;
+    min-width: 0;
+  }
+
+  .preview-nav:has(+ .equations-page) .nav-link {
+    height: 38px;
+    padding: 0 8px;
+    font-size: 14px;
+  }
+
+  .preview-nav:has(+ .equations-page) .nav-meta {
+    min-width: 0;
+    font-size: 12px;
+    line-height: 1.25;
   }
 
   .preview-nav:has(+ .equations-page) .preview-nav-topics {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 4px;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 5px;
+    padding: 0;
     direction: rtl;
-    scroll-snap-type: x proximity;
   }
 
   .preview-nav:has(+ .equations-page) .topic-link {
-    flex: 0 0 auto;
-    scroll-snap-align: center;
+    flex: 0 1 auto;
+    min-width: 0;
+    height: 30px;
+    padding: 0 9px;
+    border-width: 1.5px;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .a4-page.equations-page {
@@ -155,6 +175,36 @@
     width: clamp(26px, 8vw, 32px);
     height: clamp(26px, 8vw, 32px);
     font-size: clamp(13px, 4vw, 16px);
+  }
+
+  .a4-page.equations-page .problem-block,
+  .a4-page.equations-page .problem-work,
+  .a4-page.equations-page .solution-space,
+  .a4-page.equations-page .problem-answer {
+    min-width: 0;
+  }
+
+  .a4-page.equations-page .problem-answer {
+    display: grid !important;
+    grid-template-columns: max-content minmax(0, 1fr);
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+    padding: 4px 0 0 !important;
+    border-top: 1px solid var(--border-light);
+    font-size: clamp(10px, 3.1vw, 13px) !important;
+    line-height: 1;
+    overflow: hidden;
+  }
+
+  .a4-page.equations-page .problem-answer .answer-box {
+    display: block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 100%;
+    height: clamp(14px, 4.3vw, 18px) !important;
+    margin: 0 !important;
+    transform: none !important;
   }
 
   .a4-page.equations-page .pdf-wrap {
