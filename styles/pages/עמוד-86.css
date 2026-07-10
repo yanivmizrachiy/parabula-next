@@ -1,7 +1,6 @@
 /* עמוד 86 — משוואות עמוד 46 (נעלם אחד)
    נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד 46.
-   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
-   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
+   מבנה HTML + MathJax חי. חוזה עיצוב: CLAUDE.md. ללא שינוי/המצאת תוכן לימודי. */
 
 .page-86.equations-page {
   justify-content: flex-start;
@@ -125,31 +124,6 @@
 .page-86 .problem-answer .answer-box {
   height: 18px;
   transform: translateY(-1px);
-}
-
-@media screen and (max-width: 900px) {
-  body {
-    overflow-x: hidden;
-  }
-
-  .preview-nav {
-    zoom: 0.48;
-    margin-top: 10px;
-    margin-bottom: 6px;
-  }
-
-  .page-86.a4-page {
-    zoom: 0.48;
-    margin-top: 8px;
-    margin-bottom: 16px;
-  }
-}
-
-@media screen and (min-width: 481px) and (max-width: 900px) {
-  .preview-nav,
-  .page-86.a4-page {
-    zoom: 0.64;
-  }
 }
 
 @media print {
