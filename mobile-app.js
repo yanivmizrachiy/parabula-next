@@ -145,7 +145,7 @@ function injectMobileReaderStyles(doc){
       box-shadow:none !important;
       zoom:1 !important;
       transform:none;
-      transform-origin:top center !important;
+      transform-origin:center top !important;
       page-break-after:auto !important;
       flex-shrink:0 !important;
     }
@@ -202,7 +202,7 @@ function enforceCanonicalPageGeometry(page){
   page.style.setProperty('margin', '0', 'important');
   page.style.setProperty('zoom', '1', 'important');
   page.style.setProperty('flex-shrink', '0', 'important');
-  page.style.setProperty('transform-origin', 'top center', 'important');
+  page.style.setProperty('transform-origin', 'center top', 'important');
   if(page.classList.contains('equations-page')){
     page.style.setProperty('padding', '10mm 18mm', 'important');
   }
