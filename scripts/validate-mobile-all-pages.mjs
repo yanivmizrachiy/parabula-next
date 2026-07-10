@@ -118,12 +118,24 @@ function auditDocument(expectedTopics, surface) {
   const a4Rect = rectOf(a4);
   const viewportWidth = window.innerWidth;
   const documentOverflowX = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - viewportWidth;
-  if (documentOverflowX > tolerance) issues.push({ code: 'document-horizontal-overflow', value: documentOverflowX });
+  const bodyOverflowX = getComputedStyle(document.body).overflowX;
+  const htmlOverflowX = getComputedStyle(document.documentElement).overflowX;
+
   if (Math.abs((a4Rect.height / a4Rect.width) - (297 / 210)) > 0.04) {
     issues.push({ code: 'invalid-a4-ratio', value: a4Rect.height / a4Rect.width });
   }
-  if (surface === 'open-full' && (a4Rect.left < 8 - tolerance || a4Rect.right > viewportWidth - 8 + tolerance)) {
-    issues.push({ code: 'a4-does-not-fit-mobile-width', rect: a4Rect, viewportWidth });
+  if (surface === 'open-full') {
+    if (documentOverflowX > tolerance) issues.push({ code: 'document-horizontal-overflow', value: documentOverflowX });
+    if (a4Rect.left < 8 - tolerance || a4Rect.right > viewportWidth - 8 + tolerance) {
+      issues.push({ code: 'a4-does-not-fit-mobile-width', rect: a4Rect, viewportWidth });
+    }
+  } else {
+    if (a4Rect.left < -tolerance || a4Rect.right > viewportWidth + tolerance) {
+      issues.push({ code: 'reader-a4-outside-frame', rect: a4Rect, viewportWidth });
+    }
+    if (!['hidden', 'clip'].includes(bodyOverflowX) || !['hidden', 'clip'].includes(htmlOverflowX)) {
+      issues.push({ code: 'reader-does-not-clip-unscaled-layout', bodyOverflowX, htmlOverflowX });
+    }
   }
 
   const containedSelectors = [
@@ -200,6 +212,8 @@ function auditDocument(expectedTopics, surface) {
       viewportWidth,
       viewportHeight: window.innerHeight,
       documentOverflowX,
+      bodyOverflowX,
+      htmlOverflowX,
       problemBlocks: a4.querySelectorAll('.problem-block').length,
       equations: a4.querySelectorAll('.problem-equation').length,
       mathJaxContainers: a4.querySelectorAll('mjx-container').length
@@ -224,6 +238,17 @@ async function waitForPageReady(page) {
   await page.waitForTimeout(120);
 }
 
+async function waitForReaderReady(app) {
+  await app.evaluate(async () => {
+    const frame = document.querySelector('#mobilePageFrame');
+    const doc = frame?.contentDocument;
+    const win = frame?.contentWindow;
+    if (doc?.fonts?.ready) await doc.fonts.ready;
+    if (win?.MathJax?.startup?.promise) await win.MathJax.startup.promise;
+  });
+  await app.waitForTimeout(220);
+}
+
 async function captureFailure(page, file, viewport, surface) {
   fs.mkdirSync(failureDir, { recursive: true });
   const safeFile = file.replace(/\.html$/i, '').replace(/[^\p{L}\p{N}-]+/gu, '-');
@@ -238,6 +263,7 @@ async function run() {
     throw new Error(`Expected 98 pages; found ${allPages.length}; declared ${meta.totalPages}`);
   }
 
+  const auditSource = auditDocument.toString();
   const { chromium } = await import('playwright');
   const { server, origin } = await startServer();
   const browser = await chromium.launch({ headless: true });
@@ -295,12 +321,13 @@ async function run() {
             const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
             return pathname.endsWith(`/${file}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
           }, pageMeta.file, { timeout: 15000 });
-          await app.waitForTimeout(180);
+          await waitForReaderReady(app);
 
-          const iframeAudit = await app.evaluate(({ expectedTopics }) => {
+          const iframeAudit = await app.evaluate(({ expectedTopics, auditSource }) => {
             const frame = document.querySelector('#mobilePageFrame');
-            return frame?.contentWindow?.eval(`(${auditDocument.toString()})(${expectedTopics}, 'app-reader')`) || { issues: [{ code: 'missing-reader-frame' }], metrics: {} };
-          }, { expectedTopics: expectedTopicCount });
+            if (!frame?.contentWindow) return { issues: [{ code: 'missing-reader-frame' }], metrics: {} };
+            return frame.contentWindow.eval(`(${auditSource})(${expectedTopics}, 'app-reader')`);
+          }, { expectedTopics: expectedTopicCount, auditSource });
           result.surfaces.appReader = iframeAudit;
           result.issues.push(...iframeAudit.issues.map(issue => ({ ...issue, surface: 'app-reader' })));
 
@@ -323,7 +350,9 @@ async function run() {
           if (!decodedPath.endsWith(`/${pageMeta.file}`)) result.issues.push({ code: 'wrong-open-full-url', actual: decodedPath });
           if (!(await popup.evaluate(() => window.opener === null))) result.issues.push({ code: 'opener-not-isolated' });
 
-          const openFullAudit = await popup.evaluate(auditDocument, expectedTopicCount, 'open-full');
+          const openFullAudit = await popup.evaluate(({ expectedTopics, auditSource }) =>
+            globalThis.eval(`(${auditSource})(${expectedTopics}, 'open-full')`),
+          { expectedTopics: expectedTopicCount, auditSource });
           result.surfaces.openFull = openFullAudit;
           result.issues.push(...openFullAudit.issues.map(issue => ({ ...issue, surface: 'open-full' })));
 
