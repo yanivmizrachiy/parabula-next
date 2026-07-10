@@ -30,11 +30,11 @@
     "audit:equations:svg-plan": "node scripts/audit-equations-svg-conversion-plan.mjs",
     "audit:equations:svg-reality": "node scripts/audit-equations-svg-reality.mjs",
     "page:new": "node scripts/new-page.mjs",
-    "rules:sync": "node scripts/sync-rules.mjs",
+    "rules:check": "node scripts/single-rules-source-check.mjs",
     "topics:sync": "node scripts/sync-mobile-topics.mjs",
     "topics:check": "node scripts/sync-mobile-topics.mjs --check",
     "doctor": "node scripts/doctor.mjs",
-    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run topics:check && npm run health:report && npm run build",
+    "ci:all": "npm test && npm run verify && npm run validate:meta && npm run topics:check && npm run rules:check && npm run health:report && npm run build",
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
     "tech:max": "npm run ci:all && npm run audit:a4:visual && npm run export:pdf:sample"
