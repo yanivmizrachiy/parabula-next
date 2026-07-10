@@ -30,6 +30,7 @@ let meta = null;
 let equationsMap = null;
 try { meta = JSON.parse(read('meta/topics.json')); } catch (error) { add('meta-valid', false, error.message); }
 try { equationsMap = JSON.parse(read('meta/equations-master-map.json')); } catch (error) { add('equations-map-valid', false, error.message); }
+const expectedTopicCount = meta?.topics?.length || 0;
 
 if (meta) {
   const flat = (meta.topics || []).flatMap(topic => topic.pages || []);
@@ -158,7 +159,8 @@ async function runBrowserAudit() {
   let browser;
   try {
     const { chromium } = await import('playwright');
-    ({ server, origin: globalThis.__origin } = await startServer(distDir));
+    const started = await startServer(distDir);
+    server = started.server;
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       viewport: { width: 412, height: 915 }, screen: { width: 412, height: 915 },
@@ -174,7 +176,7 @@ async function runBrowserAudit() {
       if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) failedResponses.push(`${response.status()} ${response.url()}`);
     });
 
-    await page.goto(`${globalThis.__origin}/?view=mobile`, { waitUntil: 'networkidle' });
+    await page.goto(`${started.origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
     await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
     add('browser-all-topics-rendered', await page.locator('.topic-btn').count() === expectedTopicCount, `expected=${expectedTopicCount}`);
@@ -218,7 +220,6 @@ async function runBrowserAudit() {
   } finally {
     if (browser) await browser.close().catch(() => {});
     if (server) await new Promise(resolve => server.close(resolve));
-    delete globalThis.__origin;
   }
 }
 
