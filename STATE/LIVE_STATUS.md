@@ -2,7 +2,9 @@
 
 _Last updated: 2026-07-10_
 
-This file is the short current snapshot of the live canonical state of the repository. It does not replace `PROJECT_RULES.md` or `PROJECT_MEMORY.md`.
+This file is a status report only. The single binding rules source is `CLAUDE.md` — this file must never introduce or override a rule.
+
+Snapshot 2026-07-10 (end of day): CLAUDE.md is the only rules file (rules:check enforces it in ci:all and doctor); mobile parity fixed (topics visible at entry, vertical grid, global search, real print/PDF); catalog upgraded (keyboard paging, prefetch, print/PDF/download actions); quality gates added (validate:html on 98 pages, validate:schema via ajv); vendor/ holds self-hosted MathJax+Rubik awaiting activation after PR #28; deploy green and live site verified on both desktop and mobile paths.
 
 ---
 

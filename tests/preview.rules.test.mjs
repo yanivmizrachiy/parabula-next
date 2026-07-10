@@ -3,14 +3,15 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { readText } from './_test-utils.mjs';
 
-test('/preview Reader must have persistent topic buttons UI', async () => {
+test('/preview Reader must expose topic navigation, search, and a viewer', async () => {
   const html = await readText(path.join('preview', 'index.html'));
 
-  assert.ok(/id="topicButtons"/u.test(html), 'preview/index.html: missing id="topicButtons"');
-  assert.ok(/class="reader-topics"/u.test(html), 'preview/index.html: missing .reader-topics nav');
-  assert.ok(/function\s+buildTopicButtons\s*\(/u.test(html), 'preview/index.html: missing buildTopicButtons()');
-  assert.ok(/function\s+setActiveTopicButtons\s*\(/u.test(html), 'preview/index.html: missing setActiveTopicButtons()');
-  assert.ok(/openFileInCurrentMode\(/u.test(html), 'preview/index.html: missing openFileInCurrentMode() helper');
+  assert.ok(/id="topicsList"/u.test(html), 'preview/index.html: missing id="topicsList" (grouped topics sidebar)');
+  assert.ok(/id="topicFilter"/u.test(html), 'preview/index.html: missing id="topicFilter" (topic filter select)');
+  assert.ok(/id="searchBox"/u.test(html), 'preview/index.html: missing id="searchBox" (global search)');
+  assert.ok(/id="prevBtn"/u.test(html) && /id="nextBtn"/u.test(html), 'preview/index.html: missing prev/next navigation buttons');
+  assert.ok(/<iframe id="viewer"/u.test(html), 'preview/index.html: missing viewer iframe');
+  assert.ok(/meta\/topics\.json/u.test(html), 'preview/index.html: must load meta/topics.json (canonical metadata)');
 });
 
 test('Preview CSS must style topic bar and not hide navigation elements', async () => {
@@ -85,14 +86,13 @@ test('preview/index.html must not contain content after </html>', async () => {
   assert.ok(/^\s*$/u.test(tail), 'preview/index.html: found non-whitespace content after </html>');
 });
 
-test('Golden Preview: fitA4InHost must be host-based (no magic A4 constants)', async () => {
+test('Golden Preview: reader styles are external and viewer area scrolls cleanly', async () => {
   const html = await readText(path.join('preview', 'index.html'));
+  const css = await readText(path.join('preview', 'reader.css'));
 
-  assert.ok(/function\s+fitA4InHost\s*\(/u.test(html), 'preview/index.html: missing fitA4InHost()');
-  assert.ok(/hostEl\.clientWidth/u.test(html), 'preview/index.html: expected fitA4InHost to use hostEl.clientWidth');
-  assert.ok(/hostEl\.clientHeight/u.test(html), 'preview/index.html: expected fitA4InHost to use hostEl.clientHeight');
-  assert.ok(/getComputedStyle\(hostEl\)/u.test(html), 'preview/index.html: expected fitA4InHost to account for host padding');
-  assert.ok(/\b0\.55\b/u.test(html), 'preview/index.html: expected minimum scale clamp of 0.55');
-  assert.ok(/page\.style\.zoom\s*=\s*String\(scale\)/u.test(html), 'preview/index.html: expected scaling via CSS zoom');
-  assert.ok(!/\b1123\b/u.test(html), 'preview/index.html: must not rely on A4 pixel-height constant 1123');
+  assert.ok(/reader\.css/u.test(html), 'preview/index.html: must link the external reader.css (no inline styles)');
+  assert.ok(!/<style>/u.test(html), 'preview/index.html: must not contain an inline <style> block');
+  assert.ok(/\.viewer-wrap\s*\{[\s\S]*?overflow\s*:\s*auto/u.test(css), 'preview/reader.css: .viewer-wrap must scroll (overflow: auto)');
+  assert.ok(/iframe\s*\{[\s\S]*?background\s*:\s*white/u.test(css), 'preview/reader.css: viewer iframe must keep a white page background');
+  assert.ok(/aside\s*\{[\s\S]*?flex-direction\s*:\s*column/u.test(css), 'preview/reader.css: sidebar must remain a persistent column');
 });
