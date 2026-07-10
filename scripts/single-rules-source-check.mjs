@@ -21,7 +21,7 @@ if (!exists(canonical)) {
     'scripts/single-rules-source-check.mjs',
     'חפיפות',
     'scripts/validate-mobile-all-pages.mjs',
-    'validate:mobile:deep',
+    'validate:mobile:all-pages',
     'רוחב קשיח',
     '360×800',
     '412×915',
@@ -36,7 +36,7 @@ if (!exists(canonical)) {
   for (const obsolete of [
     'npm run topics:sync',
     'npm run topics:check',
-    'validate:mobile:all-pages',
+    'validate:mobile:deep',
     'mobile-topics.json',
     'mobile-app-install.html',
     'preview/phone.html'
@@ -76,6 +76,20 @@ const forbiddenTemporaryQualityFiles = [
 ];
 for (const rel of forbiddenTemporaryQualityFiles) {
   if (exists(rel)) errors.push(`Temporary mobile-quality file must not remain: ${rel}`);
+}
+
+if (!exists('scripts/validate-mobile-all-pages.mjs')) {
+  errors.push('Missing permanent all-pages mobile geometry validator: scripts/validate-mobile-all-pages.mjs');
+}
+
+if (exists('.claude/agents/worksheet-designer.md')) {
+  const agent = read('.claude/agents/worksheet-designer.md');
+  for (const required of ['validate:mobile:browser', 'validate:mobile:all-pages', 'פתח מלא']) {
+    if (!agent.includes(required)) errors.push(`worksheet-designer agent missing required mobile validation reference: ${required}`);
+  }
+  for (const obsolete of ['topics:sync', 'topics:check', 'validate:mobile:deep']) {
+    if (agent.includes(obsolete)) errors.push(`worksheet-designer agent still contains obsolete command: ${obsolete}`);
+  }
 }
 
 if (exists('README.md')) {
