@@ -4,7 +4,9 @@ on:
   pull_request:
     branches: ["main"]
   push:
-    branches: ["main"]
+    branches:
+      - "main"
+      - "test/open-full-all-98-pages-20260710"
   workflow_dispatch:
 
 permissions:
@@ -18,7 +20,7 @@ concurrency:
 
 jobs:
   fix-canonical-rules:
-    if: github.event_name == 'pull_request' && github.head_ref == 'test/open-full-all-98-pages-20260710' && github.actor != 'github-actions[bot]'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/test/open-full-all-98-pages-20260710' && github.actor != 'github-actions[bot]'
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -68,6 +70,7 @@ jobs:
           git push origin HEAD:test/open-full-all-98-pages-20260710
 
   build:
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -95,6 +98,7 @@ jobs:
           retention-days: 1
 
   mobile-browser-gate:
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     container:
@@ -122,6 +126,7 @@ jobs:
           retention-days: 1
 
   mobile-deep-gate:
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     name: Deep mobile audit shard ${{ matrix.shard }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -156,7 +161,7 @@ jobs:
           retention-days: 3
 
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: [build, mobile-browser-gate, mobile-deep-gate]
     permissions:
       pages: write
