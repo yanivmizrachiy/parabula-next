@@ -1,429 +1,573 @@
-# CLAUDE.md — Parabula Next
+# CLAUDE.md — Parabula Next — מקור הכללים היחיד
 
-הקובץ הזה הוא נקודת הכניסה של Claude Code לריפו Parabula Next.
-קרא אותו לפני כל פעולה. הוא לא מחליף את `PROJECT_RULES.md` — הוא משלים אותו.
+_עודכן: 2026-07-10_
 
----
+## 0. סמכות המסמך — כלל עליון
 
-## 1. זהות הפרויקט
+זהו **מסמך הכללים, הדרישות, הזיכרון ומפת הפרויקט היחיד והמחייב** של `parabula-next`.
 
-**Parabula Next** הוא מערכת ארוכת טווח לייצור, ניהול, ותצוגה של דפי עבודה במתמטיקה בעברית RTL.
-
-### המוצר המרכזי
-דפי עבודה איכותיים להדפסה ב-A4 — HTML + CSS + SVG + MathJax.
-לא אפליקציה דיגיטלית. לא אתר. **דפי עבודה להדפסה.**
-
-### שכבות התמיכה
-- **תצוגת נייח:** סקירה, עריכה, ניווט, בדיקה — לא תחליף לדפי ההדפסה
-- **תצוגת נייד:** צפייה, ניווט, הדפסה — לא תחליף לדפי ההדפסה
-- **CI/CD:** בדיקות, audit, פרסום — שמירה על שלמות
-
-### יעד סופי
-אפליקציה/ספרייה שמציגה את כל הדפים הקיימים כמו ספר/חוברת דיגיטלית נוחה מאוד —
-עם ניווט נוח, תצוגה מיטבית, הדפסה קלה, וגישה לפי נושא/כיתה/מיומנות.
-
-### מה Yaniv עושה
-מביא חומרי לימוד (PDF, תמונות, טקסט), מעביר אותם לדפי HTML מאורגנים, ומוסיף אותם למערכת.
-**המערכת חייבת לתמוך בהמשך במאות ואלפי דפי עבודה.**
+- כל בינה מלאכותית, מפתח או אוטומציה שנכנסים לריפו חייבים לקרוא את הקובץ הזה במלואו לפני פעולה.
+- אין ליצור מסמך כללים, זיכרון, חוזה, הנחיות AI או מקור אמת נוסף.
+- דרישה חדשה של יניב מתווספת **רק לקובץ הזה**.
+- מסמכים תחת `STATE/`, `docs/`, `sources/legacy/`, `sources/backups/` ודוחות audit הם מידע היסטורי, דוחות או חומר עזר בלבד. הם אינם רשאים לגבור על קובץ זה או להוסיף כלל מחייב חדש.
+- אם מסמך ישן מפנה אל `PROJECT_RULES.md`, `PROJECT_MEMORY.md`, `rules.md`, `rules.html`, `APP_CONTRACT.md` או מסמך כללים אחר — זו הפניה היסטורית שאינה מחייבת. הקובץ הזה גובר.
+- אין לסנכרן או לשכפל את תוכן הקובץ לקובץ כללים נוסף.
 
 ---
 
-## 2. עקרון על — מה לא לגעת בו
+## 1. כללי ברזל — אין חריגות
 
-```
-קבצים מוגנים — אסור לשנות ללא אישור מפורש של Yaniv:
+### 1.1 שוויון מלא בין מחשב לנייד
 
-עמוד-N.html          ← תוכן חינוכי קנוני (כל 98 הדפים)
-styles/a4-base.css   ← בסיס A4 בלתי ניתן לשינוי
-meta/topics.json     ← עמוד שדרה של מטא-דאטה
-sources/legacy/*     ← ארכיון לשימור בלבד
-sources/backups/*    ← גיבויים לשימור בלבד
-STATE/backup_*       ← גיבויי מצב
-meta/backup/*        ← גיבויי מטא-דאטה
-```
+**כל מה שקיים באתר ובריפו חייב להיות זמין, גלוי, מובן ושמיש גם בנייד.**
 
----
+זה כולל ללא יוצא מן הכלל:
 
-## 3. מקורות אמת — קרא תמיד לפני שינויים
+- כל הנושאים.
+- כל דפי העבודה.
+- כל תוכן לימודי.
+- חיפוש בכל הספר.
+- ניווט בין נושאים ודפים.
+- פתיחת דף מלא.
+- צפייה.
+- בחירה.
+- הדפסה.
+- שמירה כ-PDF.
+- שיתוף והורדה כאשר הפעולות קיימות במחשב.
+- כל פעולה קיימת וכל פעולה שתתווסף בעתיד.
 
-קרא לפי הסדר הזה בתחילת כל שיחה:
+דרישות מחייבות לנייד:
 
-1. `PROJECT_RULES.md` — מקור האמת הראשי (**חובה**)
-2. `STATE/LIVE_STATUS.md` — תמונת מצב חיה קצרה (**חובה**)
-3. `STATE/ARCHITECTURE_MAP.md` — מפת שכבות (**כדאי**)
-4. `STATE/PROJECT_CONTINUITY.md` — רצף עבודה בין שיחות (**כדאי**)
+1. הנייד והנייח חייבים לקרוא מאותו מקור תוכן ומאותו `meta/topics.json`.
+2. אסור ליצור גרסת תוכן מצומצמת לנייד.
+3. אסור שנושא או דף יהיו קיימים במחשב אך מוסתרים, בלתי נגישים או קשים לגילוי בנייד.
+4. מסך הפתיחה בנייד חייב להציג דרך ברורה ומיידית לכל הנושאים. אין להסתיר כברירת מחדל את כל הנושאים באופן שגורם למשתמש לחשוב שהם אינם קיימים.
+5. רשימת הנושאים בנייד אינה יכולה להסתמך רק על גלילה אופקית נסתרת. כל נושא חייב להיות נגיש וברור בלי לנחש שצריך להחליק לצד.
+6. החיפוש בנייד חייב להיות **חיפוש גלובלי בכל 98 הדפים ובכל הנושאים**, ולא רק בנושא הפעיל.
+7. מספר הנושאים והדפים שמוצג בנייד חייב להיות זהה לנייח ולמטא-דאטה.
+8. פעולות שנראות בנייח חייבות לקבל מימוש נייד אמיתי, מותאם מגע, ולא כפתור דמה.
+9. כל שינוי בקטלוג, במטא-דאטה או בפעולות האתר נבדק גם בנייח וגם בנייד לפני השלמה.
+10. בדיקת השלמה לנייד חייבת לכלול viewport צר אמיתי או מכשיר אמיתי, ולא רק קריאת קוד.
+11. שגיאת parity בין נייד לנייח היא **רגרסיה קריטית** וחוסמת פרסום.
+12. התאמה לנייד פירושה שימוש מלא ונוח, לא רק שהדף “נפתח”.
 
-אם יש סתירה בין מסמכים — `PROJECT_RULES.md` + `STATE/LIVE_STATUS.md` גוברים.
+מצב נוכחי ידוע הדורש תיקון:
 
----
+- `mobile-app.html` מסתיר כרגע את אזור הנושאים בתחילת הכניסה.
+- הנושאים מוצגים כרגע בשורה אופקית.
+- החיפוש ב-`mobile-app.js` מסנן כרגע רק את הנושא הפעיל.
+- לכן המצב הנוכחי עדיין אינו עומד במלוא כלל הברזל הזה, ויש לתקן אותו בעדיפות גבוהה בלי לפגוע בתוכן ובתצוגת המחשב.
 
-## 4. מבנה הריפו — מה קיים
+### 1.2 תוכן אמיתי בלבד
 
-### שכבת תוכן קנונית
-```
-עמוד-N.html                    ← 98 דפי עבודה A4 (שורש הריפו)
-styles/pages/עמוד-N.css        ← CSS ייעודי לכל דף
-styles/a4-base.css             ← בסיס CSS משותף + print CSS
-styles/topics/*.css            ← CSS משותף לנושא (נטען ב-@import)
-pages/משוואות/assets/          ← נכסי SVG שדפי המשוואות (עמוד-42+) מטמיעים — חייב להיות מועתק ל-dist בפריסה
-```
+- אין תוכן דמה.
+- אין כפתורים מזויפים.
+- אין זרימות placeholder.
+- אין דוחות מזויפים.
+- אין סימון “הושלם” בלי בדיקה אמיתית.
+- אין להמציא תרגילים, תשובות, אימות מקור או יכולת שלא קיימת.
 
-### שכבת מטא-דאטה
-```
-meta/topics.json        ← מקור אמת של נושאים ודפים (98 דפים, 8 נושאים)
-meta/pages.json         ← רישום מיוצר אוטומטית — לא לערוך ידנית, לא בקומיט
-mobile-topics.json      ← עותק-ראי היסטורי (סונכרן מחדש 2026-07-10). הרנטיים כבר לא קורא אותו —
-                          mobile-app.js קורא meta/topics.json. בכל שינוי topics.json יש לסנכרן:
-                          cp meta/topics.json mobile-topics.json
-schemas/                ← schemas של מטא-דאטה
-```
+### 1.3 שמירת מה שעובד
 
-### שכבת הספר הדיגיטלי (catalog layer)
-```
-catalog.html            ← ממשק ספר לימוד דיגיטלי (ניתן לערוך חופשי)
-catalog.css             ← עיצוב פרימיום — dark sidebar, card grid, viewer
-catalog.js              ← לוגיקה: fetch meta/topics.json, חיפוש, URL state
-```
-
-**כל 3 הקבצים קוראים מ-meta/topics.json בלבד — לא כותבים אליו.**
-ראה `docs/DIGITAL_TEXTBOOK_ARCHITECTURE.md` + `STATE/CATALOG_STATUS.md`
-
-### כניסה חכמה (root entry)
-```
-index.html + index.js + index.css  ← נקודת הכניסה: נייח → catalog.html, נייד → mobile-app.html
-```
-
-### שכבת גישה (access surfaces)
-```
-preview/app.html        ← redirect ל-topics.html (הבית הוא topic-first)
-preview/index.html      ← Preview Reader (נייח, dark sidebar + iframe)
-preview/topics.html     ← דפדוף לפי נושאים
-preview/all-pages.html  ← כל הדפים עם חיפוש וסינון
-preview/print.html      ← מרכז הדפסה
-preview/server.mjs      ← שרת מקומי, port 5179, live-reload SSE
-
-mobile-app.html         ← אפליקציית נייד ראשית (PWA)
-mobile-app.js           ← לוגיקה: fetch meta/topics.json, iframe, scale
-mobile-app.css          ← עיצוב
-mobile-app.webmanifest  ← PWA manifest
-mobile-app-install.html ← עמוד התקנה
-
-preview/phone.*         ← legacy/compat — לא הנתיב הקנוני לנייד
-```
-
-### שכבת אוטומציה
-```
-scripts/verify.mjs              ← בדיקת מבנה בסיסית
-scripts/recovery-audit.mjs      ← audit שלמות הריפו
-scripts/validate-access-layer.mjs ← בדיקת קבצים קנוניים
-scripts/audit-preview-overlaps.mjs ← בדיקת כפילויות
-scripts/doctor.mjs              ← מריץ 6 בדיקות ברצף (test, verify, recovery, rules-sync, app-layer, duplicates)
-scripts/new-page.mjs            ← יצירת דף חדש (Playwright + meta/topics.json)
-scripts/generate-pages-registry.mjs ← מייצר meta/pages.json
-scripts/repo-health-report.mjs  ← דוח בריאות (ספירות, כפילויות)
-scripts/a4-visual-audit.mjs     ← audit חזותי A4 בדפדפן (Playwright)
-scripts/export-pdf-sample.mjs   ← ייצוא PDF לדפי דגימה
-scripts/copy-static-site.mjs    ← postbuild: מעתיק נכסים סטטיים ל-dist (כולל pages/)
-scripts/sync-rules.mjs          ← מייצר rules.md מ-PROJECT_RULES.md
-```
-
-### שכבת בדיקות
-```
-tests/contracts/root-pages.test.mjs       ← בדיקות בסיסיות
-tests/a4-pages.rules.test.mjs             ← מבנה, ניווט, נושאים
-tests/a4-numbering-ui.rules.test.mjs      ← badge numbering
-tests/preview.rules.test.mjs              ← preview rules
-tests/topic-pages.*.test.mjs              ← topic pages
-```
-
-### שכבת CI
-```
-.github/workflows/deploy-pages.yml         ← build + test + deploy ל-GitHub Pages
-.github/workflows/recovery-audit.yml       ← audit בכל push
-.github/workflows/preview-guard.yml        ← guard preview
-.github/workflows/repository-health.yml    ← health check
-```
+- לא משכתבים מערכת עובדת רק מפני שאפשר לבנות אותה מחדש.
+- שינוי טכנולוגיה מותר רק כאשר יש תועלת ברורה בביצועים, אמינות, תחזוקה, אבטחה, הדפסה, נגישות או פונקציונליות אמיתית.
+- אין לשנות את העיצוב הקיים בלי בקשה מפורשת, אלא לתיקון תקלה, נגישות או חוסר התאמה לנייד.
+- אין למחוק, למזג, לשנות שם או לשייך מחדש דף או נושא בלי אישור מפורש של יניב.
+- `משוואות` ו-`משוואות ריבועיות` הם נושאים נפרדים ואסור לערבב ביניהם.
 
 ---
 
-## 5. כיצד עובדת A4 / הדפסה
+## 2. זהות המוצר והיעד
 
-```css
-/* עיקרי מ-styles/a4-base.css */
-.a4-page {
-  width: 210mm;
-  height: 297mm;
-  overflow: hidden;           /* לא auto! */
-  padding: 10mm 18mm;
-}
+`Parabula Next` הוא מערכת ארוכת טווח ליצירה, ניהול, הצגה והדפסה של דפי עבודה במתמטיקה בעברית RTL באיכות ספר לימוד.
 
-@media print {
-  @page { size: A4; margin: 0; }
-  .a4-page { overflow: visible; box-shadow: none; margin: 0; }
-  .preview-nav { display: none; }
-}
-```
+המוצר המרכזי הוא:
 
-**כללים קריטיים להדפסה:**
-- A4 = 210mm × 297mm בדיוק — לא לשנות
-- `overflow: hidden` במסך, `overflow: visible` בהדפסה
-- אין `overflow: auto` — אסור בהחלט
-- `@page margin: 0` — גיליון ללא שוליים
-- `-webkit-print-color-adjust: exact` — שמירת צבעים
-- גופן Rubik + MathJax טוענים מ-CDN — הדפסה ללא אינטרנט לא תעבוד מיטבית
+- דפי עבודה אמיתיים להדפסה ב-A4.
+- HTML סטטי, CSS, SVG ו-MathJax.
+- איכות הדפסה קודמת לאפקטים דיגיטליים.
+
+שכבות הנייח, הנייד, הקטלוג וה-preview הן שכבות תמיכה חשובות. הן חייבות לתת גישה מלאה לכל התוכן והפעולות, אך אינן מחליפות את דפי ה-A4 הקנוניים.
+
+יעד ארוך טווח:
+
+- ספר/חוברת דיגיטלית נוחה מאוד.
+- מאות ואלפי דפים בעתיד.
+- ארגון לפי נושא, כיתה, מיומנות, סוג דף ורצף לימודי.
+- חיפוש, דפדוף, בחירה, הדפסה ושמירה כ-PDF.
+- מינימום עבודה ידנית ליניב ומקסימום אוטומציה בטוחה.
 
 ---
 
-## 6. כיצד עובד מבנה דף עבודה
+## 3. תמונת מצב מאומתת
 
-כל `עמוד-N.html` חייב להכיל בדיוק:
+נכון ל-2026-07-10:
+
+- 98 קובצי דפי עבודה קנוניים בשורש: `עמוד-N.html`.
+- 98 קובצי CSS ייעודיים תחת `styles/pages/`.
+- 8 נושאים ב-`meta/topics.json`.
+- האתר החי: `https://yanivmizrachiy.github.io/parabula-next/`.
+- GitHub `origin/main` הוא מקור האמת.
+- נתיב מקומי מועדף ב-Windows: `C:\Users\yaniv\parabula-next`.
+
+הנושאים הנוכחיים:
+
+1. גיאומטריה — 2 דפים.
+2. פילוג מורחב — 2 דפים.
+3. משוואות — 54 דפים.
+4. משפט פיתגורס — 23 דפים.
+5. סדרות וחוקיות — 4 דפים.
+6. פונקציות — 4 דפים.
+7. גרף עולה, יורד ושיפוע — 3 דפים: `עמוד-96.html`, `עמוד-97.html`, `עמוד-98.html`.
+8. משוואות ריבועיות — 6 דפים.
+
+אם דוח ישן מציין 95 דפים או 7 נושאים, הוא מיושן.
+
+---
+
+## 4. מפת הריפו — מה קיים ומה תפקידו
+
+### 4.1 תוכן קנוני
+
+- `עמוד-N.html` — תוכן דף עבודה.
+- `styles/pages/עמוד-N.css` — עיצוב ייעודי לדף.
+- `styles/a4-base.css` — בסיס A4 והדפסה משותף; קובץ מוגן.
+- `styles/topics/*.css` — עיצוב משותף לנושא לפי צורך.
+- `pages/משוואות/assets/` — נכסי SVG שמשמשים דפי משוואות.
+
+### 4.2 מטא-דאטה
+
+- `meta/topics.json` — מקור האמת היחיד למבנה הנושאים והדפים.
+- `mobile-topics.json` — עותק ראי היסטורי שנדרש עדיין בחלק מבדיקות/פריסה; אינו מקור אמת ואסור לרנטיים להסתמך עליו במקום `meta/topics.json`.
+- `meta/pages.json` — קובץ מיוצר; לא עורכים ידנית ולא מתחייבים לשמור בקומיט.
+- `schemas/` — סכמות מטא-דאטה.
+
+### 4.3 כניסה וקטלוג
+
+- `index.html`, `index.js`, `index.css` — כניסה חכמה: נייח ל-`catalog.html`, נייד ל-`mobile-app.html`.
+- `catalog.html`, `catalog.css`, `catalog.js` — קטלוג/ספר דיגיטלי לנייח.
+
+### 4.4 נייד
+
+הנתיב הקנוני:
+
+- `mobile-app.html`
+- `mobile-app.css`
+- `mobile-app.js`
+- `mobile-app.webmanifest`
+- `mobile-app-install.html`
+- `mobile-app-install.js`
+- `sw.js`
+
+`preview/phone.*` הוא legacy/compat בלבד. תיקוני נייד חדשים נעשים קודם ב-`mobile-app.*`.
+
+מנוע הקריאה בנייד נשאר כרגע iframe-based. אסור לשכפל את דפי העבודה כדי “להתאים” אותם לנייד; ההתאמה נעשית במעטפת הקריאה וב-CSS/runtime מבוקר.
+
+### 4.5 Preview והדפסה
+
+- `preview/index.html` — reader מקומי קנוני.
+- `preview/server.mjs` — שרת preview עם live reload, ברירת מחדל פורט 5179.
+- `preview/topics.html` — ניווט לפי נושאים.
+- `preview/all-pages.*` — כלי משני לכל הדפים; אינו מחליף בית topic-first.
+- `preview/print.html` ו-`preview/print.js` — מסלול הדפסה/Save as PDF אמיתי דרך הדפדפן.
+- `preview/print-center.js` — legacy/duplicate-adjacent עד איחוד מבוקר.
+
+### 4.6 אוטומציה ובדיקות
+
+קבצים מרכזיים:
+
+- `scripts/verify.mjs`
+- `scripts/recovery-audit.mjs`
+- `scripts/validate-access-layer.mjs`
+- `scripts/audit-preview-overlaps.mjs`
+- `scripts/doctor.mjs`
+- `scripts/new-page.mjs`
+- `scripts/generate-pages-registry.mjs`
+- `scripts/validate-meta-schema.mjs`
+- `scripts/repo-health-report.mjs`
+- `scripts/a4-visual-audit.mjs`
+- `scripts/export-pdf-sample.mjs`
+- `scripts/copy-static-site.mjs`
+- `scripts/sync-mobile-topics.mjs`
+- `scripts/single-rules-source-check.mjs`
+
+### 4.7 פריסה
+
+- GitHub Pages נפרס דרך `.github/workflows/deploy-pages.yml` מתוך `dist/`.
+- Vite 8 מבצע build.
+- `postbuild` מפעיל `scripts/copy-static-site.mjs` כדי להעתיק את האתר הסטטי ל-`dist/`.
+- `vercel.json` תומך בפריסת Vercel מתוך `dist/`.
+- אין ליצור mirror סטטי נוסף תחת `docs/`.
+
+---
+
+## 5. חוזה דף A4
+
+כל דף קנוני:
+
+- נמצא בשורש בשם `עמוד-N.html`.
+- מכיל בדיוק wrapper ראשי אחד: `main.a4-page.page-N`.
+- רוחב: `210mm`.
+- גובה: `297mm`.
+- אין להשתמש ב-`overflow: auto` או `overflow: scroll` כדי להסתיר בעיית גובה.
+- התוכן חייב להיכנס לגבולות A4 ולנצל את השטח בלי אזורים ריקים גדולים שלא לצורך.
+- אם התוכן אינו נכנס: מקטינים ריווח/גופן באופן קריא או מפצלים לדף נוסף. לא מסתירים overflow.
+- `.a4-page` נשאר יציב ואינו מצטמצם ב-flex.
+- בהדפסה: `@page { size: A4; margin: 0; }` וניווט preview מוסתר.
+
+מבנה מחייב בסיסי:
 
 ```html
-<nav class="preview-nav">               ← ניווט (נסתר בהדפסה)
-  <div class="preview-nav-top">
-    <div class="nav-side"><a class="nav-link" href="...">הקודם</a></div>
-    <div class="nav-meta">נושא — עמוד X / Y</div>
-    <div class="nav-side"><a class="nav-link" href="...">הבא</a></div>
-  </div>
-  <div class="preview-nav-topics">
-    <a class="topic-link" href="...">נושא א</a>
-    <a class="topic-link is-active" href="..." aria-current="page">נושא ב</a>
-  </div>
-</nav>
-
-<main class="a4-page page-N [topic-class]">
-  <header class="header-container">
-    <h1 class="page-title">שם הנושא</h1>
-    <div class="page-number">X</div>    ← X = מספר בתוך הנושא (לא גלובלי)
-  </header>
-  <div class="question-block">
-    <!-- תוכן הדף -->
-  </div>
-</main>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>עמוד X — שם הנושא</title>
+  <link rel="stylesheet" href="styles/a4-base.css" />
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+  <link rel="stylesheet" href="styles/pages/עמוד-N.css" />
+</head>
+<body>
+  <nav class="preview-nav">...</nav>
+  <main class="a4-page page-N topic-class">
+    <header class="header-container">
+      <h1 class="page-title">שם הנושא</h1>
+      <div class="page-number">X</div>
+    </header>
+    <div class="question-block">...</div>
+  </main>
+</body>
+</html>
 ```
 
-**חוקים קשיחים:**
-- `page-number` = מספר בתוך הנושא (לא מספר הקובץ!)
-- `<title>` = `עמוד X — שם הנושא`
-- אפס inline CSS (`style="..."` או `<style>` אסורים)
-- כל CSS ב-`styles/pages/עמוד-N.css` בלבד
-- MathJax: `\(...\)` inline, `$$...$$` display — **לא `$...$`**
-- RTL בכל מקום; LTR רק ב-CSS (`direction: ltr; unicode-bidi: isolate`)
+`X` הוא המיקום בתוך הנושא, לא מספר הקובץ הגלובלי.
 
 ---
 
-## 7. כיצד עובדת גרפיקה מתמטית
+## 6. HTML ו-CSS
 
-**כלים קיימים ומאושרים:**
-
-| כלי | שימוש |
-|---|---|
-| MathJax 3 | כל הנוסחאות המתמטיות |
-| SVG inline | גיאומטריה, משולשים, מקביליות, שרטוטים |
-| CSS coordinate-system | ציר קואורדינטות (440px × 440px, grid 22px) |
-| CSS background-image | נייר משבצות לאזורי כתיבה |
-
-**כללי SVG:**
-```css
-vector-effect: non-scaling-stroke;   /* חובה בכל stroke */
-shape-rendering: geometricPrecision; /* חובה ב-SVG גיאומטרי */
-```
-
-**רמת איכות נדרשת:**
-- גרפים ברמת ספרי לימוד — לא screenshots, לא blurry
-- כל SVG חייב להיות vector — לא raster images
-- גיאומטריה: קווים נקיים, label מיקום מדויק, זווית ישרה עם ריבוע
-- קואורדינטות: grid 22px, arrows, labels מחוץ לציר
-
-**מה חסר לעתיד (לא לייצר עכשיו — לתכנן):**
-- כלי לגרפי פונקציות (פרבולה, קו ישר, פונקציה עלייה/ירידה)
-- templates לסוגי דף שונים
+- אפס CSS מוטמע בדפי העבודה: אין `<style>` ואין `style="..."`.
+- עיצוב דף נמצא רק ב-`styles/pages/עמוד-N.css`.
+- selectors של CSS ייעודי חייבים להיות scoped ל-`.page-N`.
+- אין לדרוס מתוך CSS של דף את:
+  - `.a4-page` הגלובלי.
+  - `.header-container`.
+  - `.page-number`.
+  - `body, html` באופן גלובלי.
+- `styles/a4-base.css` הוא בסיס מוגן; לא מתקנים בו בעיה מקומית של דף.
+- אין לייבא גופן חיצוני מחדש בקובץ CSS של דף.
+- HTML, CSS, JavaScript, נתונים, print CSS ורכיבים מתמטיים נשמרים מופרדים ככל האפשר.
+- אין ליצור CSS ייעודי בתוך תיקיית דף נושא אם קיים stylesheet קנוני לנושא.
 
 ---
 
-## 8. כיצד עובד הנייד
+## 7. RTL, MathJax וכתיבה מתמטית
 
-**הנתיב הקנוני:** `mobile-app.html` + `mobile-app.js` + `mobile-app.css`
-
-**איך `mobile-app.js` עובד:**
-1. מבצע `fetch('./meta/topics.json')` — מקור האמת הקנוני (עודכן; בעבר קרא mobile-topics.json)
-2. בונה רשימת נושאים ודפים, זוכר מיקום אחרון ב-localStorage
-3. מציג דף נבחר ב-iframe עם scale transform
-4. מסיר `.preview-nav` בתוך ה-iframe (ניווט מובנה)
-5. רושם את `sw.js` (שכבת PWA)
-
-**הערה על `mobile-topics.json`:**
-עותק-ראי היסטורי בלבד. סונכרן מחדש ב-2026-07-10 (8 נושאים / 98 דפים).
-הרנטיים לא תלוי בו יותר, אבל `validate:mobile` וה-deploy עדיין מפנים אליו —
-בכל שינוי `meta/topics.json` הריצו `cp meta/topics.json mobile-topics.json`.
-
-**נתיב לגאצי:** `preview/phone.*` — קיים אבל לא הנתיב הרשמי.
+- `<html lang="he" dir="rtl">` נשמר בכל דף וממשק.
+- LTR למתמטיקה/תשובה מוגדר ב-CSS בלבד: `direction: ltr; unicode-bidi: isolate;`.
+- אין להוסיף `dir="ltr"` לאלמנט דף עבודה בלי צורך מפורש ומנומק.
+- MathJax inline: `\( ... \)`.
+- MathJax display: `$$ ... $$`.
+- אסור `$...$` בודד.
+- שני פתרונות נכתבים `\(x_1\)` ו-`\(x_2\)`.
+- זוג תשובות מוצג בסוגריים מתמטיים נכונים, לדוגמה `\((x_1,\,x_2)\)`.
+- בעברית כותבים “מינוס 4” או `\(-4\)`, לא “4 מינוס”.
+- תתי-שאלות מופרדות בכדור שחור; אין להוסיף מספור ידני אלא אם יניב ביקש במפורש.
 
 ---
 
-## 9. פקודות זמינות
+## 8. SVG, גרפים וגיאומטריה
 
-```bash
-npm run preview          # שרת מקומי http://127.0.0.1:5179/preview
-npm test                 # בדיקות חוזה (tests/contracts/)
-npm run verify           # בדיקת מבנה בסיסית
-npm run validate:access  # בדיקת קבצים קנוניים
-npm run validate:meta    # מייצר pages.json + מאמת סכימה
-npm run validate:mobile  # בדיקת רנטיים נייד + סנכרון mobile-topics.json
-npm run health:report    # דוח בריאות
-npm run rules:sync       # מייצר rules.md מ-PROJECT_RULES.md
-npm run topics:sync      # מסנכרן mobile-topics.json מ-meta/topics.json
-npm run topics:check     # נכשל אם הראי לא מסונכרן (רץ ב-ci:all וב-deploy)
-npm run doctor           # doctor מלא (6 בדיקות)
-npm run page:new         # יצירת דף חדש (דורש שרת preview רץ)
-
-npm run ci:all           # test + verify + validate:meta + health + build
-npm run tech:max         # ci:all + audit חזותי A4 + ייצוא PDF (דורש Playwright browsers)
-```
-
-**להרצת doctor מלא (6 בדיקות):**
-```bash
-node scripts/doctor.mjs
-```
+- גרפיקה מתמטית חדשה היא וקטורית: SVG/MathJax/CSS, לא screenshot ולא raster.
+- כל stroke ב-SVG משתמש ב-`vector-effect: non-scaling-stroke`.
+- נתיבים גיאומטריים משתמשים לפי הצורך ב-`shape-rendering: geometricPrecision`.
+- labels נמצאים מחוץ לצורה, לא נוגעים בקווים ונשארים קריאים בהדפסה.
+- סימון זווית ישרה הוא ריבוע ברור.
+- סימוני מקבילות ממוקמים במרכז המדויק של הצלע, מיושרים לשיפוע הצלע: chevron יחיד לזוג ראשון וכפול לזוג שני.
+- קווים עיקריים הם בעלי ניגודיות גבוהה ומתאימים להדפסה.
+- מערכת צירים קנונית: `440px × 440px`, grid של `22px`.
+- אין להמיר תוכן מתמטי מ-SVG/מקור לתרגילים מנוחשים.
 
 ---
 
-## 10. תהליך עבודה מחייב
+## 9. ניווט, נושאים ומטא-דאטה
 
-```
-לימוד → כללים → תוכנית → ביצוע קטן → בדיקה → תיעוד
-```
+- חוויית הבית היא topic-first: קודם נושא, אחר כך דפי הנושא.
+- אין להציג dump גולמי של כל הקבצים כחוויית הבית הראשית.
+- לחיצה על נושא מובילה לעמוד הראשון באותו נושא, לא לדף שמור קודם.
+- בכל דף `.preview-nav` כולל:
+  - `.nav-meta` בפורמט `{נושא} — עמוד {i} / {total}`.
+  - `.page-number` ששווה ל-`i` המקומי בנושא.
+  - `.topic-link` לכל נושא.
+  - `.is-active` ו-`aria-current="page"` לנושא הפעיל.
+- קודם/הבא תואמים לסדר האמיתי ב-`meta/topics.json`.
+- קבצי מערכת, redirects, 404 וכללים אינם מופיעים ב-TOC של הדפים.
+- אין למזג נושאים דומים בשם.
 
-לפני **כל** ביצוע גדול:
-1. קרא `PROJECT_RULES.md` + `STATE/LIVE_STATUS.md`
-2. הצג: קבצים שיושפעו, סיכונים, מה ייחשב הצלחה
-3. קבל אישור מ-Yaniv
-4. בצע בשינויים קטנים
-5. הרץ `npm test` + `npm run verify`
-6. תעד ב-STATE/
+`meta/topics.json` הוא מקור האמת היחיד למבנה התוכן. לאחר שינויו:
 
-**אין להתחיל תיקוני קוד לפני שיש כללי עבודה מסודרים.**
-
----
-
-## 11. מה אסור בהחלט
-
-```
-git add .               ← אסור — רק git add לקבצים ספציפיים
-git push --force        ← אסור
-git reset --hard        ← אסור ללא אישור מפורש
-git rebase              ← אסור ללא אישור מפורש
-rm -rf                  ← אסור
-מחיקת קבצים legacy/backup ← אסור
-שינוי עמוד-N.html       ← אסור ללא אישור מפורש
-שינוי styles/a4-base.css ← אסור ללא אישור מפורש
-יצירת fake buttons       ← אסור
-יצירת placeholder UI     ← אסור
-demo content             ← אסור
-כתיבה מחדש של מה שעובד  ← אסור
-```
+1. מריצים `npm run topics:sync`.
+2. מריצים `npm run topics:check`.
+3. מריצים בדיקות מלאות.
+4. מאמתים שמספרי הנושאים והדפים זהים בנייח ובנייד.
 
 ---
 
-## 12. בעיות ידועות (עודכן 2026-07-10 אחרי ניקוי מקיף)
+## 10. Preview, קטלוג, הדפסה ו-PDF
 
-**נפתרו ב-2026-07-10:** new-page.mjs (הוסב ל-Playwright + meta/topics.json), puppeteer (לא נדרש יותר),
-mobile-topics.json (סונכרן), inline style ב-preview/index.html (חולץ ל-reader.css) וב-preview/print.html (נוקה עוד קודם),
-docs/ (העותק הסטטי המיושן נמחק, נשארו מסמכי MD), pages/ לא הועתק ל-dist (תוקן בשני מסלולי הפריסה),
-app-layer-check מיושן (יושר; doctor ירוק).
+### Preview
 
-**נפתרו נוסף (סבב שיפורים 2026-07-10):** סנכרון mobile-topics הפך אוטומטי (`npm run topics:sync` + גייט `topics:check` ב-ci:all וב-deploy); אב-הטיפוס `עמוד-95-editable` הועבר ל-`STATE/internal-drafts/` לפי ההחלטה המתועדת והוולידטור הסותר הוסר; `validate:equations:public-clean` יושר עם המצב הסופי של עמוד-95 (דף MathJax חי, בלי תמונת SVG).
+- פקודה: `npm run preview`.
+- URL מקומי: `http://127.0.0.1:5179/preview`.
+- ה-reader מציג מסגרת A4 מדויקת.
+- הדף מיושר לראש ולמרכז אופקי; אין drift ב-RTL.
+- הניווט נשאר גלוי בזמן גלילה.
+- אין להשאיר אזור קריאה ריק כאשר קיימים דפים תקינים.
+- אם קובץ שמור אינו תקין, עוברים לדף התקין הראשון ומציגים loading ברור.
+- overflow A4 מדווח כתקלה קריטית.
 
-| בעיה שעדיין פתוחה | קובץ | חומרה |
-|---|---|---|
-| ~33 דפי משוואות (עמוד-62…94) מכילים `<img class="pdf-page">` (raster!) שחורג ~29px מעל גבול ה-A4 — דורש החלטת Yaniv (קבצים מוגנים) | `עמוד-62.html` … `עמוד-94.html` | גבוה |
-| אי-התאמת שם נושא: `עמוד-36.html` אומר "משוואה ריבועית" (יחיד) מול "משוואות ריבועיות" ב-topics.json — מפיל את page:new בשלב resolve; דורש החלטת Yaniv | `עמוד-36.html` / `meta/topics.json` | בינוני |
-| 2 בדיקות ב-`tests/preview.rules.test.mjs` נכשלות (topic buttons, fitA4InHost) — מצפות לעיצוב Reader ישן; לא ב-CI | `tests/preview.rules.test.mjs` | בינוני |
-| `preview/sw.js` הוא כמעט no-op (skipWaiting בלבד) לצד `sw.js` האמיתי | `preview/sw.js` | נמוך |
-| `tools/` — כלי פרסום ישנים מעידן GitHub-Pages הידני; דורש החלטת Yaniv לפני הסרה | `tools/` | נמוך |
-| ניווט הקודם/הבא קשיח ב-HTML | כל 98 הדפים | נמוך (ידוע, מכוון) |
+### קטלוג
+
+- `catalog.*` קורא מ-`meta/topics.json` בלבד.
+- החיפוש בנייח הוא חיפוש גלובלי.
+- כל נושא מקבל כרטיס בעמוד הראשי.
+- כל שינוי בקטלוג חייב לשמור parity עם הנייד.
+
+### הדפסה/PDF
+
+- ההדפסה מתבצעת מדף A4 אמיתי דרך browser Print / Save as PDF.
+- אין כפתור PDF מזויף.
+- בחירת דף/נושא/חוברת יכולה להיות מוכנה בממשק, אך השלב הסופי יכול להישאר browser-driven.
+- פעולת הדפסה/PDF חייבת להיות זמינה ומובנת גם בנייד.
 
 ---
 
-## 13. חזון עתידי — ספר/ספרייה דיגיטלית
+## 11. יצירת דף עבודה חדש
 
-### המטרה
-כל הדפים הקיימים מוצגים כמו ספר/חוברת דיגיטלית נוחה:
-- דפדוף נוח בין דפים ונושאים
-- חיפוש לפי נושא, כיתה, מיומנות, סוג משימה
-- הדפסה קלה (דף בודד / חוברת שלמה)
-- ניתן להרחיב לאלפי דפים בעתיד
+כאשר יניב מספק PDF, תמונה או טקסט:
 
-### מטא-דאטה עתידי (לא לממש עכשיו — לתכנן)
+1. מזהים נושא קיים או חדש בלי לערבב נושאים.
+2. מקצים `N` גלובלי פנוי.
+3. יוצרים `עמוד-N.html`.
+4. יוצרים `styles/pages/עמוד-N.css` scoped ל-`.page-N`.
+5. מוסיפים רשומה ל-`meta/topics.json`:
+
 ```json
 {
-  "topics": [{
-    "name": "משפט פיתגורס",
-    "grade": "ט",
-    "pages": [{
-      "number": 9,
-      "file": "עמוד-9.html",
-      "skill": "חישוב צלע חסרה",
-      "difficulty": "בסיסי",
-      "worksheetType": "תרגול"
-    }]
-  }]
+  "number": N,
+  "file": "עמוד-N.html",
+  "title": "עמוד X — שם הנושא",
+  "h1": "שם הנושא",
+  "topic": "שם הנושא",
+  "previewPath": "/עמוד-N.html",
+  "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-N.html"
 }
 ```
 
-### כיצד חומרים חדשים יתווספו (תהליך מוצע)
-1. Yaniv מביא חומר (PDF / תמונה / טקסט)
-2. Claude בונה HTML מ-template ייעודי לנושא
-3. SVG גיאומטרי / גרפי נוצר inline
-4. MathJax מוסיף למשוואות
-5. סקריפט מייצר דף + CSS + מעדכן meta/topics.json (+ סנכרון mobile-topics.json)
-6. CI מריץ tests + deploys
+6. מריצים `npm run topics:sync`.
+7. מריצים `npm test`, `npm run verify`, `npm run validate:meta` ולפי היקף `npm run tech:max`.
+8. בודקים בפועל נייח, נייד והדפסה.
+9. לא מסמנים השלמה אם הדף אינו מופיע ונגיש גם בנייד.
+
+אסור ליצור תוכן מתמטי מהשערה כאשר חומר המקור אינו ברור.
 
 ---
 
-## 14. GitHub Pages
+## 12. כללים מיוחדים למשוואות
 
+### הפרדה
+
+- `משוואות` כולל כרגע 54 דפים.
+- `משוואות ריבועיות` הוא נושא נפרד לחלוטין.
+- שינוי עיצוב משפחת `משוואות` אינו נוגע ב`משוואות ריבועיות` בלי הוראה מפורשת.
+
+### Design pass
+
+מותר design-only cleanup ב-CSS ייעודי של דפי `משוואות` בלבד:
+
+- ריווח.
+- טיפוגרפיה.
+- ניקוי residue ישן.
+- יציבות SVG/תמונות.
+- ניצול טוב יותר של A4.
+
+אסור:
+
+- לשנות טקסט לימודי.
+- לשנות HTML קנוני בלי אישור.
+- לשנות `styles/a4-base.css`.
+- להוסיף selectors גלובליים.
+- להסתיר overflow במקום לפתור אותו.
+- להכריז על השלמה בלי preview, נייד והדפסה אמיתיים.
+
+### עמודים רגישים
+
+- `עמוד-95.html` — עמוד 1 של `משוואות`: לשמור 12 תרגילים ו-12 אזורי תשובה; אין לשנות את הביטוי `4 + x = \square` בלי אימות מול מקור.
+- `עמוד-42.html` — עמוד 2: לשמור 10 תרגילים, 10 אזורי תשובה ו-10 markers מאומתים אלא אם יש ראיית מקור אחרת; אין לבנות מחדש ללא צורך.
+- `עמוד-43.html` — עמוד 3: לשמור מסלול SVG עד שיש מקור אמין; `object-fit: contain`; אין לבצע crop/translation או להמיר ל-MathJax מתוך ניחוש.
+- כלי audit של משוואות הם read-only ואינם משנים דפים.
+- `.github/workflows/equations-guard.yml` נשאר guard קריאה בלבד.
+
+---
+
+## 13. קבצים מוגנים ופעולות אסורות
+
+אין לשנות ללא בקשה מפורשת של יניב:
+
+- תוכן חינוכי בתוך `עמוד-N.html`.
+- `styles/a4-base.css`.
+- סיווג נושאים.
+- `sources/legacy/*`.
+- `sources/backups/*`.
+- `STATE/backup_*`.
+- `meta/backup/*`.
+
+אסור ללא אישור מפורש:
+
+- `git add .`.
+- force push.
+- `git reset --hard`.
+- rebase מסוכן.
+- `rm -rf`.
+- מחיקה רחבה.
+- שכתוב ארכיטקטורה עובדת.
+- מחיקת legacy/backup בלי מיפוי וראיות.
+- קומיט של secrets, logs, temp, reports או outputs מיוצרים שלא נדרשים.
+- שינוי תוכן מתמטי בלי חומר מקור.
+
+Outputs שלא מתחייבים בקומיט אלא אם נדרש:
+
+- `dist/`.
+- `meta/pages.json`.
+- `playwright-report/`.
+- `test-results/`.
+- דוחות PDF/visual audit מיוצרים.
+
+---
+
+## 14. תהליך עבודה מחייב ל-AI
+
+סדר העבודה:
+
+**לימוד → קובץ זה → בדיקת מצב אמיתי → תוכנית קצרה → ביצוע קטן ובטוח → בדיקות → תיעוד תוצאה**
+
+לפני שינוי לא טריוויאלי:
+
+1. להבין את בקשת יניב ואת המצב הנוכחי.
+2. לזהות קבצים שיושפעו.
+3. לזהות סיכונים.
+4. להגדיר הצלחה אמיתית.
+5. לבצע בשינויים קטנים.
+6. להריץ בדיקות אחרי שינוי משמעותי.
+7. לא לעצור בהסבר כאשר ניתן לבצע בפועל.
+8. לא לשאול שאלה שכבר נענתה.
+9. אם חסר פרט לא קריטי, לבחור פתרון בטוח ומנומק.
+10. לדווח בכנות על מה שלא נבדק.
+
+בעבודה רב-שלבית, עדכוני התקדמות כוללים:
+
+`נותרו X% לסיום.`
+
+`X` יורד ורק בסיום מלא הוא `0%`.
+
+---
+
+## 15. פקודות מרכזיות
+
+```bash
+npm install
+npm run preview
+npm test
+npm run verify
+npm run validate:access
+npm run validate:meta
+npm run validate:mobile
+npm run topics:sync
+npm run topics:check
+npm run health:report
+npm run doctor
+npm run ci:all
+npm run tech:max
+npm run page:new
 ```
-URL:        https://yanivmizrachiy.github.io/parabula-next/
-Workflow:   .github/workflows/deploy-pages.yml
-תהליך:     npm test → npm run verify → npm run build (Vite) → copy assets → deploy dist/
-base path:  /parabula-next/ (מוגדר ב-vite.config.js)
-```
 
-**דף ה-mobile app הציבורי:** `mobile-app.html`
-**דף ההתקנה הציבורי:** `mobile-app-install.html`
+משמעות:
 
----
+- `npm test` — חוזי דפי השורש.
+- `npm run verify` — מבנה בסיסי.
+- `npm run validate:access` — שכבת גישה.
+- `npm run validate:meta` — registry וסכמת metadata.
+- `npm run topics:check` — מונע divergence בין `meta/topics.json` לראי הישן.
+- `npm run doctor` — בדיקות בריאות כולל מקור כללים יחיד.
+- `npm run ci:all` — בדיקות ליבה + build.
+- `npm run tech:max` — CI מלא + audit חזותי A4 + PDF samples.
 
-## 15. תכנות Claude Code לריפו זה
-
-### פקודות קיימות ב-`.claude/commands/`
-- `/audit` — audit בטוח של הריפו ודיווח בלבד
-- `/next` — הפעולה הבטוחה הבאה לפרויקט
-- `/verify` — הרצת חבילת האימות המלאה
-
-### סוכנים קיימים ב-`.claude/agents/`
-
-| Agent | מטרה |
-|---|---|
-| `a4-print-guardian` | בדיקת A4 + print quality |
-| `print-a4-guardian` | הגנת A4 בשכבות catalog + viewer |
-| `source-of-truth-guardian` | בדיקת עמידה ב-RULES.md |
-| `repo-governor` | guard על קבצים מוגנים + demo content |
-| `digital-textbook-manager` | ניהול catalog.html/css/js |
-| `premium-ui-designer` | שיפור עיצוב RTL, כרטיסים, מובייל |
-| `worksheet-designer` | הנחיית יצירת דפי עבודה חדשים |
-| `math-graphics-reviewer` | איכות SVG + MathJax |
-| `mobile-preview-auditor` | preview נייד + דסקטופ |
-| `editing-architecture-reviewer` | ארכיטקטורת עריכה ועתידית |
-| `test-validation-runner` | הרצת + פרשנות בדיקות |
-| `git-safety-manager` | בטיחות git |
-| `live-site-verifier` | בדיקת האתר החי אחרי deploy |
-| `release-manager` | הכנת commit/PR, בדיקות, עצירה לפני push |
+לא מתקנים בדיקה על ידי החלשתה כדי “להפוך לירוק”. מתקנים את המקור.
 
 ---
 
-_CLAUDE.md נוצר: 2026-05-12_
-_עודכן: 2026-07-10 — ניקוי מקיף (Next.js remnants, docs mirror, dead files), סנכרון mobile-topics,
-תיקון פריסת pages/, יישור app-layer-check, עדכון מונים ל-98 דפים / 8 נושאים._
-_לא נוגע בדפי עבודה, CSS הדפסה, או styles/a4-base.css._
+## 16. קריטריוני השלמה
+
+שינוי נחשב שלם רק כאשר:
+
+- הוא מבוסס על קבצים אמיתיים.
+- אין פגיעה בדף קיים.
+- אין demo/placeholder.
+- הנושא והדף מופיעים נכון ב-`meta/topics.json`.
+- נייח עובד.
+- נייד עובד ומציג את אותו תוכן ואת אותן פעולות.
+- חיפוש נייד כולל את כל הספר.
+- הדפסה/PDF אמיתיים עובדים בהתאם להיקף.
+- RTL ו-A4 נשמרים.
+- הבדיקות הרלוונטיות עברו.
+- תוצאות שלא נבדקו בפועל אינן מוצגות כמאומתות.
+
+---
+
+## 17. בעיות פתוחות ידועות
+
+1. ממשק הנייד אינו עומד עדיין במלוא parity: הנושאים מוסתרים בתחילה, הרשימה אופקית והחיפוש מקומי לנושא. זהו תיקון בעדיפות גבוהה.
+2. כ-33 דפי משוואות (`עמוד-62` עד `עמוד-94`) כוללים `<img class="pdf-page">` raster וחלקם חורגים מגבול A4; נדרש אישור יניב לשינוי תוכן מוגן.
+3. `עמוד-36.html` מציג שם נושא ביחיד מול `משוואות ריבועיות` ב-`meta/topics.json`; יש ליישב רק לאחר החלטת יניב.
+4. קיימת כפילות legacy בין `preview/print.js` ל-`preview/print-center.js`.
+5. `preview/sw.js` הוא legacy כמעט ריק לצד `sw.js` הקנוני.
+6. ניווט קודם/הבא בתוך 98 דפי HTML קשיח כרגע; שינוי רחב דורש תכנון ובדיקות.
+7. יש לבדוק את חוויית הנייד במכשיר אמיתי לאחר תיקון parity.
+
+---
+
+## 18. סגנון העבודה מול יניב
+
+- תקשורת בעברית.
+- ביצוע מעשי מקצה לקצה, לא רק הסברים.
+- חיסכון בטוקנים ובבדיקות מיותרות, בלי לוותר על בדיקות נדרשות.
+- פקודות מוכנות להעתקה ל-PowerShell/Windows ול-Termux כשזה רלוונטי.
+- אמת בלבד: אם משהו לא ידוע או לא נבדק, אומרים זאת.
+- לא לשבור שום דבר שעובד.
+
+---
+
+## 19. ממשל תיעוד — מניעת כפילויות עתידית
+
+- `CLAUDE.md` הוא קובץ ההוראות היחיד.
+- `README.md` רשאי להפנות לקובץ זה אך לא להעתיק כללים.
+- `STATE/` רשאי להכיל דוחות מצב ותוצאות, אך לא כללים מחייבים.
+- `docs/` רשאי להכיל הסברים טכניים, אך לא מקור דרישות נוסף.
+- `.claude/commands/` ו-`.claude/agents/` רשאים להגדיר תפקיד או פקודה נקודתיים, אך חייבים להפנות לקובץ זה ולא לשכפל את הכללים.
+- כל קובץ חדש בשם או תפקיד של `RULES`, `MEMORY`, `CONTRACT`, `INSTRUCTIONS`, `COPILOT_CONTEXT`, `GEMINI_CONTEXT` או מקור אמת נוסף בשכבה הפעילה אסור.
+- גיבויים/legacy היסטוריים אינם נמחקים אוטומטית, אך אסור ל-AI לקרוא אותם כמקור דרישות.
+- `scripts/single-rules-source-check.mjs` חייב להיכשל אם חוזר אחד מקובצי הכללים הפעילים שהוסרו.
+
+---
+
+## 20. פתיחת כל סשן AI
+
+לפני כל פעולה:
+
+1. קרא את `CLAUDE.md` במלואו.
+2. בדוק את `git status`, הענף והמצב בפועל.
+3. בדוק `meta/topics.json` כאשר העבודה נוגעת לתוכן/ניווט.
+4. בדוק `package.json` והסקריפטים הקיימים לפני המצאת פקודה.
+5. אל תניח שקובץ מתכנון ישן קיים — אמת אותו.
+6. שמור על כלל הברזל: **כל מה שיש במחשב חייב להיות זמין ושמיש גם בנייד.**
