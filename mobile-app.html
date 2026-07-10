@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
   <title>ספר דפי העבודה של יניב</title>
-  <link rel="manifest" href="./mobile-app.webmanifest?v=20260710003" />
-  <link rel="icon" href="./icon.svg?v=20260710003" type="image/svg+xml" />
-  <link rel="stylesheet" href="./mobile-app.css?v=20260710003" />
+  <link rel="manifest" href="./mobile-app.webmanifest?v=20260710004" />
+  <link rel="icon" href="./icon.svg?v=20260710004" type="image/svg+xml" />
+  <link rel="stylesheet" href="./mobile-app.css?v=20260710004" />
 </head>
 <body>
   <div class="app-shell">
@@ -56,6 +56,65 @@
       <button id="printBtn" type="button" aria-label="הדפסה או שמירה כ-PDF">הדפסה / PDF</button>
     </nav>
   </div>
-  <script src="./mobile-app.js?v=20260710003"></script>
+
+  <script>
+    (() => {
+      const params = new URLSearchParams(window.location.search);
+      const fullMode = params.get('mode') === 'full';
+      const requestedFile = params.get('file') || '';
+      const openButton = document.getElementById('openLiveBtn');
+
+      if (fullMode) {
+        document.body.classList.add('full-mode');
+        openButton.textContent = 'חזרה';
+        openButton.setAttribute('aria-label', 'חזרה לאפליקציית הספר');
+      }
+
+      openButton.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if (fullMode) {
+          window.close();
+          setTimeout(() => {
+            if (!window.closed) window.location.assign('./mobile-app.html');
+          }, 0);
+          return;
+        }
+
+        const frame = document.getElementById('mobilePageFrame');
+        let file = '';
+        try {
+          file = decodeURIComponent(frame.contentWindow.location.pathname.split('/').pop() || '');
+        } catch {}
+        if (!/^עמוד-\d+\.html$/.test(file)) return;
+
+        const target = new URL('./mobile-app.html', window.location.href);
+        target.searchParams.set('mode', 'full');
+        target.searchParams.set('file', file);
+        window.open(target.href, '_blank', 'noopener,noreferrer');
+      }, true);
+
+      if (fullMode && /^עמוד-\d+\.html$/.test(requestedFile)) {
+        const openRequestedPage = () => {
+          const search = document.getElementById('globalSearch');
+          if (!search) {
+            setTimeout(openRequestedPage, 40);
+            return;
+          }
+          search.value = requestedFile;
+          search.dispatchEvent(new Event('input', { bubbles: true }));
+          requestAnimationFrame(() => {
+            const card = document.querySelector(`.page-card[data-file="${CSS.escape(requestedFile)}"]`);
+            if (card) card.click();
+            else setTimeout(openRequestedPage, 40);
+          });
+        };
+        window.addEventListener('load', openRequestedPage, { once: true });
+        setTimeout(openRequestedPage, 0);
+      }
+    })();
+  </script>
+  <script src="./mobile-app.js?v=20260710004"></script>
 </body>
 </html>
