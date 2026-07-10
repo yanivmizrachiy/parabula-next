@@ -39,6 +39,7 @@ jobs:
           cp -r meta dist/
           cp -r preview dist/
           cp -r pages dist/
+          [ -d vendor ] && cp -r vendor dist/ || true
           [ -f mobile-topics.json ] && cp mobile-topics.json dist/ || true
           for f in *.html; do
             [ "$f" != "index.html" ] && cp "$f" dist/ || true
