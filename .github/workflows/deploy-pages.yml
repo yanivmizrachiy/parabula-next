@@ -20,8 +20,6 @@ jobs:
   # BEGIN ONE-TIME MOBILE CLEANUP
   mobile-architecture-cleanup:
     if: github.event_name == 'pull_request' && github.head_ref == 'test/mobile-production-browser-gate-20260710' && github.actor != 'github-actions[bot]'
-    permissions:
-      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout cleanup branch
@@ -48,14 +46,25 @@ jobs:
           npm run validate:mobile
           npm run build
 
-      - name: Commit canonical cleaned state
+      - name: Package atomic cleanup diff
         shell: bash
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "cleanup: keep one real mobile app and remove historical debris"
-          git push origin HEAD:test/mobile-production-browser-gate-20260710
+          mkdir -p cleanup-output/files
+          git diff --name-only --diff-filter=ACMRT -z | while IFS= read -r -d '' file; do
+            mkdir -p "cleanup-output/files/$(dirname "$file")"
+            cp "$file" "cleanup-output/files/$file"
+          done
+          git diff --name-only --diff-filter=D > cleanup-output/deleted-files.txt
+          git diff --name-status > cleanup-output/name-status.txt
+          git diff --stat > cleanup-output/stat.txt
+
+      - name: Upload atomic cleanup diff
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-mobile-cleanup
+          path: cleanup-output
+          if-no-files-found: error
+          retention-days: 1
   # END ONE-TIME MOBILE CLEANUP
 
   build:
