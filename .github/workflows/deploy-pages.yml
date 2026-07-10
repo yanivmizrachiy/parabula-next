@@ -46,7 +46,7 @@ jobs:
 
   mobile-browser-gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     container:
       image: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
@@ -59,61 +59,55 @@ jobs:
       - name: Build production artifact
         run: npm run build
 
-      - name: Capture equations page 16 visual comparison
-        run: node scripts/tmp-audit-equations-page-16.mjs
-
-      - name: Upload equations page 16 visual comparison
-        uses: actions/upload-artifact@v4
-        with:
-          name: equations-page-16-visual-audit
-          path: tmp-page16-audit
-          if-no-files-found: error
-          retention-days: 1
-
       - name: Run Android production browser gate
-        id: mobile_gate
-        shell: bash
-        run: |
-          set +e
-          npm run validate:mobile:browser
-          code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          if [ -f meta/audit/mobile-browser-validation.json ]; then
-            jq '{status, failures: [.checks[] | select(.ok == false)]}' meta/audit/mobile-browser-validation.json
-          fi
-          exit 0
+        run: npm run validate:mobile:browser
 
-      - name: Test Open Full on all 98 pages
-        id: open_full_gate
-        shell: bash
-        run: |
-          set +e
-          npm run validate:mobile:open-full-all
-          code=$?
-          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
-          if [ -f meta/audit/open-full-all-pages.json ]; then
-            jq '{status, expectedPages, testedPages, passedPages, failedPages, failureSummary}' meta/audit/open-full-all-pages.json
-          fi
-          exit 0
-
-      - name: Upload Android validation reports
+      - name: Upload Android browser report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-browser-reports
-          path: |
-            meta/audit/mobile-browser-validation.json
-            meta/audit/open-full-all-pages.json
+          name: mobile-browser-report
+          path: meta/audit/mobile-browser-validation.json
           if-no-files-found: error
           retention-days: 1
 
-      - name: Enforce Android gates
-        if: steps.mobile_gate.outputs.exit_code != '0' || steps.open_full_gate.outputs.exit_code != '0'
-        run: exit 1
+  mobile-deep-gate:
+    name: Deep mobile audit shard ${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Audit every assigned page in app-reader and open-full
+        run: node scripts/validate-mobile-all-pages.mjs --shard-index=${{ matrix.shard }} --shard-count=8
+
+      - name: Upload deep mobile report and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-deep-shard-${{ matrix.shard }}
+          path: |
+            meta/audit/mobile-all-pages-shard-${{ matrix.shard }}.json
+            meta/audit/mobile-layout-failures-shard-${{ matrix.shard }}
+          if-no-files-found: error
+          retention-days: 3
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: [build, mobile-browser-gate]
+    needs: [build, mobile-browser-gate, mobile-deep-gate]
     permissions:
       pages: write
       id-token: write
