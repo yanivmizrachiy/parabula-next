@@ -51,7 +51,8 @@ const forbiddenLegacy = [
   'scripts/tmp-audit-equations-page-16.mjs',
   'scripts/patch-claude-mobile-visual-rules.mjs',
   '.github/workflows/tmp-audit-equations-page-16.yml',
-  'STATE/tmp-page16-visual-audit-trigger.txt'
+  'STATE/tmp-page16-visual-audit-trigger.txt',
+  'STATE/fix-canonical-rules-trigger.tmp'
 ];
 for (const rel of forbiddenLegacy) {
   if (exists(rel)) errors.push(`Obsolete duplicate app-layer file must be removed: ${rel}`);
@@ -63,6 +64,12 @@ function requireIncludes(file, phrase) {
   if (!text.includes(phrase)) errors.push(`${file} missing expected reference: ${phrase}`);
 }
 
+function forbidIncludes(file, phrase) {
+  if (!exists(file)) return;
+  const text = read(file);
+  if (text.includes(phrase)) errors.push(`${file} contains forbidden legacy pattern: ${phrase}`);
+}
+
 requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
 requireIncludes('preview/app.html', '../mobile-app.html');
@@ -70,9 +77,15 @@ requireIncludes('preview/print.html', './print.js');
 requireIncludes('mobile-app.js', './meta/topics.json');
 requireIncludes('mobile-app.js', 'beforeinstallprompt');
 requireIncludes('mobile-app.js', 'display-mode: standalone');
+requireIncludes('mobile-app.html', "target.searchParams.set('mode', 'full')");
+requireIncludes('mobile-app.html', "target.searchParams.set('file', file)");
+requireIncludes('mobile-app.css', 'body.full-mode');
+requireIncludes('scripts/copy-static-site.mjs', 'assets/pythagoras/vector');
+requireIncludes('scripts/validate-mobile-all-pages.mjs', 'missing-full-mode-shell');
 requireIncludes('package.json', 'validate:mobile:all-pages');
 requireIncludes('.github/workflows/deploy-pages.yml', 'validate-mobile-all-pages.mjs');
 requireIncludes('.github/workflows/deploy-pages.yml', 'shard: [0, 1, 2, 3, 4, 5, 6, 7]');
+forbidIncludes('styles/topics/equations.css', '@media screen and (max-width: 900px)');
 
 const output = {
   generatedAt: new Date().toISOString(),
