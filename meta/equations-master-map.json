@@ -1,0 +1,447 @@
+{
+  "topic": "משוואות",
+  "generatedAt": "2026-06-16T04:50:21.321Z",
+  "total": 54,
+  "counts": {
+    "LIVE": 52,
+    "WRAP": 2
+  },
+  "contentSource": "sources/equations/משוואות-52.pdf",
+  "sourcePdf": "sources/equations/משוואות-52.pdf",
+  "sourcePdfSha256": "d4605a9294f2f8065b2255d041e755e676d90661194dd6673e18fac78c61d983",
+  "note": "logical page === source PDF page. file column is the canonical on-disk worksheet. LIVE = converted HTML+MathJax, WRAP = still SVG wrapper. Source of truth = sources/equations/משוואות-52.pdf (52 pages); the 54-page sources/legacy/parabula-old/sources/משוואות.pdf is superseded.",
+  "pages": [
+    {
+      "logical": 1,
+      "file": "עמוד-95.html",
+      "fileNum": 95,
+      "svg": null,
+      "pdfPage": 1,
+      "status": "LIVE"
+    },
+    {
+      "logical": 2,
+      "file": "עמוד-42.html",
+      "fileNum": 42,
+      "svg": null,
+      "pdfPage": 2,
+      "status": "LIVE"
+    },
+    {
+      "logical": 3,
+      "file": "עמוד-43.html",
+      "fileNum": 43,
+      "svg": null,
+      "pdfPage": 3,
+      "status": "LIVE"
+    },
+    {
+      "logical": 4,
+      "file": "עמוד-44.html",
+      "fileNum": 44,
+      "svg": null,
+      "pdfPage": 4,
+      "status": "LIVE"
+    },
+    {
+      "logical": 5,
+      "file": "עמוד-45.html",
+      "fileNum": 45,
+      "svg": null,
+      "pdfPage": 5,
+      "status": "LIVE"
+    },
+    {
+      "logical": 6,
+      "file": "עמוד-46.html",
+      "fileNum": 46,
+      "svg": null,
+      "pdfPage": 6,
+      "status": "LIVE"
+    },
+    {
+      "logical": 7,
+      "file": "עמוד-47.html",
+      "fileNum": 47,
+      "svg": null,
+      "pdfPage": 7,
+      "status": "LIVE"
+    },
+    {
+      "logical": 8,
+      "file": "עמוד-48.html",
+      "fileNum": 48,
+      "svg": null,
+      "pdfPage": 8,
+      "status": "LIVE"
+    },
+    {
+      "logical": 9,
+      "file": "עמוד-49.html",
+      "fileNum": 49,
+      "svg": null,
+      "pdfPage": 9,
+      "status": "LIVE"
+    },
+    {
+      "logical": 10,
+      "file": "עמוד-50.html",
+      "fileNum": 50,
+      "svg": null,
+      "pdfPage": 10,
+      "status": "LIVE"
+    },
+    {
+      "logical": 11,
+      "file": "עמוד-51.html",
+      "fileNum": 51,
+      "svg": null,
+      "pdfPage": 11,
+      "status": "LIVE"
+    },
+    {
+      "logical": 12,
+      "file": "עמוד-52.html",
+      "fileNum": 52,
+      "svg": null,
+      "pdfPage": 12,
+      "status": "LIVE"
+    },
+    {
+      "logical": 13,
+      "file": "עמוד-53.html",
+      "fileNum": 53,
+      "svg": null,
+      "pdfPage": 13,
+      "status": "LIVE"
+    },
+    {
+      "logical": 14,
+      "file": "עמוד-54.html",
+      "fileNum": 54,
+      "svg": null,
+      "pdfPage": 14,
+      "status": "LIVE"
+    },
+    {
+      "logical": 15,
+      "file": "עמוד-55.html",
+      "fileNum": 55,
+      "svg": null,
+      "pdfPage": 15,
+      "status": "LIVE"
+    },
+    {
+      "logical": 16,
+      "file": "עמוד-56.html",
+      "fileNum": 56,
+      "svg": null,
+      "pdfPage": 16,
+      "status": "LIVE"
+    },
+    {
+      "logical": 17,
+      "file": "עמוד-57.html",
+      "fileNum": 57,
+      "svg": null,
+      "pdfPage": 17,
+      "status": "LIVE"
+    },
+    {
+      "logical": 18,
+      "file": "עמוד-58.html",
+      "fileNum": 58,
+      "svg": null,
+      "pdfPage": 18,
+      "status": "LIVE"
+    },
+    {
+      "logical": 19,
+      "file": "עמוד-59.html",
+      "fileNum": 59,
+      "svg": null,
+      "pdfPage": 19,
+      "status": "LIVE"
+    },
+    {
+      "logical": 20,
+      "file": "עמוד-60.html",
+      "fileNum": 60,
+      "svg": null,
+      "pdfPage": 20,
+      "status": "LIVE"
+    },
+    {
+      "logical": 21,
+      "file": "עמוד-61.html",
+      "fileNum": 61,
+      "svg": null,
+      "pdfPage": 21,
+      "status": "LIVE"
+    },
+    {
+      "logical": 22,
+      "file": "עמוד-62.html",
+      "fileNum": 62,
+      "svg": null,
+      "pdfPage": 22,
+      "status": "LIVE"
+    },
+    {
+      "logical": 23,
+      "file": "עמוד-63.html",
+      "fileNum": 63,
+      "svg": null,
+      "pdfPage": 23,
+      "status": "LIVE"
+    },
+    {
+      "logical": 24,
+      "file": "עמוד-64.html",
+      "fileNum": 64,
+      "svg": null,
+      "pdfPage": 24,
+      "status": "LIVE"
+    },
+    {
+      "logical": 25,
+      "file": "עמוד-65.html",
+      "fileNum": 65,
+      "svg": null,
+      "pdfPage": 25,
+      "status": "LIVE"
+    },
+    {
+      "logical": 26,
+      "file": "עמוד-66.html",
+      "fileNum": 66,
+      "svg": null,
+      "pdfPage": 26,
+      "status": "LIVE"
+    },
+    {
+      "logical": 27,
+      "file": "עמוד-67.html",
+      "fileNum": 67,
+      "svg": null,
+      "pdfPage": 27,
+      "status": "LIVE"
+    },
+    {
+      "logical": 28,
+      "file": "עמוד-68.html",
+      "fileNum": 68,
+      "svg": null,
+      "pdfPage": 28,
+      "status": "LIVE"
+    },
+    {
+      "logical": 29,
+      "file": "עמוד-69.html",
+      "fileNum": 69,
+      "svg": null,
+      "pdfPage": 29,
+      "status": "LIVE"
+    },
+    {
+      "logical": 30,
+      "file": "עמוד-70.html",
+      "fileNum": 70,
+      "svg": null,
+      "pdfPage": 30,
+      "status": "LIVE"
+    },
+    {
+      "logical": 31,
+      "file": "עמוד-71.html",
+      "fileNum": 71,
+      "svg": null,
+      "pdfPage": 31,
+      "status": "LIVE"
+    },
+    {
+      "logical": 32,
+      "file": "עמוד-72.html",
+      "fileNum": 72,
+      "svg": null,
+      "pdfPage": 32,
+      "status": "LIVE"
+    },
+    {
+      "logical": 33,
+      "file": "עמוד-73.html",
+      "fileNum": 73,
+      "svg": null,
+      "pdfPage": 33,
+      "status": "LIVE"
+    },
+    {
+      "logical": 34,
+      "file": "עמוד-74.html",
+      "fileNum": 74,
+      "svg": null,
+      "pdfPage": 34,
+      "status": "LIVE"
+    },
+    {
+      "logical": 35,
+      "file": "עמוד-75.html",
+      "fileNum": 75,
+      "svg": null,
+      "pdfPage": 35,
+      "status": "LIVE"
+    },
+    {
+      "logical": 36,
+      "file": "עמוד-76.html",
+      "fileNum": 76,
+      "svg": null,
+      "pdfPage": 36,
+      "status": "LIVE"
+    },
+    {
+      "logical": 37,
+      "file": "עמוד-77.html",
+      "fileNum": 77,
+      "svg": null,
+      "pdfPage": 37,
+      "status": "LIVE"
+    },
+    {
+      "logical": 38,
+      "file": "עמוד-78.html",
+      "fileNum": 78,
+      "svg": null,
+      "pdfPage": 38,
+      "status": "LIVE"
+    },
+    {
+      "logical": 39,
+      "file": "עמוד-79.html",
+      "fileNum": 79,
+      "svg": null,
+      "pdfPage": 39,
+      "status": "LIVE"
+    },
+    {
+      "logical": 40,
+      "file": "עמוד-80.html",
+      "fileNum": 80,
+      "svg": null,
+      "pdfPage": 40,
+      "status": "LIVE"
+    },
+    {
+      "logical": 41,
+      "file": "עמוד-81.html",
+      "fileNum": 81,
+      "svg": null,
+      "pdfPage": 41,
+      "status": "LIVE"
+    },
+    {
+      "logical": 42,
+      "file": "עמוד-82.html",
+      "fileNum": 82,
+      "svg": null,
+      "pdfPage": 42,
+      "status": "LIVE"
+    },
+    {
+      "logical": 43,
+      "file": "עמוד-83.html",
+      "fileNum": 83,
+      "svg": null,
+      "pdfPage": 43,
+      "status": "LIVE"
+    },
+    {
+      "logical": 44,
+      "file": "עמוד-84.html",
+      "fileNum": 84,
+      "svg": null,
+      "pdfPage": 44,
+      "status": "LIVE"
+    },
+    {
+      "logical": 45,
+      "file": "עמוד-85.html",
+      "fileNum": 85,
+      "svg": null,
+      "pdfPage": 45,
+      "status": "LIVE"
+    },
+    {
+      "logical": 46,
+      "file": "עמוד-86.html",
+      "fileNum": 86,
+      "svg": null,
+      "pdfPage": 46,
+      "status": "LIVE"
+    },
+    {
+      "logical": 47,
+      "file": "עמוד-87.html",
+      "fileNum": 87,
+      "svg": null,
+      "pdfPage": 47,
+      "status": "LIVE"
+    },
+    {
+      "logical": 48,
+      "file": "עמוד-88.html",
+      "fileNum": 88,
+      "svg": null,
+      "pdfPage": 48,
+      "status": "LIVE"
+    },
+    {
+      "logical": 49,
+      "file": "עמוד-89.html",
+      "fileNum": 89,
+      "svg": null,
+      "pdfPage": 49,
+      "status": "LIVE"
+    },
+    {
+      "logical": 50,
+      "file": "עמוד-90.html",
+      "fileNum": 90,
+      "svg": null,
+      "pdfPage": 50,
+      "status": "LIVE"
+    },
+    {
+      "logical": 51,
+      "file": "עמוד-91.html",
+      "fileNum": 91,
+      "svg": null,
+      "pdfPage": 51,
+      "status": "LIVE"
+    },
+    {
+      "logical": 52,
+      "file": "עמוד-92.html",
+      "fileNum": 92,
+      "svg": null,
+      "pdfPage": 52,
+      "status": "LIVE"
+    },
+    {
+      "logical": 53,
+      "file": "עמוד-93.html",
+      "fileNum": 93,
+      "svg": 53,
+      "pdfPage": 53,
+      "status": "WRAP"
+    },
+    {
+      "logical": 54,
+      "file": "עמוד-94.html",
+      "fileNum": 94,
+      "svg": 54,
+      "pdfPage": 54,
+      "status": "WRAP"
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Equations Page 1 — Automated Source Match
 
+> SUPERSEDED (2026-06-15): מסמך זה מתאר את עיצוב-המשוואות הישן ואת ה-PDF הישן בן 54 העמודים (`sources/legacy/parabula-old/sources/משוואות.pdf`). מקור האמת הנוכחי הוא `sources/equations/משוואות-52.pdf` (52 עמודים), ועמוד-95 הומר ל-HTML+MathJax חי. ראה `STATE/EQUATIONS_DESIGN_PASS_RULES.md`.
+
 Date: 2026-05-27_15:33:20
 
 Scope:

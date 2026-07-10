@@ -42,6 +42,17 @@ Rules that control this pass:
 - design cleanup must not change learning text
 - quadratic-equation pages are excluded unless explicitly requested
 
+## Card design contract — משוואות בנעלם אחד (single-unknown equations)
+
+These rules are binding for every non-quadratic equations page (`משוואות`) rebuilt as live HTML + MathJax from `משוואות.pdf`:
+
+- **No per-exercise numbering.** Only the page is numbered, via the global `.page-number` badge in `.header-container`. Individual equation cards MUST NOT show a number badge (no `bullet-num`, no `1.` `2.` markers, no ordered-list counters).
+- **Each equation is the focal point, centered inside the gray card area** (`.problem-block`, background `--bg-subtle`). The equation (`.problem-equation`) sits centered horizontally and vertically within its band above the writing area — prominent font weight 500, larger than body text. It must read like a professional textbook, not like a PDF pasted into HTML.
+- Structure is the v2 gold-model card adapted for one unknown: `main.a4-page.page-N.equations-page` → `.question-block` → `.eq-body` → `.q-main` (instruction) + `.eq-grid` of `.problem-block` cards.
+- Each card = centered `.problem-equation` (gray band) + `.solution-space` (white grid-paper writing area) + `.problem-answer` (`\(x\) = ` `.answer-box`).
+- Provenance is mandatory and non-visual: `.eq-body[data-source="משוואות.pdf"][data-source-page="N"]` and each `.problem-block[data-source-line="K"]`. Content is transcribed only from the PDF — never invented.
+- All other a4-base / RTL / MathJax / no-inline-CSS / per-page CSS rules above continue to apply.
+
 ## Actual target set
 
 The canonical metadata file `meta/topics.json` currently lists 54 pages under the exact topic `משוואות`.
@@ -114,8 +125,67 @@ Do not mark the design pass as complete until:
 - print/PDF flow is checked
 - no quadratic-equation pages are affected
 
+## Production conversion from משוואות.pdf (2026-06)
+
+The equations topic was rebuilt as live HTML + MathJax directly from the single
+content source `משוואות.pdf` (faithful visual transcription, never OCR, never
+invented). Pipeline:
+
+- `meta/equations-content.json` — faithful per-page transcription (logical page ===
+  PDF page). Each page carries `sourcePage`, optional `columns` (1 or 2), optional
+  `fontSize`, and the `equations` array in worksheet reading order (right column
+  top-to-bottom, then left column).
+- `scripts/build-equations-pages.mjs` — data-driven generator. Rewrites only the
+  worksheet body between `</header>` and `</main>` and writes the scoped
+  `styles/pages/עמוד-N.css`. Picks font size from a TeX-aware visual-length proxy
+  (so `\frac{a}{b}` does not over-shrink the font); honours an explicit `fontSize`.
+- `scripts/audit-equations-master-map.mjs` — canonical `logical → file → status`
+  map (`meta/equations-master-map.json`).
+
+Content types covered faithfully: multiplication/like-terms, distributive
+parentheses, negatives, both-sides equations, fractions (`\frac`), division
+notations (`\div`, `:`), parameter equations (a, b, c, …), and proportions
+(`\frac = \frac`, with added terms). Where the PDF prints a degenerate line
+(e.g. page 17 `-15 + 1 = -12 - 2`, no unknown), it is transcribed as printed —
+not corrected.
+
+## Validation suite realignment (2026-06)
+
+`npm run validate:equations:all` (`scripts/validate-equations-suite.mjs`) was
+realigned to the live design. The legacy checks asserted a superseded design and
+were retired from the canonical gate (script files kept for history):
+
+- `validate-equations-app.mjs` — required a separate preview "equations app" and
+  `img`/SVG-asset worksheets.
+- `validate-equations-design-pass-strict.mjs` — required `.pdf-wrap` / `.pdf-page`
+  image markers and the old `EQUATIONS_DESIGN_PASS_20260429` marker.
+- `validate-equations-print-scope.mjs` — required the separate equations/print/
+  topics preview surfaces.
+- `validate-equations-pilot-page-1.mjs` — required an SVG "pilot" shell for page 1.
+- `validate-equations-easy-edits.mjs` — required a temporary overlay on the PDF image.
+- `validate-page-95-editable.mjs` — required a separate editable prototype page.
+
+New canonical gate:
+
+1. `scripts/audit-equations-master-map.mjs` — map consistency.
+2. `scripts/validate-equations-live.mjs` — strict live-design validation of all 52
+   converted pages (RTL, a4-base + scoped page CSS, no inline CSS, v2 wrapper
+   `main.a4-page.page-N.equations-page`, correct badge + nav-meta, live `\(...\)`
+   MathJax with no `$...$`, `eq-body`/`problem-block`/`problem-equation`/
+   `solution-space` structure, provenance attributes, no `img.pdf-page` content).
+3. `scripts/validate-access-layer.mjs` — access layer.
+
 ## Current status
 
-Status: design pass formally defined, documented, and a workflow trigger has been committed.
+Status: production conversion COMPLETE and verified.
 
-No claim is made yet that all 54 equations pages have been redesigned or visually verified until the workflow output commit and validation results are confirmed.
+- 52 / 54 logical pages converted to live HTML + MathJax (logical 1–52 →
+  `עמוד-95`, `עמוד-42`…`עמוד-92`).
+- Logical 53–54 (`עמוד-93`, `עמוד-94`) remain **EXTRA_UNVERIFIED** — they have no
+  source page in `משוואות.pdf`, so they were intentionally not converted or invented.
+- `npm run verify`, `npm run validate:equations:all`, and
+  `node scripts/audit-equations-master-map.mjs` all pass
+  (master map: total=54, LIVE=52, WRAP=2).
+- Dense / fraction / proportion pages visually verified via headless render
+  (no clipping, correct right→left column order, centered equations, no per-exercise
+  numbering). No quadratic-equation pages touched.

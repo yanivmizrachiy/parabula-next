@@ -1,9 +1,11 @@
-/* Page 43 — regular equations page 3. SVG visibility fix. */
+/* עמוד 43 — משוואות עמוד 3 (נעלם אחד)
+   נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד 3.
+   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
+   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
 
 .page-43.equations-page {
-  --equations-crop-top: 0px;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 10px;
 }
 
 .page-43 .header-container {
@@ -11,37 +13,118 @@
 }
 
 .page-43 .question-block {
-  flex: 1 1 auto;
+  flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
-.page-43 .pdf-wrap {
+.page-43 .eq-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page-43 .q-main {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.page-43 .q-text {
+  color: var(--text-main);
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.page-43 .eq-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 14px;
   width: 100%;
-  height: 244mm;
-  max-height: 244mm;
-  min-height: 244mm;
+  align-items: stretch;
+  direction: rtl;
+}
+
+.page-43 .eq-col {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+  row-gap: 8px;
+}
+
+.page-43 .problem-block {
+  min-height: 0;
+  height: 100%;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  break-inside: avoid;
+}
+
+.page-43 .problem-work {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* המשוואה כמוקד מרכזי בתוך השטח האפור של הכרטיס — ללא מספור */
+.page-43 .problem-figure {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding: 6mm 7mm;
-  border: 1px solid rgba(142, 163, 196, 0.42);
-  border-radius: 8px;
-  background: var(--bg-paper);
+  min-height: 46px;
+  padding: 6px 4px 4px;
 }
 
-.page-43 .pdf-page {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: center center;
-  transform: none;
-  transform-origin: center center;
+.page-43 .problem-equation {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: center;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.page-43 .solution-space {
+  flex: 1;
+  min-height: 30px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+  background-size: 22px 22px;
+  background-repeat: repeat;
+}
+
+.page-43 .problem-answer {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  text-align: center;
+  padding-top: 5px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px;
+}
+
+.page-43 .problem-answer .answer-box {
+  height: 18px;
+  transform: translateY(-1px);
 }
 
 @media screen and (max-width: 900px) {
@@ -70,22 +153,13 @@
 }
 
 @media print {
-  .page-43 .pdf-wrap {
-    height: 244mm;
-    max-height: 244mm;
-    min-height: 244mm;
-    padding: 5mm 6mm;
-    border-color: rgba(142, 163, 196, 0.32);
+  .page-43 .problem-block {
     box-shadow: none;
   }
 
-  .page-43 .pdf-page {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transform: none;
+  .page-43 .solution-space {
+    background-image:
+      linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
   }
 }

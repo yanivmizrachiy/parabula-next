@@ -1,49 +1,66 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+/**
+ * Page-1 source lock — realigned 2026-06 to the live HTML + MathJax rebuild.
+ *
+ * Page 1 (עמוד-95) is now the faithful live conversion of source page 1 of
+ * משוואות.pdf: 8 live MathJax equations (not the old 12-exercise SVG/overlay
+ * shell). This guard locks that conversion against regressions: correct card
+ * count (driven by the faithful transcription in meta/equations-content.json),
+ * contiguous provenance, the source PDF present, and NO residue of the retired
+ * design (img.pdf-page, \square placeholder, .exercise / .answer-line /
+ * data-correction markers).
+ */
 const root = process.cwd();
-const pagePath = path.join(root, 'עמוד-95.html');
-const sourcePdfPath = path.join(root, 'sources', 'legacy', 'parabula-old', 'sources', 'משוואות.pdf');
-const sourceProofPath = path.join(root, 'STATE', 'EQUATIONS_PAGE_1_SOURCE_VERIFICATION.md');
+const PAGE = 'עמוד-95.html';
+const pagePath = path.join(root, PAGE);
+const sourcePdfPath = path.join(root, 'sources', 'equations', 'משוואות-52.pdf');
+const contentPath = path.join(root, 'meta', 'equations-content.json');
 
-function read(pathname) {
-  if (!fs.existsSync(pathname)) return '';
-  return fs.readFileSync(pathname, 'utf8');
-}
+const read = (p) => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
+const count = (text, pattern) => (text.match(pattern) || []).length;
 
-function count(text, pattern) {
-  return (text.match(pattern) || []).length;
-}
-
-if (!fs.existsSync(pagePath)) {
-  throw new Error('Missing page 1 file: עמוד-95.html');
-}
+if (!fs.existsSync(pagePath)) throw new Error(`Missing page 1 file: ${PAGE}`);
+if (!fs.existsSync(contentPath)) throw new Error('Missing meta/equations-content.json');
 
 const html = read(pagePath);
-const proof = read(sourceProofPath);
-const exercises = count(html, /class\s*=\s*"[^"]*\bexercise\b[^"]*"/g);
-const answers = count(html, /class\s*=\s*"[^"]*\banswer-line\b[^"]*"/g);
-const verified = count(html, /data-correction\s*=\s*"verified"/g);
-const preserved = count(html, /data-correction\s*=\s*"existing-content-preserved"/g);
-const squareEquationPresent = /4\s*\+\s*x\s*=\s*\\square/.test(html);
+const content = JSON.parse(read(contentPath));
+const expected = content.pages?.['1']?.equations?.length; // faithful PDF page-1 transcription (8)
+
+const failures = [];
+if (!Number.isInteger(expected) || expected <= 0) {
+  failures.push('meta/equations-content.json has no transcription for source page 1');
+}
+
+const problemBlocks = count(html, /class="problem-block"/g);
+const answers = count(html, /class="problem-answer"/g);
+const liveEquations = count(html, /class="problem-equation"/g);
+const sourceLines = [...html.matchAll(/data-source-line="(\d+)"/g)].map((m) => Number(m[1])).sort((a, b) => a - b);
+
 const sourcePdfExists = fs.existsSync(sourcePdfPath);
 const sourcePdfBytes = sourcePdfExists ? fs.statSync(sourcePdfPath).size : 0;
 const sourcePdfReady = sourcePdfExists && sourcePdfBytes > 0;
-const proofExists = proof.includes('PAGE_1_SOURCE_VERIFIED=YES') && proof.includes('4 + x = \\square');
 
-const failures = [];
-
-if (exercises !== 12) failures.push(`expected 12 page-1 exercises, found ${exercises}`);
-if (answers !== 12) failures.push(`expected 12 page-1 answer areas, found ${answers}`);
-if (!sourcePdfReady) failures.push('missing or empty source PDF: sources/legacy/parabula-old/sources/משוואות.pdf');
-
-if (verified === 12 && squareEquationPresent && !proofExists) {
-  failures.push('page 1 is fully marked verified while 4 + x = \\square is still present without STATE/EQUATIONS_PAGE_1_SOURCE_VERIFICATION.md proof marker');
+if (Number.isInteger(expected) && expected > 0) {
+  if (problemBlocks !== expected) failures.push(`expected ${expected} page-1 problem cards, found ${problemBlocks}`);
+  if (answers !== expected) failures.push(`expected ${expected} page-1 answer areas, found ${answers}`);
+  if (liveEquations !== expected) failures.push(`expected ${expected} page-1 live MathJax equations, found ${liveEquations}`);
+  for (let i = 1; i <= expected; i += 1) {
+    if (sourceLines[i - 1] !== i) failures.push(`expected data-source-line ${i}, got ${sourceLines[i - 1] ?? 'missing'}`);
+  }
 }
 
-if (verified > 0 && preserved > 0) {
-  failures.push(`page 1 has mixed verification states: verified=${verified}, preserved=${preserved}`);
-}
+if (!html.includes('data-source="משוואות.pdf"')) failures.push('page 1 missing data-source="משוואות.pdf" provenance');
+if (!html.includes('data-source-page="1"')) failures.push('page 1 missing data-source-page="1" provenance');
+if (!sourcePdfReady) failures.push('missing or empty source PDF: sources/equations/משוואות-52.pdf');
+
+// retired-design residue must be gone (no regression to SVG/overlay/placeholder)
+if (/<img[^>]*class="pdf-page"/.test(html)) failures.push('page 1 must not use img.pdf-page as content');
+if (/\\square/.test(html)) failures.push('page 1 must not contain the unresolved \\square placeholder');
+if (/class="[^"]*\bexercise\b/.test(html)) failures.push('page 1 must not use the retired .exercise structure');
+if (/answer-line/.test(html)) failures.push('page 1 must not use the retired .answer-line structure');
+if (/data-correction=/.test(html)) failures.push('page 1 must not use retired data-correction markers');
 
 if (failures.length) {
   console.error('EQUATIONS_PAGE1_SOURCE_LOCK_FAILED');
@@ -52,11 +69,10 @@ if (failures.length) {
 }
 
 console.log('EQUATIONS_PAGE1_SOURCE_LOCK_OK');
-console.log(`exercises=${exercises}`);
-console.log(`answers=${answers}`);
-console.log(`verified=${verified}`);
-console.log(`preserved=${preserved}`);
-console.log(`square_equation_present=${squareEquationPresent ? 'YES' : 'NO'}`);
+console.log(`design=live HTML + MathJax`);
+console.log(`problem_cards=${problemBlocks}`);
+console.log(`answer_areas=${answers}`);
+console.log(`live_equations=${liveEquations}`);
+console.log(`expected_from_transcription=${expected}`);
 console.log(`source_pdf=${sourcePdfReady ? 'YES' : 'NO'}`);
 console.log(`source_pdf_bytes=${sourcePdfBytes}`);
-console.log(`source_proof=${proofExists ? 'YES' : 'NO'}`);

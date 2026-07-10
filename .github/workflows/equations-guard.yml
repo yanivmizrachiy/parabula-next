@@ -12,8 +12,8 @@ on:
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
-      - 'pages/משואוות/**'
-      - 'sources/legacy/parabula-old/sources/משואוות.pdf'
+      - 'pages/משוואות/**'
+      - 'sources/equations/משוואות-52.pdf'
       - '.github/workflows/equations-guard.yml'
   pull_request:
     branches: [main]
@@ -23,8 +23,8 @@ on:
       - 'styles/pages/**'
       - 'styles/topics/equations.css'
       - 'עמוד-*.html'
-      - 'pages/משואוות/**'
-      - 'sources/legacy/parabula-old/sources/משואוות.pdf'
+      - 'pages/משוואות/**'
+      - 'sources/equations/משוואות-52.pdf'
       - 'scripts/validate-equations-*.mjs'
       - 'scripts/audit-equations-*.mjs'
       - '.github/workflows/equations-guard.yml'
@@ -77,10 +77,20 @@ jobs:
       - name: Run SVG conversion plan audit
         run: npm run audit:equations:svg-plan
 
-      - name: Ensure audits did not create tracked changes
+      - name: Ensure audits did not create unexpected tracked changes
         run: |
-          if [ -n "$(git status --porcelain)" ]; then
+          # meta/equations-master-map.json is a generated artifact: audit-equations-master-map.mjs
+          # (run via validate:equations:all) rewrites only its "generatedAt" timestamp each run.
+          # Fail on ANY other change (modified or new files), and still fail on substantive
+          # (non-timestamp) drift in the master map itself.
+          unexpected="$(git status --porcelain | grep -v ' meta/equations-master-map.json$' || true)"
+          if [ -n "$unexpected" ]; then
             echo "Equation validation or audit created unexpected repository changes:"
-            git status --short
+            echo "$unexpected"
+            exit 1
+          fi
+          if git diff -- meta/equations-master-map.json | grep '^[+-]' | grep -vE '^[+-]{3} ' | grep -v '"generatedAt"' | grep -q .; then
+            echo "Equations master map is stale (substantive drift beyond timestamp):"
+            git diff -- meta/equations-master-map.json
             exit 1
           fi

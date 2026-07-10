@@ -135,7 +135,7 @@ const previewOverlap = readText('STATE/PREVIEW_OVERLAP_AUDIT.md');
 const printJs = readText('preview/print.js');
 const hasCanonicalPrint = previewOverlap.includes('preview/print.html: YES') && previewOverlap.includes('canonical: preview/print.js => YES');
 const printSupportsScope = printJs.includes('maxLocalPage') && printJs.includes('isWithinRequestedScope');
-const pdfCandidates = ['sources/legacy/parabula-old/sources/משוואות.pdf'].filter((rel) => fs.existsSync(path.join(root, rel)));
+const pdfCandidates = ['sources/equations/משוואות-52.pdf', 'sources/legacy/parabula-old/sources/משוואות.pdf'].filter((rel) => fs.existsSync(path.join(root, rel)));
 
 function yesNo(value) {
   return value ? 'כן' : 'לא';

@@ -1,126 +1,137 @@
-/* עמוד 42 — משוואות עמוד 2 (חיסור)
-   Deep worksheet layout pass for the actual HTML structure in עמוד-42.html.
-   Scope: only page 2 of regular equations. No mathematical content changes. */
+/* עמוד 42 — משוואות עמוד 2 (נעלם אחד)
+   נוצר אוטומטית ע"י scripts/build-equations-pages.mjs מתוך משוואות.pdf עמוד 2.
+   מבנה v2 + מודל-זהב: ללא מספור תרגילים, משוואה ממורכזת בשטח האפור, אזור כתיבה, ואז ערך הנעלם.
+   חוזה עיצוב: STATE/EQUATIONS_DESIGN_PASS_RULES.md. ללא שינוי/המצאת תוכן לימודי. */
 
 .page-42.equations-page {
   justify-content: flex-start;
-  gap: 8px;
+  gap: 10px;
 }
 
 .page-42 .header-container {
   margin-bottom: 8px;
 }
 
-.page-42 .worksheet-card {
-  position: relative;
-  flex: 1 1 auto;
+.page-42 .question-block {
+  flex: 1;
   min-height: 0;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 12px;
-  padding: 12px 18px 14px;
-  border: 1px solid rgba(142, 163, 196, 0.42);
-  border-radius: 8px;
-  background: var(--bg-paper);
+  display: flex;
+  flex-direction: column;
 }
 
-.page-42 .worksheet-badge {
-  display: none;
+.page-42 .eq-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.page-42 .worksheet-instruction {
-  margin: 0;
-  padding: 0;
+.page-42 .q-main {
+  align-items: flex-start;
+  margin-bottom: 0;
+}
+
+.page-42 .q-text {
   color: var(--text-main);
-  font-size: 13.5px;
-  line-height: 1.45;
-  font-weight: 400;
-  text-align: right;
+  line-height: 1.5;
+  font-size: 14px;
 }
 
-.page-42 .equations-grid {
+.page-42 .eq-grid {
+  flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 14px;
+  width: 100%;
   align-items: stretch;
   direction: rtl;
 }
 
-.page-42 .equation-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.page-42 .eq-col {
+  min-height: 0;
   display: grid;
-  grid-template-rows: repeat(5, minmax(78px, 1fr));
-  gap: 8px;
-  min-width: 0;
-  counter-reset: none;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  row-gap: 8px;
 }
 
-.page-42 .equation-list-left {
-  border-left: 1px dashed rgba(142, 163, 196, 0.26);
-  padding-left: 16px;
-  counter-reset: none;
-}
-
-.page-42 .exercise,
-.page-42 .exercise::before {
-  counter-increment: none;
-}
-
-.page-42 .exercise::before {
-  content: none;
-  display: none;
-}
-
-.page-42 .exercise {
-  min-width: 0;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 6px;
-  align-items: stretch;
-  direction: ltr;
-  unicode-bidi: isolate;
-  color: var(--text-main);
-  font-size: 14.5px;
-  line-height: 1.22;
+.page-42 .problem-block {
+  min-height: 0;
+  height: 100%;
   background: var(--bg-subtle);
-  border: 1px solid rgba(142, 163, 196, 0.42);
+  border: 1px solid var(--border-light);
   border-radius: 8px;
-  padding: 7px 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   overflow: hidden;
   break-inside: avoid;
 }
 
-.page-42 .eq {
-  min-width: 0;
+.page-42 .problem-work {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* המשוואה כמוקד מרכזי בתוך השטח האפור של הכרטיס — ללא מספור */
+.page-42 .problem-figure {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 20px;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
-  font-weight: 500;
-  text-align: center;
+  min-height: 46px;
+  padding: 6px 4px 4px;
 }
 
-.page-42 .answer-line {
-  display: block;
-  width: 100%;
-  min-width: 0;
-  min-height: 40px;
-  height: auto;
-  border: 1px solid rgba(142, 163, 196, 0.42);
+.page-42 .problem-equation {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: center;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.page-42 .solution-space {
+  flex: 1;
+  min-height: 30px;
+  border: 1px solid var(--border-light);
   border-radius: 6px;
   background-color: var(--bg-paper);
   background-image:
-    linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.20) 21px, rgba(142, 163, 196, 0.20) 22px),
-    linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.15) 21px, rgba(142, 163, 196, 0.15) 22px);
+    linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
   background-size: 22px 22px;
   background-repeat: repeat;
 }
 
+.page-42 .problem-answer {
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  text-align: center;
+  padding-top: 5px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px;
+}
+
+.page-42 .problem-answer .answer-box {
+  height: 18px;
+  transform: translateY(-1px);
+}
+
 @media screen and (max-width: 900px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .preview-nav {
     zoom: 0.48;
     margin-top: 10px;
@@ -142,15 +153,13 @@
 }
 
 @media print {
-  .page-42 .worksheet-card,
-  .page-42 .exercise {
+  .page-42 .problem-block {
     box-shadow: none;
   }
 
-  .page-42 .answer-line {
-    border-color: rgba(142, 163, 196, 0.38);
+  .page-42 .solution-space {
     background-image:
-      linear-gradient(to bottom, transparent 21px, rgba(142, 163, 196, 0.18) 21px, rgba(142, 163, 196, 0.18) 22px),
-      linear-gradient(to right, transparent 21px, rgba(142, 163, 196, 0.13) 21px, rgba(142, 163, 196, 0.13) 22px);
+      linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+    linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
   }
 }

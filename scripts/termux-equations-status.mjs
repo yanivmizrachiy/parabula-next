@@ -34,7 +34,7 @@ const required = [
   'preview/print.js',
   '.github/workflows/equations-guard.yml',
   'docs/EQUATIONS_AUTOMATION_RULES.md',
-  'sources/legacy/parabula-old/sources/משוואות.pdf'
+  'sources/equations/משוואות-52.pdf'
 ];
 
 for (const file of required) exists(file) || failures.push(`missing required file: ${file}`);
