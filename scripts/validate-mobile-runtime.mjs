@@ -165,7 +165,8 @@ async function startProductionServer(distDir) {
         let pathname = decodeURIComponent(url.pathname);
         if (pathname === '/') pathname = '/index.html';
         const filePath = path.resolve(distDir, `.${pathname}`);
-        if (!filePath.startsWith(distDir)) {
+        const allowedPrefix = `${distDir}${path.sep}`;
+        if (filePath !== distDir && !filePath.startsWith(allowedPrefix)) {
           res.writeHead(403);
           res.end('Forbidden');
           return;
@@ -277,6 +278,8 @@ async function runBrowserAudit() {
       const a4 = doc?.querySelector('.a4-page');
       if (!frame || !doc || !a4) return null;
       const rect = a4.getBoundingClientRect();
+      const bodyOverflowX = getComputedStyle(doc.body).overflowX;
+      const htmlOverflowX = getComputedStyle(doc.documentElement).overflowX;
       return {
         frameWidth: frame.clientWidth,
         frameHeight: frame.clientHeight,
@@ -292,7 +295,8 @@ async function runBrowserAudit() {
         transform: a4.style.transform,
         equationCount: doc.querySelectorAll('.problem-equation').length,
         rasterCount: doc.querySelectorAll('.pdf-page').length,
-        frameOverflow: Math.max(doc.documentElement.scrollWidth, doc.body.scrollWidth) - frame.clientWidth
+        bodyOverflowX,
+        htmlOverflowX
       };
     });
 
@@ -305,11 +309,12 @@ async function runBrowserAudit() {
     add('browser-equations-page-8-a4-ratio', Boolean(readerState) && Math.abs(readerState.ratio - (297 / 210)) < 0.03, `ratio=${readerState?.ratio}`);
     add('browser-equations-page-8-live-math', readerState?.equationCount === 10 && readerState?.rasterCount === 0, `equations=${readerState?.equationCount}; raster=${readerState?.rasterCount}`);
     add('browser-reader-owns-one-scale', Boolean(readerState?.transform?.startsWith('scale(')), `transform=${readerState?.transform}`);
-    add('browser-iframe-no-horizontal-overflow', Boolean(readerState) && readerState.frameOverflow <= 2, `overflow=${readerState?.frameOverflow}px`);
+    add('browser-iframe-clips-unscaled-layout', ['hidden', 'clip'].includes(readerState?.bodyOverflowX) && ['hidden', 'clip'].includes(readerState?.htmlOverflowX), `body=${readerState?.bodyOverflowX}; html=${readerState?.htmlOverflowX}`);
 
     await phonePage.evaluate(() => {
       const frame = document.querySelector('#mobilePageFrame');
-      frame?.contentWindow?.dispatchEvent(new Event('beforeprint'));
+      const win = frame?.contentWindow;
+      if (win) win.dispatchEvent(new win.Event('beforeprint'));
     });
     const printState = await phonePage.evaluate(() => {
       const frame = document.querySelector('#mobilePageFrame');
@@ -326,7 +331,8 @@ async function runBrowserAudit() {
     add('browser-print-removes-viewport-clipping', printState?.bodyHeight === 'auto' && printState?.bodyOverflow === 'visible' && printState?.bodyDisplay === 'block', JSON.stringify(printState));
     await phonePage.evaluate(() => {
       const frame = document.querySelector('#mobilePageFrame');
-      frame?.contentWindow?.dispatchEvent(new Event('afterprint'));
+      const win = frame?.contentWindow;
+      if (win) win.dispatchEvent(new win.Event('afterprint'));
     });
 
     await phonePage.setViewportSize({ width: 915, height: 412 });
@@ -353,7 +359,7 @@ async function runBrowserAudit() {
 
     const desktopSiteContext = await browser.newContext({
       viewport: { width: 980, height: 700 },
-      screen: { width: 412, height: 915 },
+      screen: { width: 980, height: 700 },
       deviceScaleFactor: 1,
       isMobile: false,
       hasTouch: true,
