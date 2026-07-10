@@ -182,20 +182,26 @@ function auditWorksheet() {
   };
 }
 
-async function waitForReaderReady(shell, file) {
-  await shell.waitForFunction(expectedFile => {
-    const frame = document.querySelector('#mobilePageFrame');
-    const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
-    return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
-  }, file, { timeout: 15000 });
-  await shell.evaluate(async () => {
-    const frame = document.querySelector('#mobilePageFrame');
-    const doc = frame?.contentDocument;
-    const win = frame?.contentWindow;
-    if (doc?.fonts?.ready) await doc.fonts.ready;
-    if (win?.MathJax?.startup?.promise) await win.MathJax.startup.promise;
-  });
-  await shell.waitForTimeout(260);
+async function waitForReaderReady(app) {
+  const deadline = Date.now() + 15000;
+  while (Date.now() < deadline) {
+    try {
+      await app.evaluate(async () => {
+        const frame = document.querySelector('#mobilePageFrame');
+        const doc = frame?.contentDocument;
+        const win = frame?.contentWindow;
+        if (!doc?.querySelector('.a4-page')) throw new Error('worksheet frame is not ready');
+        if (doc.fonts?.ready) await doc.fonts.ready;
+        if (win?.MathJax?.startup?.promise) await win.MathJax.startup.promise;
+      });
+      await app.waitForTimeout(220);
+      return;
+    } catch (error) {
+      if (!/Execution context was destroyed|worksheet frame is not ready|Target page, context or browser has been closed/i.test(String(error))) throw error;
+      await app.waitForTimeout(100);
+    }
+  }
+  throw new Error('Timed out waiting for a stable worksheet frame');
 }
 
 async function selectPage(shell, file) {
@@ -210,7 +216,12 @@ async function selectPage(shell, file) {
   await card.waitFor({ state: 'visible', timeout: 10000 });
   if (await card.count() !== 1) throw new Error(`Search result is not unique for ${file}`);
   await card.click();
-  await waitForReaderReady(shell, file);
+  await shell.waitForFunction(expectedFile => {
+    const frame = document.querySelector('#mobilePageFrame');
+    const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
+    return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
+  }, file, { timeout: 15000 });
+  await waitForReaderReady(shell);
 }
 
 async function auditFrame(shell, auditSource) {
@@ -313,7 +324,12 @@ async function run() {
             result.issues.push({ code: 'wrong-open-full-url', actual: popup.url() });
           }
           if (!(await popup.evaluate(() => window.opener === null))) result.issues.push({ code: 'opener-not-isolated' });
-          await waitForReaderReady(popup, pageMeta.file);
+          await popup.waitForFunction(expectedFile => {
+            const frame = document.querySelector('#mobilePageFrame');
+            const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
+            return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
+          }, pageMeta.file, { timeout: 15000 });
+          await waitForReaderReady(popup);
 
           const fullShell = await popup.evaluate(() => ({
             fullMode: document.body.classList.contains('full-mode'),
