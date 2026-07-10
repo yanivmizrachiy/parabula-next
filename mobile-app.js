@@ -131,9 +131,8 @@ function injectMobileReaderStyles(doc){
       background:#eef3f8 !important;
     }
     body{
-      display:flex !important;
-      justify-content:center !important;
-      align-items:flex-start !important;
+      position:relative !important;
+      display:block !important;
     }
     html body .a4-page,
     html body .a4-page.equations-page{
@@ -144,8 +143,11 @@ function injectMobileReaderStyles(doc){
       margin:0 !important;
       box-shadow:none !important;
       zoom:1 !important;
+      position:absolute !important;
+      top:0 !important;
+      left:0 !important;
       transform:none;
-      transform-origin:center top !important;
+      transform-origin:left top !important;
       page-break-after:auto !important;
       flex-shrink:0 !important;
     }
@@ -183,7 +185,11 @@ function injectMobileReaderStyles(doc){
         min-width:210mm !important;
         max-width:none !important;
         zoom:1 !important;
+        position:static !important;
+        top:auto !important;
+        left:auto !important;
         transform:none !important;
+        transform-origin:center top !important;
         margin:0 !important;
       }
       html body .a4-page.equations-page{
@@ -202,7 +208,10 @@ function enforceCanonicalPageGeometry(page){
   page.style.setProperty('margin', '0', 'important');
   page.style.setProperty('zoom', '1', 'important');
   page.style.setProperty('flex-shrink', '0', 'important');
-  page.style.setProperty('transform-origin', 'center top', 'important');
+  page.style.setProperty('position', 'absolute', 'important');
+  page.style.setProperty('top', '0', 'important');
+  page.style.setProperty('left', '0', 'important');
+  page.style.setProperty('transform-origin', 'left top', 'important');
   if(page.classList.contains('equations-page')){
     page.style.setProperty('padding', '10mm 18mm', 'important');
   }
@@ -230,7 +239,11 @@ function fitCurrentA4Page(){
     if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
 
     const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
+    const scaledWidth = Math.max(1, Math.round(rawWidth * scale));
     const scaledHeight = Math.max(1, Math.round(rawHeight * scale));
+    const left = Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
+    page.style.setProperty('left', `${left}px`, 'important');
+    page.style.setProperty('top', '0', 'important');
     page.style.setProperty('transform', `scale(${scale})`, 'important');
 
     doc.documentElement.style.setProperty('width', '100%', 'important');
@@ -244,9 +257,8 @@ function fitCurrentA4Page(){
     doc.body.style.setProperty('height', `${scaledHeight}px`, 'important');
     doc.body.style.setProperty('overflow', 'hidden', 'important');
     doc.body.style.setProperty('background', '#eef3f8', 'important');
-    doc.body.style.setProperty('display', 'flex', 'important');
-    doc.body.style.setProperty('justify-content', 'center', 'important');
-    doc.body.style.setProperty('align-items', 'flex-start', 'important');
+    doc.body.style.setProperty('position', 'relative', 'important');
+    doc.body.style.setProperty('display', 'block', 'important');
 
     try{ win.scrollTo(0, 0); }catch{}
   }catch(error){
@@ -265,6 +277,10 @@ function prepareFrameForPrint(doc){
   if(!doc || !page) return false;
 
   enforceCanonicalPageGeometry(page);
+  page.style.setProperty('position', 'static', 'important');
+  page.style.setProperty('top', 'auto', 'important');
+  page.style.setProperty('left', 'auto', 'important');
+  page.style.setProperty('transform-origin', 'center top', 'important');
   page.style.setProperty('transform', 'none', 'important');
   doc.documentElement.style.setProperty('overflow', 'visible', 'important');
   doc.documentElement.style.setProperty('height', 'auto', 'important');
