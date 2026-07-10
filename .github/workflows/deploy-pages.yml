@@ -32,8 +32,35 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run canonical validation and build
-        run: npm run ci:all
+      - name: Contract tests
+        run: npm test
+
+      - name: Canonical page verification
+        run: npm run verify
+
+      - name: Metadata registry and schema
+        run: |
+          npm run validate:meta
+          npm run validate:schema
+
+      - name: Access and mobile architecture
+        run: |
+          npm run validate:access
+          npm run validate:mobile
+
+      - name: Canonical rules
+        run: npm run rules:check
+
+      - name: HTML and vendored dependencies
+        run: |
+          npm run validate:html
+          npm run vendorize:check
+
+      - name: Repository health
+        run: npm run health:report
+
+      - name: Build production artifact
+        run: npm run build
 
       - name: Upload production build for deployment
         if: github.event_name != 'pull_request'
