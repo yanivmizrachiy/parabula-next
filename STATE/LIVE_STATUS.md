@@ -91,6 +91,13 @@ Static deployment:
 
 ---
 
+## Live deployment status
+
+- 2026-07-10: deploy pipeline is GREEN and the live site is verified current.
+- Root cause found and fixed: `package-lock.json` was missing the `@playwright/test` entries, so `npm ci` failed and **every deploy since 2026-07-06 silently failed** — the live site was stale. Lockfile re-synced in commit `9453c15`.
+- Live verification (HTTP 200): root entry, `catalog.html`, `mobile-app.html`, `meta/topics.json` (now serving 8 topics / 98 pages), equations SVG assets under `pages/משוואות/assets/` (previously broken), `preview/reader.css`. The retired `עמוד-95-editable.html` correctly returns 404.
+- Still red on main (pre-existing, unrelated to this work): `Equations App Validation` — its validators expect design-pass markers that current main pages don't have; it also failed before 2026-07-10 and appears to be addressed by the `eqmerge` branch (Yaniv's separate worktree). Merging `eqmerge` is Yaniv's decision.
+
 ## Recent completed changes
 
 - 2026-07-10 (improvement round 2): added `scripts/sync-mobile-topics.mjs` with `npm run topics:sync` / `topics:check`; the check now gates both `ci:all` and the deploy workflow, so the mirror can never silently diverge again. Added `npm run doctor` alias.
