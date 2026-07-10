@@ -1,75 +1,64 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+/**
+ * Page-1 source checklist — realigned 2026-06 to the live HTML + MathJax rebuild.
+ *
+ * Parses page 1 (עמוד-95) live cards in DOM order and locks each rendered
+ * equation against the faithful transcription in meta/equations-content.json
+ * (source page 1 of משוואות.pdf). Emits a human-readable checklist table and
+ * fails on count / ordering / equation drift, or a missing/empty source PDF.
+ * Read-only (prints to stdout, writes no files).
+ */
 const root = process.cwd();
-const pageFile = 'עמוד-95.html';
-const sourcePdfFile = path.join('sources', 'legacy', 'parabula-old', 'sources', 'משוואות.pdf');
-const pagePath = path.join(root, pageFile);
-const sourcePdfPath = path.join(root, sourcePdfFile);
+const PAGE = 'עמוד-95.html';
+const pagePath = path.join(root, PAGE);
+const sourcePdfPath = path.join(root, 'sources', 'equations', 'משוואות-52.pdf');
+const contentPath = path.join(root, 'meta', 'equations-content.json');
 
-function read(relOrFull) {
-  if (!fs.existsSync(relOrFull)) return '';
-  return fs.readFileSync(relOrFull, 'utf8');
-}
+if (!fs.existsSync(pagePath)) throw new Error(`Missing page file: ${PAGE}`);
+if (!fs.existsSync(sourcePdfPath)) throw new Error('Missing source PDF: sources/equations/משוואות-52.pdf');
+if (!fs.existsSync(contentPath)) throw new Error('Missing meta/equations-content.json');
 
-function stripMathJax(value) {
-  return value
-    .replace(/\\\(/g, '')
-    .replace(/\\\)/g, '')
-    .replace(/\\square/g, '\\square')
-    .trim();
-}
-
-if (!fs.existsSync(pagePath)) {
-  throw new Error(`Missing page file: ${pageFile}`);
-}
-
-if (!fs.existsSync(sourcePdfPath)) {
-  throw new Error(`Missing source PDF: ${sourcePdfFile}`);
-}
-
-const html = read(pagePath);
+const html = fs.readFileSync(pagePath, 'utf8');
+const content = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
 const sourcePdfBytes = fs.statSync(sourcePdfPath).size;
-const exerciseRegex = /<li class="exercise"[^>]*data-source-line="(\d+)"[^>]*data-correction="([^"]+)"[^>]*>\s*<span class="eq">([^<]+)<\/span>/g;
-const exercises = [];
+
+// Each live card: data-source-line="K" … <div class="problem-equation">\( EQ \)</div>
+const cardRegex = /data-source-line="(\d+)"[\s\S]*?class="problem-equation">\\\(([\s\S]*?)\\\)<\/div>/g;
+const cards = [];
 let match;
-while ((match = exerciseRegex.exec(html)) !== null) {
-  exercises.push({
-    sourceLine: Number(match[1]),
-    correction: match[2],
-    equation: stripMathJax(match[3])
-  });
+while ((match = cardRegex.exec(html)) !== null) {
+  cards.push({ sourceLine: Number(match[1]), equation: match[2].trim() });
 }
+
+const expectedEqs = (content.pages?.['1']?.equations || []).map((e) => e.trim());
 
 const failures = [];
 if (sourcePdfBytes <= 0) failures.push('source PDF is empty');
-if (exercises.length !== 12) failures.push(`expected 12 exercises, found ${exercises.length}`);
-
-const sourceLines = exercises.map((item) => item.sourceLine).sort((a, b) => a - b);
-for (let index = 1; index <= 12; index += 1) {
-  if (sourceLines[index - 1] !== index) {
-    failures.push(`expected source line ${index}, got ${sourceLines[index - 1] ?? 'missing'}`);
-  }
+if (cards.length !== expectedEqs.length) {
+  failures.push(`expected ${expectedEqs.length} page-1 cards, found ${cards.length}`);
 }
+cards.forEach((card, index) => {
+  if (card.sourceLine !== index + 1) {
+    failures.push(`card ${index + 1}: expected data-source-line ${index + 1}, got ${card.sourceLine}`);
+  }
+  if (expectedEqs[index] !== undefined && card.equation !== expectedEqs[index]) {
+    failures.push(`card ${index + 1} equation drift: HTML "${card.equation}" != source "${expectedEqs[index]}"`);
+  }
+});
 
-const square = exercises.find((item) => item.equation.includes('\\square'));
-if (!square) failures.push('expected to find the unresolved square equation for source verification');
-
-const allPreserved = exercises.every((item) => item.correction === 'existing-content-preserved');
-if (!allPreserved) failures.push('page 1 source checklist expects all items to remain existing-content-preserved until source verification');
-
-console.log('EQUATIONS_PAGE1_SOURCE_CHECKLIST_OK');
-console.log(`page=${pageFile}`);
-console.log(`source_pdf=${sourcePdfFile}`);
+console.log('EQUATIONS_PAGE1_SOURCE_CHECKLIST');
+console.log(`page=${PAGE}`);
+console.log(`source_pdf=sources/equations/משוואות-52.pdf`);
 console.log(`source_pdf_bytes=${sourcePdfBytes}`);
-console.log(`exercises=${exercises.length}`);
-console.log(`all_preserved=${allPreserved ? 'YES' : 'NO'}`);
+console.log(`cards=${cards.length}`);
 console.log('--- PAGE1_SOURCE_CHECKLIST_START ---');
 console.log('| line | equation | status |');
 console.log('|---:|---|---|');
-for (const item of exercises) {
-  const flag = item.equation.includes('\\square') ? 'NEEDS SOURCE PROOF' : 'needs source comparison';
-  console.log(`| ${item.sourceLine} | \`${item.equation}\` | ${flag} |`);
+for (const card of cards) {
+  const matchesSource = expectedEqs[card.sourceLine - 1] === card.equation;
+  console.log(`| ${card.sourceLine} | \`${card.equation}\` | ${matchesSource ? 'matches source ✓' : 'DRIFT'} |`);
 }
 console.log('--- PAGE1_SOURCE_CHECKLIST_END ---');
 
@@ -78,3 +67,5 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exit(1);
 }
+
+console.log('EQUATIONS_PAGE1_SOURCE_CHECKLIST_OK');

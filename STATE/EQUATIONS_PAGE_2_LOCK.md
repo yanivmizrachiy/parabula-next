@@ -1,5 +1,7 @@
 # Equations Page 2 Lock — עמוד-42.html
 
+> SUPERSEDED (2026-06-15): מסמך זה מתאר את העיצוב הישן ומפנה ל-PDF הישן בן 54 העמודים. מקור האמת הנוכחי הוא `sources/equations/משוואות-52.pdf` (52 עמודים), ועמוד-42 הומר ל-HTML+MathJax חי. ראה `STATE/EQUATIONS_DESIGN_PASS_RULES.md`.
+
 Status: LOCK CANDIDATE / VERIFIED STRUCTURE
 
 Scope:
