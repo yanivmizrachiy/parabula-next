@@ -4,7 +4,7 @@ const steps = [
   { name: 'npm test', cmd: 'npm', args: ['test'] },
   { name: 'npm run verify', cmd: 'npm', args: ['run', 'verify'] },
   { name: 'recovery audit', cmd: 'node', args: ['scripts/recovery-audit.mjs'] },
-  { name: 'rules sync check', cmd: 'node', args: ['scripts/rules-sync-check.mjs'] },
+  { name: 'single rules source check', cmd: 'node', args: ['scripts/single-rules-source-check.mjs'] },
   { name: 'app layer check', cmd: 'node', args: ['scripts/app-layer-check.mjs'] },
   { name: 'duplicate audit', cmd: 'node', args: ['scripts/duplicate-audit.mjs'] }
 ];
