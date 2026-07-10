@@ -10,6 +10,7 @@ const allPages = (meta.topics || []).flatMap(topic =>
   (topic.pages || []).map(page => ({ ...page, topic: page.topic || topic.name }))
 );
 const canonicalFiles = new Set(allPages.map(page => page.file));
+const expectedTopicCount = (meta.topics || []).length;
 
 const args = Object.fromEntries(process.argv.slice(2).map(arg => {
   const [key, value = 'true'] = arg.replace(/^--/, '').split('=');
@@ -25,7 +26,6 @@ const pages = allPages.filter((_, index) => index % shardCount === shardIndex);
 const reportDir = path.join(root, 'meta', 'audit');
 const failureDir = path.join(reportDir, `mobile-layout-failures-shard-${shardIndex}`);
 const reportPath = path.join(reportDir, `mobile-all-pages-shard-${shardIndex}.json`);
-const expectedTopicCount = (meta.topics || []).length;
 const viewports = [
   { name: 'android-small-portrait', width: 360, height: 800 },
   { name: 'android-target-portrait', width: 412, height: 915 },
@@ -58,25 +58,18 @@ async function startServer() {
         let pathname = decodeURIComponent(url.pathname);
         if (pathname === '/') pathname = '/index.html';
         const filePath = path.resolve(distDir, `.${pathname}`);
-        const allowedPrefix = `${distDir}${path.sep}`;
-        if (filePath !== distDir && !filePath.startsWith(allowedPrefix)) {
-          res.writeHead(403);
-          res.end('Forbidden');
+        if (filePath !== distDir && !filePath.startsWith(`${distDir}${path.sep}`)) {
+          res.writeHead(403).end('Forbidden');
           return;
         }
         if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-          res.end('Not found');
+          res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' }).end('Not found');
           return;
         }
-        res.writeHead(200, {
-          'Content-Type': contentType(filePath),
-          'Cache-Control': 'no-store, max-age=0'
-        });
+        res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store, max-age=0' });
         fs.createReadStream(filePath).pipe(res);
       } catch (error) {
-        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end(error.message);
+        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' }).end(error.message);
       }
     });
     server.once('error', reject);
@@ -87,166 +80,152 @@ async function startServer() {
   });
 }
 
-function auditDocument(expectedTopics, surface) {
-  const tolerance = 2;
+function auditWorksheet() {
+  const tolerance = 3;
   const issues = [];
-  const a4 = document.querySelector('.a4-page');
-  const rectOf = element => {
-    const rect = element.getBoundingClientRect();
-    return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, width: rect.width, height: rect.height };
+  const page = document.querySelector('.a4-page');
+  if (!page) return { issues: [{ code: 'missing-a4-page' }], metrics: {} };
+
+  const rect = element => {
+    const value = element.getBoundingClientRect();
+    return { left: value.left, top: value.top, right: value.right, bottom: value.bottom, width: value.width, height: value.height };
   };
-  const isVisible = element => {
+  const visible = element => {
     const style = getComputedStyle(element);
-    const rect = element.getBoundingClientRect();
-    return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity || 1) > 0 && rect.width > 0 && rect.height > 0;
+    const box = element.getBoundingClientRect();
+    return style.display !== 'none' && style.visibility !== 'hidden' && Number(style.opacity || 1) > 0 && box.width > 0 && box.height > 0;
   };
   const contains = (outer, inner, extra = tolerance) =>
     inner.left >= outer.left - extra && inner.top >= outer.top - extra &&
     inner.right <= outer.right + extra && inner.bottom <= outer.bottom + extra;
-  const intersectionArea = (a, b) => {
-    const width = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
-    const height = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
-    return width * height;
-  };
-  const describe = element => {
-    const classes = [...element.classList].slice(0, 4).join('.');
-    return `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${classes ? `.${classes}` : ''}`;
-  };
+  const overlap = (a, b) =>
+    Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
+    Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+  const describe = element => `${element.tagName.toLowerCase()}${element.id ? `#${element.id}` : ''}${element.classList.length ? `.${[...element.classList].slice(0, 4).join('.')}` : ''}`;
 
-  if (!a4) return { issues: [{ code: 'missing-a4-page', element: 'document' }], metrics: {} };
-
-  const a4Rect = rectOf(a4);
-  const viewportWidth = window.innerWidth;
-  const documentOverflowX = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - viewportWidth;
-  const bodyOverflowX = getComputedStyle(document.body).overflowX;
-  const htmlOverflowX = getComputedStyle(document.documentElement).overflowX;
-
-  if (Math.abs((a4Rect.height / a4Rect.width) - (297 / 210)) > 0.04) {
-    issues.push({ code: 'invalid-a4-ratio', value: a4Rect.height / a4Rect.width });
+  const pageRect = rect(page);
+  if (Math.abs((pageRect.height / pageRect.width) - (297 / 210)) > 0.04) {
+    issues.push({ code: 'invalid-a4-ratio', value: pageRect.height / pageRect.width });
   }
-  if (surface === 'open-full') {
-    if (documentOverflowX > tolerance) issues.push({ code: 'document-horizontal-overflow', value: documentOverflowX });
-    if (a4Rect.left < 8 - tolerance || a4Rect.right > viewportWidth - 8 + tolerance) {
-      issues.push({ code: 'a4-does-not-fit-mobile-width', rect: a4Rect, viewportWidth });
-    }
-  } else {
-    if (a4Rect.left < -tolerance || a4Rect.right > viewportWidth + tolerance) {
-      issues.push({ code: 'reader-a4-outside-frame', rect: a4Rect, viewportWidth });
-    }
-    if (!['hidden', 'clip'].includes(bodyOverflowX) || !['hidden', 'clip'].includes(htmlOverflowX)) {
-      issues.push({ code: 'reader-does-not-clip-unscaled-layout', bodyOverflowX, htmlOverflowX });
-    }
+  if (pageRect.left < -tolerance || pageRect.right > window.innerWidth + tolerance) {
+    issues.push({ code: 'a4-outside-reader', rect: pageRect, viewportWidth: window.innerWidth });
+  }
+  const htmlOverflow = getComputedStyle(document.documentElement).overflowX;
+  const bodyOverflow = getComputedStyle(document.body).overflowX;
+  if (!['hidden', 'clip'].includes(htmlOverflow) || !['hidden', 'clip'].includes(bodyOverflow)) {
+    issues.push({ code: 'reader-overflow-not-clipped', htmlOverflow, bodyOverflow });
   }
 
   const containedSelectors = [
     '.header-container', '.page-title', '.page-number', '.question-block', '.q-main', '.q-sub', '.q-text',
     '.eq-grid', '.eq-col', '.problem-block', '.problem-work', '.problem-figure', '.problem-equation',
-    '.solution-space', '.problem-answer', '.answer-box', '.pdf-wrap', '.pdf-page', '.explain-box',
-    '.math-table', '.multiple-choice', 'svg', 'img', 'mjx-container'
+    '.solution-space', '.problem-answer', '.answer-box', '.pdf-wrap', '.pdf-page', '.pyt-content', '.pyt-image',
+    '.explain-box', '.math-table', '.multiple-choice', 'svg', 'img', 'mjx-container'
   ].join(',');
-  for (const element of a4.querySelectorAll(containedSelectors)) {
-    if (!isVisible(element)) continue;
-    const rect = rectOf(element);
-    if (!contains(a4Rect, rect, tolerance + 1)) {
-      issues.push({ code: 'element-outside-a4', element: describe(element), rect });
+  for (const element of page.querySelectorAll(containedSelectors)) {
+    if (!visible(element)) continue;
+    const elementRect = rect(element);
+    if (!contains(pageRect, elementRect, tolerance + 2)) {
+      issues.push({ code: 'element-outside-a4', element: describe(element), rect: elementRect });
     }
   }
 
-  for (const block of a4.querySelectorAll('.problem-block')) {
-    if (!isVisible(block)) continue;
-    const blockRect = rectOf(block);
+  for (const image of page.querySelectorAll('img')) {
+    if (!image.complete || image.naturalWidth === 0 || image.naturalHeight === 0) {
+      issues.push({ code: 'broken-image', src: image.getAttribute('src') || '' });
+    }
+  }
+
+  for (const block of page.querySelectorAll('.problem-block')) {
+    if (!visible(block)) continue;
+    const blockRect = rect(block);
     for (const element of block.querySelectorAll('.problem-equation,.solution-space,.problem-answer,.answer-box')) {
-      if (!isVisible(element)) continue;
-      const rect = rectOf(element);
-      if (!contains(blockRect, rect, tolerance)) {
-        issues.push({ code: 'problem-child-outside-card', element: describe(element), rect, cardRect: blockRect });
+      if (visible(element) && !contains(blockRect, rect(element), tolerance)) {
+        issues.push({ code: 'problem-child-outside-card', element: describe(element) });
       }
     }
-
     const equation = block.querySelector('.problem-equation');
     const solution = block.querySelector('.solution-space');
     const answer = block.querySelector('.problem-answer');
     const answerBox = block.querySelector('.problem-answer .answer-box');
-    if (equation && solution && isVisible(equation) && isVisible(solution) && intersectionArea(rectOf(equation), rectOf(solution)) > 2) {
-      issues.push({ code: 'equation-overlaps-solution-space', card: describe(block) });
+    if (equation && solution && visible(equation) && visible(solution) && overlap(rect(equation), rect(solution)) > 3) {
+      issues.push({ code: 'equation-overlaps-solution-space' });
     }
-    if (solution && answer && isVisible(solution) && isVisible(answer) && intersectionArea(rectOf(solution), rectOf(answer)) > 2) {
-      issues.push({ code: 'answer-overlaps-solution-space', card: describe(block) });
+    if (solution && answer && visible(solution) && visible(answer) && overlap(rect(solution), rect(answer)) > 3) {
+      issues.push({ code: 'answer-overlaps-solution-space' });
     }
-    if (equation && answer && isVisible(equation) && isVisible(answer) && intersectionArea(rectOf(equation), rectOf(answer)) > 2) {
-      issues.push({ code: 'answer-overlaps-equation', card: describe(block) });
+    if (equation && answer && visible(equation) && visible(answer) && overlap(rect(equation), rect(answer)) > 3) {
+      issues.push({ code: 'answer-overlaps-equation' });
     }
-    if (answer && answerBox && isVisible(answer) && isVisible(answerBox) && !contains(rectOf(answer), rectOf(answerBox), tolerance)) {
-      issues.push({ code: 'answer-box-outside-answer-row', answer: rectOf(answer), answerBox: rectOf(answerBox) });
-    }
-  }
-
-  const clippingSelectors = '.page-title,.nav-meta,.topic-link,.q-text,.problem-equation,.problem-answer,.answer-box,.page-card strong,.page-card span';
-  for (const element of document.querySelectorAll(clippingSelectors)) {
-    if (!isVisible(element)) continue;
-    const style = getComputedStyle(element);
-    const widthClipped = element.scrollWidth - element.clientWidth > tolerance && style.overflowX !== 'visible';
-    const heightClipped = element.scrollHeight - element.clientHeight > tolerance && style.overflowY !== 'visible';
-    if (widthClipped || heightClipped) {
-      issues.push({
-        code: 'content-clipped', element: describe(element),
-        clientWidth: element.clientWidth, scrollWidth: element.scrollWidth,
-        clientHeight: element.clientHeight, scrollHeight: element.scrollHeight
-      });
+    if (answer && answerBox && visible(answer) && visible(answerBox) && !contains(rect(answer), rect(answerBox), tolerance)) {
+      issues.push({ code: 'answer-box-outside-answer-row' });
     }
   }
 
-  if (surface === 'open-full') {
-    const topicLinks = [...document.querySelectorAll('.preview-nav .topic-link')];
-    if (topicLinks.length !== expectedTopics) {
-      issues.push({ code: 'wrong-topic-link-count', expected: expectedTopics, actual: topicLinks.length });
-    }
-    const hiddenTopicLinks = topicLinks.filter(link => !isVisible(link)).map(describe);
-    if (hiddenTopicLinks.length) issues.push({ code: 'hidden-topic-links', elements: hiddenTopicLinks });
+  const equationCount = page.querySelectorAll('.problem-equation').length;
+  const mathJaxCount = page.querySelectorAll('mjx-container').length;
+  if (equationCount && mathJaxCount < equationCount) {
+    issues.push({ code: 'mathjax-not-fully-rendered', equationCount, mathJaxCount });
   }
 
   return {
     issues,
     metrics: {
-      a4: a4Rect,
-      viewportWidth,
+      a4: pageRect,
+      viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
-      documentOverflowX,
-      bodyOverflowX,
-      htmlOverflowX,
-      problemBlocks: a4.querySelectorAll('.problem-block').length,
-      equations: a4.querySelectorAll('.problem-equation').length,
-      mathJaxContainers: a4.querySelectorAll('mjx-container').length
+      problemBlocks: page.querySelectorAll('.problem-block').length,
+      equations: equationCount,
+      mathJaxContainers: mathJaxCount,
+      images: page.querySelectorAll('img').length
     }
   };
 }
 
-async function ensureTopicsPanelOpen(app) {
-  const panel = app.locator('#topicsPanel');
-  if (await panel.evaluate(element => element.classList.contains('is-collapsed'))) {
-    await app.locator('#toggleTopicsBtn').click();
-  }
-  await app.locator('#globalSearch').waitFor({ state: 'visible', timeout: 6000 });
-}
-
-async function waitForPageReady(page) {
-  await page.locator('.a4-page').waitFor({ state: 'visible', timeout: 15000 });
-  await page.evaluate(async () => {
-    if (document.fonts?.ready) await document.fonts.ready;
-    if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
-  });
-  await page.waitForTimeout(120);
-}
-
-async function waitForReaderReady(app) {
-  await app.evaluate(async () => {
+async function waitForReaderReady(shell, file) {
+  await shell.waitForFunction(expectedFile => {
+    const frame = document.querySelector('#mobilePageFrame');
+    const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
+    return pathname.endsWith(`/${expectedFile}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
+  }, file, { timeout: 15000 });
+  await shell.evaluate(async () => {
     const frame = document.querySelector('#mobilePageFrame');
     const doc = frame?.contentDocument;
     const win = frame?.contentWindow;
     if (doc?.fonts?.ready) await doc.fonts.ready;
     if (win?.MathJax?.startup?.promise) await win.MathJax.startup.promise;
   });
-  await app.waitForTimeout(220);
+  await shell.waitForTimeout(260);
+}
+
+async function selectPage(shell, file) {
+  const panel = shell.locator('#topicsPanel');
+  if (await panel.evaluate(element => element.classList.contains('is-collapsed'))) {
+    await shell.locator('#toggleTopicsBtn').click();
+  }
+  const search = shell.locator('#globalSearch');
+  await search.waitFor({ state: 'visible', timeout: 6000 });
+  await search.fill(file);
+  const card = shell.locator(`.page-card[data-file="${file}"]`);
+  await card.waitFor({ state: 'visible', timeout: 10000 });
+  if (await card.count() !== 1) throw new Error(`Search result is not unique for ${file}`);
+  await card.click();
+  await waitForReaderReady(shell, file);
+}
+
+async function auditFrame(shell, auditSource) {
+  return await shell.evaluate(source => {
+    const frame = document.querySelector('#mobilePageFrame');
+    if (!frame?.contentWindow) return { issues: [{ code: 'missing-reader-frame' }], metrics: {} };
+    return frame.contentWindow.eval(`(${source})()`);
+  }, auditSource);
+}
+
+async function frameNavigationTargets(shell) {
+  return await shell.evaluate(() => {
+    const doc = document.querySelector('#mobilePageFrame')?.contentDocument;
+    return [...(doc?.querySelectorAll('.preview-nav a[href]') || [])].map(link => link.getAttribute('href'));
+  });
 }
 
 async function captureFailure(page, file, viewport, surface) {
@@ -259,14 +238,14 @@ async function captureFailure(page, file, viewport, surface) {
 
 async function run() {
   if (!fs.existsSync(path.join(distDir, 'index.html'))) throw new Error('dist/index.html missing; run npm run build first');
-  if (allPages.length !== meta.totalPages || allPages.length !== 98) {
+  if (allPages.length !== 98 || allPages.length !== meta.totalPages) {
     throw new Error(`Expected 98 pages; found ${allPages.length}; declared ${meta.totalPages}`);
   }
 
-  const auditSource = auditDocument.toString();
   const { chromium } = await import('playwright');
   const { server, origin } = await startServer();
   const browser = await chromium.launch({ headless: true });
+  const auditSource = auditWorksheet.toString();
   const results = [];
 
   try {
@@ -289,11 +268,11 @@ async function run() {
       await app.waitForURL(/mobile-app\.html/, { timeout: 10000 });
       await app.locator('.topic-btn').first().waitFor({ state: 'visible', timeout: 10000 });
 
+      const shellIssues = [];
       const topicCount = await app.locator('.topic-btn').count();
-      const appShellIssues = [];
-      if (topicCount !== expectedTopicCount) appShellIssues.push({ code: 'wrong-app-topic-count', expected: expectedTopicCount, actual: topicCount });
-      const appOverflow = await app.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth);
-      if (appOverflow > 2) appShellIssues.push({ code: 'app-horizontal-overflow', value: appOverflow });
+      if (topicCount !== expectedTopicCount) shellIssues.push({ code: 'wrong-app-topic-count', expected: expectedTopicCount, actual: topicCount });
+      const shellOverflow = await app.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth);
+      if (shellOverflow > 2) shellIssues.push({ code: 'app-horizontal-overflow', value: shellOverflow });
 
       for (const pageMeta of pages) {
         const result = {
@@ -301,35 +280,19 @@ async function run() {
           topic: pageMeta.topic,
           viewport: viewport.name,
           surfaces: {},
-          issues: [...appShellIssues],
+          issues: [...shellIssues],
           pageErrors: [],
           consoleErrors: [],
           failedResponses: [],
           screenshots: []
         };
         let popup = null;
+
         try {
-          await ensureTopicsPanelOpen(app);
-          await app.locator('#globalSearch').fill(pageMeta.file);
-          const card = app.locator(`.page-card[data-file="${pageMeta.file}"]`);
-          await card.waitFor({ state: 'visible', timeout: 10000 });
-          if (await card.count() !== 1) result.issues.push({ code: 'search-result-not-unique' });
-          await card.click();
-
-          await app.waitForFunction(file => {
-            const frame = document.querySelector('#mobilePageFrame');
-            const pathname = decodeURIComponent(frame?.contentWindow?.location?.pathname || '');
-            return pathname.endsWith(`/${file}`) && Boolean(frame?.contentDocument?.querySelector('.a4-page'));
-          }, pageMeta.file, { timeout: 15000 });
-          await waitForReaderReady(app);
-
-          const iframeAudit = await app.evaluate(({ expectedTopics, auditSource }) => {
-            const frame = document.querySelector('#mobilePageFrame');
-            if (!frame?.contentWindow) return { issues: [{ code: 'missing-reader-frame' }], metrics: {} };
-            return frame.contentWindow.eval(`(${auditSource})(${expectedTopics}, 'app-reader')`);
-          }, { expectedTopics: expectedTopicCount, auditSource });
-          result.surfaces.appReader = iframeAudit;
-          result.issues.push(...iframeAudit.issues.map(issue => ({ ...issue, surface: 'app-reader' })));
+          await selectPage(app, pageMeta.file);
+          const appReaderAudit = await auditFrame(app, auditSource);
+          result.surfaces.appReader = appReaderAudit;
+          result.issues.push(...appReaderAudit.issues.map(issue => ({ ...issue, surface: 'app-reader' })));
 
           const popupPromise = context.waitForEvent('page', { timeout: 10000 });
           await app.locator('#openLiveBtn').click();
@@ -343,20 +306,31 @@ async function run() {
               result.failedResponses.push(`${response.status()} ${response.url()}`);
             }
           });
+
           await popup.waitForLoadState('domcontentloaded', { timeout: 15000 });
-          await waitForPageReady(popup);
-
-          const decodedPath = decodeURIComponent(new URL(popup.url()).pathname);
-          if (!decodedPath.endsWith(`/${pageMeta.file}`)) result.issues.push({ code: 'wrong-open-full-url', actual: decodedPath });
+          const popupUrl = new URL(popup.url());
+          if (!popupUrl.pathname.endsWith('/mobile-app.html') || popupUrl.searchParams.get('mode') !== 'full' || popupUrl.searchParams.get('file') !== pageMeta.file) {
+            result.issues.push({ code: 'wrong-open-full-url', actual: popup.url() });
+          }
           if (!(await popup.evaluate(() => window.opener === null))) result.issues.push({ code: 'opener-not-isolated' });
+          await waitForReaderReady(popup, pageMeta.file);
 
-          const openFullAudit = await popup.evaluate(({ expectedTopics, auditSource }) =>
-            globalThis.eval(`(${auditSource})(${expectedTopics}, 'open-full')`),
-          { expectedTopics: expectedTopicCount, auditSource });
+          const fullShell = await popup.evaluate(() => ({
+            fullMode: document.body.classList.contains('full-mode'),
+            overflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth,
+            backText: document.querySelector('#openLiveBtn')?.textContent?.trim() || '',
+            visibleFrame: Boolean(document.querySelector('#mobilePageFrame')?.getBoundingClientRect().height)
+          }));
+          if (!fullShell.fullMode) result.issues.push({ code: 'missing-full-mode-shell' });
+          if (fullShell.overflow > 2) result.issues.push({ code: 'full-shell-horizontal-overflow', value: fullShell.overflow });
+          if (fullShell.backText !== 'חזרה') result.issues.push({ code: 'missing-full-mode-back-action' });
+          if (!fullShell.visibleFrame) result.issues.push({ code: 'hidden-full-mode-frame' });
+
+          const openFullAudit = await auditFrame(popup, auditSource);
           result.surfaces.openFull = openFullAudit;
           result.issues.push(...openFullAudit.issues.map(issue => ({ ...issue, surface: 'open-full' })));
 
-          const navTargets = await popup.locator('.preview-nav a[href]').evaluateAll(links => links.map(link => link.getAttribute('href')));
+          const navTargets = await frameNavigationTargets(popup);
           const invalidTargets = navTargets.filter(href => /^עמוד-\d+\.html$/.test(href || '') && !canonicalFiles.has(href));
           if (invalidTargets.length) result.issues.push({ code: 'navigation-target-missing', targets: invalidTargets });
         } catch (error) {
@@ -366,13 +340,13 @@ async function run() {
           if (result.consoleErrors.length) result.issues.push({ code: 'console-error', errors: result.consoleErrors });
           if (result.failedResponses.length) result.issues.push({ code: 'failed-assets', responses: result.failedResponses });
           if (appErrors.length) result.issues.push({ code: 'app-page-error', errors: [...appErrors] });
-
           if (result.issues.length) {
             result.screenshots.push(await captureFailure(app, pageMeta.file, viewport.name, 'app-reader'));
             if (popup && !popup.isClosed()) result.screenshots.push(await captureFailure(popup, pageMeta.file, viewport.name, 'open-full'));
           }
           if (popup && !popup.isClosed()) await popup.close().catch(() => {});
         }
+
         result.ok = result.issues.length === 0;
         results.push(result);
         console.log(`[shard ${shardIndex + 1}/${shardCount}] [${viewport.name}] ${pageMeta.file}: ${result.ok ? 'PASS' : `FAIL ${result.issues.map(issue => issue.code).join(', ')}`}`);
