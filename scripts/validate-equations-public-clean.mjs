@@ -18,13 +18,15 @@ for (const file of publicFiles) {
   assert(!s.includes('מקור חי'), `${file} must not expose internal source-system labels.`);
 }
 
+// Page 1 reached the final phase: a live HTML/MathJax worksheet with no
+// legacy SVG image source, so the temporary-overlay-era requirements
+// (equations-edits.css link, object-fit rules) no longer apply.
 const page = fs.readFileSync('עמוד-95.html', 'utf8');
 assert(page.includes('6 + x = 6.5'), 'Page 1 must still contain the requested visible correction.');
-assert(page.includes('styles/topics/equations-edits.css'), 'Page 1 must keep temporary corrections CSS linked.');
-assert(!page.includes('עמוד-95-editable.html'), 'Public page 1 must not link to the bad editable prototype.');
+assert(!page.includes('<img class="pdf-page"'), 'Page 1 must not regress to a closed SVG/PDF image as its worksheet source.');
+assert(!page.includes('עמוד-95-editable.html'), 'Public page 1 must not link to the retired editable prototype.');
 
 const css = fs.readFileSync('styles/pages/עמוד-95.css', 'utf8');
-assert(css.includes('object-fit: contain'), 'Page 1 CSS must keep object-fit: contain to avoid left-side clipping.');
 assert(!css.includes('object-fit: cover'), 'Page 1 CSS must not use object-fit: cover.');
 
 if (failures.length) {

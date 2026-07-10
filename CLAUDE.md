@@ -272,6 +272,9 @@ npm run validate:meta    # מייצר pages.json + מאמת סכימה
 npm run validate:mobile  # בדיקת רנטיים נייד + סנכרון mobile-topics.json
 npm run health:report    # דוח בריאות
 npm run rules:sync       # מייצר rules.md מ-PROJECT_RULES.md
+npm run topics:sync      # מסנכרן mobile-topics.json מ-meta/topics.json
+npm run topics:check     # נכשל אם הראי לא מסונכרן (רץ ב-ci:all וב-deploy)
+npm run doctor           # doctor מלא (6 בדיקות)
 npm run page:new         # יצירת דף חדש (דורש שרת preview רץ)
 
 npm run ci:all           # test + verify + validate:meta + health + build
@@ -329,14 +332,14 @@ mobile-topics.json (סונכרן), inline style ב-preview/index.html (חולץ 
 docs/ (העותק הסטטי המיושן נמחק, נשארו מסמכי MD), pages/ לא הועתק ל-dist (תוקן בשני מסלולי הפריסה),
 app-layer-check מיושן (יושר; doctor ירוק).
 
+**נפתרו נוסף (סבב שיפורים 2026-07-10):** סנכרון mobile-topics הפך אוטומטי (`npm run topics:sync` + גייט `topics:check` ב-ci:all וב-deploy); אב-הטיפוס `עמוד-95-editable` הועבר ל-`STATE/internal-drafts/` לפי ההחלטה המתועדת והוולידטור הסותר הוסר; `validate:equations:public-clean` יושר עם המצב הסופי של עמוד-95 (דף MathJax חי, בלי תמונת SVG).
+
 | בעיה שעדיין פתוחה | קובץ | חומרה |
 |---|---|---|
 | ~33 דפי משוואות (עמוד-62…94) מכילים `<img class="pdf-page">` (raster!) שחורג ~29px מעל גבול ה-A4 — דורש החלטת Yaniv (קבצים מוגנים) | `עמוד-62.html` … `עמוד-94.html` | גבוה |
 | אי-התאמת שם נושא: `עמוד-36.html` אומר "משוואה ריבועית" (יחיד) מול "משוואות ריבועיות" ב-topics.json — מפיל את page:new בשלב resolve; דורש החלטת Yaniv | `עמוד-36.html` / `meta/topics.json` | בינוני |
-| אין סנכרון אוטומטי של `mobile-topics.json` — נדרש `cp` ידני בכל שינוי topics | `mobile-topics.json` | בינוני |
 | 2 בדיקות ב-`tests/preview.rules.test.mjs` נכשלות (topic buttons, fitA4InHost) — מצפות לעיצוב Reader ישן; לא ב-CI | `tests/preview.rules.test.mjs` | בינוני |
 | `preview/sw.js` הוא כמעט no-op (skipWaiting בלבד) לצד `sw.js` האמיתי | `preview/sw.js` | נמוך |
-| `עמוד-95-editable.html` — אב-טיפוס שנפסל אבל ולידטורים סותרים עדיין מפנים אליו | `scripts/validate-page-95-editable.mjs` | נמוך |
 | `tools/` — כלי פרסום ישנים מעידן GitHub-Pages הידני; דורש החלטת Yaniv לפני הסרה | `tools/` | נמוך |
 | ניווט הקודם/הבא קשיח ב-HTML | כל 98 הדפים | נמוך (ידוע, מכוון) |
 

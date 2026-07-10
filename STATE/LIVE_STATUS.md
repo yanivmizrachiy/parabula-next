@@ -93,6 +93,10 @@ Static deployment:
 
 ## Recent completed changes
 
+- 2026-07-10 (improvement round 2): added `scripts/sync-mobile-topics.mjs` with `npm run topics:sync` / `topics:check`; the check now gates both `ci:all` and the deploy workflow, so the mirror can never silently diverge again. Added `npm run doctor` alias.
+- 2026-07-10 (improvement round 2): moved the repudiated prototype `עמוד-95-editable.html` (+ its CSS) to `STATE/internal-drafts/` per the documented public-cleanup decision (it was being published to the live site by the copy wildcard); retired the contradictory `validate-page-95-editable.mjs`; aligned `validate:equations:public-clean` with page 95's final live-MathJax state.
+- 2026-07-10 (improvement round 2): added the binding Hebrew requirements summary (section 0) to `PROJECT_MEMORY.md` — the smart memory layer for all future sessions.
+
 - 2026-07-10 repo cleanup: removed dead Next.js remnants (`next.config.js`, `next-env.d.ts`, `tsconfig.json`, `app/`, `components/`, `lib/`, `server/`), the stale `docs/` site mirror (documentation `.md` files kept), dead Vite scaffold (`main.js`, `style.css`), orphaned `redirects.json`, placeholder workflow `pages.yml`, and a dangling gitlink `_stray_parabula_next_*`.
 - 2026-07-10: `mobile-topics.json` re-synced from `meta/topics.json` (now 8 topics / 98 pages; was frozen at 6 / 95).
 - 2026-07-10: deploy fix — `pages/` (equations SVG assets referenced by `עמוד-42+`) is now copied into `dist/` by both `scripts/copy-static-site.mjs` and `deploy-pages.yml`; previously those images were broken on the live site.

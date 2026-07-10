@@ -22,10 +22,6 @@ const checks = [
     command: ['node', 'scripts/validate-equations-easy-edits.mjs']
   },
   {
-    name: 'editable MathJax page 1 prototype',
-    command: ['node', 'scripts/validate-page-95-editable.mjs']
-  },
-  {
     name: 'access layer',
     command: ['node', 'scripts/validate-access-layer.mjs']
   }

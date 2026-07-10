@@ -6,6 +6,42 @@ This file is the permanent working memory for the Parabula Next repository. It r
 
 ---
 
+## 0. הדרישות של יניב — תמצית מחייבת (עברית)
+
+זהו קובץ הזיכרון החכם של הפרויקט. כל סשן AI חייב לקרוא את הסעיף הזה קודם. אם יש סתירה — `PROJECT_RULES.md` גובר.
+
+### מהות המוצר
+1. **המוצר הוא דפי עבודה במתמטיקה להדפסה ב-A4** — עברית RTL, איכות ספר לימוד. לא אתר, לא אפליקציה. התצוגות (נייח/נייד/catalog) הן שכבות תמיכה בלבד.
+2. A4 מדויק: **210mm × 297mm**, `overflow: hidden` במסך, `visible` בהדפסה. לעולם לא `overflow: auto`.
+3. המערכת חייבת להתרחב ל**מאות ואלפי דפים** — הכול topic-first: קודם נושא, ואז דפי הנושא בלבד.
+4. יעד: ספר/חוברת דיגיטלית נוחה — דפדוף, חיפוש (נושא/כיתה/מיומנות), הדפסה קלה של דף או חוברת.
+
+### כללי עיצוב דפים (בכל דף חדש)
+5. **אפס CSS מוטמע** — אין `<style>` ואין `style="..."` בשום מקום. כל עיצוב דף ב-`styles/pages/עמוד-N.css` בלבד.
+6. MathJax: `\(...\)` inline, `$$...$$` display. **אסור `$...$`**. שורשים כפולים כ-`\(x_1\), \(x_2\)` עם סוגריים נכונים לזוגות.
+7. גרפיקה **וקטורית בלבד** (SVG inline) — לא צילומי מסך, לא raster. כל stroke עם `vector-effect: non-scaling-stroke`. מערכת צירים: 440px × 440px, grid 22px.
+8. RTL בכל מקום; LTR רק דרך CSS (`direction: ltr; unicode-bidi: isolate`). מספרים שליליים בסדר מתמטי נכון ("מינוס 4", לא "4 מינוס").
+9. `page-number` = מספר בתוך הנושא (לא מספר הקובץ). עיצוב ה-badge אחיד בכל הפרויקט — לא לדרוס אותו ב-CSS של דף.
+10. תוכן הדף חייב לנצל את כל שטח ה-A4 — בלי אזורים ריקים גדולים; בלוקי תרגילים מופרדים ברווח לבן; פתרונות בתחתית פרוסים על כל רוחב השורה.
+
+### קבצים מוגנים — לא לגעת בלי אישור מפורש של יניב
+11. `עמוד-N.html` (תוכן חינוכי), `styles/a4-base.css`, סיווגי נושאים, `sources/legacy/*`, `sources/backups/*`, `STATE/backup_*`, `meta/backup/*`.
+12. אסור: `git add .`, force push, מחיקת legacy/גיבויים בלי ראיות ואישור, demo content, כפתורים מזויפים, placeholder UI, שכתוב של מה שעובד.
+
+### תהליך עבודה
+13. **לימוד → כללים → תוכנית → ביצוע קטן → בדיקה → תיעוד.** אחרי כל שינוי: `npm test` + `npm run verify` (מלא: `npm run ci:all`, מקסימום: `npm run tech:max`).
+14. כל שינוי ב-`meta/topics.json` מחייב `npm run topics:sync` (נאכף אוטומטית ב-CI דרך `topics:check`).
+15. עדכון מסמכי זיכרון: כל שינוי מהותי מתועד ב-`PROJECT_MEMORY.md` + `STATE/LIVE_STATUS.md`. CLAUDE.md ו-PROJECT_RULES.md חייבים להישאר מסונכרנים עם המציאות.
+16. **GitHub (origin/main) הוא מקור האמת** — התיקייה המקומית `C:\Users\yaniv\parabula-next` מסונכרנת אליו.
+
+### סגנון עבודה מול יניב
+17. תקשורת בעברית. יניב מצפה לביצוע עצמאי מקצה לקצה ("אל תעצור עד לסיום") — לא הסברים בלי ביצוע.
+18. יניב מביא חומרי לימוד (PDF/תמונות/טקסט); ה-AI ממיר אותם לדפי HTML מאורגנים לפי הכללים למעלה ומוסיף למערכת (דף + CSS + עדכון topics.json + סנכרון + בדיקות).
+19. דוחות התקדמות בעבודה רב-שלבית כוללים `נותרו X% לסיום.`
+20. ב-2026-07-10 יניב העניק הרשאות עבודה מלאות לסבב שיפור-וארגון, כולל פרסום ל-GitHub, בתנאי מוחלט: לא לקלקל שום דבר עובד.
+
+---
+
 ## 1. User intent and working style
 
 - Yaniv wants a long-term, professional system for Hebrew RTL math worksheets.
@@ -272,6 +308,14 @@ When adding or editing a worksheet:
 - Fixed `scripts/new-page.mjs` and `scripts/preview-check.mjs`: ported from missing puppeteer to the installed Playwright, and replaced the nonexistent `/api/toc` endpoint with reading `meta/topics.json` directly. Both now load and run.
 - Aligned `scripts/app-layer-check.mjs` with current reality (app.html → topics.html redirect; phone.html → mobile-app.html redirect). `node scripts/doctor.mjs` is fully green again.
 - Extracted the inline `<style>` block from `preview/index.html` into `preview/reader.css` (no-inline-CSS rule).
+
+2026-07-10 improvement round 2 (expert pass with full permissions from Yaniv):
+
+- Added `scripts/sync-mobile-topics.mjs` + `npm run topics:sync` / `topics:check`; the check gates `ci:all` and the deploy workflow — the mirror can never silently diverge again.
+- Added `npm run doctor` alias for `node scripts/doctor.mjs`.
+- Moved the repudiated prototype `עמוד-95-editable.html` + `styles/pages/עמוד-95-editable.css` into `STATE/internal-drafts/` (the documented decision in `STATE/EQUATIONS_PUBLIC_CLEANUP_STATUS.md` said this should have happened; the file was even shipping to the live site via the copy wildcard). Retired the contradictory `scripts/validate-page-95-editable.mjs` and its npm script/suite entry.
+- Updated `validate:equations:public-clean` to assert page 95's achieved final state (live HTML/MathJax worksheet, no `<img class="pdf-page">` source) instead of the obsolete temporary-overlay era requirements. It passes again.
+- Added section 0 to this file: the binding Hebrew summary of all of Yaniv's requirements.
 
 Content issues surfaced on 2026-07-10 that require Yaniv's decision (protected files, NOT touched):
 

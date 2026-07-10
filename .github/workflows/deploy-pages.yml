@@ -29,6 +29,8 @@ jobs:
         run: npm run verify
       - name: Validate meta schema
         run: npm run validate:meta
+      - name: Check mobile-topics mirror sync
+        run: npm run topics:check
       - name: Build Vite
         run: npm run build
       - name: Copy all assets to dist
