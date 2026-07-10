@@ -46,6 +46,7 @@ jobs:
 
   mobile-browser-gate:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     container:
       image: mcr.microsoft.com/playwright:v1.61.1-noble
     steps:
@@ -71,17 +72,32 @@ jobs:
           fi
           exit 0
 
-      - name: Upload Android validation report
+      - name: Test Open Full on all 98 pages
+        id: open_full_gate
+        shell: bash
+        run: |
+          set +e
+          npm run validate:mobile:open-full-all
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          if [ -f meta/audit/open-full-all-pages.json ]; then
+            jq '{status, expectedPages, testedPages, passedPages, failedPages, failureSummary}' meta/audit/open-full-all-pages.json
+          fi
+          exit 0
+
+      - name: Upload Android validation reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-browser-report
-          path: meta/audit/mobile-browser-validation.json
+          name: mobile-browser-reports
+          path: |
+            meta/audit/mobile-browser-validation.json
+            meta/audit/open-full-all-pages.json
           if-no-files-found: error
           retention-days: 1
 
-      - name: Enforce Android gate result
-        if: steps.mobile_gate.outputs.exit_code != '0'
+      - name: Enforce Android gates
+        if: steps.mobile_gate.outputs.exit_code != '0' || steps.open_full_gate.outputs.exit_code != '0'
         run: exit 1
 
   deploy:
