@@ -21,7 +21,7 @@ if (!exists(canonical)) {
     'scripts/single-rules-source-check.mjs',
     'חפיפות',
     'scripts/validate-mobile-all-pages.mjs',
-    'validate:mobile:deep',
+    'validate:mobile:all-pages',
     'רוחב קשיח',
     '360×800',
     '412×915',

@@ -171,7 +171,7 @@ _עודכן: 2026-07-10_
 ### 4.2 מטא-דאטה
 
 - `meta/topics.json` — מקור האמת היחיד למבנה הנושאים והדפים.
-- `meta/topics.json` הוא מקור המטא-דאטה היחיד גם לנייח וגם לנייד. `mobile-topics.json` או כל mirror אחר אסורים.
+- `meta/topics.json` הוא מקור המטא-דאטה היחיד גם לנייח וגם לנייד; mirror נוסף אסור.
 - `meta/pages.json` — קובץ מיוצר; לא עורכים ידנית ולא מתחייבים לשמור בקומיט.
 - `schemas/` — סכמות מטא-דאטה.
 
@@ -347,8 +347,8 @@ _עודכן: 2026-07-10_
 
 `meta/topics.json` הוא מקור האמת היחיד למבנה התוכן. לאחר שינויו:
 
-1. מריצים `npm run topics:sync`.
-2. מריצים `npm run topics:check`.
+1. מריצים ``.
+2. מריצים ``.
 3. מריצים בדיקות מלאות.
 4. מאמתים שמספרי הנושאים והדפים זהים בנייח ובנייד.
 
@@ -405,10 +405,11 @@ _עודכן: 2026-07-10_
 }
 ```
 
-6. מריצים `npm run topics:sync`.
-7. מריצים `npm test`, `npm run verify`, `npm run validate:meta` ולפי היקף `npm run tech:max`.
-8. בודקים בפועל נייח, נייד והדפסה.
-9. לא מסמנים השלמה אם הדף אינו מופיע ונגיש גם בנייד.
+6. מריצים `npm run validate:meta` ו-`npm run validate:schema`; אין mirror נפרד למטא-דאטה.
+7. מריצים `npm test`, `npm run verify`, `npm run validate:access` ו-`npm run validate:mobile`.
+8. לכל דף חדש או שינוי פריסה מריצים גם `npm run validate:mobile:browser` ו-`npm run validate:mobile:all-pages`, או את שמונת ה-shards המקבילים ב-CI.
+9. בודקים בפועל נייח, קורא נייד, `פתח מלא` והדפסה.
+10. לא מסמנים השלמה אם הדף אינו מופיע, נגיש וללא חפיפות בכל משטחי הנייד.
 
 אסור ליצור תוכן מתמטי מהשערה כאשר חומר המקור אינו ברור.
 
@@ -523,8 +524,6 @@ npm run verify
 npm run validate:access
 npm run validate:meta
 npm run validate:mobile
-npm run topics:sync
-npm run topics:check
 npm run health:report
 npm run validate:schema
 npm run validate:html
@@ -541,7 +540,9 @@ npm run page:new
 - `npm run verify` — מבנה בסיסי.
 - `npm run validate:access` — שכבת גישה.
 - `npm run validate:meta` — registry וסכמת metadata.
-- `npm run topics:check` — מונע divergence בין `meta/topics.json` לראי הישן.
+- `npm run validate:mobile:browser` — בדיקת Android production בסיסית על build אמיתי.
+- `npm run validate:mobile:all-pages` — סריקה גאומטרית מלאה של כל הדפים, בקורא וב-`פתח מלא`, בשלושה viewports.
+- `` — מונע divergence בין `meta/topics.json` לראי הישן.
 - `npm run doctor` — בדיקות בריאות כולל מקור כללים יחיד.
 - `npm run ci:all` — בדיקות ליבה + build.
 - `npm run tech:max` — CI מלא + audit חזותי A4 + PDF samples.
@@ -563,6 +564,8 @@ npm run page:new
 - חיפוש נייד כולל את כל הספר.
 - הדפסה/PDF אמיתיים עובדים בהתאם להיקף.
 - RTL ו-A4 נשמרים.
+- אין חפיפות פנימיות, clipping, ילדים מחוץ להורה, גלילה אופקית או נושא מוסתר באף viewport נתמך.
+- כל שמונת ה-shards של `scripts/validate-mobile-all-pages.mjs` עברו עבור כל הדפים הקנוניים.
 - הבדיקות הרלוונטיות עברו.
 - תוצאות שלא נבדקו בפועל אינן מוצגות כמאומתות.
 
@@ -574,7 +577,6 @@ npm run page:new
 2. ~~כ-33 דפי משוואות raster~~ — נפתר ב-2026-07-10 עם מיזוג PR #28: כל 52 דפי `משוואות` הם עכשיו HTML+MathJax חי (תמלול נאמן מ-`sources/equations/משוואות-52.pdf`).
 3. ~~אי-התאמת שם נושא בעמוד-36~~ — נפתר ב-2026-07-10 ברמת הכלים: כל 6 דפי הנושא מציגים בכוונה "משוואה ריבועית" (יחיד) על הדף המודפס, והשם הקנוני ב-topics.json נשאר "משוואות ריבועיות". `new-page.mjs` פותר עכשיו נושא לפי שדה ה-topic הקנוני של הרשומה ולא לפי תווית התצוגה — ההבדל נשאר קוסמטי בלבד ואינו שובר שום כלי.
 4. ~~כפילות print-center.js~~ — הוסר ב-2026-07-10 אחרי מיפוי מלא: אף דף חי לא טען אותו (`preview/print.js` הוא מסלול ההדפסה היחיד).
-5. `preview/sw.js` הוא legacy כמעט ריק לצד `sw.js` הקנוני.
 6. ניווט קודם/הבא בתוך 98 דפי HTML קשיח כרגע; שינוי רחב דורש תכנון ובדיקות.
 7. יש לבדוק את חוויית הנייד במכשיר אמיתי לאחר תיקון parity.
 10. דפי `משפט פיתגורס` 13–30 הם דפי תמונת-SVG של מקור PDF (ניצול A4 ~53% — נאמן למקור). השדרוג האמיתי הוא המרה ל-HTML+MathJax חי כפי שנעשה למשוואות (PR #28) — פרויקט תוכן שדורש את חומר המקור ואישור יניב.
