@@ -18,8 +18,8 @@ import { spawnSync } from 'node:child_process';
  *   - validate-equations-pilot-page-1.mjs     (SVG pilot shell for page 1)
  *   - validate-equations-easy-edits.mjs       (overlay on the PDF image)
  *   - validate-page-95-editable.mjs           (separate editable prototype)
- * The script files are kept in scripts/ for history; they are not part of the
- * canonical gate.
+ * The retired script files were deleted on 2026-07-10 (recoverable from git
+ * history); they are not part of the canonical gate.
  *
  * Canonical gate for the live design:
  *   1. master-map consistency (audit-equations-master-map.mjs)
