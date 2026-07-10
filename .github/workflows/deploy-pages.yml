@@ -59,6 +59,17 @@ jobs:
       - name: Build production artifact
         run: npm run build
 
+      - name: Capture equations page 16 visual comparison
+        run: node scripts/tmp-audit-equations-page-16.mjs
+
+      - name: Upload equations page 16 visual comparison
+        uses: actions/upload-artifact@v4
+        with:
+          name: equations-page-16-visual-audit
+          path: tmp-page16-audit
+          if-no-files-found: error
+          retention-days: 1
+
       - name: Run Android production browser gate
         id: mobile_gate
         shell: bash
