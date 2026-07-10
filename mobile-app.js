@@ -1,4 +1,4 @@
-const VERSION = 'parity-20260710001';
+const VERSION = 'mobile-clean-20260710002';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -34,7 +34,7 @@ function esc(v){
     .replace(/&/g,'&amp;')
     .replace(/</g,'&lt;')
     .replace(/>/g,'&gt;')
-    .replace(/\"/g,'&quot;')
+    .replace(/"/g,'&quot;')
     .replace(/'/g,'&#39;');
 }
 function pageUrl(page){
@@ -44,7 +44,7 @@ function pageUrl(page){
 }
 function topicPagesOf(name){
   const topic = (db?.topics || []).find(t => t.name === name);
-  return (topic?.pages || []).slice(); // canonical topics.json order (CLAUDE.md §9)
+  return (topic?.pages || []).slice();
 }
 function setTopicsPanelOpen(open){
   els.topicsPanel.classList.toggle('is-collapsed', !open);
@@ -98,7 +98,7 @@ function injectMobileReaderStyles(doc){
   const style = doc.createElement('style');
   style.id = 'mobile-reader-cleanup-style';
   style.textContent = `
-    .preview-nav{display:none !important;}
+    .preview-nav{display:none !important;zoom:1 !important;}
     html,body{
       margin:0 !important;
       padding:0 !important;
@@ -115,10 +115,17 @@ function injectMobileReaderStyles(doc){
       align-items:flex-start !important;
     }
     .a4-page{
+      width:210mm !important;
+      height:297mm !important;
+      max-width:none !important;
+      min-width:210mm !important;
       margin:0 !important;
       box-shadow:none !important;
-      transform-origin: top center !important;
+      zoom:1 !important;
+      transform:none;
+      transform-origin:top center !important;
       page-break-after:auto !important;
+      flex-shrink:0 !important;
     }
     @media print{
       html,body{
@@ -129,6 +136,10 @@ function injectMobileReaderStyles(doc){
         background:#fff !important;
       }
       .a4-page{
+        width:210mm !important;
+        height:297mm !important;
+        min-width:210mm !important;
+        zoom:1 !important;
         transform:none !important;
         margin:0 !important;
       }
@@ -153,8 +164,8 @@ function fitCurrentA4Page(){
 
     const hostWidth = Math.max(0, frame.clientWidth - 8);
     const hostHeight = Math.max(0, frame.clientHeight - 8);
-    const rawWidth = page.scrollWidth || page.offsetWidth || page.getBoundingClientRect().width;
-    const rawHeight = page.scrollHeight || page.offsetHeight || page.getBoundingClientRect().height;
+    const rawWidth = page.offsetWidth || page.scrollWidth || page.getBoundingClientRect().width;
+    const rawHeight = page.offsetHeight || page.scrollHeight || page.getBoundingClientRect().height;
     if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
 
     const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
@@ -255,7 +266,7 @@ function renderPages(opts = {}){
   } else {
     const topic = (db?.topics || []).find(t => t.name === activeTopic) || (db?.topics || [])[0];
     activeTopic = topic?.name || '';
-    visiblePages = (topic?.pages || []).slice(); // canonical topics.json order
+    visiblePages = (topic?.pages || []).slice();
     els.searchMeta.hidden = true;
     els.searchMeta.textContent = '';
   }
@@ -314,7 +325,7 @@ async function boot(){
   const r = await fetch(`${TOPICS_URL}?v=${VERSION}`, {cache:'no-store'});
   if(!r.ok) throw new Error('topics fetch failed: ' + r.status);
   db = await r.json();
-  flatPages = (db.topics || []).flatMap(t => t.pages || []); // canonical global reading order
+  flatPages = (db.topics || []).flatMap(t => t.pages || []);
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
@@ -348,7 +359,7 @@ boot().catch(err => {
 if ('serviceWorker' in navigator && !window.__parabulaSwRegistered) {
   window.__parabulaSwRegistered = true;
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=20260416234242').then(reg => {
+    navigator.serviceWorker.register(`./sw.js?v=${VERSION}`).then(reg => {
       if (reg.update) reg.update();
     }).catch(console.error);
   });
