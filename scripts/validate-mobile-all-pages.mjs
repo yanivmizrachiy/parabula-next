@@ -245,8 +245,9 @@ async function captureFailure(page, file, viewport, surface) {
 
 async function run() {
   if (!fs.existsSync(path.join(distDir, 'index.html'))) throw new Error('dist/index.html missing; run npm run build first');
-  if (allPages.length !== 98 || allPages.length !== meta.totalPages) {
-    throw new Error(`Expected 98 pages; found ${allPages.length}; declared ${meta.totalPages}`);
+  const rootPageCount = fs.readdirSync(root).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
+  if (allPages.length !== rootPageCount || allPages.length !== meta.totalPages) {
+    throw new Error(`Expected ${rootPageCount} pages (root files); found ${allPages.length} in topics; declared ${meta.totalPages}`);
   }
 
   const { chromium } = await import('playwright');

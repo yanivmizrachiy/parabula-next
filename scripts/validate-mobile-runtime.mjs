@@ -34,8 +34,9 @@ const expectedTopicCount = meta?.topics?.length || 0;
 
 if (meta) {
   const flat = (meta.topics || []).flatMap(topic => topic.pages || []);
-  add('canonical-topic-count', meta.topics.length === 8, `topics=${meta.topics.length}`);
-  add('canonical-page-count', flat.length === 98 && flat.length === meta.totalPages, `pages=${flat.length}; declared=${meta.totalPages}`);
+  const rootPageCount = fs.readdirSync(root).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
+  add('canonical-topic-count', meta.topics.length >= 8, `topics=${meta.topics.length}`);
+  add('canonical-page-count', flat.length === rootPageCount && flat.length === meta.totalPages, `pages=${flat.length}; rootFiles=${rootPageCount}; declared=${meta.totalPages}`);
 }
 
 const html = exists('mobile-app.html') ? read('mobile-app.html') : '';
