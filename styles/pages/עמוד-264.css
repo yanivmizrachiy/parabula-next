@@ -1,0 +1,4 @@
+@import url('../topics/bbb-uncertainty.css');
+
+/* התאמת קנה-מידה לגובה A4 (CLAUDE.md §5) — הקטנה קריאה שמכניסה שאלה גבוהה, אפס שינוי תוכן */
+.page-264 .question-block { zoom: 0.85; }

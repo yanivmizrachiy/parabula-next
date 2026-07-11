@@ -374,31 +374,47 @@ async function measureInBrowser({ itemsHtml, stretchMode, zoom }) {
     }
   }
   if (document.fonts?.ready) await document.fonts.ready;
-  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); // תת-פיקסל יציב
-  const rect = main.getBoundingClientRect();
-  const style = getComputedStyle(main);
-  const usableTop = rect.top + (parseFloat(style.paddingTop) || 0);
-  const usableBottom = rect.bottom - (parseFloat(style.paddingBottom) || 0);
-  let lowest = usableTop;
-  for (const el of main.querySelectorAll('*')) {
-    const cs = getComputedStyle(el);
-    if (cs.display === 'none' || cs.visibility === 'hidden') continue;
-    const r = el.getBoundingClientRect();
-    if (r.height === 0 && r.width === 0) continue;
-    const isLeaf = el.children.length === 0;
-    const paints = cs.borderBottomWidth !== '0px' ||
-      (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent');
-    if (!isLeaf && !paints) continue;
-    if (r.bottom > lowest) lowest = r.bottom;
-  }
-  return {
-    overflowY: main.scrollHeight > main.clientHeight,
-    overflowX: main.scrollWidth > main.clientWidth,
-    contentBottom: lowest,
-    usableTop,
-    usableBottom,
-    utilization: Math.round(((lowest - usableTop) / (usableBottom - usableTop)) * 100)
+
+  const computeMetrics = () => {
+    const rect = main.getBoundingClientRect();
+    const style = getComputedStyle(main);
+    const usableTop = rect.top + (parseFloat(style.paddingTop) || 0);
+    const usableBottom = rect.bottom - (parseFloat(style.paddingBottom) || 0);
+    let lowest = usableTop;
+    for (const el of main.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') continue;
+      const r = el.getBoundingClientRect();
+      if (r.height === 0 && r.width === 0) continue;
+      const isLeaf = el.children.length === 0;
+      const paints = cs.borderBottomWidth !== '0px' ||
+        (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent');
+      if (!isLeaf && !paints) continue;
+      if (r.bottom > lowest) lowest = r.bottom;
+    }
+    return {
+      overflowY: main.scrollHeight > main.clientHeight,
+      overflowX: main.scrollWidth > main.clientWidth,
+      contentBottom: lowest,
+      usableTop,
+      usableBottom,
+      utilization: Math.round(((lowest - usableTop) / (usableBottom - usableTop)) * 100)
+    };
   };
+
+  // מדידה דטרמיניסטית: מודדים שוב ושוב (עם reflow כפוי) עד ש-contentBottom מתייצב.
+  // מונע את המרוץ שבו טבלה/גרף מרונדרים קצר במדידה אחת וגבוה באחרת. לוקחים את המקסימום.
+  let metrics = null, maxBottom = -Infinity, stable = 0;
+  for (let i = 0; i < 8; i += 1) {
+    void main.offsetHeight; // reflow כפוי
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    const cur = computeMetrics();
+    if (!metrics || cur.contentBottom > maxBottom) { metrics = cur; }
+    if (Math.abs(cur.contentBottom - maxBottom) <= 1) { stable += 1; if (stable >= 2) break; }
+    else stable = 0;
+    maxBottom = Math.max(maxBottom, cur.contentBottom);
+  }
+  return { ...metrics, contentBottom: maxBottom, utilization: Math.round(((maxBottom - metrics.usableTop) / (metrics.usableBottom - metrics.usableTop)) * 100) };
 }
 
 // פיצול שאלה גבוהה מ-A4 בגבול תת-סעיף (<li> ב-ol.parts) על פני עמודים רצופים —
@@ -440,30 +456,41 @@ function splitQbodyBlocks(qHtml) {
   const before = qHtml.slice(0, innerStart);
   const bodyInner = qHtml.slice(innerStart, i);
   const after = qHtml.slice(i); // כולל </div>(qbody) </div>(q)
-  // בלוקים ברמה העליונה של qbody = אלמנטים ברמת-בלוק בלבד. inline (span/b/...) וטקסט
-  // נשארים כ-lead עד הבלוק הראשון (כדי לא לשבור סדר מספרים בתוך span).
+  // נקודות התחלה של בלוקים ברמה העליונה — קפיצה מעל כל בלוק (חיפוש הסגירה התואמת שלו
+  // לפי שם התג), עמיד לתוכן פנימי לא-מאוזן (SVG וכו') שמבלבל ספירת עומק גלובלית.
   const BLOCK = /^(div|ol|ul|table|figure|section|p|h[1-6]|blockquote|pre)$/i;
-  const blocks = [];
-  let d = 0, start = -1, blockCursor = 0;
-  const re = /<\/?([a-zA-Z][\w-]*)\b[^>]*?(\/?)>/g; let mm;
-  while ((mm = re.exec(bodyInner))) {
-    const closing = mm[0][1] === '/';
-    const selfClose = mm[2] === '/' || /^(br|img|hr|input)$/i.test(mm[1]);
-    if (d === 0) {
-      if (!closing && BLOCK.test(mm[1]) && !selfClose) { start = mm.index; d = 1; }
-      // inline או self-close ברמה 0 — מתעלמים (יישאר כטקסט lead/בין-בלוקים)
-    } else {
-      if (!closing && !selfClose) d += 1;
-      else if (closing) { d -= 1; if (d === 0) { blocks.push(bodyInner.slice(start, re.lastIndex)); blockCursor = re.lastIndex; start = -1; } }
+  const VOID = /^(br|img|hr|input|meta|link|circle|line|rect|path|polygon|polyline|use|stop|ellipse)$/i;
+  const starts = [];
+  const opener = /<([a-zA-Z][\w-]*)\b[^>]*?(\/?)>/g;
+  let pos = 0, mm;
+  while (true) {
+    opener.lastIndex = pos;
+    mm = opener.exec(bodyInner);
+    if (!mm) break;
+    const tag = mm[1];
+    const selfClose = mm[2] === '/' || VOID.test(tag);
+    if (!BLOCK.test(tag) || selfClose) { pos = opener.lastIndex; continue; }
+    starts.push(mm.index);
+    // קפיצה מעל הבלוק: חיפוש הסגירה התואמת של אותו שם תג (ספירה מקומית)
+    const both = new RegExp(`<(/?)${tag}\\b[^>]*?(/?)>`, 'g');
+    both.lastIndex = opener.lastIndex;
+    let depth = 1, cm;
+    pos = bodyInner.length;
+    while ((cm = both.exec(bodyInner))) {
+      if (cm[1] === '/') { depth -= 1; if (depth === 0) { pos = both.lastIndex; break; } }
+      else if (cm[2] !== '/') depth += 1;
     }
   }
-  if (blocks.length < 2) return null;
-  const lead = bodyInner.slice(0, bodyInner.indexOf(blocks[0])).trim();
-  // כל מה שאחרי הבלוק האחרון (טקסט/inline נגרר) — נשמר בסוף הבלוק האחרון לשמירת נאמנות
-  const tailIdx = blockCursor;
-  const tail = bodyInner.slice(tailIdx).trim();
-  if (tail) blocks[blocks.length - 1] += tail;
-  return { before, after, lead, blocks };
+  if (starts.length < 2) return null;
+  // יחידות רציפות: השרשור שלהן = bodyInner בדיוק (נאמנות מובטחת). כל יחידה = בלוק +
+  // הטקסט/inline שנגרר אחריו עד הבלוק הבא; היחידה הראשונה כוללת את טקסט הפתיח.
+  const units = [];
+  for (let k = 0; k < starts.length; k += 1) {
+    const from = k === 0 ? 0 : starts[k];
+    const to = k + 1 < starts.length ? starts[k + 1] : bodyInner.length;
+    units.push(bodyInner.slice(from, to));
+  }
+  return { before, after, units };
 }
 
 async function splitTallQuestion(qHtml, measureHtml, fits) {
@@ -475,45 +502,62 @@ async function splitTallQuestion(qHtml, measureHtml, fits) {
     const cont = (sub) => `<div class="q q-cont"><div class="qbody"><ol class="parts">${sub.join('')}</ol></div></div>`;
     const pieces = await packPieces(lis, piece1, cont, measureHtml, fits);
     if (fits(await measureHtml([pieces[0]]))) return pieces;
-    // הפתיח גבוה מדף גם עם סעיף אחד -> פתיח בעמוד משלו, ואז הסעיפים (שימוש ב-before המוכח)
+    // הפתיח גבוה מדף גם עם סעיף אחד -> מפצלים את הפתיח רקורסיבית (נאמנות מובטחת), ואז הסעיפים
     const introPiece = `${before}</div></div>`; // סגירת qbody + q
+    const introPieces = fits(await measureHtml([introPiece]))
+      ? [introPiece]
+      : await splitTallQuestion(introPiece, measureHtml, fits);
     const partsPieces = await packPieces(lis, cont, cont, measureHtml, fits);
-    return [introPiece, ...partsPieces];
+    return [...introPieces, ...partsPieces];
   }
-  // עדיפות 2 (כשאין ol.parts): פיצול בגבול בלוק ברמת qbody
+  // עדיפות 2 (כשאין ol.parts): פיצול בגבול בלוק ברמת qbody (יחידות רציפות — נאמנות מובטחת)
   const qb = splitQbodyBlocks(qHtml);
   if (qb) {
-    const { before, after, lead, blocks } = qb;
-    const piece1 = (sub) => `${before}${lead}${sub.join('')}${after}`;
+    const { before, after, units } = qb;
+    const piece1 = (sub) => `${before}${sub.join('')}${after}`;
     const cont = (sub) => `<div class="q q-cont"><div class="qbody">${sub.join('')}</div></div>`;
-    return await packPieces(blocks, piece1, cont, measureHtml, fits);
+    return await packPieces(units, piece1, cont, measureHtml, fits);
   }
   return [qHtml]; // לא ניתן לפצל
 }
 
 // פירוק בלוק-מיכל בודד (lines/ol/ul/table) לפריטי-בת לפיצול משנה כשהבלוק לבדו גבוה מדף
-function containerChildren(blockHtml) {
-  const m = blockHtml.match(/^\s*<(div|ol|ul|table)\b([^>]*)>([\s\S]*)<\/\1>\s*$/);
-  if (!m) return null;
-  const [, tag, attrs, inner] = m;
-  const isLines = tag === 'div' && /class="[^"]*\blines\b/.test(attrs);
-  let childTag;
-  if (tag === 'ol' || tag === 'ul') childTag = 'li';
-  else if (tag === 'table') childTag = 'tr';
-  else if (isLines) childTag = 'div';
-  else return null; // div כללי שאינו lines — לא מפצלים כאן
+function extractByTag(inner, childTag) {
   const children = [];
-  const re = new RegExp(`<${childTag}\\b[^>]*>`, 'g');
   let depth = 0, start = -1, mm;
   const both = new RegExp(`<\\/?${childTag}\\b[^>]*>`, 'g');
   while ((mm = both.exec(inner))) {
     if (mm[0][1] !== '/') { if (depth === 0) start = mm.index; depth += 1; }
     else { depth -= 1; if (depth === 0) children.push(inner.slice(start, mm.index + mm[0].length)); }
   }
-  if (children.length < 2) return null;
+  return children;
+}
+
+// מפצל בלוק-מיכל בודד לשורות-בת. מחזיר wrap(sub, first) שעוטף מחדש.
+function containerChildren(blockHtml) {
+  const m = blockHtml.match(/^\s*<(div|ol|ul|table)\b([^>]*)>([\s\S]*)<\/\1>\s*$/);
+  if (!m) return null;
+  const [, tag, attrs, inner] = m;
   const openTag = blockHtml.slice(0, blockHtml.indexOf('>') + 1);
-  const closeTag = `</${tag}>`;
-  return { openTag, closeTag, children };
+
+  if (tag === 'table') {
+    // שורות tbody; thead נשאר בחלק הראשון בלבד (אין שכפול טקסט -> נאמנות מדויקת)
+    const thead = (inner.match(/<thead>[\s\S]*?<\/thead>/) || [''])[0];
+    const tb = inner.match(/<tbody\b[^>]*>([\s\S]*)<\/tbody>/);
+    const rows = tb ? extractByTag(tb[1], 'tr') : extractByTag(inner, 'tr');
+    if (rows.length < 2) return null;
+    return { children: rows, wrap: (sub, first) => `${openTag}${first ? thead : ''}<tbody>${sub.join('')}</tbody></table>` };
+  }
+
+  const isLines = tag === 'div' && /class="[^"]*\blines\b/.test(attrs);
+  const isTwocol = tag === 'div' && /class="[^"]*\btwocol\b/.test(attrs);
+  let childTag;
+  if (tag === 'ol' || tag === 'ul') childTag = 'li';
+  else if (isLines || isTwocol) childTag = 'div'; // twocol -> עמודות נערמות; lines -> שורות
+  else return null;
+  const children = extractByTag(inner, childTag);
+  if (children.length < 2) return null;
+  return { children, wrap: (sub) => `${openTag}${sub.join('')}</${tag}>` };
 }
 
 async function packPieces(units, piece1, cont, measureHtml, fits) {
@@ -530,8 +574,12 @@ async function packPieces(units, piece1, cont, measureHtml, fits) {
       // יחידה בודדת גבוהה מדף -> פיצול משנה של המיכל הפנימי (lines/ol/table)
       const cc = containerChildren(remaining[0]);
       if (cc) {
-        const wrap = (sub) => `${cc.openTag}${sub.join('')}${cc.closeTag}`;
-        const sub = await packPieces(cc.children, (s) => (first ? piece1([wrap(s)]) : cont([wrap(s)])), (s) => cont([wrap(s)]), measureHtml, fits);
+        const isFirst = first;
+        const sub = await packPieces(
+          cc.children,
+          (s) => (isFirst ? piece1([cc.wrap(s, true)]) : cont([cc.wrap(s, false)])),
+          (s) => cont([cc.wrap(s, false)]),
+          measureHtml, fits);
         pieces.push(...sub);
         remaining = remaining.slice(1);
         first = false;

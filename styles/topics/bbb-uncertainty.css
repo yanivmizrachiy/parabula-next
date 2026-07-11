@@ -74,7 +74,7 @@
 /* איורים וגרפים וקטוריים (CLAUDE.md §8) */
 .bbb-uncertainty-page .figure { margin: 6px auto 2px; text-align: center; break-inside: avoid; page-break-inside: avoid; }
 .bbb-uncertainty-page .cap { font-size: 12.5px; color: #475569; margin-top: 2px; font-weight: 500 !important; }
-.bbb-uncertainty-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 235mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
+.bbb-uncertainty-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 205mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
 .bbb-uncertainty-page svg.chart line,
 .bbb-uncertainty-page svg.chart path,
 .bbb-uncertainty-page svg.chart rect,
@@ -101,6 +101,13 @@
 /* המשך שאלה שפוצלה על פני עמודים (אפס שינוי תוכן) */
 .bbb-uncertainty-page .q.q-cont { border-top: none; }
 .bbb-uncertainty-page .q.q-cont > .qbody { margin-top: 0; }
+
+/* iconrow — אייקוני-תרשימים לדוגמה: קטנים וזה-לצד-זה (תיקון פריסה, נאמן למקור) */
+.bbb-uncertainty-page .iconrow { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: flex-start; margin: 6px 0; }
+.bbb-uncertainty-page .iconrow svg.chart { width: 46mm; height: 38mm; max-width: 30%; }
+.bbb-uncertainty-page table.tbl svg.chart, .bbb-uncertainty-page table.wtbl svg.chart { max-height: 42mm; }
+
+.bbb-uncertainty-page .dropbox { min-height: 150px; border: 1.5px dashed var(--grid-line, #94a3b8); border-radius: 8px; background: #fff; margin: 4px auto; width: 92%; }
 
 /* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§6: אין inline style; הצהרות מדויקות) */
 .bbb-uncertainty-page .bs-1 { min-width:76px; }
