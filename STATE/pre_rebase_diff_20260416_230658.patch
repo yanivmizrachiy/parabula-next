@@ -1,8 +1,0 @@
-diff --git a/docs/styles/_probe.css b/docs/styles/_probe.css
-deleted file mode 100644
-index 524aebc..0000000
---- a/docs/styles/_probe.css
-+++ /dev/null
-@@ -1 +0,0 @@
--body{background:#fff;}
-\ No newline at end of file

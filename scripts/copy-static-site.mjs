@@ -33,17 +33,16 @@ if (!fs.existsSync(dist)) {
   throw new Error('dist directory is missing. Run vite build before copy-static-site.');
 }
 
-const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor'];
+const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor', 'assets'];
 for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
 }
 
-const pythagorasSource = 'sources/legacy/parabula-old/assets/pythagoras/vector';
-const pythagorasTarget = 'assets/pythagoras/vector';
-if (!copyDirIfExists(pythagorasSource, pythagorasTarget)) {
-  throw new Error(`Missing required Pythagoras source assets: ${pythagorasSource}`);
+// Pythagoras worksheet pages (משפט פיתגורס) reference assets/pythagoras/vector/*.svg.
+// These live in the active assets/ tree (copied above); verify they made it to dist.
+if (!fs.existsSync(path.join(dist, 'assets/pythagoras/vector'))) {
+  throw new Error('Missing required Pythagoras assets: assets/pythagoras/vector');
 }
-log(`promoted Pythagoras vector assets to ${pythagorasTarget}/`);
 
 const rootFiles = fs.readdirSync(root);
 for (const file of rootFiles) {
