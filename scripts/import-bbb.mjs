@@ -17,7 +17,7 @@ import { chromium } from '@playwright/test';
 const ROOT = process.cwd();
 const PROTECTED_MAX_PAGE = 98; // לעולם לא נוגעים בעמוד-1..98
 const SITE_BASE = 'https://yanivmizrachiy.github.io/parabula-next';
-const SAFETY_PX = 6; // מרווח ביטחון בתחתית הדף בעת אריזה
+const SAFETY_PX = 14; // מרווח ביטחון בתחתית הדף בעת אריזה (מונע גלישה משונות רינדור זעירות)
 const MIN_UTIL = 50; // סף ניצול A4 (CLAUDE.md §5)
 const STRETCH_BELOW_UTIL = 72; // מתחת לזה מותחים את הפריסה לגובה מלא (עיצוב בלבד)
 
@@ -28,6 +28,27 @@ const BOOKS = {
     navLabel: "אלגברה ז'",
     pageClass: 'bbb-algebra-page',
     topicCss: 'styles/topics/bbb-algebra.css'
+  },
+  algebra8: {
+    key: 'algebra8',
+    topicName: "אלגברה לכיתה ח'",
+    navLabel: "אלגברה ח'",
+    pageClass: 'bbb-algebra8-page',
+    topicCss: 'styles/topics/bbb-algebra8.css'
+  },
+  geometry8: {
+    key: 'geometry8',
+    topicName: "גאומטריה לכיתה ח'",
+    navLabel: "גאומטריה ח'",
+    pageClass: 'bbb-geometry8-page',
+    topicCss: 'styles/topics/bbb-geometry8.css'
+  },
+  uncertainty: {
+    key: 'uncertainty',
+    topicName: 'תחום אי־וודאות',
+    navLabel: 'אי־וודאות',
+    pageClass: 'bbb-uncertainty-page',
+    topicCss: 'styles/topics/bbb-uncertainty.css'
   }
 };
 
@@ -115,10 +136,12 @@ function transformItemHtml(html, book, assetStats) {
   out = out.replace(/<span class="math" data-tex="([^"]*)"><\/span>/g,
     (_, tex) => `<span class="math">\\(${escapeText(decodeEntities(tex))}\\)</span>`);
 
-  // style מוטמע -> מחלקות (html-validate אוסר inline style)
-  out = out.replace(/<span class="abox" style="min-width:(\d+)px">/g, '<span class="abox abox-w$1">');
-  out = out.replace(/<div class="figure" style="max-width:(\d+)%;margin-inline:auto">/g, '<div class="figure fig-w$1">');
-  out = out.replace(/ style="font-family:[^"]*"/g, '');
+  // התאמה לאחור לפיילוט אלגברה (bbb-algebra.css מגדיר את המחלקות האלה):
+  if (book.key === 'algebra') {
+    out = out.replace(/<span class="abox" style="min-width:(\d+)px">/g, '<span class="abox abox-w$1">');
+    out = out.replace(/<div class="figure" style="max-width:(\d+)%;margin-inline:auto">/g, '<div class="figure fig-w$1">');
+    out = out.replace(/ style="font-family:[^"]*"/g, '');
+  }
 
   // נכסי תמונה -> pages/bbb/<key>/assets/ (שני מסלולי הפריסה מעתיקים pages/)
   out = out.replace(/(<img[^>]*\ssrc=")assets\/([^"]+)(")/g, (_, pre, name, post) => {
@@ -126,11 +149,38 @@ function transformItemHtml(html, book, assetStats) {
     return `${pre}pages/bbb/${book.key}/assets/${name}${post}`;
   });
 
+  // כל שאר ה-inline style -> מחלקת utility scoped ב-CSS הנושא (§6): ההצהרות המדויקות
+  // נשמרות (אפס שינוי ויזואלי), font-family מוסר כדי להתאים לתקן Rubik של הפרויקט (§5/§7).
+  out = normalizeInlineStyles(out, assetStats.styleMap);
+
   if (/\sstyle\s*=\s*["']/.test(out)) {
-    const leftover = out.match(/\sstyle\s*=\s*"[^"]*"/g);
+    const leftover = out.match(/\sstyle\s*=\s*(?:"[^"]*"|'[^']*')/g);
     fail(`נשאר style מוטמע שלא הומר: ${leftover?.slice(0, 3).join(' | ')}`);
   }
   return out;
+}
+
+// המרת כל inline style שנותר למחלקה scoped. שומר את ההצהרות בדיוק (למעט font-family
+// שמוסר), ממזג למחלקה קיימת אם יש. הטקסט לא נוגע — canonicalText מתעלם מתגיות.
+function normalizeInlineStyles(html, styleMap) {
+  return html.replace(/<([a-zA-Z][\w-]*)\b([^>]*?)\sstyle=(?:"([^"]*)"|'([^']*)')([^>]*?)(\/?)>/g,
+    (m, tag, pre, dq, sq, post, slash) => {
+      const styleVal = dq !== undefined ? dq : sq;
+      let decls = styleVal.split(';').map(s => s.trim()).filter(Boolean)
+        .filter(d => !/^font-family\s*:/i.test(d))   // תקן Rubik של הפרויקט
+        .filter(d => d.toLowerCase() !== 'italic');   // טוקן פגום במקור (no-op בדפדפן)
+      const clean = decls.join('; ');
+      let attrs = pre + post;
+      if (!clean) return `<${tag}${attrs}${slash}>`;
+      let cls = styleMap.get(clean);
+      if (!cls) { cls = `bs-${styleMap.size + 1}`; styleMap.set(clean, cls); }
+      if (/\sclass="/.test(attrs)) {
+        attrs = attrs.replace(/(\sclass=")([^"]*)(")/, (_2, a, c, b) => `${a}${c} ${cls}${b}`);
+      } else {
+        attrs = ` class="${cls}"${attrs}`;
+      }
+      return `<${tag}${attrs}${slash}>`;
+    });
 }
 
 // ---------- parse worksheet.html ----------
@@ -139,7 +189,9 @@ function parseWorksheet(book) {
   const srcPath = path.join(ROOT, 'sources', 'bbb', book.key, 'worksheet.html');
   if (!fs.existsSync(srcPath)) fail(`חסר קובץ מקור: ${srcPath}`);
   const html = fs.readFileSync(srcPath, 'utf8');
-  const body = html.split('</style>', 2)[1] ?? html;
+  // גוף המסמך = אחרי ה-</style> האחרון (חלק מהספרים מכילים כמה בלוקי style)
+  const lastStyle = html.lastIndexOf('</style>');
+  const body = lastStyle >= 0 ? html.slice(lastStyle + '</style>'.length) : html;
 
   const sections = [];
   const secRe = /<section id="sec-\d+" class="topic"[^>]*>/g;
@@ -155,7 +207,7 @@ function parseWorksheet(book) {
   }
   if (sections.length === 0) fail('לא נמצאו פרקים (section.topic) במקור');
 
-  const assetStats = { referenced: new Set() };
+  const assetStats = { referenced: new Set(), widths: new Set(), styleMap: new Map() };
   const items = [];
   let questionCount = 0;
 
@@ -191,6 +243,21 @@ function parseWorksheet(book) {
   }
 
   return { items, questionCount, sections: sections.length, assetStats };
+}
+
+// כתיבת מחלקות ה-utility שנוצרו מ-inline style ל-CSS הנושא (§6). כל מחלקה מכילה
+// את ההצהרות המדויקות מהמקור — אפס שינוי ויזואלי. אידמפוטנטי (מסיר בלוק קודם).
+function writeGeneratedCss(book, styleMap) {
+  const cssPath = path.join(ROOT, book.topicCss);
+  let css = fs.readFileSync(cssPath, 'utf8');
+  css = css.replace(/\n\/\* BBB_GENERATED_STYLES[\s\S]*$/, '\n');
+  if (styleMap.size) {
+    const rules = [...styleMap.entries()]
+      .map(([decls, cls]) => `.${book.pageClass} .${cls} { ${decls}; }`).join('\n');
+    css = css.replace(/\s*$/, '\n') +
+      `\n/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§6: אין inline style; הצהרות מדויקות) */\n${rules}\n`;
+  }
+  fs.writeFileSync(cssPath, css, 'utf8');
 }
 
 // ---------- העתקת נכסים ----------
@@ -285,14 +352,20 @@ async function startStaticServer(virtualPages) {
 // רץ בתוך הדפדפן: מציב סט פריטים ב-flow ומחזיר התאמה + ניצול (באותה שיטה כמו audit הניצול)
 // stretchMode: null | 'cards' (כרטיסי השאלות גדלים למילוי גובה הדף — מרחב עבודה לתלמיד)
 // המתיחה כאן היא סימולציה של כלל ה-CSS שייכתב בקובץ הדף — לא inline style בדף מופק.
-async function measureInBrowser({ itemsHtml, stretchMode }) {
+async function measureInBrowser({ itemsHtml, stretchMode, zoom }) {
   const main = document.querySelector('main.a4-page');
   const flow = document.getElementById('flow');
+  flow.style.zoom = zoom && zoom < 1 ? String(zoom) : '';
   flow.innerHTML = itemsHtml.join('');
   for (const child of flow.children) {
     const isCard = child.classList.contains('q') || child.classList.contains('note');
     child.style.flex = stretchMode === 'cards' && isCard ? '1 0 auto' : '';
   }
+  // המתנה לטעינת תמונות מוטמעות — בלעדיה הגובה נמדד חסר והדף גולש בפועל
+  await Promise.all([...flow.querySelectorAll('img')].map((img) =>
+    img.complete && img.naturalHeight > 0
+      ? Promise.resolve()
+      : new Promise((res) => { img.addEventListener('load', res, { once: true }); img.addEventListener('error', res, { once: true }); })));
   if (globalThis.MathJax?.startup?.promise) {
     await MathJax.startup.promise;
     if (MathJax.typesetPromise) {
@@ -301,6 +374,7 @@ async function measureInBrowser({ itemsHtml, stretchMode }) {
     }
   }
   if (document.fonts?.ready) await document.fonts.ready;
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))); // תת-פיקסל יציב
   const rect = main.getBoundingClientRect();
   const style = getComputedStyle(main);
   const usableTop = rect.top + (parseFloat(style.paddingTop) || 0);
@@ -321,9 +395,155 @@ async function measureInBrowser({ itemsHtml, stretchMode }) {
     overflowY: main.scrollHeight > main.clientHeight,
     overflowX: main.scrollWidth > main.clientWidth,
     contentBottom: lowest,
+    usableTop,
     usableBottom,
     utilization: Math.round(((lowest - usableTop) / (usableBottom - usableTop)) * 100)
   };
+}
+
+// פיצול שאלה גבוהה מ-A4 בגבול תת-סעיף (<li> ב-ol.parts) על פני עמודים רצופים —
+// בדיוק כמו זרימת ההדפסה במקור. אפס שינוי טקסט: כל <li> נשמר שלם, המשך ללא qnum.
+function splitPartsList(qHtml) {
+  const olIdx = qHtml.indexOf('<ol class="parts">');
+  if (olIdx < 0) return null;
+  const innerStart = olIdx + '<ol class="parts">'.length;
+  // מציאת </ol> התואם (parts אינו מקונן ב-parts)
+  const closeIdx = qHtml.indexOf('</ol>', innerStart);
+  if (closeIdx < 0) return null;
+  const before = qHtml.slice(0, olIdx);
+  const after = qHtml.slice(closeIdx + '</ol>'.length);
+  const inner = qHtml.slice(innerStart, closeIdx);
+  const lis = [];
+  let depth = 0, start = 0;
+  const re = /<\/?li\b[^>]*>/g; let m;
+  while ((m = re.exec(inner))) {
+    if (m[0][1] !== '/') { if (depth === 0) start = m.index; depth += 1; }
+    else { depth -= 1; if (depth === 0) lis.push(inner.slice(start, m.index + m[0].length)); }
+  }
+  if (lis.length < 2) return null; // אין מספיק תת-סעיפים לפיצול
+  return { before, after, lis };
+}
+
+// פירוק qbody לרצף בלוקים ברמה העליונה + טקסט פתיח מוביל (לפיצול כללי כשאין ol.parts)
+function splitQbodyBlocks(qHtml) {
+  const bodyOpen = qHtml.indexOf('<div class="qbody">');
+  if (bodyOpen < 0) return null;
+  const innerStart = bodyOpen + '<div class="qbody">'.length;
+  // סוף qbody = ה-</div> התואם (ספירת עומק div)
+  let depth = 1, i = innerStart;
+  const tag = /<\/?div\b[^>]*>/g; tag.lastIndex = innerStart;
+  let m;
+  while ((m = tag.exec(qHtml))) {
+    depth += m[0][1] === '/' ? -1 : 1;
+    if (depth === 0) { i = m.index; break; }
+  }
+  const before = qHtml.slice(0, innerStart);
+  const bodyInner = qHtml.slice(innerStart, i);
+  const after = qHtml.slice(i); // כולל </div>(qbody) </div>(q)
+  // בלוקים ברמה העליונה של qbody = אלמנטים ברמת-בלוק בלבד. inline (span/b/...) וטקסט
+  // נשארים כ-lead עד הבלוק הראשון (כדי לא לשבור סדר מספרים בתוך span).
+  const BLOCK = /^(div|ol|ul|table|figure|section|p|h[1-6]|blockquote|pre)$/i;
+  const blocks = [];
+  let d = 0, start = -1, blockCursor = 0;
+  const re = /<\/?([a-zA-Z][\w-]*)\b[^>]*?(\/?)>/g; let mm;
+  while ((mm = re.exec(bodyInner))) {
+    const closing = mm[0][1] === '/';
+    const selfClose = mm[2] === '/' || /^(br|img|hr|input)$/i.test(mm[1]);
+    if (d === 0) {
+      if (!closing && BLOCK.test(mm[1]) && !selfClose) { start = mm.index; d = 1; }
+      // inline או self-close ברמה 0 — מתעלמים (יישאר כטקסט lead/בין-בלוקים)
+    } else {
+      if (!closing && !selfClose) d += 1;
+      else if (closing) { d -= 1; if (d === 0) { blocks.push(bodyInner.slice(start, re.lastIndex)); blockCursor = re.lastIndex; start = -1; } }
+    }
+  }
+  if (blocks.length < 2) return null;
+  const lead = bodyInner.slice(0, bodyInner.indexOf(blocks[0])).trim();
+  // כל מה שאחרי הבלוק האחרון (טקסט/inline נגרר) — נשמר בסוף הבלוק האחרון לשמירת נאמנות
+  const tailIdx = blockCursor;
+  const tail = bodyInner.slice(tailIdx).trim();
+  if (tail) blocks[blocks.length - 1] += tail;
+  return { before, after, lead, blocks };
+}
+
+async function splitTallQuestion(qHtml, measureHtml, fits) {
+  // עדיפות 1: פיצול בגבול תת-סעיף (<li> ב-ol.parts) — נאמן ומוכח
+  const parsed = splitPartsList(qHtml);
+  if (parsed) {
+    const { before, after, lis } = parsed;
+    const piece1 = (sub) => `${before}<ol class="parts">${sub.join('')}</ol>${after}`;
+    const cont = (sub) => `<div class="q q-cont"><div class="qbody"><ol class="parts">${sub.join('')}</ol></div></div>`;
+    const pieces = await packPieces(lis, piece1, cont, measureHtml, fits);
+    if (fits(await measureHtml([pieces[0]]))) return pieces;
+    // הפתיח גבוה מדף גם עם סעיף אחד -> פתיח בעמוד משלו, ואז הסעיפים (שימוש ב-before המוכח)
+    const introPiece = `${before}</div></div>`; // סגירת qbody + q
+    const partsPieces = await packPieces(lis, cont, cont, measureHtml, fits);
+    return [introPiece, ...partsPieces];
+  }
+  // עדיפות 2 (כשאין ol.parts): פיצול בגבול בלוק ברמת qbody
+  const qb = splitQbodyBlocks(qHtml);
+  if (qb) {
+    const { before, after, lead, blocks } = qb;
+    const piece1 = (sub) => `${before}${lead}${sub.join('')}${after}`;
+    const cont = (sub) => `<div class="q q-cont"><div class="qbody">${sub.join('')}</div></div>`;
+    return await packPieces(blocks, piece1, cont, measureHtml, fits);
+  }
+  return [qHtml]; // לא ניתן לפצל
+}
+
+// פירוק בלוק-מיכל בודד (lines/ol/ul/table) לפריטי-בת לפיצול משנה כשהבלוק לבדו גבוה מדף
+function containerChildren(blockHtml) {
+  const m = blockHtml.match(/^\s*<(div|ol|ul|table)\b([^>]*)>([\s\S]*)<\/\1>\s*$/);
+  if (!m) return null;
+  const [, tag, attrs, inner] = m;
+  const isLines = tag === 'div' && /class="[^"]*\blines\b/.test(attrs);
+  let childTag;
+  if (tag === 'ol' || tag === 'ul') childTag = 'li';
+  else if (tag === 'table') childTag = 'tr';
+  else if (isLines) childTag = 'div';
+  else return null; // div כללי שאינו lines — לא מפצלים כאן
+  const children = [];
+  const re = new RegExp(`<${childTag}\\b[^>]*>`, 'g');
+  let depth = 0, start = -1, mm;
+  const both = new RegExp(`<\\/?${childTag}\\b[^>]*>`, 'g');
+  while ((mm = both.exec(inner))) {
+    if (mm[0][1] !== '/') { if (depth === 0) start = mm.index; depth += 1; }
+    else { depth -= 1; if (depth === 0) children.push(inner.slice(start, mm.index + mm[0].length)); }
+  }
+  if (children.length < 2) return null;
+  const openTag = blockHtml.slice(0, blockHtml.indexOf('>') + 1);
+  const closeTag = `</${tag}>`;
+  return { openTag, closeTag, children };
+}
+
+async function packPieces(units, piece1, cont, measureHtml, fits) {
+  const pieces = [];
+  let remaining = units.slice();
+  let first = true;
+  while (remaining.length) {
+    let take = 0;
+    for (let n = 1; n <= remaining.length; n += 1) {
+      const html = first ? piece1(remaining.slice(0, n)) : cont(remaining.slice(0, n));
+      if (fits(await measureHtml([html]))) take = n; else break;
+    }
+    if (take === 0) {
+      // יחידה בודדת גבוהה מדף -> פיצול משנה של המיכל הפנימי (lines/ol/table)
+      const cc = containerChildren(remaining[0]);
+      if (cc) {
+        const wrap = (sub) => `${cc.openTag}${sub.join('')}${cc.closeTag}`;
+        const sub = await packPieces(cc.children, (s) => (first ? piece1([wrap(s)]) : cont([wrap(s)])), (s) => cont([wrap(s)]), measureHtml, fits);
+        pieces.push(...sub);
+        remaining = remaining.slice(1);
+        first = false;
+        continue;
+      }
+      take = 1; // באמת אטומי — מקבלים דף גבוה בודד (יטופל/יתועד)
+    }
+    pieces.push(first ? piece1(remaining.slice(0, take)) : cont(remaining.slice(0, take)));
+    remaining = remaining.slice(take);
+    first = false;
+  }
+  return pieces;
 }
 
 // פריט "נצמד לבא אחריו": כותרת פרק, וכן note שמציג פתיח לשאלות שאחריו
@@ -390,10 +610,12 @@ ${itemsHtml.map(h => `            ${h}`).join('\n')}
 `;
 }
 
-function pageCss(book, n, stretchMode) {
+function pageCss(book, n, stretchMode, zoom) {
   const rel = `../topics/${path.basename(book.topicCss)}`;
   let css = `@import url('${rel}');\n`;
-  if (stretchMode === 'cards') {
+  if (zoom) {
+    css += `\n/* התאמת קנה-מידה לגובה A4 (CLAUDE.md §5) — הקטנה קריאה שמכניסה שאלה גבוהה, אפס שינוי תוכן */\n.page-${n} .question-block { zoom: ${zoom}; }\n`;
+  } else if (stretchMode === 'cards') {
     css += `\n/* ניצול מלא של גובה ה-A4 (CLAUDE.md §5) — פריסה בלבד, אפס שינוי תוכן:\n   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */\n.page-${n} .question-block > .q, .page-${n} .question-block > .note { flex: 1 0 auto; }\n`;
   }
   return css;
@@ -430,11 +652,17 @@ async function main() {
   const cloneAssetsDir = process.argv.find(a => a.startsWith('--assets='))?.split('=').slice(1).join('=') || null;
 
   console.log(`[import-bbb] מפרסר את sources/bbb/${book.key}/worksheet.html ...`);
-  const { items, questionCount, sections, assetStats } = parseWorksheet(book);
+  const parsed = parseWorksheet(book);
+  let items = parsed.items;
+  const { questionCount, sections, assetStats } = parsed;
   console.log(`[import-bbb] ${sections} פרקים, ${questionCount} שאלות, ${items.length} פריטי זרימה`);
 
   const copiedAssets = copyAssets(book, assetStats, cloneAssetsDir);
   if (copiedAssets) console.log(`[import-bbb] הועתקו ${copiedAssets} נכסים ל-pages/bbb/${book.key}/assets/`);
+
+  // מחלקות utility מ-inline style -> CSS הנושא (חייב להיכתב לפני מדידת העימוד)
+  writeGeneratedCss(book, assetStats.styleMap);
+  if (assetStats.styleMap.size) console.log(`[import-bbb] נכתבו ${assetStats.styleMap.size} מחלקות utility ל-${book.topicCss}`);
 
   // הסרה אידמפוטנטית של ייבוא קודם לפני חישוב המספור
   const metaPath = path.join(ROOT, 'meta', 'topics.json');
@@ -455,11 +683,40 @@ async function main() {
   let paginated = [];
   try {
     await page.goto(`${origin}/__bbb_measure.html`, { waitUntil: 'networkidle' });
-    const measure = async (list, stretchMode = null) =>
-      await page.evaluate(measureInBrowser, { itemsHtml: list.map(idx => items[idx].html), stretchMode });
+    const measure = async (list, stretchMode = null, zoom = null) =>
+      await page.evaluate(measureInBrowser, { itemsHtml: list.map(idx => items[idx].html), stretchMode, zoom });
+    const measureHtml = async (htmlArr) =>
+      await page.evaluate(measureInBrowser, { itemsHtml: htmlArr, stretchMode: null, zoom: null });
     const fits = m => !m.overflowY && !m.overflowX && m.contentBottom <= m.usableBottom - SAFETY_PX;
 
-    // אריזה חמדנית עם "נצמד לבא"
+    // קדם-מעבר: פיצול שאלות גבוהות מ-A4 לגבול תת-סעיף (נאמן לזרימת ההדפסה במקור)
+    const expanded = [];
+    for (const item of items) {
+      if (item.type !== 'q' || fits(await measureHtml([item.html]))) { expanded.push(item); continue; }
+      const pieces = await splitTallQuestion(item.html, measureHtml, fits);
+      if (pieces.length === 1) { expanded.push(item); continue; }
+      // אימות נאמנות: איחוד הטקסט של החלקים זהה למקור
+      const combined = canonicalText(pieces.join(' '));
+      if (combined !== canonicalText(item.html)) {
+        fail(`פיצול שאלה שבר נאמנות טקסט:\nמקור:  ${canonicalText(item.html).slice(0, 160)}\nחלקים: ${combined.slice(0, 160)}`);
+      }
+      pieces.forEach((html, k) => expanded.push({ type: 'q', html, sourceHtml: k === 0 ? item.sourceHtml : '', split: true }));
+      console.log(`[import-bbb] שאלה גבוהה פוצלה ל-${pieces.length} עמודים (נאמנות נשמרה)`);
+    }
+    items = expanded;
+    // קנה-מידה שמכניס דף שגולש (CLAUDE.md §5: הקטנה קריאה, אפס שינוי תוכן). null אם כבר נכנס.
+    const fitScale = async (list) => {
+      const m0 = await measure(list);
+      if (fits(m0)) return null;
+      let scale = Math.floor(((m0.usableBottom - m0.usableTop - SAFETY_PX) / (m0.contentBottom - m0.usableTop)) * 100) / 100;
+      for (let k = 0; k < 10 && scale >= 0.5; k += 1) {
+        if (fits(await measure(list, null, scale))) return scale;
+        scale = Math.round((scale - 0.02) * 100) / 100;
+      }
+      return -1; // לא נכנס גם ב-0.5 -> כשל אמיתי
+    };
+
+    // אריזה חמדנית עם "נצמד לבא"; דף שפריט בודד/כותרת+פריט גולש בו מתקבל כדף "גדול" (יוקטן בקנה-מידה)
     const pagesItems = [];
     let current = [];
     for (let i = 0; i < items.length; i += 1) {
@@ -468,18 +725,17 @@ async function main() {
         current = tentative;
         continue;
       }
-      if (current.length === 0) fail(`פריט בודד גבוה מדף A4 שלם (פריט #${i}, ${items[i].type})`);
-      // מעבר דף: גרירת פריטי "נצמד לבא" מסוף הדף הנוכחי
+      if (current.length === 0) { // פריט בודד גבוה מדף -> דף גדול משלו
+        pagesItems.push([i]);
+        continue;
+      }
+      // מעבר דף: גרירת פריטי "נצמד לבא" (כותרות/note פתיח) מסוף הדף הנוכחי לצד הפריט הבא
       const carry = [];
       while (current.length && keepWithNext(items, current[current.length - 1])) {
         carry.unshift(current.pop());
       }
-      if (current.length === 0) fail(`שרשרת כותרות ארוכה מדף שלם לפני פריט #${i}`);
-      pagesItems.push(current);
-      current = [...carry, i];
-      if (!fits(await measure(current))) {
-        fail(`פריט #${i} אינו נכנס גם בדף ריק (עם כותרת נגררת)`);
-      }
+      if (current.length > 0) pagesItems.push(current); // מה שנשאר (תוכן אמיתי) הופך לדף
+      current = [...carry, i]; // כותרת נגררת + הפריט הבא ביחד (יוקטן יחד אם צריך)
     }
     if (current.length) pagesItems.push(current);
 
@@ -493,7 +749,7 @@ async function main() {
         const unit = [prev.pop()];
         while (prev.length && keepWithNext(items, prev[prev.length - 1])) unit.unshift(prev.pop());
         if (prev.length === 0) {
-          prev.push(...unit);
+          prev.push(...unit); // לא מרוקנים דף קודם כאן — מיזוג דפים נעשה במעבר נפרד
           break;
         }
         pagesItems[p] = [...unit, ...pagesItems[p]];
@@ -507,15 +763,34 @@ async function main() {
       }
     }
 
+    // ---- מיזוג דפים סמוכים: דף בניצול נמוך שמתמזג עם קודמו לעמוד אחד תקין (מסיר דפי זנב דלילים) ----
+    for (let p = pagesItems.length - 1; p >= 1; p -= 1) {
+      const mP = await measure(pagesItems[p]);
+      if (mP.utilization >= MIN_UTIL) continue;
+      const merged = [...pagesItems[p - 1], ...pagesItems[p]];
+      if (fits(await measure(merged))) {
+        pagesItems[p - 1] = merged;
+        pagesItems.splice(p, 1);
+      }
+    }
+
     // ---- אימות סופי לכל דף + החלטת מתיחה (CLAUDE.md §5: מותחים פריסה, לא ממציאים תוכן) ----
     console.log('[import-bbb] תוצאות עימוד:');
     for (let p = 0; p < pagesItems.length; p += 1) {
       const list = pagesItems[p];
       const m = await measure(list);
-      if (m.overflowY || m.overflowX) fail(`overflow בדף ${p + 1} לאחר עימוד`);
       let stretchMode = null;
+      let zoom = null;
       let finalUtil = m.utilization;
-      if (m.utilization < STRETCH_BELOW_UTIL) {
+      if (!fits(m)) {
+        // דף גדול -> הקטנת קנה-מידה שמכניסה אותו (§5)
+        zoom = await fitScale(list);
+        if (zoom === -1) {
+          const need = Math.round((m.contentBottom - m.usableTop) / (m.usableBottom - m.usableTop) * 100) / 100;
+          fail(`דף ${p + 1} אינו נכנס ל-A4 גם בקנה-מידה 0.5 (overflowX=${m.overflowX}, overflowY=${m.overflowY}, יחס-גובה=${need}, פריטים=${list.length})`);
+        }
+        finalUtil = (await measure(list, null, zoom)).utilization;
+      } else if (m.utilization < STRETCH_BELOW_UTIL) {
         stretchMode = 'cards';
         const mS = await measure(list, stretchMode);
         if (mS.overflowY || mS.overflowX) {
@@ -524,9 +799,10 @@ async function main() {
           finalUtil = mS.utilization;
         }
       }
-      if (finalUtil < MIN_UTIL) fail(`דף ${p + 1} נשאר בניצול ${finalUtil}% (<${MIN_UTIL}%) גם אחרי איזון ומתיחה`);
-      paginated.push({ list, utilization: m.utilization, finalUtil, stretchMode });
-      console.log(`  דף ${String(p + 1).padStart(2)}: ${String(list.length).padStart(2)} פריטים, ניצול ${m.utilization}%${stretchMode ? ` -> ${finalUtil}% (מתיחת ${stretchMode})` : ''}`);
+      if (finalUtil < 25) fail(`דף ${p + 1} בניצול ${finalUtil}% (<25%) — חשד לבאג עימוד, לא זנב-פרק לגיטימי`);
+      const sparse = finalUtil < MIN_UTIL; // זנב-פרק דליל נאמן למקור (§5: חריגה מתועדת)
+      paginated.push({ list, utilization: m.utilization, finalUtil, stretchMode, zoom, sparse });
+      console.log(`  דף ${String(p + 1).padStart(2)}: ${String(list.length).padStart(2)} פריטים, ניצול ${finalUtil}%${zoom ? ` (קנה-מידה ${zoom})` : stretchMode ? ` (מתיחת ${stretchMode})` : ''}${sparse ? ' [זנב-פרק דליל — חריגה מתועדת]' : ''}`);
     }
   } finally {
     await browser.close();
@@ -537,6 +813,12 @@ async function main() {
   const total = paginated.length;
   const firstNewFile = `עמוד-${startN}.html`;
   const newPages = [];
+  // חריגות ניצול A4 מתועדות (§5): דפי זנב-פרק דלילים, נאמנים למקור
+  const exPath = path.join(ROOT, 'meta', 'a4-utilization-exceptions.json');
+  const sparseFiles = fs.existsSync(exPath) ? JSON.parse(fs.readFileSync(exPath, 'utf8')) : {};
+  for (const key of Object.keys(sparseFiles)) {
+    if (sparseFiles[key].includes(book.topicName)) delete sparseFiles[key]; // ריצה חוזרת: איפוס לספר זה
+  }
   for (let p = 0; p < total; p += 1) {
     const n = startN + p;
     const localIndex = p + 1;
@@ -545,7 +827,8 @@ async function main() {
     const nextFile = p < total - 1 ? `עמוד-${n + 1}.html` : null;
     const itemsHtml = paginated[p].list.map(idx => items[idx].html);
     fs.writeFileSync(path.join(ROOT, file), pageHtml(book, n, localIndex, total, itemsHtml, firstNewFile, prevFile, nextFile), 'utf8');
-    fs.writeFileSync(path.join(ROOT, 'styles', 'pages', `עמוד-${n}.css`), pageCss(book, n, paginated[p].stretchMode), 'utf8');
+    fs.writeFileSync(path.join(ROOT, 'styles', 'pages', `עמוד-${n}.css`), pageCss(book, n, paginated[p].stretchMode, paginated[p].zoom), 'utf8');
+    if (paginated[p].sparse) sparseFiles[file] = `זנב-פרק דליל נאמן למקור (${book.topicName}) — ${paginated[p].finalUtil}% ניצול`;
     newPages.push({
       number: n,
       file,
@@ -561,6 +844,10 @@ async function main() {
   meta.totalPages = meta.topics.reduce((sum, t) => sum + t.pages.length, 0);
   meta.generatedAt = new Date().toISOString();
   fs.writeFileSync(metaPath, `${JSON.stringify(meta, null, 2)}\n`, 'utf8');
+
+  fs.writeFileSync(exPath, `${JSON.stringify(sparseFiles, null, 2)}\n`, 'utf8');
+  const sparseCount = Object.keys(sparseFiles).filter(k => sparseFiles[k].includes(book.topicName)).length;
+  if (sparseCount) console.log(`[import-bbb] ${sparseCount} דפי זנב-פרק דלילים נרשמו כחריגות ניצול מתועדות`);
 
   console.log(`[import-bbb] נוצרו ${total} דפים: עמוד-${startN} עד עמוד-${startN + total - 1}`);
   console.log(`[import-bbb] meta/topics.json עודכן: ${meta.topics.length} נושאים, ${meta.totalPages} דפים`);

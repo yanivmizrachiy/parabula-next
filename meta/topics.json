@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-10T15:54:25.781Z",
+  "generatedAt": "2026-07-11T20:05:17.417Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 124,
+  "totalPages": 230,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -1170,6 +1170,972 @@
           "topic": "אלגברה לכיתה ז'",
           "previewPath": "/עמוד-124.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-124.html"
+        }
+      ]
+    },
+    {
+      "name": "אלגברה לכיתה ח'",
+      "count": 71,
+      "pages": [
+        {
+          "number": 125,
+          "file": "עמוד-125.html",
+          "title": "עמוד 1 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-125.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-125.html"
+        },
+        {
+          "number": 126,
+          "file": "עמוד-126.html",
+          "title": "עמוד 2 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-126.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-126.html"
+        },
+        {
+          "number": 127,
+          "file": "עמוד-127.html",
+          "title": "עמוד 3 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-127.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-127.html"
+        },
+        {
+          "number": 128,
+          "file": "עמוד-128.html",
+          "title": "עמוד 4 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-128.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-128.html"
+        },
+        {
+          "number": 129,
+          "file": "עמוד-129.html",
+          "title": "עמוד 5 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-129.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-129.html"
+        },
+        {
+          "number": 130,
+          "file": "עמוד-130.html",
+          "title": "עמוד 6 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-130.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-130.html"
+        },
+        {
+          "number": 131,
+          "file": "עמוד-131.html",
+          "title": "עמוד 7 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-131.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-131.html"
+        },
+        {
+          "number": 132,
+          "file": "עמוד-132.html",
+          "title": "עמוד 8 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-132.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-132.html"
+        },
+        {
+          "number": 133,
+          "file": "עמוד-133.html",
+          "title": "עמוד 9 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-133.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-133.html"
+        },
+        {
+          "number": 134,
+          "file": "עמוד-134.html",
+          "title": "עמוד 10 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-134.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-134.html"
+        },
+        {
+          "number": 135,
+          "file": "עמוד-135.html",
+          "title": "עמוד 11 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-135.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-135.html"
+        },
+        {
+          "number": 136,
+          "file": "עמוד-136.html",
+          "title": "עמוד 12 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-136.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-136.html"
+        },
+        {
+          "number": 137,
+          "file": "עמוד-137.html",
+          "title": "עמוד 13 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-137.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-137.html"
+        },
+        {
+          "number": 138,
+          "file": "עמוד-138.html",
+          "title": "עמוד 14 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-138.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-138.html"
+        },
+        {
+          "number": 139,
+          "file": "עמוד-139.html",
+          "title": "עמוד 15 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-139.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-139.html"
+        },
+        {
+          "number": 140,
+          "file": "עמוד-140.html",
+          "title": "עמוד 16 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-140.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-140.html"
+        },
+        {
+          "number": 141,
+          "file": "עמוד-141.html",
+          "title": "עמוד 17 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-141.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-141.html"
+        },
+        {
+          "number": 142,
+          "file": "עמוד-142.html",
+          "title": "עמוד 18 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-142.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-142.html"
+        },
+        {
+          "number": 143,
+          "file": "עמוד-143.html",
+          "title": "עמוד 19 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-143.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-143.html"
+        },
+        {
+          "number": 144,
+          "file": "עמוד-144.html",
+          "title": "עמוד 20 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-144.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-144.html"
+        },
+        {
+          "number": 145,
+          "file": "עמוד-145.html",
+          "title": "עמוד 21 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-145.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-145.html"
+        },
+        {
+          "number": 146,
+          "file": "עמוד-146.html",
+          "title": "עמוד 22 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-146.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-146.html"
+        },
+        {
+          "number": 147,
+          "file": "עמוד-147.html",
+          "title": "עמוד 23 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-147.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-147.html"
+        },
+        {
+          "number": 148,
+          "file": "עמוד-148.html",
+          "title": "עמוד 24 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-148.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-148.html"
+        },
+        {
+          "number": 149,
+          "file": "עמוד-149.html",
+          "title": "עמוד 25 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-149.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-149.html"
+        },
+        {
+          "number": 150,
+          "file": "עמוד-150.html",
+          "title": "עמוד 26 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-150.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-150.html"
+        },
+        {
+          "number": 151,
+          "file": "עמוד-151.html",
+          "title": "עמוד 27 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-151.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-151.html"
+        },
+        {
+          "number": 152,
+          "file": "עמוד-152.html",
+          "title": "עמוד 28 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-152.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-152.html"
+        },
+        {
+          "number": 153,
+          "file": "עמוד-153.html",
+          "title": "עמוד 29 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-153.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-153.html"
+        },
+        {
+          "number": 154,
+          "file": "עמוד-154.html",
+          "title": "עמוד 30 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-154.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-154.html"
+        },
+        {
+          "number": 155,
+          "file": "עמוד-155.html",
+          "title": "עמוד 31 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-155.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-155.html"
+        },
+        {
+          "number": 156,
+          "file": "עמוד-156.html",
+          "title": "עמוד 32 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-156.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-156.html"
+        },
+        {
+          "number": 157,
+          "file": "עמוד-157.html",
+          "title": "עמוד 33 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-157.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-157.html"
+        },
+        {
+          "number": 158,
+          "file": "עמוד-158.html",
+          "title": "עמוד 34 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-158.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-158.html"
+        },
+        {
+          "number": 159,
+          "file": "עמוד-159.html",
+          "title": "עמוד 35 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-159.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-159.html"
+        },
+        {
+          "number": 160,
+          "file": "עמוד-160.html",
+          "title": "עמוד 36 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-160.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-160.html"
+        },
+        {
+          "number": 161,
+          "file": "עמוד-161.html",
+          "title": "עמוד 37 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-161.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-161.html"
+        },
+        {
+          "number": 162,
+          "file": "עמוד-162.html",
+          "title": "עמוד 38 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-162.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-162.html"
+        },
+        {
+          "number": 163,
+          "file": "עמוד-163.html",
+          "title": "עמוד 39 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-163.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-163.html"
+        },
+        {
+          "number": 164,
+          "file": "עמוד-164.html",
+          "title": "עמוד 40 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-164.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-164.html"
+        },
+        {
+          "number": 165,
+          "file": "עמוד-165.html",
+          "title": "עמוד 41 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-165.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-165.html"
+        },
+        {
+          "number": 166,
+          "file": "עמוד-166.html",
+          "title": "עמוד 42 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-166.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-166.html"
+        },
+        {
+          "number": 167,
+          "file": "עמוד-167.html",
+          "title": "עמוד 43 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-167.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-167.html"
+        },
+        {
+          "number": 168,
+          "file": "עמוד-168.html",
+          "title": "עמוד 44 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-168.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-168.html"
+        },
+        {
+          "number": 169,
+          "file": "עמוד-169.html",
+          "title": "עמוד 45 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-169.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-169.html"
+        },
+        {
+          "number": 170,
+          "file": "עמוד-170.html",
+          "title": "עמוד 46 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-170.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-170.html"
+        },
+        {
+          "number": 171,
+          "file": "עמוד-171.html",
+          "title": "עמוד 47 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-171.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-171.html"
+        },
+        {
+          "number": 172,
+          "file": "עמוד-172.html",
+          "title": "עמוד 48 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-172.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-172.html"
+        },
+        {
+          "number": 173,
+          "file": "עמוד-173.html",
+          "title": "עמוד 49 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-173.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-173.html"
+        },
+        {
+          "number": 174,
+          "file": "עמוד-174.html",
+          "title": "עמוד 50 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-174.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-174.html"
+        },
+        {
+          "number": 175,
+          "file": "עמוד-175.html",
+          "title": "עמוד 51 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-175.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-175.html"
+        },
+        {
+          "number": 176,
+          "file": "עמוד-176.html",
+          "title": "עמוד 52 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-176.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-176.html"
+        },
+        {
+          "number": 177,
+          "file": "עמוד-177.html",
+          "title": "עמוד 53 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-177.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-177.html"
+        },
+        {
+          "number": 178,
+          "file": "עמוד-178.html",
+          "title": "עמוד 54 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-178.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-178.html"
+        },
+        {
+          "number": 179,
+          "file": "עמוד-179.html",
+          "title": "עמוד 55 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-179.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-179.html"
+        },
+        {
+          "number": 180,
+          "file": "עמוד-180.html",
+          "title": "עמוד 56 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-180.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-180.html"
+        },
+        {
+          "number": 181,
+          "file": "עמוד-181.html",
+          "title": "עמוד 57 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-181.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-181.html"
+        },
+        {
+          "number": 182,
+          "file": "עמוד-182.html",
+          "title": "עמוד 58 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-182.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-182.html"
+        },
+        {
+          "number": 183,
+          "file": "עמוד-183.html",
+          "title": "עמוד 59 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-183.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-183.html"
+        },
+        {
+          "number": 184,
+          "file": "עמוד-184.html",
+          "title": "עמוד 60 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-184.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-184.html"
+        },
+        {
+          "number": 185,
+          "file": "עמוד-185.html",
+          "title": "עמוד 61 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-185.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-185.html"
+        },
+        {
+          "number": 186,
+          "file": "עמוד-186.html",
+          "title": "עמוד 62 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-186.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-186.html"
+        },
+        {
+          "number": 187,
+          "file": "עמוד-187.html",
+          "title": "עמוד 63 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-187.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-187.html"
+        },
+        {
+          "number": 188,
+          "file": "עמוד-188.html",
+          "title": "עמוד 64 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-188.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-188.html"
+        },
+        {
+          "number": 189,
+          "file": "עמוד-189.html",
+          "title": "עמוד 65 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-189.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-189.html"
+        },
+        {
+          "number": 190,
+          "file": "עמוד-190.html",
+          "title": "עמוד 66 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-190.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-190.html"
+        },
+        {
+          "number": 191,
+          "file": "עמוד-191.html",
+          "title": "עמוד 67 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-191.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-191.html"
+        },
+        {
+          "number": 192,
+          "file": "עמוד-192.html",
+          "title": "עמוד 68 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-192.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-192.html"
+        },
+        {
+          "number": 193,
+          "file": "עמוד-193.html",
+          "title": "עמוד 69 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-193.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-193.html"
+        },
+        {
+          "number": 194,
+          "file": "עמוד-194.html",
+          "title": "עמוד 70 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-194.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-194.html"
+        },
+        {
+          "number": 195,
+          "file": "עמוד-195.html",
+          "title": "עמוד 71 — אלגברה לכיתה ח'",
+          "h1": "אלגברה לכיתה ח'",
+          "topic": "אלגברה לכיתה ח'",
+          "previewPath": "/עמוד-195.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-195.html"
+        }
+      ]
+    },
+    {
+      "name": "גאומטריה לכיתה ח'",
+      "count": 35,
+      "pages": [
+        {
+          "number": 196,
+          "file": "עמוד-196.html",
+          "title": "עמוד 1 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-196.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-196.html"
+        },
+        {
+          "number": 197,
+          "file": "עמוד-197.html",
+          "title": "עמוד 2 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-197.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-197.html"
+        },
+        {
+          "number": 198,
+          "file": "עמוד-198.html",
+          "title": "עמוד 3 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-198.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-198.html"
+        },
+        {
+          "number": 199,
+          "file": "עמוד-199.html",
+          "title": "עמוד 4 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-199.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-199.html"
+        },
+        {
+          "number": 200,
+          "file": "עמוד-200.html",
+          "title": "עמוד 5 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-200.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-200.html"
+        },
+        {
+          "number": 201,
+          "file": "עמוד-201.html",
+          "title": "עמוד 6 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-201.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-201.html"
+        },
+        {
+          "number": 202,
+          "file": "עמוד-202.html",
+          "title": "עמוד 7 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-202.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-202.html"
+        },
+        {
+          "number": 203,
+          "file": "עמוד-203.html",
+          "title": "עמוד 8 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-203.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-203.html"
+        },
+        {
+          "number": 204,
+          "file": "עמוד-204.html",
+          "title": "עמוד 9 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-204.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-204.html"
+        },
+        {
+          "number": 205,
+          "file": "עמוד-205.html",
+          "title": "עמוד 10 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-205.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-205.html"
+        },
+        {
+          "number": 206,
+          "file": "עמוד-206.html",
+          "title": "עמוד 11 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-206.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-206.html"
+        },
+        {
+          "number": 207,
+          "file": "עמוד-207.html",
+          "title": "עמוד 12 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-207.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-207.html"
+        },
+        {
+          "number": 208,
+          "file": "עמוד-208.html",
+          "title": "עמוד 13 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-208.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-208.html"
+        },
+        {
+          "number": 209,
+          "file": "עמוד-209.html",
+          "title": "עמוד 14 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-209.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-209.html"
+        },
+        {
+          "number": 210,
+          "file": "עמוד-210.html",
+          "title": "עמוד 15 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-210.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-210.html"
+        },
+        {
+          "number": 211,
+          "file": "עמוד-211.html",
+          "title": "עמוד 16 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-211.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-211.html"
+        },
+        {
+          "number": 212,
+          "file": "עמוד-212.html",
+          "title": "עמוד 17 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-212.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-212.html"
+        },
+        {
+          "number": 213,
+          "file": "עמוד-213.html",
+          "title": "עמוד 18 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-213.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-213.html"
+        },
+        {
+          "number": 214,
+          "file": "עמוד-214.html",
+          "title": "עמוד 19 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-214.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-214.html"
+        },
+        {
+          "number": 215,
+          "file": "עמוד-215.html",
+          "title": "עמוד 20 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-215.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-215.html"
+        },
+        {
+          "number": 216,
+          "file": "עמוד-216.html",
+          "title": "עמוד 21 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-216.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-216.html"
+        },
+        {
+          "number": 217,
+          "file": "עמוד-217.html",
+          "title": "עמוד 22 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-217.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-217.html"
+        },
+        {
+          "number": 218,
+          "file": "עמוד-218.html",
+          "title": "עמוד 23 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-218.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-218.html"
+        },
+        {
+          "number": 219,
+          "file": "עמוד-219.html",
+          "title": "עמוד 24 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-219.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-219.html"
+        },
+        {
+          "number": 220,
+          "file": "עמוד-220.html",
+          "title": "עמוד 25 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-220.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-220.html"
+        },
+        {
+          "number": 221,
+          "file": "עמוד-221.html",
+          "title": "עמוד 26 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-221.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-221.html"
+        },
+        {
+          "number": 222,
+          "file": "עמוד-222.html",
+          "title": "עמוד 27 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-222.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-222.html"
+        },
+        {
+          "number": 223,
+          "file": "עמוד-223.html",
+          "title": "עמוד 28 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-223.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-223.html"
+        },
+        {
+          "number": 224,
+          "file": "עמוד-224.html",
+          "title": "עמוד 29 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-224.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-224.html"
+        },
+        {
+          "number": 225,
+          "file": "עמוד-225.html",
+          "title": "עמוד 30 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-225.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-225.html"
+        },
+        {
+          "number": 226,
+          "file": "עמוד-226.html",
+          "title": "עמוד 31 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-226.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-226.html"
+        },
+        {
+          "number": 227,
+          "file": "עמוד-227.html",
+          "title": "עמוד 32 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-227.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-227.html"
+        },
+        {
+          "number": 228,
+          "file": "עמוד-228.html",
+          "title": "עמוד 33 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-228.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-228.html"
+        },
+        {
+          "number": 229,
+          "file": "עמוד-229.html",
+          "title": "עמוד 34 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-229.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-229.html"
+        },
+        {
+          "number": 230,
+          "file": "עמוד-230.html",
+          "title": "עמוד 35 — גאומטריה לכיתה ח'",
+          "h1": "גאומטריה לכיתה ח'",
+          "topic": "גאומטריה לכיתה ח'",
+          "previewPath": "/עמוד-230.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-230.html"
         }
       ]
     }

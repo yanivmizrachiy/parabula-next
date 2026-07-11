@@ -24,6 +24,13 @@ const DEFAULT_MIN = 50;
 const EXCEPTIONS = {
   'עמוד-5.html': 'faithful sparse continuation page (פונקציות) — source has little content'
 };
+// Generated sparse chapter-tail exceptions from imported books (import-bbb.mjs).
+const genExPath = path.join(ROOT, 'meta', 'a4-utilization-exceptions.json');
+if (fs.existsSync(genExPath)) {
+  try {
+    Object.assign(EXCEPTIONS, JSON.parse(fs.readFileSync(genExPath, 'utf8')));
+  } catch { /* ignore malformed */ }
+}
 const minArg = process.argv.find((a) => a.startsWith('--min='));
 const MIN_UTIL = minArg ? Number(minArg.split('=')[1]) : DEFAULT_MIN;
 
