@@ -96,7 +96,36 @@ jobs:
           name: mobile-browser-report
           path: meta/audit/mobile-browser-validation.json
           if-no-files-found: error
-          retention-days: 1
+          retention-days: 3
+
+  mobile-interaction-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production artifact
+        run: npm run build
+
+      - name: Run Android, iPhone WebKit and offline journeys
+        run: npm run validate:mobile:interactions
+
+      - name: Upload interaction report and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-interaction-report
+          path: |
+            meta/audit/mobile-interactions-validation.json
+            meta/audit/mobile-interaction-failures
+          if-no-files-found: warn
+          retention-days: 3
 
   mobile-deep-gate:
     name: Deep mobile audit shard ${{ matrix.shard }}
@@ -134,7 +163,7 @@ jobs:
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: [build, mobile-browser-gate, mobile-deep-gate]
+    needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate]
     permissions:
       pages: write
       id-token: write
