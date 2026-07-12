@@ -1,47 +1,45 @@
 /**
  * reader-actions.js — Parabula Next · שכבת פעולות משותפת לספר
- *
- * מקור אמת יחיד לפעולות ההדפסה / שמירה כ-PDF / הורדה / בחירה מרובה,
- * המשמש גם את הקטלוג בנייח (catalog.js) וגם את אפליקציית הנייד (mobile-app.js)
- * — כדי לשמור תפיסה זהה ונאמנות A4 בכל המשטחים (CLAUDE.md §1.1, §10).
- *
- * מנגנון ההדפסה: iframe אחד לכל דף A4 בתוך "במת הדפסה" נסתרת, עם
- * page-break ב-@media print (אותו דפוס מוכח כמו preview/print.js).
- * "שמירה כ-PDF" היא ייצוא אמיתי דרך חלון ההדפסה של הדפדפן — לא כפתור דמה.
+ * מקור אמת יחיד להדפסה, PDF, הורדה ובחירה מרובה בנייח ובנייד.
  */
 'use strict';
 
 (function () {
   const SELECTION_KEY = 'parabula:selection-v2';
+  const PRINT_CONCURRENCY = 4;
 
   const store = {
-    pages: [],              // מערך שטוח של כל הדפים (מ-meta/topics.json)
+    pages: [],
     pageUrl: (file) => file,
     selection: new Set(),
     selectionListeners: new Set(),
+    printInProgress: false,
   };
 
-  /* ─── בחירה מרובה ─────────────────────────────── */
   function loadSelection() {
+    store.selection.clear();
     try {
       const raw = JSON.parse(localStorage.getItem(SELECTION_KEY) || '[]');
-      if (Array.isArray(raw)) raw.forEach((f) => store.selection.add(f));
-    } catch { /* אחסון לא זמין — לא קריטי */ }
+      if (Array.isArray(raw)) raw.forEach((file) => store.selection.add(file));
+    } catch { /* אחסון חסום אינו מפיל את הקורא */ }
   }
 
   function saveSelection() {
-    try {
-      localStorage.setItem(SELECTION_KEY, JSON.stringify([...store.selection]));
-    } catch { /* לא קריטי */ }
+    try { localStorage.setItem(SELECTION_KEY, JSON.stringify([...store.selection])); }
+    catch { /* לא קריטי */ }
+  }
+
+  function selectionSnapshot() {
+    return new Set(store.selection);
   }
 
   function emitSelection() {
-    store.selectionListeners.forEach((cb) => {
-      try { cb(store.selection); } catch (e) { console.error(e); }
+    const snapshot = selectionSnapshot();
+    store.selectionListeners.forEach((callback) => {
+      try { callback(snapshot); } catch (error) { console.error(error); }
     });
   }
 
-  /* ─── במת הדפסה נסתרת ─────────────────────────── */
   function ensureStage() {
     let stage = document.getElementById('paraPrintStage');
     if (!stage) {
@@ -60,35 +58,64 @@
       const finish = () => {
         if (done) return;
         done = true;
-        // נותנים ל-MathJax ולגופנים זמן להתייצב בתוך ה-iframe
         try {
           const win = iframe.contentWindow;
-          const settle = () => setTimeout(resolve, 260);
-          const mj = win && win.MathJax && win.MathJax.startup && win.MathJax.startup.promise;
-          const fonts = win && win.document && win.document.fonts && win.document.fonts.ready;
+          const settle = () => setTimeout(resolve, 220);
+          const math = win?.MathJax?.startup?.promise || Promise.resolve();
+          const fonts = win?.document?.fonts?.ready || Promise.resolve();
           Promise.race([
-            Promise.all([mj || Promise.resolve(), fonts || Promise.resolve()]),
-            new Promise((r) => setTimeout(r, 2500)),
+            Promise.all([math, fonts]),
+            new Promise((doneWaiting) => setTimeout(doneWaiting, 3500)),
           ]).then(settle).catch(settle);
         } catch {
-          setTimeout(resolve, 400);
+          setTimeout(resolve, 350);
         }
       };
       iframe.addEventListener('load', finish, { once: true });
-      // רשת ביטחון אם load כבר קרה / נתקע
-      setTimeout(finish, 4000);
+      iframe.addEventListener('error', finish, { once: true });
+      setTimeout(finish, 5000);
     });
   }
 
-  /**
-   * פותח את חלון ההדפסה של הדפדפן עבור רשימת קבצים (עמוד אחד או יותר).
-   * משם המשתמש בוחר מדפסת אמיתית או "שמירה כ-PDF".
-   */
-  async function printFiles(files, options = {}) {
-    const list = (files || []).filter(Boolean);
-    if (!list.length) return;
+  function showBusy(text) {
+    let overlay = document.getElementById('paraBusyOverlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'paraBusyOverlay';
+      overlay.className = 'para-busy-overlay';
+      overlay.setAttribute('role', 'status');
+      overlay.setAttribute('aria-live', 'polite');
+      overlay.innerHTML = '<div class="para-busy-box"><div class="para-busy-spin" aria-hidden="true"></div><span></span></div>';
+      document.body.appendChild(overlay);
+    }
+    overlay.querySelector('span').textContent = text;
+    overlay.classList.add('is-visible');
+    document.body.setAttribute('aria-busy', 'true');
+    return overlay;
+  }
 
-    const overlay = showBusy(options.busyText || 'מכין להדפסה…');
+  function hideBusy(overlay) {
+    (overlay || document.getElementById('paraBusyOverlay'))?.classList.remove('is-visible');
+    document.body.removeAttribute('aria-busy');
+  }
+
+  async function loadFramesInBatches(frames) {
+    for (let offset = 0; offset < frames.length; offset += PRINT_CONCURRENCY) {
+      const batch = frames.slice(offset, offset + PRINT_CONCURRENCY);
+      await Promise.all(batch.map(async ({ iframe, url }) => {
+        iframe.src = url;
+        await waitForFrame(iframe);
+      }));
+    }
+  }
+
+  async function printFiles(files, options = {}) {
+    const validFiles = new Set(store.pages.map((page) => page.file));
+    const list = [...new Set((files || []).filter((file) => validFiles.has(file)))];
+    if (!list.length || store.printInProgress) return;
+
+    store.printInProgress = true;
+    const overlay = showBusy(options.busyText || `מכין ${list.length} דפים להדפסה…`);
     const stage = ensureStage();
     stage.innerHTML = '';
 
@@ -96,76 +123,56 @@
       const sheet = document.createElement('div');
       sheet.className = 'para-sheet';
       const iframe = document.createElement('iframe');
-      iframe.setAttribute('title', file);
-      iframe.setAttribute('loading', 'eager');
-      iframe.src = store.pageUrl(file);
+      iframe.title = file;
+      iframe.loading = 'eager';
       sheet.appendChild(iframe);
       stage.appendChild(sheet);
-      return iframe;
+      return { iframe, url: store.pageUrl(file) };
     });
 
     try {
-      await Promise.all(frames.map(waitForFrame));
-    } catch (e) {
-      console.error('print prepare failed', e);
-    }
+      await loadFramesInBatches(frames);
+      hideBusy(overlay);
 
-    hideBusy(overlay);
-
-    const cleanup = () => {
-      document.body.classList.remove('para-printing');
+      const cleanup = () => {
+        document.body.classList.remove('para-printing');
+        stage.innerHTML = '';
+        store.printInProgress = false;
+        window.removeEventListener('afterprint', cleanup);
+      };
+      window.addEventListener('afterprint', cleanup);
+      document.body.classList.add('para-printing');
+      setTimeout(() => {
+        try { window.focus(); window.print(); }
+        catch (error) { console.error(error); cleanup(); }
+        setTimeout(() => {
+          if (document.body.classList.contains('para-printing')) cleanup();
+        }, 60000);
+      }, 150);
+    } catch (error) {
+      console.error('print prepare failed', error);
+      hideBusy(overlay);
       stage.innerHTML = '';
-      window.removeEventListener('afterprint', cleanup);
-    };
-    window.addEventListener('afterprint', cleanup);
-
-    document.body.classList.add('para-printing');
-    // רגע קטן לצביעה לפני קריאת ההדפסה
-    setTimeout(() => {
-      try { window.focus(); window.print(); }
-      catch (e) { console.error(e); cleanup(); }
-      // fallback לניקוי אם afterprint לא נורה
-      setTimeout(() => { if (document.body.classList.contains('para-printing')) cleanup(); }, 60000);
-    }, 120);
-  }
-
-  /* ─── מחוון "מכין…" ────────────────────────────── */
-  function showBusy(text) {
-    let overlay = document.getElementById('paraBusyOverlay');
-    if (!overlay) {
-      overlay = document.createElement('div');
-      overlay.id = 'paraBusyOverlay';
-      overlay.className = 'para-busy-overlay';
-      overlay.innerHTML = '<div class="para-busy-box"><div class="para-busy-spin" aria-hidden="true"></div><span></span></div>';
-      document.body.appendChild(overlay);
+      store.printInProgress = false;
     }
-    overlay.querySelector('span').textContent = text;
-    overlay.classList.add('is-visible');
-    return overlay;
   }
 
-  function hideBusy(overlay) {
-    (overlay || document.getElementById('paraBusyOverlay'))?.classList.remove('is-visible');
-  }
-
-  /* ─── הורדת HTML של עמוד בודד ─────────────────── */
   async function downloadHtml(file) {
     const url = store.pageUrl(file);
     try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const blob = await res.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = blobUrl;
-      a.download = file;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const blobUrl = URL.createObjectURL(await response.blob());
+      const anchor = document.createElement('a');
+      anchor.href = blobUrl;
+      anchor.download = file;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
       setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
-    } catch (err) {
-      console.error('download failed', err);
-      window.open(url, '_blank', 'noopener');
+    } catch (error) {
+      console.error('download failed', error);
+      window.open(url, '_blank', 'noopener,noreferrer');
     }
   }
 
@@ -173,40 +180,36 @@
     window.open(store.pageUrl(file), '_blank', 'noopener,noreferrer');
   }
 
-  /* ─── API ציבורי ─────────────────────────────── */
   window.ParabulaActions = {
     configure({ pages, pageUrl }) {
       if (Array.isArray(pages)) store.pages = pages;
       if (typeof pageUrl === 'function') store.pageUrl = pageUrl;
       loadSelection();
-      // מסננים בחירות ישנות שכבר לא קיימות בקטלוג
-      const valid = new Set(store.pages.map((p) => p.file));
-      [...store.selection].forEach((f) => { if (!valid.has(f)) store.selection.delete(f); });
+      const valid = new Set(store.pages.map((page) => page.file));
+      [...store.selection].forEach((file) => { if (!valid.has(file)) store.selection.delete(file); });
+      saveSelection();
       emitSelection();
     },
 
-    // הדפסה / שמירה כ-PDF
-    printPage(file, opts) { return printFiles([file], opts); },
+    printPage(file, options) { return printFiles([file], options); },
     printFiles,
     printTopic(topicName) {
-      const files = store.pages.filter((p) => p.topic === topicName).map((p) => p.file);
+      const files = store.pages.filter((page) => page.topic === topicName).map((page) => page.file);
       return printFiles(files, { busyText: `מכין ${files.length} דפים בפרק "${topicName}"…` });
     },
     printSelection() {
-      const files = store.pages.filter((p) => store.selection.has(p.file)).map((p) => p.file);
+      const files = store.pages.filter((page) => store.selection.has(page.file)).map((page) => page.file);
       return printFiles(files, { busyText: `מכין ${files.length} דפים נבחרים…` });
     },
     printAll() {
-      const files = store.pages.map((p) => p.file);
-      return printFiles(files, { busyText: `מכין את כל ${files.length} דפי הספר…` });
+      return printFiles(store.pages.map((page) => page.file), { busyText: `מכין את כל ${store.pages.length} דפי הספר…` });
     },
 
-    // הורדה / פתיחה
     downloadHtml,
     openTab,
 
-    // בחירה מרובה
     selection: store.selection,
+    getSelection: selectionSnapshot,
     isSelected: (file) => store.selection.has(file),
     selectionCount: () => store.selection.size,
     selectionFiles: () => [...store.selection],
@@ -216,13 +219,13 @@
       saveSelection();
       emitSelection();
     },
-    setSelected(file, on) {
-      if (on) store.selection.add(file); else store.selection.delete(file);
+    setSelected(file, selected) {
+      if (selected) store.selection.add(file); else store.selection.delete(file);
       saveSelection();
       emitSelection();
     },
     selectTopic(topicName) {
-      store.pages.filter((p) => p.topic === topicName).forEach((p) => store.selection.add(p.file));
+      store.pages.filter((page) => page.topic === topicName).forEach((page) => store.selection.add(page.file));
       saveSelection();
       emitSelection();
     },
@@ -231,9 +234,10 @@
       saveSelection();
       emitSelection();
     },
-    onSelectionChange(cb) {
-      store.selectionListeners.add(cb);
-      return () => store.selectionListeners.delete(cb);
+    onSelectionChange(callback) {
+      store.selectionListeners.add(callback);
+      try { callback(selectionSnapshot()); } catch (error) { console.error(error); }
+      return () => store.selectionListeners.delete(callback);
     },
   };
 })();
