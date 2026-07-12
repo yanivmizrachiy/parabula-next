@@ -125,6 +125,11 @@
         requestedFile: params.get('file') || ''
       };
       if (window.__PARABULA_BOOT.fullMode) document.body.classList.add('full-mode');
+
+      document.addEventListener('click', event => {
+        const card = event.target instanceof Element ? event.target.closest('.page-card') : null;
+        if (card && event.target === card) card.querySelector('.page-open')?.click();
+      });
     })();
   </script>
   <script src="./reader-actions.js?v=__MOBILE_VERSION__"></script>
