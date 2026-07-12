@@ -130,6 +130,33 @@
         const card = event.target instanceof Element ? event.target.closest('.page-card') : null;
         if (card && event.target === card) card.querySelector('.page-open')?.click();
       });
+
+      const serviceWorker = navigator.serviceWorker;
+      if (serviceWorker && typeof serviceWorker.register === 'function') {
+        const originalRegister = serviceWorker.register.bind(serviceWorker);
+        const emptyRegistration = Object.freeze({
+          waiting: null,
+          installing: null,
+          addEventListener() {},
+          update() { return Promise.resolve(); }
+        });
+        const normalizedRegister = async (...args) => (await originalRegister(...args)) || emptyRegistration;
+        try {
+          Object.defineProperty(serviceWorker, 'register', {
+            configurable: true,
+            value: normalizedRegister
+          });
+        } catch {
+          try {
+            const prototype = Object.getPrototypeOf(serviceWorker);
+            Object.defineProperty(prototype, 'register', {
+              configurable: true,
+              writable: true,
+              value: normalizedRegister
+            });
+          } catch { /* optional API compatibility only */ }
+        }
+      }
     })();
   </script>
   <script src="./reader-actions.js?v=__MOBILE_VERSION__"></script>
