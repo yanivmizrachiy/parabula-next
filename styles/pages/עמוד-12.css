@@ -71,6 +71,24 @@
 	unicode-bidi: isolate;
 }
 
+/* אזור פתרון קנוני של הנושא (זהה לדפי pyt-live) — ממלא את החלל בין
+   השאלות לשורת התשובות במקום חור ריק של ~590px. */
+.page-12 .solution-space {
+	flex: 1 1 auto;
+	min-height: 60px;
+	border: 1px solid var(--border-light);
+	border-radius: 6px;
+	background-color: var(--bg-paper);
+	padding: 6px 8px;
+	direction: ltr;
+	unicode-bidi: isolate;
+	background-image:
+		linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+		linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+	background-size: 22px 22px;
+	background-repeat: repeat;
+}
+
 .page-12 .pyt-footer {
 	margin-top: auto;
 	display: flex;

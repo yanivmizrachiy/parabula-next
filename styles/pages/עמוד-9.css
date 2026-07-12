@@ -2,7 +2,8 @@
 @import url("../topics/pythagoras.css");
 
 .page-9 {
-	--problem-block-height: 300px;
+	/* 300px גרם לגלישה אנכית של ~2% מעבר ל-A4 (נחתך בהדפסה) */
+	--problem-block-height: 290px;
 }
 
 .page-9 .q-main {
