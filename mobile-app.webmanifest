@@ -2,17 +2,20 @@
   "id": "./mobile-app.html",
   "name": "אפליקציית הדפים של יניב",
   "short_name": "דפי יניב",
-  "start_url": "./mobile-app.html?v=20260712001",
+  "description": "ספר דפי העבודה המתמטי של יניב — צפייה, חיפוש, הדפסה ושמירה כ-PDF.",
+  "start_url": "./mobile-app.html?v=__MOBILE_VERSION__",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "any",
   "background_color": "#eef3f8",
   "theme_color": "#0b1220",
   "lang": "he",
   "dir": "rtl",
+  "categories": ["education", "productivity"],
   "icons": [
     {
-      "src": "./icon.svg?v=20260712001",
+      "src": "./icon.svg?v=__MOBILE_VERSION__",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
