@@ -29,7 +29,7 @@ body.sheet-open{overflow:hidden;touch-action:none}
 }
 .network-status{display:flex;background:#fff7ed;color:#9a3412;border:1px solid #fdba74}
 .update-bar{display:flex;gap:10px;background:#0f172a;color:#fff;border:1px solid rgba(255,255,255,.2)}
-.update-bar button{min-height:38px;background:#fff;color:#0f172a;border-color:#fff;white-space:nowrap}
+.update-bar button{background:#fff;color:#0f172a;border-color:#fff;white-space:nowrap}
 body:has(.network-status:not([hidden])) .app-shell,
 body:has(.update-bar:not([hidden])) .app-shell{padding-top:calc(58px + var(--safe-top))}
 
@@ -53,7 +53,7 @@ body:has(.update-bar:not([hidden])) .app-shell{padding-top:calc(58px + var(--saf
 button,input{font:inherit}
 button{
   appearance:none;border:1px solid #c7d2e0;background:#fff;color:var(--text);border-radius:10px;
-  min-width:44px;min-height:44px;padding:0 10px;font-size:.91rem;font-weight:600;
+  min-width:44px;min-height:44px !important;padding:0 10px;font-size:.91rem;font-weight:600;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
 }
 button:not(:disabled){cursor:pointer}
@@ -65,10 +65,10 @@ button:active:not(:disabled){transform:translateY(1px)}
 .topics-panel.is-collapsed{display:none !important}
 .topics-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .section-title{font-size:.95rem;font-weight:700;margin-bottom:8px}
-.mini-chip{min-height:42px;border-radius:999px;color:var(--muted);padding-inline:13px}
+.mini-chip{border-radius:999px;color:var(--muted);padding-inline:13px}
 .mini-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .topic-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:7px;padding-bottom:4px;margin-bottom:8px}
-.topic-btn{white-space:normal;min-height:50px;line-height:1.25;text-align:center;padding:7px 8px}
+.topic-btn{white-space:normal;min-height:50px !important;line-height:1.25;text-align:center;padding:7px 8px}
 .topic-btn.active{border-color:var(--accent);background:var(--accent-soft);color:#0b3ea8;box-shadow:inset 0 0 0 1px rgba(29,78,216,.15)}
 #globalSearch{
   width:100%;min-height:48px;border:1px solid #c7d2e0;border-radius:11px;padding:0 12px;
@@ -118,7 +118,7 @@ body.select-mode .page-card .tp-check{display:flex}
   padding:3px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:999px;
   box-shadow:0 4px 14px rgba(15,23,42,.18);backdrop-filter:blur(6px);
 }
-.zoom-dock button{min-height:44px;min-width:44px;padding:0 8px;border:0;background:transparent;border-radius:999px;font-size:1.05rem;line-height:1}
+.zoom-dock button{min-width:44px;padding:0 8px;border:0;background:transparent;border-radius:999px;font-size:1.05rem;line-height:1}
 .zoom-dock button:active:not(:disabled){background:var(--accent-soft)}
 #zoomResetBtn{min-width:58px;font-size:.82rem;font-weight:700;color:var(--accent)}
 
@@ -139,7 +139,7 @@ body.select-mode .page-card .tp-check{display:flex}
 }
 .selection-bar .sel-count{font-weight:600;font-size:.9rem}
 .selection-bar .sel-actions{display:flex;gap:8px}
-.selection-bar button{min-height:44px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:.84rem;padding-inline:14px}
+.selection-bar button{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;font-size:.84rem;padding-inline:14px}
 .selection-bar #selPrint{background:var(--accent);border-color:var(--accent)}
 body.has-selection .app-shell{padding-bottom:calc(var(--bottom-nav-h) + 76px + var(--safe-bottom))}
 
@@ -198,9 +198,9 @@ body.full-mode .m-scroll-stack{height:100%}
   .topic-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
   .topbar{align-items:flex-start;padding:8px}
   .topbar-actions{flex-direction:column;gap:4px}
-  .topbar-actions button{min-height:40px;padding-inline:8px;font-size:.8rem}
+  .topbar-actions button{padding-inline:8px;font-size:.8rem}
   .app-title{font-size:.94rem}.app-meta{font-size:.73rem}
-  .bottom-nav button{font-size:.76rem;min-height:48px}
+  .bottom-nav button{font-size:.76rem;min-height:48px !important}
   .selection-bar{align-items:stretch}
   .selection-bar .sel-actions{flex:1;justify-content:flex-end}
   .sheet-actions{grid-template-columns:1fr}
@@ -212,7 +212,6 @@ body.full-mode .m-scroll-stack{height:100%}
   .reader-box{min-height:260px}
   #mobilePageFrame{min-height:220px;height:calc(100dvh - 118px)}
   .m-scroll-stack{height:calc(100dvh - 104px - var(--safe-top) - var(--safe-bottom));min-height:220px}
-  .bottom-nav button{min-height:42px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
