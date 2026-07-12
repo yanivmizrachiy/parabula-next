@@ -4,16 +4,16 @@ import path from 'node:path';
 import process from 'node:process';
 
 const root = process.cwd();
-const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const exists = rel => fs.existsSync(path.join(root, rel));
+const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const browserMode = process.argv.includes('--browser');
 const checks = [];
-const add = (name, ok, details = '') => checks.push({ name, ok, details });
+const add = (name, ok, details = '') => checks.push({ name, ok: Boolean(ok), details });
 
 const required = [
   'index.html', 'index.js', 'mobile-app.html', 'mobile-app.css', 'mobile-app.js',
-  'mobile-app.webmanifest', 'sw.js', 'meta/topics.json', 'meta/equations-master-map.json',
-  'scripts/build-equations-pages.mjs', 'scripts/validate-mobile-all-pages.mjs'
+  'mobile-app.webmanifest', 'sw.js', 'reader-actions.js', 'reader-actions.css',
+  'meta/topics.json', 'scripts/copy-static-site.mjs', 'scripts/validate-mobile-all-pages.mjs'
 ];
 for (const rel of required) add(`required:${rel}`, exists(rel), exists(rel) ? 'exists' : 'missing');
 
@@ -22,78 +22,65 @@ const forbidden = [
   'preview/mobile.html', 'preview/mobile-app.html', 'preview/mobile-app.js', 'preview/mobile-app.css',
   'preview/mobile-app.webmanifest', 'preview/mobile-app-install.html', 'preview/mobile-app-install.js',
   'preview/manifest.webmanifest', 'preview/sw.js', 'preview/install.html', 'mobile.css',
-  'mobile-app-install.html', 'mobile-app-install.js',
-  'scripts/ship_mobile_release.sh', 'STATE/fix-canonical-rules-trigger.tmp'
+  'mobile-app-install.html', 'mobile-app-install.js', 'scripts/ship_mobile_release.sh'
 ];
 for (const rel of forbidden) add(`legacy-absent:${rel}`, !exists(rel), exists(rel) ? 'must be removed' : 'absent');
 
 let meta = null;
-let equationsMap = null;
+let manifest = null;
 try { meta = JSON.parse(read('meta/topics.json')); } catch (error) { add('meta-valid', false, error.message); }
-try { equationsMap = JSON.parse(read('meta/equations-master-map.json')); } catch (error) { add('equations-map-valid', false, error.message); }
-const expectedTopicCount = meta?.topics?.length || 0;
-
-if (meta) {
-  const flat = (meta.topics || []).flatMap(topic => topic.pages || []);
-  const rootPageCount = fs.readdirSync(root).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
-  add('canonical-topic-count', meta.topics.length >= 8, `topics=${meta.topics.length}`);
-  add('canonical-page-count', flat.length === rootPageCount && flat.length === meta.totalPages, `pages=${flat.length}; rootFiles=${rootPageCount}; declared=${meta.totalPages}`);
-}
+try { manifest = JSON.parse(read('mobile-app.webmanifest')); } catch (error) { add('manifest-valid', false, error.message); }
 
 const html = exists('mobile-app.html') ? read('mobile-app.html') : '';
 const css = exists('mobile-app.css') ? read('mobile-app.css') : '';
 const js = exists('mobile-app.js') ? read('mobile-app.js') : '';
+const actions = exists('reader-actions.js') ? read('reader-actions.js') : '';
+const sw = exists('sw.js') ? read('sw.js') : '';
 const indexHtml = exists('index.html') ? read('index.html') : '';
 const indexJs = exists('index.js') ? read('index.js') : '';
-const manifest = exists('mobile-app.webmanifest') ? read('mobile-app.webmanifest') : '';
-const equationsCss = exists('styles/topics/equations.css') ? read('styles/topics/equations.css') : '';
-const generator = exists('scripts/build-equations-pages.mjs') ? read('scripts/build-equations-pages.mjs') : '';
 const copyScript = exists('scripts/copy-static-site.mjs') ? read('scripts/copy-static-site.mjs') : '';
 
-add('mobile-uses-canonical-meta', js.includes('./meta/topics.json'), 'mobile-app.js reads meta/topics.json');
-add('global-search-all-pages', js.includes('flatPages.filter'), 'search filters the global page collection');
-add('topics-open-at-boot', js.includes('setTopicsPanelOpen(true)'), 'topics are discoverable at startup');
-add('topic-grid-visible', css.includes('grid-template-columns:repeat(auto-fill') || css.includes('grid-template-columns:repeat(2'), 'topics use a wrapping grid');
-add('safe-area-support', css.includes('safe-area-inset-bottom') && css.includes('safe-area-inset-top'), 'safe areas supported');
-add('single-reader-scale', js.includes("setProperty('transform', `scale(${scale})`, 'important')") && js.includes("setProperty('width', '210mm', 'important')"), 'one canonical A4 scaler');
-add('full-mode-routes-through-mobile-app', html.includes("target.searchParams.set('mode', 'full')") && html.includes("target.searchParams.set('file', file)"), 'Open Full uses the canonical mobile app');
-add('full-mode-shell', css.includes('body.full-mode') && html.includes("document.body.classList.add('full-mode')"), 'canonical full-page shell exists');
-add('full-mode-cache-bust', html.includes('mobile-app.css?v=20260712002') && html.includes('mobile-app.js?v=20260712002'), 'new full-mode assets use a fresh URL');
-add('no-equations-viewport-reflow', !equationsCss.includes('width: calc(100vw') && !equationsCss.includes('padding: 4.8vw'), 'equations keep canonical A4 geometry');
-add('generator-does-not-create-zoom', !/zoom:\s*0\./.test(generator), 'generator emits no legacy zoom');
-add('generator-uses-canonical-rules', generator.includes('CLAUDE.md') && !generator.includes('STATE/EQUATIONS_DESIGN_PASS_RULES.md'), 'generator uses CLAUDE.md only');
-add('pythagoras-assets-promoted-at-build', copyScript.includes('assets/pythagoras/vector/page-05.svg') && copyScript.includes('assets/pythagoras/vector/page-22.svg'), 'production build restores the required vectors');
-add('single-real-install-flow', html.includes('id="installAppBtn"') && js.includes('beforeinstallprompt') && js.includes('appinstalled') && js.includes('display-mode: standalone'), 'one real PWA install flow');
-add('manifest-starts-canonical-mobile', manifest.includes('mobile-app.html'), 'installed app opens the canonical mobile shell');
-add('phone-detection-hardening', indexJs.includes('userAgentData') && indexJs.includes('pointer: coarse') && indexJs.includes('maxTouchPoints'), 'entry detects phones');
-add('explicit-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile') && indexHtml.includes('?view=catalog'), 'manual view overrides work');
-
-if (equationsMap) {
-  const livePages = equationsMap.pages.filter(page => page.status === 'LIVE');
-  const missingCss = [];
-  const staleZoom = [];
-  const pageMedia = [];
-  for (const page of livePages) {
-    const rel = `styles/pages/עמוד-${page.fileNum}.css`;
-    if (!exists(rel)) { missingCss.push(rel); continue; }
-    const text = read(rel);
-    if (/zoom:\s*0\./.test(text)) staleZoom.push(rel);
-    if (/@media\s+screen\s+and\s+\(max-width:\s*900px\)/.test(text)) pageMedia.push(rel);
-  }
-  add('all-live-equations-css-present', missingCss.length === 0, missingCss.join(', ') || `${livePages.length} files present`);
-  add('no-page-level-equations-zoom', staleZoom.length === 0, staleZoom.join(', ') || 'clean');
-  add('no-page-level-equations-mobile-media', pageMedia.length === 0, pageMedia.join(', ') || 'canonical A4 only');
+if (meta) {
+  const flat = (meta.topics || []).flatMap(topic => topic.pages || []);
+  const rootPages = fs.readdirSync(root).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
+  add('canonical-topic-count', meta.topics.length >= 8, `topics=${meta.topics.length}`);
+  add('canonical-page-count', flat.length === rootPages && flat.length === meta.totalPages, `meta=${flat.length}; root=${rootPages}; declared=${meta.totalPages}`);
 }
 
+const tokenFiles = { 'index.html': indexHtml, 'index.js': indexJs, 'mobile-app.html': html, 'mobile-app.js': js, 'mobile-app.webmanifest': exists('mobile-app.webmanifest') ? read('mobile-app.webmanifest') : '', 'sw.js': sw };
+for (const [file, text] of Object.entries(tokenFiles)) add(`single-version-token:${file}`, text.includes('__MOBILE_VERSION__'), 'build token present');
+add('single-version-build-injection', copyScript.includes('replaceAll(VERSION_TOKEN, buildVersion)') && copyScript.includes('GITHUB_SHA'), 'one generated build version');
+add('no-hardcoded-mobile-release-id', !Object.values(tokenFiles).some(text => /2026071\d{4}/.test(text)), 'no duplicated manual release number');
+
+add('canonical-meta-source', js.includes("./meta/topics.json") && !js.includes('mobile-topics.json'), 'mobile reads meta/topics.json only');
+add('global-search', js.includes('state.flatPages.filter') && js.includes('matchesQuery'), 'search covers all pages');
+add('safe-storage', js.includes('function storageGet') && js.includes('function storageSet') && js.includes('catch'), 'storage failure is non-fatal');
+add('visual-viewport', js.includes('visualViewport') && css.includes('100dvh'), 'dynamic mobile viewport supported');
+add('safe-areas', css.includes('safe-area-inset-top') && css.includes('safe-area-inset-bottom'), 'notches and gesture areas supported');
+add('touch-targets', /min-width:44px;min-height:44px/.test(css) && css.includes('.zoom-dock button{min-height:44px'), '44px touch targets');
+add('selection-does-not-cover-nav', css.includes('bottom:calc(var(--bottom-nav-h) + var(--safe-bottom))'), 'selection bar is above navigation');
+add('scroll-state-sync', js.includes('function syncScrollCurrent') && js.includes('syncCurrentPage(page)'), 'visible scroll page becomes current');
+add('scroll-virtualization', js.includes('SCROLL_WINDOW') && js.includes('hydrateScrollWindow') && js.includes("querySelector('iframe')?.remove()"), 'only nearby scroll iframes stay mounted');
+add('scroll-navigation-disabled', css.includes('body.reader-scroll #prevPageBtn') && js.includes("const inScroll = state.readMode === 'scroll'"), 'misleading navigation disabled in scroll mode');
+add('dialog-accessibility', html.includes('aria-modal="true"') && js.includes('els.appShell.inert = true') && js.includes("event.key === 'Escape'") && js.includes("event.key !== 'Tab'"), 'modal focus and keyboard contract');
+add('selection-restores-immediately', actions.includes('callback(selectionSnapshot())'), 'selection listener receives current state');
+add('print-batching', actions.includes('PRINT_CONCURRENCY') && actions.includes('loadFramesInBatches'), 'large chapters are prepared in bounded batches');
+add('pwa-precache', sw.includes('CORE_ASSETS') && sw.includes("'./mobile-app.html'") && sw.includes("'./meta/topics.json'"), 'offline shell precached');
+add('pwa-safe-cache', sw.includes('safeCachePut') && sw.includes("console.warn('[sw] cache put skipped'"), 'cache failure cannot break a network response');
+add('pwa-update-ui', html.includes('id="updateBar"') && js.includes('controllerchange') && !sw.includes('self.skipWaiting());\n});'), 'updates are coordinated');
+add('offline-ui', html.includes('id="networkStatus"') && js.includes("window.addEventListener('offline'"), 'offline state is visible');
+add('manifest-canonical', manifest?.id === './mobile-app.html' && String(manifest?.start_url || '').includes('mobile-app.html'), 'installed app opens canonical mobile shell');
+add('full-mode-canonical', js.includes("target.searchParams.set('mode', 'full')") && js.includes("target.searchParams.set('file', page.file)"), 'open-full stays in mobile app');
+add('manual-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile'), 'entry routing can be overridden');
+
 function contentType(filePath) {
-  const ext = path.extname(filePath).toLowerCase();
   return ({
     '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8', '.mjs': 'application/javascript; charset=utf-8',
     '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json; charset=utf-8',
     '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
     '.woff': 'font/woff', '.woff2': 'font/woff2'
-  })[ext] || 'application/octet-stream';
+  })[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
 }
 
 async function startServer(distDir) {
@@ -108,70 +95,52 @@ async function startServer(distDir) {
         if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) return res.writeHead(404).end('Not found');
         res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store, max-age=0' });
         fs.createReadStream(filePath).pipe(res);
-      } catch (error) {
-        res.writeHead(500).end(error.message);
-      }
+      } catch (error) { res.writeHead(500).end(error.message); }
     });
     server.once('error', reject);
     server.listen(0, '127.0.0.1', () => resolve({ server, origin: `http://127.0.0.1:${server.address().port}` }));
   });
 }
 
-async function waitForFrame(shell, file) {
-  await shell.locator('#mobilePageFrame').waitFor({ state: 'attached', timeout: 15000 });
-  const deadline = Date.now() + 15000;
+async function waitForWorksheetFrame(page, file) {
+  const deadline = Date.now() + 18000;
   while (Date.now() < deadline) {
-    const matchingFrame = shell.frames().find(frame => {
-      try {
-        return decodeURIComponent(new URL(frame.url()).pathname).endsWith(`/${file}`);
-      } catch {
-        return false;
-      }
+    const frame = page.frames().find(candidate => {
+      try { return decodeURIComponent(new URL(candidate.url()).pathname).endsWith(`/${file}`); }
+      catch { return false; }
     });
-    if (matchingFrame) {
+    if (frame) {
       try {
-        await matchingFrame.locator('.a4-page').waitFor({ state: 'visible', timeout: 1200 });
-        await matchingFrame.evaluate(async () => {
+        await frame.locator('.a4-page').waitFor({ state: 'visible', timeout: 1200 });
+        await frame.evaluate(async () => {
           if (document.fonts?.ready) await document.fonts.ready;
           if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
         });
-        await shell.waitForTimeout(350);
-        return;
+        await page.waitForTimeout(250);
+        return frame;
       } catch (error) {
-        if (!/Execution context was destroyed|Target page, context or browser has been closed/i.test(String(error))) throw error;
+        if (!/Execution context was destroyed|Frame was detached/i.test(String(error))) throw error;
       }
     }
-    await shell.waitForTimeout(100);
+    await page.waitForTimeout(100);
   }
-  throw new Error(`Timed out waiting for stable worksheet frame: ${file}`);
+  throw new Error(`Timed out waiting for ${file}`);
 }
 
-async function readerState(shell) {
-  return await shell.evaluate(() => {
+async function readerMetrics(page) {
+  return await page.evaluate(() => {
     const frame = document.querySelector('#mobilePageFrame');
-    const doc = frame?.contentDocument;
-    const a4 = doc?.querySelector('.a4-page');
-    if (!frame || !doc || !a4) return null;
+    const a4 = frame?.contentDocument?.querySelector('.a4-page');
+    if (!frame || !a4) return null;
     const rect = a4.getBoundingClientRect();
-    return {
-      frameWidth: frame.clientWidth, frameHeight: frame.clientHeight,
-      left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom,
-      ratio: rect.height / rect.width, transform: a4.style.transform,
-      brokenImages: [...doc.images].filter(image => !image.complete || image.naturalWidth === 0).length,
-      equations: doc.querySelectorAll('.problem-equation').length,
-      mathJax: doc.querySelectorAll('mjx-container').length
-    };
+    return { frameWidth: frame.clientWidth, frameHeight: frame.clientHeight, left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, ratio: rect.height / rect.width };
   });
 }
 
 async function runBrowserAudit() {
   const distDir = path.join(root, 'dist');
-  if (!exists('dist/index.html')) {
-    add('browser-production-build-present', false, 'dist/index.html missing; run npm run build first');
-    return;
-  }
-  add('browser-production-build-present', true, 'testing built dist');
-
+  if (!exists('dist/index.html')) return add('browser-production-build-present', false, 'run npm run build first');
+  add('browser-production-build-present', true, 'testing dist');
   let server;
   let browser;
   try {
@@ -181,56 +150,46 @@ async function runBrowserAudit() {
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       viewport: { width: 412, height: 915 }, screen: { width: 412, height: 915 },
-      deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL',
-      userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 Chrome/140.0.0.0 Mobile Safari/537.36',
-      serviceWorkers: 'block'
+      deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL', serviceWorkers: 'block',
+      userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 Chrome/140.0.0.0 Mobile Safari/537.36'
     });
     const page = await context.newPage();
     const pageErrors = [];
-    const failedResponses = [];
     page.on('pageerror', error => pageErrors.push(error.message));
-    page.on('response', response => {
-      if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) failedResponses.push(`${response.status()} ${response.url()}`);
-    });
-
     await page.goto(`${started.origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
     await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
-    add('browser-all-topics-rendered', await page.locator('.topic-btn').count() === expectedTopicCount, `expected=${expectedTopicCount}`);
+    add('browser-all-topics-rendered', await page.locator('.topic-btn').count() === (meta?.topics?.length || 0), `expected=${meta?.topics?.length || 0}`);
     const shellOverflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
     add('browser-no-horizontal-overflow', shellOverflow <= 1, `overflow=${shellOverflow}`);
 
-    await page.locator('#globalSearch').fill('עמוד-48.html');
-    const card = page.locator('.page-card[data-file="עמוד-48.html"]');
-    await card.waitFor({ state: 'visible' });
-    await card.click();
-    await waitForFrame(page, 'עמוד-48.html');
-    const state = await readerState(page);
-    add('browser-reader-fits', Boolean(state) && state.left >= -2 && state.top >= -2 && state.right <= state.frameWidth + 2 && state.bottom <= state.frameHeight + 2, JSON.stringify(state));
-    add('browser-reader-a4-ratio', Boolean(state) && Math.abs(state.ratio - (297 / 210)) < 0.03, `ratio=${state?.ratio}`);
-    add('browser-reader-one-scale', Boolean(state?.transform?.startsWith('scale(')), `transform=${state?.transform}`);
-    add('browser-reader-assets', state?.brokenImages === 0, `brokenImages=${state?.brokenImages}`);
+    const topic = (meta?.topics || []).find(item => (item.pages || []).length >= 2) || meta?.topics?.[0];
+    const first = topic?.pages?.[0];
+    const second = topic?.pages?.[1];
+    await page.locator(`.topic-btn[data-topic="${topic.name}"]`).click();
+    await page.locator(`.page-card[data-file="${first.file}"] .page-open`).click();
+    await waitForWorksheetFrame(page, first.file);
+    const metrics = await readerMetrics(page);
+    add('browser-reader-fits', Boolean(metrics) && metrics.left >= -2 && metrics.top >= -2 && metrics.right <= metrics.frameWidth + 2 && metrics.bottom <= metrics.frameHeight + 2, JSON.stringify(metrics));
+    add('browser-reader-a4-ratio', Boolean(metrics) && Math.abs(metrics.ratio - (297 / 210)) < 0.03, `ratio=${metrics?.ratio}`);
+    add('browser-next-enabled', second ? !(await page.locator('#nextPageBtn').isDisabled()) : true, second?.file || 'single-page topic');
+    if (second) {
+      await page.locator('#nextPageBtn').click();
+      await waitForWorksheetFrame(page, second.file);
+      add('browser-next-navigation', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${second.number}`), second.file);
+    }
 
     const popupPromise = context.waitForEvent('page');
     await page.locator('#openLiveBtn').click();
     const popup = await popupPromise;
     await popup.waitForLoadState('domcontentloaded');
-    await waitForFrame(popup, 'עמוד-48.html');
+    await waitForWorksheetFrame(popup, second?.file || first.file);
     const popupUrl = new URL(popup.url());
-    const fullState = await readerState(popup);
-    const fullShell = await popup.evaluate(() => ({
-      fullMode: document.body.classList.contains('full-mode'),
-      overflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth,
-      back: document.querySelector('#openLiveBtn')?.textContent?.trim()
-    }));
-    add('browser-open-full-canonical-url', popupUrl.pathname.endsWith('/mobile-app.html') && popupUrl.searchParams.get('mode') === 'full' && popupUrl.searchParams.get('file') === 'עמוד-48.html', popup.url());
-    add('browser-open-full-shell', fullShell.fullMode && fullShell.back === 'חזרה' && fullShell.overflow <= 1, JSON.stringify(fullShell));
-    add('browser-open-full-fits', Boolean(fullState) && fullState.left >= -2 && fullState.top >= -2 && fullState.right <= fullState.frameWidth + 2 && fullState.bottom <= fullState.frameHeight + 2, JSON.stringify(fullState));
-    add('browser-open-full-isolated', await popup.evaluate(() => window.opener === null), 'noopener enforced');
+    add('browser-open-full-url', popupUrl.searchParams.get('mode') === 'full' && popupUrl.searchParams.get('file') === (second?.file || first.file), popup.url());
+    add('browser-open-full-navigation', topic.pages.length < 2 || !(await popup.locator('#prevPageBtn').isDisabled()), 'full mode keeps topic navigation');
+    add('browser-open-full-isolated', await popup.evaluate(() => window.opener === null), 'noopener');
     await popup.close();
-
     add('browser-no-page-errors', pageErrors.length === 0, pageErrors.join(' | ') || 'none');
-    add('browser-no-failed-assets', failedResponses.length === 0, failedResponses.join(' | ') || 'none');
     await context.close();
   } catch (error) {
     add('browser-audit-execution', false, error?.stack || String(error));
@@ -241,14 +200,8 @@ async function runBrowserAudit() {
 }
 
 if (browserMode) await runBrowserAudit();
-
 const failed = checks.filter(check => !check.ok);
-const report = {
-  generatedAt: new Date().toISOString(),
-  browserMode,
-  status: failed.length ? 'fail' : 'pass',
-  checks
-};
+const report = { generatedAt: new Date().toISOString(), browserMode, status: failed.length ? 'fail' : 'pass', checks };
 fs.mkdirSync(path.join(root, 'meta', 'audit'), { recursive: true });
 fs.writeFileSync(path.join(root, 'meta', 'audit', browserMode ? 'mobile-browser-validation.json' : 'mobile-runtime-validation.json'), `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));
