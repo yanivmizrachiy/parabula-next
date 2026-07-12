@@ -24,13 +24,7 @@ function normalizedRequest(request) {
   if (url.origin !== self.location.origin) return request;
   url.hash = '';
   url.search = '';
-  return new Request(url.href, {
-    method: 'GET',
-    headers: request.headers,
-    mode: request.mode,
-    credentials: request.credentials,
-    redirect: 'follow'
-  });
+  return new Request(url.href, { method: 'GET', credentials: 'same-origin' });
 }
 
 async function safeCachePut(cache, request, response) {
@@ -45,7 +39,10 @@ async function safeCachePut(cache, request, response) {
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    const results = await Promise.allSettled(CORE_ASSETS.map(asset => cache.add(new Request(asset, { cache: 'reload' }))));
+    const results = await Promise.allSettled(CORE_ASSETS.map(asset => {
+      const absolute = new URL(asset, self.registration.scope).href;
+      return cache.add(new Request(absolute, { cache: 'reload', credentials: 'same-origin' }));
+    }));
     const failed = results.filter(result => result.status === 'rejected');
     if (failed.length) console.warn(`[sw] ${failed.length} core assets were not precached`);
   })());
@@ -72,9 +69,20 @@ async function networkFirst(request) {
   } catch (error) {
     const cached = await cache.match(normalizedRequest(request));
     if (cached) return cached;
+
     if (request.mode === 'navigate') {
-      const shell = await cache.match(new Request(new URL('./mobile-app.html', self.location.href).href));
-      if (shell) return shell;
+      const pathname = new URL(request.url).pathname;
+      const shellPath = new URL('./mobile-app.html', self.registration.scope).pathname;
+      const indexPath = new URL('./index.html', self.registration.scope).pathname;
+      const scopePath = new URL('./', self.registration.scope).pathname;
+      if ([shellPath, indexPath, scopePath].includes(pathname)) {
+        const shell = await cache.match(new Request(new URL('./mobile-app.html', self.registration.scope).href));
+        if (shell) return shell;
+      }
+      return new Response('הדף אינו שמור במכשיר ואין כרגע חיבור לאינטרנט.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
     }
     throw error;
   }
