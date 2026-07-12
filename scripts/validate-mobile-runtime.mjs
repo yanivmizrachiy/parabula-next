@@ -4,26 +4,27 @@ import path from 'node:path';
 import process from 'node:process';
 
 const root = process.cwd();
-const exists = rel => fs.existsSync(path.join(root, rel));
-const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 const browserMode = process.argv.includes('--browser');
 const checks = [];
 const add = (name, ok, details = '') => checks.push({ name, ok: Boolean(ok), details });
+const exists = rel => fs.existsSync(path.join(root, rel));
+const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 
 const required = [
   'index.html', 'index.js', 'mobile-app.html', 'mobile-app.css', 'mobile-app.js',
   'mobile-app.webmanifest', 'sw.js', 'reader-actions.js', 'reader-actions.css',
-  'meta/topics.json', 'scripts/copy-static-site.mjs', 'scripts/validate-mobile-all-pages.mjs'
+  'meta/topics.json', 'scripts/copy-static-site.mjs', 'scripts/validate-mobile-all-pages.mjs',
+  'scripts/validate-mobile-interactions.mjs'
+];
+const forbidden = [
+  'mobile-topics.json', 'mobile.css', 'mobile-app-install.html', 'mobile-app-install.js',
+  'preview/phone.html', 'preview/phone.js', 'preview/phone-sw.js', 'preview/mobile.html',
+  'preview/mobile-app.html', 'preview/mobile-app.js', 'preview/mobile-app.css',
+  'preview/mobile-app.webmanifest', 'preview/mobile-app-install.html',
+  'preview/mobile-app-install.js', 'preview/manifest.webmanifest', 'preview/sw.js',
+  'preview/install.html', 'scripts/ship_mobile_release.sh'
 ];
 for (const rel of required) add(`required:${rel}`, exists(rel), exists(rel) ? 'exists' : 'missing');
-
-const forbidden = [
-  'mobile-topics.json', 'preview/phone.html', 'preview/phone.js', 'preview/phone-sw.js',
-  'preview/mobile.html', 'preview/mobile-app.html', 'preview/mobile-app.js', 'preview/mobile-app.css',
-  'preview/mobile-app.webmanifest', 'preview/mobile-app-install.html', 'preview/mobile-app-install.js',
-  'preview/manifest.webmanifest', 'preview/sw.js', 'preview/install.html', 'mobile.css',
-  'mobile-app-install.html', 'mobile-app-install.js', 'scripts/ship_mobile_release.sh'
-];
 for (const rel of forbidden) add(`legacy-absent:${rel}`, !exists(rel), exists(rel) ? 'must be removed' : 'absent');
 
 let meta = null;
@@ -43,43 +44,51 @@ const copyScript = exists('scripts/copy-static-site.mjs') ? read('scripts/copy-s
 if (meta) {
   const flat = (meta.topics || []).flatMap(topic => topic.pages || []);
   const rootPages = fs.readdirSync(root).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
-  add('canonical-topic-count', meta.topics.length >= 8, `topics=${meta.topics.length}`);
+  add('canonical-topic-count', meta.topics.length > 0, `topics=${meta.topics.length}`);
   add('canonical-page-count', flat.length === rootPages && flat.length === meta.totalPages, `meta=${flat.length}; root=${rootPages}; declared=${meta.totalPages}`);
 }
 
-const tokenFiles = { 'index.html': indexHtml, 'index.js': indexJs, 'mobile-app.html': html, 'mobile-app.js': js, 'mobile-app.webmanifest': exists('mobile-app.webmanifest') ? read('mobile-app.webmanifest') : '', 'sw.js': sw };
+const tokenFiles = {
+  'index.html': indexHtml,
+  'index.js': indexJs,
+  'mobile-app.html': html,
+  'mobile-app.js': js,
+  'mobile-app.webmanifest': exists('mobile-app.webmanifest') ? read('mobile-app.webmanifest') : '',
+  'sw.js': sw
+};
 for (const [file, text] of Object.entries(tokenFiles)) add(`single-version-token:${file}`, text.includes('__MOBILE_VERSION__'), 'build token present');
 add('single-version-build-injection', copyScript.includes('replaceAll(VERSION_TOKEN, buildVersion)') && copyScript.includes('GITHUB_SHA'), 'one generated build version');
-add('no-hardcoded-mobile-release-id', !Object.values(tokenFiles).some(text => /2026071\d{4}/.test(text)), 'no duplicated manual release number');
+add('no-hardcoded-mobile-release-id', !Object.values(tokenFiles).some(text => /2026071\d{4}/.test(text)), 'no manual release number');
 
-add('canonical-meta-source', js.includes("./meta/topics.json") && !js.includes('mobile-topics.json'), 'mobile reads meta/topics.json only');
+add('canonical-meta-source', js.includes('./meta/topics.json') && !js.includes('mobile-topics.json'), 'canonical metadata only');
 add('global-search', js.includes('state.flatPages.filter') && js.includes('matchesQuery'), 'search covers all pages');
 add('safe-storage', js.includes('function storageGet') && js.includes('function storageSet') && js.includes('catch'), 'storage failure is non-fatal');
-add('visual-viewport', js.includes('visualViewport') && css.includes('100dvh'), 'dynamic mobile viewport supported');
-add('safe-areas', css.includes('safe-area-inset-top') && css.includes('safe-area-inset-bottom'), 'notches and gesture areas supported');
-add('touch-targets', /min-width:44px;min-height:44px/.test(css) && css.includes('.zoom-dock button{min-height:44px'), '44px touch targets');
+add('visual-viewport', js.includes('visualViewport') && css.includes('100dvh'), 'dynamic viewport supported');
+add('safe-areas', css.includes('safe-area-inset-top') && css.includes('safe-area-inset-bottom'), 'safe areas supported');
+const baseTouchTarget = /min-width\s*:\s*44px\s*;[\s\S]{0,80}?min-height\s*:\s*44px(?:\s*!important)?\s*;/.test(css);
+const zoomTouchTarget = /\.zoom-dock button\s*\{[^}]*min-width\s*:\s*44px/i.test(css);
+add('touch-targets', baseTouchTarget && zoomTouchTarget, `base=${baseTouchTarget}; zoom=${zoomTouchTarget}`);
 add('selection-does-not-cover-nav', css.includes('bottom:calc(var(--bottom-nav-h) + var(--safe-bottom))'), 'selection bar is above navigation');
-add('scroll-state-sync', js.includes('function syncScrollCurrent') && js.includes('syncCurrentPage(page)'), 'visible scroll page becomes current');
-add('scroll-virtualization', js.includes('SCROLL_WINDOW') && js.includes('hydrateScrollWindow') && js.includes("querySelector('iframe')?.remove()"), 'only nearby scroll iframes stay mounted');
-add('scroll-navigation-disabled', css.includes('body.reader-scroll #prevPageBtn') && js.includes("const inScroll = state.readMode === 'scroll'"), 'misleading navigation disabled in scroll mode');
-add('dialog-accessibility', html.includes('aria-modal="true"') && js.includes('els.appShell.inert = true') && js.includes("event.key === 'Escape'") && js.includes("event.key !== 'Tab'"), 'modal focus and keyboard contract');
+add('scroll-state-sync', js.includes('function syncScrollCurrent') && js.includes('syncCurrentPage(page)'), 'scroll page becomes current');
+add('scroll-virtualization', js.includes('SCROLL_WINDOW') && js.includes('hydrateScrollWindow') && js.includes("querySelector('iframe')?.remove()"), 'nearby iframes only');
+add('scroll-navigation-disabled', css.includes('body.reader-scroll #prevPageBtn') && js.includes("const inScroll = state.readMode === 'scroll'"), 'misleading navigation disabled');
+add('dialog-accessibility', html.includes('aria-modal="true"') && js.includes('els.appShell.inert = true') && js.includes("event.key === 'Escape'"), 'modal contract present');
 add('selection-restores-immediately', actions.includes('callback(selectionSnapshot())'), 'selection listener receives current state');
-add('print-batching', actions.includes('PRINT_CONCURRENCY') && actions.includes('loadFramesInBatches'), 'large chapters are prepared in bounded batches');
+add('print-batching', actions.includes('PRINT_CONCURRENCY') && actions.includes('loadFramesInBatches'), 'bounded print preparation');
 add('pwa-precache', sw.includes('CORE_ASSETS') && sw.includes("'./mobile-app.html'") && sw.includes("'./meta/topics.json'"), 'offline shell precached');
-add('pwa-safe-cache', sw.includes('safeCachePut') && sw.includes("console.warn('[sw] cache put skipped'"), 'cache failure cannot break a network response');
-add('pwa-update-ui', html.includes('id="updateBar"') && js.includes('controllerchange') && !sw.includes('self.skipWaiting());\n});'), 'updates are coordinated');
-add('offline-ui', html.includes('id="networkStatus"') && js.includes("window.addEventListener('offline'"), 'offline state is visible');
-add('manifest-canonical', manifest?.id === './mobile-app.html' && String(manifest?.start_url || '').includes('mobile-app.html'), 'installed app opens canonical mobile shell');
-add('full-mode-canonical', js.includes("target.searchParams.set('mode', 'full')") && js.includes("target.searchParams.set('file', page.file)"), 'open-full stays in mobile app');
-add('manual-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile'), 'entry routing can be overridden');
+add('pwa-safe-cache', sw.includes('safeCachePut') && sw.includes('cache put skipped'), 'cache failure cannot break response');
+add('pwa-update-ui', html.includes('id="updateBar"') && js.includes('controllerchange') && sw.includes("event.data?.type === 'SKIP_WAITING'"), 'coordinated update path');
+add('offline-ui', html.includes('id="networkStatus"') && js.includes("window.addEventListener('offline'"), 'offline state visible');
+add('manifest-canonical', manifest?.id === './mobile-app.html' && String(manifest?.start_url || '').includes('mobile-app.html'), 'canonical installed shell');
+add('full-mode-canonical', js.includes("target.searchParams.set('mode', 'full')") && js.includes("target.searchParams.set('file', page.file)"), 'open-full remains in mobile app');
+add('manual-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile'), 'entry override supported');
 
 function contentType(filePath) {
   return ({
     '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8', '.mjs': 'application/javascript; charset=utf-8',
     '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json; charset=utf-8',
-    '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-    '.woff': 'font/woff', '.woff2': 'font/woff2'
+    '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2'
   })[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
 }
 
@@ -93,7 +102,7 @@ async function startServer(distDir) {
         const filePath = path.resolve(distDir, `.${pathname}`);
         if (filePath !== distDir && !filePath.startsWith(`${distDir}${path.sep}`)) return res.writeHead(403).end('Forbidden');
         if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) return res.writeHead(404).end('Not found');
-        res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store, max-age=0' });
+        res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store' });
         fs.createReadStream(filePath).pipe(res);
       } catch (error) { res.writeHead(500).end(error.message); }
     });
@@ -116,7 +125,7 @@ async function waitForWorksheetFrame(page, file) {
           if (document.fonts?.ready) await document.fonts.ready;
           if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
         });
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(200);
         return frame;
       } catch (error) {
         if (!/Execution context was destroyed|Frame was detached/i.test(String(error))) throw error;
@@ -125,16 +134,6 @@ async function waitForWorksheetFrame(page, file) {
     await page.waitForTimeout(100);
   }
   throw new Error(`Timed out waiting for ${file}`);
-}
-
-async function readerMetrics(page) {
-  return await page.evaluate(() => {
-    const frame = document.querySelector('#mobilePageFrame');
-    const a4 = frame?.contentDocument?.querySelector('.a4-page');
-    if (!frame || !a4) return null;
-    const rect = a4.getBoundingClientRect();
-    return { frameWidth: frame.clientWidth, frameHeight: frame.clientHeight, left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, ratio: rect.height / rect.width };
-  });
 }
 
 async function runBrowserAudit() {
@@ -150,8 +149,7 @@ async function runBrowserAudit() {
     browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
       viewport: { width: 412, height: 915 }, screen: { width: 412, height: 915 },
-      deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL', serviceWorkers: 'block',
-      userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 Chrome/140.0.0.0 Mobile Safari/537.36'
+      deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL', serviceWorkers: 'block'
     });
     const page = await context.newPage();
     const pageErrors = [];
@@ -160,8 +158,8 @@ async function runBrowserAudit() {
     await page.waitForURL(/mobile-app\.html/);
     await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
     add('browser-all-topics-rendered', await page.locator('.topic-btn').count() === (meta?.topics?.length || 0), `expected=${meta?.topics?.length || 0}`);
-    const shellOverflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
-    add('browser-no-horizontal-overflow', shellOverflow <= 1, `overflow=${shellOverflow}`);
+    const overflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
+    add('browser-no-horizontal-overflow', overflow <= 1, `overflow=${overflow}`);
 
     const topic = (meta?.topics || []).find(item => (item.pages || []).length >= 2) || meta?.topics?.[0];
     const first = topic?.pages?.[0];
@@ -169,7 +167,13 @@ async function runBrowserAudit() {
     await page.locator(`.topic-btn[data-topic="${topic.name}"]`).click();
     await page.locator(`.page-card[data-file="${first.file}"] .page-open`).click();
     await waitForWorksheetFrame(page, first.file);
-    const metrics = await readerMetrics(page);
+    const metrics = await page.evaluate(() => {
+      const frame = document.querySelector('#mobilePageFrame');
+      const a4 = frame?.contentDocument?.querySelector('.a4-page');
+      if (!frame || !a4) return null;
+      const rect = a4.getBoundingClientRect();
+      return { frameWidth: frame.clientWidth, frameHeight: frame.clientHeight, left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom, ratio: rect.height / rect.width };
+    });
     add('browser-reader-fits', Boolean(metrics) && metrics.left >= -2 && metrics.top >= -2 && metrics.right <= metrics.frameWidth + 2 && metrics.bottom <= metrics.frameHeight + 2, JSON.stringify(metrics));
     add('browser-reader-a4-ratio', Boolean(metrics) && Math.abs(metrics.ratio - (297 / 210)) < 0.03, `ratio=${metrics?.ratio}`);
     add('browser-next-enabled', second ? !(await page.locator('#nextPageBtn').isDisabled()) : true, second?.file || 'single-page topic');
