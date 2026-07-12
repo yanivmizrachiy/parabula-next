@@ -4,7 +4,10 @@
 }
 
 .page-39 .question-block {
-  gap: 6mm;
+  gap: 18mm;
+  /* דף דל-תוכן: זרימה מלמעלה עם ריווח אחיד ומתון במקום space-between
+     הגלובלי שיוצר חללים ריקים ענקיים באמצע (a4-base). */
+  justify-content: flex-start;
 }
 
 .page-39 .para-key {
@@ -34,7 +37,7 @@
 .page-39 .para-figure,
 .page-39 .para-cardFigure {
   flex: 0 0 auto;
-  width: 220px;
+  width: 250px;
 }
 
 .page-39 .para-defText {

@@ -1,7 +1,10 @@
 /* עמוד 40 — מקבילית (עמוד 2) */
 
 .page-40 .question-block {
-  gap: 6mm;
+  gap: 14mm;
+  /* דף דל-תוכן: זרימה מלמעלה עם ריווח אחיד במקום space-between הגלובלי
+     שיוצר חללים ריקים ענקיים באמצע (a4-base). */
+  justify-content: flex-start;
 }
 
 .page-40 .para-sectionTitle {
@@ -29,7 +32,7 @@
 
 .page-40 .para-cardFigure {
   flex: 0 0 auto;
-  width: 220px;
+  width: 240px;
 }
 
 .page-40 .para-cardLogic {
