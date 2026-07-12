@@ -167,3 +167,7 @@
 .bbb-algebra8-page .cg-slbl { font-size:11.5px; fill:#334155; }
 .bbb-algebra8-page .cg-tickm { stroke:#1e293b; stroke-width:1.3; }
 .bbb-algebra8-page .cg-ytop { font-size:11px; fill:#0f172a; font-weight:500; }
+.bbb-algebra8-page .cg-line2 { stroke:#db2777; stroke-width:2.3; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.bbb-algebra8-page .cg-pt2 { fill:#db2777; }
+.bbb-algebra8-page .cg-gtitle { font-size:13px; fill:#0f172a; font-weight:600; }
+.bbb-algebra8-page .cg-lgd { font-size:11.5px; fill:#334155; }
