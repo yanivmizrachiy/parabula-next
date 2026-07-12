@@ -91,6 +91,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
+	direction: ltr;
 }
 
 .page-38 .dist-item {
@@ -135,7 +136,7 @@
 	min-height: 0;
 	display: flex;
 	flex-direction: column;
-	padding-right: 32px;
+	padding-left: 32px;
 }
 
 .page-38 .dist-wline {
