@@ -180,3 +180,5 @@
 .bbb-algebra8-page .wh-lbl { font-size:12px; fill:#0f172a; font-weight:600; font-family:'Rubik',sans-serif; }
 .bbb-algebra8-page .wh-ground { stroke:#334155; stroke-width:1.8; }
 .bbb-algebra8-page .wh-drop { stroke:#94a3b8; stroke-width:1; stroke-dasharray:4 3; }
+.bbb-algebra8-page .setup-block { border-inline-start:3px solid #cbd5e1; background:#f8fafc; padding:6px 12px; margin:6px 0; border-radius:4px; }
+.bbb-algebra8-page .setup-block p { margin:0; line-height:1.5; }
