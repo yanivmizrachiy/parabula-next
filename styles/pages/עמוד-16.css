@@ -1,5 +1,11 @@
-/* עמוד 16 — משפט פיתגורס (מבוסס PDF) */
-@import url("../topics/pythagoras.css");
+/* עמוד 16 — משפט פיתגורס (שאלה 8 — מלבן ABCD, זווית AEC ואורך AE) */
+@import url("../topics/pythagoras-live.css");
 
 .page-16 {
+	--fig-w: 420px;
+}
+
+.page-16 .solution-space {
+	flex: 1;
+	min-height: 120px;
 }

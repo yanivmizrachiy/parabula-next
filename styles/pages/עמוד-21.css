@@ -1,5 +1,124 @@
-/* עמוד 21 — משפט פיתגורס (מבוסס PDF) */
-@import url("../topics/pythagoras.css");
+/* עמוד 21 — משפט פיתגורס (שאלה 13: זיהוי יתר √13 מבין 4 משולשים; שאלה 14: מלבן ABCD, EC והיקף טרפז AECD) */
+@import url("../topics/pythagoras-live.css");
 
 .page-21 {
+	--fig-w: 380px;
+}
+
+/* ---- מבנה כללי של שתי השאלות ---- */
+.page-21 .question-block {
+	justify-content: flex-start;
+	gap: 12px;
+}
+
+.page-21 .pyt-qgroup {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.page-21 .pyt-qgroup.pyt-grow {
+	flex: 1 1 auto;
+}
+
+.page-21 .pyt-qhead {
+	font-weight: 600;
+	font-size: 17px;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* ---- שאלה 13: שורת ארבעת המשולשים ---- */
+.page-21 .pyt-tri-row {
+	align-items: flex-end;
+	justify-content: space-around;
+	gap: 10px;
+	padding: 4px 6px 0;
+}
+
+.page-21 .pyt-tri-cell {
+	align-items: center;
+	gap: 6px;
+}
+
+.page-21 .pyt-tri-svg-wrap {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+}
+
+.page-21 .pyt-choicebox {
+	display: flex;
+	align-items: flex-end;
+	gap: 2px;
+}
+
+.page-21 .pyt-cb-box {
+	width: 26px;
+	height: 26px;
+	border: 1.5px solid var(--accent-dark);
+	background: var(--bg-paper);
+	flex: 0 0 auto;
+}
+
+.page-21 .pyt-cb-num {
+	font-size: 10px;
+	color: var(--text-main);
+	align-self: flex-end;
+}
+
+/* ---- שאלה 14: פתיח (נתונים + תרשים) ---- */
+.page-21 .pyt-q14-intro {
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 18px;
+	flex-wrap: wrap;
+}
+
+.page-21 .pyt-q14-given {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	line-height: 22px;
+	min-width: 150px;
+}
+
+.page-21 .pyt-q14-fig {
+	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+}
+
+.page-21 .pyt-q14-fig .pyt-diagram-frame {
+	width: var(--fig-w);
+	max-width: 100%;
+}
+
+.page-21 .pyt-q14-mid {
+	line-height: 22px;
+}
+
+/* ---- תת-סעיפים א' ו-ב' ---- */
+.page-21 .pyt-sub-line {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	line-height: 22px;
+}
+
+.page-21 .pyt-solve-note {
+	margin-top: 2px;
+	line-height: 22px;
+}
+
+.page-21 .pyt-part-b {
+	margin-top: 6px;
+}
+
+/* ---- אזור פתרון מתרחב ---- */
+.page-21 .solution-space {
+	flex: 1;
+	min-height: 90px;
 }

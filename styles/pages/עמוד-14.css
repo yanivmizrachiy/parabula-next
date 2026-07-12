@@ -1,5 +1,11 @@
-/* עמוד 14 — משפט פיתגורס (מבוסס PDF) */
-@import url("../topics/pythagoras.css");
+/* עמוד 14 — משפט פיתגורס (שאלה 6 — מלבן ABCD, היקף המשולש ADC) */
+@import url("../topics/pythagoras-live.css");
 
 .page-14 {
+	--fig-w: 420px;
+}
+
+.page-14 .solution-space {
+	flex: 1;
+	min-height: 140px;
 }

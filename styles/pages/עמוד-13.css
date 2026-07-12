@@ -1,5 +1,11 @@
-/* עמוד 13 — משפט פיתגורס (מבוסס PDF) */
-@import url("../topics/pythagoras.css");
+/* עמוד 13 — משפט פיתגורס (שאלה 5 — מרובע ABCD משני משולשים ישרי-זווית) */
+@import url("../topics/pythagoras-live.css");
 
 .page-13 {
+	--fig-w: 460px;
+}
+
+.page-13 .solution-space {
+	flex: 1;
+	min-height: 120px;
 }
