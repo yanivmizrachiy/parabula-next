@@ -4,21 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>ספר דפי העבודה של יניב</title>
-  <link rel="manifest" href="./mobile-app.webmanifest?v=20260712002" />
-  <link rel="icon" href="./icon.svg?v=20260712002" type="image/svg+xml" />
-  <link rel="stylesheet" href="./reader-actions.css?v=20260712002" />
-  <link rel="stylesheet" href="./mobile-app.css?v=20260712002" />
+  <link rel="manifest" href="./mobile-app.webmanifest?v=__MOBILE_VERSION__" />
+  <link rel="icon" href="./icon.svg?v=__MOBILE_VERSION__" type="image/svg+xml" />
+  <link rel="stylesheet" href="./vendor/fonts/rubik.css" />
+  <link rel="stylesheet" href="./reader-actions.css?v=__MOBILE_VERSION__" />
+  <link rel="stylesheet" href="./mobile-app.css?v=__MOBILE_VERSION__" />
 </head>
 <body>
-  <div class="app-shell">
+  <div id="networkStatus" class="network-status" role="status" aria-live="polite" hidden>אין חיבור לאינטרנט — מוצג תוכן שנשמר במכשיר</div>
+  <div id="updateBar" class="update-bar" role="status" aria-live="polite" hidden>
+    <span>גרסה חדשה של האפליקציה מוכנה.</span>
+    <button id="applyUpdateBtn" type="button">עדכן עכשיו</button>
+  </div>
+
+  <div id="appShell" class="app-shell">
     <header class="topbar">
       <div class="topbar-main">
         <strong class="app-title">ספר דפי העבודה של יניב</strong>
         <div id="appMeta" class="app-meta" role="status" aria-live="polite">טוען…</div>
       </div>
       <div class="topbar-actions">
-        <button id="installAppBtn" type="button" hidden>התקן במסך הבית</button>
+        <button id="installAppBtn" type="button" hidden>התקן</button>
         <button id="toggleTopicsBtn" type="button" aria-controls="topicsPanel" aria-expanded="true">נושאים ודפים</button>
       </div>
     </header>
@@ -29,7 +39,8 @@
         <button id="selectModeBtn" class="mini-chip" type="button" aria-pressed="false">☑ בחירה</button>
       </div>
       <div id="topicStrip" class="topic-strip" role="group" aria-labelledby="topicsTitle"></div>
-      <input id="globalSearch" type="search" inputmode="search" autocomplete="off" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
+      <label for="globalSearch" class="sr-only">חיפוש בכל הספר</label>
+      <input id="globalSearch" type="search" inputmode="search" autocomplete="off" enterkeyhint="search" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
       <div id="searchMeta" class="search-meta" role="status" aria-live="polite" hidden></div>
       <section id="topicPages" class="pages-list" aria-label="רשימת דפים"></section>
     </section>
@@ -47,6 +58,7 @@
       </div>
 
       <div id="mobileLoadingState" class="loading-state" role="status" aria-live="polite" hidden>טוען דף…</div>
+      <div id="mobileErrorState" class="error-state" role="alert" hidden></div>
 
       <div class="frame-wrap">
         <iframe id="mobilePageFrame" title="ספר דפי עבודה" src="about:blank" loading="eager"></iframe>
@@ -54,32 +66,30 @@
 
       <div class="zoom-dock" role="group" aria-label="הגדלת הדף לקריאה נוחה">
         <button id="zoomOutBtn" type="button" aria-label="הקטנת התצוגה">−</button>
-        <button id="zoomResetBtn" type="button" aria-label="התאמה לרוחב המסך">100%</button>
+        <button id="zoomResetBtn" type="button" aria-label="התאמה למסך">100%</button>
         <button id="zoomInBtn" type="button" aria-label="הגדלת התצוגה">+</button>
       </div>
     </section>
 
     <nav class="bottom-nav" aria-label="ניווט ופעולות">
       <button id="prevPageBtn" type="button" aria-label="הדף הקודם">◄ הקודם</button>
-      <button id="actionsBtn" type="button" aria-label="פעולות: הדפסה, PDF והורדה">⚙ פעולות</button>
-      <button id="openLiveBtn" type="button" aria-label="פתיחת הדף המלא בכרטיסייה חדשה">פתח מלא</button>
+      <button id="actionsBtn" type="button" aria-haspopup="dialog" aria-controls="actionsSheet" aria-label="פעולות: הדפסה, PDF והורדה">⚙ פעולות</button>
+      <button id="openLiveBtn" type="button" aria-label="פתיחת הדף המלא">פתח מלא</button>
       <button id="nextPageBtn" type="button" aria-label="הדף הבא">הבא ►</button>
     </nav>
   </div>
 
-  <!-- ═══ סרגל בחירה מרובה ═══ -->
   <div id="selectionBar" class="selection-bar" hidden role="region" aria-label="דפים נבחרים">
     <span id="selectionCount" class="sel-count">נבחרו 0 דפים</span>
     <div class="sel-actions">
-      <button id="selPrint" type="button">🖨 הדפס נבחרים</button>
+      <button id="selPrint" type="button">🖨 הדפס/PDF</button>
       <button id="selClear" type="button">נקה</button>
     </div>
   </div>
 
-  <!-- ═══ גיליון פעולות ═══ -->
-  <div id="actionsSheet" class="actions-sheet" hidden role="dialog" aria-modal="true" aria-label="פעולות על הדף">
+  <div id="actionsSheet" class="actions-sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetPageTitle">
     <div class="sheet-backdrop" data-close></div>
-    <div class="sheet-panel">
+    <div class="sheet-panel" tabindex="-1">
       <div class="sheet-handle" aria-hidden="true"></div>
       <div class="sheet-title" id="sheetPageTitle">פעולות</div>
 
@@ -99,7 +109,7 @@
 
       <div class="sheet-group-label">הפרק הנוכחי</div>
       <div class="sheet-actions">
-        <button id="aPrintTopic" class="sheet-act" type="button">🖨 הדפס את כל הפרק</button>
+        <button id="aPrintTopic" class="sheet-act" type="button">🖨 הדפס/PDF לפרק</button>
         <button id="aSelectTopic" class="sheet-act" type="button">☑ בחר את כל הפרק</button>
       </div>
 
@@ -110,62 +120,46 @@
   <script>
     (() => {
       const params = new URLSearchParams(window.location.search);
-      const fullMode = params.get('mode') === 'full';
-      const requestedFile = params.get('file') || '';
-      const openButton = document.getElementById('openLiveBtn');
+      window.__PARABULA_BOOT = {
+        fullMode: params.get('mode') === 'full',
+        requestedFile: params.get('file') || ''
+      };
+      if (window.__PARABULA_BOOT.fullMode) document.body.classList.add('full-mode');
 
-      if (fullMode) {
-        document.body.classList.add('full-mode');
-        openButton.textContent = 'חזרה';
-        openButton.setAttribute('aria-label', 'חזרה לאפליקציית הספר');
-      }
+      document.addEventListener('click', event => {
+        const card = event.target instanceof Element ? event.target.closest('.page-card') : null;
+        if (card && event.target === card) card.querySelector('.page-open')?.click();
+      });
 
-      openButton.addEventListener('click', event => {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        if (fullMode) {
-          window.close();
-          setTimeout(() => {
-            if (!window.closed) window.location.assign('./mobile-app.html');
-          }, 0);
-          return;
-        }
-
-        const frame = document.getElementById('mobilePageFrame');
-        let file = '';
+      const serviceWorker = navigator.serviceWorker;
+      if (serviceWorker && typeof serviceWorker.register === 'function') {
+        const originalRegister = serviceWorker.register.bind(serviceWorker);
+        const emptyRegistration = Object.freeze({
+          waiting: null,
+          installing: null,
+          addEventListener() {},
+          update() { return Promise.resolve(); }
+        });
+        const normalizedRegister = async (...args) => (await originalRegister(...args)) || emptyRegistration;
         try {
-          file = decodeURIComponent(frame.contentWindow.location.pathname.split('/').pop() || '');
-        } catch {}
-        if (!/^עמוד-\d+\.html$/.test(file)) return;
-
-        const target = new URL('./mobile-app.html', window.location.href);
-        target.searchParams.set('mode', 'full');
-        target.searchParams.set('file', file);
-        window.open(target.href, '_blank', 'noopener,noreferrer');
-      }, true);
-
-      if (fullMode && /^עמוד-\d+\.html$/.test(requestedFile)) {
-        const openRequestedPage = () => {
-          const search = document.getElementById('globalSearch');
-          if (!search) {
-            setTimeout(openRequestedPage, 40);
-            return;
-          }
-          search.value = requestedFile;
-          search.dispatchEvent(new Event('input', { bubbles: true }));
-          requestAnimationFrame(() => {
-            const card = document.querySelector(`.page-card[data-file="${CSS.escape(requestedFile)}"]`);
-            if (card) card.click();
-            else setTimeout(openRequestedPage, 40);
+          Object.defineProperty(serviceWorker, 'register', {
+            configurable: true,
+            value: normalizedRegister
           });
-        };
-        window.addEventListener('load', openRequestedPage, { once: true });
-        setTimeout(openRequestedPage, 0);
+        } catch {
+          try {
+            const prototype = Object.getPrototypeOf(serviceWorker);
+            Object.defineProperty(prototype, 'register', {
+              configurable: true,
+              writable: true,
+              value: normalizedRegister
+            });
+          } catch { /* optional API compatibility only */ }
+        }
       }
     })();
   </script>
-  <script src="./reader-actions.js?v=20260712002"></script>
-  <script src="./mobile-app.js?v=20260712002"></script>
+  <script src="./reader-actions.js?v=__MOBILE_VERSION__"></script>
+  <script src="./mobile-app.js?v=__MOBILE_VERSION__"></script>
 </body>
 </html>

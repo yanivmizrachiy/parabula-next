@@ -1,15 +1,4 @@
-Audit this repository as a production worksheet workspace.
-
-Read `.github/copilot-instructions.md` first.
-
-Return:
-1. root page count
-2. preview architecture
-3. metadata architecture
-4. test/verify/build commands
-5. GitHub Pages readiness
-6. VS Code workspace readiness
-7. the single safest next improvement
-
-Use real repository files only.
-Do not invent missing systems.
+Read `CLAUDE.md` in full; it is the only source of audit requirements.
+Audit the current repository using live files, metadata, package scripts and workflow results.
+Do not store architecture, command lists, counts or next-step policy in this prompt.
+Report verified findings, risks and untested areas in Hebrew.

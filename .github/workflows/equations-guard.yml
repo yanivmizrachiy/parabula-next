@@ -79,18 +79,42 @@ jobs:
 
       - name: Ensure audits did not create unexpected tracked changes
         run: |
-          # meta/equations-master-map.json is a generated artifact: audit-equations-master-map.mjs
-          # (run via validate:equations:all) rewrites only its "generatedAt" timestamp each run.
-          # Fail on ANY other change (modified or new files), and still fail on substantive
-          # (non-timestamp) drift in the master map itself.
           unexpected="$(git status --porcelain | grep -v ' meta/equations-master-map.json$' || true)"
           if [ -n "$unexpected" ]; then
             echo "Equation validation or audit created unexpected repository changes:"
             echo "$unexpected"
             exit 1
           fi
-          if git diff -- meta/equations-master-map.json | grep '^[+-]' | grep -vE '^[+-]{3} ' | grep -v '"generatedAt"' | grep -q .; then
-            echo "Equations master map is stale (substantive drift beyond timestamp):"
-            git diff -- meta/equations-master-map.json
-            exit 1
-          fi
+
+          node <<'NODE'
+          const fs = require('node:fs');
+          const { execFileSync } = require('node:child_process');
+          const path = 'meta/equations-master-map.json';
+          const before = JSON.parse(execFileSync('git', ['show', `HEAD:${path}`], { encoding: 'utf8' }));
+          const after = JSON.parse(fs.readFileSync(path, 'utf8'));
+          delete before.generatedAt;
+          delete after.generatedAt;
+          if (JSON.stringify(before) !== JSON.stringify(after)) {
+            console.error('Equations master map is stale (semantic drift beyond generatedAt):');
+            console.error(execFileSync('git', ['diff', '--', path], { encoding: 'utf8' }));
+            process.exit(1);
+          }
+          console.log('Equations master map semantic content is stable.');
+          NODE
+
+      - name: Capture generated-state diagnostics
+        if: always()
+        run: |
+          mkdir -p meta/audit/equations-ci
+          git status --porcelain > meta/audit/equations-ci/git-status.txt
+          git diff -- meta/equations-master-map.json > meta/audit/equations-ci/equations-master-map.diff
+          cp meta/equations-master-map.json meta/audit/equations-ci/equations-master-map.generated.json
+
+      - name: Upload generated-state diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: equations-generated-state
+          path: meta/audit/equations-ci
+          if-no-files-found: error
+          retention-days: 3

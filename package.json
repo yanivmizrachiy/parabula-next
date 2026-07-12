@@ -19,6 +19,7 @@
     "validate:access": "node scripts/validate-access-layer.mjs",
     "validate:mobile": "node scripts/validate-mobile-runtime.mjs",
     "validate:mobile:browser": "node scripts/validate-mobile-runtime.mjs --browser",
+    "validate:mobile:interactions": "node scripts/validate-mobile-interactions.mjs",
     "validate:mobile:all-pages": "node scripts/validate-mobile-all-pages.mjs --shard-index=0 --shard-count=1",
     "validate:equations:print-smoke": "node scripts/validate-equations-print-smoke.mjs",
     "validate:equations:all": "node scripts/validate-equations-suite.mjs",
@@ -36,7 +37,7 @@
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
     "audit:a4:utilization": "node scripts/a4-utilization-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
-    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
+    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:interactions && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "^4.1.3",
