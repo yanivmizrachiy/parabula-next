@@ -171,3 +171,12 @@
 .bbb-algebra8-page .cg-pt2 { fill:#db2777; }
 .bbb-algebra8-page .cg-gtitle { font-size:13px; fill:#0f172a; font-weight:600; }
 .bbb-algebra8-page .cg-lgd { font-size:11.5px; fill:#334155; }
+.bbb-algebra8-page .wheel-svg { display:block; margin:2px auto; max-width:42%; height:auto; shape-rendering:geometricPrecision; }
+.bbb-algebra8-page .wheel-svg line, .bbb-algebra8-page .wheel-svg circle { vector-effect:non-scaling-stroke; }
+.bbb-algebra8-page .wh-circle { fill:none; stroke:#6366f1; stroke-width:1.6; }
+.bbb-algebra8-page .wh-spoke { stroke:#475569; stroke-width:1; }
+.bbb-algebra8-page .wh-hub { fill:#1e293b; }
+.bbb-algebra8-page .wh-pt { fill:#1d4ed8; }
+.bbb-algebra8-page .wh-lbl { font-size:12px; fill:#0f172a; font-weight:600; font-family:'Rubik',sans-serif; }
+.bbb-algebra8-page .wh-ground { stroke:#334155; stroke-width:1.8; }
+.bbb-algebra8-page .wh-drop { stroke:#94a3b8; stroke-width:1; stroke-dasharray:4 3; }
