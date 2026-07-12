@@ -19,13 +19,8 @@
 
 .page-21 .pyt-qgroup.pyt-grow {
 	flex: 1 1 auto;
-}
-
-.page-21 .pyt-qhead {
-	font-weight: 600;
-	font-size: 17px;
-	text-decoration: underline;
-	text-underline-offset: 3px;
+	border-top: 1px solid var(--border-light);
+	padding-top: 12px;
 }
 
 /* ---- שאלה 13: שורת ארבעת המשולשים ---- */
