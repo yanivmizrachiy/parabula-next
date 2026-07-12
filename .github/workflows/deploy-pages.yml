@@ -51,6 +51,15 @@ jobs:
       - name: Canonical rules
         run: npm run rules:check
 
+      - name: Upload canonical-rules report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: canonical-rules-report
+          path: meta/audit/rules-source-validation.json
+          if-no-files-found: warn
+          retention-days: 3
+
       - name: HTML and vendored dependencies
         run: |
           npm run validate:html
