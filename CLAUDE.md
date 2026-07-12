@@ -242,7 +242,7 @@ _עודכן: 2026-07-10_
 - `postbuild` מפעיל `scripts/copy-static-site.mjs` כדי להעתיק את האתר הסטטי ל-`dist/`.
 - `vercel.json` תומך בפריסת Vercel מתוך `dist/`.
 - אין ליצור mirror סטטי נוסף תחת `docs/`.
-- `vendor/` מכיל עותקים מקומיים של MathJax (כולל גופני נוסחאות) ו-Rubik לצורך עצמאות מ-CDN והדפסה ללא אינטרנט; שני מסלולי הפריסה מעתיקים אותו ל-`dist/`.
+- `vendor/` מכיל עותקים מקומיים של MathJax **4.1.3** (הבאנדל `tex-mml-chtml.js` עם גופן `mathjax-tex` מובנה + `tex-font/chtml/woff2` — 22 קבצי woff2) ו-Rubik, לצורך עצמאות מ-CDN והדפסה ללא אינטרנט; שני מסלולי הפריסה מעתיקים אותו ל-`dist/`.
 
 ---
 
@@ -272,7 +272,7 @@ _עודכן: 2026-07-10_
   <title>עמוד X — שם הנושא</title>
   <link rel="stylesheet" href="styles/a4-base.css" />
   <link rel="stylesheet" href="vendor/fonts/rubik.css" />
-  <script>MathJax = { tex: { inlineMath: [["\\(", "\\)"]] }, chtml: { fontURL: 'vendor/mathjax/output/chtml/fonts/woff-v2' } };</script>
+  <script>MathJax = { tex: { inlineMath: [["\\(", "\\)"]] }, chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' } };</script>
   <script src="vendor/mathjax/tex-mml-chtml.js" id="MathJax-script" async></script>
   <link rel="stylesheet" href="styles/pages/עמוד-N.css" />
 </head>

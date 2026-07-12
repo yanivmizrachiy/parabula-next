@@ -17,7 +17,7 @@ const checkOnly = process.argv.includes('--check');
 
 const FONT_LINK = '<link rel="stylesheet" href="vendor/fonts/rubik.css" />';
 const MATHJAX_SRC = 'vendor/mathjax/tex-mml-chtml.js';
-const FONT_URL_CONF = "chtml: { fontURL: 'vendor/mathjax/output/chtml/fonts/woff-v2' }";
+const FONT_URL_CONF = "chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' }";
 
 const pages = fs.readdirSync(root).filter((f) => /^עמוד-\d+\.html$/.test(f));
 const cdnPattern = /fonts\.googleapis\.com|fonts\.gstatic\.com|cdn\.jsdelivr\.net/;
@@ -42,7 +42,7 @@ for (const file of pages) {
   html = html.replace(/<link[^>]*fonts\.googleapis\.com\/css2\?family=Rubik[^>]*\/?>/g, FONT_LINK);
 
   // 2. MathJax loader: point at the vendored bundle (any es5 build name).
-  html = html.replace(/https:\/\/cdn\.jsdelivr\.net\/npm\/mathjax@3\/es5\/[\w-]+\.js/g, MATHJAX_SRC);
+  html = html.replace(/https:\/\/cdn\.jsdelivr\.net\/npm\/mathjax@[34](?:\/es5)?\/[\w-]+\.js/g, MATHJAX_SRC);
 
   // 3. MathJax font URL: the vendored bundle would otherwise still pull its
   //    math fonts from the CDN. Inject chtml.fontURL into the config object.

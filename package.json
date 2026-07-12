@@ -39,10 +39,11 @@
     "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
   },
   "devDependencies": {
+    "@mathjax/mathjax-tex-font": "^4.1.3",
     "@playwright/test": "^1.61.1",
     "ajv": "^8.20.0",
     "html-validate": "^11.5.5",
-    "mathjax": "^3.2.2",
+    "mathjax": "^4.1.3",
     "vite": "^8.0.1"
   }
 }
