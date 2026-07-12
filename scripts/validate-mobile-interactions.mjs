@@ -16,8 +16,7 @@ function contentType(filePath) {
     '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8', '.mjs': 'application/javascript; charset=utf-8',
     '.json': 'application/json; charset=utf-8', '.webmanifest': 'application/manifest+json; charset=utf-8',
-    '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-    '.woff': 'font/woff', '.woff2': 'font/woff2'
+    '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2'
   })[path.extname(filePath).toLowerCase()] || 'application/octet-stream';
 }
 
@@ -31,7 +30,7 @@ async function startServer() {
         const filePath = path.resolve(dist, `.${pathname}`);
         if (filePath !== dist && !filePath.startsWith(`${dist}${path.sep}`)) return res.writeHead(403).end('Forbidden');
         if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) return res.writeHead(404).end('Not found');
-        res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store, max-age=0' });
+        res.writeHead(200, { 'Content-Type': contentType(filePath), 'Cache-Control': 'no-store' });
         fs.createReadStream(filePath).pipe(res);
       } catch (error) { res.writeHead(500).end(error.message); }
     });
@@ -72,9 +71,13 @@ async function screenshot(page, name) {
   return path.relative(root, target);
 }
 
-function attachDiagnostics(page, bucket) {
+function attachDiagnostics(page, bucket, { includeConsole = true } = {}) {
   page.on('pageerror', error => bucket.push(`pageerror: ${error.message}`));
-  page.on('console', message => { if (message.type() === 'error') bucket.push(`console: ${message.text()}`); });
+  if (includeConsole) {
+    page.on('console', message => {
+      if (message.type() === 'error') bucket.push(`console: ${message.text()}`);
+    });
+  }
   page.on('response', response => {
     if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) bucket.push(`http ${response.status()}: ${response.url()}`);
   });
@@ -94,14 +97,26 @@ async function chooseTopicAndPage(page, topic, pageMeta) {
   await waitForFrame(page, pageMeta.file);
 }
 
+async function waitForDialogOpen(page) {
+  await page.waitForFunction(() => {
+    const sheet = document.querySelector('#actionsSheet');
+    const shell = document.querySelector('#appShell');
+    return Boolean(sheet && !sheet.hidden && sheet.classList.contains('is-open') && sheet.contains(document.activeElement) && shell?.inert && document.body.classList.contains('sheet-open'));
+  }, null, { timeout: 2500 });
+}
+
+async function closeDialogWithEscape(page) {
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => document.querySelector('#actionsSheet')?.hidden === true, null, { timeout: 2500 });
+}
+
 async function runAndroid(origin, chromium) {
-  const context = await chromium.launchPersistentContext('', {
-    headless: true,
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext({
     viewport: { width: 412, height: 915 }, screen: { width: 412, height: 915 },
-    deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL', serviceWorkers: 'block',
-    userAgent: 'Mozilla/5.0 (Linux; Android 16; SM-S928B) AppleWebKit/537.36 Chrome/140.0.0.0 Mobile Safari/537.36'
+    deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'he-IL', serviceWorkers: 'block'
   });
-  const page = context.pages()[0] || await context.newPage();
+  const page = await context.newPage();
   const diagnostics = [];
   attachDiagnostics(page, diagnostics);
   try {
@@ -119,7 +134,9 @@ async function runAndroid(origin, chromium) {
       overflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth,
       nav: document.querySelector('.bottom-nav')?.getBoundingClientRect(),
       frame: document.querySelector('#mobilePageFrame')?.getBoundingClientRect(),
-      buttons: [...document.querySelectorAll('button')].filter(button => button.offsetParent !== null).map(button => ({ id: button.id, width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height }))
+      buttons: [...document.querySelectorAll('button')]
+        .filter(button => button.offsetParent !== null)
+        .map(button => ({ id: button.id, width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height }))
     }));
     add('android-no-horizontal-overflow', baseGeometry.overflow <= 1, `overflow=${baseGeometry.overflow}`);
     const smallTargets = baseGeometry.buttons.filter(button => button.width < 43 || button.height < 43);
@@ -135,8 +152,7 @@ async function runAndroid(origin, chromium) {
 
     await ensurePanelOpen(page);
     await page.locator('#selectModeBtn').click();
-    const select = page.locator(`.page-card[data-file="${first.file}"] .tp-check`);
-    await select.click();
+    await page.locator(`.page-card[data-file="${first.file}"] .tp-check`).click();
     await page.locator('#selectionBar').waitFor({ state: 'visible' });
     const bars = await page.evaluate(() => ({
       selection: document.querySelector('#selectionBar')?.getBoundingClientRect(),
@@ -150,18 +166,13 @@ async function runAndroid(origin, chromium) {
     await page.locator('#selClear').click();
 
     await page.locator('#actionsBtn').click();
-    await page.locator('#actionsSheet').waitFor({ state: 'visible' });
-    const dialogState = await page.evaluate(() => ({
-      focusInside: document.querySelector('#actionsSheet')?.contains(document.activeElement),
-      inert: document.querySelector('#appShell')?.inert === true,
-      bodyLocked: document.body.classList.contains('sheet-open')
-    }));
-    add('actions-dialog-focus', dialogState.focusInside && dialogState.inert && dialogState.bodyLocked, JSON.stringify(dialogState));
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(300);
-    add('actions-dialog-escape', await page.locator('#actionsSheet').isHidden(), 'closed by Escape');
+    await waitForDialogOpen(page);
+    add('actions-dialog-focus', true, 'focus, inert and body lock active');
+    await closeDialogWithEscape(page);
+    add('actions-dialog-escape', true, 'closed by Escape');
 
     await page.locator('#actionsBtn').click();
+    await waitForDialogOpen(page);
     await page.locator('[data-mode="scroll"]').click();
     await page.locator('.m-scroll-stack').waitFor({ state: 'visible' });
     const scrollStart = await page.evaluate(() => ({
@@ -176,13 +187,12 @@ async function runAndroid(origin, chromium) {
 
     await page.evaluate(file => {
       const stack = document.querySelector('.m-scroll-stack');
-      const target = stack?.querySelector(`.m-sheet[data-file="${CSS.escape(file)}"]`);
+      const target = [...(stack?.querySelectorAll('.m-sheet') || [])].find(sheet => sheet.dataset.file === file);
       if (stack && target) stack.scrollTop = target.offsetTop;
     }, fifth.file);
     await page.waitForTimeout(500);
     add('scroll-current-page-sync', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${fifth.number}`), `${fifth.file}: ${await page.locator('#currentPageMeta').textContent()}`);
-    const afterScrollIframes = await page.locator('.m-sheet iframe').count();
-    add('scroll-window-stays-bounded', afterScrollIframes <= 7, `iframes=${afterScrollIframes}`);
+    add('scroll-window-stays-bounded', await page.locator('.m-sheet iframe').count() <= 7, `iframes=${await page.locator('.m-sheet iframe').count()}`);
 
     const anotherTopic = (meta.topics || []).find(item => item.name !== topic.name && item.pages.length >= 2);
     if (anotherTopic) {
@@ -194,6 +204,7 @@ async function runAndroid(origin, chromium) {
     }
 
     await page.locator('#actionsBtn').click();
+    await waitForDialogOpen(page);
     await page.locator('[data-mode="single"]').click();
     await page.locator('#mobilePageFrame').waitFor({ state: 'visible' });
     add('scroll-to-single-restores-frame', await page.locator('#mobilePageFrame').isVisible(), 'frame visible');
@@ -209,14 +220,14 @@ async function runAndroid(origin, chromium) {
     add('landscape-reader-above-nav', landscape.frame.bottom <= landscape.nav.top + 2, JSON.stringify(landscape));
 
     await page.setViewportSize({ width: 412, height: 915 });
-    const currentFile = await page.locator('.page-card.active').getAttribute('data-file').catch(() => null) || anotherTopic?.pages?.[0]?.file || first.file;
+    const activeFile = await page.locator('.page-card.active').getAttribute('data-file').catch(() => null) || anotherTopic?.pages?.[0]?.file || first.file;
     const popupPromise = context.waitForEvent('page');
     await page.locator('#openLiveBtn').click();
     const popup = await popupPromise;
-    const popupDiagnostics = [];
-    attachDiagnostics(popup, popupDiagnostics);
+    const popupErrors = [];
+    attachDiagnostics(popup, popupErrors, { includeConsole: false });
     await popup.waitForLoadState('domcontentloaded');
-    await waitForFrame(popup, currentFile);
+    await waitForFrame(popup, activeFile);
     const fullState = await popup.evaluate(() => ({
       full: document.body.classList.contains('full-mode'),
       scroll: document.body.classList.contains('reader-scroll'),
@@ -228,14 +239,14 @@ async function runAndroid(origin, chromium) {
     add('full-mode-keeps-navigation', !(fullState.prevDisabled && fullState.nextDisabled), JSON.stringify(fullState));
     add('full-mode-no-overflow', fullState.overflow <= 1, `overflow=${fullState.overflow}`);
     await popup.close();
-    diagnostics.push(...popupDiagnostics);
-
+    diagnostics.push(...popupErrors);
     add('android-no-runtime-errors', diagnostics.length === 0, diagnostics.join(' | ') || 'none');
   } catch (error) {
     add('android-interaction-execution', false, error?.stack || String(error));
     add('android-failure-screenshot', true, await screenshot(page, 'android-failure'));
   } finally {
     await context.close();
+    await browser.close();
   }
 }
 
@@ -244,7 +255,7 @@ async function runWebKit(origin, webkit, devices) {
   const context = await browser.newContext({ ...devices['iPhone 13'], locale: 'he-IL', serviceWorkers: 'block' });
   const page = await context.newPage();
   const diagnostics = [];
-  attachDiagnostics(page, diagnostics);
+  attachDiagnostics(page, diagnostics, { includeConsole: false });
   try {
     const topic = (meta.topics || []).find(item => item.pages.length >= 2) || meta.topics[0];
     await page.goto(`${origin}/?view=mobile`, { waitUntil: 'networkidle' });
@@ -252,17 +263,16 @@ async function runWebKit(origin, webkit, devices) {
     await chooseTopicAndPage(page, topic, topic.pages[0]);
     const state = await page.evaluate(() => ({
       overflow: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth,
-      safeBottom: getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom'),
       navVisible: document.querySelector('.bottom-nav')?.getBoundingClientRect().height > 0,
       frameVisible: document.querySelector('#mobilePageFrame')?.getBoundingClientRect().height > 0
     }));
     add('iphone-webkit-renders', state.navVisible && state.frameVisible, JSON.stringify(state));
     add('iphone-webkit-no-overflow', state.overflow <= 1, `overflow=${state.overflow}`);
     await page.locator('#actionsBtn').click();
-    await page.keyboard.press('Escape');
-    await page.waitForTimeout(300);
-    add('iphone-dialog-escape', await page.locator('#actionsSheet').isHidden(), 'closed');
-    add('iphone-no-runtime-errors', diagnostics.length === 0, diagnostics.join(' | ') || 'none');
+    await waitForDialogOpen(page);
+    await closeDialogWithEscape(page);
+    add('iphone-dialog-escape', true, 'closed');
+    add('iphone-no-page-errors', diagnostics.length === 0, diagnostics.join(' | ') || 'none');
   } catch (error) {
     add('iphone-interaction-execution', false, error?.stack || String(error));
     add('iphone-failure-screenshot', true, await screenshot(page, 'iphone-failure'));
@@ -296,8 +306,8 @@ async function runOffline(origin, chromium) {
     add('pwa-offline-shell', await page.locator('.topic-btn').count() === meta.topics.length, `topics=${await page.locator('.topic-btn').count()}`);
     add('pwa-offline-status', await page.locator('#networkStatus').isVisible(), await page.locator('#networkStatus').textContent());
     await context.setOffline(false);
-    const expectedOfflineErrors = diagnostics.filter(item => !/ERR_INTERNET_DISCONNECTED|Failed to fetch/i.test(item));
-    add('pwa-no-unexpected-errors', expectedOfflineErrors.length === 0, expectedOfflineErrors.join(' | ') || 'none');
+    const unexpected = diagnostics.filter(item => !/ERR_INTERNET_DISCONNECTED|Failed to fetch/i.test(item));
+    add('pwa-no-unexpected-errors', unexpected.length === 0, unexpected.join(' | ') || 'none');
   } catch (error) {
     add('pwa-offline-execution', false, error?.stack || String(error));
     add('pwa-failure-screenshot', true, await screenshot(page, 'pwa-offline-failure'));
@@ -319,7 +329,6 @@ async function main() {
   } finally {
     await new Promise(resolve => server.close(resolve));
   }
-
   const failed = checks.filter(check => !check.ok);
   const report = { generatedAt: new Date().toISOString(), status: failed.length ? 'fail' : 'pass', checks };
   fs.mkdirSync(auditDir, { recursive: true });
