@@ -11,11 +11,11 @@
   const isMobile = viewportIsCompact || uaMobile || phoneLikeTouchDevice;
 
   const target = view === 'mobile'
-    ? './mobile-app.html?v=20260710003'
+    ? './mobile-app.html?v=20260712001'
     : view === 'catalog'
       ? './catalog.html'
       : isMobile
-        ? './mobile-app.html?v=20260710003'
+        ? './mobile-app.html?v=20260712001'
         : './catalog.html';
 
   window.location.replace(target + window.location.hash);

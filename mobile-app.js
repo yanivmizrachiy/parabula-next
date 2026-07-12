@@ -1,4 +1,4 @@
-const VERSION = 'mobile-hardening-20260710004';
+const VERSION = 'mobile-hardening-20260712001';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -19,10 +19,18 @@ const els = {
   prevPageBtn: document.getElementById('prevPageBtn'),
   nextPageBtn: document.getElementById('nextPageBtn'),
   openLiveBtn: document.getElementById('openLiveBtn'),
-  printBtn: document.getElementById('printBtn')
+  printBtn: document.getElementById('printBtn'),
+  zoomInBtn: document.getElementById('zoomInBtn'),
+  zoomOutBtn: document.getElementById('zoomOutBtn'),
+  zoomResetBtn: document.getElementById('zoomResetBtn')
 };
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.4;
+
 let db = null;
+let zoomFactor = 1;
 let activeTopic = '';
 let visiblePages = [];
 let flatPages = [];
@@ -94,6 +102,7 @@ function updateButtons(){
   els.nextPageBtn.disabled = !hasPage || currentIndex >= visiblePages.length - 1;
   els.openLiveBtn.disabled = !shownPage;
   els.printBtn.disabled = !shownPage;
+  updateZoomUi();
 
   document.querySelectorAll('.topic-btn').forEach(button => {
     const active = button.dataset.topic === activeTopic;
@@ -263,29 +272,32 @@ function fitCurrentA4Page(){
     const rawHeight = page.offsetHeight || page.scrollHeight || rawRect.height;
     if(!rawWidth || !rawHeight || !hostWidth || !hostHeight) return;
 
-    const scale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
+    const fitScale = Math.min(hostWidth / rawWidth, hostHeight / rawHeight, 1);
+    const zoomed = zoomFactor > 1.0001;
+    const scale = fitScale * zoomFactor;
     const scaledWidth = Math.max(1, Math.round(rawWidth * scale));
     const scaledHeight = Math.max(1, Math.round(rawHeight * scale));
-    const left = Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
+    const left = zoomed ? 0 : Math.max(0, Math.round((hostWidth - scaledWidth) / 2));
     page.style.setProperty('left', `${left}px`, 'important');
     page.style.setProperty('top', '0', 'important');
     page.style.setProperty('transform', `scale(${scale})`, 'important');
 
+    const overflowMode = zoomed ? 'auto' : 'hidden';
     doc.documentElement.style.setProperty('width', '100%', 'important');
     doc.documentElement.style.setProperty('min-width', '0', 'important');
-    doc.documentElement.style.setProperty('overflow', 'hidden', 'important');
+    doc.documentElement.style.setProperty('overflow', overflowMode, 'important');
     doc.documentElement.style.setProperty('background', '#eef3f8', 'important');
 
-    doc.body.style.setProperty('width', '100%', 'important');
-    doc.body.style.setProperty('min-width', '0', 'important');
+    doc.body.style.setProperty('width', zoomed ? `${Math.max(hostWidth, scaledWidth)}px` : '100%', 'important');
+    doc.body.style.setProperty('min-width', zoomed ? `${scaledWidth}px` : '0', 'important');
     doc.body.style.setProperty('min-height', `${scaledHeight}px`, 'important');
     doc.body.style.setProperty('height', `${scaledHeight}px`, 'important');
-    doc.body.style.setProperty('overflow', 'hidden', 'important');
+    doc.body.style.setProperty('overflow', overflowMode, 'important');
     doc.body.style.setProperty('background', '#eef3f8', 'important');
     doc.body.style.setProperty('position', 'relative', 'important');
     doc.body.style.setProperty('display', 'block', 'important');
 
-    try{ win.scrollTo(0, 0); }catch{}
+    if(!zoomed){ try{ win.scrollTo(0, 0); }catch{} }
   }catch(error){
     console.error('fitCurrentA4Page failed', error);
   }
@@ -295,6 +307,24 @@ function scheduleFit(){
   setReaderFrameHeight();
   requestAnimationFrame(fitCurrentA4Page);
   [60, 180, 500, 1200].forEach(delay => setTimeout(fitCurrentA4Page, delay));
+}
+
+function updateZoomUi(){
+  const hasPage = Boolean(shownPage);
+  if(els.zoomResetBtn){
+    els.zoomResetBtn.textContent = `${Math.round(zoomFactor * 100)}%`;
+    els.zoomResetBtn.disabled = !hasPage;
+  }
+  if(els.zoomOutBtn) els.zoomOutBtn.disabled = !hasPage || zoomFactor <= MIN_ZOOM + 0.0001;
+  if(els.zoomInBtn) els.zoomInBtn.disabled = !hasPage || zoomFactor >= MAX_ZOOM - 0.0001;
+}
+
+function setZoom(factor){
+  const next = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.round(factor * 100) / 100));
+  if(next === zoomFactor){ updateZoomUi(); return; }
+  zoomFactor = next;
+  updateZoomUi();
+  scheduleFit();
 }
 
 function prepareFrameForPrint(doc){
@@ -352,6 +382,8 @@ function showPage(file, options = {}){
   shownPage = page;
   if(page.topic) activeTopic = page.topic;
 
+  zoomFactor = 1;
+  updateZoomUi();
   els.mobileLoadingState.hidden = false;
   const url = pageUrl(page);
   const separator = url.includes('?') ? '&' : '?';
@@ -505,6 +537,9 @@ els.nextPageBtn.addEventListener('click', () => {
 });
 els.openLiveBtn.addEventListener('click', openCurrent);
 els.printBtn.addEventListener('click', printCurrent);
+els.zoomInBtn?.addEventListener('click', () => setZoom(zoomFactor + ZOOM_STEP));
+els.zoomOutBtn?.addEventListener('click', () => setZoom(zoomFactor - ZOOM_STEP));
+els.zoomResetBtn?.addEventListener('click', () => setZoom(1));
 els.toggleTopicsBtn.addEventListener('click', () => {
   setTopicsPanelOpen(els.topicsPanel.classList.contains('is-collapsed'));
   setTimeout(scheduleFit, 40);

@@ -18,10 +18,11 @@ const required = [
 for (const rel of required) add(`required:${rel}`, exists(rel), exists(rel) ? 'exists' : 'missing');
 
 const forbidden = [
-  'mobile-topics.json', 'preview/phone.html', 'preview/phone.js', 'preview/mobile.html',
-  'preview/mobile-app.html', 'preview/mobile-app.js', 'preview/mobile-app.css',
-  'preview/mobile-app-install.html', 'preview/mobile-app-install.js', 'preview/manifest.webmanifest',
-  'preview/sw.js', 'preview/install.html', 'mobile-app-install.html', 'mobile-app-install.js',
+  'mobile-topics.json', 'preview/phone.html', 'preview/phone.js', 'preview/phone-sw.js',
+  'preview/mobile.html', 'preview/mobile-app.html', 'preview/mobile-app.js', 'preview/mobile-app.css',
+  'preview/mobile-app.webmanifest', 'preview/mobile-app-install.html', 'preview/mobile-app-install.js',
+  'preview/manifest.webmanifest', 'preview/sw.js', 'preview/install.html', 'mobile.css',
+  'mobile-app-install.html', 'mobile-app-install.js',
   'scripts/ship_mobile_release.sh', 'STATE/fix-canonical-rules-trigger.tmp'
 ];
 for (const rel of forbidden) add(`legacy-absent:${rel}`, !exists(rel), exists(rel) ? 'must be removed' : 'absent');
@@ -57,7 +58,7 @@ add('safe-area-support', css.includes('safe-area-inset-bottom') && css.includes(
 add('single-reader-scale', js.includes("setProperty('transform', `scale(${scale})`, 'important')") && js.includes("setProperty('width', '210mm', 'important')"), 'one canonical A4 scaler');
 add('full-mode-routes-through-mobile-app', html.includes("target.searchParams.set('mode', 'full')") && html.includes("target.searchParams.set('file', file)"), 'Open Full uses the canonical mobile app');
 add('full-mode-shell', css.includes('body.full-mode') && html.includes("document.body.classList.add('full-mode')"), 'canonical full-page shell exists');
-add('full-mode-cache-bust', html.includes('mobile-app.css?v=20260710004') && html.includes('mobile-app.js?v=20260710004'), 'new full-mode assets use a fresh URL');
+add('full-mode-cache-bust', html.includes('mobile-app.css?v=20260712001') && html.includes('mobile-app.js?v=20260712001'), 'new full-mode assets use a fresh URL');
 add('no-equations-viewport-reflow', !equationsCss.includes('width: calc(100vw') && !equationsCss.includes('padding: 4.8vw'), 'equations keep canonical A4 geometry');
 add('generator-does-not-create-zoom', !/zoom:\s*0\./.test(generator), 'generator emits no legacy zoom');
 add('generator-uses-canonical-rules', generator.includes('CLAUDE.md') && !generator.includes('STATE/EQUATIONS_DESIGN_PASS_RULES.md'), 'generator uses CLAUDE.md only');

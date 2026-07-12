@@ -2,7 +2,7 @@
   "id": "./mobile-app.html",
   "name": "אפליקציית הדפים של יניב",
   "short_name": "דפי יניב",
-  "start_url": "./mobile-app.html?v=20260710003",
+  "start_url": "./mobile-app.html?v=20260712001",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -12,7 +12,7 @@
   "dir": "rtl",
   "icons": [
     {
-      "src": "./icon.svg?v=20260710003",
+      "src": "./icon.svg?v=20260712001",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
