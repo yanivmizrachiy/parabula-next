@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
   <title>ספר דפי העבודה של יניב</title>
-  <link rel="manifest" href="./mobile-app.webmanifest?v=20260712001" />
-  <link rel="icon" href="./icon.svg?v=20260712001" type="image/svg+xml" />
-  <link rel="stylesheet" href="./mobile-app.css?v=20260712001" />
+  <link rel="manifest" href="./mobile-app.webmanifest?v=20260712002" />
+  <link rel="icon" href="./icon.svg?v=20260712002" type="image/svg+xml" />
+  <link rel="stylesheet" href="./reader-actions.css?v=20260712002" />
+  <link rel="stylesheet" href="./mobile-app.css?v=20260712002" />
 </head>
 <body>
   <div class="app-shell">
@@ -23,7 +24,10 @@
     </header>
 
     <section id="topicsPanel" class="topics-panel" aria-label="נושאים ודפים">
-      <div class="section-title" id="topicsTitle">כל הנושאים</div>
+      <div class="topics-head">
+        <div class="section-title" id="topicsTitle">כל הנושאים</div>
+        <button id="selectModeBtn" class="mini-chip" type="button" aria-pressed="false">☑ בחירה</button>
+      </div>
       <div id="topicStrip" class="topic-strip" role="group" aria-labelledby="topicsTitle"></div>
       <input id="globalSearch" type="search" inputmode="search" autocomplete="off" placeholder="חיפוש בכל הספר — נושא, כותרת או מספר עמוד" aria-label="חיפוש גלובלי בכל הדפים והנושאים" />
       <div id="searchMeta" class="search-meta" role="status" aria-live="polite" hidden></div>
@@ -56,11 +60,51 @@
     </section>
 
     <nav class="bottom-nav" aria-label="ניווט ופעולות">
-      <button id="prevPageBtn" type="button" aria-label="הדף הקודם">הקודם</button>
-      <button id="nextPageBtn" type="button" aria-label="הדף הבא">הבא</button>
+      <button id="prevPageBtn" type="button" aria-label="הדף הקודם">◄ הקודם</button>
+      <button id="actionsBtn" type="button" aria-label="פעולות: הדפסה, PDF והורדה">⚙ פעולות</button>
       <button id="openLiveBtn" type="button" aria-label="פתיחת הדף המלא בכרטיסייה חדשה">פתח מלא</button>
-      <button id="printBtn" type="button" aria-label="הדפסה או שמירה כ-PDF">הדפסה / PDF</button>
+      <button id="nextPageBtn" type="button" aria-label="הדף הבא">הבא ►</button>
     </nav>
+  </div>
+
+  <!-- ═══ סרגל בחירה מרובה ═══ -->
+  <div id="selectionBar" class="selection-bar" hidden role="region" aria-label="דפים נבחרים">
+    <span id="selectionCount" class="sel-count">נבחרו 0 דפים</span>
+    <div class="sel-actions">
+      <button id="selPrint" type="button">🖨 הדפס נבחרים</button>
+      <button id="selClear" type="button">נקה</button>
+    </div>
+  </div>
+
+  <!-- ═══ גיליון פעולות ═══ -->
+  <div id="actionsSheet" class="actions-sheet" hidden role="dialog" aria-modal="true" aria-label="פעולות על הדף">
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel">
+      <div class="sheet-handle" aria-hidden="true"></div>
+      <div class="sheet-title" id="sheetPageTitle">פעולות</div>
+
+      <div class="sheet-group-label">מצב קריאה</div>
+      <div id="modeSwitch" class="sheet-modes" role="group" aria-label="מצב דפדוף">
+        <button data-mode="single" class="sheet-mode is-active" type="button">עמוד בודד</button>
+        <button data-mode="scroll" class="sheet-mode" type="button">גלילה רציפה</button>
+      </div>
+
+      <div class="sheet-group-label">הדף הנוכחי</div>
+      <div class="sheet-actions">
+        <button id="aPrint" class="sheet-act primary" type="button">🖨 הדפסה</button>
+        <button id="aPdf" class="sheet-act" type="button">⬇ שמירה כ-PDF</button>
+        <button id="aHtml" class="sheet-act" type="button">⬇ הורדת HTML</button>
+        <button id="aOpen" class="sheet-act" type="button">↗ פתח בטאב</button>
+      </div>
+
+      <div class="sheet-group-label">הפרק הנוכחי</div>
+      <div class="sheet-actions">
+        <button id="aPrintTopic" class="sheet-act" type="button">🖨 הדפס את כל הפרק</button>
+        <button id="aSelectTopic" class="sheet-act" type="button">☑ בחר את כל הפרק</button>
+      </div>
+
+      <button id="sheetCloseBtn" class="sheet-close" type="button">סגירה</button>
+    </div>
   </div>
 
   <script>
@@ -121,6 +165,7 @@
       }
     })();
   </script>
-  <script src="./mobile-app.js?v=20260712001"></script>
+  <script src="./reader-actions.js?v=20260712002"></script>
+  <script src="./mobile-app.js?v=20260712002"></script>
 </body>
 </html>

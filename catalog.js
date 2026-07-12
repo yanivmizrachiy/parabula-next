@@ -1,688 +1,459 @@
 /**
- * catalog.js — Premium Digital Textbook Layer
- * Parabula Next · Hebrew RTL
+ * catalog.js — Parabula Next · קורא ספר דיגיטלי (נייח)
  *
- * Data source: meta/topics.json (read-only, never modified here)
- * No demo content. No hardcoded page data. Everything from fetch().
+ * מקור נתונים: meta/topics.json (קריאה בלבד). ללא תוכן דמה.
+ * חוויית קריאה כמו ספר אמיתי: דף A4 גדול במרכז, תוכן עניינים בצד,
+ * שלושה מצבי דפדוף (עמוד בודד / כפולה / גלילה), וכפתורי פעולה בעברית
+ * להדפסה / שמירה כ-PDF / הורדה של עמוד בודד, פרק שלם או אוסף נבחר.
+ * פעולות ההדפסה/PDF/בחירה מרוכזות ב-reader-actions.js (משותף עם הנייד).
  */
-
 'use strict';
 
-/* ═══════════════════════════════════════════
-   STATE
-   ═══════════════════════════════════════════ */
+const A4_W = 794;   // 210mm @96dpi
+const A4_H = 1123;  // 297mm @96dpi
+const LS_POS = 'parabula-catalog:last-file';
+const LS_MODE = 'parabula-catalog:mode';
+
 const state = {
-  topics: [],          // full topics array from topics.json
-  allPages: [],        // flat array of all pages with topicName injected
-  activeTopic: null,   // current topic name string
-  activePage: null,    // current page object
-  searchQuery: '',     // current search string
-  viewerOpen: false,
+  topics: [],
+  pages: [],        // מערך שטוח בסדר הקריאה של topics.json
+  index: -1,        // אינדקס הדף הנוכחי במערך השטוח
+  mode: 'single',   // single | spread | scroll
+  query: '',
 };
 
-/* localStorage key for restoring last topic+page */
-const LS_LAST_POSITION = 'parabula-catalog:last-position';
+const $ = (id) => document.getElementById(id);
+const dom = {};
+['tocToggle','tocOverlay','globalSearch','clearSearch','searchResults','statChip','modeSwitch',
+ 'toc','tocList','selectModeBtn','stateLoading','stateError','errorMsg','retryBtn','readerStage',
+ 'readerTitle','readerMeta','btnPrint','btnPdf','btnHtml','btnOpen','btnPrintTopic',
+ 'viewport','sheets','navPrev','navNext','footPrev','footProgress','footNext',
+ 'selectionBar','selectionCount','selPrint','selPdf','selClear']
+  .forEach((k) => dom[k] = $(k));
 
-/* URLs already prefetched via <link rel="prefetch"> — avoid duplicates */
-const prefetchedUrls = new Set();
-
-/* ═══════════════════════════════════════════
-   DOM REFS
-   ═══════════════════════════════════════════ */
-const $ = id => document.getElementById(id);
-
-const dom = {
-  stateLoading:       $('stateLoading'),
-  stateError:         $('stateError'),
-  stateSearch:        $('stateSearch'),
-  stateTopic:         $('stateTopic'),
-  stateHome:          $('stateHome'),
-  errorMsg:           $('errorMsg'),
-  retryBtn:           $('retryBtn'),
-  topicsNav:          $('topicsNav'),
-  topicTitle:         $('topicTitle'),
-  topicCount:         $('topicCount'),
-  topicSubtitle:      $('topicSubtitle'),
-  topicPagesGrid:     $('topicPagesGrid'),
-  searchResultsTitle: $('searchResultsTitle'),
-  searchResultsCount: $('searchResultsCount'),
-  searchResultsGrid:  $('searchResultsGrid'),
-  homeTopicsGrid:     $('homeTopicsGrid'),
-  viewer:             $('viewer'),
-  viewerFrame:        $('viewerFrame'),
-  viewerTopicLabel:   $('viewerTopicLabel'),
-  viewerPageTitle:    $('viewerPageTitle'),
-  viewerProgress:     $('viewerProgress'),
-  btnPrev:            $('btnPrev'),
-  btnNext:            $('btnNext'),
-  btnPrint:           $('btnPrint'),
-  btnPdf:             $('btnPdf'),
-  btnDownload:        $('btnDownload'),
-  btnOpen:            $('btnOpen'),
-  viewerLoading:      $('viewerLoading'),
-  btnCloseViewer:     $('btnCloseViewer'),
-  globalSearch:       $('globalSearch'),
-  clearSearch:        $('clearSearch'),
-  statPages:          $('statPages'),
-  statTopics:         $('statTopics'),
-  mobileMenuBtn:      $('mobileMenuBtn'),
-  sidebar:            $('sidebar'),
-  sidebarOverlay:     $('sidebarOverlay'),
-  mobileBottomNav:    $('mobileBottomNav'),
-  mbPrev:             $('mbPrev'),
-  mbNext:             $('mbNext'),
-  mbTopics:           $('mbTopics'),
-  mbPrint:            $('mbPrint'),
-};
-
-/* ═══════════════════════════════════════════
-   TOPIC ICONS (cosmetic, no data dependency)
-   ═══════════════════════════════════════════ */
-const TOPIC_ICONS = {
-  'משוואות':           '⚖️',
-  'משוואות ריבועיות':  '📐',
-  'משפט פיתגורס':      '📏',
-  'גיאומטריה':         '📐',
-  'פונקציות':          '📈',
-  'סדרות וחוקיות':     '🔢',
-  'פילוג מורחב':       '📚',
-};
-
-function topicIcon(name) {
-  return TOPIC_ICONS[name] || '📋';
-}
-
-/* ═══════════════════════════════════════════
-   INIT
-   ═══════════════════════════════════════════ */
-let listenersBound = false;
-
-function bindEvents() {
-  dom.retryBtn.addEventListener('click', init);
-  dom.btnPrint.addEventListener('click', handlePrint);
-  dom.btnPdf.addEventListener('click', handlePrint);
-  dom.btnDownload.addEventListener('click', handleDownload);
-  dom.btnCloseViewer.addEventListener('click', closeViewer);
-  dom.btnPrev.addEventListener('click', () => navigatePage(-1));
-  dom.btnNext.addEventListener('click', () => navigatePage(1));
-  dom.globalSearch.addEventListener('input', handleSearch);
-  dom.clearSearch.addEventListener('click', clearSearch);
-  dom.mobileMenuBtn.addEventListener('click', toggleSidebar);
-  dom.sidebarOverlay.addEventListener('click', closeSidebar);
-  dom.mbPrev.addEventListener('click', () => navigatePage(-1));
-  dom.mbNext.addEventListener('click', () => navigatePage(1));
-  dom.mbTopics.addEventListener('click', toggleSidebar);
-  dom.mbPrint.addEventListener('click', handlePrint);
-
-  // Hide the loading overlay whenever the worksheet finishes loading
-  dom.viewerFrame.addEventListener('load', () => {
-    dom.viewerLoading.hidden = true;
-  });
-
-  document.addEventListener('keydown', handleKeyboard);
-}
-
-async function init() {
-  // Bind listeners exactly once — retry must not stack duplicate handlers
-  if (!listenersBound) {
-    listenersBound = true;
-    bindEvents();
-  }
-
+/* ═══ נתונים ═══ */
+async function boot() {
   showState('loading');
-
   try {
-    await loadData();
-    readURLState();
-  } catch (err) {
-    showError(`שגיאת טעינה: ${err.message || String(err)}`);
-    console.error('[catalog] load error:', err);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   DATA LOADING
-   ═══════════════════════════════════════════ */
-async function loadData() {
-  // Absolute URL + timestamp cache-bust bypasses SW cache and CDN cache
-  const dataUrl = new URL('meta/topics.json', window.location.href).href + '?v=' + Date.now();
-  let res;
-  try {
-    res = await fetch(dataUrl, { cache: 'no-store' });
-  } catch (fetchErr) {
-    throw new Error(`fetch נכשל: ${fetchErr.message}`);
-  }
-  if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.url}`);
-
-  let data;
-  try {
-    data = await res.json();
-  } catch (jsonErr) {
-    throw new Error(`JSON parse נכשל: ${jsonErr.message}`);
-  }
-
-  if (!data.topics || !Array.isArray(data.topics)) {
-    throw new Error('topics.json missing valid topics array');
-  }
-
-  state.topics = data.topics;
-  state.allPages = [];
-
-  for (const topic of state.topics) {
-    const pages = topic.pages || [];
-    pages.forEach((page, idx) => {
-      state.allPages.push({
-        ...page,
-        topicName:  topic.name,
-        topicIndex: idx + 1,          // 1-based position within topic
-        topicTotal: pages.length,
-      });
-    });
-  }
-
-  // Keep canonical meta/topics.json array order — it is the binding reading
-  // order (CLAUDE.md §9); do not re-sort numerically.
-
-  // Update header stats
-  dom.statPages.textContent = `${data.totalPages} דפים`;
-  dom.statTopics.textContent = `${state.topics.length} נושאים`;
-
-  renderSidebar();
-  renderHome();
-  // Explicitly hide error state before showing home (belt-and-suspenders)
-  dom.stateError.hidden = true;
-  showState('home');
-}
-
-/* ═══════════════════════════════════════════
-   URL STATE
-   ═══════════════════════════════════════════ */
-/**
- * Apply a topic (+ optional page) position. Returns true on success.
- * Shared by URL deep links and localStorage restore.
- */
-function applyPosition(topicName, pageNum) {
-  const topic = state.topics.find(t => t.name === topicName);
-  if (!topic) return false;
-
-  selectTopic(topic.name, false);
-  if (pageNum != null && pageNum !== '') {
-    const page = state.allPages.find(
-      p => p.topicName === topicName && String(p.number) === String(pageNum)
-    );
-    if (page) openViewer(page);
-  }
-  return true;
-}
-
-function readURLState() {
-  const params = new URLSearchParams(window.location.search);
-  const topicParam = params.get('topic');
-  const pageParam  = params.get('page');
-
-  // 1) Deep link wins
-  if (topicParam && applyPosition(topicParam, pageParam)) return;
-
-  // 2) Otherwise restore last position from localStorage
-  const saved = readLastPosition();
-  if (saved && saved.topic) applyPosition(saved.topic, saved.page);
-}
-
-/* ═══════════════════════════════════════════
-   LAST POSITION (localStorage)
-   ═══════════════════════════════════════════ */
-function saveLastPosition(topicName, pageNum) {
-  try {
-    localStorage.setItem(LS_LAST_POSITION, JSON.stringify({
-      topic: topicName || null,
-      page:  pageNum != null ? pageNum : null,
-    }));
-  } catch (_) { /* storage unavailable — non-fatal */ }
-}
-
-function readLastPosition() {
-  try {
-    return JSON.parse(localStorage.getItem(LS_LAST_POSITION) || 'null');
-  } catch (_) {
-    return null;
-  }
-}
-
-function pushURL(topicName, pageNum) {
-  const params = new URLSearchParams();
-  if (topicName) params.set('topic', topicName);
-  if (pageNum != null) params.set('page', String(pageNum));
-  const url = params.toString() ? `?${params}` : window.location.pathname;
-  window.history.pushState({}, '', url);
-}
-
-/* ═══════════════════════════════════════════
-   RENDER: SIDEBAR
-   ═══════════════════════════════════════════ */
-function renderSidebar() {
-  dom.topicsNav.innerHTML = '';
-  for (const topic of state.topics) {
-    const btn = document.createElement('button');
-    btn.className = 'topic-nav-item';
-    btn.type = 'button';
-    btn.dataset.topic = topic.name;
-    btn.setAttribute('aria-label', `${topic.name}, ${topic.count} דפים`);
-    btn.innerHTML = `
-      <span class="topic-nav-name">${escHtml(topic.name)}</span>
-      <span class="topic-nav-count">${topic.count}</span>
-    `;
-    btn.addEventListener('click', () => {
-      selectTopic(topic.name);
-      closeSidebar();
-    });
-    dom.topicsNav.appendChild(btn);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   RENDER: HOME
-   ═══════════════════════════════════════════ */
-function renderHome() {
-  dom.homeTopicsGrid.innerHTML = '';
-  for (const topic of state.topics) {
-    const card = document.createElement('div');
-    card.className = 'home-topic-card';
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `${topic.name} — ${topic.count} דפים`);
-    card.innerHTML = `
-      <div class="home-topic-icon">${topicIcon(topic.name)}</div>
-      <div class="home-topic-name">${escHtml(topic.name)}</div>
-      <div class="home-topic-count">${topic.count} דפים</div>
-    `;
-    card.addEventListener('click', () => selectTopic(topic.name));
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectTopic(topic.name); }
-    });
-    dom.homeTopicsGrid.appendChild(card);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   SELECT TOPIC
-   ═══════════════════════════════════════════ */
-function selectTopic(topicName, updateURL = true) {
-  state.activeTopic = topicName;
-  state.activePage  = null;
-  state.searchQuery = '';
-  dom.globalSearch.value = '';
-  dom.clearSearch.hidden = true;
-
-  // Update sidebar active state
-  dom.topicsNav.querySelectorAll('.topic-nav-item').forEach(btn => {
-    btn.classList.toggle('is-active', btn.dataset.topic === topicName);
-  });
-
-  const topic = state.topics.find(t => t.name === topicName);
-  if (!topic) return;
-
-  // Render section header
-  dom.topicTitle.textContent = topic.name;
-  dom.topicCount.textContent = `${topic.count} דפים`;
-  dom.topicSubtitle.textContent = `${topicIcon(topicName)} נושא ${state.topics.indexOf(topic) + 1} מתוך ${state.topics.length}`;
-
-  // Render pages grid
-  renderPagesGrid(topic.pages.map(p => ({ ...p, topicName: topic.name })), dom.topicPagesGrid);
-
-  // Close viewer if open
-  closeViewer(false);
-
-  showState('topic');
-  if (updateURL) pushURL(topicName, null);
-  saveLastPosition(topicName, null);
-
-  // Scroll to top
-  document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/* ═══════════════════════════════════════════
-   RENDER: PAGES GRID
-   ═══════════════════════════════════════════ */
-function renderPagesGrid(pages, container, query = '') {
-  container.innerHTML = '';
-
-  if (!pages.length) {
-    container.innerHTML = `<div class="empty-state"><p>לא נמצאו דפים.</p></div>`;
-    return;
-  }
-
-  const frag = document.createDocumentFragment();
-
-  for (const page of pages) {
-    const isActive = state.activePage && state.activePage.file === page.file;
-    const card = document.createElement('div');
-    card.className = 'page-card' + (isActive ? ' is-active' : '');
-    card.setAttribute('role', 'article');
-    card.setAttribute('tabindex', '0');
-    card.dataset.file = page.file;
-
-    // title is "עמוד X — נושא"; h1 is topic name only — prefer title
-    const displayTitle = page.title || page.h1 || page.file;
-    const showTopic    = state.searchQuery || page.topicName !== state.activeTopic;
-    const topicLabel   = showTopic ? `<span class="card-topic">${escHtml(page.topicName)}</span>` : '';
-
-    card.innerHTML = `
-      <span class="card-num">${page.topicIndex ?? page.number}</span>
-      ${topicLabel}
-      <span class="card-title">${highlight(displayTitle, query)}</span>
-      <div class="card-actions">
-        <button class="card-btn primary" type="button">צפה</button>
-        <button class="card-btn" type="button">הדפס</button>
-      </div>
-    `;
-
-    card.querySelector('.card-btn.primary').addEventListener('click', e => {
-      e.stopPropagation();
-      openViewer(page);
-    });
-
-    card.querySelector('.card-btn:not(.primary)').addEventListener('click', e => {
-      e.stopPropagation();
-      printPage(page);
-    });
-
-    card.addEventListener('click', () => openViewer(page));
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openViewer(page); }
-    });
-
-    frag.appendChild(card);
-  }
-
-  container.appendChild(frag);
-}
-
-/* ═══════════════════════════════════════════
-   VIEWER
-   ═══════════════════════════════════════════ */
-/**
- * Same-origin URL of the worksheet, resolved relative to the catalog page.
- * Relative resolution works both locally and under the GitHub Pages base path,
- * and keeps the iframe same-origin (required for contentWindow.print()).
- */
-function getPageUrl(page) {
-  return new URL(page.file, window.location.href).href;
-}
-
-/** Pages of the topic the given page belongs to (falls back to active topic). */
-function topicPagesFor(page) {
-  const name = (page && page.topicName) || state.activeTopic;
-  return state.allPages.filter(p => p.topicName === name);
-}
-
-function openViewer(page) {
-  state.activePage  = page;
-  state.viewerOpen  = true;
-
-  // Load iframe — reuse the single frame; skip reload if same page already shown
-  const src = getPageUrl(page);
-  if (dom.viewerFrame.src !== src) {
-    dom.viewerLoading.hidden = false;
-    dom.viewerFrame.src = src;
-  }
-  dom.btnOpen.href = src;
-
-  dom.viewerTopicLabel.textContent = page.topicName || state.activeTopic || '';
-  dom.viewerPageTitle.textContent  = page.title || page.h1 || page.file;
-
-  updateViewerNav();
-
-  dom.viewer.hidden = false;
-  dom.mobileBottomNav.hidden = false;
-
-  // Update active card
-  updateActiveCard(page.file);
-
-  // Push URL + remember position
-  pushURL(state.activeTopic || page.topicName, page.number);
-  saveLastPosition(page.topicName || state.activeTopic, page.number);
-
-  // Warm the browser cache for adjacent pages — instant prev/next
-  prefetchAdjacent(page);
-
-  // Scroll viewer into view
-  setTimeout(() => dom.viewer.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-}
-
-function closeViewer(updateURL = true) {
-  if (!state.viewerOpen) return;
-  state.viewerOpen  = false;
-  state.activePage  = null;
-  dom.viewer.hidden = true;
-  dom.viewerFrame.src = 'about:blank';
-  dom.viewerLoading.hidden = true;
-  dom.mobileBottomNav.hidden = true;
-  updateActiveCard(null);
-  if (updateURL && state.activeTopic) pushURL(state.activeTopic, null);
-}
-
-function updateViewerNav() {
-  if (!state.activePage) return;
-
-  const topicPages = topicPagesFor(state.activePage);
-  const idx = topicPages.findIndex(p => p.file === state.activePage.file);
-
-  dom.btnPrev.disabled = idx <= 0;
-  dom.btnNext.disabled = idx >= topicPages.length - 1;
-  dom.viewerProgress.textContent = `עמוד ${idx + 1} מתוך ${topicPages.length} בנושא`;
-}
-
-function navigatePage(delta) {
-  if (!state.activePage) return;
-
-  const topicPages = topicPagesFor(state.activePage);
-  const idx = topicPages.findIndex(p => p.file === state.activePage.file);
-  const next = topicPages[idx + delta];
-  if (next) openViewer(next);
-}
-
-/* ═══════════════════════════════════════════
-   PREFETCH — adjacent pages load instantly
-   ═══════════════════════════════════════════ */
-function prefetchAdjacent(page) {
-  const topicPages = topicPagesFor(page);
-  const idx = topicPages.findIndex(p => p.file === page.file);
-
-  for (const adjacent of [topicPages[idx - 1], topicPages[idx + 1]]) {
-    if (!adjacent) continue;
-    const url = getPageUrl(adjacent);
-    if (prefetchedUrls.has(url)) continue;
-    prefetchedUrls.add(url);
-
-    const link = document.createElement('link');
-    link.rel  = 'prefetch';
-    link.as   = 'document';
-    link.href = url;
-    document.head.appendChild(link);
-  }
-}
-
-/* ═══════════════════════════════════════════
-   PRINT
-   ═══════════════════════════════════════════ */
-function handlePrint() {
-  if (!state.activePage) return;
-
-  // Preferred: print the worksheet iframe directly (A4 CSS applies inside it,
-  // the catalog UI is never printed). Same-origin, so contentWindow is reachable.
-  if (state.viewerOpen) {
-    try {
-      const win = dom.viewerFrame.contentWindow;
-      if (win && win.document && win.document.readyState === 'complete') {
-        win.focus();
-        win.print();
-        return;
-      }
-    } catch (_) { /* cross-origin or not ready — fall back below */ }
-  }
-
-  printPage(state.activePage);
-}
-
-function printPage(page) {
-  // Fallback / card action: open the A4 worksheet in a new tab and trigger
-  // the print dialog there — preserves A4 format, never prints the catalog UI.
-  const url = getPageUrl(page);
-  const w = window.open(url, '_blank');
-  if (!w) return; // popup blocked — the user can print via the viewer button
-  w.addEventListener('load', () => {
-    setTimeout(() => w.print(), 300);
-  });
-}
-
-/* ═══════════════════════════════════════════
-   DOWNLOAD HTML
-   ═══════════════════════════════════════════ */
-function handleDownload() {
-  if (!state.activePage) return;
-  downloadPage(state.activePage);
-}
-
-async function downloadPage(page) {
-  try {
-    const res = await fetch(getPageUrl(page), { cache: 'no-store' });
+    const url = new URL('meta/topics.json', window.location.href).href + '?v=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const blob = await res.blob();
-    const blobUrl = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = blobUrl;
-    a.download = page.file;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
-  } catch (err) {
-    console.error('[catalog] download error:', err);
-    // Fallback: open the raw page so the user can save it manually
-    window.open(getPageUrl(page), '_blank', 'noopener');
-  }
-}
+    const data = await res.json();
+    if (!Array.isArray(data.topics)) throw new Error('topics.json לא תקין');
 
-/* ═══════════════════════════════════════════
-   SEARCH
-   ═══════════════════════════════════════════ */
-function handleSearch(e) {
-  const q = e.target.value.trim();
-  state.searchQuery = q;
-  dom.clearSearch.hidden = !q;
-
-  if (!q) {
-    // Return to topic or home
-    if (state.activeTopic) {
-      selectTopic(state.activeTopic, false);
-    } else {
-      showState('home');
+    state.topics = data.topics;
+    state.pages = [];
+    for (const topic of data.topics) {
+      (topic.pages || []).forEach((p, i) => {
+        state.pages.push({ ...p, topic: topic.name, topicIndex: i + 1, topicTotal: topic.pages.length });
+      });
     }
-    return;
+
+    dom.statChip.textContent = `${data.totalPages || state.pages.length} דפים · ${state.topics.length} נושאים`;
+
+    ParabulaActions.configure({
+      pages: state.pages,
+      pageUrl: (file) => new URL(file, window.location.href).href,
+    });
+    ParabulaActions.onSelectionChange(onSelectionChange);
+
+    state.mode = localStorage.getItem(LS_MODE) || 'single';
+    applyModeClass();
+    dom.modeSwitch.querySelectorAll('.mode-btn').forEach((b) =>
+      b.classList.toggle('is-active', b.dataset.mode === state.mode));
+
+    renderTOC();
+    showState('reader');
+
+    const savedFile = localStorage.getItem(LS_POS);
+    const startIdx = savedFile ? state.pages.findIndex((p) => p.file === savedFile) : -1;
+    goTo(startIdx >= 0 ? startIdx : 0, { scrollToc: true });
+    // רינדור חוזר אחרי שהפריסה התייצבה (מדידת viewport מדויקת)
+    requestAnimationFrame(render);
+    setTimeout(render, 120);
+  } catch (err) {
+    console.error('[catalog] boot error:', err);
+    dom.errorMsg.textContent = `שגיאת טעינה: ${err.message || err}`;
+    showState('error');
+  }
+}
+
+/* ═══ תוכן עניינים ═══ */
+function renderTOC() {
+  dom.tocList.innerHTML = '';
+  const caret = '<svg class="tt-caret" viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,4 10,8 6,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  state.topics.forEach((topic) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'toc-topic';
+    wrap.dataset.topic = topic.name;
+
+    const head = document.createElement('button');
+    head.type = 'button';
+    head.className = 'toc-topic-head';
+    head.innerHTML = `${caret}<span class="tt-name">${esc(topic.name)}</span><span class="tt-count">${topic.count}</span>`;
+    head.addEventListener('click', () => {
+      const open = wrap.classList.toggle('is-open');
+      if (open) {
+        // פתיחת פרק → מעבר לעמוד הראשון בו
+        const first = state.pages.findIndex((p) => p.topic === topic.name);
+        if (first >= 0 && state.mode !== 'scroll') goTo(first);
+        if (state.mode === 'scroll') { const f = state.pages.findIndex(p=>p.topic===topic.name); if (f>=0) goTo(f); }
+      }
+    });
+    wrap.appendChild(head);
+
+    const actions = document.createElement('div');
+    actions.className = 'toc-topic-actions';
+    const printBtn = document.createElement('button');
+    printBtn.type = 'button'; printBtn.className = 'toc-mini-btn';
+    printBtn.textContent = '🖨 הדפס פרק';
+    printBtn.addEventListener('click', (e) => { e.stopPropagation(); ParabulaActions.printTopic(topic.name); });
+    const selBtn = document.createElement('button');
+    selBtn.type = 'button'; selBtn.className = 'toc-mini-btn';
+    selBtn.textContent = '☑ בחר פרק';
+    selBtn.addEventListener('click', (e) => { e.stopPropagation(); enterSelectMode(); ParabulaActions.selectTopic(topic.name); });
+    actions.append(printBtn, selBtn);
+    wrap.appendChild(actions);
+
+    const pagesBox = document.createElement('div');
+    pagesBox.className = 'toc-pages';
+    topic.pages.forEach((p, i) => {
+      const globalIdx = state.pages.findIndex((x) => x.file === p.file);
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'toc-page';
+      item.dataset.file = p.file;
+      const check = document.createElement('input');
+      check.type = 'checkbox'; check.className = 'tp-check';
+      check.checked = ParabulaActions.isSelected(p.file);
+      check.addEventListener('click', (e) => e.stopPropagation());
+      check.addEventListener('change', () => ParabulaActions.setSelected(p.file, check.checked));
+      const num = document.createElement('span');
+      num.className = 'tp-num'; num.textContent = i + 1;
+      const title = document.createElement('span');
+      title.className = 'tp-title';
+      title.textContent = (p.h1 || p.title || p.file);
+      item.append(check, num, title);
+      item.addEventListener('click', () => goTo(globalIdx));
+      pagesBox.appendChild(item);
+    });
+    wrap.appendChild(pagesBox);
+
+    dom.tocList.appendChild(wrap);
+  });
+}
+
+function syncTOCActive() {
+  const page = state.pages[state.index];
+  if (!page) return;
+  dom.tocList.querySelectorAll('.toc-page').forEach((el) =>
+    el.classList.toggle('is-active', el.dataset.file === page.file));
+  dom.tocList.querySelectorAll('.toc-topic').forEach((el) => {
+    const isActive = el.dataset.topic === page.topic;
+    el.classList.toggle('is-active', isActive);
+    if (isActive && !el.classList.contains('is-open')) el.classList.add('is-open');
+  });
+}
+
+function scrollTOCToActive() {
+  const el = dom.tocList.querySelector('.toc-page.is-active');
+  if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+/* ═══ מנוע הקריאה ═══ */
+function applyModeClass() {
+  document.body.classList.remove('mode-single', 'mode-spread', 'mode-scroll');
+  document.body.classList.add(`mode-${state.mode}`);
+}
+
+function setMode(mode) {
+  if (mode === state.mode) return;
+  state.mode = mode;
+  localStorage.setItem(LS_MODE, mode);
+  applyModeClass();
+  dom.modeSwitch.querySelectorAll('.mode-btn').forEach((b) =>
+    b.classList.toggle('is-active', b.dataset.mode === mode));
+  render();
+}
+
+function goTo(index, opts = {}) {
+  if (index < 0 || index >= state.pages.length) return;
+  state.index = index;
+  const page = state.pages[index];
+  localStorage.setItem(LS_POS, page.file);
+  render();
+  syncTOCActive();
+  if (opts.scrollToc) scrollTOCToActive();
+}
+
+function makeSheet(page, lazy) {
+  const sheet = document.createElement('div');
+  sheet.className = 'sheet';
+  sheet.dataset.file = page.file;
+  const iframe = document.createElement('iframe');
+  iframe.title = page.title || page.file;
+  iframe.setAttribute('loading', 'eager');
+  const src = new URL(page.file, window.location.href).href + '?reader=1';
+  if (lazy) iframe.dataset.src = src; else iframe.src = src;
+  iframe.addEventListener('load', () => injectReaderStyles(iframe));
+  sheet.appendChild(iframe);
+  return sheet;
+}
+
+function injectReaderStyles(iframe) {
+  try {
+    const doc = iframe.contentDocument;
+    if (!doc || doc.getElementById('reader-inject')) return;
+    const s = doc.createElement('style');
+    s.id = 'reader-inject';
+    s.textContent = `
+      .preview-nav{display:none !important;}
+      html,body{margin:0 !important;padding:0 !important;background:#fff !important;
+        width:${A4_W}px !important;min-width:0 !important;overflow:hidden !important;display:block !important;}
+      .a4-page{margin:0 auto !important;box-shadow:none !important;}
+    `;
+    (doc.head || doc.documentElement).appendChild(s);
+  } catch (e) { /* same-origin expected; ignore */ }
+}
+
+function computeScale(perRow) {
+  const vpW = dom.viewport.clientWidth;
+  const vpH = dom.viewport.clientHeight;
+  const padding = 40;
+  if (state.mode === 'scroll') {
+    const availW = vpW - padding;
+    return Math.min(availW / A4_W, 1.1);
+  }
+  const navSpace = 120;
+  const gap = perRow > 1 ? 22 : 0;
+  const availW = vpW - padding - navSpace - gap;
+  const availH = vpH - padding;
+  return Math.max(0.1, Math.min((availW / perRow) / A4_W, availH / A4_H));
+}
+
+function sizeSheet(sheet, scale) {
+  sheet.style.width = Math.round(A4_W * scale) + 'px';
+  sheet.style.height = Math.round(A4_H * scale) + 'px';
+  const iframe = sheet.querySelector('iframe');
+  iframe.style.width = A4_W + 'px';
+  iframe.style.height = A4_H + 'px';
+  iframe.style.transformOrigin = 'top left';
+  iframe.style.transform = `scale(${scale})`;
+}
+
+function render() {
+  const page = state.pages[state.index];
+  if (!page) return;
+
+  dom.sheets.innerHTML = '';
+
+  if (state.mode === 'single') {
+    const scale = computeScale(1);
+    const sheet = makeSheet(page, false);
+    dom.sheets.appendChild(sheet);
+    sizeSheet(sheet, scale);
+    dom.readerTitle.textContent = page.title || page.h1 || page.file;
+    dom.readerMeta.textContent = `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal}`;
+    dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
+
+  } else if (state.mode === 'spread') {
+    // התאמה לזוגות בתוך הפרק: מיישרים לתחילת זוג
+    const scale = computeScale(2);
+    const second = state.pages[state.index + 1];
+    const pair = [page];
+    if (second && second.topic === page.topic) pair.push(second);
+    pair.forEach((p) => { const sh = makeSheet(p, false); dom.sheets.appendChild(sh); sizeSheet(sh, scale); });
+    dom.readerTitle.textContent = page.title || page.h1 || page.file;
+    dom.readerMeta.textContent = pair.length === 2
+      ? `${page.topic} · עמודים ${page.topicIndex}–${pair[1].topicIndex} מתוך ${page.topicTotal}`
+      : `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal}`;
+    dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
+
+  } else { // scroll — כל דפי הפרק הנוכחי, בטעינה עצלה
+    const scale = computeScale(1);
+    const topicPages = state.pages.filter((p) => p.topic === page.topic);
+    topicPages.forEach((p) => {
+      const sheet = makeSheet(p, true);
+      dom.sheets.appendChild(sheet);
+      sizeSheet(sheet, scale);
+      lazyObserver.observe(sheet);
+    });
+    dom.readerTitle.textContent = page.topic;
+    dom.readerMeta.textContent = `${topicPages.length} דפים בפרק · גלילה רציפה`;
+    dom.footProgress.textContent = `פרק: ${page.topic}`;
+    // גלילה לדף הנוכחי
+    requestAnimationFrame(() => {
+      const target = dom.sheets.querySelector(`.sheet[data-file="${cssEsc(page.file)}"]`);
+      if (target) target.scrollIntoView({ block: 'start' });
+    });
   }
 
+  updateNav();
+}
+
+const lazyObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const iframe = entry.target.querySelector('iframe');
+    if (iframe && iframe.dataset.src && !iframe.src) {
+      iframe.src = iframe.dataset.src;
+    }
+    lazyObserver.unobserve(entry.target);
+  });
+}, { rootMargin: '600px 0px' });
+
+function updateNav() {
+  const step = state.mode === 'spread' ? 2 : 1;
+  const atStart = state.index <= 0;
+  const atEnd = state.index >= state.pages.length - 1;
+  const scroll = state.mode === 'scroll';
+  dom.navPrev.disabled = scroll || atStart;
+  dom.navNext.disabled = scroll || atEnd;
+  dom.footPrev.disabled = atStart;
+  dom.footNext.disabled = atEnd;
+  void step;
+}
+
+function next() {
+  const step = state.mode === 'spread' ? 2 : 1;
+  goTo(Math.min(state.pages.length - 1, state.index + step), { scrollToc: true });
+}
+function prev() {
+  const step = state.mode === 'spread' ? 2 : 1;
+  goTo(Math.max(0, state.index - step), { scrollToc: true });
+}
+
+/* ═══ בחירה מרובה ═══ */
+function enterSelectMode() {
+  document.body.classList.add('select-mode');
+  dom.selectModeBtn.setAttribute('aria-pressed', 'true');
+}
+function toggleSelectMode() {
+  const on = !document.body.classList.contains('select-mode');
+  document.body.classList.toggle('select-mode', on);
+  dom.selectModeBtn.setAttribute('aria-pressed', String(on));
+  if (!on) return;
+}
+function onSelectionChange(sel) {
+  const count = sel.size;
+  dom.selectionBar.hidden = count === 0;
+  dom.selectionCount.textContent = `נבחרו ${count} דפים`;
+  dom.tocList.querySelectorAll('.toc-page').forEach((el) => {
+    const check = el.querySelector('.tp-check');
+    if (check) check.checked = sel.has(el.dataset.file);
+  });
+}
+
+/* ═══ חיפוש גלובלי ═══ */
+function runSearch(q) {
+  state.query = q;
+  dom.clearSearch.hidden = !q;
+  if (!q) { dom.searchResults.hidden = true; dom.searchResults.innerHTML = ''; return; }
   const lower = q.toLowerCase();
-  const results = state.allPages.filter(p => {
-    const title = (p.h1 || p.title || '').toLowerCase();
-    const topic = (p.topicName || '').toLowerCase();
-    return title.includes(lower) || topic.includes(lower);
-  });
+  const results = state.pages.filter((p) =>
+    `${p.topic} ${p.title} ${p.h1} ${p.file} עמוד ${p.number}`.toLowerCase().includes(lower));
 
-  dom.searchResultsTitle.textContent = `תוצאות עבור "${q}"`;
-  dom.searchResultsCount.textContent = `${results.length} דפים`;
-  renderPagesGrid(results, dom.searchResultsGrid, q);
-  showState('search');
-}
-
-function clearSearch() {
-  dom.globalSearch.value = '';
-  state.searchQuery = '';
-  dom.clearSearch.hidden = true;
-  dom.globalSearch.dispatchEvent(new Event('input'));
-  dom.globalSearch.focus();
-}
-
-/* ═══════════════════════════════════════════
-   KEYBOARD
-   ═══════════════════════════════════════════ */
-function handleKeyboard(e) {
-  // Never hijack keys while typing
-  const t = e.target;
-  if (t instanceof Element && (t.matches('input, textarea, select') || t.isContentEditable)) return;
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
-
-  if (state.viewerOpen) {
-    // RTL-aware: ArrowLeft = next page, ArrowRight = previous page
-    if (e.key === 'ArrowRight' || e.key === 'PageUp')   { e.preventDefault(); navigatePage(-1); return; }
-    if (e.key === 'ArrowLeft'  || e.key === 'PageDown') { e.preventDefault(); navigatePage(1);  return; }
-    if (e.key === 'Escape') { closeViewer(); return; }
+  dom.searchResults.innerHTML = '';
+  if (!results.length) {
+    dom.searchResults.innerHTML = '<div class="search-empty">לא נמצאו דפים תואמים בכל הספר</div>';
+  } else {
+    const head = document.createElement('div');
+    head.className = 'search-empty';
+    const topicsFound = new Set(results.map((r) => r.topic)).size;
+    head.textContent = `נמצאו ${results.length} דפים ב-${topicsFound} נושאים`;
+    dom.searchResults.appendChild(head);
+    results.slice(0, 60).forEach((p) => {
+      const idx = state.pages.findIndex((x) => x.file === p.file);
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'search-item';
+      btn.innerHTML = `<strong>${highlight(p.h1 || p.title || p.file, q)}</strong><span>${esc(p.topic)} · עמוד ${p.topicIndex}</span>`;
+      btn.addEventListener('click', () => {
+        dom.searchResults.hidden = true;
+        dom.globalSearch.value = '';
+        dom.clearSearch.hidden = true;
+        goTo(idx, { scrollToc: true });
+      });
+      dom.searchResults.appendChild(btn);
+    });
   }
-
-  if (e.key === '/' || e.key === 'f') { e.preventDefault(); dom.globalSearch.focus(); }
+  dom.searchResults.hidden = false;
 }
 
-/* ═══════════════════════════════════════════
-   MOBILE SIDEBAR
-   ═══════════════════════════════════════════ */
-function toggleSidebar() {
-  const open = dom.sidebar.classList.toggle('is-open');
-  dom.sidebarOverlay.classList.toggle('is-visible', open);
-  dom.mobileMenuBtn.setAttribute('aria-expanded', String(open));
-}
-
-function closeSidebar() {
-  dom.sidebar.classList.remove('is-open');
-  dom.sidebarOverlay.classList.remove('is-visible');
-  dom.mobileMenuBtn.setAttribute('aria-expanded', 'false');
-}
-
-/* ═══════════════════════════════════════════
-   UI HELPERS
-   ═══════════════════════════════════════════ */
+/* ═══ עזרי UI ═══ */
 function showState(name) {
-  const states = ['loading', 'error', 'search', 'topic', 'home'];
-  const stateMap = {
-    loading: dom.stateLoading,
-    error:   dom.stateError,
-    search:  dom.stateSearch,
-    topic:   dom.stateTopic,
-    home:    dom.stateHome,
-  };
-  for (const s of states) {
-    const el = stateMap[s];
-    if (!el) continue;
-    el.hidden = s !== name;
-  }
+  dom.stateLoading.hidden = name !== 'loading';
+  dom.stateError.hidden = name !== 'error';
+  dom.readerStage.hidden = name !== 'reader';
+}
+function esc(s) {
+  return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function cssEsc(s) { return (window.CSS && CSS.escape) ? CSS.escape(s) : String(s).replace(/["\\]/g,'\\$&'); }
+function highlight(text, q) {
+  const safe = esc(text);
+  if (!q) return safe;
+  const sq = esc(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return safe.replace(new RegExp(sq, 'gi'), (m) => `<mark>${m}</mark>`);
 }
 
-function showError(msg) {
-  dom.errorMsg.textContent = msg;
-  showState('error');
+function openTOC(open) {
+  document.body.classList.toggle('toc-open', open);
+  dom.tocToggle.setAttribute('aria-expanded', String(open));
 }
 
-function updateActiveCard(file) {
-  document.querySelectorAll('.page-card').forEach(card => {
-    card.classList.toggle('is-active', file != null && card.dataset.file === file);
+/* ═══ אירועים ═══ */
+function bind() {
+  dom.retryBtn.addEventListener('click', boot);
+  dom.modeSwitch.querySelectorAll('.mode-btn').forEach((b) =>
+    b.addEventListener('click', () => setMode(b.dataset.mode)));
+
+  dom.navPrev.addEventListener('click', prev);
+  dom.navNext.addEventListener('click', next);
+  dom.footPrev.addEventListener('click', prev);
+  dom.footNext.addEventListener('click', next);
+
+  dom.btnPrint.addEventListener('click', () => cur() && ParabulaActions.printPage(cur().file, { busyText: 'מכין את הדף להדפסה…' }));
+  dom.btnPdf.addEventListener('click', () => cur() && ParabulaActions.printPage(cur().file, { busyText: 'מכין את הדף ל-PDF…' }));
+  dom.btnHtml.addEventListener('click', () => cur() && ParabulaActions.downloadHtml(cur().file));
+  dom.btnOpen.addEventListener('click', () => cur() && ParabulaActions.openTab(cur().file));
+  dom.btnPrintTopic.addEventListener('click', () => cur() && ParabulaActions.printTopic(cur().topic));
+
+  dom.selectModeBtn.addEventListener('click', toggleSelectMode);
+  dom.selPrint.addEventListener('click', () => ParabulaActions.printSelection());
+  dom.selPdf.addEventListener('click', () => ParabulaActions.printSelection());
+  dom.selClear.addEventListener('click', () => ParabulaActions.clearSelection());
+
+  dom.globalSearch.addEventListener('input', (e) => runSearch(e.target.value.trim()));
+  dom.globalSearch.addEventListener('focus', (e) => { if (e.target.value.trim()) dom.searchResults.hidden = false; });
+  dom.clearSearch.addEventListener('click', () => { dom.globalSearch.value = ''; runSearch(''); dom.globalSearch.focus(); });
+  document.addEventListener('click', (e) => {
+    if (!dom.headerSearchContains(e.target)) dom.searchResults.hidden = true;
   });
+
+  dom.tocToggle.addEventListener('click', () => openTOC(!document.body.classList.contains('toc-open')));
+  dom.tocOverlay.addEventListener('click', () => openTOC(false));
+
+  document.addEventListener('keydown', (e) => {
+    const t = e.target;
+    if (t instanceof Element && (t.matches('input,textarea,select') || t.isContentEditable)) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.key === 'ArrowRight' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    else if (e.key === '/' ) { e.preventDefault(); dom.globalSearch.focus(); }
+  });
+
+  let rT;
+  window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(render, 150); });
 }
 
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
+// helper: is target inside the header search area
+dom.headerSearchContains = (target) => {
+  const hs = document.querySelector('.header-search');
+  return hs && target instanceof Node && hs.contains(target);
+};
 
-function highlight(text, query) {
-  if (!query) return escHtml(text);
-  const safe  = escHtml(text);
-  const safeQ = escHtml(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return safe.replace(new RegExp(safeQ, 'gi'), m => `<mark>${m}</mark>`);
-}
+function cur() { return state.pages[state.index]; }
 
-/* ═══════════════════════════════════════════
-   BOOT
-   ═══════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', init);
-
+bind();
+boot();

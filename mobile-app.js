@@ -1,4 +1,4 @@
-const VERSION = 'mobile-hardening-20260712001';
+const VERSION = 'mobile-reader-20260712002';
 const TOPICS_URL = new URL('./meta/topics.json', window.location.href).href;
 
 const els = {
@@ -19,7 +19,7 @@ const els = {
   prevPageBtn: document.getElementById('prevPageBtn'),
   nextPageBtn: document.getElementById('nextPageBtn'),
   openLiveBtn: document.getElementById('openLiveBtn'),
-  printBtn: document.getElementById('printBtn'),
+  actionsBtn: document.getElementById('actionsBtn'),
   zoomInBtn: document.getElementById('zoomInBtn'),
   zoomOutBtn: document.getElementById('zoomOutBtn'),
   zoomResetBtn: document.getElementById('zoomResetBtn')
@@ -101,7 +101,7 @@ function updateButtons(){
   els.prevPageBtn.disabled = !hasPage || currentIndex <= 0;
   els.nextPageBtn.disabled = !hasPage || currentIndex >= visiblePages.length - 1;
   els.openLiveBtn.disabled = !shownPage;
-  els.printBtn.disabled = !shownPage;
+  if (els.actionsBtn) els.actionsBtn.disabled = !shownPage;
   updateZoomUi();
 
   document.querySelectorAll('.topic-btn').forEach(button => {
@@ -456,7 +456,14 @@ function renderPages(options = {}){
     button.className = 'page-card';
     button.dataset.file = page.file;
     button.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${page.topic || ''}, עמוד ${page.number}`);
-    button.innerHTML = `<strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span>`;
+    const selected = window.ParabulaActions ? ParabulaActions.isSelected(page.file) : false;
+    button.innerHTML = `<span class="tp-check${selected ? ' on' : ''}" role="checkbox" aria-checked="${selected}" aria-label="בחירת הדף">${selected ? '✓' : ''}</span>`
+      + `<span class="pc-copy"><strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(page.topic || '')}</span><span>עמוד ${page.number}</span></span>`;
+    const check = button.querySelector('.tp-check');
+    check.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.ParabulaActions) ParabulaActions.toggleSelect(page.file);
+    });
     button.onclick = () => showPage(page.file);
     els.topicPages.appendChild(button);
   });
@@ -507,6 +514,15 @@ async function boot(){
   db = await response.json();
   flatPages = (db.topics || []).flatMap(topic => topic.pages || []);
   els.appMeta.textContent = `${(db.topics || []).length} נושאים · ${db.totalPages || flatPages.length} דפים · מקור: meta/topics.json`;
+
+  // מודול הפעולות המשותף (הדפסה / PDF / הורדה / בחירה) — זהה לנייח
+  if (window.ParabulaActions) {
+    ParabulaActions.configure({
+      pages: flatPages.map(p => ({ ...p })),
+      pageUrl: (file) => pageUrl({ file }),
+    });
+    ParabulaActions.onSelectionChange(onSelectionChange);
+  }
   activeTopic = localStorage.getItem('parabula:lastTopic') || db.topics?.[0]?.name || '';
   renderTopics();
   renderPages({autoShow:true, collapse:false});
@@ -536,7 +552,6 @@ els.nextPageBtn.addEventListener('click', () => {
   if(currentIndex >= 0 && currentIndex < visiblePages.length - 1) showPage(visiblePages[currentIndex + 1].file);
 });
 els.openLiveBtn.addEventListener('click', openCurrent);
-els.printBtn.addEventListener('click', printCurrent);
 els.zoomInBtn?.addEventListener('click', () => setZoom(zoomFactor + ZOOM_STEP));
 els.zoomOutBtn?.addEventListener('click', () => setZoom(zoomFactor - ZOOM_STEP));
 els.zoomResetBtn?.addEventListener('click', () => setZoom(1));
@@ -556,6 +571,179 @@ window.visualViewport?.addEventListener('resize', scheduleFit);
 document.addEventListener('visibilitychange', () => {
   if(document.visibilityState === 'visible') scheduleFit();
 });
+
+/* ═══ פעולות, בחירה מרובה ומצב גלילה — תפיסה זהה לנייח ═══ */
+const A4_W = 794, A4_H = 1123;
+let readMode = localStorage.getItem('parabula:readMode') || 'single';
+
+const ui = {
+  selectModeBtn: document.getElementById('selectModeBtn'),
+  selectionBar: document.getElementById('selectionBar'),
+  selectionCount: document.getElementById('selectionCount'),
+  selPrint: document.getElementById('selPrint'),
+  selClear: document.getElementById('selClear'),
+  actionsBtn: document.getElementById('actionsBtn'),
+  actionsSheet: document.getElementById('actionsSheet'),
+  sheetCloseBtn: document.getElementById('sheetCloseBtn'),
+  sheetPageTitle: document.getElementById('sheetPageTitle'),
+  modeSwitch: document.getElementById('modeSwitch'),
+  aPrint: document.getElementById('aPrint'),
+  aPdf: document.getElementById('aPdf'),
+  aHtml: document.getElementById('aHtml'),
+  aOpen: document.getElementById('aOpen'),
+  aPrintTopic: document.getElementById('aPrintTopic'),
+  aSelectTopic: document.getElementById('aSelectTopic'),
+  frameWrap: document.querySelector('.frame-wrap'),
+};
+
+function activePageObj(){ return shownPage || currentPage(); }
+
+function onSelectionChange(sel){
+  const count = sel.size;
+  if (ui.selectionBar){
+    ui.selectionBar.hidden = count === 0;
+    ui.selectionCount.textContent = `נבחרו ${count} דפים`;
+  }
+  document.querySelectorAll('.page-card').forEach(card => {
+    const on = sel.has(card.dataset.file);
+    const chk = card.querySelector('.tp-check');
+    if (chk){ chk.classList.toggle('on', on); chk.setAttribute('aria-checked', String(on)); chk.textContent = on ? '✓' : ''; }
+  });
+}
+
+function toggleSelectMode(){
+  const on = !document.body.classList.contains('select-mode');
+  document.body.classList.toggle('select-mode', on);
+  ui.selectModeBtn.setAttribute('aria-pressed', String(on));
+}
+
+function openActionsSheet(){
+  const p = activePageObj();
+  ui.sheetPageTitle.textContent = p ? (p.title || p.h1 || p.file) : 'פעולות';
+  ui.actionsSheet.hidden = false;
+  requestAnimationFrame(() => ui.actionsSheet.classList.add('is-open'));
+}
+function closeActionsSheet(){
+  ui.actionsSheet.classList.remove('is-open');
+  setTimeout(() => { ui.actionsSheet.hidden = true; }, 220);
+}
+
+function setReadMode(mode){
+  readMode = mode;
+  localStorage.setItem('parabula:readMode', mode);
+  ui.modeSwitch?.querySelectorAll('.sheet-mode').forEach(b =>
+    b.classList.toggle('is-active', b.dataset.mode === mode));
+  document.body.classList.toggle('reader-scroll', mode === 'scroll');
+  if (mode === 'scroll') buildScrollStack();
+  else destroyScrollStack();
+}
+
+/* ── מצב גלילה: כל דפי הפרק בטעינה עצלה ── */
+let scrollStack = null;
+const mScrollObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const iframe = entry.target.querySelector('iframe');
+    if (iframe && iframe.dataset.src && !iframe.src) iframe.src = iframe.dataset.src;
+    mScrollObserver.unobserve(entry.target);
+  });
+}, { rootMargin: '800px 0px' });
+
+function scrollSheetScale(){
+  const w = (ui.frameWrap?.clientWidth || window.innerWidth) - 8;
+  return Math.max(0.1, Math.min(w / A4_W, 1));
+}
+
+function buildScrollStack(){
+  destroyScrollStack();
+  const page = activePageObj();
+  const topicName = page ? page.topic : (activeTopic || db?.topics?.[0]?.name);
+  const pages = topicPagesOf(topicName);
+  if (!pages.length) return;
+
+  scrollStack = document.createElement('div');
+  scrollStack.className = 'm-scroll-stack';
+  const scale = scrollSheetScale();
+  pages.forEach(p => {
+    const sheet = document.createElement('div');
+    sheet.className = 'm-sheet';
+    sheet.dataset.file = p.file;
+    sheet.style.width = Math.round(A4_W * scale) + 'px';
+    sheet.style.height = Math.round(A4_H * scale) + 'px';
+    const iframe = document.createElement('iframe');
+    iframe.title = p.title || p.file;
+    iframe.style.width = A4_W + 'px';
+    iframe.style.height = A4_H + 'px';
+    iframe.style.transformOrigin = 'top left';
+    iframe.style.transform = `scale(${scale})`;
+    iframe.dataset.src = `${pageUrl(p)}?reader=1`;
+    iframe.addEventListener('load', () => { try { injectScrollSheetStyles(iframe); } catch {} });
+    sheet.appendChild(iframe);
+    scrollStack.appendChild(sheet);
+    mScrollObserver.observe(sheet);
+  });
+  ui.frameWrap.appendChild(scrollStack);
+  requestAnimationFrame(() => {
+    const t = scrollStack.querySelector(`.m-sheet[data-file="${(window.CSS&&CSS.escape)?CSS.escape(page.file):page.file}"]`);
+    if (t) t.scrollIntoView({ block: 'start' });
+  });
+}
+
+function destroyScrollStack(){
+  if (scrollStack){ scrollStack.remove(); scrollStack = null; }
+}
+
+function injectScrollSheetStyles(iframe){
+  const doc = iframe.contentDocument;
+  if (!doc || doc.getElementById('reader-inject')) return;
+  const s = doc.createElement('style');
+  s.id = 'reader-inject';
+  s.textContent = `.preview-nav{display:none !important;}
+    html,body{margin:0 !important;padding:0 !important;background:#fff !important;width:${A4_W}px !important;min-width:0 !important;overflow:hidden !important;display:block !important;}
+    .a4-page{margin:0 auto !important;box-shadow:none !important;}`;
+  (doc.head || doc.documentElement).appendChild(s);
+}
+
+// חיווט
+ui.selectModeBtn?.addEventListener('click', toggleSelectMode);
+ui.selClear?.addEventListener('click', () => ParabulaActions.clearSelection());
+ui.selPrint?.addEventListener('click', () => ParabulaActions.printSelection());
+ui.actionsBtn?.addEventListener('click', openActionsSheet);
+ui.sheetCloseBtn?.addEventListener('click', closeActionsSheet);
+ui.actionsSheet?.querySelector('[data-close]')?.addEventListener('click', closeActionsSheet);
+ui.modeSwitch?.querySelectorAll('.sheet-mode').forEach(b =>
+  b.addEventListener('click', () => setReadMode(b.dataset.mode)));
+ui.aPrint?.addEventListener('click', () => { const p = activePageObj(); if (p){ closeActionsSheet(); ParabulaActions.printPage(p.file, {busyText:'מכין את הדף להדפסה…'}); } });
+ui.aPdf?.addEventListener('click', () => { const p = activePageObj(); if (p){ closeActionsSheet(); ParabulaActions.printPage(p.file, {busyText:'מכין את הדף ל-PDF…'}); } });
+ui.aHtml?.addEventListener('click', () => { const p = activePageObj(); if (p){ closeActionsSheet(); ParabulaActions.downloadHtml(p.file); } });
+ui.aOpen?.addEventListener('click', () => { const p = activePageObj(); if (p){ closeActionsSheet(); ParabulaActions.openTab(p.file); } });
+ui.aPrintTopic?.addEventListener('click', () => { const p = activePageObj(); if (p){ closeActionsSheet(); ParabulaActions.printTopic(p.topic); } });
+ui.aSelectTopic?.addEventListener('click', () => { const p = activePageObj(); if (p){ enterSelectModeMobile(); ParabulaActions.selectTopic(p.topic); } });
+
+function enterSelectModeMobile(){
+  document.body.classList.add('select-mode');
+  ui.selectModeBtn.setAttribute('aria-pressed', 'true');
+}
+
+// אתחול מצב הקריאה השמור אחרי שהדף הראשון הוצג
+const _origBoot = boot;
+boot = async function(){
+  await _origBoot();
+  ui.modeSwitch?.querySelectorAll('.sheet-mode').forEach(b =>
+    b.classList.toggle('is-active', b.dataset.mode === readMode));
+  if (readMode === 'scroll') setReadMode('scroll');
+};
+
+window.addEventListener('resize', () => { if (readMode === 'scroll' && scrollStack) rebuildScrollScale(); });
+function rebuildScrollScale(){
+  const scale = scrollSheetScale();
+  scrollStack.querySelectorAll('.m-sheet').forEach(sheet => {
+    sheet.style.width = Math.round(A4_W * scale) + 'px';
+    sheet.style.height = Math.round(A4_H * scale) + 'px';
+    const iframe = sheet.querySelector('iframe');
+    if (iframe) iframe.style.transform = `scale(${scale})`;
+  });
+}
 
 boot().catch(error => {
   console.error(error);
