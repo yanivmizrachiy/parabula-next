@@ -1,1 +1,8 @@
 @import url('../topics/bbb-uncertainty.css');
+
+/* גרף עוגה חי — תכניות טלוויזיה (הומר נאמן מהמקור הסרוק: 24 חלקים×10 תלמידים) */
+.page-237 svg.pie-svg { max-width: 62%; }
+.page-237 .pie-o { fill: none; stroke: #1e293b; stroke-width: 1.6; }
+.page-237 .pie-tick { stroke: #1e293b; stroke-width: 1.6; }
+.page-237 .pie-div { stroke: #1e293b; stroke-width: 1.3; }
+.page-237 .pie-lbl { font-size: 16px; fill: #0f172a; font-weight: 500; }
