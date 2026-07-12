@@ -1,4 +1,4 @@
-/* עמוד 38 — פילוג מורחב */
+/* עמוד 38 — פילוג מורחב (התאמה + פילוג עם דרך פתרון ותשובה סופית) */
 
 .page-38 .question-block {
 	justify-content: flex-start;
@@ -13,11 +13,13 @@
 	gap: 10px;
 }
 
+/* ---- חלק ההתאמה (טור א / טור ב) ---- */
 .page-38 .match-block {
 	border: 1px solid var(--border-light);
 	border-radius: 8px;
 	background: var(--bg-subtle);
 	padding: 8px 10px;
+	flex: 0 0 auto;
 }
 
 .page-38 .match-cols {
@@ -62,6 +64,10 @@
 	font-weight: 500;
 }
 
+.page-38 .match-eq {
+	text-align: left;
+}
+
 .page-38 .match-item .bullet-num {
 	width: 22px;
 	height: 22px;
@@ -77,15 +83,38 @@
 	flex: 0 0 auto;
 }
 
-.page-38 .dist2-top {
+/* ---- חלק הפילוג: כל תרגיל עם אזור דרך פתרון ---- */
+.page-38 .dist-list {
+	flex: 1;
+	min-height: 0;
+	width: 100%;
 	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 10px;
-	min-height: 22px;
+	flex-direction: column;
+	gap: 6px;
 }
 
-.page-38 .dist2-top .bullet-num {
+.page-38 .dist-item {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 2px 4px;
+	border-bottom: 1px solid var(--border-light);
+}
+
+.page-38 .dist-item:last-child {
+	border-bottom: none;
+}
+
+.page-38 .dist-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+.page-38 .dist-head .bullet-num {
 	width: 22px;
 	height: 22px;
 	border-radius: 50%;
@@ -100,62 +129,24 @@
 	flex: 0 0 auto;
 }
 
-.page-38 .dist2-line {
+.page-38 .dist-expr {
 	direction: ltr;
 	unicode-bidi: isolate;
-	display: flex;
-	align-items: baseline;
-	justify-content: flex-start;
-	gap: 8px;
-	font-size: 17px;
-	line-height: 22px;
-	white-space: nowrap;
-	min-width: 0;
-}
-
-.page-38 .dist2-eq {
-	min-width: 0;
-}
-
-.page-38 .match-eq {
-	text-align: left;
-}
-
-.page-38 .dist2-grid {
-	flex: 1;
-	min-height: 0;
-	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	grid-template-rows: repeat(3, minmax(0, 1fr));
-	column-gap: 22px;
-	row-gap: 16px;
-	align-items: stretch;
-}
-
-.page-38 .dist2-item {
-	min-height: 0;
-	height: 100%;
-	background: var(--bg-subtle);
-	border: 1px solid var(--border-light);
-	border-radius: 8px;
-	padding: 6px 8px;
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
-	overflow: hidden;
-}
-
-.page-38 .dist2-sign {
+	font-size: 18px;
+	line-height: 1.2;
 	font-weight: 500;
 }
 
-.page-38 .dist2-answer {
-	flex: 1 1 auto;
-	min-width: 0;
-	max-width: 100%;
-	width: auto;
-	height: 22px;
-	transform: translateY(-2px);
-	margin: 0;
+.page-38 .dist-work {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding-right: 32px;
+}
+
+.page-38 .dist-wline {
+	flex: 1;
+	min-height: 22px;
+	border-bottom: 1px dotted var(--grid-line);
 }

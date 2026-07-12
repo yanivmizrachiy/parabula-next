@@ -1,4 +1,4 @@
-/* עמוד 37 — פילוג מורחב */
+/* עמוד 37 — פילוג מורחב (דרך פתרון + תשובה סופית לכל תרגיל) */
 
 .page-37 .question-block {
 	justify-content: flex-start;
@@ -9,43 +9,40 @@
 	min-height: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 12px;
+	gap: 10px;
 }
 
-.page-37 .dist-grid {
+.page-37 .dist-list {
 	flex: 1;
 	min-height: 0;
 	width: 100%;
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	grid-template-rows: repeat(3, minmax(0, 1fr));
-	column-gap: 8px;
-	row-gap: 8px;
-	align-items: stretch;
-}
-
-.page-37 .dist-item {
-	min-height: 0;
-	height: 100%;
-	background: var(--bg-subtle);
-	border: 1px solid var(--border-light);
-	border-radius: 8px;
-	padding: 5px;
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
-	overflow: hidden;
 }
 
-.page-37 .dist-top {
+.page-37 .dist-item {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 2px 4px;
+	border-bottom: 1px solid var(--border-light);
+}
+
+.page-37 .dist-item:last-child {
+	border-bottom: none;
+}
+
+.page-37 .dist-head {
 	display: flex;
 	align-items: center;
-	justify-content: flex-start;
 	gap: 10px;
-	min-height: 22px;
+	flex: 0 0 auto;
 }
 
-.page-37 .dist-top .bullet-num {
+.page-37 .dist-head .bullet-num {
 	width: 22px;
 	height: 22px;
 	border-radius: 50%;
@@ -60,34 +57,25 @@
 	flex: 0 0 auto;
 }
 
-.page-37 .dist-line {
+.page-37 .dist-expr {
 	direction: ltr;
 	unicode-bidi: isolate;
-	display: flex;
-	align-items: baseline;
-	justify-content: flex-start;
-	gap: 8px;
-	font-size: 17px;
-	line-height: 22px;
-	white-space: nowrap;
-	min-width: 0;
-}
-
-.page-37 .dist-eq {
-	text-align: left;
-	min-width: 0;
-}
-
-.page-37 .dist-sign {
+	font-size: 18px;
+	line-height: 1.2;
 	font-weight: 500;
 }
 
-.page-37 .dist-answer {
-	flex: 1 1 auto;
-	min-width: 0;
-	max-width: 100%;
-	width: auto;
-	height: 22px;
-	transform: translateY(-2px);
-	margin: 0;
+/* אזור הדרך של התלמיד: שורות כתיבה. השורה התחתונה = מקום התשובה הסופית. */
+.page-37 .dist-work {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	padding-right: 32px;
+}
+
+.page-37 .dist-wline {
+	flex: 1;
+	min-height: 24px;
+	border-bottom: 1px dotted var(--grid-line);
 }
