@@ -1,97 +1,38 @@
-/* עמוד 94 - משוואות */
+/* עמוד-94 (דף 54 משוואות) — raster→HTML+MathJax חי: 6 משוואות (שיעורי בית) + אזורי פתרון משובצים */
+.page-94 .question-block { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.page-94 .eq-sheet { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
 
-.page-94 .question-block {
-  justify-content: flex-start;
+.page-94 .eq-banner {
+  text-align: center;
+  margin: 2mm 0 5mm;
+  padding-bottom: 3mm;
+  border-bottom: 2px solid #dbe4f0;
 }
+.page-94 .eq-title { font-size: 24px; font-weight: 700; color: #1d4ed8; margin: 0; letter-spacing: 0.5px; }
 
-.page-94 .pdf-wrap {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  overflow: hidden;
+.page-94 .eq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6mm 8mm;
+  flex: 1 1 auto;
+  direction: ltr;
 }
-
-.page-94 .pdf-page {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
-  display: block;
-  transform: none;
-  transform-origin: center;
+.page-94 .eq-cell { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
+.page-94 .eq-expr {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 3mm;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
-
-/* EQUATIONS_DESIGN_PASS_20260429 */
-.page-94 {
-  --eq-ink: #172033;
-  --eq-muted: #5b6473;
-  --eq-paper: #ffffff;
-  --eq-line: #d8e0ed;
-  --eq-soft: #f6f8fc;
-  --eq-blue: #234b8f;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+.page-94 .eq-work {
+  flex: 1 1 auto;
+  min-height: 42mm;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  background-color: #fcfdfe;
+  background-image:
+    linear-gradient(#e8edf3 1px, transparent 1px),
+    linear-gradient(90deg, #e8edf3 1px, transparent 1px);
+  background-size: 5mm 5mm;
 }
-
-.page-94 .question-block {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.page-94 .pdf-wrap {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--eq-line);
-  border-radius: 12px;
-  background: var(--eq-paper);
-}
-
-.page-94 .pdf-page {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
-  display: block;
-  transform: none;
-  transform-origin: center;
-}
-
-.page-94 .pdf-wrap img,
-.page-94 svg {
-  max-width: 100%;
-}
-
-.page-94 .q-main,
-.page-94 .q-sub {
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-
-.page-94 .q-text {
-  color: var(--eq-ink);
-  line-height: 1.55;
-}
-
-.page-94 .answer-box {
-  vertical-align: middle;
-  transform: none;
-}
-
-.page-94 .explain-box {
-  margin-top: 8px;
-}
-
-.page-94 .math-table td,
-.page-94 .label-cell,
-.page-94 .ordered-pair,
-.page-94 .sym-item,
-.page-94 .axis-label {
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
-}
-
