@@ -290,6 +290,20 @@ function render() {
   }
 
   updateNav();
+  // חישוב-מחדש של ה-scale אחרי שהפריסה התייצבה — מונע דף זעיר כשה-viewport
+  // עוד לא קיבל את מידותיו הסופיות בזמן ה-render (בלי טעינת iframe מחדש).
+  requestAnimationFrame(applyScale);
+  setTimeout(applyScale, 160);
+  setTimeout(applyScale, 450);
+}
+
+/** מחשב מחדש את קנה-המידה ומיישם על הגיליונות הקיימים — בלי לבנות מחדש iframes. */
+function applyScale() {
+  const sheets = [...dom.sheets.querySelectorAll('.sheet')];
+  if (!sheets.length) return;
+  const perRow = state.mode === 'spread' ? 2 : 1;
+  const scale = computeScale(perRow);
+  sheets.forEach((sheet) => sizeSheet(sheet, scale));
 }
 
 const lazyObserver = new IntersectionObserver((entries) => {
@@ -444,7 +458,7 @@ function bind() {
   });
 
   let rT;
-  window.addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(render, 150); });
+  window.addEventListener('resize', () => { applyScale(); clearTimeout(rT); rT = setTimeout(applyScale, 150); });
 }
 
 // helper: is target inside the header search area
