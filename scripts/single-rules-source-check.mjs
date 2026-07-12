@@ -170,9 +170,13 @@ const output = {
   status: errors.length ? 'fail' : 'pass',
   canonical,
   scannedAiEntries: aiEntryFiles.length,
+  aiEntryFiles,
   scannedDocs: docsFiles.length,
+  docsFiles,
   errors,
   warnings
 };
+fs.mkdirSync(path.join(root, 'meta', 'audit'), { recursive: true });
+fs.writeFileSync(path.join(root, 'meta', 'audit', 'rules-source-validation.json'), `${JSON.stringify(output, null, 2)}\n`);
 console.log(JSON.stringify(output, null, 2));
 if (errors.length) process.exit(1);
