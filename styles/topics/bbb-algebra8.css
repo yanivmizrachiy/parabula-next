@@ -154,10 +154,12 @@
 .bbb-algebra8-page .cg-axis line { stroke:#1e293b; stroke-width:1.7; }
 .bbb-algebra8-page .cg-axis polygon { fill:#1e293b; }
 .bbb-algebra8-page .cg-tick line { stroke:#1e293b; stroke-width:1.3; }
-.bbb-algebra8-page .cg-num { font-size:11px; fill:#334155; }
+.bbb-algebra8-page .cg-num { font-size:11px; fill:#334155; direction:ltr; unicode-bidi:isolate; }
 .bbb-algebra8-page .cg-line { stroke:#1d4ed8; stroke-width:2.3; fill:none; stroke-linecap:round; stroke-linejoin:round; }
 .bbb-algebra8-page .cg-dash { stroke-dasharray:7 4; }
 .bbb-algebra8-page .cg-pt { fill:#1d4ed8; }
 .bbb-algebra8-page .cg-open { fill:#fff; stroke:#1d4ed8; stroke-width:1.7; }
 .bbb-algebra8-page .cg-plbl { font-size:12.5px; fill:#0f172a; font-weight:600; paint-order:stroke; stroke:#fff; stroke-width:2.6px; stroke-linejoin:round; }
 .bbb-algebra8-page .cg-title { font-size:12px; fill:#0f172a; font-weight:500; }
+.bbb-algebra8-page .cg-ax { font-size:12px; fill:#334155; font-style:italic; }
+.bbb-algebra8-page .cg-flbl { font-size:14px; fill:#0f172a; font-weight:600; font-style:italic; }
