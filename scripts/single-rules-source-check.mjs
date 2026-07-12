@@ -2,12 +2,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
+const canonical = 'CLAUDE.md';
+const errors = [];
+const warnings = [];
 const exists = rel => fs.existsSync(path.join(root, rel));
 const read = rel => fs.readFileSync(path.join(root, rel), 'utf8');
 
-const errors = [];
-const warnings = [];
-const canonical = 'CLAUDE.md';
+function walk(rel, predicate = () => true) {
+  const start = path.join(root, rel);
+  if (!fs.existsSync(start)) return [];
+  const result = [];
+  const visit = (absolute, relative) => {
+    for (const entry of fs.readdirSync(absolute, { withFileTypes: true })) {
+      const abs = path.join(absolute, entry.name);
+      const next = path.join(relative, entry.name).replaceAll('\\', '/');
+      if (entry.isDirectory()) visit(abs, next);
+      else if (predicate(next)) result.push(next);
+    }
+  };
+  visit(start, rel);
+  return result;
+}
 
 if (!exists(canonical)) {
   errors.push(`Missing canonical rules file: ${canonical}`);
@@ -15,41 +30,36 @@ if (!exists(canonical)) {
   const text = read(canonical);
   const requiredPhrases = [
     'מקור הכללים היחיד',
-    'שוויון מלא בין מחשב לנייד',
     'כל מה שקיים באתר ובריפו חייב להיות זמין, גלוי, מובן ושמיש גם בנייד',
-    'meta/topics.json',
-    'scripts/single-rules-source-check.mjs',
-    'חפיפות',
-    'scripts/validate-mobile-all-pages.mjs',
+    'VisualViewport',
+    'ResizeObserver',
+    'virtualization',
+    '44×44px',
+    'Service Worker',
+    'controllerchange',
+    'validate:mobile:interactions',
     'validate:mobile:all-pages',
-    'npm run validate:meta',
-    'npm run validate:schema',
-    'רוחב קשיח',
     '360×800',
     '412×915',
     '915×412',
-    'פתח מלא',
-    'shards'
+    'WebKit iPhone',
+    'scripts/single-rules-source-check.mjs'
   ];
   for (const phrase of requiredPhrases) {
-    if (!text.includes(phrase)) errors.push(`${canonical} missing required phrase: ${phrase}`);
+    if (!text.includes(phrase)) errors.push(`${canonical} missing required contract phrase: ${phrase}`);
   }
   for (const obsolete of [
-    'npm run topics:sync',
-    'npm run topics:check',
-    'validate:mobile:deep',
-    'mobile-topics.json',
-    'mobile-app-install.html',
-    'preview/phone.html'
+    'mobile-topics.json', 'mobile-app-install.html', 'preview/phone.html',
+    'PROJECT_RULES.md', 'PROJECT_MEMORY.md', 'STATE/', 'docs/next-session.md',
+    '96/96', '98 הדפים', '95 דפים'
   ]) {
-    if (text.includes(obsolete)) errors.push(`${canonical} still contains obsolete mobile architecture reference: ${obsolete}`);
-  }
-  if (/\n1\. מריצים ``\.\n2\. מריצים ``\./.test(text)) {
-    warnings.push(`${canonical} contains two empty legacy command placeholders; the real metadata commands remain present and enforced in the canonical workflow`);
+    if (text.includes(obsolete) && !text.includes(`\`${obsolete}\``)) {
+      errors.push(`${canonical} contains obsolete active reference: ${obsolete}`);
+    }
   }
 }
 
-const forbiddenActiveRuleFiles = [
+const forbiddenFiles = [
   'PROJECT_RULES.md',
   'PROJECT_MEMORY.md',
   'rules.md',
@@ -57,69 +67,112 @@ const forbiddenActiveRuleFiles = [
   'preview/APP_CONTRACT.md',
   'docs/WORKSHEET_CREATION_RULES.md',
   'docs/EQUATIONS_AUTOMATION_RULES.md',
-  'STATE/EQUATIONS_DESIGN_PASS_RULES.md'
+  'STATE/EQUATIONS_DESIGN_PASS_RULES.md',
+  'docs/next-session.md',
+  'docs/RELEASE_CHECKLIST.md',
+  'docs/DIGITAL_TEXTBOOK_ARCHITECTURE.md',
+  'docs/PREMIUM_DESIGN_SYSTEM.md',
+  'meta/system-state.json',
+  'scripts/generate-system-state.mjs',
+  'scripts/generate-system-state-auto.mjs',
+  '.github/workflows/system-state-generation.yml',
+  'tools/release_gate.py',
+  '.claude/agents/print-a4-guardian.md'
 ];
-for (const rel of forbiddenActiveRuleFiles) {
-  if (exists(rel)) errors.push(`Duplicate active rules source must not exist: ${rel}`);
+for (const rel of forbiddenFiles) {
+  if (exists(rel)) errors.push(`Obsolete or duplicate instruction/state source must not exist: ${rel}`);
 }
 
-const forbiddenTemporaryQualityFiles = [
-  'scripts/one-time-strengthen-mobile-rules.mjs',
-  '.github/workflows/one-time-strengthen-mobile-rules.yml',
-  'scripts/one-time-clean-canonical-mobile-rules.mjs',
-  'scripts/one-time-finalize-mobile-rules.mjs',
-  '.github/workflows/one-time-finalize-mobile-rules.yml',
-  'scripts/tmp-audit-equations-page-16.mjs',
-  '.github/workflows/tmp-audit-equations-page-16.yml',
-  'STATE/trigger-mobile-rules-migration.tmp',
-  'STATE/trigger-finalize-mobile-rules.tmp',
-  'STATE/tmp-page16-visual-audit-trigger.txt',
-  'STATE/fix-canonical-rules-trigger.tmp'
+const aiEntryFiles = [
+  ...walk('.claude/agents', rel => rel.endsWith('.md')),
+  ...walk('.claude/commands', rel => rel.endsWith('.md')),
+  ...walk('.github/prompts', rel => rel.endsWith('.md')),
+  '.github/copilot-instructions.md'
+].filter(exists);
+
+const forbiddenAiPatterns = [
+  [/\bHard rules\b/i, 'Hard rules'],
+  [/\bHard requirements\b/i, 'Hard requirements'],
+  [/עקרונות מחייבים/, 'independent mandatory principles'],
+  [/\bCurrent state\b/i, 'stored current state'],
+  [/מצב נוכחי/, 'stored current state'],
+  [/\b(?:95|96|98)\s+(?:worksheet\s+)?pages\b/i, 'historical page count'],
+  [/(?:95|96|98)\s+דפים/, 'historical page count'],
+  [/\b96\/96\b/, 'historical test count'],
+  [/mobile-topics\.json/, 'obsolete metadata mirror'],
+  [/PROJECT_(?:RULES|MEMORY)\.md/, 'obsolete rules source'],
+  [/\bSTATE\//, 'state document dependency'],
+  [/[A-Z]:\\Users\\/i, 'local machine path'],
+  [/\bnpm run\b/, 'duplicated command list'],
+  [/\bgit (?:push|reset|rebase|add)\b/, 'duplicated Git policy']
 ];
-for (const rel of forbiddenTemporaryQualityFiles) {
-  if (exists(rel)) errors.push(`Temporary mobile-quality file must not remain: ${rel}`);
+
+for (const rel of aiEntryFiles) {
+  const text = read(rel);
+  if (!text.includes('CLAUDE.md')) errors.push(`${rel} must point to CLAUDE.md`);
+  for (const [pattern, label] of forbiddenAiPatterns) {
+    if (pattern.test(text)) errors.push(`${rel} contains ${label}; move it to CLAUDE.md or derive it at runtime`);
+  }
+  const bodyLines = text.split(/\r?\n/).filter(line => line.trim() && line.trim() !== '---');
+  if (bodyLines.length > 16) warnings.push(`${rel} is longer than a thin AI entry pointer (${bodyLines.length} non-empty lines)`);
 }
 
-if (!exists('scripts/validate-mobile-all-pages.mjs')) {
-  errors.push('Missing permanent all-pages mobile geometry validator: scripts/validate-mobile-all-pages.mjs');
-}
-
-if (exists('.claude/agents/worksheet-designer.md')) {
-  const agent = read('.claude/agents/worksheet-designer.md');
-  for (const required of ['validate:mobile:browser', 'validate:mobile:all-pages', 'פתח מלא']) {
-    if (!agent.includes(required)) errors.push(`worksheet-designer agent missing required mobile validation reference: ${required}`);
-  }
-  for (const obsolete of ['topics:sync', 'topics:check', 'validate:mobile:deep']) {
-    if (agent.includes(obsolete)) errors.push(`worksheet-designer agent still contains obsolete command: ${obsolete}`);
-  }
-}
-
-if (exists('README.md')) {
-  const readme = read('README.md');
-  if (!readme.includes('CLAUDE.md')) warnings.push('README.md should point to CLAUDE.md');
-  for (const oldName of ['PROJECT_RULES.md', 'PROJECT_MEMORY.md', 'rules.md']) {
-    if (readme.includes(oldName)) errors.push(`README.md still points to removed rules source: ${oldName}`);
+const docsFiles = walk('docs', rel => rel.endsWith('.md'));
+const instructionPatterns = [
+  /\bHard rules\b/i,
+  /\bHard requirements\b/i,
+  /עקרונות מחייבים/,
+  /Use this checklist/i,
+  /How to start every session/i,
+  /What Copilot must not do/i,
+  /מקור הכללים היחיד/,
+  /You must read and obey/i
+];
+for (const rel of docsFiles) {
+  const text = read(rel);
+  for (const pattern of instructionPatterns) {
+    if (pattern.test(text)) errors.push(`${rel} contains instruction-like rules; CLAUDE.md must be the only rules source`);
   }
 }
 
-if (exists('meta/system-state.json')) {
-  try {
-    const state = JSON.parse(read('meta/system-state.json'));
-    if (state?.source_of_truth?.primary !== canonical) {
-      errors.push(`meta/system-state.json source_of_truth.primary must be ${canonical}`);
-    }
-  } catch (error) {
-    errors.push(`Invalid meta/system-state.json: ${error.message}`);
+for (const rel of ['README.md', 'preview/README.md']) {
+  if (!exists(rel)) continue;
+  const text = read(rel);
+  if (!text.includes('CLAUDE.md')) errors.push(`${rel} must point to CLAUDE.md`);
+  if (/(?:95|96|98|267)\s+דפים/.test(text)) errors.push(`${rel} must not store a page count`);
+  if (/mobile-topics\.json|PROJECT_RULES\.md|PROJECT_MEMORY\.md/.test(text)) errors.push(`${rel} references obsolete architecture`);
+}
+
+if (!exists('scripts/validate-mobile-interactions.mjs')) errors.push('Missing permanent mobile interaction validator');
+if (!exists('scripts/validate-mobile-all-pages.mjs')) errors.push('Missing permanent all-pages mobile geometry validator');
+if (exists('package.json')) {
+  const scripts = JSON.parse(read('package.json')).scripts || {};
+  for (const name of ['validate:mobile', 'validate:mobile:browser', 'validate:mobile:interactions', 'validate:mobile:all-pages', 'rules:check']) {
+    if (!scripts[name]) errors.push(`package.json missing script: ${name}`);
   }
+}
+if (exists('.github/workflows/deploy-pages.yml')) {
+  const workflow = read('.github/workflows/deploy-pages.yml');
+  if (!workflow.includes('mobile-interaction-gate')) errors.push('deploy workflow must include mobile-interaction-gate');
+  if (!workflow.includes('validate:mobile:interactions')) errors.push('deploy workflow must run validate:mobile:interactions');
+}
+
+const mobileVersionFiles = ['index.html', 'index.js', 'mobile-app.html', 'mobile-app.js', 'mobile-app.webmanifest', 'sw.js'];
+for (const rel of mobileVersionFiles) {
+  if (!exists(rel)) continue;
+  const text = read(rel);
+  if (!text.includes('__MOBILE_VERSION__')) errors.push(`${rel} must use the single build version token`);
+  if (/2026071\d{4}/.test(text)) errors.push(`${rel} contains a manual mobile release number`);
 }
 
 const output = {
   generatedAt: new Date().toISOString(),
   status: errors.length ? 'fail' : 'pass',
   canonical,
+  scannedAiEntries: aiEntryFiles.length,
+  scannedDocs: docsFiles.length,
   errors,
   warnings
 };
-
 console.log(JSON.stringify(output, null, 2));
 if (errors.length) process.exit(1);
