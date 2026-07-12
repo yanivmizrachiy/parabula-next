@@ -20,9 +20,18 @@
       "sshStatus": "חסר מידע",
       "healthSummary": "המכשיר מוגדר כהקשר שליטה מרכזי אך ללא אימות ריצה חי",
       "blockers": [],
-      "relatedRepositories": ["server-core", "yaniv-home-hub"],
-      "relatedIntegrations": ["OpenAI", "Google", "Microsoft"],
-      "notes": ["ידוע מהקשר קודם שהמכשיר משמש כ-control head"],
+      "relatedRepositories": [
+        "server-core",
+        "yaniv-home-hub"
+      ],
+      "relatedIntegrations": [
+        "OpenAI",
+        "Google",
+        "Microsoft"
+      ],
+      "notes": [
+        "ידוע מהקשר קודם שהמכשיר משמש כ-control head"
+      ],
       "lastSeen": null,
       "lastVerifiedAt": null,
       "readinessState": "מוכן לבדיקה",
@@ -47,8 +56,12 @@
       "apiStatus": "חסר מידע",
       "sshStatus": "חסר מידע",
       "healthSummary": "מועמד לצומת ראשון אך טרם אומת",
-      "blockers": ["חסר מידע על תקשורת רשת ומסלול שליטה"],
-      "relatedRepositories": ["server-core"],
+      "blockers": [
+        "חסר מידע על תקשורת רשת ומסלול שליטה"
+      ],
+      "relatedRepositories": [
+        "server-core"
+      ],
       "relatedIntegrations": [],
       "notes": [],
       "lastSeen": null,
@@ -75,8 +88,12 @@
       "apiStatus": "חסר מידע",
       "sshStatus": "חסר מידע",
       "healthSummary": "מועמד לצומת ראשון אך טרם אומת",
-      "blockers": ["חסר מידע על תקשורת רשת ומסלול שליטה"],
-      "relatedRepositories": ["server-core"],
+      "blockers": [
+        "חסר מידע על תקשורת רשת ומסלול שליטה"
+      ],
+      "relatedRepositories": [
+        "server-core"
+      ],
       "relatedIntegrations": [],
       "notes": [],
       "lastSeen": null,
@@ -103,7 +120,9 @@
       "apiStatus": "חסר מידע",
       "sshStatus": "חסר מידע",
       "healthSummary": "קיים כהקשר תיקון אך לא אומת מצב חיבור",
-      "blockers": ["חסר נתיב גישה מבצעי"],
+      "blockers": [
+        "חסר נתיב גישה מבצעי"
+      ],
       "relatedRepositories": [],
       "relatedIntegrations": [],
       "notes": [],
@@ -132,7 +151,9 @@
       "sshStatus": "חסר מידע",
       "healthSummary": "מוגדר במפת המכשירים אך טרם אומת",
       "blockers": [],
-      "relatedRepositories": ["yaniv-home-hub"],
+      "relatedRepositories": [
+        "yaniv-home-hub"
+      ],
       "relatedIntegrations": [],
       "notes": [],
       "lastSeen": null,
@@ -150,22 +171,15 @@
   ],
   "repositories": [
     {
-      "id": "n8n",
-      "name": "n8n",
-      "priority": "high",
-      "role": "ריפו בעדיפות גבוהה",
-      "verificationStatus": "משוער",
-      "lastSyncAt": null,
-      "notes": ["רלוונטי במיוחד לאוטומציות ולחיבורים"]
-    },
-    {
       "id": "server-core",
       "name": "server-core",
       "priority": "high",
       "role": "ליבת תזמור והרצה",
       "verificationStatus": "משוער",
       "lastSyncAt": null,
-      "notes": ["רלוונטי למסלול cmd -> execute -> out"]
+      "notes": [
+        "רלוונטי למסלול cmd -> execute -> out"
+      ]
     },
     {
       "id": "my-assistant",
