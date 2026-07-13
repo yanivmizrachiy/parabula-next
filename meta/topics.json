@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-13T00:00:00.000Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 269,
+  "totalPages": 271,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -2480,7 +2480,7 @@
     },
     {
       "name": "זווית לכיתה ז'",
-      "count": 2,
+      "count": 4,
       "pages": [
         {
           "number": 268,
@@ -2499,6 +2499,24 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-269.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-269.html"
+        },
+        {
+          "number": 270,
+          "file": "עמוד-270.html",
+          "title": "עמוד 3 — זווית לכיתה ז'",
+          "h1": "זווית לכיתה ז'",
+          "topic": "זווית לכיתה ז'",
+          "previewPath": "/עמוד-270.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-270.html"
+        },
+        {
+          "number": 271,
+          "file": "עמוד-271.html",
+          "title": "עמוד 4 — זווית לכיתה ז'",
+          "h1": "זווית לכיתה ז'",
+          "topic": "זווית לכיתה ז'",
+          "previewPath": "/עמוד-271.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-271.html"
         }
       ]
     }

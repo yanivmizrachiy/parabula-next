@@ -31,6 +31,20 @@
 .angle7-page .ol { width: 21px; height: 21px; border: 1.5px solid var(--grid-line); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500 !important; color: #475569; flex: 0 0 auto; }
 .angle7-page .ot { flex: 1; }
 
+/* רב-ברירה בת שלוש אפשרויות */
+.angle7-page .mc.mc3 { grid-template-columns: repeat(3, 1fr); }
+
+/* משפטי נכון / לא נכון */
+.angle7-page .stmts { margin-top: 4px; }
+.angle7-page .stmt { display: flex; gap: 8px; align-items: baseline; margin: 6px 0 0; }
+.angle7-page .slab { color: var(--title-blue); font-weight: 500 !important; flex: 0 0 auto; min-width: 18px; }
+.angle7-page .stext { flex: 1; }
+.angle7-page .tfrow { display: inline-flex; gap: 16px; flex: 0 0 auto; }
+
+/* שורות הסבר */
+.angle7-page .lines { margin: 6px 0 0; }
+.angle7-page .ln { height: 24px; border-bottom: 1.5px dotted #94a3b8; }
+
 /* אזור עבודה: מערכת צירים לצד שדות תשובה */
 .angle7-page .workrow { display: flex; align-items: center; justify-content: center; gap: 34px; flex-wrap: wrap; margin-top: 3px; }
 .angle7-page .pairs-col { display: flex; flex-direction: column; gap: 18px; }
@@ -49,6 +63,9 @@
 /* עמוד 2 מרווח יותר — סרטוטים גדולים יותר */
 .page-269 .fig-angle { max-width: 320px; }
 .page-269 .fig-b { width: 280px; }
+
+/* עמוד 3 צפוף יותר — סרטוט הסימון מוקטן מעט */
+.page-270 .fig-angle { max-width: 238px; }
 .angle7-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
 .angle7-page svg.chart line,
 .angle7-page svg.chart path,
