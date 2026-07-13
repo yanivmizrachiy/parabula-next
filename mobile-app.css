@@ -175,7 +175,8 @@ body.reader-scroll .frame-wrap{contain:none;overflow:visible;min-height:0;backgr
 }
 .m-sheet{position:relative;background:#fff;box-shadow:0 4px 14px rgba(15,23,42,.14);border-radius:5px;overflow:hidden;flex-shrink:0;scroll-snap-align:start}
 .m-sheet::after{content:attr(data-position);position:absolute;inset-inline-end:8px;bottom:7px;padding:3px 7px;border-radius:999px;background:rgba(15,23,42,.72);color:#fff;font-size:.7rem;pointer-events:none}
-.m-sheet iframe{border:0;display:block;background:#fff}
+/* עיגון פיזי ל-top/left: לפני ההקטנה ה-iframe רחב מהגיליון, ובזרימת RTL הוא גולש שמאלה; עיגון מוחלט תואם ל-transform-origin: top left ומונע חיתוך של התוכן. */
+.m-sheet iframe{border:0;display:block;background:#fff;position:absolute;top:0;left:0}
 .m-sheet.is-current{outline:3px solid rgba(29,78,216,.32);outline-offset:2px}
 
 body.full-mode{width:100%;height:100vh;height:100dvh;overflow:hidden}

@@ -282,7 +282,9 @@ body.mode-scroll .sheets { flex-direction: column; align-items: center; gap: 26p
   flex-shrink: 0;
   position: relative;
 }
-.sheet iframe { border: 0; display: block; background: #fff; }
+/* עיגון פיזי ל-top/left: לפני ההקטנה ה-iframe רחב מהגיליון, ובזרימת RTL הוא גולש
+   שמאלה; עיגון מוחלט תואם ל-transform-origin: top left ומונע חיתוך של התוכן. */
+.sheet iframe { border: 0; display: block; background: #fff; position: absolute; top: 0; left: 0; }
 .sheet-loading {
   position: absolute; inset: 0; display: grid; place-items: center;
   background: #fff; z-index: 2;
