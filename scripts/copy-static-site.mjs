@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { versionizeHtml, assertMathjaxVersioned } from './lib/versionize-assets.mjs';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
@@ -94,6 +95,30 @@ for (const rel of tokenFiles) {
   if (output.includes(VERSION_TOKEN)) throw new Error(`Unresolved mobile version token in dist/${rel}`);
   fs.writeFileSync(file, output, 'utf8');
 }
+
+// חיבור כל נכסי ה-HTML של dist לגרסת ה-build: מוסיף ?v=<buildVersion> לסקריפט MathJax
+// ולכל קישורי ה-CSS, כדי ש-deploy חדש תמיד יטען מנוע וסגנון טריים ולא cache ישן שובר.
+function walkHtml(dir) {
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkHtml(p));
+    else if (entry.name.endsWith('.html')) out.push(p);
+  }
+  return out;
+}
+let versionedCount = 0;
+for (const file of walkHtml(dist)) {
+  const src = fs.readFileSync(file, 'utf8');
+  const rel = path.relative(dist, file).replaceAll(path.sep, '/');
+  const output = versionizeHtml(src, buildVersion);
+  assertMathjaxVersioned(output, rel);
+  if (output !== src) {
+    fs.writeFileSync(file, output, 'utf8');
+    versionedCount += 1;
+  }
+}
+log(`versionized MathJax + CSS in ${versionedCount} HTML files`);
 
 const pageCount = fs.readdirSync(dist).filter(file => /^עמוד-\d+\.html$/.test(file)).length;
 log(`dist ready with ${pageCount} root worksheet pages; mobile version=${buildVersion}`);

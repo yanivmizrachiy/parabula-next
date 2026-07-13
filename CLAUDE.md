@@ -186,7 +186,7 @@ Parity פירושו אותה יכולת אמיתית, לא בהכרח אותו �
 - `meta/topics.json` חייב להתאים לכל קובצי `עמוד-N.html`, ללא כפילויות או קובץ חסר.
 - אין ספירת דפים או נושאים קשיחה בכללים, agent או validator; הספירה נגזרת בזמן ריצה.
 - build חייב להיכשל אם חסר asset קנוני או נשאר token שלא הוחלף.
-- אין cache-busting ידני בכמה מקומות; version נוצר פעם אחת ב־build.
+- אין cache-busting ידני בכמה מקומות; version נוצר פעם אחת ב־build ומוזרק על-ידו. ה־build מטביע `?v=<buildVersion>` על סקריפט MathJax ועל כל קישורי ה־CSS בכל דפי `dist/` (`scripts/lib/versionize-assets.mjs`), כדי ששדרוג MathJax או סגנון לא ישאיר מנוע/CSS ישן ב־cache הדפדפן או ה־Service Worker שישבור תוכן חדש. טעינת MathJax היא self-hosted מ־`vendor/` בלבד — אין CDN.
 - קובצי audit הם פלט בדיקה בלבד ואינם מקור דרישות.
 
 ---
