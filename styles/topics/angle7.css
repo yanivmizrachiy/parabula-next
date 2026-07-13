@@ -21,6 +21,10 @@
 /* LTR למספרים, נקודות ואותיות לועזיות */
 .angle7-page .ltr { direction: ltr; unicode-bidi: isolate; }
 
+/* סימן זווית וקטורי כמו בספרי הלימוד — משמאל לאותיות */
+.angle7-page .angname { display: inline-flex; align-items: baseline; white-space: nowrap; }
+.angle7-page .ang { width: 15px; height: 12px; flex: 0 0 auto; align-self: center; margin-right: 3px; transform: translateY(1px); }
+
 /* רב-ברירה — ארבע אפשרויות בשורה */
 .angle7-page .mc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px 14px; margin: 5px 0 0; }
 .angle7-page .opt { display: flex; gap: 8px; align-items: baseline; }
