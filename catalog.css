@@ -292,18 +292,18 @@ body.mode-scroll .sheets { flex-direction: column; align-items: center; gap: 26p
 
 .page-nav {
   position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-  width: 46px; height: 46px; border-radius: 50%;
-  border: 1px solid var(--line); background: var(--surface);
-  box-shadow: var(--shadow-md); cursor: pointer;
-  display: grid; place-items: center; color: var(--ink);
+  width: 54px; height: 54px; border-radius: 50%;
+  border: 2px solid var(--brand); background: var(--surface);
+  box-shadow: var(--shadow-lg); cursor: pointer;
+  display: grid; place-items: center; color: var(--brand-ink);
   transition: all .12s;
 }
-.page-nav:hover:not(:disabled) { background: var(--brand); color: #fff; border-color: var(--brand); }
+.page-nav:hover:not(:disabled) { background: var(--brand); color: #fff; transform: translateY(-50%) scale(1.08); }
+.page-nav:active:not(:disabled) { transform: translateY(-50%) scale(.96); }
 .page-nav:disabled { opacity: 0; pointer-events: none; }
-.page-nav svg { width: 24px; height: 24px; }
-.page-nav.prev { inset-inline-end: 14px; }
-.page-nav.next { inset-inline-start: 14px; }
-body.mode-scroll .page-nav { display: none; }
+.page-nav svg { width: 26px; height: 26px; }
+.page-nav.prev { inset-inline-end: 16px; }
+.page-nav.next { inset-inline-start: 16px; }
 
 .reader-foot {
   display: flex; align-items: center; justify-content: center; gap: 20px;

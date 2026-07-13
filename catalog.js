@@ -279,9 +279,7 @@ function render() {
       sizeSheet(sheet, scale);
       lazyObserver.observe(sheet);
     });
-    dom.readerTitle.textContent = page.topic;
-    dom.readerMeta.textContent = `${topicPages.length} דפים בפרק · גלילה רציפה`;
-    dom.footProgress.textContent = `פרק: ${page.topic}`;
+    updateScrollBarInfo(page);
     // גלילה לדף הנוכחי
     requestAnimationFrame(() => {
       const target = dom.sheets.querySelector(`.sheet[data-file="${cssEsc(page.file)}"]`);
@@ -306,6 +304,69 @@ function applyScale() {
   sheets.forEach((sheet) => sizeSheet(sheet, scale));
 }
 
+/* ═══ ניווט חכם במצב גלילה ═══ */
+
+/** עדכון שורת המידע וההתקדמות לדף נתון במצב גלילה (בלי רינדור מחדש). */
+function updateScrollBarInfo(page) {
+  dom.readerTitle.textContent = page.title || page.h1 || page.file;
+  dom.readerMeta.textContent = `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal} · גלילה רציפה`;
+  dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
+}
+
+/**
+ * הדף שקרוב ביותר לראש אזור הגלילה הופך לדף הנוכחי (חוזה §5.5):
+ * הכותרת, ההתקדמות, תוכן העניינים והמיקום השמור עוקבים אחרי הגלילה.
+ */
+function trackScrollCurrent() {
+  if (state.mode !== 'scroll') return;
+  const vpTop = dom.viewport.getBoundingClientRect().top;
+  let best = null;
+  let bestDist = Infinity;
+  dom.sheets.querySelectorAll('.sheet').forEach((sheet) => {
+    const r = sheet.getBoundingClientRect();
+    if (r.bottom <= vpTop + 4) return; // כבר נגלל מעבר לו
+    const dist = Math.abs(r.top - vpTop);
+    if (dist < bestDist) { bestDist = dist; best = sheet; }
+  });
+  if (!best) return;
+  const idx = state.pages.findIndex((p) => p.file === best.dataset.file);
+  if (idx < 0 || idx === state.index) return;
+  state.index = idx;
+  localStorage.setItem(LS_POS, state.pages[idx].file);
+  updateScrollBarInfo(state.pages[idx]);
+  updateNav();
+  syncTOCActive();
+}
+
+let scrollTrackPending = false;
+function onViewportScroll() {
+  if (state.mode !== 'scroll' || scrollTrackPending) return;
+  scrollTrackPending = true;
+  requestAnimationFrame(() => { scrollTrackPending = false; trackScrollCurrent(); });
+}
+
+/**
+ * מעבר דף במצב גלילה: גלילה חלקה לדף היעד אם הוא בערימה הנוכחית,
+ * וקפיצה חכמה לפרק הסמוך (בנייה מחדש של הערימה) כשחוצים גבול פרק.
+ */
+function scrollNavigate(delta) {
+  const target = state.index + delta;
+  if (target < 0 || target >= state.pages.length) return;
+  const page = state.pages[target];
+  const sheet = dom.sheets.querySelector(`.sheet[data-file="${cssEsc(page.file)}"]`);
+  if (sheet) {
+    state.index = target;
+    localStorage.setItem(LS_POS, page.file);
+    sheet.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateScrollBarInfo(page);
+    updateNav();
+    syncTOCActive();
+    scrollTOCToActive();
+  } else {
+    goTo(target, { scrollToc: true }); // פרק אחר — בונה ערימה חדשה
+  }
+}
+
 const lazyObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (!entry.isIntersecting) return;
@@ -318,22 +379,22 @@ const lazyObserver = new IntersectionObserver((entries) => {
 }, { rootMargin: '600px 0px' });
 
 function updateNav() {
-  const step = state.mode === 'spread' ? 2 : 1;
   const atStart = state.index <= 0;
   const atEnd = state.index >= state.pages.length - 1;
-  const scroll = state.mode === 'scroll';
-  dom.navPrev.disabled = scroll || atStart;
-  dom.navNext.disabled = scroll || atEnd;
+  // גם במצב גלילה החצים פעילים — מנווטים דף-דף וחוצים פרקים (חכם).
+  dom.navPrev.disabled = atStart;
+  dom.navNext.disabled = atEnd;
   dom.footPrev.disabled = atStart;
   dom.footNext.disabled = atEnd;
-  void step;
 }
 
 function next() {
+  if (state.mode === 'scroll') return scrollNavigate(1);
   const step = state.mode === 'spread' ? 2 : 1;
   goTo(Math.min(state.pages.length - 1, state.index + step), { scrollToc: true });
 }
 function prev() {
+  if (state.mode === 'scroll') return scrollNavigate(-1);
   const step = state.mode === 'spread' ? 2 : 1;
   goTo(Math.max(0, state.index - step), { scrollToc: true });
 }
@@ -426,6 +487,8 @@ function bind() {
   dom.navNext.addEventListener('click', next);
   dom.footPrev.addEventListener('click', prev);
   dom.footNext.addEventListener('click', next);
+  // מעקב דף-נוכחי חי בזמן גלילה רציפה
+  dom.viewport.addEventListener('scroll', onViewportScroll, { passive: true });
 
   dom.btnPrint.addEventListener('click', () => cur() && ParabulaActions.printPage(cur().file, { busyText: 'מכין את הדף להדפסה…' }));
   dom.btnPdf.addEventListener('click', () => cur() && ParabulaActions.printPage(cur().file, { busyText: 'מכין את הדף ל-PDF…' }));

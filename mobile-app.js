@@ -184,8 +184,11 @@ function updateZoomUi() {
 function updateButtons() {
   const hasPage = Boolean(activePage());
   const inScroll = state.readMode === 'scroll';
-  els.prevPageBtn.disabled = !hasPage || inScroll || state.currentIndex <= 0;
-  els.nextPageBtn.disabled = !hasPage || inScroll || state.currentIndex < 0 || state.currentIndex >= state.visiblePages.length - 1;
+  // גם בגלילה רציפה קודם/הבא פעילים — מנווטים דף-דף בתוך הערימה (§5.5).
+  const index = inScroll ? state.scrollIndex : state.currentIndex;
+  const total = inScroll ? state.scrollPages.length : state.visiblePages.length;
+  els.prevPageBtn.disabled = !hasPage || index <= 0;
+  els.nextPageBtn.disabled = !hasPage || index < 0 || index >= total - 1;
   els.openLiveBtn.disabled = !hasPage;
   els.actionsBtn.disabled = !hasPage;
   updateZoomUi();
@@ -866,12 +869,17 @@ window.addEventListener('appinstalled', () => {
 window.matchMedia?.('(display-mode: standalone)').addEventListener?.('change', syncInstallButton);
 
 els.globalSearch.addEventListener('input', () => renderPages());
-els.prevPageBtn.addEventListener('click', () => {
-  if (state.currentIndex > 0) showPage(state.visiblePages[state.currentIndex - 1].file);
-});
-els.nextPageBtn.addEventListener('click', () => {
-  if (state.currentIndex >= 0 && state.currentIndex < state.visiblePages.length - 1) showPage(state.visiblePages[state.currentIndex + 1].file);
-});
+function navigateBy(delta) {
+  if (state.readMode === 'scroll' && state.scrollStack) {
+    const target = state.scrollIndex + delta;
+    if (target >= 0 && target < state.scrollPages.length) scrollToSheet(state.scrollPages[target].file);
+    return;
+  }
+  const target = state.currentIndex + delta;
+  if (target >= 0 && target < state.visiblePages.length) showPage(state.visiblePages[target].file);
+}
+els.prevPageBtn.addEventListener('click', () => navigateBy(-1));
+els.nextPageBtn.addEventListener('click', () => navigateBy(1));
 els.openLiveBtn.addEventListener('click', openCurrentFull);
 els.zoomInBtn.addEventListener('click', () => setZoom(state.zoomFactor + ZOOM_STEP));
 els.zoomOutBtn.addEventListener('click', () => setZoom(state.zoomFactor - ZOOM_STEP));

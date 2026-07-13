@@ -166,7 +166,7 @@ body.has-selection .app-shell{padding-bottom:calc(var(--bottom-nav-h) + 76px + v
 
 body.reader-scroll #mobilePageFrame{display:none}
 body.reader-scroll .zoom-dock{display:none}
-body.reader-scroll #prevPageBtn,body.reader-scroll #nextPageBtn{opacity:.42;pointer-events:none}
+/* קודם/הבא פעילים גם בגלילה רציפה — מנווטים דף-דף בערימה (§5.5) */
 body.reader-scroll .frame-wrap{contain:none;overflow:visible;min-height:0;background:transparent;border:0}
 .m-scroll-stack{
   display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;

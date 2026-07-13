@@ -71,7 +71,7 @@ add('touch-targets', baseTouchTarget && zoomTouchTarget, `base=${baseTouchTarget
 add('selection-does-not-cover-nav', css.includes('bottom:calc(var(--bottom-nav-h) + var(--safe-bottom))'), 'selection bar is above navigation');
 add('scroll-state-sync', js.includes('function syncScrollCurrent') && js.includes('syncCurrentPage(page)'), 'scroll page becomes current');
 add('scroll-virtualization', js.includes('SCROLL_WINDOW') && js.includes('hydrateScrollWindow') && js.includes("querySelector('iframe')?.remove()"), 'nearby iframes only');
-add('scroll-navigation-disabled', css.includes('body.reader-scroll #prevPageBtn') && js.includes("const inScroll = state.readMode === 'scroll'"), 'misleading navigation disabled');
+add('scroll-navigation-smart', js.includes('function navigateBy') && js.includes('scrollToSheet(state.scrollPages[target].file)') && js.includes("const inScroll = state.readMode === 'scroll'"), 'prev/next navigate the scroll stack page-by-page (§5.5 — enabled because they change the view)');
 add('dialog-accessibility', html.includes('aria-modal="true"') && js.includes('els.appShell.inert = true') && js.includes("event.key === 'Escape'"), 'modal contract present');
 add('selection-restores-immediately', actions.includes('callback(selectionSnapshot())'), 'selection listener receives current state');
 add('print-batching', actions.includes('PRINT_CONCURRENCY') && actions.includes('loadFramesInBatches'), 'bounded print preparation');
