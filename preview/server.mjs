@@ -6,7 +6,9 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const root = path.resolve(__dirname, '..');
-const port = 5179;
+const port = Number.isInteger(Number(process.env.PORT)) && process.env.PORT !== '' && process.env.PORT != null
+  ? Number(process.env.PORT)
+  : 5179;
 
 const clients = new Set();
 let reloadTimer = null;
@@ -97,5 +99,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, '127.0.0.1', () => {
-  console.log(`Preview server running: http://127.0.0.1:${port}/preview`);
+  const boundPort = server.address().port;
+  console.log(`Preview server running: http://127.0.0.1:${boundPort}/preview`);
 });
