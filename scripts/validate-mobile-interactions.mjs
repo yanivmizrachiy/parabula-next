@@ -183,7 +183,15 @@ async function runAndroid(origin, chromium) {
     }));
     add('scroll-all-placeholders', scrollStart.sheets === topic.pages.length, `sheets=${scrollStart.sheets}; expected=${topic.pages.length}`);
     add('scroll-virtualized-iframes', scrollStart.iframes <= 7, `iframes=${scrollStart.iframes}`);
-    add('scroll-nav-disabled', scrollStart.prevDisabled && scrollStart.nextDisabled, JSON.stringify(scrollStart));
+    // ניווט חכם (§5.5): בעמוד אמצעי בפרק שני הכפתורים פעילים, ו"הבא" מנווט
+    // דף-דף בערימת הגלילה ומעדכן את הדף הנוכחי בפועל.
+    add('scroll-nav-smart-enabled', scrollStart.prevDisabled === false && scrollStart.nextDisabled === false, JSON.stringify(scrollStart));
+    const third = topic.pages[2];
+    if (third) {
+      await page.locator('#nextPageBtn').click();
+      await page.waitForTimeout(800);
+      add('scroll-next-navigates-stack', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${third.number}`), `${third.file}: ${await page.locator('#currentPageMeta').textContent()}`);
+    }
 
     await page.evaluate(file => {
       const stack = document.querySelector('.m-scroll-stack');
