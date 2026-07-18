@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_ARCHIVE_URL: 'https://sdmntprukwest.oaiusercontent.com/files/00000000-221c-8243-95c3-d78a49e5afc5/raw?se=2026-07-18T20:17:33Z&sp=r&sv=2026-02-06&sr=b&scid=ea2585ed-bd23-5261-a5f8-e0ee81c1cbca&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T00:31:53Z&ske=2026-07-20T00:31:53Z&sks=b&skv=2026-02-06&sig=8meA%2BbXGleS8VmgKTdiq4a32oszHJ/SETVr4111X54Y%3D'
+      SOURCE_ARCHIVE_URL: 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-1494-8246-832f-c49b6c34d03f/raw?se=2026-07-18T20:21:15Z&sp=r&sv=2026-02-06&sr=b&scid=d873e14e-a429-5b88-b484-95e4ba891c64&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T06:56:52Z&ske=2026-07-20T06:56:52Z&sks=b&skv=2026-02-06&sig=nj7hsNzjki12JE7ZvfsBYp9CToiTa%2BzkxoDZm%2BzpC8g%3D'
 
     steps:
       - name: Checkout Parabula Next
@@ -133,7 +133,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- sources/lovable/ratio-workbook assets/ratio styles/pages meta/topics.json meta/pages.json
+          git add -- sources/lovable/ratio-workbook assets/ratio styles/pages meta/topics.json
           for page in $(seq 272 319); do
             git add -- "עמוד-${page}.html"
           done
