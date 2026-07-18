@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-13T00:00:00.000Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 280,
+  "totalPages": 284,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -2522,7 +2522,7 @@
     },
     {
       "name": "גאומטריה ז",
-      "count": 9,
+      "count": 13,
       "pages": [
         {
           "number": 272,
@@ -2604,6 +2604,42 @@
           "topic": "גאומטריה ז",
           "previewPath": "/עמוד-280.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-280.html"
+        },
+        {
+          "number": 281,
+          "file": "עמוד-281.html",
+          "title": "עמוד 10 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-281.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-281.html"
+        },
+        {
+          "number": 282,
+          "file": "עמוד-282.html",
+          "title": "עמוד 11 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-282.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-282.html"
+        },
+        {
+          "number": 283,
+          "file": "עמוד-283.html",
+          "title": "עמוד 12 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-283.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-283.html"
+        },
+        {
+          "number": 284,
+          "file": "עמוד-284.html",
+          "title": "עמוד 13 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-284.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-284.html"
         }
       ]
     }
