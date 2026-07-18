@@ -1,0 +1,29 @@
+.ratio-preview-scale {
+  transform-origin: top center;
+  transition: transform 180ms ease;
+}
+
+.ratio-zoom-50 { transform: scale(0.5); }
+.ratio-zoom-75 { transform: scale(0.75); }
+.ratio-zoom-100 { transform: scale(1); }
+.ratio-zoom-125 { transform: scale(1.25); }
+.ratio-zoom-150 { transform: scale(1.5); }
+
+.ratio-workbench button,
+.ratio-workbench [role='checkbox'] {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.ratio-workbench-sidebar label {
+  min-height: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ratio-preview-scale,
+  .ratio-workbench * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
