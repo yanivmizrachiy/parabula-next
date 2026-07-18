@@ -1,0 +1,4 @@
+@import url('../topics/geometry7.css');
+
+/* עמוד 28 — אפשרויות הטענות בעמודה */
+.page-299 .pairs-col .opt { display: flex; gap: 8px; align-items: baseline; }

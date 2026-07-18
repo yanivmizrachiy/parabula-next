@@ -1,0 +1,4 @@
+@import url('../topics/geometry7.css');
+
+/* עמוד 25 — אזור סרטוט מתרחב */
+.page-296 .drawbox.grow { flex: 1; min-width: 260px; }
