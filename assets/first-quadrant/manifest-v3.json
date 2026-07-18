@@ -1,0 +1,33 @@
+{
+  "version": "3.0.0",
+  "student_pages": 21,
+  "answer_key_pages": 7,
+  "question_cards": 107,
+  "coordinate_svgs": 31,
+  "source_bytes": 318791,
+  "gzip_bytes": 29884,
+  "base64_characters": 39848,
+  "chunk_count": 6,
+  "chunk_lengths": [
+    7000,
+    7000,
+    7000,
+    7000,
+    7000,
+    4848
+  ],
+  "sha256": {
+    "standalone_html": "89cfa135692c034386c4f72302378d7cc021053f077c63d5e43946bbbf430471",
+    "gzip": "8c6eb7861df93e07670c3b55dd501da48f2a6f9872dea167f43443e1d7ea6892"
+  },
+  "critical_fixes": [
+    "axis-origin classification",
+    "out-of-range y=2x item",
+    "pedagogical reordering",
+    "split overloaded comparison page",
+    "split error-analysis page",
+    "all same-y park pairs",
+    "geometry units and square units",
+    "separate teacher answer key"
+  ]
+}
