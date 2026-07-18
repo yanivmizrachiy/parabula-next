@@ -1,0 +1,10 @@
+.svg-figure-row .svg-cell svg {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+}
+
+.svg-figure-row .svg-cell {
+  min-width: 0;
+  flex: 1 1 0;
+}
