@@ -7,14 +7,12 @@ on:
     paths:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
-      - 'assets/ratio/**'
       - 'package.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   pull_request:
     paths:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
-      - 'assets/ratio/**'
       - 'package.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   workflow_dispatch:
@@ -23,8 +21,8 @@ permissions:
   contents: write
 
 concurrency:
-  group: ratio-workbook-v2-${{ github.ref }}
-  cancel-in-progress: false
+  group: ratio-workbook-v2-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify-render-and-commit:
@@ -85,10 +83,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/ratio/page-*.png assets/ratio/audit-v2.json
+          git add assets/ratio/page-*.png
           if git diff --cached --quiet; then
-            echo "Rendered assets are already current."
+            echo "Rendered page images are already current."
           else
             git commit -m "chore(יחס): רינדור 48 דפי A4 מתוקנים"
+            git pull --rebase origin fix/ratio-workbook-deep-audit
             git push origin HEAD:fix/ratio-workbook-deep-audit
           fi
