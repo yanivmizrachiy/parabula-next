@@ -1,0 +1,4 @@
+@import url('../topics/geometry7.css');
+
+.page-304 .figrow { gap: 10px; }
+.page-304 .drawbox.grow { flex: 1; min-width: 200px; }

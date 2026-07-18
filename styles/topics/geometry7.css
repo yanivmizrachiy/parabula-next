@@ -3,7 +3,7 @@
    כל ה-selectors בתחום .geo7-page בלבד, באותה שפה חזותית של שכבת angle7. */
 
 .geo7-page { color: var(--text-main); }
-.geo7-page .question-block { justify-content: flex-start; gap: 6px; }
+.geo7-page .question-block { justify-content: space-between; gap: 6px; }
 .geo7-page .header-container { margin-bottom: 4px; }
 
 /* כותרת ראשית + כותרת משנה */
