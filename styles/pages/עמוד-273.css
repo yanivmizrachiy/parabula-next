@@ -1,0 +1,4 @@
+@import url('../topics/geometry7.css');
+
+/* עמוד 2 — אזור הסרטוט מתרחב לצד הזווית הנתונה */
+.page-273 .drawbox.flexgrow { flex: 1; min-width: 300px; }
