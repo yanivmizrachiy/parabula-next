@@ -1,3 +1,4 @@
 @import url('../topics/geometry7.css');
 
-.page-334 .figrow { gap: 14px; }
+/* עמוד 15 — אזורי סרטוט מתרחבים */
+.page-334 .drawbox.grow { flex: 1; min-width: 260px; }

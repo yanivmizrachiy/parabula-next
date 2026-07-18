@@ -1,7 +1,0 @@
-@import url('../topics/geometry7.css');
-
-/* עמוד 12 — שלושת סרטוטי החוצה + אזורי סרטוט מתרחבים */
-.page-283 .figrow { align-items: flex-start; }
-.page-283 .figrow .figure { max-width: 205px; }
-.page-283 .figcap { max-width: 200px; margin-inline: auto; }
-.page-283 .drawbox.grow { flex: 1; min-width: 260px; }

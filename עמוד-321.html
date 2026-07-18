@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>עמוד 50 — גאומטריה ז</title>
+    <title>עמוד 2 — גאומטריה ז</title>
     <link rel="stylesheet" href="vendor/fonts/rubik.css" />
     <script>MathJax = { tex: { inlineMath: [['\\(', '\\)']] }, chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' } };</script>
     <script id="MathJax-script" async src="vendor/mathjax/tex-mml-chtml.js"></script>
@@ -14,7 +14,7 @@
     <nav class="preview-nav" aria-label="ניווט בין עמודים">
         <div class="preview-nav-top">
             <div class="nav-side"><a class="nav-link" href="עמוד-320.html">הקודם</a></div>
-            <div class="nav-meta">גאומטריה ז — עמוד 50 / 75</div>
+            <div class="nav-meta">גאומטריה ז — עמוד 2 / 75</div>
             <div class="nav-side"><a class="nav-link" href="עמוד-322.html">הבא</a></div>
         </div>
         <div class="preview-nav-topics" aria-label="מעבר בין נושאים">
@@ -35,35 +35,121 @@
         <header class="header-container">
             <div class="title-wrap">
                 <h1 class="page-title">גאומטריה ז</h1>
-                <p class="page-subtitle">גופים במרחב · נפח קוביות וחיתוכן</p>
+                <p class="page-subtitle">זוויות · השוואה בין זוויות ומנחים שונים</p>
             </div>
-            <div class="page-number">50</div>
+            <div class="page-number">2</div>
         </header>
 
         <div class="question-block">
-            <h2 class="chapter-bar"><span class="chapter-name">קוביות בתוך קוביות</span><span class="chapter-sub">נפח, חלוקה וצביעה</span></h2>
+            <h2 class="chapter-bar"><span class="chapter-name">השוואת זוויות</span><span class="chapter-sub">מה באמת קובע את גודל הזווית?</span></h2>
+
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">חשבו את הנפח הכולל של שתי קוביות המונחות אחת על השנייה, אם אורך המקצוע של קובייה אחת <span class="ltr">2</span> ס"מ ואורך המקצוע של קובייה שנייה <span class="ltr">3</span> ס"מ. רשמו תרגיל מתאים ופתרו.<div class="workrow"><div class="figure"><svg class="chart" viewBox="0 0 200 120" width="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="שתי קוביות שאורכי מקצועיהן 2 ו-3 סנטימטר"><rect x="20" y="62" width="36" height="36" fill="#f2f4f8" stroke="#1f2a44" stroke-width="1.5"/><polygon points="20,62 34,50 70,50 56,62" fill="#e6eaf1" stroke="#1f2a44" stroke-width="1.3"/><polygon points="56,62 70,50 70,86 56,98" fill="#dde3ec" stroke="#1f2a44" stroke-width="1.3"/><text x="38" y="112" text-anchor="middle" fill="#1f2a44" font-size="10" font-weight="700">2 ס"מ</text><rect x="104" y="44" width="54" height="54" fill="#f2f4f8" stroke="#1f2a44" stroke-width="1.5"/><polygon points="104,44 122,30 176,30 158,44" fill="#e6eaf1" stroke="#1f2a44" stroke-width="1.3"/><polygon points="158,44 176,30 176,84 158,98" fill="#dde3ec" stroke="#1f2a44" stroke-width="1.3"/><text x="131" y="112" text-anchor="middle" fill="#1f2a44" font-size="10" font-weight="700">3 ס"מ</text></svg></div><div class="pairs-col"><div class="pc-item">התרגיל: <span class="wline w120" aria-hidden="true"></span></div><div class="pc-item">הנפח הכולל: <span class="wline w40" aria-hidden="true"></span> סמ"ק</div></div></div></div>
+                    <div class="qbody">לפניכם 4 זוויות. סדרו אותן לפי גודלן מהקטנה לגדולה.
+                        <div class="figrow">
+                            <svg class="chart" viewBox="0 0 140 118" width="108" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית מספר 1">
+                                <line x1="70" y1="95" x2="47.5" y2="39.4" stroke="#64748b" stroke-width="1.6"/>
+                                <line x1="70" y1="95" x2="92.5" y2="39.4" stroke="#64748b" stroke-width="1.6"/>
+                                <circle cx="70" cy="110" r="8.5" fill="none" stroke="#1d4ed8" stroke-width="1.3"/>
+                                <text x="70" y="113.8" text-anchor="middle" fill="#1d4ed8" font-size="10.5" font-weight="700">1</text>
+                            </svg>
+                            <svg class="chart" viewBox="0 0 150 118" width="116" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית מספר 2">
+                                <line x1="8" y1="92" x2="141" y2="68.5" stroke="#64748b" stroke-width="1.6"/>
+                                <line x1="8" y1="92" x2="80.2" y2="8.2" stroke="#64748b" stroke-width="1.6"/>
+                                <circle cx="24" cy="110" r="8.5" fill="none" stroke="#1d4ed8" stroke-width="1.3"/>
+                                <text x="24" y="113.8" text-anchor="middle" fill="#1d4ed8" font-size="10.5" font-weight="700">2</text>
+                            </svg>
+                            <svg class="chart" viewBox="0 0 140 118" width="108" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית מספר 3">
+                                <line x1="70" y1="75" x2="104.4" y2="58.9" stroke="#64748b" stroke-width="1.6"/>
+                                <line x1="70" y1="75" x2="74.6" y2="37.3" stroke="#64748b" stroke-width="1.6"/>
+                                <circle cx="70" cy="110" r="8.5" fill="none" stroke="#1d4ed8" stroke-width="1.3"/>
+                                <text x="70" y="113.8" text-anchor="middle" fill="#1d4ed8" font-size="10.5" font-weight="700">3</text>
+                            </svg>
+                            <svg class="chart" viewBox="0 0 140 118" width="108" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית מספר 4">
+                                <line x1="125" y1="30" x2="50" y2="30" stroke="#64748b" stroke-width="1.6"/>
+                                <line x1="125" y1="30" x2="55.5" y2="58.1" stroke="#64748b" stroke-width="1.6"/>
+                                <circle cx="90" cy="110" r="8.5" fill="none" stroke="#1d4ed8" stroke-width="1.3"/>
+                                <text x="90" y="113.8" text-anchor="middle" fill="#1d4ed8" font-size="10.5" font-weight="700">4</text>
+                            </svg>
+                        </div>
+                        <div class="ansrow">
+                            <span class="pair"><span class="pblank"></span><span class="pl">&lt;</span><span class="pblank"></span><span class="pl">&lt;</span><span class="pblank"></span><span class="pl">&lt;</span><span class="pblank"></span></span>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">הנפח של קובייה <span class="ltr">64</span> סמ"ק.<div class="subs"><div class="sub"><span class="subl">א.</span><span class="subt">כמה קוביות שמקצועותיהן שווה ל-<span class="ltr">1</span> ס"מ ניתן להכניס לקובייה הנתונה כך שתהייה מלאה לגמרי? <span class="wline w40" aria-hidden="true"></span></span></div><div class="sub"><span class="subl">ב.</span><span class="subt">הציעו קובייה, שאורך המקצוע איננו <span class="ltr">1</span> ס"מ, שניתן להכניס לקובייה הנתונה ולמלא כך שתהייה מלאה לגמרי. <span class="wline w40" aria-hidden="true"></span></span></div><div class="sub"><span class="subl">ג.</span><span class="subt">כמה קוביות כאלה ניתן להכניס לקובייה המקורית? <span class="wline w40" aria-hidden="true"></span></span></div></div></div>
+                    <div class="qbody">איתי טען:
+                        <div class="figrow">
+                            <svg class="chart" viewBox="0 0 240 112" width="205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית HIJ עם שוקיים ארוכות">
+                                <line x1="215" y1="15" x2="20" y2="88" stroke="#1f2a44" stroke-width="1.8"/>
+                                <line x1="215" y1="15" x2="120" y2="100" stroke="#1f2a44" stroke-width="1.8"/>
+                                <circle cx="215" cy="15" r="3" fill="#1d4ed8"/><text x="223" y="13" text-anchor="start" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">I</text>
+                                <circle cx="20" cy="88" r="3" fill="#1d4ed8"/><text x="12" y="100" text-anchor="end" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">H</text>
+                                <circle cx="120" cy="100" r="3" fill="#1d4ed8"/><text x="120" y="111" text-anchor="middle" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">J</text>
+                            </svg>
+                            <svg class="chart" viewBox="0 0 150 112" width="136" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית KLM עם שוקיים קצרות וקשת מסומנת">
+                                <line x1="85" y1="85" x2="18" y2="80" stroke="#1f2a44" stroke-width="1.8"/>
+                                <line x1="85" y1="85" x2="122" y2="25" stroke="#1f2a44" stroke-width="1.8"/>
+                                <path d="M 71,84 A 14,14 0 0 1 92.4,73.1" fill="none" stroke="#16a34a" stroke-width="1.8"/>
+                                <circle cx="85" cy="85" r="3" fill="#1d4ed8"/><text x="85" y="101" text-anchor="middle" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">L</text>
+                                <circle cx="18" cy="80" r="3" fill="#1d4ed8"/><text x="10" y="92" text-anchor="end" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">M</text>
+                                <circle cx="122" cy="25" r="3" fill="#1d4ed8"/><text x="130" y="23" text-anchor="start" fill="#1f2a44" font-size="12" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">K</text>
+                            </svg>
+                        </div>
+                        <div class="figure"><span class="ltr" dir="ltr"><span class="angname"><svg class="ang" width="15" height="12" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17,12.5 L1,12.5 L14,1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9,12.5 A8,8 0 0 0 7.11,7.33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>KLM</span> &lt; <span class="angname"><svg class="ang" width="15" height="12" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17,12.5 L1,12.5 L14,1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9,12.5 A8,8 0 0 0 7.11,7.33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>HIJ</span></span></div>
+                        האם איתי צדק? אם לא- מדוע לדעתכם הוא עשה טעות?
+                        <div class="lines"><div class="ln"></div><div class="ln"></div></div>
+                    </div>
                 </div>
             </div>
+
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">קוביית עץ שהנפח שלה הוא <span class="ltr">125</span> סמ"ק צבועה מבחוץ. מנסרים את הקובייה לקוביות קטנות שאורך מקצועותיהן <span class="ltr">1</span> ס"מ.<div class="subs"><div class="sub"><span class="subl">א.</span><span class="subt">כמה קוביות קטנות מתקבלות שאינן צבועות כלל? <span class="wline w40" aria-hidden="true"></span></span></div><div class="sub"><span class="subl">ב.</span><span class="subt">כמה קוביות קטנות מתקבלות שצבועות רק על פאה אחת? <span class="wline w40" aria-hidden="true"></span></span></div><div class="sub"><span class="subl">ג.</span><span class="subt">כמה קוביות קטנות מתקבלות שצבועות בדיוק על שתי פאות? <span class="wline w40" aria-hidden="true"></span></span></div><div class="sub"><span class="subl">ד.</span><span class="subt">כמה קוביות קטנות מתקבלות שצבועות בדיוק על שלוש פאות? <span class="wline w40" aria-hidden="true"></span></span></div></div>בדיקה: האם סכום ארבע התשובות שווה למספר הקוביות הקטנות? <span class="wline w40" aria-hidden="true"></span></div>
+                    <div class="qbody">דנה ויואב סרטטו זוויות. יואב טוען: "הזווית של דנה גדולה יותר, כי השוקיים שלה ארוכות יותר". האם יואב צודק? הסבירו מה קובע את גודל הזווית — ובדקו את עצמכם בהנחת זווית על זווית.<span class="enrich-tag">העשרה</span>
+                        <div class="figrow">
+                            <div class="figure">
+                                <svg class="chart" viewBox="0 0 130 92" width="122" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="הזווית של דנה — שוקיים ארוכות">
+                                    <line x1="8" y1="80" x2="122" y2="64" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <line x1="8" y1="80" x2="85.3" y2="10" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <path d="M 27.8,77.2 A 20,20 0 0 0 22.9,63.9" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+                                </svg>
+                                <div class="figcap">הזווית של דנה</div>
+                            </div>
+                            <div class="figure">
+                                <svg class="chart" viewBox="0 0 90 92" width="85" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="הזווית של יואב — שוקיים קצרות">
+                                    <line x1="14" y1="70" x2="58.6" y2="63.7" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <line x1="14" y1="70" x2="44.1" y2="36.6" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <path d="M 33.8,67.2 A 20,20 0 0 0 28.9,53.9" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+                                </svg>
+                                <div class="figcap">הזווית של יואב</div>
+                            </div>
+                        </div>
+                        <div class="lines"><div class="ln"></div></div>
+                    </div>
                 </div>
             </div>
+
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">קוביית עץ שאורך מקצועה <span class="ltr">4</span> ס"מ צבועה מבחוץ ומנוסרת לקוביות של <span class="ltr">1</span> ס"מ. חזרו על השאלה הקודמת עבור קובייה זו, והשוו:<span class="enrich-tag">העשרה</span><table class="gz-table"><tr><th>אורך מקצוע הקובייה</th><td>5 ס"מ</td><td>4 ס"מ</td></tr><tr><th>ללא צבע כלל</th><td></td><td></td></tr><tr><th>פאה אחת צבועה</th><td></td><td></td></tr><tr><th>שתי פאות צבועות</th><td></td><td></td></tr><tr><th>שלוש פאות צבועות</th><td></td><td></td></tr></table>מה נשאר קבוע בשתי הקוביות, ומה השתנה? <span class="wline w120" aria-hidden="true"></span></div>
+                    <div class="qbody">סרטטו במסגרת זווית <b>גדולה יותר</b> מהזווית הנתונה, אך עם שוקיים <b>קצרות יותר</b> משלה. כתבו לזווית שסרטטתם שם משלכם.<span class="enrich-tag">העשרה</span>
+                        <div class="workrow">
+                            <div class="figure">
+                                <svg class="chart" viewBox="0 0 160 104" width="130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="זווית נתונה עם שוקיים ארוכות">
+                                    <line x1="10" y1="92" x2="155" y2="78" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <line x1="10" y1="92" x2="110" y2="8" stroke="#1f2a44" stroke-width="1.8"/>
+                                    <path d="M 33.9,89.7 A 24,24 0 0 0 28.4,76.6" fill="none" stroke="#1d4ed8" stroke-width="1.5"/>
+                                </svg>
+                            </div>
+                            <div class="drawbox h88 flexgrow"><span class="boxcap">אזור סרטוט</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>עמוד 72 — גאומטריה ז</title>
+    <title>עמוד 24 — גאומטריה ז</title>
     <link rel="stylesheet" href="vendor/fonts/rubik.css" />
     <script>MathJax = { tex: { inlineMath: [['\\(', '\\)']] }, chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' } };</script>
     <script id="MathJax-script" async src="vendor/mathjax/tex-mml-chtml.js"></script>
@@ -14,7 +14,7 @@
     <nav class="preview-nav" aria-label="ניווט בין עמודים">
         <div class="preview-nav-top">
             <div class="nav-side"><a class="nav-link" href="עמוד-342.html">הקודם</a></div>
-            <div class="nav-meta">גאומטריה ז — עמוד 72 / 75</div>
+            <div class="nav-meta">גאומטריה ז — עמוד 24 / 75</div>
             <div class="nav-side"><a class="nav-link" href="עמוד-344.html">הבא</a></div>
         </div>
         <div class="preview-nav-topics" aria-label="מעבר בין נושאים">
@@ -35,42 +35,81 @@
         <header class="header-container">
             <div class="title-wrap">
                 <h1 class="page-title">גאומטריה ז</h1>
-                <p class="page-subtitle">אלגברה · אייקון האפליקציה</p>
+                <p class="page-subtitle">זוויות · סכום זוויות במשולש — חישובים וטענות</p>
             </div>
-            <div class="page-number">72</div>
+            <div class="page-number">24</div>
         </header>
 
         <div class="question-block">
-            <h2 class="chapter-bar"><span class="chapter-name">ריבוע שהופך למלבן</span><span class="chapter-sub">ביטויים, פישוט והנמקה</span></h2>
-            <div class="defcard">מפתחי אפליקציות צריכים לוודא שהאפליקציה שלהם נראית טוב על מסכים בגדלים שונים. הגדלים נקבעים לפי מספר הפיקסלים. אייקון (סמל) של אפליקציה חדשה הוא <b>ריבוע</b> שאורך צלעו <span class="ltr">x</span> פיקסלים. כדי להתאים את האייקון למסך רחב, המפתחים הגדילו את רוחבו ב-<span class="ltr">5</span> פיקסלים ואת גובהו ב-<span class="ltr">2</span> פיקסלים.</div>
+            <h2 class="chapter-bar"><span class="chapter-name">משולש והמשכי צלעות</span><span class="chapter-sub">צמודות פוגשות סכום זוויות</span></h2>
+
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody"><b>חלק 1.</b> מהו הביטוי האלגברי המייצג את שטח האייקון הריבועי המקורי?<div class="workrow"><div class="figure"><svg class="chart" viewBox="0 0 250 130" width="232" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="אייקון ריבועי שאורך צלעו x ואייקון מלבני חדש שרוחבו x ועוד 5 וגובהו x ועוד 2"><rect x="26" y="20" width="86" height="86" fill="#e7ecf9" stroke="#1f2a44" stroke-width="1.6"/><text x="69" y="68" text-anchor="middle" fill="#1f2a44" font-size="12" font-weight="700" font-style="italic">x</text><path d="M126,62 l16,0 l0,-5 l10,8 l-10,8 l0,-5 l-16,0 z" fill="#94a3b8"/><rect x="160" y="14" width="76" height="98" fill="#fdeef2" stroke="#be123c" stroke-width="1.6"/><text x="198" y="10" text-anchor="middle" fill="#be123c" font-size="10" font-weight="700">x + 5</text><text x="246" y="64" text-anchor="middle" fill="#be123c" font-size="10" font-weight="700" transform="rotate(-90 246 64)">x + 2</text></svg></div><div class="pairs-col"><div class="pc-item"><div class="opt"><span class="ol">א</span><span class="ot ltr">4x</span></div><div class="opt"><span class="ol">ב</span><span class="ot ltr">x²</span></div></div><div class="pc-item"><div class="opt"><span class="ol">ג</span><span class="ot ltr">2x</span></div><div class="opt"><span class="ol">ד</span><span class="ot ltr">x + 4</span></div></div></div></div></div>
+                    <div class="qbody">בסרטוט שלפניכם נתון משולש <span class="ltr">ABC</span>. <span class="ltr">D</span> היא נקודה על המשך הצלע <span class="ltr">BC</span>. <span class="ltr">E</span> היא נקודה על המשך הצלע <span class="ltr">AC</span>.
+                        <div class="workrow">
+                            <div class="figure">
+                                <svg class="chart" viewBox="0 0 235 155" width="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="משולש ABC עם המשך הצלע BC אל D והמשך הצלע AC אל E">
+                                    <line x1="15" y1="135" x2="215" y2="135" stroke="#1f2a44" stroke-width="1.7"/>
+                                    <line x1="150" y1="135" x2="30" y2="15" stroke="#1f2a44" stroke-width="1.7"/>
+                                    <line x1="15" y1="135" x2="66" y2="51" stroke="#1f2a44" stroke-width="1.7"/>
+                                    <circle cx="15" cy="135" r="2.6" fill="#1d4ed8"/><text x="8" y="148" text-anchor="middle" fill="#1d4ed8" font-size="11.5" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="2.9" stroke-linejoin="round">B</text>
+                                    <circle cx="150" cy="135" r="2.6" fill="#1d4ed8"/><text x="150" y="149" text-anchor="middle" fill="#1d4ed8" font-size="11.5" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="2.9" stroke-linejoin="round">C</text>
+                                    <circle cx="215" cy="135" r="2.6" fill="#1d4ed8"/><text x="222" y="148" text-anchor="middle" fill="#1d4ed8" font-size="11.5" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="2.9" stroke-linejoin="round">D</text>
+                                    <circle cx="66" cy="51" r="2.6" fill="#1d4ed8"/><text x="76" y="47" text-anchor="middle" fill="#1d4ed8" font-size="11.5" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="2.9" stroke-linejoin="round">A</text>
+                                    <circle cx="30" cy="15" r="2.6" fill="#1d4ed8"/><text x="22" y="12" text-anchor="middle" fill="#1d4ed8" font-size="11.5" font-weight="700" paint-order="stroke" stroke="#ffffff" stroke-width="2.9" stroke-linejoin="round">E</text>
+                                </svg>
+                            </div>
+                            <div class="pairs-col">
+                                <span><b>א.</b> מיצאו בסרטוט זוג זוויות צמודות,</span>
+                                <span>ורישמו את שמותיהן.</span>
+                                <span><span class="wline w120" aria-hidden="true"></span></span>
+                                <span><b>ב.</b> נתון: <span class="ltr angname"><svg class="ang" width="15" height="12" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17,12.5 L1,12.5 L14,1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9,12.5 A8,8 0 0 0 7.11,7.33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>DCA</span> = <span class="ltr">135°</span></span>
+                                <span>חשבו את הגודל של <span class="ltr angname"><svg class="ang" width="15" height="12" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17,12.5 L1,12.5 L14,1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9,12.5 A8,8 0 0 0 7.11,7.33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>BCA</span> <span class="wline w40" aria-hidden="true"></span></span>
+                            </div>
+                        </div>
+                        <div class="subs">
+                            <div class="sub"><span class="subl">ג.</span><span class="subt">עוד נתון: <span class="ltr angname"><svg class="ang" width="15" height="12" viewBox="0 0 18 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17,12.5 L1,12.5 L14,1.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M9,12.5 A8,8 0 0 0 7.11,7.33" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>B</span> = <span class="ltr">45°</span>. בכל סעיף הקיפו את התשובה הנכונה ונמקו. היעזרו בתשובתכם לסעיף ב'.</span></div>
+                            <div class="sub"><span class="subl ltr">i.</span><span class="subt"><span class="ltr">ΔABC</span> הוא שווה צלעות / שונה צלעות</span></div>
+                            <div class="sub"><span class="subl ltr">ii.</span><span class="subt"><span class="ltr">ΔABC</span> הוא חד-זווית / קהה-זווית / ישר-זווית</span></div>
+                        </div>
+                        <div class="lines"><div class="ln"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q">
+                <div class="qrow">
+                    <div class="bullet-container"><div class="bullet-large"></div></div>
+                    <div class="qbody">אילו מבין הטענות הבאות נכונות תמיד? נמקו
+                        <div class="stmts">
+                            <div class="stmt"><span class="slab">א.</span><span class="stext">אם במשולש שתי זוויות חדות, גם הזווית השלישית חדה</span><span class="tfrow"><span>נכון / לא נכון</span></span></div>
+                            <div class="stmt"><span class="slab">ב.</span><span class="stext">במשולש ישר-זווית, כל אחת משתי הזוויות האחרות שווה <span class="ltr">45°</span>.</span><span class="tfrow"><span>נכון / לא נכון</span></span></div>
+                            <div class="stmt"><span class="slab">ג.</span><span class="stext">במשולש ישר-זווית, שתי הזוויות האחרות חדות</span><span class="tfrow"><span>נכון / לא נכון</span></span></div>
+                            <div class="stmt"><span class="slab">ד.</span><span class="stext">בכל משולש, לפחות שתיים מהזוויות הן חדות</span><span class="tfrow"><span>נכון / לא נכון</span></span></div>
+                            <div class="stmt"><span class="slab">ה.</span><span class="stext">במשולש ישר זווית, סכום הזוויות שאינן ישרות הוא <span class="ltr">90°</span>.</span><span class="tfrow"><span>נכון / לא נכון</span></span></div>
+                        </div>
+                        <div class="lines"><div class="ln"></div><div class="ln"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q">
+                <div class="qrow">
+                    <div class="bullet-container"><div class="bullet-large"></div></div>
+                    <div class="qbody">חשבו בעזרת סכום הזוויות:<span class="enrich-tag">העשרה</span>
+                        <div class="subs">
+                            <div class="sub"><span class="subl">א.</span><span class="subt">במשולש ישר-זווית אחת הזוויות היא <span class="ltr">35°</span>. מה גודל הזווית השלישית? <span class="wline w40" aria-hidden="true"></span></span></div>
+                            <div class="sub"><span class="subl">ב.</span><span class="subt">האם ייתכן משולש שבו זוויות של <span class="ltr">100°</span> ו- <span class="ltr">95°</span>? נמקו. <span class="wline w120" aria-hidden="true"></span></span></div>
+                            <div class="sub"><span class="subl">ג.</span><span class="subt">במשולש שווה-שוקיים זווית הראש היא <span class="ltr">40°</span>. מה גודל כל אחת מזוויות הבסיס? <span class="wline w40" aria-hidden="true"></span></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="q">
                 <div class="qrow">
                     <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">מהו הביטוי לשטח האייקון המלבני החדש?<div class="mc"><div class="opt"><span class="ol">א</span><span class="ot"><span class="ltr">x² + 10</span></span></div><div class="opt"><span class="ol">ב</span><span class="ot"><span class="ltr">(x+5)(x+2)</span></span></div><div class="opt"><span class="ol">ג</span><span class="ot"><span class="ltr">x² + 7</span></span></div><div class="opt"><span class="ol">ד</span><span class="ot"><span class="ltr">2x + 7</span></span></div></div>מהו הביטוי המייצג את ההפרש בין שטח האייקון החדש (מלבני) לשטח האייקון הישן (ריבועי)?<div class="mc"><div class="opt"><span class="ol">א</span><span class="ot"><span class="ltr">7</span></span></div><div class="opt"><span class="ol">ב</span><span class="ot"><span class="ltr">10</span></span></div><div class="opt"><span class="ol">ג</span><span class="ot"><span class="ltr">7x + 10</span></span></div><div class="opt"><span class="ol">ד</span><span class="ot"><span class="ltr">10x + 7</span></span></div></div></div>
-                </div>
-            </div>
-            <div class="q">
-                <div class="qrow">
-                    <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody"><b>חלק 2 (מיומנות אלגברית).</b> המתכנת מעצב באנר (מודעת פרסום) שגובהו <span class="ltr">(x-4)</span> פיקסלים ורוחבו <span class="ltr">(x+4)</span> פיקסלים. כתבו ביטוי אלגברי לשטח הבאנר ופשטו אותו ככל הניתן.<div class="ansrow"><span>הביטוי: <span class="wline w120" aria-hidden="true"></span></span><span>לאחר פישוט: <span class="wline w120" aria-hidden="true"></span></span></div></div>
-                </div>
-            </div>
-            <div class="q">
-                <div class="qrow">
-                    <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody"><b>(הבנה והנמקה)</b> חבר לצוות הפיתוח טוען: "אם נכפיל את אורך הצלע של האייקון הריבועי המקורי פי <span class="ltr">2</span>, גם השטח שלו יגדל פי <span class="ltr">2</span>." האם טענתו נכונה? הסבירו את תשובתכם באמצעות ביטוי אלגברי ובאמצעות דוגמה מספרית.<div class="lines"><div class="ln"></div><div class="ln"></div></div></div>
-                </div>
-            </div>
-            <div class="q">
-                <div class="qrow">
-                    <div class="bullet-container"><div class="bullet-large"></div></div>
-                    <div class="qbody">מפתחי האפליקציה בודקים אייקונים בגדלים שונים:<span class="enrich-tag">העשרה</span><table class="gz-table"><tr><th>אורך צלע האייקון הריבועי</th><td>4</td><td>6</td><td>10</td></tr><tr><th>שטח האייקון</th><td></td><td></td><td></td></tr><tr><th>היקף האייקון</th><td></td><td></td><td></td></tr></table>כשאורך הצלע גדל פי <span class="ltr">2</span> (מ-<span class="ltr">4</span> ל-<span class="ltr">8</span>) — פי כמה גדל השטח? <span class="wline w40" aria-hidden="true"></span> ופי כמה גדל ההיקף? <span class="wline w40" aria-hidden="true"></span></div>
+                    <div class="qbody">סרטטו משולש כלשהו והאריכו את אחת מצלעותיו. מדדו את הזווית ה<b>חיצונית</b> שנוצרה, ואת שתי הזוויות הפנימיות שאינן צמודות לה. מה גיליתם על הקשר ביניהן?<span class="enrich-tag">העשרה</span><div class="workrow"><div class="drawbox h88 grow"><span class="boxcap">אזור סרטוט</span></div><div class="pairs-col"><span>הזווית החיצונית: <span class="wline w40" aria-hidden="true"></span></span><span>שתי הפנימיות: <span class="wline w40" aria-hidden="true"></span> , <span class="wline w40" aria-hidden="true"></span></span><span>הסכום שלהן: <span class="wline w40" aria-hidden="true"></span></span></div></div>המסקנה שלנו: <span class="wline w120" aria-hidden="true"></span></div>
                 </div>
             </div>
         </div>

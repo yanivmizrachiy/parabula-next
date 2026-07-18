@@ -1,1 +1,4 @@
 @import url('../topics/geometry7.css');
+
+/* עמוד 22 — אפשרויות א-ד בעמודה לצד איור הקיפול */
+.page-341 .pairs-col .opt { display: flex; gap: 8px; align-items: baseline; }

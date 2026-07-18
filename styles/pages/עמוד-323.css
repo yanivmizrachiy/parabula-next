@@ -1,1 +1,5 @@
 @import url('../topics/geometry7.css');
+
+/* עמוד 4 — טבלת המיון רחבה יותר */
+.page-323 .gz-table th, .page-323 .gz-table td { min-width: 150px; }
+.page-323 .gz-table td { height: 44px; }
