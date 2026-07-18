@@ -1,0 +1,104 @@
+name: Ratio Workbook V2
+
+on:
+  push:
+    branches:
+      - fix/ratio-workbook-deep-audit
+    paths:
+      - 'sources/lovable/ratio-workbook/**'
+      - 'scripts/render-ratio-workbook.mjs'
+      - 'package.json'
+      - '.github/workflows/ratio-workbook-v2.yml'
+  pull_request:
+    paths:
+      - 'sources/lovable/ratio-workbook/**'
+      - 'scripts/render-ratio-workbook.mjs'
+      - 'package.json'
+      - '.github/workflows/ratio-workbook-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ratio-workbook-v2-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-render-and-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            sources/lovable/ratio-workbook/package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install ratio workbook dependencies
+        run: npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Test ratio mathematics and structure
+        run: npm run ratio:test
+
+      - name: Render and audit all 48 A4 pages
+        run: npm run ratio:render
+
+      - name: Run repository contract suite
+        run: npm run ci:all
+
+      - name: Run mobile browser checks with diagnostics
+        shell: bash
+        run: |
+          set +e
+          npm run validate:mobile:browser 2>&1 | tee mobile-browser.log
+          browser_status=${PIPESTATUS[0]}
+          npm run validate:mobile:interactions 2>&1 | tee mobile-interactions.log
+          interactions_status=${PIPESTATUS[0]}
+          printf 'browser_status=%s\ninteractions_status=%s\n' "$browser_status" "$interactions_status" > mobile-status.txt
+          if [ "$browser_status" -ne 0 ] || [ "$interactions_status" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Upload diagnostics and ratio audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ratio-workbook-v2-audit
+          path: |
+            assets/ratio/audit-v2.json
+            mobile-browser.log
+            mobile-interactions.log
+            mobile-status.txt
+            test-results/
+          if-no-files-found: warn
+
+      - name: Commit regenerated page images
+        if: github.event_name == 'push' && github.ref_name == 'fix/ratio-workbook-deep-audit'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/ratio/page-*.png
+          if git diff --cached --quiet; then
+            echo "Rendered page images are already current."
+          else
+            git commit -m "chore(יחס): רינדור 48 דפי A4 מתוקנים"
+            git pull --rebase origin fix/ratio-workbook-deep-audit
+            git push origin HEAD:fix/ratio-workbook-deep-audit
+          fi
