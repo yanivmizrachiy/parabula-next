@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_ARCHIVE_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-1d8c-81f4-bc61-0b4eb38cd1e0/raw?se=2026-07-18T20:11:30Z&sp=r&sv=2026-02-06&sr=b&scid=9d443e45-4c21-50c8-a7d9-5ce9e1a66672&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T00:32:07Z&ske=2026-07-20T00:32:07Z&sks=b&skv=2026-02-06&sig=Qn8NSzHbt1XoMzaL9Rjb7ubrXnr%2BELBsozVzOuwAZio%3D'
+      SOURCE_ARCHIVE_URL: 'https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-e8ac-820a-826f-9c84c533363a/raw?se=2026-07-18T20:14:25Z&sp=r&sv=2026-02-06&sr=b&scid=a51700e5-9686-52d6-aac5-50cccd75079d&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T05:38:23Z&ske=2026-07-20T05:38:23Z&sks=b&skv=2026-02-06&sig=%2BUbeGjXICl3RZx5FsjbGkw4/i%2BtUCXzIFMg7BXi/KlY%3D'
 
     steps:
       - name: Checkout Parabula Next
@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npm ci
+          npm install --no-audit --no-fund
           npm run build -- --base=./
           npm run preview -- --host 127.0.0.1 --port 4173 >/tmp/ratio-preview.log 2>&1 &
           echo $! >/tmp/ratio-preview.pid
