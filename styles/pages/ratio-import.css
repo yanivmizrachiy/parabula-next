@@ -1,0 +1,37 @@
+
+.ratio-import-page {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.ratio-source-title {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ratio-import-image {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+
+@media print {
+  .ratio-import-page {
+    margin: 0;
+    box-shadow: none;
+    border: 0;
+  }
+
+  .ratio-import-image {
+    inline-size: 210mm;
+    block-size: 297mm;
+  }
+}
