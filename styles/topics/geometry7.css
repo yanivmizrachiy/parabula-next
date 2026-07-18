@@ -24,9 +24,6 @@
 .geo7-page .qrow { display: flex; align-items: flex-start; }
 .geo7-page .qbody { flex: 1; font-size: 15px; line-height: 1.5; }
 
-/* תג שאלת העשרה (מבדיל שאלה מקורית שלנו משאלת מקור) */
-.geo7-page .enrich-tag { display: inline-block; font-size: 10.5px; color: #475569; border: 1px solid var(--grid-line); border-radius: 999px; padding: 0 8px; margin-inline-start: 6px; vertical-align: 2px; }
-
 /* LTR למספרים, נקודות ואותיות לועזיות */
 .geo7-page .ltr { direction: ltr; unicode-bidi: isolate; }
 
