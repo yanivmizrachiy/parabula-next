@@ -63,18 +63,29 @@ jobs:
       - name: Run repository contract suite
         run: npm run ci:all
 
-      - name: Run mobile browser checks
+      - name: Run mobile browser checks with diagnostics
+        shell: bash
         run: |
-          npm run validate:mobile:browser
-          npm run validate:mobile:interactions
+          set +e
+          npm run validate:mobile:browser 2>&1 | tee mobile-browser.log
+          browser_status=${PIPESTATUS[0]}
+          npm run validate:mobile:interactions 2>&1 | tee mobile-interactions.log
+          interactions_status=${PIPESTATUS[0]}
+          printf 'browser_status=%s\ninteractions_status=%s\n' "$browser_status" "$interactions_status" > mobile-status.txt
+          if [ "$browser_status" -ne 0 ] || [ "$interactions_status" -ne 0 ]; then
+            exit 1
+          fi
 
-      - name: Upload ratio audit
+      - name: Upload diagnostics and ratio audit
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ratio-workbook-v2-audit
           path: |
             assets/ratio/audit-v2.json
+            mobile-browser.log
+            mobile-interactions.log
+            mobile-status.txt
             test-results/
           if-no-files-found: warn
 
