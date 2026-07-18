@@ -1,0 +1,1229 @@
+ @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Heebo:wght@400;500;700&family=David+Libre:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Educational Worksheet Print System */
+
+@layer base {
+  :root {
+    /* Clean Professional Design */
+    --background: 0 0% 98%;
+    --foreground: 220 13% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 10%;
+
+    --primary: 220 70% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 13% 18%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 210 100% 96%;
+    --accent-foreground: 220 70% 40%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 220 70% 45%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 9% 26%;
+    --sidebar-primary: 220 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 100% 96%;
+    --sidebar-accent-foreground: 220 70% 40%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 220 70% 45%;
+  }
+
+  .dark {
+    --background: 220 13% 10%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 13% 13%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 13% 13%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 210 100% 60%;
+    --primary-foreground: 220 13% 10%;
+
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 220 13% 18%;
+    --muted-foreground: 220 9% 60%;
+
+    --accent: 220 13% 20%;
+    --accent-foreground: 210 100% 70%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 20%;
+    --input: 220 13% 20%;
+    --ring: 210 100% 60%;
+
+    --sidebar-background: 220 13% 8%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 210 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: 210 100% 70%;
+    --sidebar-border: 220 13% 18%;
+    --sidebar-ring: 210 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+ body {
+   @apply bg-background text-foreground;
+   font-family: 'Heebo', 'Assistant', sans-serif;
+ }
+ 
+ .font-david {
+   font-family: 'David Libre', 'David', serif;
+   font-size: 14px;
+   line-height: 1.6;
+ }
+}
+
+/* A4 Worksheet Page */
+.worksheet-page {
+  width: 210mm;
+  height: 297mm;
+  background: white;
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    0 24px 48px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* White mask overlay - covers question numbers */
+.mask-overlay {
+  background: white;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* Black bullet dot - marks question start */
+.bullet-overlay {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  color-adjust: exact;
+}
+
+/* Page Number Circle */
+.page-number-circle {
+  width: 10mm;
+  height: 10mm;
+  border: 2.5px solid #1a1a1a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Print Styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .worksheet-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+
+  .worksheet-page:last-child {
+    page-break-after: auto;
+  }
+
+  .worksheet-page img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    image-rendering: auto;
+  }
+
+  .page-number-circle {
+    border-color: #000 !important;
+    color: #000 !important;
+    background: white !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure white masks print correctly */
+  .mask-overlay {
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  /* Ensure bullet overlays print */
+  .bullet-overlay {
+    background: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
+}
+
+/* Screen Preview Styles */
+@media screen {
+  .worksheet-page {
+    margin: 0 auto;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .worksheet-page:hover {
+    box-shadow: 
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 12px 32px rgba(0, 0, 0, 0.15),
+      0 32px 64px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* ═══ Worksheet Component Styles — Unified Design System ═══ */
+
+/* ── Design tokens (worksheet) ── */
+.worksheet-page {
+  --ws-ink: #1a1a1a;
+  --ws-ink-soft: #2d2d2d;
+  --ws-line: #2d2d2d;
+  --ws-line-soft: #b8b8b8;
+  --ws-rule: #e2e2e2;
+  --ws-accent: #1e40af;        /* deep navy-blue */
+  --ws-accent-2: #172554;      /* deeper navy for gradient end */
+  --ws-accent-soft: #eef2ff;
+  --ws-gold: #b08838;          /* luxurious gold accent */
+  --ws-gold-soft: #f5ecd6;
+  --ws-fill: #cfd8e8;          /* shaded fill for shapes */
+  --ws-fill-strong: #4b5563;
+}
+
+/* Blue header bar — unified, solid, print-safe, gold-trim */
+.page-header {
+  background:
+    linear-gradient(90deg, var(--ws-accent-2) 0%, var(--ws-accent) 100%);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 14px;
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid var(--ws-gold);
+  box-shadow:
+    0 1px 0 var(--ws-accent-2),
+    0 3px 0 #fff,
+    0 4px 0 var(--ws-gold);
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page-header-title {
+  letter-spacing: 0.5px;
+  text-transform: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-header-title::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 14px;
+  background: var(--ws-gold);
+  border-radius: 1px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page-header-num {
+  background: #fff;
+  color: var(--ws-accent-2);
+  border: 1.5px solid var(--ws-gold);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  box-shadow: 0 0 0 2px var(--ws-accent-2);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page-content {
+  padding: 6mm 9mm 7mm 9mm;
+  height: calc(100% - 34px);
+  font-family: 'David Libre', 'David', serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ws-ink);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+}
+
+/* Question separator — gold dot between two hairlines */
+.q-separator {
+  position: relative;
+  margin: 0;
+  flex: 0 1 auto;
+  min-height: 16px;
+  max-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background:
+    radial-gradient(circle 3px at 50% 50%, var(--ws-gold) 0 100%, transparent 100%) no-repeat center / 6px 6px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.q-separator::before,
+.q-separator::after {
+  content: "";
+  flex: 1;
+  height: 0;
+  border-top: 1px dashed var(--ws-rule);
+}
+
+/* Direct children of page-content shouldn't shrink (except separators) */
+.page-content > *:not(.q-separator) {
+  flex: 0 0 auto;
+}
+
+/* ── Question Block — numbered marker with gold ring ── */
+.page-content {
+  counter-reset: qnum;
+}
+
+.question-block {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  margin-bottom: 5px;
+  flex: 0 0 auto;
+  counter-increment: qnum;
+}
+
+.question-bullet {
+  margin-top: 7px;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #000;
+  display: inline-block;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.question-bullet::before {
+  content: none;
+}
+
+.question-content {
+  flex: 1;
+  padding-top: 1px;
+}
+
+.question-content p {
+  margin: 0 0 4px 0;
+}
+
+/* Sub-question — refined alignment */
+.sub-question {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin: 4px 22px 4px 0;
+}
+
+.sub-label {
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 22px;
+  color: var(--ws-accent-2);
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.sub-content {
+  flex: 1;
+}
+
+.sub-content p {
+  margin: 0 0 2px 0;
+}
+
+/* Answer Line */
+.answer-line-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.answer-label {
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--ws-accent-2);
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-size: 12px;
+}
+
+.answer-line {
+  flex: 1;
+  border-bottom: 1.5px dotted var(--ws-line);
+  min-width: 120px;
+  height: 18px;
+}
+
+/* Inline Blank — dotted, premium feel with gold tint on focus rows */
+.inline-blank {
+  display: inline-block;
+  width: 64px;
+  border-bottom: 1.5px dotted var(--ws-line);
+  margin: 0 5px;
+  vertical-align: baseline;
+  height: 1em;
+  background:
+    linear-gradient(180deg, transparent 0 calc(100% - 2px), var(--ws-gold-soft) calc(100% - 2px) 100%);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Fraction */
+.fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 5px;
+  line-height: 1.1;
+  font-size: 13px;
+}
+
+.frac-num {
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+.frac-line {
+  width: 100%;
+  height: 1.5px;
+  background: var(--ws-ink);
+  min-width: 18px;
+}
+
+.frac-den {
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+/* Checkbox — refined, crisp print-ready square with subtle inner ring */
+.worksheet-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkbox-box {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--ws-line);
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #fff, 0 0.5px 0 rgba(0,0,0,0.03);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.checkbox-label {
+  font-size: 12px;
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-weight: 600;
+  color: var(--ws-ink-soft);
+}
+
+/* Worksheet Table — refined borders */
+.worksheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0;
+  font-size: 13px;
+  border: 1.5px solid var(--ws-line);
+}
+
+.worksheet-table th,
+.worksheet-table td {
+  border: 1px solid var(--ws-line);
+  padding: 5px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.worksheet-table th {
+  background: var(--ws-accent-soft);
+  color: var(--ws-accent-2);
+  font-weight: 700;
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-size: 12px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.worksheet-table tbody tr:nth-child(even) td {
+  background: #fafafa;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Multiple Choice */
+.multiple-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0;
+}
+
+.choice-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Options Row (inline choices) — boxed for clarity */
+.options-row {
+  display: flex;
+  gap: 14px;
+  margin: 6px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.options-row > span {
+  padding: 3px 10px;
+  border: 1px solid var(--ws-line-soft);
+  border-radius: 3px;
+  background: #fafafa;
+  font-size: 13px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Drawing Box — refined dashed with paper-tint */
+.drawing-box {
+  border: 1.2px dashed var(--ws-line-soft);
+  border-radius: 5px;
+  padding: 6px 10px;
+  min-height: 42px;
+  margin: 4px 0;
+  background:
+    linear-gradient(180deg, #fbfbfd 0%, #ffffff 100%);
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.drawing-box::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 5px;
+  height: 5px;
+  border-top: 1.2px solid var(--ws-line-soft);
+  border-right: 1.2px solid var(--ws-line-soft);
+  border-radius: 1px;
+}
+
+.drawing-box.compact {
+  min-height: 30px;
+  margin: 2px 0;
+}
+
+.drawing-label {
+  font-weight: 600;
+  margin-bottom: 2px;
+  color: var(--ws-accent-2);
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
+
+/* Circles Grid — refined option cards */
+.circles-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 8px 0;
+  direction: rtl;
+}
+
+.circle-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.circles-box {
+  border: 1.5px solid var(--ws-line);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+  box-shadow: inset 0 0 0 1px #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.circles-row {
+  display: flex;
+  gap: 5px;
+}
+
+/* Grid cells (Page 5) */
+.grid-5x1 {
+  display: flex;
+  gap: 0;
+}
+
+.grid-cell {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #333;
+}
+
+/* Flower illustration */
+.flower-illustration {
+  margin: 8px 0;
+}
+
+.flower-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.flower-opt {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.opt-label {
+  font-weight: 600;
+  min-width: 20px;
+}
+
+/* Ratio items */
+.ratio-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.ratio-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Graph container */
+.graph-container {
+  margin: 6px auto;
+  max-width: 220px;
+}
+
+.graph-container.compact {
+  max-width: 200px;
+  margin: 4px auto;
+}
+
+.ratio-graph {
+  width: 100%;
+  height: auto;
+}
+
+/* Geometry figure */
+.geometry-figure {
+  margin: 6px auto;
+  max-width: 160px;
+}
+
+.geometry-figure.compact {
+  max-width: 120px;
+  margin: 4px auto;
+}
+
+.geo-svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Info box — luxurious accent panel with gold rule */
+.info-box {
+  position: relative;
+  background:
+    linear-gradient(180deg, #ffffff 0%, var(--ws-accent-soft) 100%);
+  border: 1px solid #c7d2fe;
+  border-right: 4px solid var(--ws-accent);
+  border-radius: 6px;
+  padding: 9px 14px 9px 14px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 1px 2px rgba(23, 37, 84, 0.06);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.info-box::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  right: -4px;
+  width: 4px;
+  background: linear-gradient(180deg, var(--ws-gold) 0%, var(--ws-accent) 100%);
+  border-radius: 2px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Compact variants */
+.bar-chart-container.compact {
+  max-width: 320px;
+  margin: 4px auto;
+}
+
+.number-line-container.compact {
+  margin: 4px 0;
+}
+
+.bags-illustration.compact {
+  margin: 4px 0;
+}
+
+.geometry-figures.compact {
+  gap: 8px;
+}
+
+.cookie-trays.compact .tray {
+  transform: scale(0.85);
+}
+
+/* Ratio options */
+.ratio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 3px 0;
+}
+
+/* Options grid 2 columns */
+.options-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+/* Geometry figures row */
+.geometry-figures {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 6px 0;
+}
+
+.geo-item {
+  text-align: center;
+}
+
+.geo-mini {
+  width: 120px;
+  height: auto;
+}
+
+/* Cookie trays — refined unified appearance */
+.cookie-trays {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin: 6px 0;
+}
+
+.tray {
+  text-align: center;
+  padding: 6px;
+  border: 1.5px solid var(--ws-line);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.tray-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+}
+
+.cookie {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--ws-line);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cookie.brown {
+  background: var(--ws-fill-strong);
+}
+
+.cookie.white-cookie {
+  background: #fff;
+}
+
+.tray-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ws-accent-2);
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+/* Geo figure for question 24 */
+.geo-figure-24, .geo-svg-24 {
+  max-width: 180px;
+  margin: 4px auto;
+}
+
+.geo-figure.compact {
+  max-width: 100px;
+}
+
+/* Bags illustration */
+.bags-illustration {
+  margin: 6px 0;
+}
+
+.bags-svg {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Geo ABCD */
+.geo-abcd {
+  max-width: 160px;
+  margin: 4px auto;
+}
+
+.geo-svg-small {
+  width: 100%;
+}
+
+/* Geo figure general */
+.geo-figure {
+  margin: 6px auto;
+  max-width: 160px;
+}
+
+/* Rail illustration */
+.rail-illustration {
+  margin: 4px 0;
+}
+
+.rail-svg {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Number line */
+.number-line-container {
+  margin: 6px 0;
+}
+
+.number-line-svg {
+  width: 100%;
+  max-width: 350px;
+}
+
+/* Triangle pattern */
+.triangle-pattern {
+  margin: 4px auto;
+  max-width: 150px;
+}
+
+.triangle-svg {
+  width: 100%;
+}
+
+/* Bar chart */
+.bar-chart-container {
+  max-width: 320px;
+  margin: 6px auto;
+}
+
+.bar-chart {
+  width: 100%;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Unified SVG Graphics System — premium textbook aesthetic
+   Applies to ALL inline SVGs within worksheet pages.
+   Uses :where() so we never raise specificity above inline attrs
+   that legitimately need a different color (e.g. filled black
+   markers). We override only the generic `#000` / `#fff` defaults
+   via class-targeted rules below.
+   ══════════════════════════════════════════════════════════════ */
+.worksheet-page .page-content svg {
+  display: inline-block;
+  vertical-align: middle;
+  shape-rendering: geometricPrecision;
+  text-rendering: geometricPrecision;
+  overflow: visible;
+}
+
+/* All SVG strokes — refined ink, rounded joins, crisp caps */
+.worksheet-page .page-content svg :where(line, polyline, polygon, rect, circle, ellipse, path) {
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Stroke color normalization — replace hard #000 with refined ink
+   only when the element does NOT also have a black fill (markers). */
+.worksheet-page .page-content svg [stroke="#000"]:not([fill="#000"]) {
+  stroke: var(--ws-ink);
+}
+
+/* Shaded fills — unify the variety of grays into one premium tone */
+.worksheet-page .page-content svg [fill="#999"],
+.worksheet-page .page-content svg [fill="#888"],
+.worksheet-page .page-content svg [fill="#ccc"],
+.worksheet-page .page-content svg [fill="#555"] {
+  fill: var(--ws-fill);
+}
+
+.worksheet-page .page-content svg [fill="#6b3a2a"] {
+  fill: var(--ws-fill-strong);
+}
+
+/* Grid / guide lines — softer, more elegant */
+.worksheet-page .page-content svg [stroke="#ddd"] {
+  stroke: var(--ws-rule);
+  stroke-width: 0.6;
+}
+
+/* SVG typography — unified, refined, print-ready */
+.worksheet-page .page-content svg text {
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-weight: 600;
+  font-size: 9px;
+  fill: var(--ws-ink);
+  letter-spacing: 0.1px;
+}
+
+/* Filled markers (vertices, beads, dots) — keep crisp black for print */
+.worksheet-page .page-content svg circle[fill="#000"],
+.worksheet-page .page-content svg [fill="#000"] {
+  fill: var(--ws-ink);
+}
+
+/* Strong / emphasis — accent color and weight */
+.worksheet-page .page-content strong,
+.worksheet-page .page-content b {
+  color: var(--ws-accent-2);
+  font-weight: 700;
+}
+
+/* Refined grid cells (Page 1 sub-question) */
+.grid-cell {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--ws-line);
+  background: #fff;
+}
+
+/* Cookie / chip accents — match palette */
+.cookie {
+  border: 1px solid var(--ws-line);
+}
+
+.cookie.brown {
+  background: var(--ws-fill-strong);
+}
+
+/* ============================================================
+   FIGURE / SVG LAYOUT UTILITIES
+   Used in Chapter1–6 pages to keep markup free of inline styles.
+   ============================================================ */
+.page-content .figure-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 4px 0;
+}
+
+/* Single SVG centered horizontally */
+.svg-center {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0;
+}
+.svg-center--tight { margin: 4px 0; }
+
+/* Row of SVG figures spaced evenly */
+.svg-figure-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-around;
+  margin: 4px 0;
+}
+
+/* A captioned SVG cell (figure + label below) */
+.svg-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.svg-cell .caption-xs { font-size: 10px; }
+.svg-cell .caption-sm { font-size: 11px; }
+
+/* Generic compact text helpers (worksheet only) */
+.page-content .txt-xs { font-size: 10px; }
+.page-content .txt-sm { font-size: 11px; }
+.page-content .txt-md { font-size: 12px; }
+.page-content .lbl-bold { font-weight: 600; }
+
+/* Bracelet / number-line rows */
+.bracelet-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0;
+}
+.bracelet-row .bracelet-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.bracelet-row .bracelet-name {
+  font-size: 11px;
+  min-width: 50px;
+}
+
+/* Three-column figure grid (used for shape-ratio exercises) */
+.figure-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 8px;
+}
+.figure-grid-3 > .cell {
+  text-align: center;
+  font-size: 12px;
+}
+.figure-grid-3 > .cell > .title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.figure-grid-3 svg {
+  width: 100%;
+  max-width: 150px;
+  height: 90px;
+  display: block;
+  margin: 0 auto;
+}
+.figure-grid-3 .answer-row { margin-top: 2px; }
+
+/* Inline blank width modifiers (replace inline minWidth styles) */
+.inline-blank.w-40 { min-width: 40px; }
+.inline-blank.w-50 { min-width: 50px; }
+.inline-blank.w-60 { min-width: 60px; }
+.inline-blank.w-70 { min-width: 70px; }
+
+/* Options grid row-gap modifiers */
+.options-grid-2col.gap-sm  { row-gap: 10px; }
+.options-grid-2col.gap-md  { row-gap: 14px; }
+.options-grid-2col.gap-lg  { row-gap: 16px; }
+.options-grid-2col.center  { justify-items: center; }
+
+/* Ratio-items horizontal wrap variant */
+.ratio-items.row-wrap {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+}
+
+/* Drawing-box minimum heights */
+.drawing-box.min-h-40 { min-height: 40px; }
+.drawing-box.min-h-60 { min-height: 60px; }
+
+/* Triangle row grid (Ch1 colored-triangles exercise) */
+.triangle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+  margin: 4px 0;
+}
+.triangle-grid__row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.triangle-grid__row .row-label {
+  font-size: 11px;
+  min-width: 22px;
+}
+
+/* Vertical list of checkbox statements */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+
+/* Dashboard Styles */
+.editor-panel {
+  @apply bg-card border-l border-border;
+  min-height: 100vh;
+}
+
+.preview-panel {
+  @apply bg-muted/30 overflow-auto;
+  min-height: 100vh;
+}
+
+/* Custom scrollbar for preview panel */
+.preview-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-panel::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.preview-panel::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+}
+
+.preview-panel::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
