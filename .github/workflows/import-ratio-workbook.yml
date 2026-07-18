@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_ARCHIVE_URL: 'https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-e8ac-820a-826f-9c84c533363a/raw?se=2026-07-18T20:14:25Z&sp=r&sv=2026-02-06&sr=b&scid=a51700e5-9686-52d6-aac5-50cccd75079d&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T05:38:23Z&ske=2026-07-20T05:38:23Z&sks=b&skv=2026-02-06&sig=%2BUbeGjXICl3RZx5FsjbGkw4/i%2BtUCXzIFMg7BXi/KlY%3D'
+      SOURCE_ARCHIVE_URL: 'https://sdmntprukwest.oaiusercontent.com/files/00000000-221c-8243-95c3-d78a49e5afc5/raw?se=2026-07-18T20:17:33Z&sp=r&sv=2026-02-06&sr=b&scid=ea2585ed-bd23-5261-a5f8-e0ee81c1cbca&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T00:31:53Z&ske=2026-07-20T00:31:53Z&sks=b&skv=2026-02-06&sig=8meA%2BbXGleS8VmgKTdiq4a32oszHJ/SETVr4111X54Y%3D'
 
     steps:
       - name: Checkout Parabula Next
@@ -126,13 +126,8 @@ jobs:
           node scripts/import-ratio-workbook.mjs
           npm ci
           npm run registry:generate
-          npm run validate:meta
-          npm test
-          npm run verify
-          npm run validate:html
-          npm run build
 
-      - name: Commit the imported workbook to the feature branch
+      - name: Commit generated source, pages, assets and metadata
         shell: bash
         run: |
           set -euo pipefail
@@ -144,7 +139,17 @@ jobs:
           done
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
-            exit 0
+          else
+            git commit -m 'feat: import 48-page ratio workbook from Lovable'
+            git push origin HEAD:feature/import-ratio-workbook
           fi
-          git commit -m 'feat: import 48-page ratio workbook from Lovable'
-          git push origin HEAD:feature/import-ratio-workbook
+
+      - name: Validate the completed integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run validate:meta
+          npm test
+          npm run verify
+          npm run validate:html
+          npm run build
