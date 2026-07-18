@@ -1,0 +1,257 @@
+/* Ratio workbook v2 — canonical A4 design layer.
+   Loaded after index.css so legacy pages keep their markup while sharing one visual contract. */
+
+.worksheet-page {
+  --ws-ink: #111827;
+  --ws-ink-soft: #374151;
+  --ws-line: #1f2937;
+  --ws-line-soft: #94a3b8;
+  --ws-rule: #dbe3ef;
+  --ws-accent: #1d4ed8;
+  --ws-accent-2: #1e3a8a;
+  --ws-accent-soft: #eff6ff;
+  --ws-fill: #dbeafe;
+  --ws-fill-strong: #64748b;
+  width: 210mm;
+  height: 297mm;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  color: var(--ws-ink);
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+}
+
+.page-header {
+  min-height: 15mm;
+  padding: 4.2mm 14mm 3mm;
+  background: #fff;
+  color: var(--ws-accent-2);
+  border: 0;
+  border-bottom: 1.5px solid var(--ws-accent);
+  box-shadow: none;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.page-header-title {
+  letter-spacing: 0;
+  gap: 0;
+}
+
+.page-header-title::before {
+  content: none;
+}
+
+.page-header-num {
+  width: 30px;
+  height: 30px;
+  border: 1.5px solid var(--ws-accent);
+  color: var(--ws-accent);
+  background: #fff;
+  box-shadow: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.page-content {
+  height: calc(100% - 15mm);
+  padding: 7mm 14mm 9mm;
+  overflow: visible;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.48;
+  color: var(--ws-ink);
+}
+
+.page-content > *:not(.q-separator) {
+  min-width: 0;
+}
+
+.question-block {
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+.question-bullet {
+  width: 7px;
+  height: 7px;
+  margin-top: 7px;
+  background: #111;
+}
+
+.question-content p,
+.sub-content p {
+  margin: 0 0 3px;
+}
+
+.sub-question {
+  gap: 6px;
+  margin: 3px 18px 3px 0;
+}
+
+.sub-label,
+.answer-label,
+.drawing-label,
+.tray-num {
+  color: var(--ws-accent-2);
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 600;
+}
+
+.q-separator {
+  min-height: 12px;
+  max-height: 18px;
+  background: none;
+}
+
+.q-separator::before {
+  border-top: 1px solid var(--ws-rule);
+}
+
+.q-separator::after {
+  content: none;
+}
+
+.info-box {
+  background: var(--ws-accent-soft);
+  border: 1px solid #bfdbfe;
+  border-right: 3px solid var(--ws-accent);
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 7px 11px;
+  margin-bottom: 7px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.info-box::before {
+  content: none;
+}
+
+.inline-blank {
+  border-bottom: 1.3px dotted var(--ws-line);
+  background: none;
+  height: 1em;
+}
+
+.answer-line {
+  border-bottom: 1.3px dotted var(--ws-line);
+}
+
+.drawing-box {
+  border: 1px dashed var(--ws-line-soft);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.drawing-box::before {
+  content: none;
+}
+
+.worksheet-table {
+  margin: 4px 0;
+  border: 1px solid var(--ws-line);
+  font-size: 12.5px;
+}
+
+.worksheet-table th,
+.worksheet-table td {
+  padding: 4px 6px;
+  border: 1px solid #64748b;
+}
+
+.worksheet-table th {
+  background: var(--ws-accent-soft);
+  color: var(--ws-accent-2);
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-size: 12px;
+}
+
+.worksheet-table tbody tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+.options-row > span,
+.circles-box,
+.tray {
+  background: #fff;
+  border-color: #94a3b8;
+  box-shadow: none;
+}
+
+.options-row > span {
+  padding: 3px 8px;
+}
+
+.checkbox-box {
+  width: 14px;
+  height: 14px;
+  border-color: #475569;
+  box-shadow: none;
+}
+
+.page-content strong,
+.page-content b {
+  color: inherit;
+  font-weight: 700;
+}
+
+.page-content svg text {
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-weight: 500;
+  fill: var(--ws-ink);
+}
+
+.ratio-tray-grid-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.render-page-shell {
+  width: 210mm;
+  height: 297mm;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+}
+
+.render-page-shell .worksheet-page {
+  margin: 0;
+  box-shadow: none;
+}
+
+@media screen and (max-width: 1023px) {
+  .ratio-workbench {
+    display: block;
+  }
+
+  .ratio-workbench-sidebar {
+    width: 100%;
+    max-height: 42dvh;
+    border-left: 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .ratio-workbench-preview {
+    min-height: 58dvh;
+  }
+
+  .ratio-preview-canvas {
+    padding: 16px;
+  }
+}
+
+@media print {
+  .worksheet-page,
+  .page-content {
+    overflow: visible !important;
+  }
+
+  .page-header {
+    background: #fff !important;
+    color: var(--ws-accent-2) !important;
+    border-bottom-color: var(--ws-accent) !important;
+  }
+}
