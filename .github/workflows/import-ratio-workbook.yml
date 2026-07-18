@@ -7,14 +7,12 @@ on:
     paths:
       - .github/workflows/import-ratio-workbook.yml
       - scripts/import-ratio-workbook.mjs
-      - scripts/prepare-ratio-export.mjs
   pull_request:
     branches:
       - main
     paths:
       - .github/workflows/import-ratio-workbook.yml
       - scripts/import-ratio-workbook.mjs
-      - scripts/prepare-ratio-export.mjs
 
 permissions:
   contents: write
@@ -24,13 +22,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  import:
+  regenerate:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    env:
-      SOURCE_ARCHIVE_URL: 'https://sdmntpritalynorth.oaiusercontent.com/files/00000000-1494-8246-832f-c49b6c34d03f/raw?se=2026-07-18T20:21:15Z&sp=r&sv=2026-02-06&sr=b&scid=d873e14e-a429-5b88-b484-95e4ba891c64&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T06:56:52Z&ske=2026-07-20T06:56:52Z&sks=b&skv=2026-02-06&sig=nj7hsNzjki12JE7ZvfsBYp9CToiTa%2BzkxoDZm%2BzpC8g%3D'
-
+    timeout-minutes: 20
     steps:
       - name: Checkout Parabula Next
         uses: actions/checkout@v4
@@ -44,82 +39,15 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Download and extract the complete Lovable project
+      - name: Verify preserved source and rendered assets
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf /tmp/ratio-artifact /tmp/ratio-source /tmp/ratio-build
-          mkdir -p /tmp/ratio-artifact /tmp/ratio-source
-          curl --fail --location --retry 4 --retry-all-errors "$SOURCE_ARCHIVE_URL" --output /tmp/ratio-artifact.zip
-          unzip -q /tmp/ratio-artifact.zip -d /tmp/ratio-artifact
-          test -f /tmp/ratio-artifact/ratio-source.zip
-          unzip -q /tmp/ratio-artifact/ratio-source.zip -d /tmp/ratio-source
-          test -f /tmp/ratio-source/src/data/worksheetPages.tsx
-          test "$(grep -c "title: 'עמוד" /tmp/ratio-source/src/data/worksheetPages.tsx)" -eq 48
-
-      - name: Preserve the full editable source inside parabula-next
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf sources/lovable/ratio-workbook
-          mkdir -p sources/lovable/ratio-workbook
-          cp -a /tmp/ratio-source/. sources/lovable/ratio-workbook/
-          rm -rf sources/lovable/ratio-workbook/node_modules sources/lovable/ratio-workbook/dist
-
-      - name: Prepare an isolated export build
-        shell: bash
-        run: |
-          set -euo pipefail
-          cp -a /tmp/ratio-source /tmp/ratio-build
-          node scripts/prepare-ratio-export.mjs /tmp/ratio-build
-
-      - name: Build the Lovable source for deterministic rendering
-        working-directory: /tmp/ratio-build
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm install --no-audit --no-fund
-          npm run build -- --base=./
-          npm run preview -- --host 127.0.0.1 --port 4173 >/tmp/ratio-preview.log 2>&1 &
-          echo $! >/tmp/ratio-preview.pid
-          for attempt in $(seq 1 60); do
-            if curl --silent --fail http://127.0.0.1:4173/ >/dev/null; then
-              exit 0
-            fi
-            sleep 1
-          done
-          cat /tmp/ratio-preview.log
-          exit 1
-
-      - name: Render all 48 A4 pages at high resolution
-        shell: bash
-        run: |
-          set -euo pipefail
-          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
-          if [ -z "$CHROME" ]; then
-            echo 'Chrome/Chromium was not found on the runner.' >&2
-            exit 1
-          fi
-          rm -rf assets/ratio
-          mkdir -p assets/ratio
-          for page in $(seq 1 48); do
-            output="assets/ratio/page-$(printf '%03d' "$page").png"
-            "$CHROME" \
-              --headless \
-              --no-sandbox \
-              --disable-gpu \
-              --hide-scrollbars \
-              --force-device-scale-factor=2 \
-              --window-size=794,1123 \
-              --virtual-time-budget=5000 \
-              --screenshot="$output" \
-              "http://127.0.0.1:4173/?export=1&page=$page"
-            test -s "$output"
-          done
+          test -f sources/lovable/ratio-workbook/src/data/worksheetPages.tsx
+          test "$(grep -c "title: 'עמוד" sources/lovable/ratio-workbook/src/data/worksheetPages.tsx)" -eq 48
           test "$(find assets/ratio -maxdepth 1 -name 'page-*.png' | wc -l)" -eq 48
-          file assets/ratio/page-001.png assets/ratio/page-048.png
 
-      - name: Generate canonical Parabula pages and metadata
+      - name: Regenerate canonical pages and metadata
         shell: bash
         run: |
           set -euo pipefail
@@ -127,24 +55,24 @@ jobs:
           npm ci
           npm run registry:generate
 
-      - name: Commit generated source, pages, assets and metadata
+      - name: Commit regenerated files
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- sources/lovable/ratio-workbook assets/ratio styles/pages meta/topics.json
+          git add -- styles/pages meta/topics.json sources/lovable/ratio-workbook/PARABULA-INTEGRATION.md
           for page in $(seq 272 319); do
             git add -- "עמוד-${page}.html"
           done
           if git diff --cached --quiet; then
             echo 'No generated changes to commit.'
           else
-            git commit -m 'feat: import 48-page ratio workbook from Lovable'
+            git commit -m 'fix: regenerate canonical ratio workbook pages'
             git push origin HEAD:feature/import-ratio-workbook
           fi
 
-      - name: Validate the completed integration
+      - name: Validate completed integration
         shell: bash
         run: |
           set -euo pipefail
