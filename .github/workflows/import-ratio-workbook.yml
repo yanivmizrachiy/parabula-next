@@ -8,13 +8,20 @@ on:
       - .github/workflows/import-ratio-workbook.yml
       - scripts/import-ratio-workbook.mjs
       - scripts/prepare-ratio-export.mjs
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/import-ratio-workbook.yml
+      - scripts/import-ratio-workbook.mjs
+      - scripts/prepare-ratio-export.mjs
 
 permissions:
   contents: write
 
 concurrency:
   group: import-ratio-workbook
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   import:
@@ -22,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      SOURCE_ARCHIVE_URL: 'https://sdmntprpolandcentral.oaiusercontent.com/files/00000000-8d04-820a-83eb-079b62cd1ed6/raw?se=2026-07-18T20:09:28Z&sp=r&sv=2026-02-06&sr=b&scid=063f69a5-bae8-50e6-ac8e-ace1bea0949e&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T09:14:08Z&ske=2026-07-20T09:14:08Z&sks=b&skv=2026-02-06&sig=bB4vTA3WalOT46%2B0WOWh89uxRBW3LcRiFq2dYjnIOjE%3D'
+      SOURCE_ARCHIVE_URL: 'https://sdmntprnortheu.oaiusercontent.com/files/00000000-1d8c-81f4-bc61-0b4eb38cd1e0/raw?se=2026-07-18T20:11:30Z&sp=r&sv=2026-02-06&sr=b&scid=9d443e45-4c21-50c8-a7d9-5ce9e1a66672&skoid=e5f84a89-964a-4fd3-92c2-c2cb3a12ea16&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-07-18T00:32:07Z&ske=2026-07-20T00:32:07Z&sks=b&skv=2026-02-06&sig=Qn8NSzHbt1XoMzaL9Rjb7ubrXnr%2BELBsozVzOuwAZio%3D'
 
     steps:
       - name: Checkout Parabula Next
