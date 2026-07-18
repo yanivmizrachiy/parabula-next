@@ -51,7 +51,7 @@ jobs:
         run: npm ci
 
       - name: Install ratio workbook dependencies
-        run: npm ci --prefix sources/lovable/ratio-workbook
+        run: npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
 
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
