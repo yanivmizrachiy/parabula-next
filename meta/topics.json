@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-13T00:00:00.000Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 332,
+  "totalPages": 346,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -2522,7 +2522,7 @@
     },
     {
       "name": "גאומטריה ז",
-      "count": 61,
+      "count": 75,
       "pages": [
         {
           "number": 272,
@@ -3072,6 +3072,132 @@
           "topic": "גאומטריה ז",
           "previewPath": "/עמוד-332.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-332.html"
+        },
+        {
+          "number": 333,
+          "file": "עמוד-333.html",
+          "title": "עמוד 62 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-333.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-333.html"
+        },
+        {
+          "number": 334,
+          "file": "עמוד-334.html",
+          "title": "עמוד 63 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-334.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-334.html"
+        },
+        {
+          "number": 335,
+          "file": "עמוד-335.html",
+          "title": "עמוד 64 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-335.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-335.html"
+        },
+        {
+          "number": 336,
+          "file": "עמוד-336.html",
+          "title": "עמוד 65 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-336.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-336.html"
+        },
+        {
+          "number": 337,
+          "file": "עמוד-337.html",
+          "title": "עמוד 66 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-337.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-337.html"
+        },
+        {
+          "number": 338,
+          "file": "עמוד-338.html",
+          "title": "עמוד 67 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-338.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-338.html"
+        },
+        {
+          "number": 339,
+          "file": "עמוד-339.html",
+          "title": "עמוד 68 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-339.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-339.html"
+        },
+        {
+          "number": 340,
+          "file": "עמוד-340.html",
+          "title": "עמוד 69 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-340.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-340.html"
+        },
+        {
+          "number": 341,
+          "file": "עמוד-341.html",
+          "title": "עמוד 70 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-341.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-341.html"
+        },
+        {
+          "number": 342,
+          "file": "עמוד-342.html",
+          "title": "עמוד 71 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-342.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-342.html"
+        },
+        {
+          "number": 343,
+          "file": "עמוד-343.html",
+          "title": "עמוד 72 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-343.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-343.html"
+        },
+        {
+          "number": 344,
+          "file": "עמוד-344.html",
+          "title": "עמוד 73 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-344.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-344.html"
+        },
+        {
+          "number": 345,
+          "file": "עמוד-345.html",
+          "title": "עמוד 74 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-345.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-345.html"
+        },
+        {
+          "number": 346,
+          "file": "עמוד-346.html",
+          "title": "עמוד 75 — גאומטריה ז",
+          "h1": "גאומטריה ז",
+          "topic": "גאומטריה ז",
+          "previewPath": "/עמוד-346.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-346.html"
         }
       ]
     }
