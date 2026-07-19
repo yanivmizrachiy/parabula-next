@@ -1,0 +1,104 @@
+<section aria-labelledby="title-9" class="sheet guided dense" id="page-9">
+<header class="sheet-header"><div><div class="eyebrow">שלב 5 - למידה מודרכת</div><h1 id="title-9">קוראים נקודות</h1><p>ממיקום במערכת אל זוג סדור</p></div><div aria-label="עמוד 9" class="sheet-number">9</div></header>
+<main class="sheet-content">
+<div aria-label="מערכת צירים עם שש נקודות A עד F" class="coordinate-grid grid-lg" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 1, "y": 2, "label": "A"}, {"x": 4, "y": 5, "label": "B"}, {"x": 7, "y": 1, "label": "C"}, {"x": 6, "y": 4, "label": "D"}, {"x": 3, "y": 3, "label": "E"}, {"x": 8, "y": 6, "label": "F"}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<section class="q-card"><h3>א. השלימו את הטבלה לפי הגרף.</h3><table class="work-table center"><tr><th>נקודה</th><th>שיעור x</th><th>שיעור y</th><th>זוג סדור</th></tr><tr><td>A</td><td></td><td></td><td></td></tr><tr><td>B</td><td></td><td></td><td></td></tr><tr><td>C</td><td></td><td></td><td></td></tr><tr><td>D</td><td></td><td></td><td></td></tr><tr><td>E</td><td></td><td></td><td></td></tr><tr><td>F</td><td></td><td></td><td></td></tr></table></section>
+<div class="cols-2">
+<section class="q-card"><h3>ב. כתבו את שם הנקודה.</h3><ul class="tasks compact"><li><span class="math-ltr" dir="ltr">x=4,y=5</span> ← <span class="blank" style="--blank-width:4ch"></span></li><li><span class="math-ltr" dir="ltr">x=7,y=1</span> ← <span class="blank" style="--blank-width:4ch"></span></li><li>שני שיעוריה שווים ל־3 ← <span class="blank" style="--blank-width:4ch"></span></li><li>שיעור y שלה הוא 6 ← <span class="blank" style="--blank-width:4ch"></span></li></ul></section>
+<section class="q-card"><h3>ג. איזו נקודה?</h3><p>הרחוקה ביותר ימינה: <span class="blank" style="--blank-width:4ch"></span></p><p>הגבוהה ביותר: <span class="blank" style="--blank-width:4ch"></span></p></section>
+</div>
+<section class="q-card"><h3>ד. כתבו זוג נקודות שגם שיעור x שלהן שונה וגם שיעור y שלהן שונה.</h3>הנקודות: <span class="blank" style="--blank-width:5ch"></span> ו־<span class="blank" style="--blank-width:5ch"></span></section>
+<section class="q-card"><h3>ה. חשיבה: האם שתי נקודות קרובות זו לזו חייבות להיות בעלות שיעורים זהים? הסבירו.</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-10" class="sheet practice" id="page-10">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 5 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-10">קוראים שיעורי נקודות</h1>
+<p>מזהים מיקום וכותבים (x,y)</p>
+</div>
+<div aria-label="עמוד 10" class="sheet-number">10</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>קוראים מן הגרף</h3>
+<div aria-label="מערכת צירים ובה הנקודות A B C D" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 1, "y": 2, "label": "A", "dx": 10, "dy": -10}, {"x": 4, "y": 5, "label": "B", "dx": 10, "dy": -10}, {"x": 7, "y": 3, "label": "C", "dx": 10, "dy": -10}, {"x": 5, "y": 0, "label": "D", "dx": 10, "dy": -12}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<table class="work-table center">
+<tr><th>נקודה</th><th>שיעורים</th></tr>
+<tr><td><span class="math-ltr" dir="ltr">A</span></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">B</span></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">C</span></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">D</span></td><td></td></tr>
+</table>
+</section>
+<section class="q-card"><h3>קוראים ומשווים</h3>
+<div aria-label="מערכת צירים ובה הנקודות K L M N" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 0, "y": 4, "label": "K", "dx": 12, "dy": -7}, {"x": 2, "y": 6, "label": "L", "dx": 10, "dy": 14}, {"x": 6, "y": 1, "label": "M", "dx": 10, "dy": -10}, {"x": 8, "y": 5, "label": "N", "dx": -20, "dy": -10}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<ul class="tasks compact">
+<li>כתבו את שיעורי <span class="math-ltr" dir="ltr">K</span>: <span class="blank" style="--blank-width:9ch"></span></li>
+<li>כתבו את שיעורי <span class="math-ltr" dir="ltr">N</span>: <span class="blank" style="--blank-width:9ch"></span></li>
+<li>לאילו נקודות שיעור <span class="math-ltr" dir="ltr">y</span> גדול מ־3? <span class="blank" style="--blank-width:10ch"></span></li>
+<li>איזו נקודה נמצאת על ציר <span class="math-ltr" dir="ltr">y</span>? <span class="blank" style="--blank-width:5ch"></span></li>
+</ul>
+</section>
+<section class="q-card span-2"><h3>שאלת חשיבה</h3>
+<p>נקודה נמצאת בגובה של <span class="math-ltr" dir="ltr">L</span> ובאותו קו אנכי כמו <span class="math-ltr" dir="ltr">M</span>.</p>
+<p>מהם שיעוריה? <span class="blank" style="--blank-width:10ch"></span></p>
+<p>נמקו בעזרת הביטויים <b>שיעור <span class="math-ltr" dir="ltr">x</span> זהה</b> ו־<b>שיעור <span class="math-ltr" dir="ltr">y</span> זהה</b>.</p>
+<div class="answer-line"></div><div class="answer-line"></div>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-11" class="sheet guided dense" id="page-11">
+<header class="sheet-header"><div><div class="eyebrow">שלב 6 - למידה מודרכת</div><h1 id="title-11">נקודות על הצירים</h1><p>מתי x=0 ומתי y=0</p></div><div aria-label="עמוד 11" class="sheet-number">11</div></header>
+<main class="sheet-content">
+<div class="cols-3 rules"><div class="rule-box">על ציר x: <span class="math-ltr" dir="ltr">y=0</span></div><div class="rule-box">על ציר y: <span class="math-ltr" dir="ltr">x=0</span></div><div class="rule-box">הראשית: <span class="math-ltr" dir="ltr">O(0,0)</span></div></div>
+<section class="q-card"><h3>א. סמנו או בדקו את הנקודות: A(4,0), B(0,5), C(7,0), D(0,2), O(0,0), E(3,4).</h3><div aria-label="נקודות על הצירים וברביע" class="coordinate-grid grid-lg" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 4, "y": 0, "label": "A"}, {"x": 0, "y": 5, "label": "B"}, {"x": 7, "y": 0, "label": "C"}, {"x": 0, "y": 2, "label": "D"}, {"x": 0, "y": 0, "label": "O"}, {"x": 3, "y": 4, "label": "E"}]' data-polygons="[]" data-segments="[]" role="img"></div></section>
+<section class="q-card"><h3>ב. מיינו את הנקודות לטבלה.</h3><table class="work-table center"><tr><th>על ציר x</th><th>על ציר y</th><th>ברביע ולא על ציר</th><th>ראשית</th></tr><tr><td class="tall"></td><td></td><td></td><td></td></tr></table></section>
+<section class="q-card"><h3>ג. השלימו.</h3><div class="cols-2 task-grid"><div><span class="math-ltr" dir="ltr">P(6, __)</span> על ציר x.</div><div><span class="math-ltr" dir="ltr">Q(__,4)</span> על ציר y.</div><div>נקודה על ציר x עם <span class="math-ltr" dir="ltr">x=2</span>: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,0)</span></div><div>נקודה על ציר y עם <span class="math-ltr" dir="ltr">y=6</span>: <span class="pair math-ltr" dir="ltr">(0,<span class="pair-blank"></span>)</span></div></div></section>
+<section class="q-card"><h3>ד. חשיבה: האם O נמצאת על ציר x, על ציר y או על שניהם?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-12" class="sheet practice" id="page-12">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 6 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-12">נקודות על הצירים</h1>
+<p>מזהים x=0, y=0 ואת ראשית הצירים</p>
+</div>
+<div aria-label="עמוד 12" class="sheet-number">12</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>הכללים</h3>
+<div class="rule-box">
+    נקודה נמצאת על ציר <span class="math-ltr" dir="ltr">x</span> אם ורק אם <span class="math-ltr" dir="ltr">y=0</span>.<br/>
+    נקודה נמצאת על ציר <span class="math-ltr" dir="ltr">y</span> אם ורק אם <span class="math-ltr" dir="ltr">x=0</span>.<br/>
+    ראשית הצירים היא <span class="math-ltr" dir="ltr">O(0,0)</span>.
+  </div>
+<p>השלימו:</p>
+<ul class="tasks">
+<li>בכל נקודה על ציר <span class="math-ltr" dir="ltr">x</span>, שיעור <span class="math-ltr" dir="ltr">y</span> שווה ל־<span class="blank" style="--blank-width:3ch"></span>.</li>
+<li>בכל נקודה על ציר <span class="math-ltr" dir="ltr">y</span>, שיעור <span class="math-ltr" dir="ltr">x</span> שווה ל־<span class="blank" style="--blank-width:3ch"></span>.</li>
+</ul>
+</section>
+<section class="q-card"><h3>ממיינים נקודות</h3>
+<p>מיינו את הנקודות: <span class="math-ltr" dir="ltr">(3,0), (0,5), (4,2), (0,0), (8,0), (0,1)</span>.</p>
+<table class="work-table">
+<tr><th>על ציר <span class="math-ltr" dir="ltr">x</span></th><th>על ציר <span class="math-ltr" dir="ltr">y</span></th><th>לא על ציר</th></tr>
+<tr><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr>
+</table>
+</section>
+<section class="q-card span-2"><h3>מסמנים על הצירים</h3>
+<p>סמנו <span class="math-ltr" dir="ltr">A(2,0), B(0,3), C(7,0), D(0,6), O(0,0)</span>.</p>
+<div aria-label="מערכת צירים ריקה לסימון נקודות על הצירים" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+</section>
+<section class="q-card span-2"><h3>נקודה מיוחדת</h3>
+<p>איזו נקודה נמצאת גם על ציר <span class="math-ltr" dir="ltr">x</span> וגם על ציר <span class="math-ltr" dir="ltr">y</span>?</p>
+<p><span class="blank" style="--blank-width:12ch"></span></p>
+<p>הסבירו מדוע אין נקודה אחרת כזאת.</p>
+<div class="answer-line"></div>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>
