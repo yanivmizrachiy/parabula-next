@@ -12,9 +12,6 @@ export const pages39to44EnrichmentAnswers = [
     directCalculations: 1,
     subtractionUsefulWhen: 'הבסיס או הגובה אינם נראים ישירות אך הצורה החוסמת פשוטה'
   } },
-  { page: 40, id: 'p40-new-C', kind: 'triangleArea', vertices: [[0, 0], [10, 0], [7, 8]], base: [0, 1], expect: {
-    baseLength: 10, height: 8, baseAxis: 'x', area: 40
-  } },
 
   { page: 41, id: 'p41-S', kind: 'pointTriangle', triangle: [[0, 0], [8, 0], [0, 6]], point: [3, 1], expect: {
     classification: 'בתוך', mainArea: 24, subAreaSum: 24
@@ -53,9 +50,5 @@ export const pages39to44EnrichmentAnswers = [
     relation: 'AN=NB',
     segmentName: 'תיכון',
     reason: 'לשני המשולשים גובה משותף ובסיסים שווים'
-  } },
-  { page: 44, id: 'p44-median-not-right', kind: 'value', expect: {
-    possible: true,
-    explanation: 'תיכון מוגדר באמצעות אמצע הצלע ואינו תלוי בכך שהמשולש ישר זווית'
   } }
 ];
