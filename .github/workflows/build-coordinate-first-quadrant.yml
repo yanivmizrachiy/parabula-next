@@ -51,8 +51,8 @@ jobs:
           sudo apt-get update >/tmp/apt-update.log
           sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Install Playwright browsers
-        run: npx playwright install chromium-headless-shell --with-deps
+      - name: Install Playwright browsers (all required for v1.55)
+        run: npx playwright install --with-deps
       - name: Build and audit workbook
         id: workbook_build
         continue-on-error: true
