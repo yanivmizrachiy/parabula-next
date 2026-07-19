@@ -101,6 +101,16 @@ async function boot() {
     if (ordered.length === state.pages.length) state.pages = ordered;
     else console.warn(`[catalog] סדר העץ מכסה ${ordered.length} מתוך ${state.pages.length} דפים — נשמר הסדר השטוח`);
 
+    // סדר הדפים בתוך צומת: לפי הנושא השטוח שממנו הגיעו, ובתוכו לפי המספור
+    // המודפס. בלי זה "פונקציה ריבועית" נקראת 1,3,4,2 — הסדר במערך אינו סדר
+    // ההדפסה. צומת שמאגד כמה נושאים שטוחים שומר על רצף כל נושא בפני עצמו.
+    const topicOrder = new Map(state.topics.map((t, i) => [t.name, i]));
+    const localOf = (page) => Number((String(page.title).match(/עמוד\s+(\d+)/) || [])[1] || page.number);
+    for (const list of state.pagesByNode.values()) {
+      list.sort((a, b) =>
+        (topicOrder.get(a.topic) ?? 0) - (topicOrder.get(b.topic) ?? 0) || localOf(a) - localOf(b));
+    }
+
     // מיקום הדף בתוך הנושא שלו בתכנית הלימודים (ולא בתוך הקבוצה השטוחה)
     for (const list of state.pagesByNode.values()) {
       list.forEach((page, i) => { page.nodeIndex = i + 1; page.nodeTotal = list.length; });

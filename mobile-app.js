@@ -960,6 +960,16 @@ async function boot() {
     if (!state.pagesByNode.has(page.curriculumId)) state.pagesByNode.set(page.curriculumId, []);
     state.pagesByNode.get(page.curriculumId).push(page);
   }
+  // סדר הדפים בתוך צומת: לפי הנושא השטוח שממנו הגיעו, ובתוכו לפי המספור המודפס.
+  // סדר המערך ב-topics.json אינו סדר ההדפסה (למשל "פונקציה ריבועית": 1,3,4,2).
+  {
+    const topicOrder = new Map((state.db.topics || []).map((t, i) => [t.name, i]));
+    const localOf = (page) => Number((String(page.title).match(/עמוד\s+(\d+)/) || [])[1] || page.number);
+    for (const list of state.pagesByNode.values()) {
+      list.sort((a, b) =>
+        (topicOrder.get(a.topic) ?? 0) - (topicOrder.get(b.topic) ?? 0) || localOf(a) - localOf(b));
+    }
+  }
   // רשת ביטחון: דף שאין לו שיוך מוכר לא נעלם — הוא מקובץ לצומת גלוי בסוף העץ
   const orphans = state.flatPages.filter((page) => !state.nodeById.has(page.curriculumId));
   if (orphans.length) {
