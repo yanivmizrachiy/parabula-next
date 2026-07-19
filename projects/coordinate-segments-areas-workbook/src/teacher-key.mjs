@@ -128,7 +128,7 @@ function renderRecord(record) {
         : record.kind === 'pointTriangle'
           ? `נקודה ${JSON.stringify(record.point)} ביחס למשולש ${JSON.stringify(record.triangle)}`
           : record.kind;
-  return `<article class="tk-record"><h3>${esc(record.id)}</h3>`
+  return `<article class="tk-record" data-kind="${esc(record.kind)}"><h3>${esc(record.id)}</h3>`
     + `<p class="tk-source" dir="ltr">${esc(source)}</p>`
     + `<table class="tk-table"><tbody>${rows}</tbody></table></article>`;
 }
