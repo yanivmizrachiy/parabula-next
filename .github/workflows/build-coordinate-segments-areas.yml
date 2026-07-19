@@ -62,7 +62,13 @@ jobs:
       - name: Unit and contract tests
         run: |
           set -o pipefail
-          node --test "tests/coordinate-svg.test.mjs" "tests/pages.test.mjs" "tests/answers.test.mjs" "tests/guards.test.mjs" 2>&1 | tee audit/unit-tests.log
+          node --test \
+            "tests/coordinate-svg.test.mjs" \
+            "tests/pages.test.mjs" \
+            "tests/answers.test.mjs" \
+            "tests/guards.test.mjs" \
+            "tests/isolation.test.mjs" \
+            2>&1 | tee audit/unit-tests.log
 
       - name: Build workbook and combined teacher key
         id: workbook_build
