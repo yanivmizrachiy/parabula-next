@@ -68,6 +68,24 @@ test('generated canonical pages match the data model', () => {
   assert.equal(renderedExercises, 246);
 });
 
+test('quadratic pages never expose the internal difficulty scale as demo UI', () => {
+  const forbiddenUi = [
+    'learning-band',
+    'stage-copy',
+    'exercise-range',
+    'progress-track',
+    'progress-step',
+    'רמת התרגול',
+  ];
+  for (const page of pages) {
+    const file = `עמוד-${page.globalNumber}.html`;
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    for (const token of forbiddenUi) {
+      assert.ok(!html.includes(token), `${file}: forbidden difficulty UI token ${token}`);
+    }
+  }
+});
+
 test('topics metadata exposes the complete workbook in pedagogical order', () => {
   const metadata = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
   const topic = metadata.topics.find(candidate => candidate.name === 'משוואות ריבועיות');
