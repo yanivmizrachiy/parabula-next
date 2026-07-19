@@ -37,31 +37,36 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
       - name: Install build tools
+        working-directory: projects/coordinate-first-quadrant-workbook
         run: |
-          sudo apt-get update >/tmp/apt-update.log
-          sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Locate system Chrome and set CHROME_PATH
+
+      - name: Install Playwright chromium browser
+        working-directory: projects/coordinate-first-quadrant-workbook
         run: |
-          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
-          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
-          echo "Using browser: $CHROME"
+          npx playwright install chromium --with-deps
+
       - name: Build and audit workbook
         id: workbook_build
+        working-directory: projects/coordinate-first-quadrant-workbook
         continue-on-error: true
         run: |
-          mkdir -p projects/coordinate-first-quadrant-workbook/audit
+          mkdir -p audit
           set -o pipefail
-          node projects/coordinate-first-quadrant-workbook/src/build.mjs 2>&1 | tee projects/coordinate-first-quadrant-workbook/audit/build.log
+          node src/build.mjs 2>&1 | tee audit/build.log
+
       - name: Commit generated outputs
         if: github.event_name == 'push' && steps.workbook_build.outcome == 'success'
         run: |
@@ -75,6 +80,7 @@ jobs:
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
           git diff --cached --quiet || git commit -m "build(coordinate-workbook): generate verified outputs"
           git push origin HEAD:"${TARGET_BRANCH}"
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,6 +94,7 @@ jobs:
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
             projects/coordinate-first-quadrant-workbook/audit/build.log
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+
       - name: Fail when workbook build failed
         if: steps.workbook_build.outcome != 'success'
         run: exit 1
