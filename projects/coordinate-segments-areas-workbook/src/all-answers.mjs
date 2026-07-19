@@ -4,6 +4,12 @@
 import { answers as coreAnswers, glossary } from './answers.mjs';
 import { unit03Answers } from './answers-unit-03.mjs';
 import { page36Answers } from './answers-page36.mjs';
+import { pages37to38Answers } from './answers-pages37-38.mjs';
 
-export const answers = [...coreAnswers, ...unit03Answers, ...page36Answers];
+export const answers = [
+  ...coreAnswers,
+  ...unit03Answers,
+  ...page36Answers,
+  ...pages37to38Answers
+];
 export { glossary };
