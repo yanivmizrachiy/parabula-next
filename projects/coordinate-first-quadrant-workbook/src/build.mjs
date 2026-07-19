@@ -73,8 +73,29 @@ write(\`עמוד-\${nextTopicFirst}.html\`, nextTopicHtml);
 const mainClaude = fs.readFileSync(path.join(repo, 'CLAUDE.md'), 'utf8');`
 );
 source = source.replace(
+  "curriculumId: CURRICULUM_ID",
+  "curriculumId: index === PAGE_COUNT - 1 ? 'g7.geo.quads.rectSquare.square' : 'g7.geo.quads.rectSquare.rectangle'"
+);
+source = source.replace(
+  "data.topics.push({ name: TOPIC_NAME, count: newPages.length, pages: newPages });\nrebuildCurriculum(data);",
+  `data.topics.push({ name: TOPIC_NAME, count: newPages.length, pages: newPages });
+const curriculumMapPath = 'scripts/curriculum-map.mjs';
+let curriculumMap = fs.readFileSync(path.join(repo, curriculumMapPath), 'utf8');
+curriculumMap = replaceRequired(
+  curriculumMap,
+  /  'g7\\.geo\\.quads\\.rectSquare\\.square': \\[336\\],/,
+  \`  'g7.geo.quads.rectSquare.rectangle': ['\${newStart}-\${newEnd - 1}'],\\n  'g7.geo.quads.rectSquare.square': [336, \${newEnd}],\`,
+  'rectangle and square curriculum assignments'
+);
+write(curriculumMapPath, curriculumMap);`
+);
+source = source.replace(
+  "write('meta/topics.json', `${JSON.stringify(data, null, 2)}\\n`);\nrun('node', ['scripts/generate-pages-registry.mjs']);",
+  "write('meta/topics.json', `${JSON.stringify(data, null, 2)}\\n`);\nrun('node', ['scripts/build-curriculum.mjs']);\nrun('node', ['scripts/generate-pages-registry.mjs']);"
+);
+source = source.replace(
   "const intended = ['CLAUDE.md', 'meta/topics.json', 'meta/pages.json'];",
-  "const intended = ['CLAUDE.md', 'meta/topics.json', 'meta/pages.json', 'עמוד-319.html', 'עמוד-31.html'];"
+  "const intended = ['CLAUDE.md', 'meta/topics.json', 'meta/pages.json', 'scripts/curriculum-map.mjs', 'עמוד-319.html', 'עמוד-31.html'];"
 );
 
 fs.writeFileSync(diagnosticPath, source, 'utf8');
