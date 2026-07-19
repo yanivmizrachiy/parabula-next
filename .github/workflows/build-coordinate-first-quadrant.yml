@@ -37,7 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
-      PLAYWRIGHT_BROWSERS_PATH: /home/runner/.cache/ms-playwright
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,8 +50,19 @@ jobs:
           sudo apt-get update >/tmp/apt-update.log
           sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Install Playwright browsers (all required for v1.55)
-        run: npx playwright install --with-deps
+      - name: Install Playwright browsers and locate executable
+        run: |
+          npx playwright install --with-deps
+          # Find the actual headless_shell executable path and export it
+          CHROME_PATH=$(find /home/runner/.cache/ms-playwright -name 'headless_shell' -type f 2>/dev/null | head -1)
+          if [ -z "$CHROME_PATH" ]; then
+            CHROME_PATH=$(find /home/runner/.cache/ms-playwright -name 'chrome' -o -name 'chromium' -type f 2>/dev/null | head -1)
+          fi
+          if [ -z "$CHROME_PATH" ]; then
+            CHROME_PATH=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || true)
+          fi
+          echo "Found Chrome at: $CHROME_PATH"
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
       - name: Build and audit workbook
         id: workbook_build
         continue-on-error: true
