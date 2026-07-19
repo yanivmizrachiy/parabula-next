@@ -384,6 +384,10 @@ export const CURRICULUM = [
  */
 export const PAGE_ASSIGNMENTS = {
   // ── כיתה ז' · תחום מספרי ───────────────────────────────────────────
+  // 561: „מי אני?" — התאמת היגדים למספרים על ציר המספרים (מריפו misparim).
+  'g7.num.directed.intro.numberLine': [561],
+  // 562-571: דפי חיבור/סימן במספרים מכוונים; 572-573: הלוחות המורחבים למילוי.
+  'g7.num.directed.intro.fourOps': ['562-573'],
   'g7.num.directed.axesFirst': ['268-271'],
   'g7.num.directed.axesAll': [360, 361],
 
