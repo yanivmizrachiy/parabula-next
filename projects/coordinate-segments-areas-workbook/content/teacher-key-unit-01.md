@@ -1,4 +1,5 @@
-# מפתח מורה — יחידה 1
+# מפתח מורה<!-- See CLAUDE.md for canonical rules that govern this document -->
+ — יחידה 1
 
 ## כללי בדיקה מחייבים
 
