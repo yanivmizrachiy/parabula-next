@@ -1,4 +1,4 @@
-// תשובות להעמקה המדודה בעמודים 39–44.
+// תשובות להעמקה המדודה בעמודים 39–45.
 
 export const pages39to44EnrichmentAnswers = [
   { page: 39, id: 'p39-students', kind: 'value', expect: {
@@ -50,5 +50,10 @@ export const pages39to44EnrichmentAnswers = [
     relation: 'AN=NB',
     segmentName: 'תיכון',
     reason: 'לשני המשולשים גובה משותף ובסיסים שווים'
+  } },
+
+  { page: 45, id: 'p45-median-general', kind: 'value', expect: {
+    possible: true,
+    explanation: 'תיכון מוגדר באמצעות אמצע הצלע ואינו דורש משולש ישר זווית'
   } }
 ];
