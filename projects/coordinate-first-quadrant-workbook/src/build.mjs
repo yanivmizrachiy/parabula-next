@@ -26,6 +26,56 @@ source = source.replace(
   "run('npm', ['ci']);\nrun('npx', ['playwright', 'install', 'chromium', '--with-deps']);\nconsole.log('Rectangle bootstrap: running maximum validation');\nrun('npm', ['run', 'tech:max']);",
   "run('npm', ['ci']);\nrun('npm', ['install', '--no-save', '--package-lock=false', 'node@22']);\nprocess.env.PATH = `${path.join(repo, 'node_modules', '.bin')}:${process.env.PATH}`;\nrun('node', ['--version']);\nrun('npx', ['playwright', 'install', 'chromium', '--with-deps']);\nconsole.log('Rectangle bootstrap: running maximum validation under Node 22');\nrun('npm', ['run', 'tech:max']);"
 );
+source = source.replace(
+  "}\n\nconst mainClaude = fs.readFileSync(path.join(repo, 'CLAUDE.md'), 'utf8');",
+  `}
+
+const previousTopicLast = 319;
+const nextTopicFirst = 31;
+const firstWorkbookFile = \`עמוד-\${newStart}.html\`;
+const lastWorkbookFile = \`עמוד-\${newEnd}.html\`;
+let firstWorkbookHtml = fs.readFileSync(path.join(repo, firstWorkbookFile), 'utf8');
+firstWorkbookHtml = replaceRequired(
+  firstWorkbookHtml,
+  /<div class="nav-side"><span class="nav-link is-disabled" aria-disabled="true">הקודם<\\/span><\\/div>/,
+  \`<div class="nav-side"><a class="nav-link" href="עמוד-\${previousTopicLast}.html">הקודם</a></div>\`,
+  'global previous link on first rectangle page'
+);
+write(firstWorkbookFile, firstWorkbookHtml);
+
+let lastWorkbookHtml = fs.readFileSync(path.join(repo, lastWorkbookFile), 'utf8');
+lastWorkbookHtml = replaceRequired(
+  lastWorkbookHtml,
+  /<div class="nav-side"><span class="nav-link is-disabled" aria-disabled="true">הבא<\\/span><\\/div>/,
+  \`<div class="nav-side"><a class="nav-link" href="עמוד-\${nextTopicFirst}.html">הבא</a></div>\`,
+  'global next link on last rectangle page'
+);
+write(lastWorkbookFile, lastWorkbookHtml);
+
+let previousTopicHtml = fs.readFileSync(path.join(repo, \`עמוד-\${previousTopicLast}.html\`), 'utf8');
+previousTopicHtml = replaceRequired(
+  previousTopicHtml,
+  /<a class="nav-link" href="עמוד-31\\.html">הבא<\\/a>/,
+  \`<a class="nav-link" href="עמוד-\${newStart}.html">הבא</a>\`,
+  'next link on previous topic boundary'
+);
+write(\`עמוד-\${previousTopicLast}.html\`, previousTopicHtml);
+
+let nextTopicHtml = fs.readFileSync(path.join(repo, \`עמוד-\${nextTopicFirst}.html\`), 'utf8');
+nextTopicHtml = replaceRequired(
+  nextTopicHtml,
+  /<a class="nav-link" href="עמוד-319\\.html">הקודם<\\/a>/,
+  \`<a class="nav-link" href="עמוד-\${newEnd}.html">הקודם</a>\`,
+  'previous link on next topic boundary'
+);
+write(\`עמוד-\${nextTopicFirst}.html\`, nextTopicHtml);
+
+const mainClaude = fs.readFileSync(path.join(repo, 'CLAUDE.md'), 'utf8');`
+);
+source = source.replace(
+  "const intended = ['CLAUDE.md', 'meta/topics.json', 'meta/pages.json'];",
+  "const intended = ['CLAUDE.md', 'meta/topics.json', 'meta/pages.json', 'עמוד-319.html', 'עמוד-31.html'];"
+);
 
 fs.writeFileSync(diagnosticPath, source, 'utf8');
 process.env.RECTANGLE_REPO = repo;
