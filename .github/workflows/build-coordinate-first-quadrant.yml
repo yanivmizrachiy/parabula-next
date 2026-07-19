@@ -4,17 +4,31 @@ on:
   push:
     branches:
       - content/coordinate-first-quadrant-final
+    paths-ignore:
+      - projects/coordinate-first-quadrant-workbook/dist/**
+      - projects/coordinate-first-quadrant-workbook/downloads/**
+      - projects/coordinate-first-quadrant-workbook/preview/**
+      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/audit/build.log
+      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - projects/coordinate-first-quadrant-workbook/dist/**
+      - projects/coordinate-first-quadrant-workbook/downloads/**
+      - projects/coordinate-first-quadrant-workbook/preview/**
+      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/audit/build.log
+      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: read
 
 concurrency:
-  group: coordinate-first-quadrant-${{ github.head_ref || github.ref_name }}
+  group: coordinate-first-quadrant-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -22,10 +36,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+      TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -37,25 +53,32 @@ jobs:
           ./node_modules/.bin/playwright install --with-deps chromium
           test -x "$(node -e "const {chromium}=require('playwright'); process.stdout.write(chromium.executablePath())")"
       - name: Build and audit workbook
-        id: workbook_build
-        continue-on-error: true
         run: |
           mkdir -p projects/coordinate-first-quadrant-workbook/audit
           set -o pipefail
           node projects/coordinate-first-quadrant-workbook/src/build.mjs 2>&1 | tee projects/coordinate-first-quadrant-workbook/audit/build.log
+      - name: Commit generated outputs
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f \
+            projects/coordinate-first-quadrant-workbook/dist \
+            projects/coordinate-first-quadrant-workbook/downloads \
+            projects/coordinate-first-quadrant-workbook/preview \
+            projects/coordinate-first-quadrant-workbook/audit/generated-audit.json \
+            projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+          git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
+          git push origin HEAD:"${TARGET_BRANCH}"
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: coordinate-first-quadrant-workbook-diagnostics
-          if-no-files-found: warn
+          name: coordinate-first-quadrant-workbook
+          if-no-files-found: error
           retention-days: 7
           path: |
-            projects/coordinate-first-quadrant-workbook/audit/build.log
             projects/coordinate-first-quadrant-workbook/dist
             projects/coordinate-first-quadrant-workbook/downloads
             projects/coordinate-first-quadrant-workbook/preview
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+            projects/coordinate-first-quadrant-workbook/audit/build.log
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
-      - name: Fail when workbook build failed
-        if: steps.workbook_build.outcome != 'success'
-        run: exit 1
