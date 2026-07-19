@@ -168,10 +168,13 @@ for (const rel of mobileVersionFiles) {
 
 // ── סריקה רוחבית: כל קובץ Markdown בריפו, לא רק נקודות הכניסה ל-AI ──────
 // כל מסמך שמנסח כללים מחייבים חייב להפנות ל-CLAUDE.md ולא לשכפל אותו.
-const skipPrefixes = ['node_modules/', 'dist/', '.git/', 'sources/lovable/'];
+const skipPrefixes = ['node_modules/', 'dist/', '.git/', 'sources/lovable/', 'meta/audit/'];
+// לא רק Markdown: מסמך כללים יכול להיכתב גם כ-txt, yml, json או html,
+// ורק סיומת אחת נסרקה עד כה.
+const scanExtensions = ['.md', '.txt', '.rst', '.adoc'];
 const allMarkdown = walk('.', rel => {
   const clean = rel.replace(/^\.\//, '');
-  if (!clean.endsWith('.md')) return false;
+  if (!scanExtensions.some(ext => clean.endsWith(ext))) return false;
   return !skipPrefixes.some(prefix => clean.includes(prefix));
 }).map(rel => rel.replace(/^\.\//, ''));
 
@@ -180,6 +183,13 @@ const contractPatterns = [
   // אין להשתמש ב-\b סביב עברית: אותיות עבריות אינן \w ולכן הגבול לעולם אינו מתקיים.
   [/^#{1,6}[^\n]{0,14}?(?<![א-ת])חוזה(?![א-ת])/m, 'independent contract section'],
   [/^#{1,6}[^\n]{0,14}?(?<![א-ת])כללי עבודה(?![א-ת])/m, 'independent working rules section'],
+  // §0 אוסר קובץ memory/contract/instructions נוסף ו-§9 אוסר system-state או
+  // זיכרון סשן. עד כה הם נחסמו רק ברשימת שמות קבועה, וכל שם חדש חמק.
+  [/(?<![א-ת])זיכרון (?:קבוע|סשן|מתמשך)(?![א-ת])/, 'persistent agent memory document'],
+  [/(?<![א-ת])מצב נוכחי של (?:המערכת|הריפו|הפרויקט)(?![א-ת])/, 'stored system state'],
+  [/\bpersistent (?:agent )?memory\b/i, 'persistent agent memory document'],
+  [/\bsystem state\b/i, 'stored system state'],
+  [/\bBINDING RULES\b/i, 'independent binding rules document'],
   [/\bעקרונות מחייבים\b/, 'independent mandatory principles'],
   [/\bמקור האמת הקנוני\b/, 'competing source-of-truth claim'],
   [/PROJECT_(?:RULES|MEMORY)\.md/, 'obsolete rules source'],

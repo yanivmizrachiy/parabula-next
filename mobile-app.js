@@ -408,7 +408,12 @@ function watchFrameContent() {
 function syncCurrentPage(page, { persist = true } = {}) {
   if (!page) return;
   state.shownPage = page;
+  const topicChanged = Boolean(page.curriculumId) && page.curriculumId !== state.activeTopic;
   state.activeTopic = page.curriculumId || state.activeTopic;
+  // חשיפת הנושא בעץ שייכת לכאן ולא ל-showPage: בחיפוש הדף כבר נמצא
+  // ב-visiblePages, ולכן ענף החשיפה שם נדלג והעץ נשאר מקופל על נושא ישן.
+  // §5.5 דורש מצב אחד קנוני של דף פעיל בכל המשטחים.
+  if (topicChanged) revealActiveNode();
   state.currentIndex = state.visiblePages.findIndex((item) => item.file === page.file);
   if (state.currentIndex < 0) {
     state.visiblePages = nodePagesOf(page.curriculumId);
@@ -443,9 +448,6 @@ function showPage(file, options = {}) {
     state.activeTopic = page.curriculumId;
     state.visiblePages = nodePagesOf(page.curriculumId);
     renderPages({ autoShow: false });
-    // בלי זה הנושא החדש נשאר מקופל בעץ והמשתמש אינו רואה היכן הוא נמצא
-    revealActiveNode();
-    updateButtons();
   }
   if (state.readMode === 'scroll') {
     syncCurrentPage(page);
@@ -559,6 +561,10 @@ function revealActiveNode() {
     const node = state.nodeById.get(id);
     if (node) hydrateChildren(wrap, node, id.split('.').length - 1);
   }
+  // הצומת נחשף אך עלול לשבת מתחת לקו הקיפול של הרצועה הנגללת — בלי גלילה
+  // אליו המשתמש עדיין אינו רואה היכן הוא נמצא.
+  const leaf = els.topicStrip.querySelector(`.topic-btn[data-topic="${cssEscape(activeId)}"]`);
+  leaf?.scrollIntoView({ block: 'nearest' });
 }
 
 function matchesQuery(page, query) {
