@@ -5,7 +5,6 @@ import {
   pageCount,
   pages,
   sourceExerciseCount,
-  stageNames,
 } from '../sources/quadratic-equations/workbook-data.mjs';
 
 const root = process.cwd();
@@ -30,13 +29,6 @@ const renderTitle = (value, sectionNumber) => {
   const [, text, formula] = match;
   const longClass = sectionNumber >= 15 ? ' long-formula' : '';
   return `<h1 class="page-title has-formula${longClass}"><span class="title-text">${escapeHtml(text.trim())}</span><span class="title-formula" dir="ltr">\\(${formula}\\)</span></h1>`;
-};
-
-const stageRange = exercises => {
-  const levels = exercises.map(exercise => exercise.level);
-  const min = Math.min(...levels);
-  const max = Math.max(...levels);
-  return min === max ? stageNames[min - 1] : `${stageNames[min - 1]} עד ${stageNames[max - 1]}`;
 };
 
 const responseKind = answer => {
@@ -87,13 +79,6 @@ const topicLinks = globalNumber => `
 const renderPage = (page, index) => {
   const previousFile = index === 0 ? 'עמוד-41.html' : `עמוד-${pages[index - 1].globalNumber}.html`;
   const nextFile = index === pages.length - 1 ? 'עמוד-37.html' : `עמוד-${pages[index + 1].globalNumber}.html`;
-  const minLevel = Math.min(...page.exercises.map(exercise => exercise.level));
-  const maxLevel = Math.max(...page.exercises.map(exercise => exercise.level));
-  const progress = stageNames.map((name, stageIndex) => {
-    const level = stageIndex + 1;
-    const state = level < minLevel ? 'is-done' : level <= maxLevel ? 'is-active' : '';
-    return `<span class="progress-step ${state}"><i></i>${name}</span>`;
-  }).join('');
   const pageTitle = `עמוד ${page.localNumber} — ${stripMath(page.title)}`;
   return `<!doctype html>
 <html lang="he" dir="rtl">
@@ -127,12 +112,6 @@ const renderPage = (page, index) => {
         </div>
         <div class="page-number">${page.localNumber}</div>
       </header>
-
-      <section class="learning-band" aria-label="רמת התרגול">
-        <div class="stage-copy"><span>רמת התרגול</span><strong>${stageRange(page.exercises)}</strong></div>
-        <div class="progress-track">${progress}</div>
-        <div class="exercise-range">תרגילים ${page.exerciseStart}-${page.exerciseEnd} מתוך ${exerciseCount}</div>
-      </section>
 
       <section class="question-block">
         <div class="q-main">

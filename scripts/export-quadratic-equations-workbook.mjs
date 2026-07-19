@@ -36,7 +36,8 @@ let browser;
 try {
   await waitForServer();
   browser = await chromium.launch();
-  const browserPage = await browser.newPage({ viewport: { width: 1280, height: 1600 } });
+  const browserPage = await browser.newPage({ viewport: { width: 794, height: 1123 } });
+  await browserPage.emulateMedia({ media: 'print' });
 
   for (const [index, workbookPage] of pages.entries()) {
     const file = `עמוד-${workbookPage.globalNumber}.html`;
@@ -51,13 +52,25 @@ try {
       const rendered = document.querySelectorAll('.equation mjx-container');
       return equations.length === expected && rendered.length === expected;
     }, workbookPage.exercises.length, { timeout: 15_000 });
-    const metrics = await browserPage.locator('.a4-page').evaluate(element => ({
-      scrollHeight: element.scrollHeight,
-      clientHeight: element.clientHeight,
-      scrollWidth: element.scrollWidth,
-      clientWidth: element.clientWidth,
-    }));
-    if (metrics.scrollHeight > metrics.clientHeight + 1 || metrics.scrollWidth > metrics.clientWidth + 1) {
+    const metrics = await browserPage.locator('.a4-page').evaluate(element => {
+      const pageRect = element.getBoundingClientRect();
+      const childRects = [...element.children].map(child => child.getBoundingClientRect());
+      return {
+        scrollHeight: element.scrollHeight,
+        clientHeight: element.clientHeight,
+        scrollWidth: element.scrollWidth,
+        clientWidth: element.clientWidth,
+        contentBottom: Math.max(...childRects.map(rect => rect.bottom)) - pageRect.top,
+        contentLeft: Math.min(...childRects.map(rect => rect.left)) - pageRect.left,
+        contentRight: Math.max(...childRects.map(rect => rect.right)) - pageRect.left,
+      };
+    });
+    const verticallyClipped = metrics.scrollHeight > metrics.clientHeight + 1
+      || metrics.contentBottom > metrics.clientHeight + 1;
+    const horizontallyClipped = metrics.scrollWidth > metrics.clientWidth + 1
+      || metrics.contentLeft < -1
+      || metrics.contentRight > metrics.clientWidth + 1;
+    if (verticallyClipped || horizontallyClipped) {
       throw new Error(`${file}: A4 overflow ${JSON.stringify(metrics)}`);
     }
     const tempFile = path.join(tempDir, `${String(index + 1).padStart(2, '0')}.pdf`);
