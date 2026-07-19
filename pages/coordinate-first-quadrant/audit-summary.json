@@ -1,0 +1,12 @@
+{
+  "title": "מערכת צירים — רביע ראשון",
+  "pages": 30,
+  "questionCards": 126,
+  "vectorCoordinateGrids": 46,
+  "quadrant": "first",
+  "x": ">=0",
+  "y": ">=0",
+  "pdfValidation": "30 A4 pages in verified build",
+  "payloadParts": 3,
+  "sourceParts": 4
+}
