@@ -49,7 +49,8 @@
     "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:interactions && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample",
     "audit:linear": "node scripts/audit-linear-pages.mjs",
     "calibrate:linear": "node scripts/calibrate-linear-pages.mjs",
-    "build:linear": "node scripts/build-linear-function-pages.mjs"
+    "build:linear": "node scripts/build-linear-function-pages.mjs",
+    "audit:linear:print": "node scripts/audit-linear-print.mjs --all && python scripts/measure-pdf.py"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "^4.1.3",

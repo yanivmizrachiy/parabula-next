@@ -971,7 +971,7 @@
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-398.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-398.html",
-          "curriculumId": "g7.num.directed.axesAll"
+          "curriculumId": "g8.alg.linear.representations"
         },
         {
           "number": 399,
@@ -981,7 +981,7 @@
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-399.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-399.html",
-          "curriculumId": "g7.num.directed.axesAll"
+          "curriculumId": "g8.alg.linear.representations"
         },
         {
           "number": 400,
@@ -991,7 +991,7 @@
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-400.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-400.html",
-          "curriculumId": "g7.num.directed.axesAll"
+          "curriculumId": "g8.alg.linear.representations"
         },
         {
           "number": 401,
@@ -1001,7 +1001,7 @@
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-401.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-401.html",
-          "curriculumId": "g7.num.directed.axesAll"
+          "curriculumId": "g8.alg.linear.representations"
         },
         {
           "number": 402,
@@ -5404,13 +5404,13 @@
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 193,
+        "pageCount": 189,
         "children": [
           {
             "id": "g7.num",
             "name": "תחום מספרי",
             "directCount": 0,
-            "pageCount": 10,
+            "pageCount": 6,
             "children": [
               {
                 "id": "g7.num.ops",
@@ -5450,7 +5450,7 @@
                 "id": "g7.num.directed",
                 "name": "מספרים מכוונים",
                 "directCount": 0,
-                "pageCount": 10,
+                "pageCount": 6,
                 "children": [
                   {
                     "id": "g7.num.directed.intro",
@@ -5511,15 +5511,11 @@
                   {
                     "id": "g7.num.directed.axesAll",
                     "name": "מערכת צירים - כל הרביעים",
-                    "directCount": 6,
-                    "pageCount": 6,
+                    "directCount": 2,
+                    "pageCount": 2,
                     "pages": [
                       360,
-                      361,
-                      398,
-                      399,
-                      400,
-                      401
+                      361
                     ]
                   },
                   {
@@ -6094,25 +6090,25 @@
         "id": "g8",
         "name": "כיתה ח'",
         "directCount": 0,
-        "pageCount": 273,
+        "pageCount": 277,
         "children": [
           {
             "id": "g8.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 162,
+            "pageCount": 166,
             "children": [
               {
                 "id": "g8.alg.linear",
                 "name": "הפונקציה הקווית",
                 "directCount": 0,
-                "pageCount": 137,
+                "pageCount": 141,
                 "children": [
                   {
                     "id": "g8.alg.linear.representations",
                     "name": "ייצוגים שונים של פונקציה קווית (גרף, טבלה, משוואה)",
-                    "directCount": 61,
-                    "pageCount": 61,
+                    "directCount": 65,
+                    "pageCount": 65,
                     "pages": [
                       96,
                       97,
@@ -6134,6 +6130,10 @@
                       395,
                       396,
                       397,
+                      398,
+                      399,
+                      400,
+                      401,
                       402,
                       403,
                       404,
