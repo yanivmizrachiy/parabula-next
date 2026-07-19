@@ -14,7 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { composeQuestion, weight } from './compose-question.mjs';
-import { chapterBar } from './linear-page.mjs';
+import { chapterBar, workArea } from './linear-page.mjs';
 
 /** תת־נושא: slug, שם הפרק, כותרת המשנה של הדף, ותקציב גובה לדף. */
 export const SUBTOPICS = [
@@ -99,16 +99,32 @@ export function packSubtopic(questions, slug, introH = 0) {
  * `intro` (כרטיס הגדרה/כללים) מוצג בעמוד הראשון של תת־הנושא בלבד.
  */
 export function buildSubtopicPages(st, questions, intro = null) {
-  return packSubtopic(questions, st.slug, intro ? (M?.introH?.[st.slug] ?? 60) : 0)
-    .map((group, i, all) => ({
-      kind: 'new',
-      chapter: st.chapter,
-      subtitle: st.subtitle,
-      slug: st.slug,
-      blocks: () => [
-        chapterBar(st.chapter, all.length > 1 ? `${st.sub} · ${i + 1} מתוך ${all.length}` : st.sub),
-        ...(i === 0 && intro ? [intro] : []),
-        ...group.map((qq, k) => composeQuestion(qq, `${st.slug.replace(/[^a-z]/g, '')}${i}${k}`)),
-      ],
-    }));
+  const introHeight = intro ? (M?.introH?.[st.slug] ?? 60) : 0;
+  const avail = (M?.availH ?? 945) * 0.985;
+  const gap = M?.gap ?? 6;
+  const LINE = 24, BOX_OVERHEAD = 34;
+
+  return packSubtopic(questions, st.slug, introHeight)
+    .map((group, i, all) => {
+      // יתרת העמוד: תת־נושא כמעט אף פעם אינו מתחלק בדיוק לדפים שלמים, ובלי
+      // מילוי נשארים שליש-עמוד ריקים. במקום ריפוד — אזור חישובים אמיתי.
+      const used = (M?.chapterH?.[st.slug] ?? 34)
+        + (i === 0 ? introHeight + gap : 0)
+        + group.reduce((s, qq) => s + heightOf(qq), 0)
+        + group.length * gap;
+      const nLines = Math.floor((avail - used - BOX_OVERHEAD) / LINE);
+
+      return {
+        kind: 'new',
+        chapter: st.chapter,
+        subtitle: st.subtitle,
+        slug: st.slug,
+        blocks: () => [
+          chapterBar(st.chapter, all.length > 1 ? `${st.sub} · ${i + 1} מתוך ${all.length}` : st.sub),
+          ...(i === 0 && intro ? [intro] : []),
+          ...group.map((qq, k) => composeQuestion(qq, `${st.slug.replace(/[^a-z]/g, '')}${i}${k}`)),
+          ...(nLines >= 3 ? [workArea(nLines)] : []),
+        ],
+      };
+    });
 }

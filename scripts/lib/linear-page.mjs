@@ -82,6 +82,16 @@ const figHtml = (fig, cap) => {
 export const linesBlock = (n, tall = false) =>
   `<div class="lines">${Array.from({ length: n }, () => `<div class="ln${tall ? ' ln-tall' : ''}"></div>`).join('')}</div>`;
 
+/**
+ * אזור חישובים משורטט שממלא את יתרת העמוד.
+ * נועד לעמודים שתת־הנושא שלהם אינו מתחלק בדיוק לדפים שלמים: במקום להשאיר
+ * שליש עמוד ריק, התלמיד מקבל מקום אמיתי להראות דרך פתרון. מספר השורות נגזר
+ * מהמקום שנמדד בפועל, ולכן אין כאן CSS inline (§3).
+ */
+export const workArea = (nLines) =>
+  `<div class="workbox"><div class="workcap">מקום לחישובים</div>` +
+  `<div class="lines">${Array.from({ length: nLines }, () => '<div class="ln"></div>').join('')}</div></div>`;
+
 /** טבלת ערכים אופקית. cells[i] = null => תא למילוי. */
 export function vtable(rowsSpec, { wide = false } = {}) {
   const cls = `vtab${wide ? ' wide' : ''}`;
