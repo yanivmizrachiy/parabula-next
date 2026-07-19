@@ -1,0 +1,75 @@
+name: Build quadratic equations workbook PDF
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'sources/quadratic-equations/**'
+      - 'scripts/export-quadratic-equations-workbook.mjs'
+      - 'scripts/generate-quadratic-equations-workbook.mjs'
+      - 'scripts/data/**'
+      - 'styles/**'
+      - '.github/workflows/build-quadratic-equations-workbook.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: quadratic-equations-workbook-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: /home/runner/.cache/ms-playwright
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install --no-save --package-lock=false @playwright/test pypdf
+
+      - name: Install Playwright chromium browser
+        run: |
+          npx playwright install chromium --with-deps
+
+      - name: Install Python dependencies
+        run: |
+          pip install pypdf
+
+      - name: Generate quadratic equations workbook pages
+        run: |
+          node scripts/generate-quadratic-equations-workbook.mjs
+
+      - name: Export quadratic equations workbook to PDF
+        run: |
+          node scripts/export-quadratic-equations-workbook.mjs
+
+      - name: Verify PDF output
+        run: |
+          ls -la output/pdf/
+          python3 -c "
+          from pypdf import PdfReader
+          reader = PdfReader('output/pdf/\u05de\u05e9\u05d5\u05d0\u05d5\u05ea-\u05e8\u05d9\u05d1\u05d5\u05e2\u05d9\u05d5\u05ea-\u05db\u05d9\u05ea\u05d4-\u05d8-246-\u05ea\u05e8\u05d2\u05d9\u05dc\u05d9\u05dd.pdf')
+          print(f'PDF pages: {len(reader.pages)}')
+          assert len(reader.pages) == 50, f'Expected 50 pages, got {len(reader.pages)}'
+          print('PDF validation passed')
+          "
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: quadratic-equations-workbook-pdf
+          path: output/pdf/
+          retention-days: 90
