@@ -35,6 +35,7 @@ audit.triangleAreaAnswerRecords = answers.filter(record => record.kind === 'tria
 audit.triangleAnswerRecords = audit.rightTriangleAnswerRecords + audit.triangleAreaAnswerRecords;
 audit.pointTriangleAnswerRecords = answers.filter(record => record.kind === 'pointTriangle').length;
 audit.kiteAnswerRecords = answers.filter(record => record.kind === 'kite').length;
+audit.rectilinearAnswerRecords = answers.filter(record => record.kind === 'rectilinear').length;
 audit.answerPages = [...new Set(answers.map(record => record.page))].sort((a, b) => a - b);
 audit.files = audit.files
   .filter(item => fs.existsSync(path.join(root, item.path)))

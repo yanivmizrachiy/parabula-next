@@ -11,6 +11,9 @@ import advancedTriangleEnrichment from './unit-03-advanced-enrichment.mjs';
 import page46 from './unit-03-assessment.mjs';
 import unit04 from './unit-04-parallelogram-trapezoid-v1.mjs';
 import unit05 from './unit-05-kite.mjs';
+import unit06 from './unit-06-composite.mjs';
+import unit07 from './unit-07-literacy.mjs';
+import unit08 from './unit-08-inquiry.mjs';
 
 const enrichmentLimits = new Map([[33, 1], [34, 1], [35, 1]]);
 const enrichedUnit03 = unit03.map(page => {
@@ -48,5 +51,8 @@ export default [
   ...enrichedAdvancedTrianglePages,
   page46,
   ...unit04,
-  ...unit05
+  ...unit05,
+  ...unit06,
+  ...unit07,
+  ...unit08
 ];

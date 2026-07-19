@@ -33,7 +33,7 @@ test('לכל עמוד קיימת לפחות רשומת תשובה אחת', () =>
 });
 
 test('kind חוקי בכל רשומה', () => {
-  const allowed = new Set(['segment', 'rectangle', 'triangle', 'triangleArea', 'pointTriangle', 'line', 'value', 'parallelogram', 'trapezoid', 'kite']);
+  const allowed = new Set(['segment', 'rectangle', 'triangle', 'triangleArea', 'pointTriangle', 'line', 'value', 'parallelogram', 'trapezoid', 'kite', 'rectilinear']);
   for (const record of answers) {
     assert.ok(allowed.has(record.kind), `kind לא חוקי ברשומה ${record.id}: ${record.kind}`);
     assert.ok(record.expect && typeof record.expect === 'object', `חסר expect ברשומה ${record.id}`);

@@ -10,6 +10,9 @@ import { pages39to44EnrichmentAnswers } from './answers-pages39-44-enrichment.mj
 import { page46Answers } from './answers-page46.mjs';
 import { unit04Answers } from './answers-unit-04.mjs';
 import { unit05Answers } from './answers-unit-05.mjs';
+import { unit06Answers } from './answers-unit-06.mjs';
+import { unit07Answers } from './answers-unit-07.mjs';
+import { unit08Answers } from './answers-unit-08.mjs';
 
 export const answers = [
   ...coreAnswers,
@@ -20,6 +23,9 @@ export const answers = [
   ...pages39to44EnrichmentAnswers,
   ...page46Answers,
   ...unit04Answers,
-  ...unit05Answers
+  ...unit05Answers,
+  ...unit06Answers,
+  ...unit07Answers,
+  ...unit08Answers
 ];
 export { glossary };

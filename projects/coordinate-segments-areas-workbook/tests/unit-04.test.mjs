@@ -7,12 +7,13 @@ import pages from '../src/pages/index.mjs';
 import unit04 from '../src/pages/unit-04-parallelogram-trapezoid-v1.mjs';
 import { answers } from '../src/all-answers.mjs';
 import { derive } from '../src/teacher-key.mjs';
+import { EXPECTED_PAGES } from './expected-pages.mjs';
 
-test('רצף העמודים 1–58 רציף, ללא חורים וללא כפילויות', () => {
+test(`רצף העמודים 1–${EXPECTED_PAGES} רציף, ללא חורים וללא כפילויות`, () => {
   const ns = pages.map(p => p.n);
-  assert.equal(ns.length, 58, `יש ${ns.length} עמודים במקום 58`);
-  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: 58 }, (_, i) => i + 1));
-  assert.equal(new Set(ns).size, 58, 'מספר עמוד כפול');
+  assert.equal(ns.length, EXPECTED_PAGES, `יש ${ns.length} עמודים במקום ${EXPECTED_PAGES}`);
+  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: EXPECTED_PAGES }, (_, i) => i + 1));
+  assert.equal(new Set(ns).size, EXPECTED_PAGES, 'מספר עמוד כפול');
 });
 
 test('יחידה 4 מחוברת לרצף דרך המודול הנקי', () => {

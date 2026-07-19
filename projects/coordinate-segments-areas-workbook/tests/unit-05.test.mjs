@@ -8,18 +8,19 @@ import unit05 from '../src/pages/unit-05-kite.mjs';
 import { answers } from '../src/all-answers.mjs';
 import { derive } from '../src/teacher-key.mjs';
 import { shoelaceArea } from '../src/coordinate-svg.mjs';
+import { EXPECTED_PAGES } from './expected-pages.mjs';
 
 const near = (a, b) => Math.abs(a - b) < 1e-9;
 
-test('רצף העמודים 1–58 רציף, ללא חורים וללא כפילויות', () => {
+test(`רצף העמודים 1–${EXPECTED_PAGES} רציף, ללא חורים וללא כפילויות`, () => {
   const ns = pages.map(p => p.n);
-  assert.equal(ns.length, 58, `יש ${ns.length} עמודים במקום 58`);
-  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: 58 }, (_, i) => i + 1));
-  assert.equal(new Set(ns).size, 58, 'מספר עמוד כפול');
+  assert.equal(ns.length, EXPECTED_PAGES, `יש ${ns.length} עמודים במקום ${EXPECTED_PAGES}`);
+  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: EXPECTED_PAGES }, (_, i) => i + 1));
+  assert.equal(new Set(ns).size, EXPECTED_PAGES, 'מספר עמוד כפול');
 });
 
 test('יחידה 5 מחוברת לרצף במלואה', () => {
-  const tail = pages.filter(p => p.n >= 53);
+  const tail = pages.filter(p => p.n >= 53 && p.n <= 58);
   assert.equal(tail.length, 6);
   for (const p of unit05) {
     assert.ok(pages.includes(p), `עמוד ${p.n} של unit-05 אינו ברצף`);

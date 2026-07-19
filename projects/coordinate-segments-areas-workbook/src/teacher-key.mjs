@@ -138,6 +138,21 @@ export function derive(record) {
       perimeter: sides.AB + sides.BC + sides.CD + sides.DA
     };
   }
+  if (record.kind === 'rectilinear') {
+    // מצולע שכל צלעותיו מקבילות לצירים: השטח בנוסחת השרוכים, ההיקף כסכום
+    // אורכי הצלעות. axisParallelLength זורק שגיאה על צלע אלכסונית — זה החוזה.
+    const v = record.vertices;
+    let perimeter = 0;
+    const edges = [];
+    for (let i = 0; i < v.length; i += 1) {
+      const a = v[i];
+      const b = v[(i + 1) % v.length];
+      const length = axisParallelLength(a, b);
+      edges.push({ length, axis: a[1] === b[1] ? 'x' : 'y' });
+      perimeter += length;
+    }
+    return { area: shoelaceArea(v), perimeter, edges, sides: v.length };
+  }
   if (record.kind === 'pointTriangle') {
     return classifyPoint(record);
   }
@@ -175,6 +190,8 @@ function renderRecord(record) {
         ? `טרפז ${JSON.stringify(record.vertices)}`
       : record.kind === 'kite'
         ? `דלתון ${JSON.stringify(record.vertices)}`
+      : record.kind === 'rectilinear'
+        ? `מצולע מקבילי-צירים ${JSON.stringify(record.vertices)}`
         : record.kind === 'pointTriangle'
           ? `נקודה ${JSON.stringify(record.point)} ביחס למשולש ${JSON.stringify(record.triangle)}`
           : record.kind;
