@@ -88,8 +88,33 @@ const byLocal = (pages = []) =>
     const lb = Number((String(b.title).match(/עמוד\s+(\d+)/) || [])[1] ?? b.number);
     return la - lb;
   });
-const neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
-const neighbourNext = byLocal(afterTopic?.pages)[0]?.file ?? null;
+let neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
+let neighbourNext = byLocal(afterTopic?.pages)[0]?.file ?? null;
+
+// מקור סדר הקריאה הגלובלי הוא **רצועת ה-topic-link** בדפים, ולא סדר המערך
+// ב-topics.json — כך גוזר אותו tests/a4-pages.rules.test.mjs. שני המקורות אינם
+// זהים, ולכן חישוב לפי המערך שבר את שרשרת "הבא" בגבול הנושא. מיישרים לרצועה.
+{
+  const stripRe = /<div class="preview-nav-topics"[^>]*>([\s\S]*?)<\/div>/;
+  let best = [];
+  for (const f of fs.readdirSync(root)) {
+    if (!/^עמוד-\d+\.html$/.test(f)) continue;
+    const m = stripRe.exec(fs.readFileSync(path.join(root, f), 'utf8'));
+    if (!m) continue;
+    const hrefs = [...m[1].matchAll(/class="topic-link[^"]*"\s+href="([^"]+)"/g)].map((x) => x[1]);
+    if (hrefs.length > best.length) best = hrefs;
+  }
+  // ה-href ברצועה מצביע על הדף ההיסטורי הראשון של הנושא (עמוד-96), לא על
+  // הדף הראשון הנוכחי — לכן מחפשים כל דף ששייך לנושא.
+  const ownFiles = new Set(seq.map((e) => `עמוד-${e.fileNumber}.html`));
+  const i = best.findIndex((h) => ownFiles.has(h));
+  if (i >= 0) {
+    if (i > 0) neighbourPrev = null;      // הרצועה אינה נותנת את *אחרון* הנושא הקודם
+    if (i + 1 < best.length) neighbourNext = best[i + 1];
+  }
+  // "הקודם" של הדף הראשון נשאר לפי סדר המערך אם הרצועה לא סייעה
+  if (neighbourPrev === null) neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
+}
 
 /* ---------- 2. כתיבת הדפים ---------- */
 const written = [];
