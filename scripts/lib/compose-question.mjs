@@ -111,11 +111,21 @@ export function figureSvg(fig, id, opt = {}) {
     return (n <= 1.5 ? 1 : n <= 3 ? 2 : n <= 7 ? 5 : 10) * mag;
   };
   const tsX = nice(spanX), tsY = nice(spanY);
+
+  // צעד הרשת שנמדד במקור גובר על החישוב האוטומטי — הוא הנתון האמיתי, ובלעדיו
+  // רשת של יחידה אחת הייתה מתרנדרת בקפיצות 2 ומאבדת נאמנות לסרטוט המקורי.
+  // נשמר רק כשהוא נותן מספר קווים סביר, כדי לא לשחזר את באג אלפי-הקווים.
+  const src = fig.gridStep;
+  const srcOk = typeof src === 'number' && src > 0
+    && spanX / src <= 30 && spanY / src <= 30;
+  const gsX = srcOk ? src : tsX;
+  const gsY = srcOk ? src : tsY;
+
   const hebLabels = /[֐-׿]/.test(`${fig.axisLabels?.x || ''}${fig.axisLabels?.y || ''}`);
 
   return axesSvg({
     id, xMin, xMax, yMin, yMax, xUnit, yUnit, pad: 15, padL: 30,
-    xGridStep: tsX, yGridStep: tsY, xTickStep: tsX, yTickStep: tsY,
+    xGridStep: gsX, yGridStep: gsY, xTickStep: tsX, yTickStep: tsY,
     longLabels: hebLabels,
     xLabel: fig.axisLabels?.x || 'x', yLabel: fig.axisLabels?.y || 'y',
     lines: lns.map((l) => ({ through: l.through, label: l.label || null, dashed: l.style === 'dashed' })),
