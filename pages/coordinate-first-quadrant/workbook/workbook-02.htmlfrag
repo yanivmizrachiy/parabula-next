@@ -1,0 +1,54 @@
+<section aria-labelledby="title-3" class="sheet guided dense" id="page-3">
+<header class="sheet-header"><div><div class="eyebrow">שלב 2 - למידה מודרכת</div><h1 id="title-3">שיעור x ושיעור y</h1><p>קוראים את מיקום הנקודה לפי שני מספרים</p></div><div aria-label="עמוד 3" class="sheet-number">3</div></header>
+<main class="sheet-content">
+<div class="rule-box"><b>שיעור <span class="math-ltr" dir="ltr">x</span></b> מתאר את המיקום האופקי. <b>שיעור <span class="math-ltr" dir="ltr">y</span></b> מתאר את המיקום האנכי.</div>
+<div class="cols-2">
+<section class="q-card"><h3>א. דוגמה: הנקודה A(4,3).</h3><div aria-label="הדגמת הנקודה A ארבע שלוש" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes='[{"text": "שיעור x = 4", "at": [2, 1]}, {"text": "שיעור y = 3", "at": [6, 2]}]' data-points='[{"x": 4, "y": 3, "label": "A(4,3)"}]' data-polygons="[]" data-segments='[{"from": [0, 0], "to": [4, 0], "dashed": true, "type": "guide"}, {"from": [4, 0], "to": [4, 3], "dashed": true, "type": "guide"}]' role="img"></div></section>
+<section class="q-card"><h3>ב. סמנו את הנקודות בשלוש המערכות.</h3><div class="cols-3 tiny-labels"><div><span class="math-ltr" dir="ltr">x=2, y=5</span><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></div><div><span class="math-ltr" dir="ltr">x=6, y=2</span><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></div><div><span class="math-ltr" dir="ltr">x=3, y=4</span><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></div></div></section>
+</div>
+<section class="q-card"><h3>ג. באיזו נקודה שיעור x הוא 5 ושיעור y הוא 2?</h3><div aria-label="ארבע נקודות לבחירת הנקודה ששיעוריה חמש שתיים" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 2, "y": 5, "label": "A"}, {"x": 5, "y": 2, "label": "B"}, {"x": 5, "y": 4, "label": "C"}, {"x": 3, "y": 2, "label": "D"}]' data-polygons="[]" data-segments="[]" role="img"></div><p>הנקודה המבוקשת: <span class="blank" style="--blank-width:5ch"></span></p></section>
+<section class="q-card"><h3>ד. השלימו.</h3><ul class="tasks compact"><li>המספר המתאים לציר האופקי הוא שיעור ה־<span class="blank" style="--blank-width:4ch"></span>.</li><li>המספר המתאים לציר האנכי הוא שיעור ה־<span class="blank" style="--blank-width:4ch"></span>.</li><li>כדי לקבוע נקודה במישור משתמשים ב־<span class="blank" style="--blank-width:4ch"></span> מספרים.</li></ul></section>
+<section class="q-card"><h3>ה. חשיבה: האם <span class="math-ltr" dir="ltr">x=2, y=5</span> ו־<span class="math-ltr" dir="ltr">x=5, y=2</span> מתארים אותו מקום? הסבירו.</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-4" class="sheet practice" id="page-4">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 2 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-4">שיעור x ושיעור y</h1>
+<p>המספר הראשון אופקי; המספר השני אנכי</p>
+</div>
+<div aria-label="עמוד 4" class="sheet-number">4</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>קוראים כל שיעור בנפרד</h3>
+<div class="rule-box">
+    בנקודה <span class="math-ltr" dir="ltr">(x,y)</span>: המספר הראשון הוא <b>שיעור <span class="math-ltr" dir="ltr">x</span></b>, והמספר השני הוא <b>שיעור <span class="math-ltr" dir="ltr">y</span></b>.
+  </div>
+<ul class="tasks">
+<li>בנקודה <span class="math-ltr" dir="ltr">P(5,2)</span> שיעור <span class="math-ltr" dir="ltr">x</span> הוא <span class="blank" style="--blank-width:6ch"></span>, ושיעור <span class="math-ltr" dir="ltr">y</span> הוא <span class="blank" style="--blank-width:6ch"></span>.</li>
+<li>בנקודה <span class="math-ltr" dir="ltr">Q(0,6)</span> ערך <span class="math-ltr" dir="ltr">x</span> הוא <span class="blank" style="--blank-width:6ch"></span>, וערך <span class="math-ltr" dir="ltr">y</span> הוא <span class="blank" style="--blank-width:6ch"></span>.</li>
+<li>בנקודה <span class="math-ltr" dir="ltr">R(8,0)</span> ערך <span class="math-ltr" dir="ltr">x</span> הוא <span class="blank" style="--blank-width:6ch"></span>, וערך <span class="math-ltr" dir="ltr">y</span> הוא <span class="blank" style="--blank-width:6ch"></span>.</li>
+</ul>
+</section>
+<section class="q-card"><h3>טבלת שיעורים</h3>
+<table class="work-table center">
+<thead><tr><th>נקודה</th><th>שיעור <span class="math-ltr" dir="ltr">x</span></th><th>שיעור <span class="math-ltr" dir="ltr">y</span></th></tr></thead>
+<tbody>
+<tr><td><span class="math-ltr" dir="ltr">A(1,4)</span></td><td></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">B(6,2)</span></td><td></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">C(3,5)</span></td><td></td><td></td></tr>
+<tr><td><span class="math-ltr" dir="ltr">D(7,1)</span></td><td></td><td></td></tr>
+</tbody>
+</table>
+</section>
+<section class="q-card span-2"><h3>מתאימים לגרף</h3>
+<div aria-label="מערכת צירים ובה הנקודות A B C D" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 1, "y": 4, "label": "A", "dx": 10, "dy": -10}, {"x": 6, "y": 2, "label": "B", "dx": 10, "dy": -10}, {"x": 3, "y": 5, "label": "C", "dx": 10, "dy": -10}, {"x": 7, "y": 1, "label": "D", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<p>איזו נקודה בעלת שיעור <span class="math-ltr" dir="ltr">x=6</span>? <span class="blank" style="--blank-width:5ch"></span></p>
+<p>איזו נקודה בעלת שיעור <span class="math-ltr" dir="ltr">y=5</span>? <span class="blank" style="--blank-width:5ch"></span></p>
+<p>איזו נקודה היא הימנית ביותר? <span class="blank" style="--blank-width:5ch"></span></p>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>
