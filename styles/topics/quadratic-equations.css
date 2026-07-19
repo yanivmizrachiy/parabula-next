@@ -164,20 +164,6 @@
   flex: 0 0 auto;
 }
 
-.quadratic-page .method-chip {
-  max-width: calc(100% - 30px);
-  padding: 2px 7px;
-  border: 1px solid #dbeafe;
-  border-radius: 999px;
-  background: var(--quad-blue-soft);
-  color: var(--quad-ink-soft);
-  font-size: 8.5px;
-  line-height: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .quadratic-page .equation {
   min-height: 30px;
   display: flex;

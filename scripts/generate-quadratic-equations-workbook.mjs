@@ -54,7 +54,6 @@ const renderExercise = exercise => {
           <article class="exercise-card" data-exercise-id="${exercise.id}" data-level="${exercise.level}">
             <div class="exercise-head">
               <span class="exercise-index" aria-label="תרגיל ${localIndex}">${localIndex}</span>
-              <span class="method-chip">${escapeHtml(exercise.method)}</span>
             </div>
             <div class="equation" dir="ltr">\\(${exercise.equation}\\)</div>
             <div class="work-area" aria-label="אזור חישוב"></div>
@@ -77,8 +76,8 @@ const topicLinks = globalNumber => `
         <a class="topic-link" href="עמוד-42.html">משוואות</a>`;
 
 const renderPage = (page, index) => {
-  const previousFile = index === 0 ? 'עמוד-41.html' : `עמוד-${pages[index - 1].globalNumber}.html`;
-  const nextFile = index === pages.length - 1 ? 'עמוד-37.html' : `עמוד-${pages[index + 1].globalNumber}.html`;
+  const previousFile = index === 0 ? 'עמוד-319.html' : `עמוד-${pages[index - 1].globalNumber}.html`;
+  const nextFile = index === pages.length - 1 ? 'עמוד-231.html' : `עמוד-${pages[index + 1].globalNumber}.html`;
   const pageTitle = `עמוד ${page.localNumber} — ${stripMath(page.title)}`;
   return `<!doctype html>
 <html lang="he" dir="rtl">
