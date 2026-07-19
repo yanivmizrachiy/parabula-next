@@ -36,13 +36,31 @@ let cleanHtml = standalone
   .replace(styleMatch[0], '<link rel="stylesheet" href="workbook.css">')
   .replace(scripts[0][0], '<script src="workbook.js"></script>');
 
-const widths = new Set();
-cleanHtml = cleanHtml.replace(/class="([^"]*\bblank\b[^"]*)"\s+style="--blank-width:(\d+)ch"/g, (_, classes, width) => {
-  widths.add(Number(width));
-  return `class="${classes} blank-w-${width}"`;
+// Convert every inline style into a deterministic generated class. This keeps
+// the distributed HTML free of inline CSS while preserving the exact layout.
+const styleClasses = new Map();
+let styleCounter = 0;
+cleanHtml = cleanHtml.replace(/<([A-Za-z][\w:-]*)([^<>]*?)\sstyle="([^"]*)"([^<>]*?)>/g, (_, tag, before, declarations, after) => {
+  const normalized = declarations.trim().replace(/;\s*$/, '');
+  let className = styleClasses.get(normalized);
+  if (!className) {
+    className = `generated-style-${++styleCounter}`;
+    styleClasses.set(normalized, className);
+  }
+  let attributes = `${before}${after}`;
+  if (/\bclass="[^"]*"/.test(attributes)) {
+    attributes = attributes.replace(/\bclass="([^"]*)"/, (_match, classes) => `class="${classes} ${className}"`);
+  } else {
+    attributes += ` class="${className}"`;
+  }
+  return `<${tag}${attributes}>`;
 });
-for (const width of [...widths].sort((a, b) => a - b)) css += `.blank-w-${width}{--blank-width:${width}ch}\n`;
-if (/<style\b/i.test(cleanHtml) || /\sstyle="/i.test(cleanHtml)) throw new Error('Inline CSS remained after normalization.');
+for (const [declarations, className] of styleClasses.entries()) {
+  css += `.${className}{${declarations}}\n`;
+}
+if (/<style\b/i.test(cleanHtml) || /\sstyle\s*=\s*["']/i.test(cleanHtml)) {
+  throw new Error('Inline CSS remained after normalization.');
+}
 
 fs.writeFileSync(path.join(distDir, 'index.html'), cleanHtml);
 fs.writeFileSync(path.join(distDir, 'workbook.css'), css);
