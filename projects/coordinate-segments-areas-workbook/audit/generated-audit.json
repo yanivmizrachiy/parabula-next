@@ -1,16 +1,16 @@
 {
   "title": "אורכי קטעים, שטחים והיקפים במערכת הצירים",
   "slug": "coordinate-segments-areas-workbook",
-  "htmlPages": 52,
-  "pdfPages": 52,
-  "answerRecords": 257,
+  "htmlPages": 58,
+  "pdfPages": 58,
+  "answerRecords": 283,
   "glossaryTerms": 12,
   "usesMathJax": false,
   "dom": {
-    "pages": 52,
-    "grids": 63,
-    "tasks": 212,
-    "answerSlots": 984,
+    "pages": 58,
+    "grids": 72,
+    "tasks": 239,
+    "answerSlots": 1100,
     "rtl": true,
     "title": "אורכי קטעים, שטחים והיקפים במערכת הצירים — עמוד 1"
   },
@@ -430,14 +430,62 @@
       "contentMm": 223.3,
       "availableMm": 242.4,
       "heightMm": 297
+    },
+    {
+      "page": 53,
+      "percent": 88.7,
+      "overflows": false,
+      "contentMm": 201.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 54,
+      "percent": 89.2,
+      "overflows": false,
+      "contentMm": 199.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 55,
+      "percent": 85.3,
+      "overflows": false,
+      "contentMm": 193.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 56,
+      "percent": 90.9,
+      "overflows": false,
+      "contentMm": 206.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 57,
+      "percent": 85.4,
+      "overflows": false,
+      "contentMm": 196.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 58,
+      "percent": 89.4,
+      "overflows": false,
+      "contentMm": 206.4,
+      "availableMm": 242.4,
+      "heightMm": 297
     }
   ],
   "skipped": [],
   "files": [
     {
       "path": "dist/index.html",
-      "bytes": 606883,
-      "sha256": "c56e228f28cb2f508c5c4fd151ac4603736351e69a2efdb0e1f4f8f1c30bbf46"
+      "bytes": 685775,
+      "sha256": "4b72529f78df687765bdaa0d8af627d699713d99170ff8d3a83690bdd27242a6"
     },
     {
       "path": "dist/workbook.css",
@@ -451,8 +499,8 @@
     },
     {
       "path": "dist/teacher-key.html",
-      "bytes": 99207,
-      "sha256": "706d1fe7d325c050ac2ed382a874aa98da3044533331d08f2fcb61de2063cd7b"
+      "bytes": 112564,
+      "sha256": "020c185a8c46e11fa47a90149f37ad252894dc06ea80a0ae7ebe411dbb5dd075"
     },
     {
       "path": "dist/teacher-key.css",
@@ -461,13 +509,13 @@
     },
     {
       "path": "downloads/coordinate-segments-areas-workbook.pdf",
-      "bytes": 751781,
-      "sha256": "a6718cc90f51524f525f403ff884a0d83229f67e350c51b7a4f1c1b266e081ef"
+      "bytes": 853117,
+      "sha256": "ccaea2178b6693e7ea7253325e00188ed8ecb1c1df674446919ef015557e558c"
     },
     {
       "path": "downloads/coordinate-segments-areas-source.zip",
-      "bytes": 170318,
-      "sha256": "b2679da8f7863c6d7cc36ace18ac7023c44da2b03bfa65fe3ca895fa73e02a60"
+      "bytes": 184257,
+      "sha256": "65498125fa54ca1ab6bf758874dcd2e68e94882a43df3c8e9f711bb7fd71739c"
     },
     {
       "path": "preview/page-01.png",
@@ -484,6 +532,7 @@
   "triangleAreaAnswerRecords": 27,
   "triangleAnswerRecords": 49,
   "pointTriangleAnswerRecords": 4,
+  "kiteAnswerRecords": 7,
   "answerPages": [
     1,
     2,
@@ -536,6 +585,12 @@
     49,
     50,
     51,
-    52
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58
   ]
 }
