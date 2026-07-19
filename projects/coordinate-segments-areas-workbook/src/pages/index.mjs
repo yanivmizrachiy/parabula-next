@@ -6,6 +6,7 @@ import unit03Enrichment from './unit-03-enrichment.mjs';
 import page36 from './unit-03-page36.mjs';
 import pages37to38 from './unit-03-pages37-38.mjs';
 import { page37Balance, page38Balance } from './unit-03-balance.mjs';
+import advancedTrianglePages from './unit-03-advanced.mjs';
 
 const enrichmentLimits = new Map([[33, 1], [34, 1], [35, 1]]);
 const enrichedUnit03 = unit03.map(page => {
@@ -29,5 +30,6 @@ export default [
   ...unit02,
   ...enrichedUnit03,
   balancedPage36,
-  ...balancedPages37to38
+  ...balancedPages37to38,
+  ...advancedTrianglePages
 ];
