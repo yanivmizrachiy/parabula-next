@@ -48,6 +48,18 @@ test('rational-equation sections always include a domain restriction', () => {
   }
 });
 
+test('the opening page starts with simple ax^2=c equations', () => {
+  const openingPage = pages[0];
+  assert.equal(openingPage.globalNumber, 31);
+  assert.equal(openingPage.exercises.length, 6);
+  assert.ok(openingPage.title.includes('(b=0)'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '2x^2=162'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '5x^2=125'));
+  for (const exercise of openingPage.exercises) {
+    assert.match(exercise.equation, /^\d+x\^2=\d+$/u, `${exercise.id}: expected ax^2=c`);
+  }
+});
+
 test('generated canonical pages match the data model', () => {
   let renderedExercises = 0;
   for (const page of pages) {
@@ -83,6 +95,21 @@ test('quadratic pages never expose the internal difficulty scale as demo UI', ()
     for (const token of forbiddenUi) {
       assert.ok(!html.includes(token), `${file}: forbidden difficulty UI token ${token}`);
     }
+  }
+});
+
+test('quadratic exercises never render per-card method headings', () => {
+  for (const page of pages) {
+    const file = `עמוד-${page.globalNumber}.html`;
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(!html.includes('method-chip'), `${file}: per-exercise method heading`);
+  }
+  for (const file of [
+    'scripts/generate-quadratic-equations-workbook.mjs',
+    'styles/topics/quadratic-equations.css',
+  ]) {
+    const source = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(!source.includes('method-chip'), `${file}: obsolete method-chip source`);
   }
 });
 
