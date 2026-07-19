@@ -22,6 +22,7 @@ const state = {
   curriculum: [],   // עץ תכנית הלימודים מתוך topics.json
   nodeById: new Map(),    // מזהה צומת → הצומת עצמו
   pagesByNode: new Map(), // מזהה צומת → דפים המשויכים לו ישירות
+  openNodes: new Set(),   // צמתים שהמשתמש פתח במפורש (נשמר בין סשנים)
   index: -1,        // אינדקס הדף הנוכחי במערך השטוח
   mode: 'single',   // single | spread | scroll
   query: '',
@@ -82,9 +83,23 @@ async function boot() {
       };
       state.curriculum = [...state.curriculum, node];
       state.nodeById.set(node.id, node);
+      // מחיקת המפתחות הישנים: מזהה שאינו בעץ אסור שיישאר מפתח חי
+      for (const page of orphans) state.pagesByNode.delete(page.curriculumId);
       orphans.forEach((page) => { page.curriculumId = UNASSIGNED_ID; });
       state.pagesByNode.set(UNASSIGNED_ID, orphans);
     }
+
+    // סדר הקריאה של הספר נגזר מהעץ. בלי זה דפי נושא אינם רצופים במערך השטוח
+    // (24 מתוך 58 הנושאים), ואז מעבר דף בגלילה ובכפולה קופץ אל מחוץ לנושא.
+    const ordered = [];
+    (function walkOrder(nodes) {
+      for (const node of nodes) {
+        ordered.push(...(state.pagesByNode.get(node.id) || []));
+        if (node.children?.length) walkOrder(node.children);
+      }
+    })(state.curriculum);
+    if (ordered.length === state.pages.length) state.pages = ordered;
+    else console.warn(`[catalog] סדר העץ מכסה ${ordered.length} מתוך ${state.pages.length} דפים — נשמר הסדר השטוח`);
 
     // מיקום הדף בתוך הנושא שלו בתכנית הלימודים (ולא בתוך הקבוצה השטוחה)
     for (const list of state.pagesByNode.values()) {
@@ -92,9 +107,11 @@ async function boot() {
     }
 
     const totalPages = data.totalPages || state.pages.length;
-    dom.statChip.textContent = state.curriculum.length
+    // data.curriculum עשוי להיעדר גם כש-state.curriculum אינו ריק, כי רשת
+    // הביטחון מוסיפה צומת — לכן הבדיקה חייבת להיות על המקור, לא על התוצאה.
+    dom.statChip.textContent = data.curriculum
       ? `${totalPages} דפים · ${data.curriculum.leafNodes} נושאים · ${data.curriculum.emptyLeafNodes} ריקים`
-      : `${totalPages} דפים · ${state.topics.length} נושאים`;
+      : `${totalPages} דפים · ${state.pagesByNode.size} נושאים`;
 
     ParabulaActions.configure({
       pages: state.pages,
@@ -127,19 +144,27 @@ async function boot() {
 const CARET = '<svg class="tt-caret" viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,4 10,8 6,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function loadOpenNodes() {
-  try { return new Set(JSON.parse(localStorage.getItem(LS_OPEN) || '[]')); }
-  catch { return new Set(); }
+  try { state.openNodes = new Set(JSON.parse(localStorage.getItem(LS_OPEN) || '[]')); }
+  catch { state.openNodes = new Set(); }
+  return state.openNodes;
 }
 
 function saveOpenNodes() {
-  const ids = [...dom.tocList.querySelectorAll('.toc-node.is-open')].map((el) => el.dataset.nodeId);
-  try { localStorage.setItem(LS_OPEN, JSON.stringify(ids)); } catch { /* אחסון חסום — לא מפיל את הקורא */ }
+  try { localStorage.setItem(LS_OPEN, JSON.stringify([...state.openNodes])); }
+  catch { /* אחסון חסום — לא מפיל את הקורא */ }
 }
 
+/**
+ * persist=true רק לפתיחה יזומה של המשתמש. פתיחה אוטומטית של שרשרת האבות
+ * לדף הפעיל אינה נשמרת — אחרת המצב השמור תופח עם כל דף שנצפה והעץ נפתח כולו.
+ */
 function setNodeOpen(wrap, open, { persist = true } = {}) {
   wrap.classList.toggle('is-open', open);
   wrap.querySelector(':scope > .toc-node-head')?.setAttribute('aria-expanded', String(open));
-  if (persist) saveOpenNodes();
+  if (!persist) return;
+  if (open) state.openNodes.add(wrap.dataset.nodeId);
+  else state.openNodes.delete(wrap.dataset.nodeId);
+  saveOpenNodes();
 }
 
 /** שם הצומת לפי מזהה, עם נפילה חיננית כשהמזהה אינו מוכר. */
@@ -364,18 +389,47 @@ function renderBoard() {
     `${totalPages} דפי עבודה · ${leaves.length} תת־נושאים · ${leaves.length - empty} עם דפים · ${empty} ממתינים לדפים`;
 }
 
+function boardFocusable() {
+  return [...dom.board.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+    .filter((el) => !el.hasAttribute('hidden') && el.offsetParent !== null);
+}
+
+/** לכידת Tab בתוך הדיאלוג — aria-modal לבדו אינו מונע מהמיקוד לצאת. */
+function handleBoardKeydown(event) {
+  if (event.key !== 'Tab') return;
+  const items = boardFocusable();
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  const active = document.activeElement;
+  if (event.shiftKey && (active === first || active === dom.board.querySelector('.board-panel'))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && active === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function openBoard() {
   boardState.returnFocus = document.activeElement;
   renderBoard();
   dom.board.hidden = false;
   document.body.classList.add('board-open');
+  // הרקע מוסר מעץ הנגישות ומהמיקוד כל עוד הדיאלוג פתוח (חוזה §5.8)
+  document.querySelector('.app-layout')?.setAttribute('inert', '');
+  document.querySelector('.site-header')?.setAttribute('inert', '');
+  dom.board.addEventListener('keydown', handleBoardKeydown);
   requestAnimationFrame(() => dom.board.querySelector('.board-panel')?.focus({ preventScroll: true }));
 }
 
 function closeBoard() {
   if (dom.board.hidden) return;
+  dom.board.removeEventListener('keydown', handleBoardKeydown);
   dom.board.hidden = true;
   document.body.classList.remove('board-open');
+  document.querySelector('.app-layout')?.removeAttribute('inert');
+  document.querySelector('.site-header')?.removeAttribute('inert');
   boardState.returnFocus?.focus?.({ preventScroll: true });
 }
 
@@ -731,10 +785,10 @@ function bind() {
   dom.board.addEventListener('click', (e) => {
     if (e.target instanceof Element && e.target.hasAttribute('data-close')) closeBoard();
   });
+  // כפתור מצב, לא כפתור פעולה: הכיתוב קבוע ו-aria-pressed מתאר האם הריקים מוצגים.
   dom.boardToggleEmpty.addEventListener('click', () => {
     boardState.showEmpty = !boardState.showEmpty;
     dom.boardToggleEmpty.setAttribute('aria-pressed', String(boardState.showEmpty));
-    dom.boardToggleEmpty.textContent = boardState.showEmpty ? 'הצג נושאים ריקים' : 'הסתר נושאים ריקים';
     renderBoard();
   });
   dom.selPrint.addEventListener('click', () => ParabulaActions.printSelection());

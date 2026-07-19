@@ -10,8 +10,18 @@ const allPages = (meta.topics || []).flatMap(topic =>
   (topic.pages || []).map(page => ({ ...page, topic: page.topic || topic.name }))
 );
 const canonicalFiles = new Set(allPages.map(page => page.file));
-// מספר שורשי עץ תכנית הלימודים (כיתות), שהם צמתי הפתיחה בניווט הנייד
-const expectedTopicCount = (meta.curriculum?.nodes || []).length;
+// מספר שורשי עץ תכנית הלימודים (כיתות), שהם צמתי הפתיחה בניווט הנייד.
+// הקורא מוסיף שורש "ממתינים לשיוך" בזמן ריצה כשיש דף בלי צומת מוכר,
+// ולכן הציפייה חייבת לכלול אותו — אחרת רשת הביטחון מפילה את הבדיקה.
+const curriculumIds = new Set();
+(function collectIds(nodes) {
+  for (const node of nodes || []) {
+    curriculumIds.add(node.id);
+    if (node.children?.length) collectIds(node.children);
+  }
+})(meta.curriculum?.nodes);
+const hasOrphanPages = allPages.some(page => !curriculumIds.has(page.curriculumId));
+const expectedTopicCount = (meta.curriculum?.nodes || []).length + (hasOrphanPages ? 1 : 0);
 
 const args = Object.fromEntries(process.argv.slice(2).map(arg => {
   const [key, value = 'true'] = arg.replace(/^--/, '').split('=');

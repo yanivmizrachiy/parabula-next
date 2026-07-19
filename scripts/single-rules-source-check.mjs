@@ -186,6 +186,11 @@ const contractPatterns = [
   [/\bSTATE\/[A-Z]/, 'state document dependency'],
   [/mobile-topics\.json/, 'obsolete metadata mirror'],
 ];
+// שפה מחייבת: מסמך שמנסח דרישות חייב להפנות ל-CLAUDE.md, אחרת הוא מקור כללים מתחרה.
+// הסף קיים כדי שאזכור בודד בתוך תיאור תוכן לא ייחשב חוזה.
+const directivePattern = /(?:^|\s)(?:חייב(?:ים|ת)?|אסור|יש ל[א-ת]+|אין ל[א-ת]+|must not|must|never|always|required to)(?:\s|$)/gm;
+const DIRECTIVE_THRESHOLD = 4;
+
 const rulesScanned = [];
 for (const rel of allMarkdown) {
   if (rel === canonical) continue;
@@ -195,6 +200,13 @@ for (const rel of allMarkdown) {
     if (pattern.test(text)) {
       errors.push(`${rel} contains ${label}; CLAUDE.md must be the only rules source`);
     }
+  }
+  const directives = (text.match(directivePattern) || []).length;
+  if (directives >= DIRECTIVE_THRESHOLD && !text.includes(canonical)) {
+    errors.push(
+      `${rel} states ${directives} requirements but never points to ${canonical}; ` +
+        'a document that defines rules must defer to the canonical file',
+    );
   }
 }
 

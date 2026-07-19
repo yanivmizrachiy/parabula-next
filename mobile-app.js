@@ -443,6 +443,9 @@ function showPage(file, options = {}) {
     state.activeTopic = page.curriculumId;
     state.visiblePages = nodePagesOf(page.curriculumId);
     renderPages({ autoShow: false });
+    // בלי זה הנושא החדש נשאר מקופל בעץ והמשתמש אינו רואה היכן הוא נמצא
+    revealActiveNode();
+    updateButtons();
   }
   if (state.readMode === 'scroll') {
     syncCurrentPage(page);
@@ -457,8 +460,9 @@ function showPage(file, options = {}) {
 function selectNode(nodeId) {
   state.activeTopic = nodeId;
   els.globalSearch.value = '';
+  // renderPages({autoShow}) מגיע ל-showPage, ובמצב גלילה הוא כבר בונה את הערימה
+  // ומעגן אותה בדף הנכון. בנייה נוספת כאן הרסה אותה ועיגנה מחדש בדף הראשון.
   renderPages({ autoShow: true, collapse: false });
-  if (state.readMode === 'scroll') buildScrollStack(state.visiblePages[0]?.file);
   setTopicsPanelOpen(true);
 }
 
@@ -968,6 +972,9 @@ async function boot() {
     };
     state.curriculum = [...state.curriculum, node];
     state.nodeById.set(node.id, node);
+    // המפתחות הישנים חייבים להימחק, אחרת מזהה שאינו קיים בעץ עדיין עובר
+    // את בדיקות pagesByNode.has(...) ומייצר נושא פעיל שאין לו צומת
+    for (const page of orphans) state.pagesByNode.delete(page.curriculumId);
     orphans.forEach((page) => { page.curriculumId = UNASSIGNED_ID; });
     state.pagesByNode.set(UNASSIGNED_ID, orphans);
   }
