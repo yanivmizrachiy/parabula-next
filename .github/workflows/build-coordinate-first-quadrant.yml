@@ -9,6 +9,7 @@ on:
       - projects/coordinate-first-quadrant-workbook/downloads/**
       - projects/coordinate-first-quadrant-workbook/preview/**
       - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/audit/build.log
       - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
   pull_request:
     branches:
@@ -18,6 +19,7 @@ on:
       - projects/coordinate-first-quadrant-workbook/downloads/**
       - projects/coordinate-first-quadrant-workbook/preview/**
       - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/audit/build.log
       - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
   workflow_dispatch:
 
@@ -43,24 +45,34 @@ jobs:
         with:
           node-version: '20'
       - name: Install system tools
-        run: sudo apt-get update && sudo apt-get install -y poppler-utils zip
+        run: sudo apt-get update >/tmp/apt-update.log && sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
       - name: Install Playwright
-        run: npm install --no-save --package-lock=false playwright@1.55.0 && npx playwright install --with-deps chromium
+        run: npm install --no-save --package-lock=false playwright@1.55.0 >/tmp/npm-install.log && npx playwright install --with-deps chromium >/tmp/playwright-install.log
       - name: Build and audit workbook
-        run: node projects/coordinate-first-quadrant-workbook/src/build.mjs
-      - name: Commit generated outputs
+        id: workbook_build
+        continue-on-error: true
+        run: |
+          mkdir -p projects/coordinate-first-quadrant-workbook/audit
+          set -o pipefail
+          node projects/coordinate-first-quadrant-workbook/src/build.mjs 2>&1 | tee projects/coordinate-first-quadrant-workbook/audit/build.log
+      - name: Commit generated outputs or diagnostics
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            projects/coordinate-first-quadrant-workbook/dist \
-            projects/coordinate-first-quadrant-workbook/downloads \
-            projects/coordinate-first-quadrant-workbook/preview \
-            projects/coordinate-first-quadrant-workbook/audit/generated-audit.json \
-            projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
-          git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
+          git add projects/coordinate-first-quadrant-workbook/audit/build.log
+          if [ "${{ steps.workbook_build.outcome }}" = "success" ]; then
+            git add \
+              projects/coordinate-first-quadrant-workbook/dist \
+              projects/coordinate-first-quadrant-workbook/downloads \
+              projects/coordinate-first-quadrant-workbook/preview \
+              projects/coordinate-first-quadrant-workbook/audit/generated-audit.json \
+              projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+          fi
+          git diff --cached --quiet || git commit -m "build(מערכת צירים): persist generated outputs or diagnostics"
           git push origin HEAD:"${TARGET_BRANCH}"
       - uses: actions/upload-artifact@v4
+        if: steps.workbook_build.outcome == 'success'
         with:
           name: coordinate-first-quadrant-workbook
           path: |
@@ -69,3 +81,6 @@ jobs:
             projects/coordinate-first-quadrant-workbook/preview
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+      - name: Fail when workbook build failed
+        if: steps.workbook_build.outcome != 'success'
+        run: exit 1
