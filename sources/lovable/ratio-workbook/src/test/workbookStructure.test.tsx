@@ -10,6 +10,12 @@ const forbiddenBrokenFragments = [
   'כמה בנים צריך לצרף לכיתה כדי שהיחס בין מספר הבנים למספר הבנות יהיה 1 : 1',
 ];
 
+function renderPage(pageId: number) {
+  const page = WORKSHEET_PAGES.find((candidate) => candidate.id === pageId);
+  expect(page).toBeDefined();
+  return renderToStaticMarkup(<>{page?.component()}</>);
+}
+
 describe('ratio workbook structure', () => {
   it('contains exactly 48 unique, sequential pages', () => {
     expect(WORKSHEET_PAGES).toHaveLength(48);
@@ -37,11 +43,16 @@ describe('ratio workbook structure', () => {
   });
 
   it('renders 36 diamonds in the first ratio question', () => {
-    const firstPage = WORKSHEET_PAGES.find((page) => page.id === 1);
-    expect(firstPage).toBeDefined();
-
-    const markup = renderToStaticMarkup(<>{firstPage?.component()}</>);
+    const markup = renderPage(1);
     expect(markup).toContain('היחס בין מספר המעויינים השחורים לבין מספר המעויינים הלבנים הוא 2 : 1');
     expect(markup.match(/<polygon/g)).toHaveLength(36);
+  });
+
+  it('uses the lower area of page 1 for meaningful ratio practice', () => {
+    const markup = renderPage(1);
+    expect(markup).toContain('בדיקת הבנה – הרחבת היחס 3 : 2');
+    expect(markup).toContain('מספר העיגולים הכולל');
+    expect(markup).toContain('גורם ההרחבה מן השורה הראשונה אל השורה הרביעית');
+    expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
   });
 });
