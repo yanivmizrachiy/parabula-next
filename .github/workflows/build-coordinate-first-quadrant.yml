@@ -59,12 +59,14 @@ jobs:
           echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
           "$CHROME_PATH" --version
       - name: Build and audit workbook
+        id: workbook_build
+        continue-on-error: true
         run: |
           mkdir -p projects/coordinate-first-quadrant-workbook/audit
           set -o pipefail
           node projects/coordinate-first-quadrant-workbook/src/build.mjs 2>&1 | tee projects/coordinate-first-quadrant-workbook/audit/build.log
       - name: Commit generated outputs
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && steps.workbook_build.outcome == 'success'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -77,9 +79,10 @@ jobs:
           git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
           git push origin HEAD:"${TARGET_BRANCH}"
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: coordinate-first-quadrant-workbook
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
           path: |
             projects/coordinate-first-quadrant-workbook/dist
@@ -88,3 +91,6 @@ jobs:
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
             projects/coordinate-first-quadrant-workbook/audit/build.log
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+      - name: Fail when workbook build failed
+        if: steps.workbook_build.outcome != 'success'
+        run: exit 1
