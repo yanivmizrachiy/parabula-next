@@ -388,7 +388,10 @@ export const PAGE_ASSIGNMENTS = {
   'g7.num.directed.intro.numberLine': [561],
   // 562-571: דפי חיבור/סימן במספרים מכוונים; 572-573: הלוחות המורחבים למילוי.
   'g7.num.directed.intro.fourOps': ['562-573'],
-  'g7.num.directed.axesFirst': ['268-271'],
+  // 531-560 הם חוברת „מערכת צירים — רביע ראשון" (30 גיליונות) שיובאה מ-
+  // projects/coordinate-first-quadrant-workbook. 268-271 שהיו כאן הם דפי
+  // „זווית ישרה במערכת צירים" — תוכנם המתמטי הוא זוויות, והם הועברו לצומת הזוויות.
+  'g7.num.directed.axesFirst': ['531-560'],
   'g7.num.directed.axesAll': [360, 361],
 
   // ── כיתה ז' · תחום אלגברי ──────────────────────────────────────────
@@ -412,7 +415,9 @@ export const PAGE_ASSIGNMENTS = {
   'g7.geo.areas.general': [354, 356, '362-364'],
   'g7.geo.circle.perimeterArea': ['196-204'],
   'g7.geo.pythagoras': ['9-30', 41, '375-380'],
-  'g7.geo.angles.concept': [320, 322, 327],
+  // 268-271: „זווית ישרה במערכת צירים" (זווית לכיתה ז') — זיהוי זוויות ישרות
+  // בין קרניים ברביע הראשון; התוכן המתמטי הוא מושג הזווית, לא מערכת הצירים.
+  'g7.geo.angles.concept': ['268-271', 320, 322, 327],
   'g7.geo.angles.measuring': ['323-326', 328, 329],
   'g7.geo.angles.comparing': [321],
   'g7.geo.angles.sumDiff': ['333-335'],
