@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-18T20:21:20.763Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 514,
+  "totalPages": 530,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -931,7 +931,7 @@
     },
     {
       "name": "פונקציה קווית",
-      "count": 79,
+      "count": 95,
       "pages": [
         {
           "number": 395,
@@ -1114,39 +1114,9 @@
           "curriculumId": "g8.alg.linear.slope"
         },
         {
-          "number": 96,
-          "file": "עמוד-96.html",
-          "title": "עמוד 19 — פונקציה קווית",
-          "h1": "פונקציה קווית",
-          "topic": "פונקציה קווית",
-          "previewPath": "/עמוד-96.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-96.html",
-          "curriculumId": "g8.alg.linear.representations"
-        },
-        {
-          "number": 97,
-          "file": "עמוד-97.html",
-          "title": "עמוד 20 — פונקציה קווית",
-          "h1": "פונקציה קווית",
-          "topic": "פונקציה קווית",
-          "previewPath": "/עמוד-97.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-97.html",
-          "curriculumId": "g8.alg.linear.representations"
-        },
-        {
-          "number": 98,
-          "file": "עמוד-98.html",
-          "title": "עמוד 21 — פונקציה קווית",
-          "h1": "פונקציה קווית",
-          "topic": "פונקציה קווית",
-          "previewPath": "/עמוד-98.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-98.html",
-          "curriculumId": "g8.alg.linear.representations"
-        },
-        {
           "number": 413,
           "file": "עמוד-413.html",
-          "title": "עמוד 22 — פונקציה קווית",
+          "title": "עמוד 19 — פונקציה קווית",
           "h1": "פונקציה קווית",
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-413.html",
@@ -1156,7 +1126,7 @@
         {
           "number": 414,
           "file": "עמוד-414.html",
-          "title": "עמוד 23 — פונקציה קווית",
+          "title": "עמוד 20 — פונקציה קווית",
           "h1": "פונקציה קווית",
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-414.html",
@@ -1166,7 +1136,7 @@
         {
           "number": 415,
           "file": "עמוד-415.html",
-          "title": "עמוד 24 — פונקציה קווית",
+          "title": "עמוד 21 — פונקציה קווית",
           "h1": "פונקציה קווית",
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-415.html",
@@ -1176,12 +1146,42 @@
         {
           "number": 416,
           "file": "עמוד-416.html",
-          "title": "עמוד 25 — פונקציה קווית",
+          "title": "עמוד 22 — פונקציה קווית",
           "h1": "פונקציה קווית",
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-416.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-416.html",
           "curriculumId": "g8.alg.linear.slope"
+        },
+        {
+          "number": 96,
+          "file": "עמוד-96.html",
+          "title": "עמוד 23 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-96.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-96.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 97,
+          "file": "עמוד-97.html",
+          "title": "עמוד 24 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-97.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-97.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 98,
+          "file": "עמוד-98.html",
+          "title": "עמוד 25 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-98.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-98.html",
+          "curriculumId": "g8.alg.linear.representations"
         },
         {
           "number": 417,
@@ -1721,6 +1721,166 @@
           "topic": "פונקציה קווית",
           "previewPath": "/עמוד-470.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-470.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 515,
+          "file": "עמוד-515.html",
+          "title": "עמוד 80 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-515.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-515.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 516,
+          "file": "עמוד-516.html",
+          "title": "עמוד 81 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-516.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-516.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 517,
+          "file": "עמוד-517.html",
+          "title": "עמוד 82 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-517.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-517.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 518,
+          "file": "עמוד-518.html",
+          "title": "עמוד 83 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-518.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-518.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 519,
+          "file": "עמוד-519.html",
+          "title": "עמוד 84 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-519.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-519.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 520,
+          "file": "עמוד-520.html",
+          "title": "עמוד 85 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-520.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-520.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 521,
+          "file": "עמוד-521.html",
+          "title": "עמוד 86 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-521.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-521.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 522,
+          "file": "עמוד-522.html",
+          "title": "עמוד 87 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-522.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-522.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 523,
+          "file": "עמוד-523.html",
+          "title": "עמוד 88 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-523.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-523.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 524,
+          "file": "עמוד-524.html",
+          "title": "עמוד 89 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-524.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-524.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 525,
+          "file": "עמוד-525.html",
+          "title": "עמוד 90 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-525.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-525.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 526,
+          "file": "עמוד-526.html",
+          "title": "עמוד 91 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-526.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-526.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 527,
+          "file": "עמוד-527.html",
+          "title": "עמוד 92 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-527.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-527.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 528,
+          "file": "עמוד-528.html",
+          "title": "עמוד 93 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-528.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-528.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 529,
+          "file": "עמוד-529.html",
+          "title": "עמוד 94 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-529.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-529.html",
+          "curriculumId": "g8.alg.linear.representations"
+        },
+        {
+          "number": 530,
+          "file": "עמוד-530.html",
+          "title": "עמוד 95 — פונקציה קווית",
+          "h1": "פונקציה קווית",
+          "topic": "פונקציה קווית",
+          "previewPath": "/עמוד-530.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-530.html",
           "curriculumId": "g8.alg.linear.representations"
         }
       ]
@@ -5934,25 +6094,25 @@
         "id": "g8",
         "name": "כיתה ח'",
         "directCount": 0,
-        "pageCount": 257,
+        "pageCount": 273,
         "children": [
           {
             "id": "g8.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 146,
+            "pageCount": 162,
             "children": [
               {
                 "id": "g8.alg.linear",
                 "name": "הפונקציה הקווית",
                 "directCount": 0,
-                "pageCount": 121,
+                "pageCount": 137,
                 "children": [
                   {
                     "id": "g8.alg.linear.representations",
                     "name": "ייצוגים שונים של פונקציה קווית (גרף, טבלה, משוואה)",
-                    "directCount": 45,
-                    "pageCount": 45,
+                    "directCount": 61,
+                    "pageCount": 61,
                     "pages": [
                       96,
                       97,
@@ -5998,7 +6158,23 @@
                       467,
                       468,
                       469,
-                      470
+                      470,
+                      515,
+                      516,
+                      517,
+                      518,
+                      519,
+                      520,
+                      521,
+                      522,
+                      523,
+                      524,
+                      525,
+                      526,
+                      527,
+                      528,
+                      529,
+                      530
                     ]
                   },
                   {

@@ -82,12 +82,18 @@ export function figureSvg(fig, id, opt = {}) {
   const lns = (fig.lines || []).filter((l) => Array.isArray(l.through) && l.through.length === 2
     && l.through.every((p) => Array.isArray(p) && p.length === 2 && p.every((v) => typeof v === 'number')));
   const segs = (fig.segments || []).filter((s) => Array.isArray(s.from) && Array.isArray(s.to));
-  if (!pts.length && !lns.length && !segs.length) return null;
 
-  // תחום: אם המקור לא ציין — נגזר מהנתונים עצמם עם שוליים, ומעוגל למספר שלם.
   let [xMin, xMax] = fig.xRange || [];
   let [yMin, yMax] = fig.yRange || [];
-  if (![xMin, xMax, yMin, yMax].every((v) => typeof v === 'number')) {
+  const hasRange = [xMin, xMax, yMin, yMax].every((v) => typeof v === 'number');
+
+  // מערכת צירים **ריקה** היא סרטוט תקף: המקור מדפיס אותה כדי שהתלמיד ישרטט בה.
+  // בלי המקרה הזה כל שאלת "שרטטו את הגרף" איבדה את מערכת הצירים שלה.
+  const blank = !pts.length && !lns.length && !segs.length;
+  if (blank && !hasRange) return null;
+
+  // תחום: אם המקור לא ציין — נגזר מהנתונים עצמם עם שוליים, ומעוגל למספר שלם.
+  if (!hasRange) {
     const xs = [...pts.map((p) => p.x), ...lns.flatMap((l) => l.through.map((p) => p[0])), ...segs.flatMap((s) => [s.from[0], s.to[0]]), 0];
     const ys = [...pts.map((p) => p.y), ...lns.flatMap((l) => l.through.map((p) => p[1])), ...segs.flatMap((s) => [s.from[1], s.to[1]]), 0];
     xMin = Math.floor(Math.min(...xs) - 1); xMax = Math.ceil(Math.max(...xs) + 1);
