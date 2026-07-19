@@ -225,9 +225,9 @@
     },
     {
       "page": 27,
-      "percent": 100.6,
-      "overflows": true,
-      "contentMm": 233.7,
+      "percent": 99.6,
+      "overflows": false,
+      "contentMm": 231.3,
       "availableMm": 242.4,
       "heightMm": 297
     },
@@ -620,8 +620,8 @@
   "files": [
     {
       "path": "dist/index.html",
-      "bytes": 890424,
-      "sha256": "dbd93a266f51853d46057c8db5e916223d708524a1af0899ca349e303c1c6275"
+      "bytes": 889821,
+      "sha256": "6d6ea962c6e1974ccc6d548e919de87052aeb2038bb8701629cc3c5d8af4579c"
     },
     {
       "path": "dist/workbook.css",
@@ -645,13 +645,13 @@
     },
     {
       "path": "downloads/coordinate-segments-areas-workbook.pdf",
-      "bytes": 1098494,
-      "sha256": "2a55e5d314a1206e2623390053e68d8f69b8fb19cb8290e3cdbfebcea5945587"
+      "bytes": 1098493,
+      "sha256": "a880fa42354b4f190d150a46cd6c4b0ceeda1b7be463b5b0b599c58c5157c24f"
     },
     {
       "path": "downloads/coordinate-segments-areas-source.zip",
-      "bytes": 235398,
-      "sha256": "02b3462c4dc21af97f177cd871491869fdd6f286ae369058dc9debd21cb7d0a8"
+      "bytes": 235897,
+      "sha256": "1730998f1c1eb63bb010a01669850d3dd53cfeb6c44b1bf2ff99b0a51f48bbd2"
     },
     {
       "path": "preview/page-01.png",
