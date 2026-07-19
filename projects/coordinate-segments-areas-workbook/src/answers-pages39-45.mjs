@@ -20,7 +20,7 @@ export const pages39to45Answers = [
   { page: 41, id: 'p41-main', kind: 'triangle', vertices: [[0, 0], [8, 0], [0, 6]], expect: { legs: [6, 8], area: 24 } },
   { page: 41, id: 'p41-P', kind: 'pointTriangle', triangle: [[0, 0], [8, 0], [0, 6]], point: [2, 2], expect: { classification: 'בתוך', mainArea: 24, subAreaSum: 24 } },
   { page: 41, id: 'p41-Q', kind: 'pointTriangle', triangle: [[0, 0], [8, 0], [0, 6]], point: [4, 3], expect: { classification: 'על', mainArea: 24, subAreaSum: 24 } },
-  { page: 41, id: 'p41-R', kind: 'pointTriangle', triangle: [[0, 0], [8, 0], [0, 6]], point: [6, 3], expect: { classification: 'מחוץ', mainArea: 24, subAreaSum: 30 } },
+  { page: 41, id: 'p41-R', kind: 'pointTriangle', triangle: [[0, 0], [8, 0], [0, 6]], point: [6, 3], expect: { classification: 'מחוץ', mainArea: 24, subAreaSum: 36 } },
   { page: 41, id: 'p41-examples', kind: 'value', expect: { inside: '(1,1)', boundary: '(2,0)', outsideInsideBoundingRectangle: '(7,5)' } },
 
   // ---- עמוד 42 ----
