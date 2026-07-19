@@ -79,8 +79,17 @@ const metaPre = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'
 const topicIdx = metaPre.topics.findIndex((t) => t.name === TOPIC);
 const beforeTopic = metaPre.topics[topicIdx - 1];
 const afterTopic = metaPre.topics[topicIdx + 1];
-const neighbourPrev = beforeTopic?.pages?.at(-1)?.file ?? null;
-const neighbourNext = afterTopic?.pages?.[0]?.file ?? null;
+// מערך pages ב-topics.json הוא בסדר הכנסה, לא בסדר הקריאה. ב"פונקציה ריבועית"
+// למשל האחרון במערך הוא עמוד-6 (מקומי 2) בעוד האחרון בקריאה הוא עמוד-5 (מקומי 4).
+// בלי המיון הזה הדף הראשון של הנושא נקשר לאמצע הנושא הקודם ושובר את השרשרת.
+const byLocal = (pages = []) =>
+  pages.slice().sort((a, b) => {
+    const la = Number((String(a.title).match(/עמוד\s+(\d+)/) || [])[1] ?? a.number);
+    const lb = Number((String(b.title).match(/עמוד\s+(\d+)/) || [])[1] ?? b.number);
+    return la - lb;
+  });
+const neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
+const neighbourNext = byLocal(afterTopic?.pages)[0]?.file ?? null;
 
 /* ---------- 2. כתיבת הדפים ---------- */
 const written = [];
