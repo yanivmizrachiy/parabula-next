@@ -1,5 +1,5 @@
 // חוזי יחידה 4 — מקבילית וטרפז (עמודים 47–52).
-// כל ערך נגזר מהקודקודים ומושווה ל-expect; רצף העמודים 1–52 נאכף כאן.
+// כל ערך נגזר מהקודקודים ומושווה ל-expect; רצף העמודים 1–58 נאכף כאן.
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -8,15 +8,15 @@ import unit04 from '../src/pages/unit-04-parallelogram-trapezoid-v1.mjs';
 import { answers } from '../src/all-answers.mjs';
 import { derive } from '../src/teacher-key.mjs';
 
-test('רצף העמודים 1–52 רציף, ללא חורים וללא כפילויות', () => {
+test('רצף העמודים 1–58 רציף, ללא חורים וללא כפילויות', () => {
   const ns = pages.map(p => p.n);
-  assert.equal(ns.length, 52, `יש ${ns.length} עמודים במקום 52`);
-  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: 52 }, (_, i) => i + 1));
-  assert.equal(new Set(ns).size, 52, 'מספר עמוד כפול');
+  assert.equal(ns.length, 58, `יש ${ns.length} עמודים במקום 58`);
+  assert.deepEqual([...ns].sort((a, b) => a - b), Array.from({ length: 58 }, (_, i) => i + 1));
+  assert.equal(new Set(ns).size, 58, 'מספר עמוד כפול');
 });
 
 test('יחידה 4 מחוברת לרצף דרך המודול הנקי', () => {
-  const tail = pages.filter(p => p.n >= 47);
+  const tail = pages.filter(p => p.n >= 47 && p.n <= 52);
   assert.equal(tail.length, 6);
   for (const p of unit04) {
     assert.ok(pages.includes(p), `עמוד ${p.n} של unit-04 אינו ברצף`);

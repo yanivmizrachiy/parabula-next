@@ -120,6 +120,24 @@ export function derive(record) {
       perimeter: baseBig + baseSmall + legAD + legBC
     };
   }
+  if (record.kind === 'kite') {
+    // דלתון שאלכסוניו AC ו-BD מקבילים לצירים. השטח = מחצית מכפלת האלכסונים,
+    // ונבדק הלוך-חזור מול נוסחת השרוכים; הצלעות נגזרות מהקודקודים בלבד.
+    const [A, B, C, D] = record.vertices;
+    const diagonalAC = axisParallelLength(A, C);
+    const diagonalBD = axisParallelLength(B, D);
+    const cross = A[0] === C[0] ? [A[0], B[1]] : [B[0], A[1]];
+    const side = (p, q) => Math.hypot(q[0] - p[0], q[1] - p[1]);
+    const sides = { AB: side(A, B), BC: side(B, C), CD: side(C, D), DA: side(D, A) };
+    return {
+      diagonalAC, diagonalBD,
+      area: diagonalAC * diagonalBD / 2,
+      shoelace: shoelaceArea(record.vertices),
+      cross,
+      sides,
+      perimeter: sides.AB + sides.BC + sides.CD + sides.DA
+    };
+  }
   if (record.kind === 'pointTriangle') {
     return classifyPoint(record);
   }
@@ -155,6 +173,8 @@ function renderRecord(record) {
         ? `מקבילית ${JSON.stringify(record.vertices)}`
       : record.kind === 'trapezoid'
         ? `טרפז ${JSON.stringify(record.vertices)}`
+      : record.kind === 'kite'
+        ? `דלתון ${JSON.stringify(record.vertices)}`
         : record.kind === 'pointTriangle'
           ? `נקודה ${JSON.stringify(record.point)} ביחס למשולש ${JSON.stringify(record.triangle)}`
           : record.kind;

@@ -9,6 +9,7 @@ import { pages39to45Answers } from './answers-pages39-45.mjs';
 import { pages39to44EnrichmentAnswers } from './answers-pages39-44-enrichment.mjs';
 import { page46Answers } from './answers-page46.mjs';
 import { unit04Answers } from './answers-unit-04.mjs';
+import { unit05Answers } from './answers-unit-05.mjs';
 
 export const answers = [
   ...coreAnswers,
@@ -18,6 +19,7 @@ export const answers = [
   ...pages39to45Answers,
   ...pages39to44EnrichmentAnswers,
   ...page46Answers,
-  ...unit04Answers
+  ...unit04Answers,
+  ...unit05Answers
 ];
 export { glossary };

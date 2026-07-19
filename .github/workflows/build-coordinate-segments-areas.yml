@@ -68,6 +68,8 @@ jobs:
             "tests/answers.test.mjs" \
             "tests/guards.test.mjs" \
             "tests/isolation.test.mjs" \
+            "tests/unit-04.test.mjs" \
+            "tests/unit-05.test.mjs" \
             2>&1 | tee audit/unit-tests.log
 
       - name: Build workbook and combined teacher key

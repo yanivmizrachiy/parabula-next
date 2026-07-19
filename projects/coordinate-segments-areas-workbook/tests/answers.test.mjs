@@ -33,7 +33,7 @@ test('לכל עמוד קיימת לפחות רשומת תשובה אחת', () =>
 });
 
 test('kind חוקי בכל רשומה', () => {
-  const allowed = new Set(['segment', 'rectangle', 'triangle', 'triangleArea', 'pointTriangle', 'line', 'value', 'parallelogram', 'trapezoid']);
+  const allowed = new Set(['segment', 'rectangle', 'triangle', 'triangleArea', 'pointTriangle', 'line', 'value', 'parallelogram', 'trapezoid', 'kite']);
   for (const record of answers) {
     assert.ok(allowed.has(record.kind), `kind לא חוקי ברשומה ${record.id}: ${record.kind}`);
     assert.ok(record.expect && typeof record.expect === 'object', `חסר expect ברשומה ${record.id}`);
@@ -125,6 +125,23 @@ test('סיווג נקודה ביחס למשולש נגזר מסכום שלושת
       assert.ok(derived.subAreaSum > derived.mainArea, `נקודה חיצונית לא הגדילה את סכום השטחים ברשומה ${record.id}`);
     } else {
       assert.equal(derived.subAreaSum, derived.mainArea);
+    }
+  }
+});
+
+test('דלתונים: השטח מחצית מכפלת האלכסונים, ושני זוגות צלעות סמוכות שוות', () => {
+  const kites = answers.filter(record => record.kind === 'kite');
+  assert.ok(kites.length >= 6, `רק ${kites.length} רשומות דלתון`);
+  const near = (a, b) => Math.abs(a - b) < 1e-9;
+  for (const record of kites) {
+    const derived = derive(record);
+    assert.equal(derived.shoelace, derived.diagonalAC * derived.diagonalBD / 2, `שרוכים ≠ אלכסונים ברשומה ${record.id}`);
+    assert.equal(derived.shoelace, shoelaceArea(record.vertices));
+    const pairs = (near(derived.sides.AB, derived.sides.DA) && near(derived.sides.BC, derived.sides.CD))
+      || (near(derived.sides.AB, derived.sides.BC) && near(derived.sides.CD, derived.sides.DA));
+    assert.ok(pairs, `אין שני זוגות צלעות סמוכות שוות ברשומה ${record.id}`);
+    if (record.expect.area !== undefined) {
+      assert.equal(record.expect.area, derived.area, `שטח שגוי ברשומה ${record.id}`);
     }
   }
 });
