@@ -11,5 +11,11 @@
   "mode": "source-plus-enrichment",
   "sourceTitle": "שטחים והיקפים במערכת הצירים",
   "sourceQuestions": 30,
-  "progressPercent": 21
+  "progressPercent": 39,
+  "builtPages": 25,
+  "plannedContentPages": 75,
+  "verifiedCoordinateDiagrams": 34,
+  "verifiedTasks": 101,
+  "verifiedAnswerSlots": 445,
+  "automatedChecks": 68
 }
