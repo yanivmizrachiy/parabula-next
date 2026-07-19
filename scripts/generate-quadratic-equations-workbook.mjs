@@ -106,7 +106,6 @@ const renderPage = (page, index) => {
     <main class="a4-page page-${page.globalNumber} quadratic-page count-${page.exercises.length}" data-section="${page.number}" data-local-page="${page.localNumber}">
       <header class="header-container">
         <div class="title-wrap">
-          <div class="eyebrow">תרגול מדורג לכיתה ט׳ · חלק ${page.sectionPage} מתוך ${page.sectionPageCount}</div>
           ${renderTitle(page.title, page.number)}
         </div>
         <div class="page-number">${page.localNumber}</div>
@@ -128,7 +127,7 @@ const renderPage = (page, index) => {
 
       <footer class="quadratic-footer">
         <span>יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</span>
-        <span>משוואות ריבועיות · ${exerciseCount} תרגילים מקוריים · פי 2 מחוברת המקור (${sourceExerciseCount})</span>
+        <span>הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</span>
       </footer>
     </main>
   </body>

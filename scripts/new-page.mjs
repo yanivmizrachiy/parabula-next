@@ -122,6 +122,11 @@ function buildNewPageHtml({
           <div class="q-text">תוכן חדש</div>
         </div>
       </div>
+
+      <footer class="gz-footer">
+        <div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div>
+        <div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div>
+      </footer>
     </main>
   </body>
 </html>

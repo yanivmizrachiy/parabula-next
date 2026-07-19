@@ -15,12 +15,21 @@
   white-space: nowrap;
 }
 
+/* התמונה מתכווצת כדי לפנות מקום לקרדיט; object-fit שומר על יחס הסריקה. */
 .ratio-import-image {
   display: block;
   inline-size: 100%;
-  block-size: 100%;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  block-size: auto;
   object-fit: contain;
   background: #fff;
+}
+
+/* לדף הסרוק אין padding, ולכן הקרדיט מקבל שוליים משלו. */
+.ratio-import-page > .gz-footer {
+  padding-inline: 10mm;
+  padding-bottom: 3mm;
 }
 
 @media print {
@@ -31,7 +40,7 @@
   }
 
   .ratio-import-image {
-    inline-size: 210mm;
-    block-size: 297mm;
+    inline-size: 100%;
+    block-size: auto;
   }
 }
