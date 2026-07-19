@@ -37,6 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+      PLAYWRIGHT_BROWSERS_PATH: /home/runner/.cache/ms-playwright
 
     steps:
       - uses: actions/checkout@v4
@@ -48,15 +49,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install build tools
+      - name: Install Playwright and browsers
         working-directory: projects/coordinate-first-quadrant-workbook
         run: |
           npm install --no-save --package-lock=false playwright@1.55.0
-
-      - name: Install Playwright chromium browser
-        working-directory: projects/coordinate-first-quadrant-workbook
-        run: |
-          npx playwright install chromium --with-deps
+          npx playwright install --with-deps chromium chromium-headless-shell
 
       - name: Build and audit workbook
         id: workbook_build
