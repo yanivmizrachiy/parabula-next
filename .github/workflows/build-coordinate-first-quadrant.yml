@@ -48,6 +48,11 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y poppler-utils
+
       - name: Install build tools
         working-directory: projects/coordinate-first-quadrant-workbook
         run: |
@@ -67,6 +72,7 @@ jobs:
           echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
           echo "Using browser: $CHROME"
           "$CHROME" --version
+          pdfinfo -v
 
       - name: Build and audit workbook
         id: workbook_build
