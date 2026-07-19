@@ -35,7 +35,7 @@ const waitForServer = async () => {
 let browser;
 try {
   await waitForServer();
-  browser = await chromium.launch();
+    browser = await chromium.launch({ headless: false, args: ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage'] });
   const browserPage = await browser.newPage({ viewport: { width: 794, height: 1123 } });
   await browserPage.emulateMedia({ media: 'print' });
 
