@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - content/coordinate-first-quadrant-final
+      - main
     paths-ignore:
       - projects/coordinate-first-quadrant-workbook/dist/**
       - projects/coordinate-first-quadrant-workbook/downloads/**
@@ -42,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+      PLAYWRIGHT_BROWSERS_PATH: /home/runner/.cache/ms-playwright
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,15 +57,8 @@ jobs:
           sudo apt-get update >/tmp/apt-update.log
           sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Locate system Chrome
-        run: |
-          CHROME_PATH="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          if [ -z "$CHROME_PATH" ]; then
-            echo "No system Chrome or Chromium executable was found." >&2
-            exit 1
-          fi
-          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
-          "$CHROME_PATH" --version
+      - name: Install Playwright browsers
+        run: npx playwright install chromium-headless-shell --with-deps
       - name: Build and audit workbook
         id: workbook_build
         continue-on-error: true
@@ -82,7 +77,7 @@ jobs:
             projects/coordinate-first-quadrant-workbook/preview \
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json \
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
-          git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
+          git diff --cached --quiet || git commit -m "build(coordinate-workbook): generate verified outputs"
           git push origin HEAD:"${TARGET_BRANCH}"
       - uses: actions/upload-artifact@v4
         if: always()
