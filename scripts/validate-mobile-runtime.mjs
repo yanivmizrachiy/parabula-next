@@ -157,7 +157,7 @@ async function runBrowserAudit() {
     await page.goto(`${started.origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
     // הניווט הוא עץ תכנית הלימודים: שורשי העץ הם צמתי הפתיחה, והעלים
-    // בלבד נושאים .topic-btn — הילדים מרונדרים עצלנית בעת פתיחה (§4.4).
+    // בלבד נושאים .topic-btn — הילדים מרונדרים עצלנית בעת פתיחה (§4.5).
     await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
     const expectedRoots = (meta?.curriculum?.nodes || []).length;
     const actualRoots = await page.locator('#topicStrip > .topic-node').count();

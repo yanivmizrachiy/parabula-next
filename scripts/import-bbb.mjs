@@ -1,4 +1,4 @@
-// scripts/import-bbb.mjs — ממיר ספרי bbb לדפי עבודה קנוניים (CLAUDE.md §5, §11)
+// scripts/import-bbb.mjs — ממיר ספרי bbb לדפי עבודה קנוניים (CLAUDE.md §1, §3–§4)
 //
 // שימוש: node scripts/import-bbb.mjs --book=algebra [--assets=<דרך לתיקיית assets של המקור>]
 //
@@ -18,7 +18,7 @@ const ROOT = process.cwd();
 const PROTECTED_MAX_PAGE = 98; // לעולם לא נוגעים בעמוד-1..98
 const SITE_BASE = 'https://yanivmizrachiy.github.io/parabula-next';
 const SAFETY_PX = 14; // מרווח ביטחון בתחתית הדף בעת אריזה (מונע גלישה משונות רינדור זעירות)
-const MIN_UTIL = 50; // סף ניצול A4 (CLAUDE.md §5)
+const MIN_UTIL = 50; // סף ניצול A4 (CLAUDE.md §4)
 const STRETCH_BELOW_UTIL = 72; // מתחת לזה מותחים את הפריסה לגובה מלא (עיצוב בלבד)
 
 const BOOKS = {
@@ -129,7 +129,7 @@ function canonicalText(html) {
 function transformItemHtml(html, book, assetStats) {
   let out = html;
 
-  // dir="ltr" -> class="ltr" (LTR מוגדר ב-CSS בלבד לפי CLAUDE.md §7)
+  // dir="ltr" -> class="ltr" (LTR מוגדר ב-CSS בלבד לפי CLAUDE.md §4)
   out = out.replaceAll('<span dir="ltr">', '<span class="ltr">');
 
   // KaTeX data-tex -> MathJax inline \( ... \), ה-TeX עצמו נשמר 1:1
@@ -662,9 +662,9 @@ function pageCss(book, n, stretchMode, zoom) {
   const rel = `../topics/${path.basename(book.topicCss)}`;
   let css = `@import url('${rel}');\n`;
   if (zoom) {
-    css += `\n/* התאמת קנה-מידה לגובה A4 (CLAUDE.md §5) — הקטנה קריאה שמכניסה שאלה גבוהה, אפס שינוי תוכן */\n.page-${n} .question-block { zoom: ${zoom}; }\n`;
+    css += `\n/* התאמת קנה-מידה לגובה A4 (CLAUDE.md §4) — הקטנה קריאה שמכניסה שאלה גבוהה, אפס שינוי תוכן */\n.page-${n} .question-block { zoom: ${zoom}; }\n`;
   } else if (stretchMode === 'cards') {
-    css += `\n/* ניצול מלא של גובה ה-A4 (CLAUDE.md §5) — פריסה בלבד, אפס שינוי תוכן:\n   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */\n.page-${n} .question-block > .q, .page-${n} .question-block > .note { flex: 1 0 auto; }\n`;
+    css += `\n/* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) — פריסה בלבד, אפס שינוי תוכן:\n   כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */\n.page-${n} .question-block > .q, .page-${n} .question-block > .note { flex: 1 0 auto; }\n`;
   }
   return css;
 }
@@ -752,7 +752,7 @@ async function main() {
       console.log(`[import-bbb] שאלה גבוהה פוצלה ל-${pieces.length} עמודים (נאמנות נשמרה)`);
     }
     items = expanded;
-    // קנה-מידה שמכניס דף שגולש (CLAUDE.md §5: הקטנה קריאה, אפס שינוי תוכן). null אם כבר נכנס.
+    // קנה-מידה שמכניס דף שגולש (CLAUDE.md §4: הקטנה קריאה, אפס שינוי תוכן). null אם כבר נכנס.
     const fitScale = async (list) => {
       const m0 = await measure(list);
       if (fits(m0)) return null;
@@ -822,7 +822,7 @@ async function main() {
       }
     }
 
-    // ---- אימות סופי לכל דף + החלטת מתיחה (CLAUDE.md §5: מותחים פריסה, לא ממציאים תוכן) ----
+    // ---- אימות סופי לכל דף + החלטת מתיחה (CLAUDE.md §1, §4: מותחים פריסה, לא ממציאים תוכן) ----
     console.log('[import-bbb] תוצאות עימוד:');
     for (let p = 0; p < pagesItems.length; p += 1) {
       const list = pagesItems[p];
@@ -848,7 +848,7 @@ async function main() {
         }
       }
       if (finalUtil < 25) fail(`דף ${p + 1} בניצול ${finalUtil}% (<25%) — חשד לבאג עימוד, לא זנב-פרק לגיטימי`);
-      const sparse = finalUtil < MIN_UTIL; // זנב-פרק דליל נאמן למקור (§5: חריגה מתועדת)
+      const sparse = finalUtil < MIN_UTIL; // זנב-פרק דליל נאמן למקור (§4: חריגה מתועדת)
       paginated.push({ list, utilization: m.utilization, finalUtil, stretchMode, zoom, sparse });
       console.log(`  דף ${String(p + 1).padStart(2)}: ${String(list.length).padStart(2)} פריטים, ניצול ${finalUtil}%${zoom ? ` (קנה-מידה ${zoom})` : stretchMode ? ` (מתיחת ${stretchMode})` : ''}${sparse ? ' [זנב-פרק דליל — חריגה מתועדת]' : ''}`);
     }

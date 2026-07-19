@@ -1,5 +1,5 @@
 /* styles/topics/bbb-geometry8.css — עיצוב משותף לנושא "גאומטריה לכיתה ח'" (ייבוא bbb)
-   כל ה-selectors scoped ל-.bbb-geometry8-page בלבד (CLAUDE.md §6).
+   כל ה-selectors scoped ל-.bbb-geometry8-page בלבד (CLAUDE.md §2).
    הטקסט הלימודי מגיע 1:1 מ-sources/bbb/geometry8/worksheet.html — כאן עיצוב בלבד. */
 
 .bbb-geometry8-page { color: var(--text-main); }
@@ -20,7 +20,7 @@
 .bbb-geometry8-page .qbody { font-size: 15px; line-height: 1.5; }
 .bbb-geometry8-page .qbody p { margin: 4px 0; }
 
-/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §7) */
+/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §4) */
 .bbb-geometry8-page .ltr, .bbb-geometry8-page .math { direction: ltr; unicode-bidi: isolate; }
 
 /* סעיפים א/ב/ג */
@@ -71,7 +71,7 @@
 .bbb-geometry8-page table.tbl thead th, .bbb-geometry8-page table.wtbl thead th { background: var(--bg-subtle); font-weight: 500 !important; }
 .bbb-geometry8-page table.tbl .abox, .bbb-geometry8-page table.wtbl .abox { display: block; margin: 0 auto; }
 
-/* איורים וגרפים וקטוריים (CLAUDE.md §8) */
+/* איורים וגרפים וקטוריים (CLAUDE.md §4) */
 .bbb-geometry8-page .figure { margin: 6px auto 2px; text-align: center; break-inside: avoid; page-break-inside: avoid; }
 .bbb-geometry8-page .cap { font-size: 12.5px; color: #475569; margin-top: 2px; font-weight: 500 !important; }
 .bbb-geometry8-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 235mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
@@ -102,7 +102,7 @@
 .bbb-geometry8-page .q.q-cont { border-top: none; }
 .bbb-geometry8-page .q.q-cont > .qbody { margin-top: 0; }
 
-/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§6: אין inline style; הצהרות מדויקות) */
+/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§3: אין inline style; הצהרות מדויקות) */
 .bbb-geometry8-page .bs-1 { min-width:110px; }
 .bbb-geometry8-page .bs-2 { max-width:52%; margin-inline:auto; }
 .bbb-geometry8-page .bs-3 { min-width:64px; }

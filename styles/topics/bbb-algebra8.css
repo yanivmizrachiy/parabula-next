@@ -1,5 +1,5 @@
 /* styles/topics/bbb-algebra8.css — עיצוב משותף לנושא "אלגברה לכיתה ח'" (ייבוא bbb)
-   כל ה-selectors scoped ל-.bbb-algebra8-page בלבד (CLAUDE.md §6).
+   כל ה-selectors scoped ל-.bbb-algebra8-page בלבד (CLAUDE.md §2).
    הטקסט הלימודי מגיע 1:1 מ-sources/bbb/algebra8/worksheet.html — כאן עיצוב בלבד. */
 
 .bbb-algebra8-page { color: var(--text-main); }
@@ -20,7 +20,7 @@
 .bbb-algebra8-page .qbody { font-size: 15px; line-height: 1.5; }
 .bbb-algebra8-page .qbody p { margin: 4px 0; }
 
-/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §7) */
+/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §4) */
 .bbb-algebra8-page .ltr, .bbb-algebra8-page .math { direction: ltr; unicode-bidi: isolate; }
 
 /* סעיפים א/ב/ג */
@@ -71,7 +71,7 @@
 .bbb-algebra8-page table.tbl thead th, .bbb-algebra8-page table.wtbl thead th { background: var(--bg-subtle); font-weight: 500 !important; }
 .bbb-algebra8-page table.tbl .abox, .bbb-algebra8-page table.wtbl .abox { display: block; margin: 0 auto; }
 
-/* איורים וגרפים וקטוריים (CLAUDE.md §8) */
+/* איורים וגרפים וקטוריים (CLAUDE.md §4) */
 .bbb-algebra8-page .figure { margin: 6px auto 2px; text-align: center; break-inside: avoid; page-break-inside: avoid; }
 .bbb-algebra8-page .cap { font-size: 12.5px; color: #475569; margin-top: 2px; font-weight: 500 !important; }
 .bbb-algebra8-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 235mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
@@ -102,7 +102,7 @@
 .bbb-algebra8-page .q.q-cont { border-top: none; }
 .bbb-algebra8-page .q.q-cont > .qbody { margin-top: 0; }
 
-/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§6: אין inline style; הצהרות מדויקות) */
+/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§3: אין inline style; הצהרות מדויקות) */
 .bbb-algebra8-page .bs-1 { direction:ltr; unicode-bidi:isolate; }
 .bbb-algebra8-page .bs-2 { max-width:76%; }
 .bbb-algebra8-page .bs-3 { min-width:72px; }
