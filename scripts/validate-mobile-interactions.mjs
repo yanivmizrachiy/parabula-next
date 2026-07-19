@@ -179,7 +179,7 @@ async function runAndroid(origin, chromium) {
     if (second) {
       await page.locator('#nextPageBtn').click();
       await waitForFrame(page, second.file);
-      add('android-next-navigation', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${second.number}`), second.file);
+      add('android-next-navigation', (await page.locator('#currentPageTitle').textContent()) === (second.title || second.h1 || second.file), second.file);
     }
 
     await ensurePanelOpen(page);
@@ -222,7 +222,7 @@ async function runAndroid(origin, chromium) {
     if (third) {
       await page.locator('#nextPageBtn').click();
       await page.waitForTimeout(800);
-      add('scroll-next-navigates-stack', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${third.number}`), `${third.file}: ${await page.locator('#currentPageMeta').textContent()}`);
+      add('scroll-next-navigates-stack', (await page.locator('#currentPageTitle').textContent()) === (third.title || third.h1 || third.file), `${third.file}: ${await page.locator('#currentPageTitle').textContent()}`);
     }
 
     await page.evaluate(file => {
@@ -231,7 +231,7 @@ async function runAndroid(origin, chromium) {
       if (stack && target) stack.scrollTop = target.offsetTop;
     }, fifth.file);
     await page.waitForTimeout(500);
-    add('scroll-current-page-sync', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${fifth.number}`), `${fifth.file}: ${await page.locator('#currentPageMeta').textContent()}`);
+    add('scroll-current-page-sync', (await page.locator('#currentPageTitle').textContent()) === (fifth.title || fifth.h1 || fifth.file), `${fifth.file}: ${await page.locator('#currentPageTitle').textContent()}`);
     add('scroll-window-stays-bounded', await page.locator('.m-sheet iframe').count() <= 7, `iframes=${await page.locator('.m-sheet iframe').count()}`);
 
     const anotherTopic = populatedNodes.find(item => item.id !== topic.id && item.pages.length >= 2);

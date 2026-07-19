@@ -198,7 +198,7 @@ async function runBrowserAudit() {
     if (second) {
       await page.locator('#nextPageBtn').click();
       await waitForWorksheetFrame(page, second.file);
-      add('browser-next-navigation', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${second.number}`), second.file);
+      add('browser-next-navigation', (await page.locator('#currentPageTitle').textContent()) === (second.title || second.h1 || second.file), second.file);
     }
 
     const popupPromise = context.waitForEvent('page');
