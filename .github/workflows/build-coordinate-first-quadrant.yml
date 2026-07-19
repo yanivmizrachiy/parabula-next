@@ -53,10 +53,20 @@ jobs:
         run: |
           npm install --no-save --package-lock=false playwright@1.55.0
 
-      - name: Install Playwright chromium browser
-        working-directory: projects/coordinate-first-quadrant-workbook
+      - name: Locate system Chrome and set CHROME_PATH
         run: |
-          npx playwright install chromium --with-deps
+          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
+          if [ -z "$CHROME" ]; then
+            echo "No system Chrome found, installing google-chrome-stable..."
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update -q
+            sudo apt-get install -y google-chrome-stable
+            CHROME=$(command -v google-chrome-stable)
+          fi
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          echo "Using browser: $CHROME"
+          "$CHROME" --version
 
       - name: Build and audit workbook
         id: workbook_build
@@ -97,4 +107,7 @@ jobs:
 
       - name: Fail when workbook build failed
         if: steps.workbook_build.outcome != 'success'
-        run: exit 1
+        run: |
+          echo "Build failed! See audit/build.log for details."
+          cat projects/coordinate-first-quadrant-workbook/audit/build.log || true
+          exit 1
