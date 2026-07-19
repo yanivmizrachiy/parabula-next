@@ -21,7 +21,8 @@ const state = {
   pages: [],        // מערך שטוח בסדר הקריאה של topics.json
   curriculum: [],   // עץ תכנית הלימודים מתוך topics.json
   nodeById: new Map(),    // מזהה צומת → הצומת עצמו
-  pagesByNode: new Map(), // מזהה צומת → דפים המשויכים לו ישירות
+  pagesByNode: new Map(), // מזהה צומת → דפים המוצגים בו ישירות (ראשי + משני)
+  activeNodeId: '',         // ההקשר שבו הדף נפתח; חשוב לדף שמוצג בשני נושאים
   openNodes: new Set(),   // צמתים שהמשתמש פתח במפורש (נשמר בין סשנים)
   index: -1,        // אינדקס הדף הנוכחי במערך השטוח
   mode: 'single',   // single | spread | scroll
@@ -66,9 +67,10 @@ async function boot() {
     })(state.curriculum);
     state.pagesByNode = new Map();
     for (const page of state.pages) {
-      if (!page.curriculumId) continue;
-      if (!state.pagesByNode.has(page.curriculumId)) state.pagesByNode.set(page.curriculumId, []);
-      state.pagesByNode.get(page.curriculumId).push(page);
+      for (const nodeId of pagePlacementIds(page)) {
+        if (!state.pagesByNode.has(nodeId)) state.pagesByNode.set(nodeId, []);
+        state.pagesByNode.get(nodeId).push(page);
+      }
     }
     // רשת ביטחון: דף שאין לו שיוך מוכר לא נעלם — הוא מקובץ לצומת גלוי בסוף העץ
     const orphans = state.pages.filter((page) => !state.nodeById.has(page.curriculumId));
@@ -92,9 +94,14 @@ async function boot() {
     // סדר הקריאה של הספר נגזר מהעץ. בלי זה דפי נושא אינם רצופים במערך השטוח
     // (24 מתוך 58 הנושאים), ואז מעבר דף בגלילה ובכפולה קופץ אל מחוץ לנושא.
     const ordered = [];
+    const orderedFiles = new Set();
     (function walkOrder(nodes) {
       for (const node of nodes) {
-        ordered.push(...(state.pagesByNode.get(node.id) || []));
+        for (const page of state.pagesByNode.get(node.id) || []) {
+          if (page.curriculumId !== node.id || orderedFiles.has(page.file)) continue;
+          ordered.push(page);
+          orderedFiles.add(page.file);
+        }
         if (node.children?.length) walkOrder(node.children);
       }
     })(state.curriculum);
@@ -106,14 +113,10 @@ async function boot() {
     // ההדפסה. צומת שמאגד כמה נושאים שטוחים שומר על רצף כל נושא בפני עצמו.
     const topicOrder = new Map(state.topics.map((t, i) => [t.name, i]));
     const localOf = (page) => Number((String(page.title).match(/עמוד\s+(\d+)/) || [])[1] || page.number);
-    for (const list of state.pagesByNode.values()) {
+    for (const [nodeId, list] of state.pagesByNode) {
       list.sort((a, b) =>
+        Number(a.curriculumId !== nodeId) - Number(b.curriculumId !== nodeId) ||
         (topicOrder.get(a.topic) ?? 0) - (topicOrder.get(b.topic) ?? 0) || localOf(a) - localOf(b));
-    }
-
-    // מיקום הדף בתוך הנושא שלו בתכנית הלימודים (ולא בתוך הקבוצה השטוחה)
-    for (const list of state.pagesByNode.values()) {
-      list.forEach((page, i) => { page.nodeIndex = i + 1; page.nodeTotal = list.length; });
     }
 
     const totalPages = data.totalPages || state.pages.length;
@@ -194,7 +197,22 @@ function nodePathOf(id) {
   return names.join(' · ');
 }
 
-function buildPageItem(page, ordinal) {
+function pagePlacementIds(page) {
+  return [...new Set([page?.curriculumId, ...(page?.relatedCurriculumIds || [])].filter(Boolean))];
+}
+function pageBelongsToNode(page, nodeId) {
+  return Boolean(nodeId) && pagePlacementIds(page).includes(nodeId);
+}
+function activeNodeOf(page) {
+  return pageBelongsToNode(page, state.activeNodeId) ? state.activeNodeId : (page?.curriculumId || '');
+}
+function pagePositionInNode(page, nodeId = activeNodeOf(page)) {
+  const list = state.pagesByNode.get(nodeId) || [];
+  const index = list.findIndex((item) => item.file === page?.file);
+  return { index: index >= 0 ? index + 1 : 1, total: list.length || 1 };
+}
+
+function buildPageItem(page, ordinal, nodeId) {
   const globalIdx = state.pages.findIndex((x) => x.file === page.file);
   const item = document.createElement('button');
   item.type = 'button';
@@ -212,7 +230,7 @@ function buildPageItem(page, ordinal) {
   title.className = 'tp-title';
   title.textContent = (page.h1 || page.title || page.file);
   item.append(check, num, title);
-  item.addEventListener('click', () => goTo(globalIdx));
+  item.addEventListener('click', () => goTo(globalIdx, { nodeId }));
   return item;
 }
 
@@ -245,7 +263,7 @@ function buildNode(node, depth, openIds) {
     // צומת עלה עם דפים → מעבר לדף הראשון שבו
     if (open && pages.length) {
       const first = state.pages.findIndex((p) => p.file === pages[0].file);
-      if (first >= 0) goTo(first);
+      if (first >= 0) goTo(first, { nodeId: node.id });
     }
   });
   wrap.appendChild(head);
@@ -253,7 +271,7 @@ function buildNode(node, depth, openIds) {
   if (pages.length) {
     const pagesBox = document.createElement('div');
     pagesBox.className = 'toc-pages';
-    pages.forEach((page, i) => pagesBox.appendChild(buildPageItem(page, i + 1)));
+    pages.forEach((page, i) => pagesBox.appendChild(buildPageItem(page, i + 1, node.id)));
     wrap.appendChild(pagesBox);
   }
 
@@ -281,11 +299,11 @@ function renderTOC() {
 function syncTOCActive() {
   const page = state.pages[state.index];
   if (!page) return;
-  dom.tocList.querySelectorAll('.toc-page').forEach((el) =>
-    el.classList.toggle('is-active', el.dataset.file === page.file));
-
-  // מזהי הצמתים נגזרים זה מזה בנקודות, ולכן שרשרת האבות נקבעת מהמחרוזת עצמה
-  const activeId = page.curriculumId || '';
+  const activeId = activeNodeOf(page);
+  dom.tocList.querySelectorAll('.toc-page').forEach((el) => {
+    const nodeId = el.closest('.toc-node')?.dataset.nodeId || '';
+    el.classList.toggle('is-active', el.dataset.file === page.file && nodeId === activeId);
+  });
   dom.tocList.querySelectorAll('.toc-node').forEach((el) => {
     const id = el.dataset.nodeId;
     const isActive = activeId === id;
@@ -433,6 +451,8 @@ function goTo(index, opts = {}) {
   if (index < 0 || index >= state.pages.length) return;
   state.index = index;
   const page = state.pages[index];
+  const requestedNode = opts.nodeId || state.activeNodeId;
+  state.activeNodeId = pageBelongsToNode(page, requestedNode) ? requestedNode : (page.curriculumId || '');
   localStorage.setItem(LS_POS, page.file);
   render();
   syncTOCActive();
@@ -499,6 +519,8 @@ function render() {
   if (!page) return;
 
   dom.sheets.innerHTML = '';
+  const activeNodeId = activeNodeOf(page);
+  const position = pagePositionInNode(page, activeNodeId);
 
   if (state.mode === 'single') {
     const scale = computeScale(1);
@@ -506,7 +528,7 @@ function render() {
     dom.sheets.appendChild(sheet);
     sizeSheet(sheet, scale);
     dom.readerTitle.textContent = page.title || page.h1 || page.file;
-    dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
+    dom.readerMeta.textContent = `${nodePathOf(activeNodeId)} · עמוד ${position.index} מתוך ${position.total}`;
     dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
   } else if (state.mode === 'spread') {
@@ -514,17 +536,18 @@ function render() {
     const scale = computeScale(2);
     const second = state.pages[state.index + 1];
     const pair = [page];
-    if (second && second.curriculumId === page.curriculumId) pair.push(second);
+    if (second && pageBelongsToNode(second, activeNodeId)) pair.push(second);
     pair.forEach((p) => { const sh = makeSheet(p, false); dom.sheets.appendChild(sh); sizeSheet(sh, scale); });
     dom.readerTitle.textContent = page.title || page.h1 || page.file;
+    const secondPosition = pair.length === 2 ? pagePositionInNode(pair[1], activeNodeId) : null;
     dom.readerMeta.textContent = pair.length === 2
-      ? `${nodePathOf(page.curriculumId)} · עמודים ${page.nodeIndex}–${pair[1].nodeIndex} מתוך ${page.nodeTotal}`
-      : `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
+      ? `${nodePathOf(activeNodeId)} · עמודים ${position.index}–${secondPosition.index} מתוך ${position.total}`
+      : `${nodePathOf(activeNodeId)} · עמוד ${position.index} מתוך ${position.total}`;
     dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
   } else { // scroll — כל דפי הנושא הנוכחי, בטעינה עצלה
     const scale = computeScale(1);
-    const topicPages = state.pagesByNode.get(page.curriculumId) || [page];
+    const topicPages = state.pagesByNode.get(activeNodeId) || [page];
     topicPages.forEach((p) => {
       const sheet = makeSheet(p, true);
       dom.sheets.appendChild(sheet);
@@ -560,8 +583,10 @@ function applyScale() {
 
 /** עדכון שורת המידע וההתקדמות לדף נתון במצב גלילה (בלי רינדור מחדש). */
 function updateScrollBarInfo(page) {
+  const nodeId = activeNodeOf(page);
+  const position = pagePositionInNode(page, nodeId);
   dom.readerTitle.textContent = page.title || page.h1 || page.file;
-  dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal} · גלילה רציפה`;
+  dom.readerMeta.textContent = `${nodePathOf(nodeId)} · עמוד ${position.index} מתוך ${position.total} · גלילה רציפה`;
   dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 }
 
@@ -748,10 +773,11 @@ function bind() {
     const page = cur();
     if (!page) return;
     // "פרק" הוא כעת צומת תכנית הלימודים שאליו הדף משויך
-    const siblings = state.pagesByNode.get(page.curriculumId) || [];
+    const nodeId = activeNodeOf(page);
+    const siblings = state.pagesByNode.get(nodeId) || [];
     if (!siblings.length) return ParabulaActions.printTopic(page.topic);
     ParabulaActions.printFiles(siblings.map((p) => p.file), {
-      busyText: `מכין ${siblings.length} דפים בנושא "${nodeNameOf(page.curriculumId)}"…`,
+      busyText: `מכין ${siblings.length} דפים בנושא "${nodeNameOf(nodeId)}"…`,
     });
   });
 

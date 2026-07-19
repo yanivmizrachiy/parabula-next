@@ -1,32 +1,29 @@
 // scripts/validate-curriculum.mjs
 // שער CI לתכנית הלימודים. קורא read-only ואינו משנה דף עבודה או מטא־דאטה.
-// הרצה: node scripts/validate-curriculum.mjs
-//
-// הבדיקה נגזרת מהנתונים בפועל בכל הרצה — אין כאן ספירה קשיחה של דפים או נושאים.
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { CURRICULUM, walkCurriculum } from './curriculum-map.mjs';
+import {
+  CURRICULUM,
+  buildPageIndex,
+  buildRelatedPageIndex,
+  walkCurriculum,
+} from './curriculum-map.mjs';
 
 const root = process.cwd();
 const topicsPath = path.join(root, 'meta', 'topics.json');
 const pagePattern = /^עמוד-(\d+)\.html$/;
-
 const errors = [];
-const check = (condition, message) => {
-  if (!condition) errors.push(message);
-};
+const check = (condition, message) => { if (!condition) errors.push(message); };
 
 const topics = JSON.parse(fs.readFileSync(topicsPath, 'utf-8'));
 const curriculum = topics.curriculum;
-
 check(Boolean(curriculum), 'meta/topics.json חסר את המפתח curriculum');
 if (!curriculum) {
   console.error('VALIDATE_CURRICULUM_FAIL\n - ' + errors.join('\n - '));
   process.exit(1);
 }
 
-// ── שטיחת העץ ──────────────────────────────────────────────────────────
 const flat = [];
 const walk = (nodes, depth, parentId) => {
   for (const node of nodes) {
@@ -36,133 +33,110 @@ const walk = (nodes, depth, parentId) => {
 };
 walk(curriculum.nodes, 0, null);
 
-// ── העץ השמור מושווה למקור, לא לעצמו ──────────────────────────────────
-// בלי זה אפשר למחוק צומת ריק מ-topics.json ולעדכן את שלושת הסיכומים,
-// והבדיקה תעבור — כי כל הספירות נגזרות מאותו עץ שנבדק. השוואה למפה
-// היא מה שמגן על אינווריאנט "בית ריק" של §4.5.
 const mapIds = new Set(walkCurriculum(CURRICULUM).map((entry) => entry.node.id));
 const storedIds = new Set(flat.map(({ node }) => node.id));
-for (const id of mapIds) {
-  check(storedIds.has(id), `הצומת ${id} קיים ב-curriculum-map.mjs וחסר ב-meta/topics.json`);
-}
-for (const id of storedIds) {
-  check(mapIds.has(id), `הצומת ${id} קיים ב-meta/topics.json ואינו במפה`);
-}
+for (const id of mapIds) check(storedIds.has(id), `הצומת ${id} קיים במפה וחסר ב-meta/topics.json`);
+for (const id of storedIds) check(mapIds.has(id), `הצומת ${id} קיים ב-meta/topics.json ואינו במפה`);
 
-// ── מזהים ייחודיים ותקינים ─────────────────────────────────────────────
 const seen = new Set();
 for (const { node, parentId } of flat) {
   check(!seen.has(node.id), `מזהה צומת כפול: ${node.id}`);
   seen.add(node.id);
   check(typeof node.name === 'string' && node.name.length > 0, `צומת ללא שם: ${node.id}`);
-  if (parentId) {
-    check(
-      node.id.startsWith(`${parentId}.`),
-      `מזהה הצומת ${node.id} אינו נגזר ממזהה האב ${parentId}`,
-    );
-  }
+  if (parentId) check(node.id.startsWith(`${parentId}.`), `מזהה ${node.id} אינו נגזר מהאב ${parentId}`);
 }
 
-// ── כל דף רשום משויך לעלה קיים, בדיוק פעם אחת ─────────────────────────
 const leafIds = new Set(flat.filter(({ node }) => !node.children?.length).map(({ node }) => node.id));
+const sourcePrimary = buildPageIndex();
+const sourceRelated = buildRelatedPageIndex();
 const registered = new Map();
+const placementIdsOf = (page) => [page.curriculumId, ...(page.relatedCurriculumIds ?? [])];
+
 for (const topic of topics.topics) {
   for (const page of topic.pages) {
     check(!registered.has(page.number), `דף ${page.number} מופיע פעמיים ב־topics.json`);
     registered.set(page.number, page);
-    check(
-      typeof page.curriculumId === 'string' && page.curriculumId.length > 0,
-      `דף ${page.number} חסר curriculumId`,
-    );
-    check(
-      leafIds.has(page.curriculumId),
-      `דף ${page.number} משויך אל ${page.curriculumId} שאינו צומת עלה קיים`,
-    );
+    check(leafIds.has(page.curriculumId), `דף ${page.number} משויך אל עלה לא קיים: ${page.curriculumId}`);
+    check(sourcePrimary.get(page.number) === page.curriculumId,
+      `הבית הראשי של דף ${page.number} אינו תואם למפה`);
+
+    const related = page.relatedCurriculumIds ?? [];
+    check(Array.isArray(related), `relatedCurriculumIds של דף ${page.number} אינו מערך`);
+    check(new Set(related).size === related.length, `cross-listing כפול בדף ${page.number}`);
+    const expected = [...(sourceRelated.get(page.number) ?? [])].sort();
+    const actual = [...related].sort();
+    check(JSON.stringify(actual) === JSON.stringify(expected),
+      `cross-listing של דף ${page.number} אינו תואם למפה`);
+    for (const nodeId of related) {
+      check(leafIds.has(nodeId), `דף ${page.number} מוצג בצומת לא קיים: ${nodeId}`);
+      check(nodeId !== page.curriculumId, `דף ${page.number} מוצג שוב בבית הראשי שלו`);
+      check(nodeId.split('.')[0] === page.curriculumId.split('.')[0],
+        `דף ${page.number} מוצג בשכבת גיל אחרת: ${page.curriculumId} → ${nodeId}`);
+    }
   }
 }
 
-// ── המונים נגזרים מחדש ומושווים לערכים השמורים ────────────────────────
+for (const number of sourcePrimary.keys()) check(registered.has(number), `דף ${number} קיים במפה וחסר במטא־דאטה`);
+for (const number of sourceRelated.keys()) check(registered.has(number), `cross-listing לדף ${number} שחסר במטא־דאטה`);
+
 const directByNode = new Map();
-for (const page of registered.values()) {
-  directByNode.set(page.curriculumId, (directByNode.get(page.curriculumId) ?? 0) + 1);
+for (const [number, page] of registered) {
+  for (const nodeId of placementIdsOf(page)) {
+    if (!directByNode.has(nodeId)) directByNode.set(nodeId, new Set());
+    directByNode.get(nodeId).add(number);
+  }
 }
 
 const recompute = (node) => {
-  const direct = directByNode.get(node.id) ?? 0;
-  const childTotal = (node.children ?? []).reduce((sum, child) => sum + recompute(child), 0);
-  const total = direct + childTotal;
-  check(
-    node.directCount === direct,
-    `directCount שגוי בצומת ${node.id}: רשום ${node.directCount}, נגזר ${direct}`,
-  );
-  check(
-    node.pageCount === total,
-    `pageCount שגוי בצומת ${node.id}: רשום ${node.pageCount}, נגזר ${total}`,
-  );
+  const direct = new Set(directByNode.get(node.id) ?? []);
+  const subtree = new Set(direct);
+  for (const child of node.children ?? []) for (const number of recompute(child)) subtree.add(number);
+  check(node.directCount === direct.size,
+    `directCount שגוי בצומת ${node.id}: רשום ${node.directCount}, נגזר ${direct.size}`);
+  check(node.pageCount === subtree.size,
+    `pageCount שגוי בצומת ${node.id}: רשום ${node.pageCount}, נגזר ${subtree.size}`);
   const listed = new Set(node.pages ?? []);
-  check(
-    listed.size === direct,
-    `רשימת pages בצומת ${node.id} מכילה ${listed.size} דפים אך נגזרו ${direct}`,
-  );
-  // שני הכיוונים: כל דף ברשימה שייך לצומת, וכל דף ששייך לצומת מופיע ברשימה.
-  // בדיקה בכיוון אחד בלבד מאפשרת החלפה ששומרת על האורך.
-  for (const number of listed) {
-    check(
-      registered.get(number)?.curriculumId === node.id,
-      `הצומת ${node.id} מונה את דף ${number} שאינו משויך אליו`,
-    );
-  }
-  for (const [number, page] of registered) {
-    if (page.curriculumId !== node.id) continue;
-    check(listed.has(number), `דף ${number} משויך אל ${node.id} ואינו מופיע ברשימת pages שלו`);
-  }
-  return total;
+  check(listed.size === direct.size,
+    `רשימת pages בצומת ${node.id} מכילה ${listed.size} דפים אך נגזרו ${direct.size}`);
+  for (const number of listed) check(direct.has(number), `הצומת ${node.id} מונה את דף ${number} ללא placement`);
+  for (const number of direct) check(listed.has(number), `דף ${number} מוצג ב־${node.id} וחסר ברשימת pages`);
+  return subtree;
 };
-const treeTotal = curriculum.nodes.reduce((sum, node) => sum + recompute(node), 0);
 
-check(
-  treeTotal === registered.size,
-  `סכום העץ (${treeTotal}) אינו שווה למספר הדפים הרשומים (${registered.size})`,
-);
-check(
-  topics.totalPages === registered.size,
-  `totalPages (${topics.totalPages}) אינו שווה למספר הדפים הרשומים (${registered.size})`,
-);
+const allTreePages = new Set();
+for (const node of curriculum.nodes) for (const number of recompute(node)) allTreePages.add(number);
+check(allTreePages.size === registered.size,
+  `העץ מכסה ${allTreePages.size} דפים ייחודיים במקום ${registered.size}`);
+check(topics.totalPages === registered.size,
+  `totalPages (${topics.totalPages}) אינו שווה למספר הדפים הרשומים (${registered.size})`);
 
-// ── כותרות הסיכום נגזרות אף הן ─────────────────────────────────────────
 const leafTotal = flat.filter(({ node }) => !node.children?.length).length;
 const emptyLeaves = flat.filter(
-  ({ node }) => !node.children?.length && (directByNode.get(node.id) ?? 0) === 0,
+  ({ node }) => !node.children?.length && (directByNode.get(node.id)?.size ?? 0) === 0,
 ).length;
-check(curriculum.totalNodes === flat.length, `totalNodes שגוי: רשום ${curriculum.totalNodes}, נגזר ${flat.length}`);
-check(curriculum.leafNodes === leafTotal, `leafNodes שגוי: רשום ${curriculum.leafNodes}, נגזר ${leafTotal}`);
-check(
-  curriculum.emptyLeafNodes === emptyLeaves,
-  `emptyLeafNodes שגוי: רשום ${curriculum.emptyLeafNodes}, נגזר ${emptyLeaves}`,
-);
+check(curriculum.totalNodes === flat.length, `totalNodes שגוי: ${curriculum.totalNodes} מול ${flat.length}`);
+check(curriculum.leafNodes === leafTotal, `leafNodes שגוי: ${curriculum.leafNodes} מול ${leafTotal}`);
+check(curriculum.emptyLeafNodes === emptyLeaves,
+  `emptyLeafNodes שגוי: ${curriculum.emptyLeafNodes} מול ${emptyLeaves}`);
 
-// ── אף דף עבודה לא אבד: כל קובץ בדיסק רשום במטא־דאטה ──────────────────
 const filesOnDisk = fs
   .readdirSync(root)
   .map((file) => pagePattern.exec(file))
   .filter(Boolean)
   .map((match) => Number(match[1]));
 const missing = filesOnDisk.filter((number) => !registered.has(number)).sort((a, b) => a - b);
-check(missing.length === 0, `דפים קיימים בדיסק ואינם רשומים ב־topics.json: ${missing.join(', ')}`);
+check(missing.length === 0, `דפים קיימים בדיסק ואינם רשומים: ${missing.join(', ')}`);
+const orphaned = [...registered.keys()].filter((number) => !filesOnDisk.includes(number)).sort((a, b) => a - b);
+check(orphaned.length === 0, `topics.json מפנה לדפים שאינם קיימים: ${orphaned.join(', ')}`);
 
-const orphaned = [...registered.keys()]
-  .filter((number) => !filesOnDisk.includes(number))
-  .sort((a, b) => a - b);
-check(orphaned.length === 0, `topics.json מפנה לדפים שאינם קיימים בדיסק: ${orphaned.join(', ')}`);
-
-// ── דיווח ──────────────────────────────────────────────────────────────
 if (errors.length) {
   console.error(`VALIDATE_CURRICULUM_FAIL (${errors.length})`);
   for (const message of errors) console.error(` - ${message}`);
   process.exit(1);
 }
 
+const crossListings = [...sourceRelated.values()].reduce((sum, ids) => sum + ids.length, 0);
 console.log(
-  `VALIDATE_CURRICULUM_OK (${registered.size} דפים / ${flat.length} צמתים / ` +
-    `${leafTotal} עלים / ${emptyLeaves} עלים ריקים)`,
+  `VALIDATE_CURRICULUM_OK (${registered.size} דפים / ${crossListings} cross-listings / ` +
+    `${flat.length} צמתים / ${leafTotal} עלים / ${emptyLeaves} עלים ריקים)`,
 );

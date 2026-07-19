@@ -4117,7 +4117,10 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-268.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-268.html",
-          "curriculumId": "g7.geo.angles.concept"
+          "curriculumId": "g7.geo.angles.concept",
+          "relatedCurriculumIds": [
+            "g7.num.directed.axesFirst"
+          ]
         },
         {
           "number": 269,
@@ -4127,7 +4130,10 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-269.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-269.html",
-          "curriculumId": "g7.geo.angles.concept"
+          "curriculumId": "g7.geo.angles.concept",
+          "relatedCurriculumIds": [
+            "g7.num.directed.axesFirst"
+          ]
         },
         {
           "number": 270,
@@ -4137,7 +4143,10 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-270.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-270.html",
-          "curriculumId": "g7.geo.angles.concept"
+          "curriculumId": "g7.geo.angles.concept",
+          "relatedCurriculumIds": [
+            "g7.num.directed.axesFirst"
+          ]
         },
         {
           "number": 271,
@@ -4147,7 +4156,10 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-271.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-271.html",
-          "curriculumId": "g7.geo.angles.concept"
+          "curriculumId": "g7.geo.angles.concept",
+          "relatedCurriculumIds": [
+            "g7.num.directed.axesFirst"
+          ]
         }
       ]
     },
@@ -5852,7 +5864,7 @@
             "id": "g7.num",
             "name": "תחום מספרי",
             "directCount": 0,
-            "pageCount": 45,
+            "pageCount": 49,
             "children": [
               {
                 "id": "g7.num.ops",
@@ -5892,7 +5904,7 @@
                 "id": "g7.num.directed",
                 "name": "מספרים מכוונים",
                 "directCount": 0,
-                "pageCount": 45,
+                "pageCount": 49,
                 "children": [
                   {
                     "id": "g7.num.directed.intro",
@@ -5958,8 +5970,8 @@
                   {
                     "id": "g7.num.directed.axesFirst",
                     "name": "מערכת צירים - רביע ראשון בלבד",
-                    "directCount": 30,
-                    "pageCount": 30,
+                    "directCount": 34,
+                    "pageCount": 34,
                     "pages": [
                       531,
                       532,
@@ -5990,7 +6002,11 @@
                       557,
                       558,
                       559,
-                      560
+                      560,
+                      268,
+                      269,
+                      270,
+                      271
                     ]
                   },
                   {
