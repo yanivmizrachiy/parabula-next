@@ -51,6 +51,18 @@ for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
 }
 
+const coordinateWorkbookRoot = 'projects/coordinate-first-quadrant-workbook';
+const coordinateWorkbookTarget = 'projects/coordinate-first-quadrant-workbook';
+if (copyDirIfExists(`${coordinateWorkbookRoot}/dist`, coordinateWorkbookTarget)) {
+  log(`copied ${coordinateWorkbookRoot}/dist/`);
+}
+if (copyDirIfExists(`${coordinateWorkbookRoot}/downloads`, `${coordinateWorkbookTarget}/downloads`)) {
+  log(`copied ${coordinateWorkbookRoot}/downloads/`);
+}
+if (copyDirIfExists(`${coordinateWorkbookRoot}/preview`, `${coordinateWorkbookTarget}/preview`)) {
+  log(`copied ${coordinateWorkbookRoot}/preview/`);
+}
+
 if (!fs.existsSync(path.join(dist, 'assets/pythagoras/vector'))) {
   throw new Error('Missing required Pythagoras assets: assets/pythagoras/vector');
 }
@@ -77,7 +89,12 @@ const required = [
   'styles/a4-base.css',
   'preview/index.html',
   'assets/pythagoras/vector/page-05.svg',
-  'assets/pythagoras/vector/page-22.svg'
+  'assets/pythagoras/vector/page-22.svg',
+  'coordinate-first-quadrant.html',
+  'projects/coordinate-first-quadrant-workbook/index.html',
+  'projects/coordinate-first-quadrant-workbook/workbook.css',
+  'projects/coordinate-first-quadrant-workbook/workbook.js',
+  'projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-workbook.pdf'
 ];
 
 const missing = required.filter(rel => !fs.existsSync(path.join(dist, rel)));
