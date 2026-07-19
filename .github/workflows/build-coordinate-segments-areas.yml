@@ -48,7 +48,6 @@ jobs:
           sudo apt-get install -y poppler-utils zip
 
       # Playwright והדפדפן מותקנים מאותה package.json ובאותה תיקייה.
-      # כך build.mjs אינו מחפש revision שונה מזה שהורד ל-runner.
       - name: Install project dependencies
         run: npm install --no-audit --no-fund
 
@@ -59,12 +58,12 @@ jobs:
       - name: Unit and contract tests
         run: node --test "tests/coordinate-svg.test.mjs" "tests/pages.test.mjs" "tests/answers.test.mjs" "tests/guards.test.mjs"
 
-      - name: Build workbook
+      - name: Build workbook and combined teacher key
         id: workbook_build
         run: |
           mkdir -p audit
           set -o pipefail
-          node src/build.mjs 2>&1 | tee audit/build.log
+          npm run build 2>&1 | tee audit/build.log
 
       # בדיקת הגאומטריה מודדת את dist שנבנה זה עתה, ולכן היא רצה אחרי הבנייה.
       - name: A4 geometry tests in a real browser
@@ -77,6 +76,18 @@ jobs:
             echo "Build skipped required stages: $SKIPPED" >&2
             exit 1
           fi
+
+      - name: Assert all pages have verified answers
+        run: |
+          node - <<'NODE'
+          const audit = JSON.parse(require('fs').readFileSync('audit/generated-audit.json', 'utf8'));
+          if (audit.answerPages.length !== audit.htmlPages) {
+            throw new Error(`Only ${audit.answerPages.length}/${audit.htmlPages} pages have verified answers`);
+          }
+          if (audit.triangleAnswerRecords < 9) {
+            throw new Error(`Only ${audit.triangleAnswerRecords} verified triangle records`);
+          }
+          NODE
 
       - name: Verify checksums
         run: sha256sum -c SHA256SUMS.txt
