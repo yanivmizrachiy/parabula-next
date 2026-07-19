@@ -1,0 +1,13 @@
+{
+  "name": "coordinate-segments-areas-workbook",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node src/build.mjs",
+    "validate": "node src/validate.mjs",
+    "ci": "npm run build && npm run validate"
+  },
+  "devDependencies": {
+    "playwright": "1.55.0"
+  }
+}
