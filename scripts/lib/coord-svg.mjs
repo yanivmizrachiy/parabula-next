@@ -50,7 +50,18 @@ export function needsLtr(s) {
 function textEl(x, y, str, { anchor = 'middle', size = 10.5, color = COL.label, weight = 500, halo = true } = {}) {
   const dir = needsLtr(str) ? ' direction="ltr"' : '';
   const stroke = halo ? ` paint-order="stroke" stroke="${COL.paper}" stroke-width="2.6" stroke-linejoin="round"` : '';
-  return `<text x="${r2(x)}" y="${r2(y)}" text-anchor="${anchor}" font-size="${size}" font-weight="${weight}" fill="${color}"${stroke}${dir}>${str}</text>`;
+  return `<text x="${r2(x)}" y="${r2(y)}" text-anchor="${anchor}" font-size="${size}" font-weight="${weight}" fill="${color}"${stroke}${dir}>${escText(str)}</text>`;
+}
+
+/**
+ * הברחת טקסט לתוכן אלמנט. תווית שמכילה `<` או `&` שוברת את פרסור ה-SVG
+ * בדיוק כמו מרכאה בתוך תכונה. אמפרסנד שכבר מהווה ישות נשמר כפי שהוא.
+ */
+export function escText(value) {
+  return String(value)
+    .replace(/&(?!(?:[a-zA-Z][a-zA-Z0-9]*|#\d+|#x[0-9a-fA-F]+);)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 /**

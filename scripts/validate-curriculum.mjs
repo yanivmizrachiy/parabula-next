@@ -6,6 +6,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { CURRICULUM, walkCurriculum } from './curriculum-map.mjs';
 
 const root = process.cwd();
 const topicsPath = path.join(root, 'meta', 'topics.json');
@@ -34,6 +35,19 @@ const walk = (nodes, depth, parentId) => {
   }
 };
 walk(curriculum.nodes, 0, null);
+
+// ── העץ השמור מושווה למקור, לא לעצמו ──────────────────────────────────
+// בלי זה אפשר למחוק צומת ריק מ-topics.json ולעדכן את שלושת הסיכומים,
+// והבדיקה תעבור — כי כל הספירות נגזרות מאותו עץ שנבדק. השוואה למפה
+// היא מה שמגן על אינווריאנט "בית ריק" של §4.4.
+const mapIds = new Set(walkCurriculum(CURRICULUM).map((entry) => entry.node.id));
+const storedIds = new Set(flat.map(({ node }) => node.id));
+for (const id of mapIds) {
+  check(storedIds.has(id), `הצומת ${id} קיים ב-curriculum-map.mjs וחסר ב-meta/topics.json`);
+}
+for (const id of storedIds) {
+  check(mapIds.has(id), `הצומת ${id} קיים ב-meta/topics.json ואינו במפה`);
+}
 
 // ── מזהים ייחודיים ותקינים ─────────────────────────────────────────────
 const seen = new Set();
@@ -85,16 +99,22 @@ const recompute = (node) => {
     node.pageCount === total,
     `pageCount שגוי בצומת ${node.id}: רשום ${node.pageCount}, נגזר ${total}`,
   );
-  const listed = node.pages ?? [];
+  const listed = new Set(node.pages ?? []);
   check(
-    listed.length === direct,
-    `רשימת pages בצומת ${node.id} מכילה ${listed.length} דפים אך נגזרו ${direct}`,
+    listed.size === direct,
+    `רשימת pages בצומת ${node.id} מכילה ${listed.size} דפים אך נגזרו ${direct}`,
   );
+  // שני הכיוונים: כל דף ברשימה שייך לצומת, וכל דף ששייך לצומת מופיע ברשימה.
+  // בדיקה בכיוון אחד בלבד מאפשרת החלפה ששומרת על האורך.
   for (const number of listed) {
     check(
       registered.get(number)?.curriculumId === node.id,
       `הצומת ${node.id} מונה את דף ${number} שאינו משויך אליו`,
     );
+  }
+  for (const [number, page] of registered) {
+    if (page.curriculumId !== node.id) continue;
+    check(listed.has(number), `דף ${number} משויך אל ${node.id} ואינו מופיע ברשימת pages שלו`);
   }
   return total;
 };
