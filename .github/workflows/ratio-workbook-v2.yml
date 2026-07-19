@@ -91,7 +91,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit regenerated page images
-        if: github.event_name == 'push' && github.ref_name == 'automation/render-ratio-page-1-diamonds'
+        if: github.event_name == 'pull_request' && github.head_ref == 'automation/render-ratio-page-1-diamonds'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
