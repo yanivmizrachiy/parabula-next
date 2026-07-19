@@ -91,15 +91,25 @@ if (!topic) throw new Error(`הנושא "${TOPIC}" לא נמצא ב-topics.json`
 
 const otherPages = meta.topics.filter((t) => t.name !== TOPIC).reduce((n, t) => n + t.pages.length, 0);
 
-topic.pages = seq.map((e) => ({
-  number: e.fileNumber,
-  file: `עמוד-${e.fileNumber}.html`,
-  title: `עמוד ${e.localNumber} — ${TOPIC}`,
-  h1: TOPIC,
-  topic: TOPIC,
-  previewPath: `/עמוד-${e.fileNumber}.html`,
-  siteUrl: `https://yanivmizrachiy.github.io/parabula-next/עמוד-${e.fileNumber}.html`,
-}));
+// שיוך תכנית הלימודים נקבע ב-scripts/build-curriculum.mjs. בלי שימור מפורש
+// כאן, כל בנייה הייתה מוחקת אותו ומפילה את validate:schema ו-validate:curriculum.
+const prevCurriculumId = new Map(topic.pages.map((p) => [p.file, p.curriculumId]));
+
+topic.pages = seq.map((e) => {
+  const file = `עמוד-${e.fileNumber}.html`;
+  const page = {
+    number: e.fileNumber,
+    file,
+    title: `עמוד ${e.localNumber} — ${TOPIC}`,
+    h1: TOPIC,
+    topic: TOPIC,
+    previewPath: `/${file}`,
+    siteUrl: `https://yanivmizrachiy.github.io/parabula-next/${file}`,
+  };
+  const cid = prevCurriculumId.get(file);
+  if (cid) page.curriculumId = cid;
+  return page;
+});
 topic.count = topic.pages.length;
 meta.totalPages = otherPages + topic.count;
 

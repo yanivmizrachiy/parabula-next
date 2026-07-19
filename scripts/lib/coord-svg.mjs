@@ -195,7 +195,20 @@ export function axesSvg(opts) {
       const t = L.labelAt ?? 0.82;
       const lx = seg[0][0] + (seg[1][0] - seg[0][0]) * t;
       const ly = seg[0][1] + (seg[1][1] - seg[0][1]) * t;
-      out.push(textEl(S.px(lx) + (L.labelDx ?? 12), S.py(ly) + (L.labelDy ?? -6), L.label, { size: 11, weight: 700, color }));
+      const cxp = S.px(lx), cyp = S.py(ly);
+      let dx = L.labelDx, dy = L.labelDy;
+      if (dx === undefined && dy === undefined) {
+        // היסט **ניצב** לישר. היסט קבוע נחת על הישר עצמו והסתיר אותו (למשל "m=1").
+        const ax = S.px(seg[0][0]), ay = S.py(seg[0][1]);
+        const bx = S.px(seg[1][0]), by = S.py(seg[1][1]);
+        const len = Math.hypot(bx - ax, by - ay) || 1;
+        let nx = -(by - ay) / len, ny = (bx - ax) / len;
+        // בוחרים את הצד שנשאר בתוך המסגרת
+        const OFF = 13;
+        if (cxp + nx * OFF < 12 || cxp + nx * OFF > S.w - 12) { nx = -nx; ny = -ny; }
+        dx = nx * OFF; dy = ny * OFF + 4;
+      }
+      out.push(textEl(cxp + (dx ?? 12), cyp + (dy ?? -6), L.label, { anchor: 'middle', size: 11, weight: 700, color }));
     }
   });
 
