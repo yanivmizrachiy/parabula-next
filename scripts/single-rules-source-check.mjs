@@ -87,6 +87,7 @@ const aiEntryFiles = [
   ...walk('.claude/agents', rel => rel.endsWith('.md')),
   ...walk('.claude/commands', rel => rel.endsWith('.md')),
   ...walk('.github/prompts', rel => rel.endsWith('.md')),
+  ...walk('.github/instructions', rel => rel.endsWith('.md')),
   '.github/copilot-instructions.md'
 ].filter(exists);
 
@@ -165,6 +166,51 @@ for (const rel of mobileVersionFiles) {
   if (/2026071\d{4}/.test(text)) errors.push(`${rel} contains a manual mobile release number`);
 }
 
+// ── סריקה רוחבית: כל קובץ Markdown בריפו, לא רק נקודות הכניסה ל-AI ──────
+// כל מסמך שמנסח כללים מחייבים חייב להפנות ל-CLAUDE.md ולא לשכפל אותו.
+const skipPrefixes = ['node_modules/', 'dist/', '.git/', 'sources/lovable/'];
+const allMarkdown = walk('.', rel => {
+  const clean = rel.replace(/^\.\//, '');
+  if (!clean.endsWith('.md')) return false;
+  return !skipPrefixes.some(prefix => clean.includes(prefix));
+}).map(rel => rel.replace(/^\.\//, ''));
+
+const contractPatterns = [
+  [/^##+\s*חוזה\s/m, 'independent contract section'],
+  [/\bעקרונות מחייבים\b/, 'independent mandatory principles'],
+  [/\bמקור האמת הקנוני\b/, 'competing source-of-truth claim'],
+  [/PROJECT_(?:RULES|MEMORY)\.md/, 'obsolete rules source'],
+  [/\bSTATE\/[A-Z]/, 'state document dependency'],
+  [/mobile-topics\.json/, 'obsolete metadata mirror'],
+];
+const rulesScanned = [];
+for (const rel of allMarkdown) {
+  if (rel === canonical) continue;
+  const text = read(rel);
+  rulesScanned.push(rel);
+  for (const [pattern, label] of contractPatterns) {
+    if (pattern.test(text)) {
+      errors.push(`${rel} contains ${label}; CLAUDE.md must be the only rules source`);
+    }
+  }
+}
+
+// ── אסור שסקריפט או workflow יכתוב מסמך אל STATE/ מחוץ ל-STATE/reports/ ──
+// שני קבצי השמירה עצמם מונים נתיבים אסורים כדי לחסום אותם — זהו שימוש לגיטימי.
+const guardScripts = new Set(['scripts/single-rules-source-check.mjs', 'scripts/app-layer-check.mjs']);
+const codeFiles = [
+  ...walk('scripts', rel => rel.endsWith('.mjs') || rel.endsWith('.js')),
+  ...walk('.github/workflows', rel => rel.endsWith('.yml')),
+];
+for (const rel of codeFiles) {
+  if (guardScripts.has(rel)) continue;
+  const text = read(rel);
+  const match = /STATE\/(?!reports\/)[A-Za-z0-9_.-]+/.exec(text);
+  if (match) {
+    errors.push(`${rel} depends on ${match[0]}; audit output belongs in meta/audit/ (CLAUDE.md §6)`);
+  }
+}
+
 const output = {
   generatedAt: new Date().toISOString(),
   status: errors.length ? 'fail' : 'pass',
@@ -173,6 +219,8 @@ const output = {
   aiEntryFiles,
   scannedDocs: docsFiles.length,
   docsFiles,
+  scannedMarkdown: rulesScanned.length,
+  scannedCodeFiles: codeFiles.length,
   errors,
   warnings
 };

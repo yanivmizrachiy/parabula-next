@@ -3,7 +3,8 @@ import path from 'node:path';
 
 const root = process.cwd();
 const metaPath = path.join(root, 'meta/topics.json');
-const reportPath = path.join(root, 'STATE/EQUATIONS_SVG_CAPTION_AUDIT.md');
+// פלט audit בלבד — נכתב ל־meta/audit/ ואינו נשמר בגיט (CLAUDE.md §6)
+const reportPath = path.join(root, 'meta/audit/equations-svg-captions.md');
 const topicName = 'משוואות';
 const excludedTopic = 'משוואות ריבועיות';
 
@@ -135,8 +136,8 @@ ${table}
 
 ## Current design conclusion
 
-This report is an evidence layer only. It does not approve pages by itself.
-Use it together with \`STATE/EQUATIONS_PAGE_BY_PAGE_DESIGN_AUDIT.md\` for slow manual approval.
+This report is an evidence layer only. It does not approve pages by itself,
+and it is not a source of requirements. The only source of rules is \`CLAUDE.md\`.
 `;
 
 fs.mkdirSync(path.dirname(reportPath), { recursive: true });

@@ -11,6 +11,21 @@ const meta = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 
 const checks = [];
 const add = (name, ok, details = '') => checks.push({ name, ok: Boolean(ok), details });
 
+// ── נושאי הניווט הם עלי תכנית הלימודים, לא מערך topics השטוח (CLAUDE.md §4.4) ──
+const pagesByNode = new Map();
+for (const topic of meta.topics || []) {
+  for (const page of topic.pages || []) {
+    if (!page.curriculumId) continue;
+    if (!pagesByNode.has(page.curriculumId)) pagesByNode.set(page.curriculumId, []);
+    pagesByNode.get(page.curriculumId).push(page);
+  }
+}
+/** עלי תכנית הלימודים שיש בהם דפים, מהגדול לקטן. */
+const populatedNodes = [...pagesByNode.entries()]
+  .map(([id, pages]) => ({ id, pages }))
+  .sort((a, b) => b.pages.length - a.pages.length);
+const curriculumRootCount = (meta.curriculum?.nodes || []).length;
+
 function contentType(filePath) {
   return ({
     '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
@@ -88,9 +103,26 @@ async function ensurePanelOpen(page) {
   if (collapsed) await page.locator('#toggleTopicsBtn').click();
 }
 
+/**
+ * פותח את שרשרת האבות של הצומת בעץ תכנית הלימודים, עד שכפתור העלה נראה.
+ * מזהי הצמתים נגזרים זה מזה בנקודות (CLAUDE.md §4.4).
+ */
+async function expandToNode(page, nodeId) {
+  const parts = String(nodeId).split('.');
+  for (let i = 1; i < parts.length; i += 1) {
+    const id = parts.slice(0, i).join('.');
+    const head = page.locator(`.topic-node[data-node-id="${id}"] > .topic-node-head`);
+    if (await head.count() === 0) continue;
+    if ((await head.getAttribute('aria-expanded')) === 'false') await head.click();
+  }
+}
+
 async function chooseTopicAndPage(page, topic, pageMeta) {
   await ensurePanelOpen(page);
-  await page.locator(`.topic-btn[data-topic="${topic.name}"]`).click();
+  const nodeId = pageMeta.curriculumId;
+  if (!nodeId) throw new Error(`page ${pageMeta.file} has no curriculumId`);
+  await expandToNode(page, nodeId);
+  await page.locator(`.topic-btn[data-topic="${nodeId}"]`).click();
   const open = page.locator(`.page-card[data-file="${pageMeta.file}"] .page-open`);
   await open.waitFor({ state: 'visible' });
   await open.click();
@@ -120,14 +152,14 @@ async function runAndroid(origin, chromium) {
   const diagnostics = [];
   attachDiagnostics(page, diagnostics);
   try {
-    const topic = [...(meta.topics || [])].sort((a, b) => b.pages.length - a.pages.length)[0];
+    const topic = populatedNodes[0];
     const first = topic.pages[0];
     const second = topic.pages[1];
     const fifth = topic.pages[Math.min(4, topic.pages.length - 1)];
 
     await page.goto(`${origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
-    await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
+    await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
     await chooseTopicAndPage(page, topic, first);
 
     const baseGeometry = await page.evaluate(() => ({
@@ -161,7 +193,7 @@ async function runAndroid(origin, chromium) {
     add('selection-bar-no-overlap', bars.selection.bottom <= bars.nav.top + 1, JSON.stringify(bars));
 
     await page.reload({ waitUntil: 'networkidle' });
-    await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
+    await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
     add('selection-restored-after-refresh', await page.locator('#selectionBar').isVisible(), await page.locator('#selectionCount').textContent());
     await page.locator('#selClear').click();
 
@@ -202,10 +234,11 @@ async function runAndroid(origin, chromium) {
     add('scroll-current-page-sync', (await page.locator('#currentPageMeta').textContent())?.includes(`עמוד ${fifth.number}`), `${fifth.file}: ${await page.locator('#currentPageMeta').textContent()}`);
     add('scroll-window-stays-bounded', await page.locator('.m-sheet iframe').count() <= 7, `iframes=${await page.locator('.m-sheet iframe').count()}`);
 
-    const anotherTopic = (meta.topics || []).find(item => item.name !== topic.name && item.pages.length >= 2);
+    const anotherTopic = populatedNodes.find(item => item.id !== topic.id && item.pages.length >= 2);
     if (anotherTopic) {
       await ensurePanelOpen(page);
-      await page.locator(`.topic-btn[data-topic="${anotherTopic.name}"]`).click();
+      await expandToNode(page, anotherTopic.id);
+      await page.locator(`.topic-btn[data-topic="${anotherTopic.id}"]`).click();
       await page.waitForTimeout(350);
       const firstStackFile = await page.locator('.m-sheet').first().getAttribute('data-file');
       add('scroll-topic-rebuild', firstStackFile === anotherTopic.pages[0].file, `actual=${firstStackFile}; expected=${anotherTopic.pages[0].file}`);
@@ -265,7 +298,7 @@ async function runWebKit(origin, webkit, devices) {
   const diagnostics = [];
   attachDiagnostics(page, diagnostics, { includeConsole: false });
   try {
-    const topic = (meta.topics || []).find(item => item.pages.length >= 2) || meta.topics[0];
+    const topic = populatedNodes.find(item => item.pages.length >= 2) || populatedNodes[0];
     await page.goto(`${origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
     await chooseTopicAndPage(page, topic, topic.pages[0]);
@@ -301,17 +334,17 @@ async function runOffline(origin, chromium) {
   attachDiagnostics(page, diagnostics);
   try {
     await page.goto(`${origin}/mobile-app.html`, { waitUntil: 'networkidle' });
-    await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
+    await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
     await page.evaluate(async () => { await navigator.serviceWorker.ready; });
     if (!(await page.evaluate(() => Boolean(navigator.serviceWorker.controller)))) {
       await page.reload({ waitUntil: 'networkidle' });
-      await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
+      await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
     }
     add('pwa-controller-active', await page.evaluate(() => Boolean(navigator.serviceWorker.controller)), 'service worker controls page');
     await context.setOffline(true);
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await page.locator('.topic-btn').first().waitFor({ state: 'visible', timeout: 15000 });
-    add('pwa-offline-shell', await page.locator('.topic-btn').count() === meta.topics.length, `topics=${await page.locator('.topic-btn').count()}`);
+    await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible', timeout: 15000 });
+    add('pwa-offline-shell', await page.locator('#topicStrip > .topic-node').count() === curriculumRootCount, `roots=${await page.locator('#topicStrip > .topic-node').count()}; expected=${curriculumRootCount}`);
     add('pwa-offline-status', await page.locator('#networkStatus').isVisible(), await page.locator('#networkStatus').textContent());
     await context.setOffline(false);
     const unexpected = diagnostics.filter(item => !/ERR_INTERNET_DISCONNECTED|Failed to fetch/i.test(item));

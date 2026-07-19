@@ -9,7 +9,7 @@ import { spawnSync } from 'node:child_process';
  * .pdf-page, a page-1 SVG "pilot" shell, a page-95 "editable" prototype, and a
  * temporary easy-edit overlay). Those checks were retired because the
  * production conversion replaced that design with live, per-page HTML+MathJax
- * worksheets (see STATE/EQUATIONS_DESIGN_PASS_RULES.md).
+ * worksheets (the only source of rules is CLAUDE.md).
  *
  * Retired checks (no longer run — superseded design):
  *   - validate-equations-app.mjs              (separate equations app + SVG content)
