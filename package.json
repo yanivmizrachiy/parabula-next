@@ -17,7 +17,6 @@
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
     "test": "node --test \"tests/**/*.test.mjs\"",
     "test:contracts": "node --test tests/contracts/root-pages.test.mjs tests/contracts/quadratic-equations-workbook.test.mjs",
-    "test:all": "node --test \"tests/**/*.test.mjs\"",
     "verify": "node scripts/verify.mjs",
     "validate:meta": "node scripts/generate-pages-registry.mjs && node scripts/validate-meta-schema.mjs",
     "registry:generate": "node scripts/generate-pages-registry.mjs",
