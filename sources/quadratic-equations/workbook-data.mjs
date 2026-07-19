@@ -258,18 +258,18 @@ const s1 = [
   squareEq('2x^2=162', 81),
   squareEq('-3=-3x^2', 1),
   squareEq('-288=-8x^2', 36),
-  cZero('6x^2 + 15x = 0', 6, 15),
-  cZero('14x^2 - 21x = 0', 14, -21),
-  cZero('-9x^2 + 12x = 0', -9, 12),
-  cZero('0.5x^2 - 3x = 0', 1, -6),
-  cZero('1.2x^2 + 3x = 0', 2, 5),
-  cZero('\\frac{3}{4}x^2 - 6x = 0', 3, -24),
-  cZero('4x(x-5)=3x^2', 1, -20),
-  cZero('2x(3x+7)=5x^2', 1, 14),
-  cZero('x(5x-8)=2x(2x+1)', 1, -10),
-  cZero('3x(x-4)+2x=0', 3, -10),
-  cZero('2x(x+5)=7x', 2, 3),
-  cZero('5x(x-2)-3x(x+1)=0', 2, -13),
+  squareEq('x^2+x^2=18', 9),
+  squareEq('x^2+2x^2=48', 16),
+  squareEq('2x^2+2x^2=100', 25),
+  squareEq('2x^2+3x^2=180', 36),
+  squareEq('3x^2+4x^2=343', 49),
+  squareEq('x^2+x^2=162', 81),
+  cZero('x^2 - 3x = 0', 1, -3),
+  cZero('x^2 + 4x = 0', 1, 4),
+  cZero('2x^2 - 14x = 0', 2, -14),
+  cZero('3x^2 + 18x = 0', 3, 18),
+  cZero('5x^2 = 20x', 5, -20),
+  cZero('2x^2 + 8x = 0', 2, 8),
 ];
 
 const s2 = [
@@ -478,10 +478,12 @@ for (const section of sections) {
       exerciseStart: exerciseOffset + 1,
       exerciseEnd: exerciseOffset + size,
       ...section,
-      title: pageOffset === 0 ? 'משוואה ריבועית חסרה \\((b=0)\\)' : section.title,
+      title: pageOffset <= 1 ? 'משוואה ריבועית חסרה \\((b=0)\\)' : section.title,
       prompt: pageOffset === 0
         ? 'בודדו את \\(x^2\\), הוציאו שורש וכתבו את שני הפתרונות.'
-        : section.prompt,
+        : pageOffset === 1
+          ? 'כנסו איברים דומים, בודדו את \\(x^2\\) וכתבו את שני הפתרונות.'
+          : section.prompt,
       exercises,
     });
     sectionOffset += size;
