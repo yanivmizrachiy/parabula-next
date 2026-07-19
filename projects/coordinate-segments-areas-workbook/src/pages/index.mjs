@@ -17,5 +17,17 @@ const enrichedUnit03 = unit03.map(page => {
 });
 
 const balancedPage36 = { ...page36, blocks: page36.blocks.slice(0, 3) };
+const [rawPage37, rawPage38] = pages37to38;
+const movedFinalTask = rawPage38.blocks.at(-1);
+const balancedPages37to38 = [
+  { ...rawPage37, blocks: [...rawPage37.blocks, movedFinalTask] },
+  { ...rawPage38, blocks: rawPage38.blocks.slice(0, -1) }
+];
 
-export default [...unit01, ...unit02, ...enrichedUnit03, balancedPage36, ...pages37to38];
+export default [
+  ...unit01,
+  ...unit02,
+  ...enrichedUnit03,
+  balancedPage36,
+  ...balancedPages37to38
+];
