@@ -260,7 +260,23 @@ export const CURRICULUM = [
         id: 'g8.numstat',
         name: 'תחום מספרי וסטטיסטיקה',
         children: [
-          { id: 'g8.numstat.ratio', name: 'יחס, פרופורציה, קנה מידה ואחוזים' },
+          {
+            id: 'g8.numstat.ratio',
+            name: 'יחס, פרופורציה, קנה מידה ואחוזים',
+            // תת־החלוקה נלקחה ממבנה הפרקים של חוברת היחס עצמה
+            // (sources/lovable/ratio-workbook — WORKSHEET_PAGES), ולא הומצאה.
+            // בלעדיה 52 דפים יושבים שטוחים תחת צומת אחד ואי אפשר למצוא נושא.
+            children: [
+              { id: 'g8.numstat.ratio.foundations', name: 'יסודות היחס', extension: true },
+              { id: 'g8.numstat.ratio.division', name: 'חלוקה ביחס נתון', extension: true },
+              { id: 'g8.numstat.ratio.representation', name: 'כתיבה, צמצום והשוואת יחסים', extension: true },
+              { id: 'g8.numstat.ratio.preservation', name: 'שמירת יחס ושיעור ליחידה', extension: true },
+              { id: 'g8.numstat.ratio.challenge', name: 'שאלות אתגר ביחס', extension: true },
+              { id: 'g8.numstat.ratio.proportion', name: 'פרופורציה ויחס ישר', extension: true },
+              { id: 'g8.numstat.ratio.exams', name: 'שאלות מבחנים ומיצ״ב', extension: true },
+              { id: 'g8.numstat.ratio.percent', name: 'אחוזים', extension: true },
+            ],
+          },
           { id: 'g8.numstat.statistics', name: 'סטטיסטיקה' },
         ],
       },
@@ -404,7 +420,15 @@ export const PAGE_ASSIGNMENTS = {
   'g8.geo.polygons.explore': [216, 217, 348],
 
   // ── כיתה ח' · תחום מספרי וסטטיסטיקה ────────────────────────────────
-  'g8.numstat.ratio': ['182-185', '272-319'],
+  // חוברת היחס: עמוד-N בריפו = עמוד (N-271) בחוברת. הפרקים לקוחים מ-WORKSHEET_PAGES.
+  'g8.numstat.ratio.foundations': ['272-279', 307],
+  'g8.numstat.ratio.division': ['280-288', 304, 308],
+  'g8.numstat.ratio.representation': ['289-297'],
+  'g8.numstat.ratio.preservation': ['298-299', 305],
+  'g8.numstat.ratio.challenge': [300],
+  'g8.numstat.ratio.proportion': ['301-303', 306, 309],
+  'g8.numstat.ratio.exams': ['310-319'],
+  'g8.numstat.ratio.percent': ['182-185'],
   'g8.numstat.statistics': ['231-256', '261-267'],
   'g8.extra.cylinderCone': ['205-210'],
   'g8.extra.median': ['218-221'],
