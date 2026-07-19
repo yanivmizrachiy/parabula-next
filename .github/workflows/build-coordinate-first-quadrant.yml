@@ -11,16 +11,22 @@ on:
       - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
       - projects/coordinate-first-quadrant-workbook/audit/build.log
       - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+  # paths-ignore בלבד הפעיל את ה-workflow על כל PR שנגע בכל קובץ אחר בריפו,
+  # והוא נכשל תמיד כי projects/coordinate-first-quadrant-workbook/ אינו קיים
+  # ב-main. paths מגביל אותו ל-PR שבאמת נוגע בחוברת; ההחרגות נשמרות לתוצרי בנייה.
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - projects/coordinate-first-quadrant-workbook/dist/**
-      - projects/coordinate-first-quadrant-workbook/downloads/**
-      - projects/coordinate-first-quadrant-workbook/preview/**
-      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
-      - projects/coordinate-first-quadrant-workbook/audit/build.log
-      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+    # GitHub אוסר paths ו-paths-ignore יחד באותו אירוע, ולכן ההחרגות
+    # מבוטאות כשלילה בתוך paths.
+    paths:
+      - projects/coordinate-first-quadrant-workbook/**
+      - '!projects/coordinate-first-quadrant-workbook/dist/**'
+      - '!projects/coordinate-first-quadrant-workbook/downloads/**'
+      - '!projects/coordinate-first-quadrant-workbook/preview/**'
+      - '!projects/coordinate-first-quadrant-workbook/audit/generated-audit.json'
+      - '!projects/coordinate-first-quadrant-workbook/audit/build.log'
+      - '!projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt'
   workflow_dispatch:
 
 permissions:

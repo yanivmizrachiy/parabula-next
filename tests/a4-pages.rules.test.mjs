@@ -53,11 +53,15 @@ function parseNavHref(html, label) {
 
 // countMatches imported
 
-test('Global HTML rule: no inline CSS (<style> or style="...")', async () => {
+// CLAUDE.md §3 מנסח את האיסור על CSS inline לדפי `עמוד-N.html` בלבד.
+// חוברות עצמאיות שמורכבות מ-base64 (רביע-ראשון, מפתח התשובות) אינן דפי A4
+// ואינן כפופות לו. הבדיקה נגזרת מהכלל הקנוני ולא רחבה ממנו.
+test('A4 pages rule: no inline CSS (<style> or style="...") in עמוד-N.html', async () => {
   const htmlFiles = await listRootHtmlFiles();
-  assert.ok(htmlFiles.length > 0, 'No .html files found in repo root');
+  const pageFiles = htmlFiles.filter(isA4PageFile);
+  assert.ok(pageFiles.length > 0, 'No עמוד-*.html files found');
 
-  for (const file of htmlFiles) {
+  for (const file of pageFiles) {
     const html = await readText(file);
 
     mustNotMatch(/<style\b/i, html, file, 'Inline <style> tag is forbidden');
@@ -80,8 +84,18 @@ test('A4 pages: required structure, CSS links, preview nav, and consistent numbe
 
     // Required base structure
     assert.ok(/<main\s+class="a4-page\b[^"]*\bpage-\d+\b[^"]*"/u.test(html), `${file}: missing <main class="a4-page page-N">`);
-    assert.ok(/<header\s+class="header-container"/u.test(html), `${file}: missing .header-container`);
-    assert.ok(/class="page-title"/u.test(html), `${file}: missing .page-title`);
+
+    // דף מיובא כ-raster (חוברת היחס) הוא סוג דף לגיטימי: כותרת המקור ותמונה
+    // במקום כותרת מובנית. הוא נבדק לפי המבנה שלו, ואינו פטור מבדיקה.
+    if (/\bratio-import-page\b/u.test(html)) {
+      assert.ok(/class="ratio-source-title"/u.test(html), `${file}: raster import missing .ratio-source-title`);
+      assert.ok(/<img\b[^>]*\bclass="ratio-import-image"[^>]*\balt="[^"]+"/u.test(html), `${file}: raster import missing described image`);
+      continue;
+    }
+
+    assert.ok(/<header\s+class="[^"]*\bheader-container\b[^"]*"/u.test(html), `${file}: missing .header-container`);
+    // מחלקה, לא ערך תכונה מדויק: `class="page-title has-formula"` הוא page-title לכל דבר
+    assert.ok(/class="[^"]*\bpage-title\b[^"]*"/u.test(html), `${file}: missing .page-title`);
 
     // CSS links (robust matching across formatting/attribute order)
     assert.ok(
