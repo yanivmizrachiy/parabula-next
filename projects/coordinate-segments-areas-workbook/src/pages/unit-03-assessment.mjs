@@ -1,9 +1,8 @@
 // עמוד 46 — מבדק משולשים מסכם.
-// שתי משימות הועברו מעמודים 40 ו־44 כדי לשמור A4 בלי למחוק תוכן.
+// משימות שהועברו מעמודים צפופים נוסחו מחדש באופן עצמאי ומלא.
 
 import { createGrid } from '../coordinate-svg.mjs';
-import { task, subs, choices, lines, expr, table, figure, cols, pt, ltr } from '../render.mjs';
-import enrichment from './unit-03-advanced-enrichment.mjs';
+import { task, subs, choices, lines, expr, exprPoint, table, figure, cols, pt, ltr } from '../render.mjs';
 
 const UNIT = 'יחידה 3 — שטחי משולשים במערכת הצירים';
 const SHORT = '<span class="wline wline-short"></span>';
@@ -36,8 +35,18 @@ const page46 = {
       ),
       figure(assessmentGrid(), 'משולש במערכת הצירים')
     ),
-    enrichment[40][1],
-    enrichment[44][1],
+    task(`נתונות ${pt('P', 0, 0)} ו־${pt('Q', 10, 0)}. מצאו נקודה R נוספת כך ששטח PQR יהיה ${ltr('40')}:`,
+      exprPoint('R ='),
+      subs([
+        `הגובה הדרוש: ${SHORT}`,
+        `האם שיעור X של R יחיד? ${SHORT}`
+      ]),
+      lines(2, { label: 'בדיקת השטח והסבר:' })
+    ),
+    task('קבעו אם אפשר תיכון במשולש שאינו ישר זווית:',
+      choices(['כן', 'לא']),
+      lines(2, { label: 'נימוק או דוגמה:' })
+    ),
     task('בחרו את כל הטענות הנכונות:',
       choices([
         'משולשים בעלי אותו בסיס ואותו גובה שווי שטח.',
