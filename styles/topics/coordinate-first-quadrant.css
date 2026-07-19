@@ -18,7 +18,7 @@
 .cfq-page .page-subtitle { font-size: 12px; color: #5f6b7a; margin: 0; font-weight: 400; }
 
 /* --- גוף הגיליון --- */
-.cfq-page .sheet-content { padding-bottom: 10mm; }
+.cfq-page .sheet-content { padding-bottom: 2mm; }
 
 .cfq-page .two-col { display: block; font-size: 0; }
 .cfq-page .two-col > .q-card { display: inline-block; vertical-align: top; width: 49%; margin: 0 0 6px 1%; font-size: 12.4px; }
@@ -132,12 +132,15 @@
 .cfq-page.p7-compact .q-card h3 { margin: -6px -8px 5px; padding: 5px 7px; font-size: 12.4px; }
 .cfq-page.p7-compact .choice-grid { gap: 3px; }
 
-/* --- כותרת תחתית של הגיליון --- */
+/* --- כותרות תחתיות: שם/תאריך מהמקור + קרדיט קבוע, בזרימה בתחתית הדף --- */
 .cfq-page .sheet-footer {
-    position: absolute; right: 10mm; left: 10mm; bottom: 5mm;
+    margin-top: auto;
     display: flex; justify-content: space-between; gap: 20px;
-    border-top: 1px solid #cbd3df; padding-top: 2.5mm; color: #5f6b7a; font-size: 9.5px;
+    border-top: 1px solid #cbd3df; padding-top: 2mm; color: #5f6b7a; font-size: 9.5px;
 }
+.cfq-page .gz-footer { margin-top: 4px; padding-top: 5px; border-top: 3px double var(--title-blue); text-align: center; }
+.cfq-page .gz-footer .f1 { font-size: 12.5px; font-weight: 500 !important; color: #1f2a44; }
+.cfq-page .gz-footer .f2 { font-size: 11.5px; color: #475569; margin-top: 1px; }
 
 /* --- רוחבי קו מילוי (החלפת style inline מהמקור) --- */
 .cfq-page .bw-3 { --blank-width: 3ch; }

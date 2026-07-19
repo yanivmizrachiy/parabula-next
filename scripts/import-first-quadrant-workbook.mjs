@@ -12,11 +12,16 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
 const topicName = 'מערכת צירים - רביע ראשון בלבד';
 const startPage = 531;
 const pageCount = 30;
+// שרשרת הקריאה הגלובלית ממוינת לפי רצועת הנושאים ואז אלפביתית (tests/a4-pages.rules.test.mjs):
+// הנושא "מערכת צירים - רביע ראשון בלבד" יושב בין "יחס" (עמוד-319) ל"משוואות ריבועיות" (עמוד-31).
+const chainPrev = 'עמוד-319.html';
+const chainNext = 'עמוד-31.html';
 const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
 const workbookDir = path.join(root, 'projects', 'coordinate-first-quadrant-workbook', 'workbook');
 
@@ -185,6 +190,17 @@ function renderGrid(attrs) {
 // ---------- טרנספורמציה לגיליון בודד ----------
 const blankWidths = new Set();
 
+// כותרת שאלה במקור נושאת לעיתים תווית קושי ("אתגר מסכם") במקום תיאור תוכן.
+// כאן היא מוחלפת בתיאור מה שהשאלה באמת מבקשת, לפי גוף השאלה עצמו.
+const LABEL_REWRITES = [
+  [/<h3>אתגר מסכם<\/h3>/g, '<h3>מלבן וריבוע בעלי קודקוד משותף</h3>'],
+  [/<h3>שאלת אתגר<\/h3>/g, '<h3>נקודות לפי כלל שינוי</h3>'],
+  [/<h3>ד\. אתגר: /g, '<h3>ד. '],
+  [/aria-label="מערכת צירים ריקה לאתגר מסכם"/g, 'aria-label="מערכת צירים ריקה למלבן ולריבוע"'],
+];
+
+const FORBIDDEN_LABELS = ['אתגר', 'העשרה', 'תרגול מדורג', 'רמת התרגול'];
+
 function transformSheet(sheet) {
   let html = sheet.html;
 
@@ -192,17 +208,28 @@ function transformSheet(sheet) {
   const headerRe = /<header class="sheet-header">[\s\S]*?<div class="eyebrow">([^<]*)<\/div>\s*<h1 id="title-\d+">([^<]*)<\/h1>\s*<p>([^<]*)<\/p>[\s\S]*?<\/header>/;
   const hm = html.match(headerRe);
   if (!hm) throw new Error(`Sheet ${sheet.local}: header pattern not found`);
-  const [, eyebrow, h1, subtitle] = hm.map((s) => (typeof s === 'string' ? s.trim() : s));
+  // ה-eyebrow במקור הוא תווית שלב/רמה ("שלב N - תרגול, העמקה וחשיבה"); §4 אוסר
+  // להציג לתלמיד תווית קושי, ולכן נשמר רק תיאור התוכן.
+  const [, , h1, subtitle] = hm.map((s) => (typeof s === 'string' ? s.trim() : s));
   const canonicalHeader = [
     '        <header class="header-container">',
     '            <div class="title-wrap">',
     `                <h1 class="page-title">${h1}</h1>`,
-    `                <p class="page-subtitle">${eyebrow} · ${subtitle}</p>`,
+    `                <p class="page-subtitle">${subtitle}</p>`,
     '            </div>',
     `            <div class="page-number">${sheet.local}</div>`,
     '        </header>',
   ].join('\n');
   html = html.replace(headerRe, canonicalHeader);
+
+  // §4: אסור להציג לתלמיד תווית קושי. המקור נשאר כפי שהוא, והתוויות מוחלפות כאן
+  // בתיאור התוכן בפועל של אותה שאלה.
+  for (const [re, to] of LABEL_REWRITES) html = html.replace(re, to);
+  for (const bad of FORBIDDEN_LABELS) {
+    if (html.includes(bad)) {
+      throw new Error(`Sheet ${sheet.local}: תווית קושי "${bad}" נותרה בדף — נדרש כלל החלפה ב-LABEL_REWRITES`);
+    }
+  }
 
   // main מקונן אסור — הגוף הופך div
   html = html.replace('<main class="sheet-content">', '<div class="sheet-content">');
@@ -223,6 +250,11 @@ function transformSheet(sheet) {
     return `class="blank bw-${n}"`;
   });
 
+  // חוזה הקרדיט והתוויות (tests/contracts/page-credit.test.mjs): תוויות רמת קושי
+  // אינן מוצגות לתלמיד. כותרת "שאלת אתגר" מומרת ל"חשיבה" — נוסח שהמקור עצמו
+  // משתמש בו ככותרת סעיף (למשל "ד. חשיבה:" בגיליון 1).
+  html = html.replace(/<h3>שאלת אתגר<\/h3>/g, '<h3>חשיבה</h3>');
+
   // קליפת ה-section של הגיליון יורדת; נשאר התוכן הפנימי
   html = html.replace(sheetStartRe, '');
   const lastClose = html.lastIndexOf('</section>');
@@ -242,6 +274,9 @@ for (const s of transformed) {
     throw new Error(`Sheet ${s.local}: data-* attributes survived`);
   }
   if (/<main\b/.test(s.inner)) throw new Error(`Sheet ${s.local}: nested <main> survived`);
+  for (const label of ['שאלות תרגול והעשרה', 'תרגול מדורג', 'תרגול נוסף', 'שאלות חשיבה ואתגר', 'שאלת אתגר', 'רמת התרגול', 'שלב ביניים', 'שילוב כלים']) {
+    if (s.inner.includes(label)) throw new Error(`Sheet ${s.local}: forbidden label "${label}" survived`);
+  }
   if (!/class="sheet-footer"/.test(s.inner)) throw new Error(`Sheet ${s.local}: footer missing`);
   const opens = (s.inner.match(/<div\b/g) || []).length;
   const closes = (s.inner.match(/<\/div>/g) || []).length;
@@ -253,10 +288,10 @@ function pageHtml(sheet) {
   const globalPage = startPage + sheet.local - 1;
   const endPage = startPage + pageCount - 1;
   const prev = sheet.local === 1
-    ? '<a class="nav-link" href="עמוד-267.html">הקודם</a>'
+    ? `<a class="nav-link" href="${chainPrev}">הקודם</a>`
     : `<a class="nav-link" href="עמוד-${globalPage - 1}.html">הקודם</a>`;
   const next = sheet.local === pageCount
-    ? '<span class="nav-link is-disabled" aria-disabled="true">הבא</span>'
+    ? `<a class="nav-link" href="${chainNext}">הבא</a>`
     : `<a class="nav-link" href="עמוד-${globalPage + 1}.html">הבא</a>`;
 
   const modifiers = sheet.classes
@@ -289,6 +324,10 @@ function pageHtml(sheet) {
 
     <main class="a4-page page-${globalPage} cfq-page ${modifiers}${extra}">
 ${sheet.inner.split('\n').map((l) => (l ? `        ${l}` : l)).join('\n')}
+        <footer class="gz-footer">
+            <div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div>
+            <div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div>
+        </footer>
     </main>
 </body>
 </html>
@@ -359,3 +398,7 @@ console.log(`[OK] נכתבו ${pages.length} דפים: עמוד-${startPage}..ע
 console.log(`[OK] ${totalSvg} רשתות צירים רונדרו ל-SVG סטטי`);
 console.log(`[OK] רוחבי קו מילוי: ${[...blankWidths].sort((a, b) => a - b).join(', ')}`);
 console.log('[OK] meta/topics.json עודכן');
+
+// הכתיבה לעיל מאפסת את שדות ה-curriculumId של דפי הנושא; בניית התכנית
+// מחזירה אותם מיד, כדי שהקוראים לא יציגו "ממתינים לשיוך" גם לרגע.
+execFileSync(process.execPath, [path.join(root, 'scripts', 'build-curriculum.mjs')], { stdio: 'inherit' });
