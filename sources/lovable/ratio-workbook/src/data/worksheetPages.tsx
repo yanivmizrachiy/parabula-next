@@ -1,10 +1,11 @@
 import { ReactNode } from 'react';
-import { Ch1Page1, Ch1Page3, Ch1Page8, Ch1Page9 } from '@/components/worksheet/pages/Chapter1Pages';
+import { Ch1Page3, Ch1Page8, Ch1Page9 } from '@/components/worksheet/pages/Chapter1Pages';
 import { Ch2Page1, Ch2Page2, Ch2Page4, Ch2Page6, Ch2Page7, Ch2Page9, Ch2Page10, Ch2Page11 } from '@/components/worksheet/pages/Chapter2Pages';
 import { Ch3Page7, Ch3Page8 } from '@/components/worksheet/pages/Chapter3Pages';
 import { Ch4Page2, Ch4Page3 } from '@/components/worksheet/pages/Chapter4Pages';
 import { Ch6Page1, Ch6Page2, Ch6Page3, Ch6Page5 } from '@/components/worksheet/pages/Chapter6Pages';
 import { Ch7Page1, Ch7Page2, Ch7Page3, Ch7Page5, Ch7Page6, Ch7Page7, Ch7Page8, Ch7Page9 } from '@/components/worksheet/pages/Chapter7Pages';
+import { RatioPage01 } from '@/components/worksheet/corrected/RatioPage01';
 import { RatioPage02, RatioPage04, RatioPage05, RatioPage06, RatioPage07 } from '@/components/worksheet/corrected/Chapter1Corrections';
 import { RatioPage11, RatioPage13, RatioPage16 } from '@/components/worksheet/corrected/Chapter2Corrections';
 import { RatioPage18, RatioPage19, RatioPage20, RatioPage21, RatioPage22, RatioPage23, RatioPage26 } from '@/components/worksheet/corrected/Chapter3Corrections';
@@ -31,7 +32,7 @@ const CHAPTERS = {
 } as const;
 
 export const WORKSHEET_PAGES: WorksheetPageData[] = [
-  { id: 1, title: 'זיהוי יחס ושמירתו', chapter: CHAPTERS.foundations, component: () => <Ch1Page1 /> },
+  { id: 1, title: 'זיהוי יחס ושמירתו', chapter: CHAPTERS.foundations, component: () => <RatioPage01 /> },
   { id: 2, title: 'יחס מתוך איור והסקת תכונות', chapter: CHAPTERS.foundations, component: () => <RatioPage02 /> },
   { id: 3, title: 'יחס חלק־לשלם ובעיות מילוליות', chapter: CHAPTERS.foundations, component: () => <Ch1Page3 /> },
   { id: 4, title: 'יחסים שווים והשלמת כמויות', chapter: CHAPTERS.foundations, component: () => <RatioPage04 /> },
