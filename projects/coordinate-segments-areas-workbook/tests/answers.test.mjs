@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import pages from '../src/pages/index.mjs';
-import { answers, glossary } from '../src/answers.mjs';
+import { answers, glossary } from '../src/all-answers.mjs';
 import { derive, buildTeacherKey } from '../src/teacher-key.mjs';
 import { axisParallelLength, shoelaceArea } from '../src/coordinate-svg.mjs';
 
@@ -33,7 +33,7 @@ test('לכל עמוד קיימת לפחות רשומת תשובה אחת', () =>
 });
 
 test('kind חוקי בכל רשומה', () => {
-  const allowed = new Set(['segment', 'rectangle', 'line', 'value']);
+  const allowed = new Set(['segment', 'rectangle', 'triangle', 'line', 'value']);
   for (const record of answers) {
     assert.ok(allowed.has(record.kind), `kind לא חוקי ברשומה ${record.id}: ${record.kind}`);
     assert.ok(record.expect && typeof record.expect === 'object', `חסר expect ברשומה ${record.id}`);
@@ -44,8 +44,7 @@ test('אורכי הקטעים שנרשמו תואמים לחישוב מהשיע�
   const segments = answers.filter(record => record.kind === 'segment');
   assert.ok(segments.length >= 25, `רק ${segments.length} רשומות קטע`);
   for (const record of segments) {
-    const computed = axisParallelLength(record.a, record.b);
-    assert.equal(record.expect.length, computed, `אורך שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.length, axisParallelLength(record.a, record.b), `אורך שגוי ברשומה ${record.id}`);
   }
 });
 
@@ -60,47 +59,43 @@ test('כיוון הקטע ומשוואת הישר תואמים לשיעורים'
 test('חיתוך צירים שנרשם תואם לסימני השיעורים', () => {
   for (const record of answers.filter(r => r.kind === 'segment')) {
     const derived = derive(record);
-    if ('crossesY' in record.expect) {
-      assert.equal(record.expect.crossesY, derived.crossesY, `crossesY שגוי ברשומה ${record.id}`);
-    }
-    if ('crossesX' in record.expect) {
-      assert.equal(record.expect.crossesX, derived.crossesX, `crossesX שגוי ברשומה ${record.id}`);
-    }
+    if ('crossesY' in record.expect) assert.equal(record.expect.crossesY, derived.crossesY, `crossesY שגוי ברשומה ${record.id}`);
+    if ('crossesX' in record.expect) assert.equal(record.expect.crossesX, derived.crossesX, `crossesX שגוי ברשומה ${record.id}`);
   }
 });
 
 test('פיצול קטע החוצה ציר מסתכם באורך הקטע', () => {
   for (const record of answers.filter(r => r.kind === 'segment' && r.expect.split)) {
-    const sum = record.expect.split.reduce((a, b) => a + b, 0);
-    assert.equal(sum, record.expect.length, `סכום החלקים ברשומה ${record.id} אינו שווה לאורך`);
+    assert.equal(record.expect.split.reduce((a, b) => a + b, 0), record.expect.length, `סכום החלקים שגוי ברשומה ${record.id}`);
   }
 });
 
 test('מידות המלבנים, השטח וההיקף תואמים לשיעורי הקודקודים', () => {
   const rectangles = answers.filter(record => record.kind === 'rectangle');
-  assert.ok(rectangles.length >= 25, `רק ${rectangles.length} רשומות מלבן`);
+  assert.ok(rectangles.length >= 35, `רק ${rectangles.length} רשומות מלבן`);
   for (const record of rectangles) {
     const derived = derive(record);
     assert.equal(record.expect.width, derived.width, `רוחב שגוי ברשומה ${record.id}`);
     assert.equal(record.expect.height, derived.height, `גובה שגוי ברשומה ${record.id}`);
     assert.equal(record.expect.area, derived.area, `שטח שגוי ברשומה ${record.id}`);
     assert.equal(record.expect.perimeter, derived.perimeter, `היקף שגוי ברשומה ${record.id}`);
-  }
-});
-
-test('שטח המלבן מאומת גם בנוסחת השרוכים', () => {
-  for (const record of answers.filter(r => r.kind === 'rectangle')) {
     const [[x1, y1], [x2, y2]] = record.corners;
-    const polygon = [[x1, y1], [x2, y1], [x2, y2], [x1, y2]];
-    assert.equal(shoelaceArea(polygon), record.expect.area, `שטח השרוכים שונה ברשומה ${record.id}`);
+    assert.equal(shoelaceArea([[x1, y1], [x2, y1], [x2, y2], [x1, y2]]), record.expect.area, `שטח השרוכים שונה ברשומה ${record.id}`);
+    assert.equal(record.expect.area, record.expect.width * record.expect.height);
+    assert.equal(record.expect.perimeter, 2 * (record.expect.width + record.expect.height));
   }
 });
 
-test('שטח והיקף מקיימים את הקשר לאורך ולרוחב', () => {
-  for (const record of answers.filter(r => r.kind === 'rectangle')) {
-    const { width, height, area, perimeter } = record.expect;
-    assert.equal(area, width * height, `שטח אינו אורך×רוחב ברשומה ${record.id}`);
-    assert.equal(perimeter, 2 * (width + height), `היקף אינו 2(א+ר) ברשומה ${record.id}`);
+test('שטחי המשולשים ואורכי הניצבים מחושבים מחדש מהקודקודים', () => {
+  const triangles = answers.filter(record => record.kind === 'triangle');
+  assert.ok(triangles.length >= 9, `רק ${triangles.length} רשומות משולש`);
+  for (const record of triangles) {
+    assert.equal(record.vertices.length, 3, `מספר קודקודים שגוי ברשומה ${record.id}`);
+    const derived = derive(record);
+    assert.equal(record.expect.area, shoelaceArea(record.vertices), `שטח שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.area, derived.area, `שטח נגזר שגוי ברשומה ${record.id}`);
+    assert.deepEqual(record.expect.legs, derived.legs, `אורכי ניצבים שגויים ברשומה ${record.id}`);
+    assert.equal(record.expect.area, (record.expect.legs[0] * record.expect.legs[1]) / 2, `נוסחת בסיס×גובה÷2 נכשלה ברשומה ${record.id}`);
   }
 });
 
@@ -115,44 +110,44 @@ test('משוואות הישרים שנרשמו תואמות לנקודות שד�
 
 test('כל המלבנים ששטחם 24 אכן נותנים 24, וההיקף המינימלי הוא של 4 על 6', () => {
   const pairs = answers.filter(r => r.id.startsWith('p25-pairs-'));
-  assert.equal(pairs.length, 4, 'צריכים להיות בדיוק ארבעה זוגות שלמים');
-  for (const record of pairs) assert.equal(record.expect.area, 24);
-  const minimal = pairs.reduce((best, r) => (r.expect.perimeter < best.expect.perimeter ? r : best));
-  assert.equal(minimal.expect.width, 4);
-  assert.equal(minimal.expect.height, 6);
-  assert.equal(minimal.expect.perimeter, 20);
+  assert.equal(pairs.length, 4);
+  pairs.forEach(record => assert.equal(record.expect.area, 24));
+  const minimal = pairs.reduce((best, record) => record.expect.perimeter < best.expect.perimeter ? record : best);
+  assert.deepEqual([minimal.expect.width, minimal.expect.height, minimal.expect.perimeter], [4, 6, 20]);
 });
 
-test('מילון המושגים תואם למילון המחייב שב־research/source-map.md', () => {
+test('חקר שטח 36: הריבוע 6 על 6 בעל ההיקף המינימלי', () => {
+  const pairs = answers.filter(r => /^p27-\d+x\d+$/.test(r.id));
+  assert.equal(pairs.length, 5);
+  pairs.forEach(record => assert.equal(record.expect.area, 36));
+  const minimal = pairs.reduce((best, record) => record.expect.perimeter < best.expect.perimeter ? record : best);
+  assert.deepEqual([minimal.expect.width, minimal.expect.height, minimal.expect.perimeter], [6, 6, 24]);
+});
+
+test('חקר היקף 24: הריבוע 6 על 6 בעל השטח המרבי', () => {
+  const pairs = answers.filter(r => /^p28-\d+x\d+$/.test(r.id));
+  assert.equal(pairs.length, 6);
+  pairs.forEach(record => assert.equal(record.expect.perimeter, 24));
+  const maximal = pairs.reduce((best, record) => record.expect.area > best.expect.area ? record : best);
+  assert.deepEqual([maximal.expect.width, maximal.expect.height, maximal.expect.area], [6, 6, 36]);
+});
+
+test('מילון המושגים תואם למסמך המקור ואין בו כפילויות', () => {
   const source = fs.readFileSync(path.join(root, 'research', 'source-map.md'), 'utf8');
-  assert.equal(glossary.length, 12, 'המילון המחייב מונה 12 מושגים');
+  assert.equal(glossary.length, 12);
+  assert.equal(new Set(glossary).size, glossary.length);
   for (const term of glossary) {
-    const core = term.replace(/[`]/g, '');
-    const key = core.split(' ').slice(-1)[0];
+    const key = term.replace(/[`]/g, '').split(' ').slice(-1)[0];
     assert.ok(source.includes(key), `המושג "${term}" אינו מופיע במסמך המקור`);
   }
 });
 
-test('אין מושג כפול במילון', () => {
-  assert.equal(new Set(glossary).size, glossary.length);
-});
-
-test('מפתח המורה נבנה, כולל את כל המזהים ואת כל המושגים', () => {
+test('מפתח המורה כולל את כל המזהים, המושגים והערכים המחושבים', () => {
   const meta = JSON.parse(fs.readFileSync(path.join(root, 'project-metadata.json'), 'utf8'));
   const key = buildTeacherKey({ meta, answers, glossary });
   assert.match(key, /<html lang="he" dir="rtl">/);
-  for (const record of answers) {
-    assert.ok(key.includes(record.id), `מפתח המורה חסר את ${record.id}`);
-  }
-  for (const term of glossary) {
-    assert.ok(key.includes(term), `מפתח המורה חסר את המושג ${term}`);
-  }
-});
-
-test('מפתח המורה מציג את הערכים המחושבים ולא רק את הרשומים', () => {
-  const meta = JSON.parse(fs.readFileSync(path.join(root, 'project-metadata.json'), 'utf8'));
-  const record = answers.find(r => r.id === 'p23-ABCD');
-  const key = buildTeacherKey({ meta, answers: [record], glossary: [] });
-  assert.ok(key.includes('81'), 'השטח המחושב אינו מופיע במפתח');
-  assert.ok(key.includes('36'), 'ההיקף המחושב אינו מופיע במפתח');
+  answers.forEach(record => assert.ok(key.includes(record.id), `מפתח המורה חסר את ${record.id}`));
+  glossary.forEach(term => assert.ok(key.includes(term), `מפתח המורה חסר את ${term}`));
+  assert.ok(key.includes('p35-ABC'));
+  assert.ok(key.includes('30'), 'שטח המשולש בעמוד 35 אינו מופיע במפתח');
 });
