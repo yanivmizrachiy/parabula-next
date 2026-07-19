@@ -80,6 +80,44 @@ test('the opening page varies ax^2=c orientation before two negative equations',
   }
 });
 
+test('page 2 is a graded like-terms bridge before common-factor equations', () => {
+  const likeTermsPage = pages[1];
+  assert.equal(likeTermsPage.globalNumber, 32);
+  assert.equal(likeTermsPage.exercises.length, 6);
+  assert.ok(likeTermsPage.title.includes('(b=0)'));
+  assert.ok(likeTermsPage.prompt.includes('כנסו איברים דומים'));
+
+  const equations = likeTermsPage.exercises.map(exercise => exercise.equation);
+  assert.ok(equations.includes('x^2+x^2=162'));
+
+  let previousRoot = 0;
+  for (const equation of equations) {
+    const match = equation.match(/^(\d*)x\^2\+(\d*)x\^2=(\d+)$/u);
+    assert.ok(match, `${equation}: expected ax^2+bx^2=c`);
+    const leftCoefficient = Number(match[1] || 1) + Number(match[2] || 1);
+    const square = Number(match[3]) / leftCoefficient;
+    const root = Math.sqrt(square);
+    assert.ok(Number.isInteger(root), `${equation}: expected integer roots`);
+    assert.ok(root > previousRoot, `${equation}: expected strictly graded positive roots`);
+    previousRoot = root;
+  }
+
+  const firstFactoringPage = pages[2];
+  assert.equal(firstFactoringPage.globalNumber, 33);
+  assert.ok(firstFactoringPage.title.includes('(c=0)'));
+  assert.deepEqual(
+    firstFactoringPage.exercises.map(exercise => exercise.equation),
+    [
+      'x^2 - 3x = 0',
+      'x^2 + 4x = 0',
+      '2x^2 - 14x = 0',
+      '3x^2 + 18x = 0',
+      '5x^2 = 20x',
+      '2x^2 + 8x = 0',
+    ],
+  );
+});
+
 test('generated canonical pages match the data model', () => {
   let renderedExercises = 0;
   for (const page of pages) {
