@@ -186,6 +186,30 @@ export const CURRICULUM = [
         ],
       },
       {
+        // תחום רביעי בכיתה ז לפי עדכון תשפ"ז — מסמך „תחום אי וודאות" (Uncertainty_7_8.pdf)
+        // של הפיקוח על הוראת המתמטיקה; שמות הצמתים לפי שורות „נושא לימוד" במסמך.
+        id: 'g7.uncertainty',
+        name: 'תחום אי־ודאות',
+        children: [
+          {
+            id: 'g7.uncertainty.stat',
+            name: 'סטטיסטיקה',
+            children: [
+              { id: 'g7.uncertainty.stat.data', name: 'איסוף וארגון נתונים ושכיחות' },
+              { id: 'g7.uncertainty.stat.relfreq', name: 'שכיחות יחסית (ללא אחוזים)' },
+              { id: 'g7.uncertainty.stat.percent', name: 'שכיחות יחסית באחוזים' },
+            ],
+          },
+          {
+            id: 'g7.uncertainty.prob',
+            name: 'הסתברות',
+            children: [
+              { id: 'g7.uncertainty.prob.intuitive', name: 'הסתברות אינטואיטיבית בהקשר של שכיחות יחסית' },
+            ],
+          },
+        ],
+      },
+      {
         id: 'g7.extra',
         name: 'נושאים נוספים',
         extension: true,
