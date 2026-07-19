@@ -1,0 +1,41 @@
+<section aria-labelledby="title-7" class="sheet guided ultra-dense" id="page-7">
+<header class="sheet-header"><div><div class="eyebrow">שלב 4 - למידה מודרכת</div><h1 id="title-7">מסמנים נקודות</h1><p>ראשית, ימינה לפי x, למעלה לפי y</p></div><div aria-label="עמוד 7" class="sheet-number">7</div></header>
+<main class="sheet-content">
+<div class="cols-2 compact-top"><div class="rule-box"><b>הדגמה:</b> לסימון <span class="math-ltr" dir="ltr">A(3,4)</span> מתקדמים מהראשית 3 ימינה ואז 4 למעלה.</div><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-sm" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 3, "y": 4, "label": "A"}]' data-polygons="[]" data-segments='[{"from": [0, 0], "to": [3, 0], "dashed": true, "type": "guide"}, {"from": [3, 0], "to": [3, 4], "dashed": true, "type": "guide"}]' role="img"></div></div>
+<div class="cols-2 page7-practice-pair"><section class="q-card"><h3>א. סמנו וכתבו את השמות: A(2,1), B(5,4), C(7,2), D(3,6), E(6,5).</h3><div aria-label="גרף גדול לסימון חמש נקודות" class="coordinate-grid grid-lg" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></section><section class="q-card"><h3>ב. סמנו: F(x=4,y=2), G(x=1,y=5), H(x=8,y=3).</h3><div aria-label="גרף לסימון F G H" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></section></div>
+<section class="q-card"><h3>ג. איזה שרטוט מציג נכון את A(2,5) ואת B(5,2)? הסבירו לפי סדר השיעורים.</h3><div class="choice-grid"><div><b>1</b><div aria-label="אפשרות אחת החלפת שיעורים" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 5, "y": 2, "label": "A"}, {"x": 2, "y": 5, "label": "B"}]' data-polygons="[]" data-segments="[]" role="img"></div></div><div><b>2</b><div aria-label="אפשרות שתיים נכונה" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 2, "y": 5, "label": "A"}, {"x": 5, "y": 2, "label": "B"}]' data-polygons="[]" data-segments="[]" role="img"></div></div><div><b>3</b><div aria-label="אפשרות שלוש קו אופקי" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 2, "y": 3, "label": "A"}, {"x": 5, "y": 3, "label": "B"}]' data-polygons="[]" data-segments="[]" role="img"></div></div><div><b>4</b><div aria-label="אפשרות ארבע קו אנכי" class="coordinate-grid grid-xs" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 3, "y": 5, "label": "A"}, {"x": 3, "y": 2, "label": "B"}]' data-polygons="[]" data-segments="[]" role="img"></div></div></div><p>השרטוט הנכון: <span class="blank" style="--blank-width:4ch"></span></p></section>
+<section class="q-card"><h3>ד. ניתוח טעות: תלמיד סימן את K(2,5) במקום (5,2). סמנו את המקום הנכון וכתבו מה הוחלף.</h3><div class="cols-2"><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-sm" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 5, "y": 2, "label": "?", "color": "#dc2626"}]' data-polygons="[]" data-segments="[]" role="img"></div><div class="answer-line"></div><div class="answer-line"></div><div class="answer-line"></div></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-8" class="sheet practice" id="page-8">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 4 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-8">מסמנים נקודות</h1>
+<p>מתקדמים תחילה לפי x ואחר כך לפי y</p>
+</div>
+<div aria-label="עמוד 8" class="sheet-number">8</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>מסמנים ארבע נקודות</h3>
+<p>סמנו במערכת: <span class="math-ltr" dir="ltr">A(1,1), B(4,1), C(4,4), D(1,4)</span>.</p>
+<div aria-label="מערכת צירים ריקה לסימון הנקודות A B C D" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+<p>חברו את הנקודות לפי הסדר <span class="math-ltr" dir="ltr">A-B-C-D-A</span>.</p>
+</section>
+<section class="q-card"><h3>מסמנים נקודות על הצירים</h3>
+<p>סמנו: <span class="math-ltr" dir="ltr">E(0,5), F(6,0), G(0,2), H(3,0), O(0,0)</span>.</p>
+<div aria-label="מערכת צירים ריקה לסימון נקודות על הצירים" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+<p>הקיפו את הנקודה שנמצאת על שני הצירים.</p>
+</section>
+<section class="q-card span-2"><h3>מסמנים ובודקים</h3>
+<p>סמנו: <span class="math-ltr" dir="ltr">P(2,5), Q(7,3), R(5,6)</span>.</p>
+<div aria-label="מערכת צירים ריקה לסימון הנקודות P Q R" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+<ul class="tasks compact">
+<li>מי מהנקודות הגבוהה ביותר? <span class="blank" style="--blank-width:5ch"></span></li>
+<li>מי הימנית ביותר? <span class="blank" style="--blank-width:5ch"></span></li>
+</ul>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>
