@@ -14,12 +14,17 @@ let source = execFileSync('git', ['show', `${previousBootstrap}:${sourcePath}`],
   maxBuffer: 32 * 1024 * 1024
 });
 
+source = source.replace(
+  "const repo = exec('git', ['rev-parse', '--show-toplevel'], { cwd: here }).trim();",
+  "const repo = process.env.RECTANGLE_REPO; if (!repo) throw new Error('RECTANGLE_REPO is not set');"
+);
 source = source.replaceAll(
   "run('git', ['clean', '-fdx']);",
   "run('git', ['clean', '-fdx', '-e', 'projects/coordinate-first-quadrant-workbook/audit/build.log']);"
 );
 
 fs.writeFileSync(diagnosticPath, source, 'utf8');
+process.env.RECTANGLE_REPO = repo;
 
 try {
   await import(`${pathToFileURL(diagnosticPath).href}?run=${Date.now()}`);
