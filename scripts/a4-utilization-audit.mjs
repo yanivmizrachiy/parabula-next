@@ -3,7 +3,7 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
 
-// Enforces CLAUDE.md §5: worksheet content must use the A4 page area —
+// Enforces CLAUDE.md §4: worksheet content must use the A4 page area —
 // no large unintended empty regions. Measures, per page, how far down the
 // A4 sheet the lowest visible content element reaches (utilization = lowest
 // content bottom / usable page height, in percent) and fails pages below
@@ -19,7 +19,7 @@ import { chromium } from '@playwright/test';
 const ROOT = process.cwd();
 const DEFAULT_MIN = 50;
 
-// Documented exceptions (CLAUDE.md §5): pages whose emptiness is faithful to
+// Documented exceptions (CLAUDE.md §4): pages whose emptiness is faithful to
 // the source material and must NOT be stretched artificially.
 const EXCEPTIONS = {
   'עמוד-5.html': 'faithful sparse continuation page (פונקציות) — source has little content'

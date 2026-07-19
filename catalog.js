@@ -194,13 +194,6 @@ function nodePathOf(id) {
   return names.join(' · ');
 }
 
-/** כל קובצי הדפים שמתחת לצומת, כולל צאצאיו, בסדר הקריאה. */
-function nodeFiles(node) {
-  const files = (state.pagesByNode.get(node.id) || []).map((page) => page.file);
-  for (const child of node.children || []) files.push(...nodeFiles(child));
-  return files;
-}
-
 function buildPageItem(page, ordinal) {
   const globalIdx = state.pages.findIndex((x) => x.file === page.file);
   const item = document.createElement('button');
@@ -256,29 +249,6 @@ function buildNode(node, depth, openIds) {
     }
   });
   wrap.appendChild(head);
-
-  if (node.pageCount > 0) {
-    const actions = document.createElement('div');
-    actions.className = 'toc-node-actions';
-    const files = nodeFiles(node);
-    const printBtn = document.createElement('button');
-    printBtn.type = 'button'; printBtn.className = 'toc-mini-btn';
-    printBtn.textContent = `🖨 הדפס ${node.pageCount} דפים`;
-    printBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      ParabulaActions.printFiles(files, { busyText: `מכין ${files.length} דפים בנושא "${node.name}"…` });
-    });
-    const selBtn = document.createElement('button');
-    selBtn.type = 'button'; selBtn.className = 'toc-mini-btn';
-    selBtn.textContent = '☑ בחר הכול';
-    selBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      enterSelectMode();
-      ParabulaActions.selectFiles(files);
-    });
-    actions.append(printBtn, selBtn);
-    wrap.appendChild(actions);
-  }
 
   if (pages.length) {
     const pagesBox = document.createElement('div');
@@ -682,10 +652,6 @@ function prev() {
 }
 
 /* ═══ בחירה מרובה ═══ */
-function enterSelectMode() {
-  document.body.classList.add('select-mode');
-  dom.selectModeBtn.setAttribute('aria-pressed', 'true');
-}
 function toggleSelectMode() {
   const on = !document.body.classList.contains('select-mode');
   document.body.classList.toggle('select-mode', on);

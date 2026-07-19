@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-18T20:21:20.763Z",
+  "generatedAt": "2026-07-19T20:18:13.004Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 560,
+  "totalPages": 573,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -5394,6 +5394,142 @@
       ]
     },
     {
+      "name": "מספרים מכוונים",
+      "count": 13,
+      "pages": [
+        {
+          "number": 561,
+          "file": "עמוד-561.html",
+          "title": "עמוד 1 — מספרים מכוונים",
+          "h1": "מי אני?",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-561.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-561.html",
+          "curriculumId": "g7.num.directed.intro.numberLine"
+        },
+        {
+          "number": 562,
+          "file": "עמוד-562.html",
+          "title": "עמוד 2 — מספרים מכוונים",
+          "h1": "זיהוי המחוברים וקביעת סימן התוצאה",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-562.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-562.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 563,
+          "file": "עמוד-563.html",
+          "title": "עמוד 3 — מספרים מכוונים",
+          "h1": "חיבור מספרים מכוונים בעלי אותו סימן",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-563.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-563.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 564,
+          "file": "עמוד-564.html",
+          "title": "עמוד 4 — מספרים מכוונים",
+          "h1": "חיבור מספרים מכוונים בעלי סימנים שונים",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-564.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-564.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 565,
+          "file": "עמוד-565.html",
+          "title": "עמוד 5 — מספרים מכוונים",
+          "h1": "השלמת מחובר כשהתוצאה נתונה",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-565.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-565.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 566,
+          "file": "עמוד-566.html",
+          "title": "עמוד 6 — מספרים מכוונים",
+          "h1": "תרגילי שרשרת במספרים מכוונים",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-566.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-566.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 567,
+          "file": "עמוד-567.html",
+          "title": "עמוד 7 — מספרים מכוונים",
+          "h1": "מיון תרגילי החיבור לפי סוג המחוברים",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-567.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-567.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 568,
+          "file": "עמוד-568.html",
+          "title": "עמוד 8 — מספרים מכוונים",
+          "h1": "זיהוי מחוברים בעלי סימנים זהים",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-568.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-568.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 569,
+          "file": "עמוד-569.html",
+          "title": "עמוד 9 — מספרים מכוונים",
+          "h1": "קביעת סימן התוצאה — מספרים בעלי סימנים שונים",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-569.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-569.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 570,
+          "file": "עמוד-570.html",
+          "title": "עמוד 10 — מספרים מכוונים",
+          "h1": "הערכת התוצאה — בחירת התשובות הנכונות",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-570.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-570.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 571,
+          "file": "עמוד-571.html",
+          "title": "עמוד 11 — מספרים מכוונים",
+          "h1": "כתיבת תרגיל מתאים ומציאת המספר",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-571.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-571.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 572,
+          "file": "עמוד-572.html",
+          "title": "עמוד 12 — מספרים מכוונים",
+          "h1": "לוח החיבור המורחב",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-572.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-572.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        },
+        {
+          "number": 573,
+          "file": "עמוד-573.html",
+          "title": "עמוד 13 — מספרים מכוונים",
+          "h1": "לוח הכפל המורחב",
+          "topic": "מספרים מכוונים",
+          "previewPath": "/עמוד-573.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-573.html",
+          "curriculumId": "g7.num.directed.intro.fourOps"
+        }
+      ]
+    },
+    {
       "name": "מערכת צירים - רביע ראשון בלבד",
       "count": 30,
       "pages": [
@@ -5704,19 +5840,19 @@
     "source": "כותרות לדפי עבודה במתמטיקה חטיבת ביניים",
     "totalNodes": 139,
     "leafNodes": 97,
-    "emptyLeafNodes": 32,
+    "emptyLeafNodes": 30,
     "nodes": [
       {
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 219,
+        "pageCount": 232,
         "children": [
           {
             "id": "g7.num",
             "name": "תחום מספרי",
             "directCount": 0,
-            "pageCount": 32,
+            "pageCount": 45,
             "children": [
               {
                 "id": "g7.num.ops",
@@ -5756,13 +5892,13 @@
                 "id": "g7.num.directed",
                 "name": "מספרים מכוונים",
                 "directCount": 0,
-                "pageCount": 32,
+                "pageCount": 45,
                 "children": [
                   {
                     "id": "g7.num.directed.intro",
                     "name": "היכרות ופעולות במספרים מכוונים",
                     "directCount": 0,
-                    "pageCount": 0,
+                    "pageCount": 13,
                     "children": [
                       {
                         "id": "g7.num.directed.intro.signs",
@@ -5773,8 +5909,11 @@
                       {
                         "id": "g7.num.directed.intro.numberLine",
                         "name": "הצגת מספרים שליליים על ציר המספרים",
-                        "directCount": 0,
-                        "pageCount": 0
+                        "directCount": 1,
+                        "pageCount": 1,
+                        "pages": [
+                          561
+                        ]
                       },
                       {
                         "id": "g7.num.directed.intro.order",
@@ -5791,8 +5930,22 @@
                       {
                         "id": "g7.num.directed.intro.fourOps",
                         "name": "ארבע פעולות חשבון במספרים מכוונים",
-                        "directCount": 0,
-                        "pageCount": 0
+                        "directCount": 12,
+                        "pageCount": 12,
+                        "pages": [
+                          562,
+                          563,
+                          564,
+                          565,
+                          566,
+                          567,
+                          568,
+                          569,
+                          570,
+                          571,
+                          572,
+                          573
+                        ]
                       },
                       {
                         "id": "g7.num.directed.intro.powers",

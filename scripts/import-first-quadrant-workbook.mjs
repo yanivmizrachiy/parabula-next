@@ -19,8 +19,8 @@ const topicName = 'מערכת צירים - רביע ראשון בלבד';
 const startPage = 531;
 const pageCount = 30;
 // שרשרת הקריאה הגלובלית ממוינת לפי רצועת הנושאים ואז אלפביתית (tests/a4-pages.rules.test.mjs):
-// הנושא "מערכת צירים - רביע ראשון בלבד" יושב בין "יחס" (עמוד-319) ל"משוואות ריבועיות" (עמוד-31).
-const chainPrev = 'עמוד-319.html';
+// הנושא "מערכת צירים - רביע ראשון בלבד" יושב אחרי "מספרים מכוונים" (עמוד-573) ל"משוואות ריבועיות" (עמוד-31).
+const chainPrev = 'עמוד-573.html';
 const chainNext = 'עמוד-31.html';
 const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
 const workbookDir = path.join(root, 'projects', 'coordinate-first-quadrant-workbook', 'workbook');

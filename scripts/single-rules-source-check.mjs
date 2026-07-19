@@ -236,6 +236,39 @@ for (const rel of codeFiles) {
   }
 }
 
+// ── כל הפניה לסעיף CLAUDE.md חייבת להצביע על סעיף שקיים בפועל ──────────
+// רגרסיה שנמצאה 2026-07-19: קוד וסגנונות ציטטו מספור פרקים ישן שכבר אינו קיים
+// (ניצול A4 צוטט כפרק 5 הישן, LTR כפרק 7 הישן, ואף פרק 11 שאינו קיים כלל).
+// מכאן והלאה: שינוי מבנה הפרקים חייב לעדכן את כל ההפניות, אחרת הבדיקה נכשלת.
+const sectionIds = new Set();
+if (exists(canonical)) {
+  for (const m of read(canonical).matchAll(/^#{2,3}\s+(\d+(?:\.\d+)?)(?=[.\s])/gm)) sectionIds.add(m[1]);
+}
+if (sectionIds.size < 5) errors.push(`${canonical} section headings could not be parsed; the section-reference gate has no baseline`);
+const sectionRefFiles = [
+  ...walk('scripts', rel => rel.endsWith('.mjs') || rel.endsWith('.js')),
+  ...walk('tests', rel => rel.endsWith('.mjs') || rel.endsWith('.js')),
+  ...walk('styles', rel => rel.endsWith('.css')),
+  ...walk('preview', rel => /\.(?:html|mjs|js|css)$/.test(rel)),
+  ...walk('.github/workflows', rel => rel.endsWith('.yml')),
+  ...['catalog.js', 'catalog.css', 'mobile-app.js', 'mobile-app.css', 'reader-actions.js', 'reader-actions.css', 'index.js', 'sw.js', 'index.html', 'catalog.html', 'mobile-app.html'].filter(exists)
+];
+// CSS של דפים ונושאים כפוף לחוזי העיצוב בלבד; הפניה לפרק תפעולי היא שריד מספור ישן.
+const designSections = /^(?:2|3|4(?:\.\d+)?)$/;
+let scannedSectionRefs = 0;
+for (const rel of sectionRefFiles) {
+  if (guardScripts.has(rel)) continue;
+  const text = read(rel);
+  for (const m of text.matchAll(/§\s?(\d+(?:\.\d+)?)/g)) {
+    scannedSectionRefs++;
+    if (!sectionIds.has(m[1])) {
+      errors.push(`${rel} references CLAUDE.md §${m[1]} which does not exist; update the reference to the current section`);
+    } else if ((rel.startsWith('styles/pages/') || rel.startsWith('styles/topics/')) && !designSections.test(m[1])) {
+      errors.push(`${rel} cites CLAUDE.md §${m[1]}; page/topic CSS may cite only the design contracts (§2–§4)`);
+    }
+  }
+}
+
 const output = {
   generatedAt: new Date().toISOString(),
   status: errors.length ? 'fail' : 'pass',
@@ -246,6 +279,7 @@ const output = {
   docsFiles,
   scannedMarkdown: rulesScanned.length,
   scannedCodeFiles: codeFiles.length,
+  scannedSectionRefs,
   errors,
   warnings
 };

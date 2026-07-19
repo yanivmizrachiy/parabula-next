@@ -209,7 +209,7 @@ for (const p of pages) {
   rows.push({ file: p.file, title: p.title, pct, ...r });
 
   // שפיות תוכן: ערך JS שדלף אל הדף. תפס `null.` כתווית סעיף ב-23 דפים —
-  // ליקוי שבדיקות הגאומטריה וה-bidi אינן רואות כלל (§1.6).
+  // ליקוי שבדיקות הגאומטריה וה-bidi אינן רואות כלל (§1).
   const raw = fs.readFileSync(path.join(root, p.file), 'utf8');
   const body = raw.slice(raw.indexOf('<main'));
   for (const token of ['>null', 'null.', '>undefined', 'NaN', '[object Object]']) {

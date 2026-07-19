@@ -11,7 +11,7 @@ const meta = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 
 const checks = [];
 const add = (name, ok, details = '') => checks.push({ name, ok: Boolean(ok), details });
 
-// ── נושאי הניווט הם עלי תכנית הלימודים, לא מערך topics השטוח (CLAUDE.md §4.4) ──
+// ── נושאי הניווט הם עלי תכנית הלימודים, לא מערך topics השטוח (CLAUDE.md §4.5) ──
 const pagesByNode = new Map();
 for (const topic of meta.topics || []) {
   for (const page of topic.pages || []) {
@@ -105,7 +105,7 @@ async function ensurePanelOpen(page) {
 
 /**
  * פותח את שרשרת האבות של הצומת בעץ תכנית הלימודים, עד שכפתור העלה נראה.
- * מזהי הצמתים נגזרים זה מזה בנקודות (CLAUDE.md §4.4).
+ * מזהי הצמתים נגזרים זה מזה בנקודות (CLAUDE.md §4.5).
  */
 async function expandToNode(page, nodeId) {
   const parts = String(nodeId).split('.');

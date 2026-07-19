@@ -43,7 +43,7 @@ jobs:
           npm run validate:meta
           npm run validate:schema
 
-      # שערי תכנית הלימודים (§4.4). בלעדיהם עריכה שמנתקת את meta/topics.json
+      # שערי תכנית הלימודים (§4.5). בלעדיהם עריכה שמנתקת את meta/topics.json
       # מ-scripts/curriculum-map.mjs מתמזגת בלי שאיש יבחין.
       - name: Curriculum taxonomy
         run: |
