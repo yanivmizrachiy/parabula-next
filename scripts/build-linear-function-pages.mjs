@@ -19,11 +19,57 @@ const dry = process.argv.includes('--dry');
 const TOPIC = 'פונקציה קווית';
 
 /* ---------- 1. הקצאת מספרי קבצים ומספור מקומי ---------- */
+// מספרי דפים תפוסים: כל דף של נושא **אחר** ב-topics.json, וכל קובץ בדיסק שאינו
+// שייך לנושא הזה. הריפו משותף לתהליכי עבודה נוספים שמוסיפים דפים במקביל,
+// ולכן הקצאה רצה פשוטה מ-395 מתנגשת בהם.
+const metaForAlloc = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
+const ownFiles = new Set(
+  (metaForAlloc.topics.find((t) => t.name === TOPIC)?.pages || []).map((p) => p.number),
+);
+const taken = new Set();
+for (const t of metaForAlloc.topics) {
+  if (t.name === TOPIC) continue;
+  for (const p of t.pages) taken.add(p.number);
+}
+for (const f of fs.readdirSync(root)) {
+  const m = /^עמוד-(\d+)\.html$/.exec(f);
+  if (m && !ownFiles.has(Number(m[1]))) taken.add(Number(m[1]));
+}
+
 let nextFile = FIRST_NEW_FILE;
+const allocate = () => {
+  while (taken.has(nextFile)) nextFile += 1;
+  taken.add(nextFile);
+  return nextFile++;
+};
+
 const seq = TOPIC_ORDER.map((entry, i) => {
-  const fileNumber = entry.kind === 'existing' ? entry.file : nextFile++;
+  const fileNumber = entry.kind === 'existing' ? entry.file : allocate();
   return { ...entry, fileNumber, localNumber: i + 1 };
 });
+
+/* ---------- 1א. שער בטיחות לפני כל כתיבה (§4.3) ---------- */
+// למה: בגרסה קודמת הכתיבה קדמה לבדיקת האינווריאנטים. כשהקצאת המספרים גלשה
+// לטווח של נושא אחר, הסקריפט **דרס 16 דפים של חוברת אחרת** לפני שנעצר.
+// אינווריאנט שנשבר — לא כותבים כלום.
+{
+  const others = new Set();
+  for (const t of metaForAlloc.topics) {
+    if (t.name === TOPIC) continue;
+    for (const p of t.pages) others.add(p.number);
+  }
+  const clash = seq.filter((e) => others.has(e.fileNumber));
+  if (clash.length) {
+    throw new Error(
+      `הקצאת מספרי דפים מתנגשת ב-${clash.length} דפים של נושאים אחרים: ` +
+      clash.map((e) => e.fileNumber).join(', ') + ' — לא נכתב דבר.',
+    );
+  }
+  const nums = seq.map((e) => e.fileNumber);
+  if (new Set(nums).size !== nums.length) throw new Error('הוקצה מספר דף כפול — לא נכתב דבר.');
+  const locals = seq.map((e) => e.localNumber);
+  if (locals.some((n, i) => n !== i + 1)) throw new Error('המספור המקומי אינו רציף — לא נכתב דבר.');
+}
 const total = seq.length;
 
 /* ---------- 1ב. שכני הנושא בסדר הקריאה הגלובלי ---------- */
