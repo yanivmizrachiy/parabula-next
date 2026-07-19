@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-18T20:21:20.763Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 394,
+  "totalPages": 438,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -875,13 +875,13 @@
     },
     {
       "name": "משוואות ריבועיות",
-      "count": 6,
+      "count": 50,
       "pages": [
         {
           "number": 31,
           "file": "עמוד-31.html",
-          "title": "עמוד 1 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 1 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-31.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html"
@@ -889,8 +889,8 @@
         {
           "number": 32,
           "file": "עמוד-32.html",
-          "title": "עמוד 2 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 2 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-32.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html"
@@ -898,8 +898,8 @@
         {
           "number": 33,
           "file": "עמוד-33.html",
-          "title": "עמוד 3 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 3 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-33.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html"
@@ -907,8 +907,8 @@
         {
           "number": 34,
           "file": "עמוד-34.html",
-          "title": "עמוד 4 — משוואה ריבועית",
-          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "title": "עמוד 4 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-34.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html"
@@ -916,8 +916,8 @@
         {
           "number": 35,
           "file": "עמוד-35.html",
-          "title": "עמוד 5 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 5 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-35.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html"
@@ -925,11 +925,407 @@
         {
           "number": 36,
           "file": "עמוד-36.html",
-          "title": "עמוד 6 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 6 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
           "topic": "משוואות ריבועיות",
           "previewPath": "/עמוד-36.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html"
+        },
+        {
+          "number": 395,
+          "file": "עמוד-395.html",
+          "title": "עמוד 7 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-395.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-395.html"
+        },
+        {
+          "number": 396,
+          "file": "עמוד-396.html",
+          "title": "עמוד 8 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-396.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-396.html"
+        },
+        {
+          "number": 397,
+          "file": "עמוד-397.html",
+          "title": "עמוד 9 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-397.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-397.html"
+        },
+        {
+          "number": 398,
+          "file": "עמוד-398.html",
+          "title": "עמוד 10 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-398.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-398.html"
+        },
+        {
+          "number": 399,
+          "file": "עמוד-399.html",
+          "title": "עמוד 11 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-399.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-399.html"
+        },
+        {
+          "number": 400,
+          "file": "עמוד-400.html",
+          "title": "עמוד 12 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-400.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-400.html"
+        },
+        {
+          "number": 401,
+          "file": "עמוד-401.html",
+          "title": "עמוד 13 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-401.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-401.html"
+        },
+        {
+          "number": 402,
+          "file": "עמוד-402.html",
+          "title": "עמוד 14 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-402.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-402.html"
+        },
+        {
+          "number": 403,
+          "file": "עמוד-403.html",
+          "title": "עמוד 15 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-403.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-403.html"
+        },
+        {
+          "number": 404,
+          "file": "עמוד-404.html",
+          "title": "עמוד 16 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-404.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-404.html"
+        },
+        {
+          "number": 405,
+          "file": "עמוד-405.html",
+          "title": "עמוד 17 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-405.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-405.html"
+        },
+        {
+          "number": 406,
+          "file": "עמוד-406.html",
+          "title": "עמוד 18 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-406.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-406.html"
+        },
+        {
+          "number": 407,
+          "file": "עמוד-407.html",
+          "title": "עמוד 19 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-407.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-407.html"
+        },
+        {
+          "number": 408,
+          "file": "עמוד-408.html",
+          "title": "עמוד 20 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-408.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-408.html"
+        },
+        {
+          "number": 409,
+          "file": "עמוד-409.html",
+          "title": "עמוד 21 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-409.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-409.html"
+        },
+        {
+          "number": 410,
+          "file": "עמוד-410.html",
+          "title": "עמוד 22 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-410.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-410.html"
+        },
+        {
+          "number": 411,
+          "file": "עמוד-411.html",
+          "title": "עמוד 23 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-411.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-411.html"
+        },
+        {
+          "number": 412,
+          "file": "עמוד-412.html",
+          "title": "עמוד 24 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-412.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-412.html"
+        },
+        {
+          "number": 413,
+          "file": "עמוד-413.html",
+          "title": "עמוד 25 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-413.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-413.html"
+        },
+        {
+          "number": 414,
+          "file": "עמוד-414.html",
+          "title": "עמוד 26 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-414.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-414.html"
+        },
+        {
+          "number": 415,
+          "file": "עמוד-415.html",
+          "title": "עמוד 27 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-415.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-415.html"
+        },
+        {
+          "number": 416,
+          "file": "עמוד-416.html",
+          "title": "עמוד 28 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-416.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-416.html"
+        },
+        {
+          "number": 417,
+          "file": "עמוד-417.html",
+          "title": "עמוד 29 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-417.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-417.html"
+        },
+        {
+          "number": 418,
+          "file": "עמוד-418.html",
+          "title": "עמוד 30 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-418.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-418.html"
+        },
+        {
+          "number": 419,
+          "file": "עמוד-419.html",
+          "title": "עמוד 31 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-419.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-419.html"
+        },
+        {
+          "number": 420,
+          "file": "עמוד-420.html",
+          "title": "עמוד 32 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-420.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-420.html"
+        },
+        {
+          "number": 421,
+          "file": "עמוד-421.html",
+          "title": "עמוד 33 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-421.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-421.html"
+        },
+        {
+          "number": 422,
+          "file": "עמוד-422.html",
+          "title": "עמוד 34 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-422.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-422.html"
+        },
+        {
+          "number": 423,
+          "file": "עמוד-423.html",
+          "title": "עמוד 35 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-423.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-423.html"
+        },
+        {
+          "number": 424,
+          "file": "עמוד-424.html",
+          "title": "עמוד 36 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-424.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-424.html"
+        },
+        {
+          "number": 425,
+          "file": "עמוד-425.html",
+          "title": "עמוד 37 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-425.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-425.html"
+        },
+        {
+          "number": 426,
+          "file": "עמוד-426.html",
+          "title": "עמוד 38 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-426.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-426.html"
+        },
+        {
+          "number": 427,
+          "file": "עמוד-427.html",
+          "title": "עמוד 39 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-427.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-427.html"
+        },
+        {
+          "number": 428,
+          "file": "עמוד-428.html",
+          "title": "עמוד 40 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-428.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-428.html"
+        },
+        {
+          "number": 429,
+          "file": "עמוד-429.html",
+          "title": "עמוד 41 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-429.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-429.html"
+        },
+        {
+          "number": 430,
+          "file": "עמוד-430.html",
+          "title": "עמוד 42 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-430.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-430.html"
+        },
+        {
+          "number": 431,
+          "file": "עמוד-431.html",
+          "title": "עמוד 43 — משוואות ריבועיות עם שברים ופירוקים",
+          "h1": "משוואות ריבועיות עם שברים ופירוקים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-431.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-431.html"
+        },
+        {
+          "number": 432,
+          "file": "עמוד-432.html",
+          "title": "עמוד 44 — משוואות ריבועיות עם שברים ופירוקים",
+          "h1": "משוואות ריבועיות עם שברים ופירוקים",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-432.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-432.html"
+        },
+        {
+          "number": 433,
+          "file": "עמוד-433.html",
+          "title": "עמוד 45 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-433.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-433.html"
+        },
+        {
+          "number": 434,
+          "file": "עמוד-434.html",
+          "title": "עמוד 46 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-434.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-434.html"
+        },
+        {
+          "number": 435,
+          "file": "עמוד-435.html",
+          "title": "עמוד 47 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-435.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-435.html"
+        },
+        {
+          "number": 436,
+          "file": "עמוד-436.html",
+          "title": "עמוד 48 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-436.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-436.html"
+        },
+        {
+          "number": 437,
+          "file": "עמוד-437.html",
+          "title": "עמוד 49 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-437.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-437.html"
+        },
+        {
+          "number": 438,
+          "file": "עמוד-438.html",
+          "title": "עמוד 50 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "previewPath": "/עמוד-438.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-438.html"
         }
       ]
     },

@@ -58,6 +58,8 @@ coverage/
 # Heavy generated audit outputs
 STATE/reports/a4-visual-audit/
 STATE/reports/pdf-export/
+output/pdf/
+tmp/
 playwright-report/
 test-results/
 meta/audit/
