@@ -30,7 +30,10 @@ fs.writeFileSync(
 const hashFile = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const audit = JSON.parse(fs.readFileSync(auditPath, 'utf8'));
 audit.answerRecords = answers.length;
-audit.triangleAnswerRecords = answers.filter(record => record.kind === 'triangle').length;
+audit.rightTriangleAnswerRecords = answers.filter(record => record.kind === 'triangle').length;
+audit.triangleAreaAnswerRecords = answers.filter(record => record.kind === 'triangleArea').length;
+audit.triangleAnswerRecords = audit.rightTriangleAnswerRecords + audit.triangleAreaAnswerRecords;
+audit.pointTriangleAnswerRecords = answers.filter(record => record.kind === 'pointTriangle').length;
 audit.answerPages = [...new Set(answers.map(record => record.page))].sort((a, b) => a - b);
 audit.files = audit.files
   .filter(item => fs.existsSync(path.join(root, item.path)))
@@ -51,5 +54,6 @@ console.log(JSON.stringify({
   htmlPages: audit.htmlPages,
   answerRecords: audit.answerRecords,
   triangleAnswerRecords: audit.triangleAnswerRecords,
+  pointTriangleAnswerRecords: audit.pointTriangleAnswerRecords,
   answerPages: audit.answerPages
 }, null, 2));
