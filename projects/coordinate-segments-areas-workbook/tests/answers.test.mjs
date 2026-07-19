@@ -33,7 +33,7 @@ test('לכל עמוד קיימת לפחות רשומת תשובה אחת', () =>
 });
 
 test('kind חוקי בכל רשומה', () => {
-  const allowed = new Set(['segment', 'rectangle', 'triangle', 'line', 'value']);
+  const allowed = new Set(['segment', 'rectangle', 'triangle', 'triangleArea', 'pointTriangle', 'line', 'value']);
   for (const record of answers) {
     assert.ok(allowed.has(record.kind), `kind לא חוקי ברשומה ${record.id}: ${record.kind}`);
     assert.ok(record.expect && typeof record.expect === 'object', `חסר expect ברשומה ${record.id}`);
@@ -86,9 +86,9 @@ test('מידות המלבנים, השטח וההיקף תואמים לשיעור
   }
 });
 
-test('שטחי המשולשים ואורכי הניצבים מחושבים מחדש מהקודקודים', () => {
+test('שטחי משולשים ישרי זווית ואורכי הניצבים מחושבים מחדש', () => {
   const triangles = answers.filter(record => record.kind === 'triangle');
-  assert.ok(triangles.length >= 9, `רק ${triangles.length} רשומות משולש`);
+  assert.ok(triangles.length >= 12, `רק ${triangles.length} רשומות משולש ישר זווית`);
   for (const record of triangles) {
     assert.equal(record.vertices.length, 3, `מספר קודקודים שגוי ברשומה ${record.id}`);
     const derived = derive(record);
@@ -96,6 +96,36 @@ test('שטחי המשולשים ואורכי הניצבים מחושבים מח�
     assert.equal(record.expect.area, derived.area, `שטח נגזר שגוי ברשומה ${record.id}`);
     assert.deepEqual(record.expect.legs, derived.legs, `אורכי ניצבים שגויים ברשומה ${record.id}`);
     assert.equal(record.expect.area, (record.expect.legs[0] * record.expect.legs[1]) / 2, `נוסחת בסיס×גובה÷2 נכשלה ברשומה ${record.id}`);
+  }
+});
+
+test('שטחי משולשים כלליים מחושבים מחדש מבסיס אופקי או אנכי וגובה', () => {
+  const triangles = answers.filter(record => record.kind === 'triangleArea');
+  assert.ok(triangles.length >= 18, `רק ${triangles.length} רשומות triangleArea`);
+  for (const record of triangles) {
+    const derived = derive(record);
+    assert.equal(record.expect.baseLength, derived.baseLength, `בסיס שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.height, derived.height, `גובה שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.baseAxis, derived.baseAxis, `כיוון בסיס שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.area, derived.area, `שטח נגזר שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.area, shoelaceArea(record.vertices), `שטח השרוכים שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.area, (record.expect.baseLength * record.expect.height) / 2, `בסיס×גובה÷2 נכשל ברשומה ${record.id}`);
+  }
+});
+
+test('סיווג נקודה ביחס למשולש נגזר מסכום שלושת שטחי המשנה', () => {
+  const records = answers.filter(record => record.kind === 'pointTriangle');
+  assert.ok(records.length >= 3, `רק ${records.length} רשומות pointTriangle`);
+  for (const record of records) {
+    const derived = derive(record);
+    assert.equal(record.expect.classification, derived.classification, `סיווג שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.mainArea, derived.mainArea, `שטח משולש ראשי שגוי ברשומה ${record.id}`);
+    assert.equal(record.expect.subAreaSum, derived.subAreaSum, `סכום שטחי משנה שגוי ברשומה ${record.id}`);
+    if (record.expect.classification === 'מחוץ') {
+      assert.ok(derived.subAreaSum > derived.mainArea, `נקודה חיצונית לא הגדילה את סכום השטחים ברשומה ${record.id}`);
+    } else {
+      assert.equal(derived.subAreaSum, derived.mainArea);
+    }
   }
 });
 
@@ -132,6 +162,30 @@ test('חקר היקף 24: הריבוע 6 על 6 בעל השטח המרבי', () 
   assert.deepEqual([maximal.expect.width, maximal.expect.height, maximal.expect.area], [6, 6, 36]);
 });
 
+test('אותו בסיס ואותו גובה נותנים שטחים שווים בעמודים 39 ו־43', () => {
+  const ids = ['p39-ABP', 'p39-ABQ', 'p43-ABP', 'p43-ABQ', 'p43-ABR', 'p43-S'];
+  const selected = ids.map(id => answers.find(record => record.id === id));
+  selected.forEach(record => assert.ok(record, `חסרה רשומה ${record?.id}`));
+  assert.deepEqual(selected.map(record => derive(record).area), [24, 24, 24, 24, 24, 24]);
+});
+
+test('התיכון בעמוד 44 מחלק את שטח המשולש לשני חלקים שווים', () => {
+  const total = answers.find(record => record.id === 'p44-ABC');
+  const left = answers.find(record => record.id === 'p44-ACM');
+  const right = answers.find(record => record.id === 'p44-BCM');
+  assert.equal(derive(total).area, 24);
+  assert.equal(derive(left).area, 12);
+  assert.equal(derive(right).area, 12);
+  assert.equal(derive(left).area + derive(right).area, derive(total).area);
+});
+
+test('יחס הבסיסים בעמוד 45 שווה ליחס השטחים', () => {
+  const left = derive(answers.find(record => record.id === 'p45-ACD'));
+  const right = derive(answers.find(record => record.id === 'p45-BCD'));
+  assert.equal(left.baseLength / right.baseLength, left.area / right.area);
+  assert.equal(left.area / right.area, 1 / 2);
+});
+
 test('מילון המושגים תואם למסמך המקור ואין בו כפילויות', () => {
   const source = fs.readFileSync(path.join(root, 'research', 'source-map.md'), 'utf8');
   assert.equal(glossary.length, 12);
@@ -148,6 +202,7 @@ test('מפתח המורה כולל את כל המזהים, המושגים והע
   assert.match(key, /<html lang="he" dir="rtl">/);
   answers.forEach(record => assert.ok(key.includes(record.id), `מפתח המורה חסר את ${record.id}`));
   glossary.forEach(term => assert.ok(key.includes(term), `מפתח המורה חסר את ${term}`));
-  assert.ok(key.includes('p35-ABC'));
-  assert.ok(key.includes('30'), 'שטח המשולש בעמוד 35 אינו מופיע במפתח');
+  assert.ok(key.includes('p45-BCD'));
+  assert.ok(key.includes('pointTriangle'));
+  assert.ok(key.includes('18'), 'שטח המשולש בעמוד 45 אינו מופיע במפתח');
 });
