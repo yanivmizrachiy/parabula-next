@@ -4,6 +4,61 @@
 import { esc } from './render.mjs';
 import { axisParallelLength, shoelaceArea } from './coordinate-svg.mjs';
 
+const EPSILON = 1e-9;
+
+function validateTriangle(record) {
+  if (!Array.isArray(record.vertices) || record.vertices.length !== 3) {
+    throw new Error(`Triangle ${record.id} must contain exactly three vertices`);
+  }
+}
+
+function triangleAreaByBase(record) {
+  validateTriangle(record);
+  if (!Array.isArray(record.base) || record.base.length !== 2) {
+    throw new Error(`Triangle area ${record.id} must define base indices`);
+  }
+  const [i, j] = record.base;
+  const k = [0, 1, 2].find(index => index !== i && index !== j);
+  const a = record.vertices[i];
+  const b = record.vertices[j];
+  const c = record.vertices[k];
+  if (a[0] !== b[0] && a[1] !== b[1]) {
+    throw new Error(`Triangle area ${record.id} base must be axis-parallel`);
+  }
+  const baseLength = axisParallelLength(a, b);
+  const height = a[1] === b[1] ? Math.abs(c[1] - a[1]) : Math.abs(c[0] - a[0]);
+  return {
+    baseLength,
+    height,
+    baseAxis: a[1] === b[1] ? 'x' : 'y',
+    area: shoelaceArea(record.vertices)
+  };
+}
+
+function classifyPoint(record) {
+  if (!Array.isArray(record.triangle) || record.triangle.length !== 3) {
+    throw new Error(`Point classification ${record.id} must define a triangle`);
+  }
+  const [a, b, c] = record.triangle;
+  const p = record.point;
+  const mainArea = shoelaceArea([a, b, c]);
+  const subAreas = [
+    shoelaceArea([p, a, b]),
+    shoelaceArea([p, b, c]),
+    shoelaceArea([p, c, a])
+  ];
+  const subAreaSum = subAreas.reduce((sum, value) => sum + value, 0);
+  const onBoundary = Math.abs(subAreaSum - mainArea) <= EPSILON
+    && subAreas.some(value => Math.abs(value) <= EPSILON);
+  const inside = Math.abs(subAreaSum - mainArea) <= EPSILON && !onBoundary;
+  return {
+    classification: onBoundary ? 'על' : inside ? 'בתוך' : 'מחוץ',
+    mainArea,
+    subAreaSum,
+    subAreas
+  };
+}
+
 /** מחשב ערכים נגזרים של רשומת תשובה. מחזיר null עבור kind='value'. */
 export function derive(record) {
   if (record.kind === 'segment') {
@@ -24,9 +79,7 @@ export function derive(record) {
     return { width, height, area: width * height, perimeter: 2 * (width + height) };
   }
   if (record.kind === 'triangle') {
-    if (!Array.isArray(record.vertices) || record.vertices.length !== 3) {
-      throw new Error(`Triangle ${record.id} must contain exactly three vertices`);
-    }
+    validateTriangle(record);
     const pairs = [[0, 1], [1, 2], [2, 0]];
     const legs = pairs
       .filter(([i, j]) => {
@@ -38,6 +91,12 @@ export function derive(record) {
       .sort((a, b) => a - b);
     return { legs, area: shoelaceArea(record.vertices) };
   }
+  if (record.kind === 'triangleArea') {
+    return triangleAreaByBase(record);
+  }
+  if (record.kind === 'pointTriangle') {
+    return classifyPoint(record);
+  }
   if (record.kind === 'line') {
     const [[ax, ay], [bx]] = record.through;
     return ax === bx
@@ -48,8 +107,9 @@ export function derive(record) {
 }
 
 function formatValue(value) {
-  if (Array.isArray(value)) return value.join(' , ');
+  if (Array.isArray(value)) return value.map(item => Array.isArray(item) ? item.join(',') : item).join(' , ');
   if (typeof value === 'boolean') return value ? 'נכון' : 'לא נכון';
+  if (value && typeof value === 'object') return JSON.stringify(value);
   return String(value);
 }
 
@@ -63,9 +123,11 @@ function renderRecord(record) {
     ? `קטע ${JSON.stringify(record.a)}–${JSON.stringify(record.b)}`
     : record.kind === 'rectangle'
       ? `מלבן ${JSON.stringify(record.corners[0])}–${JSON.stringify(record.corners[1])}`
-      : record.kind === 'triangle'
+      : record.kind === 'triangle' || record.kind === 'triangleArea'
         ? `משולש ${JSON.stringify(record.vertices)}`
-        : record.kind;
+        : record.kind === 'pointTriangle'
+          ? `נקודה ${JSON.stringify(record.point)} ביחס למשולש ${JSON.stringify(record.triangle)}`
+          : record.kind;
   return `<article class="tk-record"><h3>${esc(record.id)}</h3>`
     + `<p class="tk-source" dir="ltr">${esc(source)}</p>`
     + `<table class="tk-table"><tbody>${rows}</tbody></table></article>`;
