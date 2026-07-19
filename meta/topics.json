@@ -5396,9 +5396,9 @@
   ],
   "curriculum": {
     "source": "כותרות לדפי עבודה במתמטיקה חטיבת ביניים",
-    "totalNodes": 132,
-    "leafNodes": 93,
-    "emptyLeafNodes": 28,
+    "totalNodes": 139,
+    "leafNodes": 97,
+    "emptyLeafNodes": 32,
     "nodes": [
       {
         "id": "g7",
@@ -6049,6 +6049,54 @@
                       212,
                       213
                     ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "g7.uncertainty",
+            "name": "תחום אי־ודאות",
+            "directCount": 0,
+            "pageCount": 0,
+            "children": [
+              {
+                "id": "g7.uncertainty.stat",
+                "name": "סטטיסטיקה",
+                "directCount": 0,
+                "pageCount": 0,
+                "children": [
+                  {
+                    "id": "g7.uncertainty.stat.data",
+                    "name": "איסוף וארגון נתונים ושכיחות",
+                    "directCount": 0,
+                    "pageCount": 0
+                  },
+                  {
+                    "id": "g7.uncertainty.stat.relfreq",
+                    "name": "שכיחות יחסית (ללא אחוזים)",
+                    "directCount": 0,
+                    "pageCount": 0
+                  },
+                  {
+                    "id": "g7.uncertainty.stat.percent",
+                    "name": "שכיחות יחסית באחוזים",
+                    "directCount": 0,
+                    "pageCount": 0
+                  }
+                ]
+              },
+              {
+                "id": "g7.uncertainty.prob",
+                "name": "הסתברות",
+                "directCount": 0,
+                "pageCount": 0,
+                "children": [
+                  {
+                    "id": "g7.uncertainty.prob.intuitive",
+                    "name": "הסתברות אינטואיטיבית בהקשר של שכיחות יחסית",
+                    "directCount": 0,
+                    "pageCount": 0
                   }
                 ]
               }
