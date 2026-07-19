@@ -12,22 +12,16 @@ on:
       - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
       - projects/coordinate-first-quadrant-workbook/audit/build.log
       - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
-  # paths-ignore בלבד הפעיל את ה-workflow על כל PR שנגע בכל קובץ אחר בריפו,
-  # והוא נכשל תמיד כי projects/coordinate-first-quadrant-workbook/ אינו קיים
-  # ב-main. paths מגביל אותו ל-PR שבאמת נוגע בחוברת; ההחרגות נשמרות לתוצרי בנייה.
   pull_request:
     branches:
       - main
-    # GitHub אוסר paths ו-paths-ignore יחד באותו אירוע, ולכן ההחרגות
-    # מבוטאות כשלילה בתוך paths.
-    paths:
-      - projects/coordinate-first-quadrant-workbook/**
-      - '!projects/coordinate-first-quadrant-workbook/dist/**'
-      - '!projects/coordinate-first-quadrant-workbook/downloads/**'
-      - '!projects/coordinate-first-quadrant-workbook/preview/**'
-      - '!projects/coordinate-first-quadrant-workbook/audit/generated-audit.json'
-      - '!projects/coordinate-first-quadrant-workbook/audit/build.log'
-      - '!projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt'
+    paths-ignore:
+      - projects/coordinate-first-quadrant-workbook/dist/**
+      - projects/coordinate-first-quadrant-workbook/downloads/**
+      - projects/coordinate-first-quadrant-workbook/preview/**
+      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/audit/build.log
+      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
   workflow_dispatch:
 
 permissions:
@@ -56,10 +50,11 @@ jobs:
           sudo apt-get update >/tmp/apt-update.log
           sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Install Playwright headless-shell browser
+      - name: Locate system Chrome and set CHROME_PATH
         run: |
-          # Playwright 1.49+ separates chromium-headless-shell from chromium
-          npx playwright install chromium-headless-shell --with-deps
+          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          echo "Using browser: $CHROME"
       - name: Build and audit workbook
         id: workbook_build
         continue-on-error: true
