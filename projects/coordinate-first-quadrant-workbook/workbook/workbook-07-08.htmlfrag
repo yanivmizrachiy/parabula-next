@@ -1,0 +1,106 @@
+<section aria-labelledby="title-13" class="sheet guided ultra-dense" id="page-13">
+<header class="sheet-header"><div><div class="eyebrow">שלב 7 - למידה מודרכת</div><h1 id="title-13">שפה של מיקום</h1><p>מעל, מימין ועל הצירים</p></div><div aria-label="עמוד 13" class="sheet-number">13</div></header>
+<main class="sheet-content">
+<div aria-label="נקודות לתיאור מיקום" class="coordinate-grid grid-lg" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 3, "y": 4, "label": "A"}, {"x": 5, "y": 0, "label": "B"}, {"x": 0, "y": 3, "label": "C"}, {"x": 6, "y": 2, "label": "D"}, {"x": 0, "y": 6, "label": "E"}, {"x": 0, "y": 0, "label": "O"}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<section class="q-card"><h3>א. כתבו את כל הנקודות המתאימות לכל תיאור.</h3><div class="cols-2 task-grid"><div>מעל ציר x: <span class="blank" style="--blank-width:10ch"></span></div><div>על ציר x: <span class="blank" style="--blank-width:10ch"></span></div><div>מימין לציר y: <span class="blank" style="--blank-width:10ch"></span></div><div>על ציר y: <span class="blank" style="--blank-width:10ch"></span></div><div class="span-2">גם מעל x וגם מימין ל־y: <span class="blank" style="--blank-width:12ch"></span></div></div></section>
+<section class="q-card"><h3>ב. נכון / לא נכון.</h3><table class="tf-table"><tr><td>B נמצאת מעל ציר x.</td><td>נכון / לא נכון</td></tr><tr><td>C נמצאת על ציר y.</td><td>נכון / לא נכון</td></tr><tr><td>A נמצאת מימין לציר y.</td><td>נכון / לא נכון</td></tr><tr><td>E נמצאת מימין לציר y.</td><td>נכון / לא נכון</td></tr><tr><td>D נמצאת מעל ציר x.</td><td>נכון / לא נכון</td></tr></table></section>
+<section class="q-card"><h3>ג. כתבו זוג סדור אחד לכל תיאור. יש כמה תשובות אפשריות.</h3><div class="cols-2 task-grid"><div>מעל ציר x: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div>מימין לציר y: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div>על ציר x: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div>על ציר y: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div>גם מעל וגם מימין: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div></div></section>
+<section class="q-card"><h3>ד. חשיבה: מדוע <span class="math-ltr" dir="ltr">(0,4)</span> מעל ציר x אך אינה מימין לציר y?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-14" class="sheet practice" id="page-14">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 7 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-14">שפת מיקום</h1>
+<p>ימין, שמאל, מעל, מתחת ושיעורים שווים</p>
+</div>
+<div aria-label="עמוד 14" class="sheet-number">14</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card span-2"><h3>שפת מיקום</h3>
+<div class="rule-box">
+    מעל ציר <span class="math-ltr" dir="ltr">x</span>: <span class="math-ltr" dir="ltr">y&gt;0</span>   |  
+    מימין לציר <span class="math-ltr" dir="ltr">y</span>: <span class="math-ltr" dir="ltr">x&gt;0</span>   |  
+    שיעורים שווים: <span class="math-ltr" dir="ltr">x=y</span>.
+  </div>
+<div aria-label="מערכת צירים ובה הנקודות A עד E" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 2, "y": 2, "label": "A", "dx": 10, "dy": -10}, {"x": 5, "y": 2, "label": "B", "dx": 10, "dy": -10}, {"x": 5, "y": 5, "label": "C", "dx": 10, "dy": -10}, {"x": 1, "y": 5, "label": "D", "dx": 10, "dy": -10}, {"x": 4, "y": 4, "label": "E", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments="[]" role="img"></div>
+</section>
+<section class="q-card"><h3>ימין, שמאל, מעל ומתחת</h3>
+<ul class="tasks">
+<li>איזו נקודה מימין ל־<span class="math-ltr" dir="ltr">A</span> ובאותו גובה? <span class="blank" style="--blank-width:5ch"></span></li>
+<li>איזו נקודה מעל <span class="math-ltr" dir="ltr">B</span> ובאותו קו אנכי? <span class="blank" style="--blank-width:5ch"></span></li>
+<li>איזו נקודה משמאל ל־<span class="math-ltr" dir="ltr">C</span> ובאותו גובה? <span class="blank" style="--blank-width:5ch"></span></li>
+<li>איזו נקודה מתחת ל־<span class="math-ltr" dir="ltr">C</span> ובאותו קו אנכי? <span class="blank" style="--blank-width:5ch"></span></li>
+</ul>
+</section>
+<section class="q-card"><h3>שיעורים שווים</h3>
+<p>אילו נקודות מקיימות <span class="math-ltr" dir="ltr">x=y</span>? <span class="blank" style="--blank-width:10ch"></span></p>
+<p>כתבו שתי נקודות נוספות ברביע הראשון ששיעוריהן שווים:</p>
+<p><span class="blank" style="--blank-width:9ch"></span>    <span class="blank" style="--blank-width:9ch"></span></p>
+<p>האם <span class="math-ltr" dir="ltr">(0,0)</span> מקיימת <span class="math-ltr" dir="ltr">x=y</span>? הסבירו.</p>
+<div class="answer-line"></div>
+</section>
+<section class="q-card span-2"><h3>מתיאור לזוג סדור</h3>
+<p>נקודה נמצאת מימין לציר <span class="math-ltr" dir="ltr">y</span> במרחק 6 יחידות ומעל ציר <span class="math-ltr" dir="ltr">x</span> במרחק 3 יחידות.</p>
+<p>שיעוריה: <span class="blank" style="--blank-width:10ch"></span></p>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-15" class="sheet guided dense" id="page-15">
+<header class="sheet-header"><div><div class="eyebrow">שלב 8 - למידה מודרכת</div><h1 id="title-15">שיעורים זהים וקטעים מקבילים</h1><p>אותו x - אנכי; אותו y - אופקי</p></div><div aria-label="עמוד 15" class="sheet-number">15</div></header>
+<main class="sheet-content">
+<div class="cols-2"><div aria-label="קטעים AB BC CD" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 2, "y": 1, "label": "A"}, {"x": 2, "y": 5, "label": "B"}, {"x": 6, "y": 5, "label": "C"}, {"x": 6, "y": 2, "label": "D"}]' data-polygons="[]" data-segments='[{"from": [2, 1], "to": [2, 5]}, {"from": [2, 5], "to": [6, 5]}, {"from": [6, 5], "to": [6, 2]}]' role="img"></div><div><section class="q-card"><h3>א. הנקודות A ו־B.</h3><p>שיעורי x: <span class="blank" style="--blank-width:3ch"></span> ו־<span class="blank" style="--blank-width:3ch"></span></p><p>השיעור הזהה: <span class="blank" style="--blank-width:4ch"></span></p><p>AB מקביל לציר: <span class="blank" style="--blank-width:4ch"></span></p></section><section class="q-card"><h3>ב. הנקודות B ו־C.</h3><p>שיעורי y: <span class="blank" style="--blank-width:3ch"></span> ו־<span class="blank" style="--blank-width:3ch"></span></p><p>השיעור הזהה: <span class="blank" style="--blank-width:4ch"></span></p><p>BC מקביל לציר: <span class="blank" style="--blank-width:4ch"></span></p></section></div></div>
+<div class="rule-box">אותו שיעור x ⇒ קטע מקביל לציר y. אותו שיעור y ⇒ קטע מקביל לציר x.</div>
+<section class="q-card"><h3>ג. השלימו.</h3><p><span class="math-ltr" dir="ltr">P(4,1)</span> ו־<span class="math-ltr" dir="ltr">Q(4,6)</span>: PQ מקביל לציר <span class="blank" style="--blank-width:3ch"></span></p><p><span class="math-ltr" dir="ltr">R(2,3)</span> ו־<span class="math-ltr" dir="ltr">S(7,3)</span>: RS מקביל לציר <span class="blank" style="--blank-width:3ch"></span></p></section>
+<section class="q-card"><h3>ד. כתבו נקודה נוספת כך שהקטע בינה לבין <span class="math-ltr" dir="ltr">(3,4)</span> יהיה מקביל לציר x: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span>. ולציר y: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span>.</h3></section>
+<section class="q-card"><h3>ה. הקיפו את כל הנקודות ששני שיעוריהן זהים.</h3><div class="choice-row"><span class="choice"><span class="math-ltr" dir="ltr">(1,1)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(2,5)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(4,4)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(6,3)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(0,0)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(5,5)</span></span></div></section>
+<section class="q-card"><h3>ו. חשיבה: האם יכולות להיות שתי נקודות שונות בעלות אותו שיעור x וגם אותו שיעור y?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-16" class="sheet practice" id="page-16">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 8 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-16">שיעורים זהים וקטעים מקבילים</h1>
+<p>אותו x יוצר אנכי; אותו y יוצר אופקי</p>
+</div>
+<div aria-label="עמוד 16" class="sheet-number">16</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>הכלל הגאומטרי</h3>
+<div class="rule-box">
+    אותו שיעור <span class="math-ltr" dir="ltr">x</span> ⇒ הנקודות בקו אנכי והקטע מקביל לציר <span class="math-ltr" dir="ltr">y</span>.<br/>
+    אותו שיעור <span class="math-ltr" dir="ltr">y</span> ⇒ הנקודות בקו אופקי והקטע מקביל לציר <span class="math-ltr" dir="ltr">x</span>.
+  </div>
+<p>השלימו:</p>
+<ul class="tasks">
+<li><span class="math-ltr" dir="ltr">P(3,1)</span> ו־<span class="math-ltr" dir="ltr">Q(3,6)</span> - שיעור <span class="blank" style="--blank-width:3ch"></span> זהה.</li>
+<li><span class="math-ltr" dir="ltr">R(1,4)</span> ו־<span class="math-ltr" dir="ltr">S(7,4)</span> - שיעור <span class="blank" style="--blank-width:3ch"></span> זהה.</li>
+</ul>
+</section>
+<section class="q-card"><h3>מזהים קטעים</h3>
+<div aria-label="מערכת צירים עם הקטעים AB BC CD" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 2, "y": 1, "label": "A", "dx": 10, "dy": -10}, {"x": 2, "y": 5, "label": "B", "dx": 10, "dy": -10}, {"x": 6, "y": 5, "label": "C", "dx": 10, "dy": -10}, {"x": 6, "y": 2, "label": "D", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments='[{"from": [2, 1], "to": [2, 5], "type": "shape"}, {"from": [2, 5], "to": [6, 5], "type": "shape"}, {"from": [6, 5], "to": [6, 2], "type": "shape"}]' role="img"></div>
+<ul class="tasks compact">
+<li>הקטע <span class="math-ltr" dir="ltr">AB</span> מקביל לציר <span class="blank" style="--blank-width:3ch"></span>.</li>
+<li>הקטע <span class="math-ltr" dir="ltr">BC</span> מקביל לציר <span class="blank" style="--blank-width:3ch"></span>.</li>
+<li>האם <span class="math-ltr" dir="ltr">CD</span> אופקי או אנכי? <span class="blank" style="--blank-width:7ch"></span></li>
+</ul>
+</section>
+<section class="q-card"><h3>בוחרים זוגות</h3>
+<p>הקיפו כל זוג שיוצר קטע אופקי:</p>
+<p><span class="math-ltr" dir="ltr">(1,3),(5,3)</span>   |   <span class="math-ltr" dir="ltr">(4,1),(4,6)</span>   |   <span class="math-ltr" dir="ltr">(2,2),(7,2)</span></p>
+<p>הקיפו כל זוג שיוצר קטע אנכי:</p>
+<p><span class="math-ltr" dir="ltr">(6,1),(6,5)</span>   |   <span class="math-ltr" dir="ltr">(1,4),(5,4)</span>   |   <span class="math-ltr" dir="ltr">(3,0),(3,6)</span></p>
+</section>
+<section class="q-card span-2"><h3>בונים קטעים</h3>
+<p>במערכת סמנו את <span class="math-ltr" dir="ltr">M(4,2)</span>.</p>
+<p>סמנו נקודה <span class="math-ltr" dir="ltr">N</span> כך שהקטע <span class="math-ltr" dir="ltr">MN</span> יהיה אופקי באורך 3 יחידות.</p>
+<p>סמנו נקודה <span class="math-ltr" dir="ltr">T</span> כך שהקטע <span class="math-ltr" dir="ltr">MT</span> יהיה אנכי באורך 4 יחידות.</p>
+<div aria-label="מערכת צירים ריקה לבניית קטעים" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>

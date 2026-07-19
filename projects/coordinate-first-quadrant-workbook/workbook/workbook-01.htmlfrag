@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>מערכת צירים — רביע ראשון | 30 עמודים</title><style>
+:root{
+  --ink:#1f2a44; --muted:#5f6b7a; --grid:#e7eaf1; --blue:#1d4ed8;
+  --paper:#fff; --screen:#eef1f5; --border:#cbd3df; --soft:#f6f8fb;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--screen); color:var(--ink);
+  font-family:"Noto Sans Hebrew","Noto Sans",Arial,sans-serif;
+  font-size:15px; line-height:1.46;
+}
+.toolbar{
+  position:sticky; top:0; z-index:20; min-height:58px; padding:10px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  background:#ffffffee; backdrop-filter:blur(10px); border-bottom:1px solid var(--border);
+  box-shadow:0 2px 12px #1f2a4412;
+}
+.toolbar-controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.toolbar button,.toolbar select,.toolbar a{
+  border:1px solid #aeb8c7; border-radius:8px; background:white; color:var(--ink);
+  min-height:38px; padding:7px 12px; font:inherit; font-weight:700; text-decoration:none; cursor:pointer;
+}
+.toolbar .primary,.toolbar .download{background:var(--ink); color:white; border-color:var(--ink)}
+.book{padding:18px 0 42px}
+.sheet{
+  width:210mm; min-height:297mm; margin:0 auto 18px; padding:13mm 14mm 11mm;
+  background:var(--paper); box-shadow:0 8px 28px #1f2a4425; border:1px solid #dfe4ec;
+  display:block; position:relative; break-after:page; page-break-after:always;
+}
+.sheet:last-child{break-after:auto;page-break-after:auto}
+.sheet-header{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:18px;
+  padding-bottom:4mm; margin-bottom:4mm; border-bottom:2px solid var(--ink);
+}
+.eyebrow{font-size:12px; font-weight:800; letter-spacing:.04em; color:var(--blue)}
+h1{font-size:27px; line-height:1.15; margin:3px 0 4px}
+.sheet-header p{margin:0;color:var(--muted);font-size:14px}
+.sheet-number{
+  width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+  background:var(--ink);color:white;font-size:20px;font-weight:900;flex:none
+}
+.sheet-content{padding-bottom:12mm}
+.sheet-footer{
+  position:absolute;right:14mm;left:14mm;bottom:7mm;display:flex;justify-content:space-between;gap:20px;border-top:1px solid var(--border);
+  padding-top:2.5mm;color:var(--muted);font-size:11px
+}
+.two-col{display:block;font-size:0}
+.two-col>.q-card{display:inline-block;vertical-align:top;width:49%;margin:0 0 10px 1%;font-size:15px}
+.two-col>.span-2{display:block;width:100%;margin-left:0}
+.q-card{
+  border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:white;
+  break-inside:avoid; page-break-inside:avoid;
+}
+.q-card h3{
+  margin:-10px -12px 9px;padding:7px 11px;background:var(--soft);
+  border-bottom:1px solid var(--border);border-radius:10px 10px 0 0;
+  font-size:16px;color:var(--ink)
+}
+.q-card p{margin:5px 0}
+.tasks{padding-right:20px;margin:5px 0}
+.tasks li{margin:6px 0}
+.tasks.compact li{margin:3px 0}
+.rule-box,.note-box{
+  border-right:5px solid var(--blue);background:#eef4ff;border-radius:7px;
+  padding:9px 11px;margin:5px 0 8px
+}
+.note-box{border-right-color:#8a5a00;background:#fff8e7}
+.math-ltr{direction:ltr;unicode-bidi:isolate;font-family:"Noto Sans",Arial,sans-serif;font-weight:700}
+.blank{
+  display:inline-block;min-width:var(--blank-width,6ch);height:1.2em;
+  border-bottom:1.5px solid var(--ink);vertical-align:-.08em
+}
+.answer-line{height:1.5em;border-bottom:1px solid #8994a5;margin-top:4px}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:6px}
+.work-table,.tf-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:13.5px}
+.work-table th,.work-table td,.tf-table td{
+  border:1px solid #adb7c6;padding:6px 7px;vertical-align:middle
+}
+.work-table th{background:#f1f4f8;font-weight:800}
+.work-table.center td,.work-table.center th{text-align:center}
+.work-table td:empty{height:30px}
+.work-table .tall{height:65px}
+.tf-table td:last-child{width:34%;text-align:center;font-weight:700}
+.coordinate-grid{
+  width:100%;margin:4px auto 6px;border:1px solid #d9e0ea;border-radius:8px;background:#fff;
+  display:block;
+}
+.grid-large{max-width:580px;height:276px}
+.grid-medium{max-width:430px;height:240px}
+.coordinate-grid svg{display:block;width:100%;height:100%;font-family:"Noto Sans",Arial,sans-serif}
+@media(max-width:850px){
+  .toolbar{position:relative;align-items:flex-start;flex-direction:column}
+  .sheet{width:100%;min-height:auto;margin:0 0 14px;padding:18px 15px;border-left:0;border-right:0}
+  .two-col>.q-card,.two-col>.span-2{display:block;width:100%;margin-left:0}
+}
+@page{size:A4;margin:0}
+@media print{
+  body{background:white;font-size:12.4px;line-height:1.34;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .toolbar{display:none!important}
+  .book{padding:0}
+  .sheet{
+    width:210mm;height:297mm;min-height:297mm;margin:0;padding:9mm 10mm 8mm;
+    box-shadow:none;border:0;break-after:page;page-break-after:always
+  }
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+  .q-card{box-shadow:none}
+  .sheet-header{padding-bottom:2.5mm;margin-bottom:2.5mm}
+  .sheet-header h1{font-size:23px}
+  .sheet-header p{font-size:12px}
+  .sheet-number{width:36px;height:36px;font-size:17px}
+  .two-col>.q-card{font-size:12.4px;margin-bottom:6px}
+  .q-card{padding:7px 9px;border-radius:8px}
+  .q-card h3{margin:-7px -9px 6px;padding:5px 8px;font-size:13.5px}
+  .tasks li{margin:3px 0}
+  .work-table,.tf-table{font-size:11.5px;margin:4px 0}
+  .work-table th,.work-table td,.tf-table td{padding:4px 5px}
+  .rule-box,.note-box{padding:6px 8px;margin:3px 0 5px}
+  .answer-line{height:1.25em}
+  .grid-large{height:190px}
+  .grid-medium{height:175px}
+  .sheet-content{padding-bottom:10mm}
+  .sheet-footer{right:10mm;left:10mm;bottom:5mm;font-size:9.5px}
+}
+
+
+.sequence-banner{max-width:210mm;margin:16px auto 0;background:#eaf2ff;border:1px solid #bed2f5;border-radius:10px;padding:10px 14px;color:#1f2a44}
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:start}.cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;align-items:start}.task-grid{gap:7px 14px}.compact-top{align-items:center}.tiny-labels{text-align:center;font-size:11px}.span-2{grid-column:1/-1}
+.choice-row{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0}.choice{border:1px solid #9da9b8;border-radius:999px;padding:3px 9px;background:#fff;display:inline-block}.choice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;text-align:center}.choice-grid .coordinate-grid{margin-top:2px}
+.pair{display:inline-flex;align-items:flex-end;gap:2px;font-weight:700}.pair-blank{display:inline-block;width:20px;height:17px;border-bottom:1.5px solid #1f2a44}.match{display:grid;grid-template-columns:1fr 1fr;gap:35%;line-height:2.2;padding:4px 12%}.mc-stack>div{margin:5px 0;border-bottom:1px dashed #d8dee8;padding-bottom:3px}
+.error-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mist-card{border:1px solid #cbd3df;border-radius:8px;padding:7px 9px;break-inside:avoid}.mist-card p{margin:5px 0;font-size:13px}.mist-card small{color:#5f6b7a}.mist-head{display:flex;justify-content:space-between;font-weight:800;background:#f3f5f8;margin:-7px -9px 5px;padding:5px 8px;border-radius:8px 8px 0 0}.mist-head span{font-size:10px;font-weight:600}.always-row{border-bottom:1px dashed #d8dee8;padding:3px 0;font-size:11px}.always-row .choice-row{display:inline-flex;margin-inline:7px}.reason-line{display:inline-block;min-width:110px;border-bottom:1px solid #8994a5}.rules .rule-box{text-align:center;margin:0}.small{font-size:12px}
+.grid-lg{height:258px}.grid-md{height:210px}.grid-sm{height:165px}.grid-xs{height:128px}
+.sheet.guided{font-size:13.5px}.sheet.guided .q-card{padding:8px 10px}.sheet.guided .q-card h3{margin:-8px -10px 7px;padding:6px 9px;font-size:14px}.sheet.dense{font-size:13px}.sheet.ultra-dense{font-size:12.5px}.sheet.ultra-dense .q-card{padding:7px 9px}.sheet.ultra-dense .q-card h3{margin:-7px -9px 6px;font-size:13.2px}.sheet.error-page .answer-line{height:1.25em}
+@media(max-width:850px){.cols-2,.cols-3,.choice-grid,.error-grid{grid-template-columns:1fr}.sequence-banner{margin:10px}.span-2{grid-column:auto}}
+@media print{.sequence-banner{display:none}.sheet.guided{font-size:12.7px}.sheet.ultra-dense{font-size:11.8px}.grid-lg{height:238px}.grid-md{height:196px}.grid-sm{height:150px}.grid-xs{height:116px}}
+
+#page-7 .sheet-content{display:grid;gap:6px}
+#page-7 .page7-practice-pair{gap:6px}
+#page-7 .grid-lg{height:178px}
+#page-7 .grid-md{height:145px}
+#page-7 .grid-sm{height:120px}
+#page-7 .grid-xs{height:86px}
+#page-7 .q-card{padding:6px 8px}
+#page-7 .q-card h3{margin:-6px -8px 5px;padding:5px 7px;font-size:12.4px}
+#page-7 .choice-grid{gap:3px}
+@media print{#page-7 .grid-lg{height:168px}#page-7 .grid-md{height:135px}#page-7 .grid-sm{height:110px}#page-7 .grid-xs{height:80px}}
+
+@media print{
+  .sheet.practice .two-col{display:block;font-size:0}
+  .sheet.practice .two-col>.q-card{display:inline-block;vertical-align:top;width:49%;margin:0 0 6px 1%;font-size:12.4px}
+  .sheet.practice .two-col>.span-2{display:block;width:100%;margin-left:0}
+}
+
+@media print{
+  .cols-2{grid-template-columns:1fr 1fr}
+  .cols-3{grid-template-columns:repeat(3,1fr)}
+  .choice-grid{grid-template-columns:repeat(4,1fr)}
+  .error-grid{grid-template-columns:1fr 1fr}
+  .span-2{grid-column:1/-1}
+}
+</style></head><body>
+<nav class="toolbar"><strong>מערכת צירים — רביע ראשון | 30 עמודים</strong><div class="toolbar-controls"><button id="prevPage">הקודם</button><select id="pageSelect"><option value="1">עמוד 1</option><option value="2">עמוד 2</option><option value="3">עמוד 3</option><option value="4">עמוד 4</option><option value="5">עמוד 5</option><option value="6">עמוד 6</option><option value="7">עמוד 7</option><option value="8">עמוד 8</option><option value="9">עמוד 9</option><option value="10">עמוד 10</option><option value="11">עמוד 11</option><option value="12">עמוד 12</option><option value="13">עמוד 13</option><option value="14">עמוד 14</option><option value="15">עמוד 15</option><option value="16">עמוד 16</option><option value="17">עמוד 17</option><option value="18">עמוד 18</option><option value="19">עמוד 19</option><option value="20">עמוד 20</option><option value="21">עמוד 21</option><option value="22">עמוד 22</option><option value="23">עמוד 23</option><option value="24">עמוד 24</option><option value="25">עמוד 25</option><option value="26">עמוד 26</option><option value="27">עמוד 27</option><option value="28">עמוד 28</option><option value="29">עמוד 29</option><option value="30">עמוד 30</option></select><button id="nextPage">הבא</button><button class="primary" onclick="window.print()">הדפסה / שמירה כ־PDF</button><button class="download" type="button" onclick="window.print()">שמירה כ־PDF</button></div></nav>
+<div class="sequence-banner"><b>רצף הלמידה:</b> בכל שלב עמוד הוראה מודרכת ואחריו עמוד תרגול והעמקה. שום שאלה משני המקבצים לא הושמטה.</div>
+<div class="book"><section aria-labelledby="title-1" class="sheet guided dense" id="page-1">
+<header class="sheet-header"><div><div class="eyebrow">שלב 1 - למידה מודרכת</div><h1 id="title-1">מכירים את מערכת הצירים</h1><p>ציר x, ציר y וראשית הצירים</p></div><div aria-label="עמוד 1" class="sheet-number">1</div></header>
+<main class="sheet-content">
+<div class="rule-box">מערכת צירים בנויה משני צירים הנפגשים ב<b>ראשית הצירים</b>. הציר האופקי הוא <span class="math-ltr" dir="ltr">ציר x</span> והציר האנכי הוא <span class="math-ltr" dir="ltr">ציר y</span>.</div>
+<section class="q-card"><h3>א. כתבו בכל תיבה: ציר x, ציר y או ראשית הצירים.</h3><div aria-label="מערכת צירים עם שלוש תיבות לזיהוי הצירים והראשית" class="coordinate-grid grid-lg" data-arrows="[]" data-labelboxes='[{"text": "……………", "at": [5.4, 0.7], "to": [5, 0]}, {"text": "……………", "at": [1.5, 4.8], "to": [0, 4.2]}, {"text": "……………", "at": [1.7, 1.3], "to": [0, 0]}]' data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div></section>
+<section class="q-card"><h3>ב. השלימו את המספרים החסרים על הצירים.</h3><div aria-label="מערכת צירים עם מספרים חסרים" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes="[]" data-points="[]" data-polygons="[]" data-segments="[]" data-xlabels='[0, 1, "", 3, "", 5, 6, "", 8]' data-ylabels='[0, "", 2, "", 4, 5, ""]' role="img"></div></section>
+<section class="q-card"><h3>ג. סמנו נכון / לא נכון.</h3><table class="tf-table"><tr><td>ציר x הוא ציר אופקי.</td><td>נכון / לא נכון</td></tr><tr><td>ציר y הוא ציר אופקי.</td><td>נכון / לא נכון</td></tr><tr><td>ראשית הצירים היא נקודת המפגש בין שני הצירים.</td><td>נכון / לא נכון</td></tr><tr><td>המספרים על ציר x גדלים ככל שמתקדמים ימינה.</td><td>נכון / לא נכון</td></tr><tr><td>המספרים על ציר y גדלים ככל שמתקדמים למעלה.</td><td>נכון / לא נכון</td></tr></table></section>
+<section class="q-card"><h3>ד. חשיבה: מדוע דרושים שני צירים כדי לתאר מקום של נקודה במישור?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-2" class="sheet practice" id="page-2">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 1 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-2">הכרת מערכת הצירים</h1>
+<p>צירים, ראשית וכיווני תנועה</p>
+</div>
+<div aria-label="עמוד 2" class="sheet-number">2</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card span-2"><h3>מכירים את המערכת</h3>
+<p>במערכת הצירים שלפניכם מופיעים רק הראשית והרביע הראשון.</p>
+<div aria-label="מערכת צירים ריקה ברביע הראשון" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+<div class="mini-grid">
+<div>כתבו ליד הציר האופקי: <span class="blank" style="--blank-width:10ch"></span></div>
+<div>כתבו ליד הציר האנכי: <span class="blank" style="--blank-width:10ch"></span></div>
+<div>סמנו את ראשית הצירים באות <span class="math-ltr" dir="ltr">O</span>.</div>
+</div>
+</section>
+<section class="q-card"><h3>כיוונים</h3>
+<p>השלימו במילים <b>ימינה</b>, <b>שמאלה</b>, <b>למעלה</b>, <b>למטה</b>.</p>
+<ul class="tasks">
+<li>כאשר ערך <span class="math-ltr" dir="ltr">x</span> גדל, נעים <span class="blank" style="--blank-width:6ch"></span>.</li>
+<li>כאשר ערך <span class="math-ltr" dir="ltr">y</span> גדל, נעים <span class="blank" style="--blank-width:6ch"></span>.</li>
+<li>כדי לחזור אל ציר <span class="math-ltr" dir="ltr">y</span>, נעים <span class="blank" style="--blank-width:6ch"></span>.</li>
+<li>כדי לחזור אל ציר <span class="math-ltr" dir="ltr">x</span>, נעים <span class="blank" style="--blank-width:6ch"></span>.</li>
+</ul>
+</section>
+<section class="q-card"><h3>בודקים הבנה</h3>
+<p>סמנו נכון או לא נכון.</p>
+<table class="tf-table">
+<tr><td>ראשית הצירים היא <span class="math-ltr" dir="ltr">(0,0)</span>.</td><td>נכון / לא נכון</td></tr>
+<tr><td>ציר <span class="math-ltr" dir="ltr">x</span> הוא הציר האנכי.</td><td>נכון / לא נכון</td></tr>
+<tr><td>ברביע הראשון אין ערכים שליליים.</td><td>נכון / לא נכון</td></tr>
+<tr><td>הנקודה <span class="math-ltr" dir="ltr">(0,3)</span> נמצאת על ציר <span class="math-ltr" dir="ltr">y</span>.</td><td>נכון / לא נכון</td></tr>
+</table>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>

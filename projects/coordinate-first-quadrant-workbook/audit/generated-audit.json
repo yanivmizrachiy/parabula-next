@@ -1,0 +1,47 @@
+{
+  "title": "מערכת צירים — רביע ראשון | 30 עמודים",
+  "generatedAt": "2026-07-19T10:21:27.604Z",
+  "htmlPages": 30,
+  "pdfPages": 30,
+  "pages": 30,
+  "grids": 46,
+  "questions": 133,
+  "rtl": true,
+  "files": [
+    {
+      "path": "dist/index.html",
+      "bytes": 102655,
+      "sha256": "b6e4ddaeb10dd5c8b3ae342e8f14ec0dba8ef92b1eb5ae4fdfc2ebbe95b1231f"
+    },
+    {
+      "path": "dist/workbook.css",
+      "bytes": 9803,
+      "sha256": "cd9fc28ffa9874a6075514bc56401cda240a4bad311055db6fb93dbb71de5def"
+    },
+    {
+      "path": "dist/workbook.js",
+      "bytes": 5476,
+      "sha256": "cdd70e75646150f6d279ada23e1476930c62d34a5bf1ced7e8de0f2f3ad435db"
+    },
+    {
+      "path": "dist/standalone-source.html",
+      "bytes": 118955,
+      "sha256": "196905b52d9341af69eb8d1db213f48c4aba6ec81367dc11f010d4aaf2d814a3"
+    },
+    {
+      "path": "downloads/coordinate-first-quadrant-workbook.pdf",
+      "bytes": 586455,
+      "sha256": "8fc8e588491e83a9e39fcedef454cd556ef511fbd46865f9877e603d76560405"
+    },
+    {
+      "path": "downloads/coordinate-first-quadrant-source.zip",
+      "bytes": 69038,
+      "sha256": "38dbc57f740b02214a1e1b2c42285cb46c4e66c3626ecbdd88d9872006730056"
+    },
+    {
+      "path": "preview/page-01.png",
+      "bytes": 69766,
+      "sha256": "a8075d733da0e04d22d016180af7a1c6bd1fc69baaa89169c32b9530afd722e1"
+    }
+  ]
+}
