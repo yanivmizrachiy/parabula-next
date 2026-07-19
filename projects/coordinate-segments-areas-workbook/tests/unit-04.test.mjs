@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import pages from '../src/pages/index.mjs';
-import unit04 from '../src/pages/unit-04-parallelogram-trapezoid-v1.mjs';
+import unit04 from '../src/pages/unit-04-parallelogram-trapezoid.mjs';
 import { answers } from '../src/all-answers.mjs';
 import { derive } from '../src/teacher-key.mjs';
 import { EXPECTED_PAGES } from './expected-pages.mjs';
