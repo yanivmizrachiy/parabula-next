@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/ratio-workbook-deep-audit
+      - automation/render-ratio-page-1-diamonds
     paths:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
@@ -90,7 +91,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit regenerated page images
-        if: github.event_name == 'push' && github.ref_name == 'fix/ratio-workbook-deep-audit'
+        if: github.event_name == 'push' && github.ref_name == 'automation/render-ratio-page-1-diamonds'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -98,7 +99,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Rendered page images are already current."
           else
-            git commit -m "chore(יחס): רינדור 48 דפי A4 מתוקנים"
-            git pull --rebase origin fix/ratio-workbook-deep-audit
-            git push origin HEAD:fix/ratio-workbook-deep-audit
+            git commit -m "chore(יחס): רינדור עמוד המעויינים המעודכן"
+            git pull --rebase origin automation/render-ratio-page-1-diamonds
+            git push origin HEAD:automation/render-ratio-page-1-diamonds
           fi
