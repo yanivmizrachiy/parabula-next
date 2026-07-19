@@ -27,20 +27,14 @@
 <section class="q-card"><h3>ריבוע מתיאור</h3>
 <p>קודקוד שמאלי־תחתון של ריבוע הוא <span class="math-ltr" dir="ltr">(1,2)</span>. אורך הצלע 3 יחידות והצלעות מקבילות לצירים.</p>
 <p>כתבו את שלושת הקודקודים האחרים:</p>
-<p><span class="blank" style="--blank-width:10ch"></span> — <span class="blank" style="--blank-width:10ch"></span> — <span class="blank" style="--blank-width:10ch"></span> — <span class="blank" style="--blank-width:10ch"></span></p>
+<p><span class="blank" style="--blank-width:10ch"></span>   <span class="blank" style="--blank-width:10ch"></span>   <span class="blank" style="--blank-width:10ch"></span></p>
 <p>היקף: <span class="blank" style="--blank-width:5ch"></span>   שטח: <span class="blank" style="--blank-width:5ch"></span></p>
 </section>
-<section class="q-card"><h3>בורים אתישי</h3>
-<p>מצאו שני נקודות בעלות אותו שיעור x שלהן <span class="math-ltr" dir="ltr">3</span> ופשדר q Щלה הוא <span class="math-ltr" dir="ltr">4</span>.</p>
-<p>מה האפשרות? <span class="blank" style="--blank-width:14ch"></span></p>
-<p>קטע ריוכי ביניהן: <span class="blank" style="--blank-width:24ch"></span></p>
-</section>
-<section class="q-card"><h3>דפוסים צירים</h3>
-<table class="data-table">
-<tr><th>תטאור הציר</th><th>תשותת</th></tr>
-<tr><td>נקודה על הציר x</td><td>עולה ב <span class="blank" style="--blank-width:3ch"></span> משנה</td></tr>
-<tr><td>נקודה על הציר yи</td><td>תחת הציר הי <span class="blank" style="--blank-width:3ch"></span></td></tr>
-<tr><td>קטע אופקי</td><td>שיעור <span class="blank" style="--blank-width:3ch"></span זהה</td></tr>
+<section class="q-card"><h3>סיכום קצר</h3>
+<table class="work-table">
+<tr><td>נקודה על ציר <span class="math-ltr" dir="ltr">x</span></td><td><span class="math-ltr" dir="ltr">y=</span> <span class="blank" style="--blank-width:3ch"></span></td></tr>
+<tr><td>נקודה על ציר <span class="math-ltr" dir="ltr">y</span></td><td><span class="math-ltr" dir="ltr">x=</span> <span class="blank" style="--blank-width:3ch"></span></td></tr>
+<tr><td>קטע אופקי</td><td>שיעור <span class="blank" style="--blank-width:3ch"></span> זהה</td></tr>
 <tr><td>קטע אנכי</td><td>שיעור <span class="blank" style="--blank-width:3ch"></span> זהה</td></tr>
 <tr><td>הזזה ימינה</td><td>רק <span class="blank" style="--blank-width:3ch"></span> משתנה</td></tr>
 <tr><td>הזזה למעלה</td><td>רק <span class="blank" style="--blank-width:3ch"></span> משתנה</td></tr>
