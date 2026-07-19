@@ -9,6 +9,7 @@ import { page37Balance, page38Balance } from './unit-03-balance.mjs';
 import advancedTrianglePages from './unit-03-advanced-v2.mjs';
 import advancedTriangleEnrichment from './unit-03-advanced-enrichment.mjs';
 import page46 from './unit-03-assessment.mjs';
+import unit04 from './unit-04-parallelogram-trapezoid-v1.mjs';
 
 const enrichmentLimits = new Map([[33, 1], [34, 1], [35, 1]]);
 const enrichedUnit03 = unit03.map(page => {
@@ -44,5 +45,6 @@ export default [
   balancedPage36,
   ...balancedPages37to38,
   ...enrichedAdvancedTrianglePages,
-  page46
+  page46,
+  ...unit04
 ];

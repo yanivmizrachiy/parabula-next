@@ -94,6 +94,32 @@ export function derive(record) {
   if (record.kind === 'triangleArea') {
     return triangleAreaByBase(record);
   }
+  if (record.kind === 'parallelogram') {
+    // הכול נגזר מהקודקודים: בסיס אופקי, גובה אנכי, שטח, והקודקוד הרביעי.
+    const [A, B, C, D] = record.vertices;
+    const baseLength = Math.abs(B[0] - A[0]);
+    const height = Math.abs(D[1] - A[1]);
+    return {
+      baseLength, height, area: baseLength * height,
+      shoelace: shoelaceArea(record.vertices),
+      fourthFromABD: [A[0] === undefined ? null : D[0] + (B[0] - A[0]), D[1] + (B[1] - A[1])]
+    };
+  }
+  if (record.kind === 'trapezoid') {
+    const [A, B, C, D] = record.vertices;
+    const baseBig = Math.abs(B[0] - A[0]);
+    const baseSmall = Math.abs(C[0] - D[0]);
+    const height = Math.abs(D[1] - A[1]);
+    const legAD = Math.hypot(D[0] - A[0], D[1] - A[1]);
+    const legBC = Math.hypot(C[0] - B[0], C[1] - B[1]);
+    return {
+      baseBig, baseSmall, height,
+      area: (baseBig + baseSmall) * height / 2,
+      shoelace: shoelaceArea(record.vertices),
+      legAD, legBC,
+      perimeter: baseBig + baseSmall + legAD + legBC
+    };
+  }
   if (record.kind === 'pointTriangle') {
     return classifyPoint(record);
   }
@@ -125,6 +151,10 @@ function renderRecord(record) {
       ? `מלבן ${JSON.stringify(record.corners[0])}–${JSON.stringify(record.corners[1])}`
       : record.kind === 'triangle' || record.kind === 'triangleArea'
         ? `משולש ${JSON.stringify(record.vertices)}`
+      : record.kind === 'parallelogram'
+        ? `מקבילית ${JSON.stringify(record.vertices)}`
+      : record.kind === 'trapezoid'
+        ? `טרפז ${JSON.stringify(record.vertices)}`
         : record.kind === 'pointTriangle'
           ? `נקודה ${JSON.stringify(record.point)} ביחס למשולש ${JSON.stringify(record.triangle)}`
           : record.kind;
