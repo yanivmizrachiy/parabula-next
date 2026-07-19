@@ -150,6 +150,16 @@ function nodePathOf(nodeId) {
   return names.join(' · ');
 }
 
+function pagePlacementIds(page) {
+  return [...new Set([page?.curriculumId, ...(page?.relatedCurriculumIds || [])].filter(Boolean))];
+}
+function pageBelongsToNode(page, nodeId) {
+  return Boolean(nodeId) && pagePlacementIds(page).includes(nodeId);
+}
+function activeNodeOf(page) {
+  return pageBelongsToNode(page, state.activeTopic) ? state.activeTopic : (page?.curriculumId || '');
+}
+
 /** כל קובצי הדפים שמתחת לצומת, כולל צאצאיו. */
 function nodeFilesOf(node) {
   const files = nodePagesOf(node.id).map((page) => page.file);
@@ -192,7 +202,8 @@ function setProgress(page) {
     els.globalProgress.textContent = '—';
     return;
   }
-  const topicPages = nodePagesOf(page.curriculumId);
+  const nodeId = activeNodeOf(page);
+  const topicPages = nodePagesOf(nodeId);
   const topicIndex = topicPages.findIndex((item) => item.file === page.file);
   const globalIndex = state.flatPages.findIndex((item) => item.file === page.file);
   els.topicProgress.textContent = topicIndex >= 0 ? `עמוד ${topicIndex + 1} מתוך ${topicPages.length} בנושא` : '—';
@@ -202,7 +213,7 @@ function setProgress(page) {
 function updatePageHeading(page) {
   if (!page) return;
   els.currentPageTitle.textContent = page.title || page.h1 || page.file;
-  els.currentPageMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.number}`;
+  els.currentPageMeta.textContent = `${nodePathOf(activeNodeOf(page))} · עמוד ${page.number}`;
   els.sheetPageTitle.textContent = page.title || page.h1 || page.file;
   setProgress(page);
 }
@@ -408,21 +419,19 @@ function watchFrameContent() {
 function syncCurrentPage(page, { persist = true } = {}) {
   if (!page) return;
   state.shownPage = page;
-  const topicChanged = Boolean(page.curriculumId) && page.curriculumId !== state.activeTopic;
-  state.activeTopic = page.curriculumId || state.activeTopic;
-  // חשיפת הנושא בעץ שייכת לכאן ולא ל-showPage: בחיפוש הדף כבר נמצא
-  // ב-visiblePages, ולכן ענף החשיפה שם נדלג והעץ נשאר מקופל על נושא ישן.
-  // §5.5 דורש מצב אחד קנוני של דף פעיל בכל המשטחים.
+  const targetTopic = pageBelongsToNode(page, state.activeTopic) ? state.activeTopic : (page.curriculumId || state.activeTopic);
+  const topicChanged = Boolean(targetTopic) && targetTopic !== state.activeTopic;
+  state.activeTopic = targetTopic;
   if (topicChanged) revealActiveNode();
   state.currentIndex = state.visiblePages.findIndex((item) => item.file === page.file);
   if (state.currentIndex < 0) {
-    state.visiblePages = nodePagesOf(page.curriculumId);
+    state.visiblePages = nodePagesOf(state.activeTopic);
     state.currentIndex = state.visiblePages.findIndex((item) => item.file === page.file);
   }
   updatePageHeading(page);
   if (persist) {
     storageSet('parabula:lastFile', page.file);
-    storageSet('parabula:lastTopic', page.curriculumId || state.activeTopic);
+    storageSet('parabula:lastTopic', state.activeTopic);
   }
   updateButtons();
 }
@@ -451,7 +460,7 @@ function showPage(file, options = {}) {
   }
   if (state.readMode === 'scroll') {
     syncCurrentPage(page);
-    if (!state.scrollStack || state.scrollPages[0]?.curriculumId !== page.curriculumId) buildScrollStack(file);
+    if (!state.scrollStack || !state.scrollPages.some((item) => item.file === file)) buildScrollStack(file);
     else scrollToSheet(file, options.behavior || 'smooth');
     if (options.collapse !== false) setTopicsPanelOpen(false);
     return;
@@ -569,8 +578,9 @@ function revealActiveNode() {
 
 function matchesQuery(page, query) {
   // החיפוש מכסה גם את מסלול תכנית הלימודים — כיתה, תחום ותת־נושא
+  const paths = pagePlacementIds(page).map(nodePathOf).join(' ');
   return norm(
-    `${page.topic} ${nodePathOf(page.curriculumId)} ${page.title} ${page.h1} ${page.file} עמוד ${page.number}`,
+    `${page.topic} ${paths} ${page.title} ${page.h1} ${page.file} עמוד ${page.number}`,
   ).includes(query);
 }
 
@@ -604,7 +614,8 @@ function renderPages(options = {}) {
     card.className = 'page-card';
     card.dataset.file = page.file;
     card.setAttribute('role', 'group');
-    card.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${nodeNameOf(page.curriculumId)}, עמוד ${page.number}`);
+    const cardNodeId = activeNodeOf(page);
+    card.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${nodeNameOf(cardNodeId)}, עמוד ${page.number}`);
 
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
@@ -619,7 +630,7 @@ function renderPages(options = {}) {
     const openButton = document.createElement('button');
     openButton.type = 'button';
     openButton.className = 'page-open';
-    openButton.innerHTML = `<span class="pc-copy"><strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(nodePathOf(page.curriculumId))}</span><span>עמוד ${page.number}</span></span>`;
+    openButton.innerHTML = `<span class="pc-copy"><strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(nodePathOf(cardNodeId))}</span><span>עמוד ${page.number}</span></span>`;
     openButton.addEventListener('click', () => showPage(page.file));
 
     card.append(selectButton, openButton);
@@ -732,7 +743,9 @@ function destroyScrollStack() {
 function buildScrollStack(targetFile = activePage()?.file) {
   destroyScrollStack();
   const page = findPage(targetFile) || activePage();
-  const nodeId = page?.curriculumId || state.activeTopic || firstPopulatedNodeId();
+  const nodeId = pageBelongsToNode(page, state.activeTopic)
+    ? state.activeTopic
+    : (page?.curriculumId || state.activeTopic || firstPopulatedNodeId());
   const pages = nodePagesOf(nodeId);
   if (!pages.length) return;
   state.activeTopic = nodeId;
@@ -962,17 +975,19 @@ async function boot() {
   })(state.curriculum);
   state.pagesByNode = new Map();
   for (const page of state.flatPages) {
-    if (!page.curriculumId) continue;
-    if (!state.pagesByNode.has(page.curriculumId)) state.pagesByNode.set(page.curriculumId, []);
-    state.pagesByNode.get(page.curriculumId).push(page);
+    for (const nodeId of pagePlacementIds(page)) {
+      if (!state.pagesByNode.has(nodeId)) state.pagesByNode.set(nodeId, []);
+      state.pagesByNode.get(nodeId).push(page);
+    }
   }
   // סדר הדפים בתוך צומת: לפי הנושא השטוח שממנו הגיעו, ובתוכו לפי המספור המודפס.
   // סדר המערך ב-topics.json אינו סדר ההדפסה (למשל "פונקציה ריבועית": 1,3,4,2).
   {
     const topicOrder = new Map((state.db.topics || []).map((t, i) => [t.name, i]));
     const localOf = (page) => Number((String(page.title).match(/עמוד\s+(\d+)/) || [])[1] || page.number);
-    for (const list of state.pagesByNode.values()) {
+    for (const [nodeId, list] of state.pagesByNode) {
       list.sort((a, b) =>
+        Number(a.curriculumId !== nodeId) - Number(b.curriculumId !== nodeId) ||
         (topicOrder.get(a.topic) ?? 0) - (topicOrder.get(b.topic) ?? 0) || localOf(a) - localOf(b));
     }
   }
@@ -1020,7 +1035,7 @@ async function boot() {
   const remembered = storageGet('parabula:lastFile');
   const first = requested || findPage(remembered) || state.visiblePages[0] || state.flatPages[0];
   if (!first) throw new Error('No worksheet pages found');
-  if (first.curriculumId !== state.activeTopic) {
+  if (!pageBelongsToNode(first, state.activeTopic)) {
     state.activeTopic = first.curriculumId;
     renderTopics();
     renderPages({ autoShow: false });
@@ -1118,15 +1133,16 @@ els.aPrintTopic.addEventListener('click', () => {
   const page = activePage();
   closeActionsSheet();
   if (!page) return;
-  const files = nodePagesOf(page.curriculumId).map((item) => item.file);
+  const nodeId = activeNodeOf(page);
+  const files = nodePagesOf(nodeId).map((item) => item.file);
   ParabulaActions?.printFiles(files, {
-    busyText: `מכין ${files.length} דפים בנושא "${nodeNameOf(page.curriculumId)}"…`,
+    busyText: `מכין ${files.length} דפים בנושא "${nodeNameOf(nodeId)}"…`,
   });
 });
 els.aSelectTopic.addEventListener('click', () => {
   const page = activePage();
   toggleSelectMode(true);
-  if (page) ParabulaActions?.selectFiles(nodePagesOf(page.curriculumId).map((item) => item.file));
+  if (page) ParabulaActions?.selectFiles(nodePagesOf(activeNodeOf(page)).map((item) => item.file));
   closeActionsSheet();
 });
 

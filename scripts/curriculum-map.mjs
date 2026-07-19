@@ -389,8 +389,8 @@ export const PAGE_ASSIGNMENTS = {
   // 562-571: דפי חיבור/סימן במספרים מכוונים; 572-573: הלוחות המורחבים למילוי.
   'g7.num.directed.intro.fourOps': ['562-573'],
   // 531-560 הם חוברת „מערכת צירים — רביע ראשון" (30 גיליונות) שיובאה מ-
-  // projects/coordinate-first-quadrant-workbook. 268-271 שהיו כאן הם דפי
-  // „זווית ישרה במערכת צירים" — תוכנם המתמטי הוא זוויות, והם הועברו לצומת הזוויות.
+  // projects/coordinate-first-quadrant-workbook. 268-271 נשארים בבעלות הפדגוגית
+  // של „מושג הזווית", ומוניעים גם כחטיבת המשך של הרביע הראשון דרך cross-listing.
   'g7.num.directed.axesFirst': ['531-560'],
   'g7.num.directed.axesAll': [360, 361],
 
@@ -478,6 +478,14 @@ export const PAGE_ASSIGNMENTS = {
   'g9.prob.probability': ['257-260'],
 };
 
+/**
+ * הצגות משניות של דף קיים בצומת נוסף, בלי לשכפל את קובץ ה-HTML ובלי לשנות
+ * את הבית הפדגוגי הראשי שלו. Cross-listing מותר רק בתוך אותה שכבת גיל.
+ */
+export const PAGE_CROSS_LISTINGS = {
+  'g7.num.directed.axesFirst': ['268-271'],
+};
+
 /** מרחיב טווחים ('9-30') ומספרים בודדים לרשימת מספרים שטוחה. */
 export function expandPages(entries) {
   const out = [];
@@ -494,6 +502,20 @@ export function expandPages(entries) {
     for (let n = from; n <= to; n += 1) out.push(n);
   }
   return out;
+}
+
+/** מחזיר מפה: מספר דף → רשימת צמתי cross-listing משניים. */
+export function buildRelatedPageIndex() {
+  const index = new Map();
+  for (const [nodeId, entries] of Object.entries(PAGE_CROSS_LISTINGS)) {
+    for (const number of expandPages(entries)) {
+      const list = index.get(number) ?? [];
+      if (list.includes(nodeId)) throw new Error(`דף ${number} רשום פעמיים כ-cross-listing אל ${nodeId}`);
+      list.push(nodeId);
+      index.set(number, list);
+    }
+  }
+  return index;
 }
 
 /** מחזיר מפה שטוחה: מספר דף → מזהה צומת. נכשל על שיוך כפול. */
