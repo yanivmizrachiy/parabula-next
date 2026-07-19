@@ -33,7 +33,7 @@ const dom = {};
 ['tocToggle','tocOverlay','globalSearch','clearSearch','searchResults','statChip','modeSwitch',
  'toc','tocList','selectModeBtn','stateLoading','stateError','errorMsg','retryBtn','readerStage',
  'readerTitle','readerMeta','btnPrint','btnPdf','btnHtml','btnOpen','btnPrintTopic',
- 'viewport','sheets','navPrev','navNext','footPrev','footProgress','footNext',
+ 'viewport','sheets','navPrev','navNext','footPrev','footNext',
  'selectionBar','selectionCount','selPrint','selPdf','selClear',
  'board','boardBtn','boardClose','boardBody','boardSummary','boardToggleEmpty']
   .forEach((k) => dom[k] = $(k));
@@ -537,7 +537,6 @@ function render() {
     sizeSheet(sheet, scale);
     dom.readerTitle.textContent = page.title || page.h1 || page.file;
     dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
-    dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
   } else if (state.mode === 'spread') {
     // התאמה לזוגות בתוך הנושא: מיישרים לתחילת זוג
@@ -550,7 +549,6 @@ function render() {
     dom.readerMeta.textContent = pair.length === 2
       ? `${nodePathOf(page.curriculumId)} · עמודים ${page.nodeIndex}–${pair[1].nodeIndex} מתוך ${page.nodeTotal}`
       : `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
-    dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
   } else { // scroll — כל דפי הנושא הנוכחי, בטעינה עצלה
     const scale = computeScale(1);
@@ -592,7 +590,6 @@ function applyScale() {
 function updateScrollBarInfo(page) {
   dom.readerTitle.textContent = page.title || page.h1 || page.file;
   dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal} · גלילה רציפה`;
-  dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 }
 
 /**

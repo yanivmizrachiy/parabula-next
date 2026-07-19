@@ -341,7 +341,6 @@ body.mode-scroll .sheets { flex-direction: column; align-items: center; gap: 26p
 }
 .foot-nav:hover:not(:disabled) { border-color: var(--brand); color: var(--brand-ink); }
 .foot-nav:disabled { opacity: .4; cursor: not-allowed; }
-.foot-progress { font-size: 13px; color: var(--ink-soft); min-width: 180px; text-align: center; }
 
 /* ═══ SELECTION BAR ═══ */
 .selection-bar {

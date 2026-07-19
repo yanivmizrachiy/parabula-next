@@ -48,6 +48,10 @@ function pageHtml(globalPage, localPage) {
   <main class="a4-page page-${globalPage} ratio-import-page">
     <h1 class="ratio-source-title">יחס</h1>
     <img class="ratio-import-image" src="${image}" alt="דף עבודה בנושא יחס — עמוד ${localPage}" width="1588" height="2246" decoding="sync">
+    <footer class="gz-footer">
+      <div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div>
+      <div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div>
+    </footer>
   </main>
 </body>
 </html>

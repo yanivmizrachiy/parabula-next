@@ -144,12 +144,6 @@ aside {
   color: #dcfce7;
 }
 
-.page-num {
-  color: var(--muted);
-  font-size: 12px;
-  margin-bottom: 4px;
-}
-
 main.viewer-shell {
   display: grid;
   grid-template-rows: auto 1fr;

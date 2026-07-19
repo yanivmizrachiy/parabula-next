@@ -18,7 +18,6 @@ const els = {
   currentPageTitle: document.getElementById('currentPageTitle'),
   currentPageMeta: document.getElementById('currentPageMeta'),
   topicProgress: document.getElementById('topicProgress'),
-  globalProgress: document.getElementById('globalProgress'),
   mobilePageFrame: document.getElementById('mobilePageFrame'),
   mobileLoadingState: document.getElementById('mobileLoadingState'),
   mobileErrorState: document.getElementById('mobileErrorState'),
@@ -189,20 +188,17 @@ function setTopicsPanelOpen(open) {
 function setProgress(page) {
   if (!page) {
     els.topicProgress.textContent = '—';
-    els.globalProgress.textContent = '—';
     return;
   }
   const topicPages = nodePagesOf(page.curriculumId);
   const topicIndex = topicPages.findIndex((item) => item.file === page.file);
-  const globalIndex = state.flatPages.findIndex((item) => item.file === page.file);
   els.topicProgress.textContent = topicIndex >= 0 ? `עמוד ${topicIndex + 1} מתוך ${topicPages.length} בנושא` : '—';
-  els.globalProgress.textContent = globalIndex >= 0 ? `עמוד ${globalIndex + 1} מתוך ${state.flatPages.length} בספר` : '—';
 }
 
 function updatePageHeading(page) {
   if (!page) return;
   els.currentPageTitle.textContent = page.title || page.h1 || page.file;
-  els.currentPageMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.number}`;
+  els.currentPageMeta.textContent = nodePathOf(page.curriculumId);
   els.sheetPageTitle.textContent = page.title || page.h1 || page.file;
   setProgress(page);
 }
@@ -604,7 +600,7 @@ function renderPages(options = {}) {
     card.className = 'page-card';
     card.dataset.file = page.file;
     card.setAttribute('role', 'group');
-    card.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${nodeNameOf(page.curriculumId)}, עמוד ${page.number}`);
+    card.setAttribute('aria-label', `${page.title || page.h1 || page.file}, נושא ${nodeNameOf(page.curriculumId)}`);
 
     const selectButton = document.createElement('button');
     selectButton.type = 'button';
@@ -619,7 +615,7 @@ function renderPages(options = {}) {
     const openButton = document.createElement('button');
     openButton.type = 'button';
     openButton.className = 'page-open';
-    openButton.innerHTML = `<span class="pc-copy"><strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(nodePathOf(page.curriculumId))}</span><span>עמוד ${page.number}</span></span>`;
+    openButton.innerHTML = `<span class="pc-copy"><strong>${esc(page.title || page.h1 || page.file)}</strong><span>${esc(nodePathOf(page.curriculumId))}</span></span>`;
     openButton.addEventListener('click', () => showPage(page.file));
 
     card.append(selectButton, openButton);
