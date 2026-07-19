@@ -1,7 +1,7 @@
 // העמקה מדודה לעמודים 39–44 לפי audit הדפדפן.
 // כל בלוק מוסיף הבנה, נימוק או שאלה הפוכה — לא רווח מלאכותי.
 
-import { task, subs, choices, lines, expr, table, pt, ltr } from '../render.mjs';
+import { task, subs, choices, lines, expr, exprPoint, table, pt, ltr } from '../render.mjs';
 
 const SHORT = '<span class="wline wline-short"></span>';
 
