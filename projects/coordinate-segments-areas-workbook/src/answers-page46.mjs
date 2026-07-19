@@ -26,10 +26,6 @@ export const page46Answers = [
     example: 'R(7,8)'
   } },
 
-  { page: 46, id: 'p46-median-general', kind: 'value', expect: {
-    possibleOutsideRightTriangle: true,
-    explanation: 'תיכון נקבע לפי אמצע הצלע ואינו דורש זווית ישרה'
-  } },
   { page: 46, id: 'p46-claims', kind: 'value', expect: {
     sameBaseSameHeightEqualArea: true,
     medianAlwaysPerpendicular: false,
