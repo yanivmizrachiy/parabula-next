@@ -35,4 +35,13 @@ describe('ratio workbook structure', () => {
       }
     }
   });
+
+  it('renders 36 diamonds in the first ratio question', () => {
+    const firstPage = WORKSHEET_PAGES.find((page) => page.id === 1);
+    expect(firstPage).toBeDefined();
+
+    const markup = renderToStaticMarkup(<>{firstPage?.component()}</>);
+    expect(markup).toContain('היחס בין מספר המעויינים השחורים לבין מספר המעויינים הלבנים הוא 2 : 1');
+    expect(markup.match(/<polygon/g)).toHaveLength(36);
+  });
 });
