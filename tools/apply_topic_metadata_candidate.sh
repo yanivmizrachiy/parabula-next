@@ -1,4 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
+# DEPRECATED — לא בשימוש ואינו מקור כללים.
+# הכלי נכתב לסביבת Termux (נתיב /data/data/com.termux/...) ומפנה אל PROJECT_RULES.md ואל STATE/
+# שאינם קיימים בריפו. הוא אינו יכול לרוץ, ואין לקרוא את הטענות שבו ככללי עבודה.
+# מקור הכללים היחיד הוא CLAUDE.md.
 set -euo pipefail
 cd "/data/data/com.termux/files/home/parabula-next"
 cp "meta/topics.json" "STATE/topics.apply.backup.20260426_090302.json"

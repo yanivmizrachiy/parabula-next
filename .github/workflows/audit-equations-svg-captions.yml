@@ -28,14 +28,10 @@ jobs:
       - name: Generate SVG caption audit
         run: node scripts/audit-equations-svg-captions.mjs
 
-      - name: Commit SVG caption audit report
-        run: |
-          if git diff --quiet; then
-            echo "No SVG caption audit changes to commit."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add STATE/EQUATIONS_SVG_CAPTION_AUDIT.md
-          git commit -m "Audit equations SVG caption layer"
-          git push
+      # פלט audit אינו נשמר בגיט (CLAUDE.md §6) — הוא נשמר כארטיפקט של הריצה
+      - name: Upload SVG caption audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: equations-svg-captions
+          path: meta/audit/equations-svg-captions.md
+          if-no-files-found: error

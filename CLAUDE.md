@@ -32,7 +32,7 @@
 - דפי העבודה הקנוניים: `עמוד-N.html` בשורש.
 - CSS משותף A4: `styles/a4-base.css`.
 - CSS ייעודי לדף: `styles/pages/עמוד-N.css` או שכבת נושא פעילה ומוגדרת.
-- מטא־דאטה וניווט: `meta/topics.json` בלבד.
+- מטא־דאטה וניווט: `meta/topics.json` בלבד. הקובץ מכיל גם את עץ תכנית הלימודים (§4.4) וגם את מערך `topics` השטוח.
 - קורא מחשב: `catalog.html`, `catalog.js`, `catalog.css`.
 - קורא נייד: `mobile-app.html`, `mobile-app.js`, `mobile-app.css` בלבד.
 - פעולות הדפסה, PDF, הורדה ובחירה: `reader-actions.js` ו־`reader-actions.css`.
@@ -118,6 +118,22 @@
 - מקור התוכן התחזוקתי הוא `sources/quadratic-equations/workbook-data.mjs`; הדפים הקנוניים נשארים `עמוד-N.html` ומופקים באמצעות `scripts/generate-quadratic-equations-workbook.mjs`.
 - שכבת העיצוב המשותפת היא `styles/topics/quadratic-equations.css` בתחום `.quadratic-page`. היא שומרת על A4, RTL, MathJax, ניצול עמוד וקריאות בנייד לפי שאר חוזי הפרויקט.
 - כל שינוי במאגר חייב לשמור על אינווריאנטים: 16 כותרות, 123 תרגילי מקור ממופים, 246 תרגילים חדשים, 50 עמודים, משוואות ייחודיות ומדרג קושי שאינו יורד בתוך כותרת.
+
+---
+
+## 4.4 חוזה החלוקה לפי תכנית הלימודים (הוראת יניב, 2026-07-19)
+
+כל דפי העבודה בריפו מחולקים לפי תכנית הלימודים למתמטיקה בחטיבת הביניים: **כיתה → תחום → נושא → תת־נושא**.
+
+- **מקור העץ:** `scripts/curriculum-map.mjs` מחזיק את הטקסונומיה (`CURRICULUM`) ואת שיוך הדפים (`PAGE_ASSIGNMENTS`). זהו קובץ נתונים בלבד ואין בו כללי עבודה.
+- **מקור התצוגה:** `scripts/build-curriculum.mjs` מזריק את העץ אל `meta/topics.json` תחת המפתח `curriculum`, ומוסיף `curriculumId` לכל דף. מערך `topics` השטוח נשמר כפי שהוא ואינו נשבר.
+- **המונים נגזרים תמיד בזמן ריצה** מהשיוך בפועל — `directCount` לדפים הישירים ו־`pageCount` לסכום הענף. אין ספירה קשיחה בשום קובץ.
+- **כל צומת קיים גם כשאין לו דפים** ("בית ריק"), כדי שיהיה גלוי מה עוד חסר. צומת ריק מוצג עם מונה 0 ואינו נמחק מהעץ.
+- **תוכן שאין לו בית בתכנית** נשמר תחת צומת `נושאים נוספים` המסומן `extension: true`. אסור להשמיט דף עבודה קיים רק משום שאין לו סעיף בתכנית.
+- **אף דף לא נעלם:** דף שאין לו שיוך מוכר מוצג בקוראים תחת צומת גלוי „ממתינים לשיוך בתכנית הלימודים”. זו רשת ביטחון בלבד — `scripts/build-curriculum.mjs` נכשל במכוון על דף רשום ללא שיוך, כדי שכל דף חדש יקבל שיוך מפורש.
+- **שערים:** `npm run curriculum:check` מוודא ש־`meta/topics.json` מעודכן מול המפה, ו־`npm run validate:curriculum` נגזר מחדש את כל המונים ומוודא שכל דף משויך בדיוק פעם אחת, שהמזהים ייחודיים, ושאף קובץ בדיסק אינו חסר במטא־דאטה.
+- **מזהי צמתים נגזרים זה מזה בנקודות** (`g7.geo.angles.bisector`), ולכן שרשרת האבות נקבעת מהמחרוזת עצמה. אין לשבור את המוסכמה הזו — הקוראים נשענים עליה לפתיחת מסלול הצומת הפעיל.
+- **לוח מונים:** הקורא במחשב מציג לוח („📊 לוח מונים”) עם ספירת דפים לכל צומת בעץ, כולל הצמתים הריקים.
 
 ---
 
@@ -228,6 +244,7 @@ Parity פירושו אותה יכולת אמיתית, לא בהכרח אותו �
 
 - `meta/topics.json` חייב להתאים לכל קובצי `עמוד-N.html`, ללא כפילויות או קובץ חסר.
 - אין ספירת דפים או נושאים קשיחה בכללים, agent או validator; הספירה נגזרת בזמן ריצה.
+- פלט audit נכתב ל־`meta/audit/` בלבד. אסור לסקריפט או ל־workflow לכתוב או להסתמך על `STATE/` מחוץ ל־`STATE/reports/`, ואסור לשמור דוח audit בגיט.
 - build חייב להיכשל אם חסר asset קנוני או נשאר token שלא הוחלף.
 - אין cache-busting ידני בכמה מקומות; version נוצר פעם אחת ב־build ומוזרק על-ידו. ה־build מטביע `?v=<buildVersion>` על סקריפט MathJax ועל כל קישורי ה־CSS בכל דפי `dist/` (`scripts/lib/versionize-assets.mjs`), כדי ששדרוג MathJax או סגנון לא ישאיר מנוע/CSS ישן ב־cache הדפדפן או ה־Service Worker שישבור תוכן חדש. טעינת MathJax היא self-hosted מ־`vendor/` בלבד — אין CDN.
 - קובצי audit הם פלט בדיקה בלבד ואינם מקור דרישות.
@@ -243,6 +260,8 @@ npm test
 npm run verify
 npm run validate:meta
 npm run validate:schema
+npm run curriculum:check
+npm run validate:curriculum
 npm run validate:access
 npm run validate:mobile
 npm run rules:check
@@ -287,7 +306,8 @@ npm run validate:mobile:all-pages
 - `README.md` מתאר את הפרויקט ומפנה לכאן; אינו משכפל חוזים.
 - `docs/` מסביר ארכיטקטורה רק כאשר המידע אינו כלל וניתן להפיקו מהקוד; מסמך מיושן נמחק.
 - אין `next-session`,‏ system-state ידני או זיכרון סשן שמלמד AI מצב ישן.
-- `scripts/single-rules-source-check.mjs` חייב לסרוק את כל נקודות הכניסה ל־AI ולחסום מקור הוראות נוסף.
+- `scripts/single-rules-source-check.mjs` חייב לסרוק את כל נקודות הכניסה ל־AI ולחסום מקור הוראות נוסף. הסריקה כוללת גם את `.github/instructions/`, את **כל** קובצי ה־Markdown בריפו (למעט `node_modules/`,‏ `dist/`,‏ `.git/`,‏ `sources/lovable/`), ואת כל הסקריפטים וה־workflows.
+- כלי שאינו יכול לרוץ עוד — נתיב מכונה זר, הפניה ל־`PROJECT_RULES.md` או ל־`STATE/` — מסומן `DEPRECATED` בראשו ואינו נקרא ככלל עבודה. `tools/external_link_audit.py`,‏ `tools/master_conformance_audit.py`,‏ `tools/parabula_ops.py` ו־`tools/apply_topic_metadata_candidate.sh` הם כאלה.
 
 ---
 

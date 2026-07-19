@@ -409,12 +409,19 @@ const s16 = [
 
 export const stageNames = ['ביסוס', 'שלב ביניים', 'שילוב כלים', 'אתגר'];
 
+const curriculumIdForSection = number => {
+  if (number <= 5) return 'g9.alg.quadratic.incomplete';
+  if ([7, 8, 15, 16].includes(number)) return 'g9.alg.quadratic.factoring';
+  return 'g9.alg.quadratic.formula';
+};
+
 const finalize = (number, title, sourceCount, pageSizes, prompt, exercises) => {
   if (exercises.length !== sourceCount * 2) throw new Error(`section ${number}: expected ${sourceCount * 2}, got ${exercises.length}`);
   if (pageSizes.reduce((sum, size) => sum + size, 0) !== exercises.length) throw new Error(`section ${number}: page sizes mismatch`);
   return {
     number,
     title,
+    curriculumId: curriculumIdForSection(number),
     sourceCount,
     pageSizes,
     prompt,
@@ -448,8 +455,8 @@ export const sections = [
 export const sourceExerciseCount = sections.reduce((sum, section) => sum + section.sourceCount, 0);
 export const exerciseCount = sections.reduce((sum, section) => sum + section.exercises.length, 0);
 export const pageCount = sections.reduce((sum, section) => sum + section.pageSizes.length, 0);
-// 31-36 הם ששת עמודי הנושא הקיימים; הטווח 395-438 פנוי לאחר העמוד הגלובלי האחרון בריפו.
-export const pageNumbers = [31, 32, 33, 34, 35, 36, ...Array.from({ length: 44 }, (_, index) => 395 + index)];
+// 31-36 הם ששת עמודי הנושא הקיימים; הטווח 471-514 ממשיך אחרי העמוד האחרון ב-main.
+export const pageNumbers = [31, 32, 33, 34, 35, 36, ...Array.from({ length: 44 }, (_, index) => 471 + index)];
 
 if (sourceExerciseCount !== 123 || exerciseCount !== 246 || pageCount !== 50 || pageNumbers.length !== 50) {
   throw new Error(`workbook invariant failed: source=${sourceExerciseCount}, exercises=${exerciseCount}, pages=${pageCount}`);

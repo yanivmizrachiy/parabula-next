@@ -13,10 +13,16 @@ const A4_W = 794;   // 210mm @96dpi
 const A4_H = 1123;  // 297mm @96dpi
 const LS_POS = 'parabula-catalog:last-file';
 const LS_MODE = 'parabula-catalog:mode';
+const LS_OPEN = 'parabula-catalog:open-nodes';
+const UNASSIGNED_ID = 'unassigned';
 
 const state = {
   topics: [],
   pages: [],        // מערך שטוח בסדר הקריאה של topics.json
+  curriculum: [],   // עץ תכנית הלימודים מתוך topics.json
+  nodeById: new Map(),    // מזהה צומת → הצומת עצמו
+  pagesByNode: new Map(), // מזהה צומת → דפים המשויכים לו ישירות
+  openNodes: new Set(),   // צמתים שהמשתמש פתח במפורש (נשמר בין סשנים)
   index: -1,        // אינדקס הדף הנוכחי במערך השטוח
   mode: 'single',   // single | spread | scroll
   query: '',
@@ -28,7 +34,8 @@ const dom = {};
  'toc','tocList','selectModeBtn','stateLoading','stateError','errorMsg','retryBtn','readerStage',
  'readerTitle','readerMeta','btnPrint','btnPdf','btnHtml','btnOpen','btnPrintTopic',
  'viewport','sheets','navPrev','navNext','footPrev','footProgress','footNext',
- 'selectionBar','selectionCount','selPrint','selPdf','selClear']
+ 'selectionBar','selectionCount','selPrint','selPdf','selClear',
+ 'board','boardBtn','boardClose','boardBody','boardSummary','boardToggleEmpty']
   .forEach((k) => dom[k] = $(k));
 
 /* ═══ נתונים ═══ */
@@ -49,7 +56,62 @@ async function boot() {
       });
     }
 
-    dom.statChip.textContent = `${data.totalPages || state.pages.length} דפים · ${state.topics.length} נושאים`;
+    state.curriculum = Array.isArray(data.curriculum?.nodes) ? data.curriculum.nodes : [];
+    state.nodeById = new Map();
+    (function indexNodes(nodes) {
+      for (const node of nodes) {
+        state.nodeById.set(node.id, node);
+        if (node.children?.length) indexNodes(node.children);
+      }
+    })(state.curriculum);
+    state.pagesByNode = new Map();
+    for (const page of state.pages) {
+      if (!page.curriculumId) continue;
+      if (!state.pagesByNode.has(page.curriculumId)) state.pagesByNode.set(page.curriculumId, []);
+      state.pagesByNode.get(page.curriculumId).push(page);
+    }
+    // רשת ביטחון: דף שאין לו שיוך מוכר לא נעלם — הוא מקובץ לצומת גלוי בסוף העץ
+    const orphans = state.pages.filter((page) => !state.nodeById.has(page.curriculumId));
+    if (orphans.length) {
+      console.warn(`[catalog] ${orphans.length} דפים ללא שיוך בתכנית הלימודים`);
+      const node = {
+        id: UNASSIGNED_ID,
+        name: 'ממתינים לשיוך בתכנית הלימודים',
+        directCount: orphans.length,
+        pageCount: orphans.length,
+        pages: orphans.map((page) => page.number),
+      };
+      state.curriculum = [...state.curriculum, node];
+      state.nodeById.set(node.id, node);
+      // מחיקת המפתחות הישנים: מזהה שאינו בעץ אסור שיישאר מפתח חי
+      for (const page of orphans) state.pagesByNode.delete(page.curriculumId);
+      orphans.forEach((page) => { page.curriculumId = UNASSIGNED_ID; });
+      state.pagesByNode.set(UNASSIGNED_ID, orphans);
+    }
+
+    // סדר הקריאה של הספר נגזר מהעץ. בלי זה דפי נושא אינם רצופים במערך השטוח
+    // (24 מתוך 58 הנושאים), ואז מעבר דף בגלילה ובכפולה קופץ אל מחוץ לנושא.
+    const ordered = [];
+    (function walkOrder(nodes) {
+      for (const node of nodes) {
+        ordered.push(...(state.pagesByNode.get(node.id) || []));
+        if (node.children?.length) walkOrder(node.children);
+      }
+    })(state.curriculum);
+    if (ordered.length === state.pages.length) state.pages = ordered;
+    else console.warn(`[catalog] סדר העץ מכסה ${ordered.length} מתוך ${state.pages.length} דפים — נשמר הסדר השטוח`);
+
+    // מיקום הדף בתוך הנושא שלו בתכנית הלימודים (ולא בתוך הקבוצה השטוחה)
+    for (const list of state.pagesByNode.values()) {
+      list.forEach((page, i) => { page.nodeIndex = i + 1; page.nodeTotal = list.length; });
+    }
+
+    const totalPages = data.totalPages || state.pages.length;
+    // data.curriculum עשוי להיעדר גם כש-state.curriculum אינו ריק, כי רשת
+    // הביטחון מוסיפה צומת — לכן הבדיקה חייבת להיות על המקור, לא על התוצאה.
+    dom.statChip.textContent = data.curriculum
+      ? `${totalPages} דפים · ${data.curriculum.leafNodes} נושאים · ${data.curriculum.emptyLeafNodes} ריקים`
+      : `${totalPages} דפים · ${state.pagesByNode.size} נושאים`;
 
     ParabulaActions.configure({
       pages: state.pages,
@@ -78,70 +140,162 @@ async function boot() {
   }
 }
 
-/* ═══ תוכן עניינים ═══ */
-function renderTOC() {
-  dom.tocList.innerHTML = '';
-  const caret = '<svg class="tt-caret" viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,4 10,8 6,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+/* ═══ תוכן עניינים — עץ תכנית הלימודים ═══ */
+const CARET = '<svg class="tt-caret" viewBox="0 0 16 16" fill="none" aria-hidden="true"><polyline points="6,4 10,8 6,12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-  state.topics.forEach((topic) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'toc-topic';
-    wrap.dataset.topic = topic.name;
+function loadOpenNodes() {
+  try { state.openNodes = new Set(JSON.parse(localStorage.getItem(LS_OPEN) || '[]')); }
+  catch { state.openNodes = new Set(); }
+  return state.openNodes;
+}
 
-    const head = document.createElement('button');
-    head.type = 'button';
-    head.className = 'toc-topic-head';
-    head.innerHTML = `${caret}<span class="tt-name">${esc(topic.name)}</span><span class="tt-count">${topic.count}</span>`;
-    head.addEventListener('click', () => {
-      const open = wrap.classList.toggle('is-open');
-      if (open) {
-        // פתיחת פרק → מעבר לעמוד הראשון בו
-        const first = state.pages.findIndex((p) => p.topic === topic.name);
-        if (first >= 0 && state.mode !== 'scroll') goTo(first);
-        if (state.mode === 'scroll') { const f = state.pages.findIndex(p=>p.topic===topic.name); if (f>=0) goTo(f); }
-      }
-    });
-    wrap.appendChild(head);
+function saveOpenNodes() {
+  try { localStorage.setItem(LS_OPEN, JSON.stringify([...state.openNodes])); }
+  catch { /* אחסון חסום — לא מפיל את הקורא */ }
+}
 
+/**
+ * persist=true רק לפתיחה יזומה של המשתמש. פתיחה אוטומטית של שרשרת האבות
+ * לדף הפעיל אינה נשמרת — אחרת המצב השמור תופח עם כל דף שנצפה והעץ נפתח כולו.
+ */
+function setNodeOpen(wrap, open, { persist = true } = {}) {
+  wrap.classList.toggle('is-open', open);
+  wrap.querySelector(':scope > .toc-node-head')?.setAttribute('aria-expanded', String(open));
+  if (!persist) return;
+  if (open) state.openNodes.add(wrap.dataset.nodeId);
+  else state.openNodes.delete(wrap.dataset.nodeId);
+  saveOpenNodes();
+}
+
+/** שם הצומת לפי מזהה, עם נפילה חיננית כשהמזהה אינו מוכר. */
+function nodeNameOf(id) {
+  return state.nodeById?.get(id)?.name || id || '';
+}
+
+/** מסלול קריא מהכיתה ועד לתת־הנושא, נגזר ממבנה המזהה. */
+function nodePathOf(id) {
+  if (!id) return '';
+  const parts = id.split('.');
+  const names = [];
+  for (let i = 1; i <= parts.length; i += 1) {
+    const node = state.nodeById?.get(parts.slice(0, i).join('.'));
+    if (node) names.push(node.name);
+  }
+  return names.join(' · ');
+}
+
+/** כל קובצי הדפים שמתחת לצומת, כולל צאצאיו, בסדר הקריאה. */
+function nodeFiles(node) {
+  const files = (state.pagesByNode.get(node.id) || []).map((page) => page.file);
+  for (const child of node.children || []) files.push(...nodeFiles(child));
+  return files;
+}
+
+function buildPageItem(page, ordinal) {
+  const globalIdx = state.pages.findIndex((x) => x.file === page.file);
+  const item = document.createElement('button');
+  item.type = 'button';
+  item.className = 'toc-page';
+  item.dataset.file = page.file;
+  const check = document.createElement('input');
+  check.type = 'checkbox'; check.className = 'tp-check';
+  check.checked = ParabulaActions.isSelected(page.file);
+  check.setAttribute('aria-label', `בחירת ${page.h1 || page.title || page.file}`);
+  check.addEventListener('click', (e) => e.stopPropagation());
+  check.addEventListener('change', () => ParabulaActions.setSelected(page.file, check.checked));
+  const num = document.createElement('span');
+  num.className = 'tp-num'; num.textContent = ordinal;
+  const title = document.createElement('span');
+  title.className = 'tp-title';
+  title.textContent = (page.h1 || page.title || page.file);
+  item.append(check, num, title);
+  item.addEventListener('click', () => goTo(globalIdx));
+  return item;
+}
+
+function buildNode(node, depth, openIds) {
+  const wrap = document.createElement('div');
+  wrap.className = 'toc-node';
+  wrap.dataset.nodeId = node.id;
+  wrap.dataset.depth = String(depth);
+  wrap.style.setProperty('--depth', String(depth));
+
+  const pages = state.pagesByNode.get(node.id) || [];
+  const children = node.children || [];
+  const expandable = children.length > 0 || pages.length > 0;
+  if (!node.pageCount) wrap.classList.add('is-empty');
+  if (node.extension) wrap.classList.add('is-extension');
+
+  const head = document.createElement('button');
+  head.type = 'button';
+  head.className = 'toc-node-head';
+  head.setAttribute('aria-expanded', 'false');
+  head.setAttribute('aria-label', `${node.name} — ${node.pageCount} דפי עבודה`);
+  head.innerHTML =
+    (expandable ? CARET : '<span class="tt-caret-gap" aria-hidden="true"></span>') +
+    `<span class="tt-name">${esc(node.name)}</span>` +
+    `<span class="tt-count">${node.pageCount}</span>`;
+  head.addEventListener('click', () => {
+    if (!expandable) return;
+    const open = !wrap.classList.contains('is-open');
+    setNodeOpen(wrap, open);
+    // צומת עלה עם דפים → מעבר לדף הראשון שבו
+    if (open && pages.length) {
+      const first = state.pages.findIndex((p) => p.file === pages[0].file);
+      if (first >= 0) goTo(first);
+    }
+  });
+  wrap.appendChild(head);
+
+  if (node.pageCount > 0) {
     const actions = document.createElement('div');
-    actions.className = 'toc-topic-actions';
+    actions.className = 'toc-node-actions';
+    const files = nodeFiles(node);
     const printBtn = document.createElement('button');
     printBtn.type = 'button'; printBtn.className = 'toc-mini-btn';
-    printBtn.textContent = '🖨 הדפס פרק';
-    printBtn.addEventListener('click', (e) => { e.stopPropagation(); ParabulaActions.printTopic(topic.name); });
+    printBtn.textContent = `🖨 הדפס ${node.pageCount} דפים`;
+    printBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      ParabulaActions.printFiles(files, { busyText: `מכין ${files.length} דפים בנושא "${node.name}"…` });
+    });
     const selBtn = document.createElement('button');
     selBtn.type = 'button'; selBtn.className = 'toc-mini-btn';
-    selBtn.textContent = '☑ בחר פרק';
-    selBtn.addEventListener('click', (e) => { e.stopPropagation(); enterSelectMode(); ParabulaActions.selectTopic(topic.name); });
+    selBtn.textContent = '☑ בחר הכול';
+    selBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      enterSelectMode();
+      ParabulaActions.selectFiles(files);
+    });
     actions.append(printBtn, selBtn);
     wrap.appendChild(actions);
+  }
 
+  if (pages.length) {
     const pagesBox = document.createElement('div');
     pagesBox.className = 'toc-pages';
-    topic.pages.forEach((p, i) => {
-      const globalIdx = state.pages.findIndex((x) => x.file === p.file);
-      const item = document.createElement('button');
-      item.type = 'button';
-      item.className = 'toc-page';
-      item.dataset.file = p.file;
-      const check = document.createElement('input');
-      check.type = 'checkbox'; check.className = 'tp-check';
-      check.checked = ParabulaActions.isSelected(p.file);
-      check.addEventListener('click', (e) => e.stopPropagation());
-      check.addEventListener('change', () => ParabulaActions.setSelected(p.file, check.checked));
-      const num = document.createElement('span');
-      num.className = 'tp-num'; num.textContent = i + 1;
-      const title = document.createElement('span');
-      title.className = 'tp-title';
-      title.textContent = (p.h1 || p.title || p.file);
-      item.append(check, num, title);
-      item.addEventListener('click', () => goTo(globalIdx));
-      pagesBox.appendChild(item);
-    });
+    pages.forEach((page, i) => pagesBox.appendChild(buildPageItem(page, i + 1)));
     wrap.appendChild(pagesBox);
+  }
 
-    dom.tocList.appendChild(wrap);
-  });
+  if (children.length) {
+    const childBox = document.createElement('div');
+    childBox.className = 'toc-node-children';
+    children.forEach((child) => childBox.appendChild(buildNode(child, depth + 1, openIds)));
+    wrap.appendChild(childBox);
+  }
+
+  if (openIds.has(node.id)) setNodeOpen(wrap, true, { persist: false });
+  return wrap;
+}
+
+function renderTOC() {
+  dom.tocList.innerHTML = '';
+  if (!state.curriculum.length) {
+    dom.tocList.textContent = 'עץ תכנית הלימודים חסר ב-meta/topics.json';
+    return;
+  }
+  const openIds = loadOpenNodes();
+  state.curriculum.forEach((node) => dom.tocList.appendChild(buildNode(node, 0, openIds)));
 }
 
 function syncTOCActive() {
@@ -149,16 +303,134 @@ function syncTOCActive() {
   if (!page) return;
   dom.tocList.querySelectorAll('.toc-page').forEach((el) =>
     el.classList.toggle('is-active', el.dataset.file === page.file));
-  dom.tocList.querySelectorAll('.toc-topic').forEach((el) => {
-    const isActive = el.dataset.topic === page.topic;
+
+  // מזהי הצמתים נגזרים זה מזה בנקודות, ולכן שרשרת האבות נקבעת מהמחרוזת עצמה
+  const activeId = page.curriculumId || '';
+  dom.tocList.querySelectorAll('.toc-node').forEach((el) => {
+    const id = el.dataset.nodeId;
+    const isActive = activeId === id;
+    const onPath = isActive || activeId.startsWith(`${id}.`);
     el.classList.toggle('is-active', isActive);
-    if (isActive && !el.classList.contains('is-open')) el.classList.add('is-open');
+    if (onPath && !el.classList.contains('is-open')) setNodeOpen(el, true, { persist: false });
   });
 }
 
 function scrollTOCToActive() {
   const el = dom.tocList.querySelector('.toc-page.is-active');
   if (el) el.scrollIntoView({ block: 'nearest' });
+}
+
+/* ═══ לוח מונים ═══ */
+const boardState = { showEmpty: true, returnFocus: null };
+
+function renderBoard() {
+  dom.boardBody.innerHTML = '';
+  if (!state.curriculum.length) {
+    dom.boardBody.textContent = 'עץ תכנית הלימודים חסר ב-meta/topics.json';
+    return;
+  }
+
+  const rows = [];
+  const collect = (nodes, depth) => {
+    for (const node of nodes) {
+      if (!boardState.showEmpty && node.pageCount === 0) continue;
+      rows.push({ node, depth });
+      if (node.children?.length) collect(node.children, depth + 1);
+    }
+  };
+  collect(state.curriculum, 0);
+
+  const table = document.createElement('table');
+  table.className = 'board-table';
+  table.innerHTML =
+    '<thead><tr><th scope="col">נושא</th><th scope="col">דפים ישירים</th><th scope="col">סה״כ בענף</th></tr></thead>';
+  const body = document.createElement('tbody');
+
+  for (const { node, depth } of rows) {
+    const tr = document.createElement('tr');
+    tr.dataset.depth = String(depth);
+    tr.style.setProperty('--depth', String(depth));
+    if (node.pageCount === 0) tr.classList.add('is-empty');
+    if (node.extension) tr.classList.add('is-extension');
+
+    const name = document.createElement('th');
+    name.scope = 'row';
+    name.className = 'board-name';
+    name.textContent = node.name;
+    if (node.extension) name.title = 'נושא מחוץ לרשימת תכנית הלימודים — נשמר כדי שלא ייפול דף עבודה קיים';
+
+    const direct = document.createElement('td');
+    direct.className = 'board-num';
+    direct.textContent = node.directCount || '—';
+
+    const total = document.createElement('td');
+    total.className = 'board-num board-total';
+    total.textContent = node.pageCount;
+    if (node.pageCount === 0) total.classList.add('is-zero');
+
+    tr.append(name, direct, total);
+    body.appendChild(tr);
+  }
+
+  table.appendChild(body);
+  dom.boardBody.appendChild(table);
+
+  const totalPages = state.pages.length;
+  const leaves = [];
+  const countLeaves = (nodes) => {
+    for (const node of nodes) {
+      if (node.children?.length) countLeaves(node.children);
+      else leaves.push(node);
+    }
+  };
+  countLeaves(state.curriculum);
+  const empty = leaves.filter((node) => node.pageCount === 0).length;
+  dom.boardSummary.textContent =
+    `${totalPages} דפי עבודה · ${leaves.length} תת־נושאים · ${leaves.length - empty} עם דפים · ${empty} ממתינים לדפים`;
+}
+
+function boardFocusable() {
+  return [...dom.board.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+    .filter((el) => !el.hasAttribute('hidden') && el.offsetParent !== null);
+}
+
+/** לכידת Tab בתוך הדיאלוג — aria-modal לבדו אינו מונע מהמיקוד לצאת. */
+function handleBoardKeydown(event) {
+  if (event.key !== 'Tab') return;
+  const items = boardFocusable();
+  if (!items.length) return;
+  const first = items[0];
+  const last = items[items.length - 1];
+  const active = document.activeElement;
+  if (event.shiftKey && (active === first || active === dom.board.querySelector('.board-panel'))) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && active === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
+function openBoard() {
+  boardState.returnFocus = document.activeElement;
+  renderBoard();
+  dom.board.hidden = false;
+  document.body.classList.add('board-open');
+  // הרקע מוסר מעץ הנגישות ומהמיקוד כל עוד הדיאלוג פתוח (חוזה §5.8)
+  document.querySelector('.app-layout')?.setAttribute('inert', '');
+  document.querySelector('.site-header')?.setAttribute('inert', '');
+  dom.board.addEventListener('keydown', handleBoardKeydown);
+  requestAnimationFrame(() => dom.board.querySelector('.board-panel')?.focus({ preventScroll: true }));
+}
+
+function closeBoard() {
+  if (dom.board.hidden) return;
+  dom.board.removeEventListener('keydown', handleBoardKeydown);
+  dom.board.hidden = true;
+  document.body.classList.remove('board-open');
+  document.querySelector('.app-layout')?.removeAttribute('inert');
+  document.querySelector('.site-header')?.removeAttribute('inert');
+  boardState.returnFocus?.focus?.({ preventScroll: true });
 }
 
 /* ═══ מנוע הקריאה ═══ */
@@ -254,25 +526,25 @@ function render() {
     dom.sheets.appendChild(sheet);
     sizeSheet(sheet, scale);
     dom.readerTitle.textContent = page.title || page.h1 || page.file;
-    dom.readerMeta.textContent = `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal}`;
+    dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
     dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
   } else if (state.mode === 'spread') {
-    // התאמה לזוגות בתוך הפרק: מיישרים לתחילת זוג
+    // התאמה לזוגות בתוך הנושא: מיישרים לתחילת זוג
     const scale = computeScale(2);
     const second = state.pages[state.index + 1];
     const pair = [page];
-    if (second && second.topic === page.topic) pair.push(second);
+    if (second && second.curriculumId === page.curriculumId) pair.push(second);
     pair.forEach((p) => { const sh = makeSheet(p, false); dom.sheets.appendChild(sh); sizeSheet(sh, scale); });
     dom.readerTitle.textContent = page.title || page.h1 || page.file;
     dom.readerMeta.textContent = pair.length === 2
-      ? `${page.topic} · עמודים ${page.topicIndex}–${pair[1].topicIndex} מתוך ${page.topicTotal}`
-      : `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal}`;
+      ? `${nodePathOf(page.curriculumId)} · עמודים ${page.nodeIndex}–${pair[1].nodeIndex} מתוך ${page.nodeTotal}`
+      : `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal}`;
     dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 
-  } else { // scroll — כל דפי הפרק הנוכחי, בטעינה עצלה
+  } else { // scroll — כל דפי הנושא הנוכחי, בטעינה עצלה
     const scale = computeScale(1);
-    const topicPages = state.pages.filter((p) => p.topic === page.topic);
+    const topicPages = state.pagesByNode.get(page.curriculumId) || [page];
     topicPages.forEach((p) => {
       const sheet = makeSheet(p, true);
       dom.sheets.appendChild(sheet);
@@ -309,7 +581,7 @@ function applyScale() {
 /** עדכון שורת המידע וההתקדמות לדף נתון במצב גלילה (בלי רינדור מחדש). */
 function updateScrollBarInfo(page) {
   dom.readerTitle.textContent = page.title || page.h1 || page.file;
-  dom.readerMeta.textContent = `${page.topic} · עמוד ${page.topicIndex} מתוך ${page.topicTotal} · גלילה רציפה`;
+  dom.readerMeta.textContent = `${nodePathOf(page.curriculumId)} · עמוד ${page.nodeIndex} מתוך ${page.nodeTotal} · גלילה רציפה`;
   dom.footProgress.textContent = `עמוד ${state.index + 1} מתוך ${state.pages.length} בספר`;
 }
 
@@ -426,8 +698,10 @@ function runSearch(q) {
   dom.clearSearch.hidden = !q;
   if (!q) { dom.searchResults.hidden = true; dom.searchResults.innerHTML = ''; return; }
   const lower = q.toLowerCase();
+  // החיפוש מכסה גם את מסלול תכנית הלימודים, כדי שאפשר יהיה לחפש לפי כיתה, תחום או תת־נושא
   const results = state.pages.filter((p) =>
-    `${p.topic} ${p.title} ${p.h1} ${p.file} עמוד ${p.number}`.toLowerCase().includes(lower));
+    `${p.topic} ${nodePathOf(p.curriculumId)} ${p.title} ${p.h1} ${p.file} עמוד ${p.number}`
+      .toLowerCase().includes(lower));
 
   dom.searchResults.innerHTML = '';
   if (!results.length) {
@@ -435,14 +709,14 @@ function runSearch(q) {
   } else {
     const head = document.createElement('div');
     head.className = 'search-empty';
-    const topicsFound = new Set(results.map((r) => r.topic)).size;
+    const topicsFound = new Set(results.map((r) => r.curriculumId)).size;
     head.textContent = `נמצאו ${results.length} דפים ב-${topicsFound} נושאים`;
     dom.searchResults.appendChild(head);
     results.slice(0, 60).forEach((p) => {
       const idx = state.pages.findIndex((x) => x.file === p.file);
       const btn = document.createElement('button');
       btn.type = 'button'; btn.className = 'search-item';
-      btn.innerHTML = `<strong>${highlight(p.h1 || p.title || p.file, q)}</strong><span>${esc(p.topic)} · עמוד ${p.topicIndex}</span>`;
+      btn.innerHTML = `<strong>${highlight(p.h1 || p.title || p.file, q)}</strong><span>${esc(nodePathOf(p.curriculumId))} · עמוד ${p.nodeIndex}</span>`;
       btn.addEventListener('click', () => {
         dom.searchResults.hidden = true;
         dom.globalSearch.value = '';
@@ -494,9 +768,29 @@ function bind() {
   dom.btnPdf.addEventListener('click', () => cur() && ParabulaActions.printPage(cur().file, { busyText: 'מכין את הדף ל-PDF…' }));
   dom.btnHtml.addEventListener('click', () => cur() && ParabulaActions.downloadHtml(cur().file));
   dom.btnOpen.addEventListener('click', () => cur() && ParabulaActions.openTab(cur().file));
-  dom.btnPrintTopic.addEventListener('click', () => cur() && ParabulaActions.printTopic(cur().topic));
+  dom.btnPrintTopic.addEventListener('click', () => {
+    const page = cur();
+    if (!page) return;
+    // "פרק" הוא כעת צומת תכנית הלימודים שאליו הדף משויך
+    const siblings = state.pagesByNode.get(page.curriculumId) || [];
+    if (!siblings.length) return ParabulaActions.printTopic(page.topic);
+    ParabulaActions.printFiles(siblings.map((p) => p.file), {
+      busyText: `מכין ${siblings.length} דפים בנושא "${nodeNameOf(page.curriculumId)}"…`,
+    });
+  });
 
   dom.selectModeBtn.addEventListener('click', toggleSelectMode);
+  dom.boardBtn.addEventListener('click', openBoard);
+  dom.boardClose.addEventListener('click', closeBoard);
+  dom.board.addEventListener('click', (e) => {
+    if (e.target instanceof Element && e.target.hasAttribute('data-close')) closeBoard();
+  });
+  // כפתור מצב, לא כפתור פעולה: הכיתוב קבוע ו-aria-pressed מתאר האם הריקים מוצגים.
+  dom.boardToggleEmpty.addEventListener('click', () => {
+    boardState.showEmpty = !boardState.showEmpty;
+    dom.boardToggleEmpty.setAttribute('aria-pressed', String(boardState.showEmpty));
+    renderBoard();
+  });
   dom.selPrint.addEventListener('click', () => ParabulaActions.printSelection());
   dom.selPdf.addEventListener('click', () => ParabulaActions.printSelection());
   dom.selClear.addEventListener('click', () => ParabulaActions.clearSelection());
@@ -512,6 +806,7 @@ function bind() {
   dom.tocOverlay.addEventListener('click', () => openTOC(false));
 
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !dom.board.hidden) { e.preventDefault(); closeBoard(); return; }
     const t = e.target;
     if (t instanceof Element && (t.matches('input,textarea,select') || t.isContentEditable)) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;

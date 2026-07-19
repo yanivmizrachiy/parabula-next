@@ -178,6 +178,7 @@ topic.pages = pages.map(page => ({
   title: `עמוד ${page.localNumber} — ${stripMath(page.title)}`,
   h1: page.title,
   topic: topicName,
+  curriculumId: page.curriculumId,
   previewPath: `/עמוד-${page.globalNumber}.html`,
   siteUrl: `https://yanivmizrachiy.github.io/parabula-next/עמוד-${page.globalNumber}.html`,
 }));
