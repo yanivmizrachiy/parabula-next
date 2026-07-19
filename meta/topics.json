@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-18T20:21:20.763Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 530,
+  "totalPages": 560,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -4117,7 +4117,7 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-268.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-268.html",
-          "curriculumId": "g7.num.directed.axesFirst"
+          "curriculumId": "g7.geo.angles.concept"
         },
         {
           "number": 269,
@@ -4127,7 +4127,7 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-269.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-269.html",
-          "curriculumId": "g7.num.directed.axesFirst"
+          "curriculumId": "g7.geo.angles.concept"
         },
         {
           "number": 270,
@@ -4137,7 +4137,7 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-270.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-270.html",
-          "curriculumId": "g7.num.directed.axesFirst"
+          "curriculumId": "g7.geo.angles.concept"
         },
         {
           "number": 271,
@@ -4147,7 +4147,7 @@
           "topic": "זווית לכיתה ז'",
           "previewPath": "/עמוד-271.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-271.html",
-          "curriculumId": "g7.num.directed.axesFirst"
+          "curriculumId": "g7.geo.angles.concept"
         }
       ]
     },
@@ -5392,6 +5392,312 @@
           "curriculumId": "g7.extra.summary"
         }
       ]
+    },
+    {
+      "name": "מערכת צירים - רביע ראשון בלבד",
+      "count": 30,
+      "pages": [
+        {
+          "number": 531,
+          "file": "עמוד-531.html",
+          "title": "עמוד 1 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מכירים את מערכת הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-531.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-531.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 532,
+          "file": "עמוד-532.html",
+          "title": "עמוד 2 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "הכרת מערכת הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-532.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-532.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 533,
+          "file": "עמוד-533.html",
+          "title": "עמוד 3 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שיעור x ושיעור y",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-533.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-533.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 534,
+          "file": "עמוד-534.html",
+          "title": "עמוד 4 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שיעור x ושיעור y",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-534.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-534.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 535,
+          "file": "עמוד-535.html",
+          "title": "עמוד 5 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "הזוג הסדור",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-535.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-535.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 536,
+          "file": "עמוד-536.html",
+          "title": "עמוד 6 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "הזוג הסדור",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-536.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-536.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 537,
+          "file": "עמוד-537.html",
+          "title": "עמוד 7 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מסמנים נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-537.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-537.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 538,
+          "file": "עמוד-538.html",
+          "title": "עמוד 8 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מסמנים נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-538.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-538.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 539,
+          "file": "עמוד-539.html",
+          "title": "עמוד 9 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "קוראים נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-539.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-539.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 540,
+          "file": "עמוד-540.html",
+          "title": "עמוד 10 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "קוראים שיעורי נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-540.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-540.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 541,
+          "file": "עמוד-541.html",
+          "title": "עמוד 11 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "נקודות על הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-541.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-541.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 542,
+          "file": "עמוד-542.html",
+          "title": "עמוד 12 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "נקודות על הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-542.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-542.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 543,
+          "file": "עמוד-543.html",
+          "title": "עמוד 13 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שפה של מיקום",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-543.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-543.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 544,
+          "file": "עמוד-544.html",
+          "title": "עמוד 14 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שפת מיקום",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-544.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-544.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 545,
+          "file": "עמוד-545.html",
+          "title": "עמוד 15 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שיעורים זהים וקטעים מקבילים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-545.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-545.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 546,
+          "file": "עמוד-546.html",
+          "title": "עמוד 16 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שיעורים זהים וקטעים מקבילים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-546.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-546.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 547,
+          "file": "עמוד-547.html",
+          "title": "עמוד 17 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "גדול ב־, קטן ב־ וגדול פי",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-547.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-547.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 548,
+          "file": "עמוד-548.html",
+          "title": "עמוד 18 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "יחסים בין שיעורים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-548.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-548.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 549,
+          "file": "עמוד-549.html",
+          "title": "עמוד 19 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "הזזה של נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-549.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-549.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 550,
+          "file": "עמוד-550.html",
+          "title": "עמוד 20 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "הזזה של נקודות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-550.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-550.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 551,
+          "file": "עמוד-551.html",
+          "title": "עמוד 21 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מרחק והזזה אל הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-551.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-551.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 552,
+          "file": "עמוד-552.html",
+          "title": "עמוד 22 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מרחק והזזה אל הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-552.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-552.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 553,
+          "file": "עמוד-553.html",
+          "title": "עמוד 23 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "משלימים שיעור חסר ודפוסים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-553.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-553.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 554,
+          "file": "עמוד-554.html",
+          "title": "עמוד 24 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "שיעור חסר ודפוסים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-554.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-554.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 555,
+          "file": "עמוד-555.html",
+          "title": "עמוד 25 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מזהים ומתקנים טעויות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-555.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-555.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 556,
+          "file": "עמוד-556.html",
+          "title": "עמוד 26 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "זיהוי ותיקון טעויות",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-556.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-556.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 557,
+          "file": "עמוד-557.html",
+          "title": "עמוד 27 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מלבנים במערכת הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-557.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-557.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 558,
+          "file": "עמוד-558.html",
+          "title": "עמוד 28 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "מלבנים במערכת הצירים",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-558.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-558.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 559,
+          "file": "עמוד-559.html",
+          "title": "עמוד 29 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "ריבועים, שטח, היקף וסיכום",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-559.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-559.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 560,
+          "file": "עמוד-560.html",
+          "title": "עמוד 30 — מערכת צירים - רביע ראשון בלבד",
+          "h1": "ריבועים, היקף ושטח - סיכום",
+          "topic": "מערכת צירים - רביע ראשון בלבד",
+          "previewPath": "/עמוד-560.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-560.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        }
+      ]
     }
   ],
   "curriculum": {
@@ -5404,13 +5710,13 @@
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 189,
+        "pageCount": 219,
         "children": [
           {
             "id": "g7.num",
             "name": "תחום מספרי",
             "directCount": 0,
-            "pageCount": 6,
+            "pageCount": 32,
             "children": [
               {
                 "id": "g7.num.ops",
@@ -5450,7 +5756,7 @@
                 "id": "g7.num.directed",
                 "name": "מספרים מכוונים",
                 "directCount": 0,
-                "pageCount": 6,
+                "pageCount": 32,
                 "children": [
                   {
                     "id": "g7.num.directed.intro",
@@ -5499,13 +5805,39 @@
                   {
                     "id": "g7.num.directed.axesFirst",
                     "name": "מערכת צירים - רביע ראשון בלבד",
-                    "directCount": 4,
-                    "pageCount": 4,
+                    "directCount": 30,
+                    "pageCount": 30,
                     "pages": [
-                      268,
-                      269,
-                      270,
-                      271
+                      531,
+                      532,
+                      533,
+                      534,
+                      535,
+                      536,
+                      537,
+                      538,
+                      539,
+                      540,
+                      541,
+                      542,
+                      543,
+                      544,
+                      545,
+                      546,
+                      547,
+                      548,
+                      549,
+                      550,
+                      551,
+                      552,
+                      553,
+                      554,
+                      555,
+                      556,
+                      557,
+                      558,
+                      559,
+                      560
                     ]
                   },
                   {
@@ -5744,7 +6076,7 @@
             "id": "g7.geo",
             "name": "תחום גאומטרי",
             "directCount": 0,
-            "pageCount": 96,
+            "pageCount": 100,
             "children": [
               {
                 "id": "g7.geo.quads",
@@ -5962,14 +6294,18 @@
                 "id": "g7.geo.angles",
                 "name": "זוויות",
                 "directCount": 0,
-                "pageCount": 22,
+                "pageCount": 26,
                 "children": [
                   {
                     "id": "g7.geo.angles.concept",
                     "name": "מושג הזווית",
-                    "directCount": 3,
-                    "pageCount": 3,
+                    "directCount": 7,
+                    "pageCount": 7,
                     "pages": [
+                      268,
+                      269,
+                      270,
+                      271,
                       320,
                       322,
                       327
