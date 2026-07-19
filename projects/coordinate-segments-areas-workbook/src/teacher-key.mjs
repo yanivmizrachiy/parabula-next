@@ -1,11 +1,10 @@
 // מפתח מורה — נגזר מנתוני התשובות, לא נכתב ביד.
-// כל ערך מספרי מחושב מחדש מהגאומטריה בזמן הבנייה, כך שהמפתח
-// ותוצאות הבדיקות האוטומטיות אינם יכולים להיפרד זה מזה.
+// כל ערך מספרי במסמך מחושב מחדש מהגאומטריה בזמן הבנייה.
 
 import { esc } from './render.mjs';
-import { axisParallelLength } from './coordinate-svg.mjs';
+import { axisParallelLength, shoelaceArea } from './coordinate-svg.mjs';
 
-/** מחשב את הערכים הנגזרים של רשומת תשובה. מחזיר null עבור kind='value'. */
+/** מחשב ערכים נגזרים של רשומת תשובה. מחזיר null עבור kind='value'. */
 export function derive(record) {
   if (record.kind === 'segment') {
     const [ax, ay] = record.a;
@@ -23,6 +22,21 @@ export function derive(record) {
     const width = Math.abs(x2 - x1);
     const height = Math.abs(y2 - y1);
     return { width, height, area: width * height, perimeter: 2 * (width + height) };
+  }
+  if (record.kind === 'triangle') {
+    if (!Array.isArray(record.vertices) || record.vertices.length !== 3) {
+      throw new Error(`Triangle ${record.id} must contain exactly three vertices`);
+    }
+    const pairs = [[0, 1], [1, 2], [2, 0]];
+    const legs = pairs
+      .filter(([i, j]) => {
+        const a = record.vertices[i];
+        const b = record.vertices[j];
+        return a[0] === b[0] || a[1] === b[1];
+      })
+      .map(([i, j]) => axisParallelLength(record.vertices[i], record.vertices[j]))
+      .sort((a, b) => a - b);
+    return { legs, area: shoelaceArea(record.vertices) };
   }
   if (record.kind === 'line') {
     const [[ax, ay], [bx]] = record.through;
@@ -49,7 +63,9 @@ function renderRecord(record) {
     ? `קטע ${JSON.stringify(record.a)}–${JSON.stringify(record.b)}`
     : record.kind === 'rectangle'
       ? `מלבן ${JSON.stringify(record.corners[0])}–${JSON.stringify(record.corners[1])}`
-      : record.kind;
+      : record.kind === 'triangle'
+        ? `משולש ${JSON.stringify(record.vertices)}`
+        : record.kind;
   return `<article class="tk-record"><h3>${esc(record.id)}</h3>`
     + `<p class="tk-source" dir="ltr">${esc(source)}</p>`
     + `<table class="tk-table"><tbody>${rows}</tbody></table></article>`;
