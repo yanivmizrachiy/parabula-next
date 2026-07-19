@@ -176,7 +176,10 @@ const allMarkdown = walk('.', rel => {
 }).map(rel => rel.replace(/^\.\//, ''));
 
 const contractPatterns = [
-  [/^##+\s*חוזה\s/m, 'independent contract section'],
+  // כותרת חוזה, גם כשהיא ממוספרת ("## 2. חוזה תחזוקה").
+  // אין להשתמש ב-\b סביב עברית: אותיות עבריות אינן \w ולכן הגבול לעולם אינו מתקיים.
+  [/^#{1,6}[^\n]{0,14}?(?<![א-ת])חוזה(?![א-ת])/m, 'independent contract section'],
+  [/^#{1,6}[^\n]{0,14}?(?<![א-ת])כללי עבודה(?![א-ת])/m, 'independent working rules section'],
   [/\bעקרונות מחייבים\b/, 'independent mandatory principles'],
   [/\bמקור האמת הקנוני\b/, 'competing source-of-truth claim'],
   [/PROJECT_(?:RULES|MEMORY)\.md/, 'obsolete rules source'],

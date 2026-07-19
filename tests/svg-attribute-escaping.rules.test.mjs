@@ -31,16 +31,48 @@ test('ערך aria-label מוברח נשאר תכונה יחידה', () => {
   assert.ok(/=\s*"[^"]*"\s*[֐-׿]/.test(raw), 'הבדיקה חייבת לזהות את המקרה השבור');
 });
 
+/**
+ * מאתר תגים פותחים שרשימת התכונות שלהם אינה תקינה.
+ * הבדיקה אינה מסתמכת על סוג התו שאחרי המרכאה: מקלפים כל `name="value"`,
+ * כל `name='value'` וכל תכונה בוליאנית, ומה שנשאר חייב להיות רווחים בלבד.
+ * שארית כלשהי פירושה שמרכאה בתוך ערך קטעה את התכונה.
+ */
+function malformedTags(html) {
+  const bad = [];
+  const tagPattern = /<([a-zA-Z][\w:-]*)((?:[^<>"']|"[^"]*"|'[^']*')*)\/?>/g;
+  let match;
+  while ((match = tagPattern.exec(html)) !== null) {
+    const rest = match[2]
+      .replace(/\/\s*$/, ' ') // תג סוגר־עצמית: הלוכסן אינו תכונה
+      .replace(/\s+[\w:.-]+\s*=\s*"[^"]*"/g, ' ')
+      .replace(/\s+[\w:.-]+\s*=\s*'[^']*'/g, ' ')
+      .replace(/\s+[\w:.-]+(?=\s|$)/g, ' ')
+      .trim();
+    if (rest) bad.push({ tag: match[1], leftover: rest.slice(0, 80) });
+  }
+  return bad;
+}
+
+test('גלאי התכונות מזהה מרכאה לא־מוברחת בכל שפה', () => {
+  // עברית אחרי הקטיעה
+  assert.ok(malformedTags('<svg aria-label="הכיתוב "שנים" y"></svg>').length > 0);
+  // לטינית אחרי הקטיעה — המקרה שהגלאי הראשון שלי פספס
+  assert.ok(malformedTags('<svg aria-label="הכיתוב "years" y"></svg>').length > 0);
+  // תקין: מוברח
+  assert.equal(malformedTags('<svg aria-label="הכיתוב &quot;years&quot;"></svg>').length, 0);
+  // תקין: תכונה בוליאנית ותכונת data
+  assert.equal(malformedTags('<div hidden data-close class="x"></div>').length, 0);
+});
+
 test('אף דף עבודה אינו מכיל תכונה שנסגרת מוקדם בגלל מרכאות', () => {
   const files = fs.readdirSync(root).filter((file) => pagePattern.test(file));
   assert.ok(files.length > 0, 'לא נמצאו דפי עבודה לבדיקה');
 
   const broken = [];
   for (const file of files) {
-    const html = fs.readFileSync(path.join(root, file), 'utf8');
-    // תכונה שנסגרה ומיד אחריה טקסט עברי = המרכאות שבתוכה קטעו אותה
-    if (/=\s*"[^"]*"\s*[֐-׿]/.test(html)) broken.push(file);
+    const bad = malformedTags(fs.readFileSync(path.join(root, file), 'utf8'));
+    if (bad.length) broken.push(`${file} (${bad[0].tag}: ${bad[0].leftover})`);
   }
 
-  assert.deepEqual(broken, [], `דפים עם תכונה שנקטעה: ${broken.join(', ')}`);
+  assert.deepEqual(broken, [], `דפים עם תכונה שנקטעה:\n${broken.join('\n')}`);
 });
