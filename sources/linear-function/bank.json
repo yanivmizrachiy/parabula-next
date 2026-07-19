@@ -617,7 +617,7 @@
     {
      "letter": "א",
      "text": "השלימו את הנקודות הנתונות על גרף הפונקציה על פי הגרף הנתון:   (0, ___) , (-3 , ___) , (___ , 0) , (5 , ___) , (___ , -3) , (___ , -2) , (___ , -2)",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
@@ -727,32 +727,32 @@
    "parts": [
     {
      "letter": "א",
-     "text": "f(4) = ____",
+     "text": "f(4) =",
      "answerShape": "single"
     },
     {
      "letter": "ב",
-     "text": "f(-2) = ____",
+     "text": "f(-2) =",
      "answerShape": "single"
     },
     {
      "letter": "ג",
      "text": "f(_____) = 0",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
      "text": "f(_____) = -3",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ה",
-     "text": "אם x = 5  אז f(x) = ____",
+     "text": "אם x = 5  אז f(x) =",
      "answerShape": "single"
     },
     {
      "letter": "ו",
-     "text": "אם f(x) = -1 אז x = ____",
+     "text": "אם f(x) = -1 אז x =",
      "answerShape": "single"
     }
    ],
@@ -969,22 +969,22 @@
    "parts": [
     {
      "letter": "א",
-     "text": "מהי נקודת החיתוך של הגרף עם ציר Y? ______",
+     "text": "מהי נקודת החיתוך של הגרף עם ציר Y?",
      "answerShape": "point"
     },
     {
      "letter": "ב",
-     "text": "מהי נקודת החיתוך של הגרף עם ציר X? ______",
+     "text": "מהי נקודת החיתוך של הגרף עם ציר X?",
      "answerShape": "point"
     },
     {
      "letter": "ג",
      "text": "השלימו : f(0)=____   f(2)=____",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
-     "text": "מהו ערך הפונקציה עבור x=2 ? ________",
+     "text": "מהו ערך הפונקציה עבור x=2 ?",
      "answerShape": "single"
     }
    ],
@@ -1051,17 +1051,17 @@
    "parts": [
     {
      "letter": "א",
-     "text": "מהי נקודת החיתוך של הגרף עם ציר ה- Y? ___________.",
+     "text": "מהי נקודת החיתוך של הגרף עם ציר ה- Y?",
      "answerShape": "point"
     },
     {
      "letter": "ב",
      "text": "השלימו :  f(1) = □   f(2) = □   f(4) = □",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ג",
-     "text": "האם הגרף עולה בקצב קבוע? ___________.",
+     "text": "האם הגרף עולה בקצב קבוע?",
      "answerShape": "single"
     },
     {
@@ -1203,22 +1203,22 @@
     {
      "letter": "א.",
      "text": "y = 5x – 3        m  = ___        n = ___",
-     "answerShape": "expr2"
+     "answerShape": "lines"
     },
     {
      "letter": "ב.",
      "text": "y = 4 – x         m  = ___        n = ___",
-     "answerShape": "expr2"
+     "answerShape": "lines"
     },
     {
      "letter": "ג.",
      "text": "y = 0.5x + 3      m  = ___        n = ___",
-     "answerShape": "expr2"
+     "answerShape": "lines"
     },
     {
      "letter": "ד.",
      "text": "y = 10x           m  = ___        n = ___",
-     "answerShape": "expr2"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "expr2",
@@ -1452,7 +1452,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם השיפוע של הפונקציה שסימנתם הוא חיובי או שלילי? _______.",
+     "text": "האם השיפוע של הפונקציה שסימנתם הוא חיובי או שלילי?",
      "answerShape": "single"
     }
    ],
@@ -1524,12 +1524,12 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם השיפוע חיובי או שלילי?_______",
+     "text": "האם השיפוע חיובי או שלילי?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "האם הגרף עולה, יורד או קבוע? ______",
+     "text": "האם הגרף עולה, יורד או קבוע?",
      "answerShape": "single"
     }
    ],
@@ -1564,7 +1564,7 @@
     {
      "letter": null,
      "text": "השלימו את שיעורי הנקודות: D( , )   C( , )   B( , )   A( , )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": null,
@@ -2033,32 +2033,32 @@
     {
      "letter": "א",
      "text": "y = 2x + 1    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
      "text": "y = 2x + 2    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ג",
      "text": "y = 2x + 5    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
      "text": "y = 2x – 2    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ה",
      "text": "y = 2x – 4    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ו",
      "text": "y = 2x – 3    (0, ___ )",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "point",
@@ -2322,7 +2322,7 @@
    "parts": [
     {
      "letter": "א",
-     "text": "מהם שיעורי הנקודה הנמצאת על גרף הפונקציה ושיעור ה – X שלה הוא 8?   תשובה : ____________.",
+     "text": "מהם שיעורי הנקודה הנמצאת על גרף הפונקציה ושיעור ה – X שלה הוא 8?   תשובה :",
      "answerShape": "point"
     },
     {
@@ -2426,22 +2426,22 @@
     {
      "letter": "א",
      "text": "‎(−1 , ___ )‎",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
      "text": "(0 , ___ )",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ג",
      "text": "(3 , ___ )",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
      "text": "(10 , ___ )",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -2477,22 +2477,22 @@
     {
      "letter": "א",
      "text": "( ___ , 0)",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
      "text": "( ___ , 4)",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ג",
      "text": "‎( ___ , −16)‎",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
      "text": "( ___ , 24)",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -2535,51 +2535,86 @@
     ],
     "rows": [
      [
-      "א",
-      "y=x+6",
-      "x=2",
+      "ח",
+      "y=10-2x",
+      "y=12",
       null,
       null
      ],
      [
-      "ב",
-      "y=-4x-3",
+      "ט",
+      "y=(3x-6)/4",
+      "x=-5",
+      null,
+      null
+     ],
+     [
+      "י",
+      "y=3-(x-4)/2",
+      "y=-12",
+      null,
+      null
+     ],
+     [
+      "יא",
+      "y=(2/3)x+3",
+      "x=6",
+      null,
+      null
+     ],
+     [
+      "יב",
+      "y=3x-8",
+      "y=9",
+      null,
+      null
+     ],
+     [
+      "יג",
+      "y=x",
+      "y=-3",
+      null,
+      null
+     ],
+     [
+      "יד",
+      "y=x/4",
+      "x=-18",
+      null,
+      null
+     ],
+     [
+      "טו",
       "y=5",
+      "x=3",
       null,
       null
      ],
      [
-      "ג",
-      "y=5-4x",
-      "x=-2",
+      "טז",
+      "y=-3",
+      "x=-8",
       null,
       null
      ],
      [
-      "ד",
-      "y=4-0.5x",
-      "x=7",
+      "יז",
+      "y=(x/2)x+5",
+      "x=-4",
       null,
       null
      ],
      [
-      "ה",
-      "y=3x-2",
-      "y=1",
+      null,
+      "y=3-(x-4)/2",
+      "y=-2",
       null,
       null
      ],
      [
-      "ו",
-      "y=-7x-4",
-      "y=10",
       null,
-      null
-     ],
-     [
-      "ז",
       "y= -(x+1)/3",
-      "y=4.5",
+      "y=-7",
       null,
       null
      ]
@@ -2749,7 +2784,7 @@
     {
      "letter": "א",
      "text": "חשבו את:   f(1/2) = ______ ,  f(0) = ______ ,  f(7) = ______",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
@@ -3106,18 +3141,18 @@
    "parts": [
     {
      "letter": "א",
-     "text": "כמה פעמים גרף הפונקציה הנתון חותך את ציר ה – X? ___________.",
+     "text": "כמה פעמים גרף הפונקציה הנתון חותך את ציר ה – X?",
      "answerShape": "single"
     },
     {
      "letter": "ב",
-     "text": "מהן נקודות החיתוך של הגרף עם ציר ה – X? ______________________.",
+     "text": "מהן נקודות החיתוך של הגרף עם ציר ה – X?",
      "answerShape": "point"
     },
     {
      "letter": "ג",
      "text": "כמה פעמים גרף הפונקציה חותך את ציר ה – Y? _____________.   באיזו נקודה ? _______.",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": "ד",
@@ -3131,18 +3166,18 @@
     },
     {
      "letter": "ו",
-     "text": "האם הגרף עובר בראשית הצירים? _________________.",
+     "text": "האם הגרף עובר בראשית הצירים?",
      "answerShape": "single"
     },
     {
      "letter": "ז",
-     "text": "השלימו : f(7)=____",
+     "text": "השלימו : f(7)=",
      "answerShape": "single"
     },
     {
      "letter": "ח",
      "text": "השלימו : f(  )=2",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -3487,11 +3522,11 @@
     {
      "letter": "א",
      "text": "השלימו :  f(0)=____    g(0)=____",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ב",
-     "text": "איזה מבין הישרים הוא גרף יורד? _________________.",
+     "text": "איזה מבין הישרים הוא גרף יורד?",
      "answerShape": "single"
     },
     {
@@ -4029,12 +4064,12 @@
     },
     {
      "letter": "ב",
-     "text": "איזה גרף חותך את ציר ה – X פעמיים? ___________.",
+     "text": "איזה גרף חותך את ציר ה – X פעמיים?",
      "answerShape": "single"
     },
     {
      "letter": "ג",
-     "text": "איזו פונקציה חותכת את ציר ה – Y בנקודה גבוהה יותר? __________.",
+     "text": "איזו פונקציה חותכת את ציר ה – Y בנקודה גבוהה יותר?",
      "answerShape": "single"
     }
    ],
@@ -4199,12 +4234,7 @@
    "label": "4",
    "subtopic": "increasing-decreasing",
    "stem": "בכל סעיף נתון ייצוג אלגברי של פונקציה קווית.\nרשמו את שיפוע הישר וקבעו אם פונקציה עולה, יורדת או קבועה.",
-   "given": [
-    "y=5x-7",
-    "y=-3x+18",
-    "y=5 - x",
-    "y=9"
-   ],
+   "given": null,
    "parts": [
     {
      "letter": "א",
@@ -4762,7 +4792,7 @@
     },
     {
      "letter": null,
-     "text": "האם השיפוע של הישר חיובי או שלילי? _________",
+     "text": "האם השיפוע של הישר חיובי או שלילי?",
      "answerShape": "single"
     }
    ],
@@ -4874,32 +4904,32 @@
     },
     {
      "letter": "ג",
-     "text": "האם הנקודה (7,70) נמצאת על הגרף? ___________.",
+     "text": "האם הנקודה (7,70) נמצאת על הגרף?",
      "answerShape": "single"
     },
     {
      "letter": "ד",
-     "text": "מהו השיפוע של הגרף? _________________.",
+     "text": "מהו השיפוע של הגרף?",
      "answerShape": "single"
     },
     {
      "letter": "ה",
      "text": "השלימו:  f(4)=____     f(___ )=50",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": "ו",
-     "text": "מה הייצוג האלגברי של הגרף? _________________.",
+     "text": "מה הייצוג האלגברי של הגרף?",
      "answerShape": "equation"
     },
     {
      "letter": "ז",
-     "text": "מהי נקודת החיתוך של הגרף עם ציר y? _________________.",
+     "text": "מהי נקודת החיתוך של הגרף עם ציר y?",
      "answerShape": "point"
     },
     {
      "letter": "ח",
-     "text": "מהו ערך הפונקציה עבור x=4? ____________.",
+     "text": "מהו ערך הפונקציה עבור x=4?",
      "answerShape": "single"
     }
    ],
@@ -5184,7 +5214,7 @@
     {
      "letter": "ו",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:\nA(200;____),   B(____;2000),   C(700;______),   D(____; 1500)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -5314,7 +5344,7 @@
     {
      "letter": "י",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:\nA(1;____),   B(____;6),   C(5;______),   D(____; 4)   (במידה ויש כמה אפשרויות, סמן את כולן)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "table",
@@ -5383,41 +5413,35 @@
     "points": [],
     "segments": [
      {
-      "through": [
-       [
-        0,
-        0
-       ],
-       [
-        4,
-        8
-       ]
+      "from": [
+       0,
+       0
+      ],
+      "to": [
+       4,
+       8
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        4,
-        8
-       ],
-       [
-        7,
-        8
-       ]
+      "from": [
+       4,
+       8
+      ],
+      "to": [
+       7,
+       8
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        7,
-        8
-       ],
-       [
-        9,
-        0
-       ]
+      "from": [
+       7,
+       8
+      ],
+      "to": [
+       9,
+       0
       ],
       "style": "solid"
      }
@@ -5465,7 +5489,7 @@
     {
      "letter": "ו",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:\nA(150;____),   B(____;125),   C(200;______),   D(____; 200)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -5534,28 +5558,24 @@
     "points": [],
     "segments": [
      {
-      "through": [
-       [
-        0,
-        50
-       ],
-       [
-        100,
-        50
-       ]
+      "from": [
+       0,
+       50
+      ],
+      "to": [
+       100,
+       50
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        100,
-        50
-       ],
-       [
-        450,
-        225
-       ]
+      "from": [
+       100,
+       50
+      ],
+      "to": [
+       450,
+       225
       ],
       "style": "solid"
      }
@@ -5613,7 +5633,7 @@
     {
      "letter": "ח",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:\nA(1.5;____),   B(____;125),   C(5.5;______),   D(____; 200)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "table",
@@ -5715,41 +5735,35 @@
     ],
     "segments": [
      {
-      "through": [
-       [
-        0,
-        0
-       ],
-       [
-        3.5,
-        175
-       ]
+      "from": [
+       0,
+       0
+      ],
+      "to": [
+       3.5,
+       175
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        3.5,
-        175
-       ],
-       [
-        6,
-        175
-       ]
+      "from": [
+       3.5,
+       175
+      ],
+      "to": [
+       6,
+       175
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        6,
-        175
-       ],
-       [
-        7.5,
-        25
-       ]
+      "from": [
+       6,
+       175
+      ],
+      "to": [
+       7.5,
+       25
       ],
       "style": "solid"
      }
@@ -5817,7 +5831,7 @@
     {
      "letter": "ז",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:\nA(7;____),   B(____;75),   C(9;______),   D(____; 45)   (במידה ויש כמה אפשרויות, סמן את כולן)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -5886,41 +5900,35 @@
     "points": [],
     "segments": [
      {
-      "through": [
-       [
-        6,
-        0
-       ],
-       [
-        9,
-        90
-       ]
+      "from": [
+       6,
+       0
+      ],
+      "to": [
+       9,
+       90
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        9,
-        90
-       ],
-       [
-        11,
-        90
-       ]
+      "from": [
+       9,
+       90
+      ],
+      "to": [
+       11,
+       90
       ],
       "style": "solid"
      },
      {
-      "through": [
-       [
-        11,
-        90
-       ],
-       [
-        14,
-        0
-       ]
+      "from": [
+       11,
+       90
+      ],
+      "to": [
+       14,
+       0
       ],
       "style": "solid"
      }
@@ -6305,7 +6313,7 @@
     {
      "letter": "י",
      "text": "סמן על הגרף את הנקודות והשלם את שיעוריהן:   A(1;____),   B(____;6),   C(5;______),   D(____; 4)   (במידה ויש כמה אפשרויות, סמן את כולן)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -6454,7 +6462,7 @@
     {
      "letter": "ו",
      "text": "סמנו על הגרף את הנקודות והשלימו את שיעוריהן:   A(150;____),  B(____;125),  C(200;______),  D(____; 200",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -6547,12 +6555,12 @@
    "parts": [
     {
      "letter": null,
-     "text": "כמה שילמה יעל עם עלתה על שני מתקנים? ____________",
+     "text": "כמה שילמה יעל עם עלתה על שני מתקנים?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "רפאל עלה על 5 מתקנים. כמה שילם רפאל? ________.",
+     "text": "רפאל עלה על 5 מתקנים. כמה שילם רפאל?",
      "answerShape": "single"
     },
     {
@@ -6563,16 +6571,16 @@
     {
      "letter": null,
      "text": "השלימו: m=______   b=______",
-     "answerShape": "expr2"
+     "answerShape": "lines"
     },
     {
      "letter": null,
-     "text": "מהם שיעורי נקודת החיתוך עם ציר y? ( , )",
+     "text": "מהם שיעורי נקודת החיתוך עם ציר y?",
      "answerShape": "point"
     },
     {
      "letter": null,
-     "text": "מהו הייצוג האלגברי של הישר? ___________",
+     "text": "מהו הייצוג האלגברי של הישר?",
      "answerShape": "equation"
     }
    ],
@@ -6769,21 +6777,21 @@
     {
      "letter": null,
      "text": "השלימו: בתחילת התהליך היו ______ מ״ק מים.",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
      "text": "בכל דקה רוקנו _____ מ״ק מים.",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
      "text": "לאחר ___ דקות לא נותרו מים באקווריום.",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
-     "text": "השיפוע של הגרף הוא: _______.",
+     "text": "השיפוע של הגרף הוא:",
      "answerShape": "single"
     }
    ],
@@ -8045,17 +8053,17 @@
    "parts": [
     {
      "letter": null,
-     "text": "מה מייצג ערך X בטבלה? ________________.",
+     "text": "מה מייצג ערך X בטבלה?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "מה מייצג ערך y בטבלה?_______________.",
+     "text": "מה מייצג ערך y בטבלה?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "מהו היקף ריבוע שאורך צלעו הוא 2 ס״מ? ___.",
+     "text": "מהו היקף ריבוע שאורך צלעו הוא 2 ס״מ?",
      "answerShape": "single"
     },
     {
@@ -8065,12 +8073,12 @@
     },
     {
      "letter": null,
-     "text": "מהו השיפוע של הפונקציה?_______________.",
+     "text": "מהו השיפוע של הפונקציה?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "האם הנקודה (6,24) נמצאת על הפונקציה? __.",
+     "text": "האם הנקודה (6,24) נמצאת על הפונקציה?",
      "answerShape": "single"
     },
     {
@@ -8546,7 +8554,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "השלימו: ראשית הצירים היא הנקודה (  ,  ).",
+     "text": "השלימו: ראשית הצירים היא הנקודה",
      "answerShape": "point"
     },
     {
@@ -8561,12 +8569,12 @@
     },
     {
      "letter": null,
-     "text": "השיפוע הוא: m =______",
+     "text": "השיפוע הוא: m =",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "כתבו האם הפונקציה עולה או יורדת ______",
+     "text": "כתבו האם הפונקציה עולה או יורדת",
      "answerShape": "single"
     }
    ],
@@ -8623,12 +8631,12 @@
    "parts": [
     {
      "letter": null,
-     "text": "בכל פעם שערך x גדל ב- 1 ערך y קטן ב - ______",
+     "text": "בכל פעם שערך x גדל ב- 1 ערך y קטן ב -",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "השיפוע הוא: _______.",
+     "text": "השיפוע הוא:",
      "answerShape": "single"
     }
    ],
@@ -8694,7 +8702,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "מהו שיפוע הישר? _______",
+     "text": "מהו שיפוע הישר?",
      "answerShape": "single"
     }
    ],
@@ -8897,17 +8905,17 @@
    "parts": [
     {
      "letter": null,
-     "text": "מה השיפוע של הפונקציה? _________.",
+     "text": "מה השיפוע של הפונקציה?",
      "answerShape": "single"
     },
     {
      "letter": null,
      "text": "השלימו : m=_____   b=______",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
-     "text": "נקודת החיתוך של הגרף עם ציר y : _______.",
+     "text": "נקודת החיתוך של הגרף עם ציר y :",
      "answerShape": "point"
     },
     {
@@ -8917,17 +8925,17 @@
     },
     {
      "letter": null,
-     "text": "האם הגרף עולה או יורד? ______________.",
+     "text": "האם הגרף עולה או יורד?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "האם הנקודה (0,2) נמצאת מעל הגרף או מתחת? _________.",
+     "text": "האם הנקודה (0,2) נמצאת מעל הגרף או מתחת?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "באילו רביעים הגרף עובר? ____________.",
+     "text": "באילו רביעים הגרף עובר?",
      "answerShape": "single"
     }
    ],
@@ -9297,12 +9305,12 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם הגרף עולה או יורד? _______",
+     "text": "האם הגרף עולה או יורד?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "האם השיפוע חיובי או שלילי? ______",
+     "text": "האם השיפוע חיובי או שלילי?",
      "answerShape": "single"
     }
    ],
@@ -9352,7 +9360,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם הגרף המתאים לפונקציה שסימנתם הוא עולה או יורד? ________",
+     "text": "האם הגרף המתאים לפונקציה שסימנתם הוא עולה או יורד?",
      "answerShape": "single"
     }
    ],
@@ -9391,7 +9399,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם השיפוע של הפונקציה שסימנתם הוא חיובי או שלילי? _______.",
+     "text": "האם השיפוע של הפונקציה שסימנתם הוא חיובי או שלילי?",
      "answerShape": "single"
     }
    ],
@@ -9487,12 +9495,12 @@
     {
      "letter": null,
      "text": "שיפוע הישר   m =______   (הגרף העליון)",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
      "text": "שיפוע הישר   m =______   (הגרף התחתון)",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -9779,7 +9787,7 @@
     {
      "letter": "ג",
      "text": "השלימו שיעורי הנקודות הנמצאות על הישר:\n(-4;___),    (-2;___),    (3;___),    (____;7),    (____;1)",
-     "answerShape": "point"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "choice",
@@ -9843,22 +9851,22 @@
    "parts": [
     {
      "letter": "א",
-     "text": "y = _________",
+     "text": "",
      "answerShape": "equation"
     },
     {
      "letter": "ב",
-     "text": "y = _________",
+     "text": "",
      "answerShape": "equation"
     },
     {
      "letter": "ג",
-     "text": "y = _________",
+     "text": "",
      "answerShape": "equation"
     },
     {
      "letter": "ד",
-     "text": "y = _________",
+     "text": "",
      "answerShape": "equation"
     }
    ],
@@ -9954,12 +9962,12 @@
     },
     {
      "letter": null,
-     "text": "השלימו:נקודת החיתוך עם ציר y היא: ( , )",
+     "text": "השלימו:נקודת החיתוך עם ציר y היא:",
      "answerShape": "point"
     },
     {
      "letter": null,
-     "text": "מהו הייצוג האלגברי של הישר? y=________",
+     "text": "מהו הייצוג האלגברי של הישר?",
      "answerShape": "equation"
     }
    ],
@@ -10849,12 +10857,12 @@
     },
     {
      "letter": null,
-     "text": "השלימו: שיפוע הישר הוא ________.",
+     "text": "השלימו: שיפוע הישר הוא",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "משוואת הישר היא ________.",
+     "text": "משוואת הישר היא",
      "answerShape": "equation"
     }
    ],
@@ -10933,7 +10941,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "מהם שיעורי הנקודה A? ( , )",
+     "text": "מהם שיעורי הנקודה A?",
      "answerShape": "point"
     },
     {
@@ -10943,7 +10951,7 @@
     },
     {
      "letter": null,
-     "text": "מהם שיעורי נקודת החיתוך עם ציר y? ( , )",
+     "text": "מהם שיעורי נקודת החיתוך עם ציר y?",
      "answerShape": "point"
     },
     {
@@ -10953,12 +10961,12 @@
     },
     {
      "letter": null,
-     "text": "השלימו:נקודת החיתוך עם ציר y היא: ( , )",
+     "text": "השלימו:נקודת החיתוך עם ציר y היא:",
      "answerShape": "point"
     },
     {
      "letter": null,
-     "text": "מהו הייצוג האלגברי של הישר? y=________",
+     "text": "מהו הייצוג האלגברי של הישר?",
      "answerShape": "equation"
     }
    ],
@@ -11314,23 +11322,23 @@
    "parts": [
     {
      "letter": "א",
-     "text": "הגרפים  העוברים  בראשית הצירים  שייכים לפונקציות:____________________________",
+     "text": "הגרפים  העוברים  בראשית הצירים  שייכים לפונקציות:",
      "answerShape": "single"
     },
     {
      "letter": "ב",
-     "text": "הגרפים מקבילים זה לזה  שייכים לפונקציות: _______________________________",
+     "text": "הגרפים מקבילים זה לזה  שייכים לפונקציות:",
      "answerShape": "single"
     },
     {
      "letter": "ג",
-     "text": "הישרים המקבילים לציר ה-  X    שייכים לפונקציות: _______________________________",
+     "text": "הישרים המקבילים לציר ה-  X    שייכים לפונקציות:",
      "answerShape": "single"
     },
     {
      "letter": "ד",
      "text": "לפונקציות : _________________________________________________\nיש אותה נקודת החיתוך עם ציר ה-  Y.    נקודת החיתוך היא:  _________",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",
@@ -12016,7 +12024,16 @@
     "lines": [
      {
       "label": null,
-      "through": null,
+      "through": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        5
+       ]
+      ],
       "style": "solid"
      },
      {
@@ -12507,12 +12524,12 @@
     },
     {
      "letter": null,
-     "text": "השלימו: שיפוע הישר הוא ________.",
+     "text": "השלימו: שיפוע הישר הוא",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "משוואת הישר היא ________.",
+     "text": "משוואת הישר היא",
      "answerShape": "equation"
     }
    ],
@@ -12603,12 +12620,12 @@
     },
     {
      "letter": null,
-     "text": "מהו השיפוע של הישר? _________.",
+     "text": "מהו השיפוע של הישר?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "מהי משוואת הישר? __________.",
+     "text": "מהי משוואת הישר?",
      "answerShape": "equation"
     }
    ],
@@ -12689,7 +12706,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "תשובה: __________.",
+     "text": "תשובה:",
      "answerShape": "equation"
     },
     {
@@ -12704,7 +12721,7 @@
     },
     {
      "letter": null,
-     "text": "מהי משוואת הישר? __________.",
+     "text": "מהי משוואת הישר?",
      "answerShape": "equation"
     }
    ],
@@ -12761,7 +12778,7 @@
     },
     {
      "letter": null,
-     "text": "מהי משוואת הישר? __________.",
+     "text": "מהי משוואת הישר?",
      "answerShape": "equation"
     }
    ],
@@ -12824,7 +12841,16 @@
     "lines": [
      {
       "label": null,
-      "through": null,
+      "through": [
+       [
+        5,
+        2
+       ],
+       [
+        8,
+        5
+       ]
+      ],
       "style": "solid"
      }
     ],
@@ -12877,7 +12903,16 @@
     "lines": [
      {
       "label": null,
-      "through": null,
+      "through": [
+       [
+        -3,
+        8
+       ],
+       [
+        -1,
+        -2
+       ]
+      ],
       "style": "solid"
      }
     ],
@@ -13026,7 +13061,7 @@
    "parts": [
     {
      "letter": null,
-     "text": "האם הפונקציה עולה או יורדת?__________ .",
+     "text": "האם הפונקציה עולה או יורדת?",
      "answerShape": "single"
     },
     {
@@ -13036,12 +13071,12 @@
     },
     {
      "letter": null,
-     "text": "האם הגרף עולה או יורד? _______",
+     "text": "האם הגרף עולה או יורד?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "האם השיפוע חיובי או שלילי? ______",
+     "text": "האם השיפוע חיובי או שלילי?",
      "answerShape": "single"
     }
    ],
@@ -13137,25 +13172,25 @@
     ],
     "points": [
      {
-      "name": "גרף ימני",
+      "name": "(9, 24)",
       "x": 9,
       "y": 24,
       "labeled": true
      },
      {
-      "name": "גרף ימני",
+      "name": "(7, 12)",
       "x": 7,
       "y": 12,
       "labeled": true
      },
      {
-      "name": "גרף שמאלי",
+      "name": "(8, 24)",
       "x": 8,
       "y": 24,
       "labeled": true
      },
      {
-      "name": "גרף שמאלי",
+      "name": "(1, 3)",
       "x": 1,
       "y": 3,
       "labeled": true
@@ -13320,17 +13355,17 @@
    "parts": [
     {
      "letter": null,
-     "text": "השלימו: הגרף עובר בנקודות: A (  ,  )",
+     "text": "השלימו: הגרף עובר בנקודות: A",
      "answerShape": "point"
     },
     {
      "letter": null,
-     "text": "B (  ,  )",
+     "text": "B",
      "answerShape": "point"
     },
     {
      "letter": null,
-     "text": "חשבו את שיפוע הגרף על פי שתי הנקודות: \\(m_{AB}\\) = ___________",
+     "text": "חשבו את שיפוע הגרף על פי שתי הנקודות: \\(m_{AB}\\) =",
      "answerShape": "single"
     }
    ],
@@ -13399,7 +13434,7 @@
     {
      "letter": null,
      "text": "השלימו: גרף הפונקציה עובר בנקודות: (  ,  )  ;  (  ,  ) .",
-     "answerShape": "point"
+     "answerShape": "lines"
     },
     {
      "letter": null,
@@ -13889,45 +13924,69 @@
     "points": [
      {
       "name": "A",
-      "x": null,
-      "y": null,
+      "x": -4,
+      "y": -4,
       "labeled": true
      },
      {
       "name": "B",
-      "x": null,
-      "y": null,
+      "x": 0,
+      "y": 4,
       "labeled": true
      },
      {
       "name": "C",
-      "x": null,
-      "y": null,
+      "x": 0,
+      "y": -2,
       "labeled": true
      },
      {
       "name": "D",
-      "x": null,
-      "y": null,
+      "x": 0,
+      "y": -4,
       "labeled": true
      }
     ],
     "segments": [
      {
-      "from": "A",
-      "to": "B"
+      "from": [
+       -4,
+       -4
+      ],
+      "to": [
+       0,
+       4
+      ]
      },
      {
-      "from": "A",
-      "to": "C"
+      "from": [
+       -4,
+       -4
+      ],
+      "to": [
+       0,
+       -2
+      ]
      },
      {
-      "from": "A",
-      "to": "D"
+      "from": [
+       -4,
+       -4
+      ],
+      "to": [
+       0,
+       -4
+      ]
      },
      {
-      "from": "B",
-      "to": "D"
+      "from": [
+       0,
+       4
+      ],
+      "to": [
+       0,
+       -4
+      ]
      }
     ],
     "notes": "אין רשת או שנתות; שיעורי הנקודות לקוחים מהטקסט של השאלה בלבד ולא נמדדו מהסרטוט. בסרטוט הנקודה D מופיעה מימין ל-A על אותו גובה — הסרטוט אינו תואם במדויק לנתון D(0,-4)."
@@ -14215,33 +14274,33 @@
    "parts": [
     {
      "letter": null,
-     "text": "כאשר ערך x גדל / קטן ב - ______",
+     "text": "כאשר ערך x גדל / קטן ב -",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "ערך y גדל / קטן ב - ______",
+     "text": "ערך y גדל / קטן ב -",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "השיפוע הוא: m =______",
+     "text": "השיפוע הוא: m =",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "כתבו האם הפונקציה עולה או יורדת ______",
+     "text": "כתבו האם הפונקציה עולה או יורדת",
      "answerShape": "single"
     },
     {
      "letter": null,
      "text": "האם הנקודה (3,31) נמצאת על הפונקציה? ____?",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
      "text": "האם הנקודה (25,5) נמצאת על הפונקציה? _____?",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
@@ -14312,28 +14371,28 @@
    "parts": [
     {
      "letter": null,
-     "text": "כאשר ערך x גדל / קטן ב - ______",
+     "text": "כאשר ערך x גדל / קטן ב -",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "ערך y גדל / קטן ב - ______",
+     "text": "ערך y גדל / קטן ב -",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "השיפוע הוא: m =______",
+     "text": "השיפוע הוא: m =",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "כתבו האם הפונקציה עולה או יורדת ______",
+     "text": "כתבו האם הפונקציה עולה או יורדת",
      "answerShape": "single"
     },
     {
      "letter": null,
      "text": "האם הנקודה (16,3) נמצאת על הפונקציה? ____?",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
@@ -14402,28 +14461,28 @@
    "parts": [
     {
      "letter": null,
-     "text": "איזו פונקציה היא יורדת? ________________",
+     "text": "איזו פונקציה היא יורדת?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "באיזו פונקציה השיפוע הוא 3 ? ___________",
+     "text": "באיזו פונקציה השיפוע הוא 3 ?",
      "answerShape": "single"
     },
     {
      "letter": null,
-     "text": "איזו פונקציה עוברת בראשית הצירים? ____",
+     "text": "איזו פונקציה עוברת בראשית הצירים?",
      "answerShape": "single"
     },
     {
      "letter": null,
      "text": "איזו פוקציה עוברת בנקודה (2,4) ? _____ __",
-     "answerShape": "single"
+     "answerShape": "lines"
     },
     {
      "letter": null,
      "text": "באיזו פונקציה m=2 ? _____ ___________",
-     "answerShape": "single"
+     "answerShape": "lines"
     }
    ],
    "answerShape": "single",

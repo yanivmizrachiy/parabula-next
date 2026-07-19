@@ -81,7 +81,17 @@ export function figureSvg(fig, id, opt = {}) {
   const pts = (fig.points || []).filter((p) => p.x !== null && p.x !== undefined && p.y !== null && p.y !== undefined);
   const lns = (fig.lines || []).filter((l) => Array.isArray(l.through) && l.through.length === 2
     && l.through.every((p) => Array.isArray(p) && p.length === 2 && p.every((v) => typeof v === 'number')));
-  const segs = (fig.segments || []).filter((s) => Array.isArray(s.from) && Array.isArray(s.to));
+  // מקטע נשמר בשני כתיבים: {from,to} וגם {through:[[x,y],[x,y]]}. סינון לפי
+  // from/to בלבד זרק בשקט את כל המקטעים שנרשמו בכתיב השני — וכך שאלות מילוליות
+  // שכל כולן "קראו מהגרף" הודפסו **בלי גרף**. מנרמלים לפני הסינון.
+  const num2 = (p) => Array.isArray(p) && p.length === 2 && p.every((v) => typeof v === 'number');
+  const segs = (fig.segments || []).map((s) => {
+    if (num2(s.from) && num2(s.to)) return s;
+    if (Array.isArray(s.through) && s.through.length === 2 && s.through.every(num2)) {
+      return { ...s, from: s.through[0], to: s.through[1] };
+    }
+    return null;
+  }).filter(Boolean);
 
   let [xMin, xMax] = fig.xRange || [];
   let [yMin, yMax] = fig.yRange || [];
@@ -184,10 +194,14 @@ export function composeQuestion(qq, id) {
     const t = qq.table;
     const isValueTable = (t.headers || []).length > 3 || (t.rows || []).some((r) => r.length > 3);
     if (isValueTable && (t.rows || []).length <= 3 && t.headers?.length) {
-      tableHtml = vtable((t.rows || []).map((r, i) => ({
-        head: autoLtr(String(t.headers[0] ?? (i === 0 ? 'x' : 'y'))),
-        cells: r.slice(1).map((c) => (c === null || c === '' ? null : autoLtr(String(c)))),
-      })));
+      // באג שתוקן: שורת ה-headers מעולם לא נפלטה, וכל שורה קיבלה את headers[0]
+      // ככותרת שלה. התוצאה: ערכי ה-x נעלמו לגמרי וכל השורות תויגו זהה, כך
+      // ש"מלאו את הטבלה" היה בלתי אפשרי. נמדד ב-11 שאלות על 11 דפים.
+      const cell = (c) => (c === null || c === undefined || c === '' ? null : autoLtr(String(c)));
+      tableHtml = vtable([
+        { head: autoLtr(String(t.headers[0] ?? 'x')), cells: t.headers.slice(1).map(cell) },
+        ...(t.rows || []).map((r) => ({ head: autoLtr(String(r[0] ?? '')), cells: r.slice(1).map(cell) })),
+      ]);
     } else {
       tableHtml = ctable((t.headers || []).map((h) => autoLtr(String(h ?? ''))),
         (t.rows || []).map((r) => r.map((c) => (c === null || c === '' ? '' : autoLtr(String(c))))));
