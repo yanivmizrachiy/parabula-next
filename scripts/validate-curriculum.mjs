@@ -39,7 +39,7 @@ walk(curriculum.nodes, 0, null);
 // ── העץ השמור מושווה למקור, לא לעצמו ──────────────────────────────────
 // בלי זה אפשר למחוק צומת ריק מ-topics.json ולעדכן את שלושת הסיכומים,
 // והבדיקה תעבור — כי כל הספירות נגזרות מאותו עץ שנבדק. השוואה למפה
-// היא מה שמגן על אינווריאנט "בית ריק" של §4.4.
+// היא מה שמגן על אינווריאנט "בית ריק" של §4.5.
 const mapIds = new Set(walkCurriculum(CURRICULUM).map((entry) => entry.node.id));
 const storedIds = new Set(flat.map(({ node }) => node.id));
 for (const id of mapIds) {

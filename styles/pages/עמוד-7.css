@@ -1,7 +1,7 @@
 /* עמוד 7 — עיצוב/רקע ייעודי לעמוד זה בלבד */
 
 .page-7 .question-block {
-	/* ניצול מלא של גובה ה-A4 (CLAUDE.md §5) */
+	/* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) */
 	justify-content: space-between;
 	gap: 10px;
 	min-height: 244mm;

@@ -1,5 +1,5 @@
 /* styles/topics/bbb-uncertainty.css — עיצוב משותף לנושא "תחום אי־וודאות" (ייבוא bbb)
-   כל ה-selectors scoped ל-.bbb-uncertainty-page בלבד (CLAUDE.md §6).
+   כל ה-selectors scoped ל-.bbb-uncertainty-page בלבד (CLAUDE.md §2).
    הטקסט הלימודי מגיע 1:1 מ-sources/bbb/uncertainty/worksheet.html — כאן עיצוב בלבד. */
 
 .bbb-uncertainty-page { color: var(--text-main); }
@@ -20,7 +20,7 @@
 .bbb-uncertainty-page .qbody { font-size: 15px; line-height: 1.5; }
 .bbb-uncertainty-page .qbody p { margin: 4px 0; }
 
-/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §7) */
+/* LTR למתמטיקה ולמספרים — CSS בלבד (CLAUDE.md §4) */
 .bbb-uncertainty-page .ltr, .bbb-uncertainty-page .math { direction: ltr; unicode-bidi: isolate; }
 
 /* סעיפים א/ב/ג */
@@ -71,7 +71,7 @@
 .bbb-uncertainty-page table.tbl thead th, .bbb-uncertainty-page table.wtbl thead th { background: var(--bg-subtle); font-weight: 500 !important; }
 .bbb-uncertainty-page table.tbl .abox, .bbb-uncertainty-page table.wtbl .abox { display: block; margin: 0 auto; }
 
-/* איורים וגרפים וקטוריים (CLAUDE.md §8) */
+/* איורים וגרפים וקטוריים (CLAUDE.md §4) */
 .bbb-uncertainty-page .figure { margin: 6px auto 2px; text-align: center; break-inside: avoid; page-break-inside: avoid; }
 .bbb-uncertainty-page .cap { font-size: 12.5px; color: #475569; margin-top: 2px; font-weight: 500 !important; }
 .bbb-uncertainty-page svg.chart { display: block; margin: 2px auto; max-width: 100%; height: auto; max-height: 205mm; shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
@@ -109,7 +109,7 @@
 
 .bbb-uncertainty-page .dropbox { min-height: 150px; border: 1.5px dashed var(--grid-line, #94a3b8); border-radius: 8px; background: #fff; margin: 4px auto; width: 92%; }
 
-/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§6: אין inline style; הצהרות מדויקות) */
+/* BBB_GENERATED_STYLES — מחלקות מ-inline style של המקור (§3: אין inline style; הצהרות מדויקות) */
 .bbb-uncertainty-page .bs-1 { min-width:76px; }
 .bbb-uncertainty-page .bs-2 { max-width:56%; margin-inline:auto; }
 .bbb-uncertainty-page .bs-3 { max-width:44%; margin-inline:auto; }

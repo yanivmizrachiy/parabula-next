@@ -288,7 +288,7 @@ async function run() {
       await app.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible', timeout: 10000 });
 
       const shellIssues = [];
-      // הניווט הוא עץ תכנית הלימודים: משווים את שורשי העץ, לא נושאים שטוחים (CLAUDE.md §4.4)
+      // הניווט הוא עץ תכנית הלימודים: משווים את שורשי העץ, לא נושאים שטוחים (CLAUDE.md §4.5)
       const topicCount = await app.locator('#topicStrip > .topic-node').count();
       if (topicCount !== expectedTopicCount) shellIssues.push({ code: 'wrong-app-topic-count', expected: expectedTopicCount, actual: topicCount });
       const shellOverflow = await app.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth);

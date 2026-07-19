@@ -92,7 +92,7 @@
 
       topicsList.innerHTML = '';
 
-      const visiblePages = filteredTopics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §9) */;
+      const visiblePages = filteredTopics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §2) */;
       flatPages = visiblePages;
 
       summaryText.textContent = `${db.totalPages} דפים, ${db.topics.length} נושאים, מוצגים כעת ${visiblePages.length} דפים`;
@@ -145,7 +145,7 @@
 
       currentIndex = flatPages.findIndex(p => p.file === page.file);
       if (currentIndex < 0) {
-        flatPages = db.topics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §9) */;
+        flatPages = db.topics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §2) */;
         currentIndex = flatPages.findIndex(p => p.file === page.file);
       }
 
@@ -195,7 +195,7 @@
       render();
 
       const saved = localStorage.getItem('preview:lastFile');
-      const all = db.topics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §9) */;
+      const all = db.topics.flatMap(t => t.pages) /* canonical topics.json order (CLAUDE.md §2) */;
       if (saved && all.some(p => p.file === saved)) {
         setCurrentPage(saved);
       } else if (all.length > 0) {
