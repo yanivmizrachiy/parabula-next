@@ -1,0 +1,50 @@
+<section aria-labelledby="title-5" class="sheet guided" id="page-5">
+<header class="sheet-header"><div><div class="eyebrow">שלב 3 - למידה מודרכת</div><h1 id="title-5">הזוג הסדור</h1><p>קודם x ואחר כך y</p></div><div aria-label="עמוד 5" class="sheet-number">5</div></header>
+<main class="sheet-content">
+<div class="rule-box">בזוג הסדור <span class="math-ltr" dir="ltr">(x,y)</span> המספר הראשון הוא <b>שיעור x</b> והשני הוא <b>שיעור y</b>. לדוגמה: <span class="math-ltr" dir="ltr">x=4, y=3</span> נכתב <span class="math-ltr" dir="ltr">(4,3)</span>.</div>
+<section class="q-card"><h3>א. השלימו את הזוג הסדור.</h3><div class="cols-2 task-grid"><div><span class="math-ltr" dir="ltr">x=2, y=5</span> ← <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div><span class="math-ltr" dir="ltr">x=7, y=1</span> ← <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div><span class="math-ltr" dir="ltr">x=3, y=6</span> ← <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div><div><span class="math-ltr" dir="ltr">x=5, y=4</span> ← <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></div></div></section>
+<section class="q-card"><h3>ב. השלימו את השיעורים החסרים.</h3><div class="cols-2 task-grid"><div><span class="math-ltr" dir="ltr">A(6,2)</span>: שיעור x=<span class="blank" style="--blank-width:3ch"></span>, שיעור y=<span class="blank" style="--blank-width:3ch"></span></div><div><span class="math-ltr" dir="ltr">B(1,5)</span>: שיעור x=<span class="blank" style="--blank-width:3ch"></span>, שיעור y=<span class="blank" style="--blank-width:3ch"></span></div><div><span class="math-ltr" dir="ltr">C(4,3)</span>: שיעור x=<span class="blank" style="--blank-width:3ch"></span>, שיעור y=<span class="blank" style="--blank-width:3ch"></span></div><div><span class="math-ltr" dir="ltr">D(7,6)</span>: שיעור x=<span class="blank" style="--blank-width:3ch"></span>, שיעור y=<span class="blank" style="--blank-width:3ch"></span></div></div></section>
+<section class="q-card"><h3>ג. חברו בקווים בין התיאור לזוג הסדור המתאים.</h3><div class="match"><div><span class="math-ltr" dir="ltr">x=5, y=2</span><br/><span class="math-ltr" dir="ltr">x=2, y=5</span><br/><span class="math-ltr" dir="ltr">x=4, y=4</span></div><div><span class="math-ltr" dir="ltr">(4,4)</span><br/><span class="math-ltr" dir="ltr">(2,5)</span><br/><span class="math-ltr" dir="ltr">(5,2)</span></div></div></section>
+<section class="q-card"><h3>ד. ניתוח טעות.</h3><p>נועם קיבל <span class="math-ltr" dir="ltr">x=3, y=5</span> וכתב <span class="math-ltr" dir="ltr">(5,3)</span>. מהי הטעות?</p><div class="answer-line"></div><p>הזוג הסדור הנכון: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></p></section>
+<section class="q-card"><h3>ה. חשיבה: מדוע חשוב לשמור על הסדר בזוג הסדור?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-6" class="sheet practice" id="page-6">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 3 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-6">הזוג הסדור</h1>
+<p>כותבים תמיד לפי הסדר (x,y)</p>
+</div>
+<div aria-label="עמוד 6" class="sheet-number">6</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>כותבים זוג סדור</h3>
+<p>כתבו כל תיאור כזוג סדור.</p>
+<ul class="tasks">
+<li>שיעור <span class="math-ltr" dir="ltr">x</span> הוא 4 ושיעור <span class="math-ltr" dir="ltr">y</span> הוא 3: <span class="blank" style="--blank-width:9ch"></span></li>
+<li>ערך <span class="math-ltr" dir="ltr">x</span> הוא 0 וערך <span class="math-ltr" dir="ltr">y</span> הוא 5: <span class="blank" style="--blank-width:9ch"></span></li>
+<li>ערך <span class="math-ltr" dir="ltr">x</span> הוא 8 וערך <span class="math-ltr" dir="ltr">y</span> הוא 0: <span class="blank" style="--blank-width:9ch"></span></li>
+<li>שני השיעורים שווים ל־2: <span class="blank" style="--blank-width:9ch"></span></li>
+</ul>
+</section>
+<section class="q-card"><h3>משלימים זוגות</h3>
+<ul class="tasks">
+<li><span class="math-ltr" dir="ltr">( __ , 4 )</span> כאשר שיעור <span class="math-ltr" dir="ltr">x</span> הוא 7.</li>
+<li><span class="math-ltr" dir="ltr">( 3 , __ )</span> כאשר שיעור <span class="math-ltr" dir="ltr">y</span> הוא 6.</li>
+<li><span class="math-ltr" dir="ltr">( __ , __ )</span> כאשר הנקודה היא ראשית הצירים.</li>
+<li><span class="math-ltr" dir="ltr">( __ , 0 )</span> כאשר הנקודה על ציר <span class="math-ltr" dir="ltr">x</span> וערך <span class="math-ltr" dir="ltr">x</span> הוא 5.</li>
+</ul>
+</section>
+<section class="q-card span-2"><h3>הסדר משנה</h3>
+<div aria-label="הנקודות M שתיים חמש ו-N חמש שתיים" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 2, "y": 5, "label": "M", "dx": 10, "dy": -10}, {"x": 5, "y": 2, "label": "N", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<p>כתבו את שיעורי <span class="math-ltr" dir="ltr">M</span>: <span class="blank" style="--blank-width:9ch"></span></p>
+<p>כתבו את שיעורי <span class="math-ltr" dir="ltr">N</span>: <span class="blank" style="--blank-width:9ch"></span></p>
+<p>הסבירו במשפט אחד מדוע <span class="math-ltr" dir="ltr">(2,5)</span> ו־<span class="math-ltr" dir="ltr">(5,2)</span> אינן אותה נקודה.</p>
+<div class="answer-line"></div>
+<div class="answer-line"></div>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>

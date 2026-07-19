@@ -1,0 +1,49 @@
+name: Build coordinate first quadrant workbook
+
+on:
+  push:
+    branches:
+      - content/coordinate-first-quadrant-final
+    paths-ignore:
+      - projects/coordinate-first-quadrant-workbook/dist/**
+      - projects/coordinate-first-quadrant-workbook/downloads/**
+      - projects/coordinate-first-quadrant-workbook/preview/**
+      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install system tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils zip
+      - name: Install Playwright
+        run: npm install --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - name: Build and audit workbook
+        run: node projects/coordinate-first-quadrant-workbook/src/build.mjs
+      - name: Commit generated outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add projects/coordinate-first-quadrant-workbook/dist                   projects/coordinate-first-quadrant-workbook/downloads                   projects/coordinate-first-quadrant-workbook/preview                   projects/coordinate-first-quadrant-workbook/audit/generated-audit.json                   projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+          git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
+          git push
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coordinate-first-quadrant-workbook
+          path: |
+            projects/coordinate-first-quadrant-workbook/dist
+            projects/coordinate-first-quadrant-workbook/downloads
+            projects/coordinate-first-quadrant-workbook/preview
+            projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
+            projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt

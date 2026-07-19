@@ -1,0 +1,97 @@
+<section aria-labelledby="title-25" class="sheet guided error-page" id="page-25">
+<header class="sheet-header"><div><div class="eyebrow">שלב 13 - למידה מודרכת</div><h1 id="title-25">מזהים ומתקנים טעויות</h1><p>נכון או לא נכון, תיקון והסבר</p></div><div aria-label="עמוד 25" class="sheet-number">25</div></header>
+<main class="sheet-content"><div class="error-grid"><div class="mist-card"><div class="mist-head">מקרה 1<span>נכון / לא נכון</span></div><p>התקבל x=3, y=5 ונכתב (5,3).</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 2<span>נכון / לא נכון</span></div><p>“(5,0) נמצאת על ציר y.”</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 3<span>נכון / לא נכון</span></div><p>“(0,4) נמצאת מימין לציר y.”</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 4<span>נכון / לא נכון</span></div><p>“אותו שיעור x פירושו אותו גובה.”</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 5<span>נכון / לא נכון</span></div><p>“בנקודה (3,6), y גדול ב־2 מ־x.”</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 6<span>נכון / לא נכון</span></div><p>הזזה של (2,4) שלוש יחידות ימינה ומקבלים (2,7).</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div><div class="mist-card"><div class="mist-head">מקרה 7<span>נכון / לא נכון</span></div><p>“בקטע המקביל לציר x, שיעור x זהה בשתי הנקודות.”</p><small>תיקון והסבר:</small><div class="answer-line"></div><div class="answer-line"></div></div></div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-26" class="sheet practice" id="page-26">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 13 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-26">זיהוי ותיקון טעויות</h1>
+<p>מנסחים כללים מדויקים ומתקנים חשיבה שגויה</p>
+</div>
+<div aria-label="עמוד 26" class="sheet-number">26</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>החלפת סדר</h3>
+<p>תלמיד התבקש לסמן את <span class="math-ltr" dir="ltr">(4,2)</span> אך סימן את <span class="math-ltr" dir="ltr">(2,4)</span>.</p>
+<p>מה הייתה הטעות? <span class="blank" style="--blank-width:20ch"></span></p>
+<p>כתבו הוראה קצרה שתמנע את הטעות.</p>
+<div class="answer-line"></div>
+</section>
+<section class="q-card"><h3>טעות בצירים</h3>
+<p>תלמידה אמרה: “כל נקודה על ציר <span class="math-ltr" dir="ltr">x</span> מקיימת <span class="math-ltr" dir="ltr">x=0</span>”.</p>
+<p>תקנו את המשפט:</p>
+<div class="answer-line"></div>
+<p>תנו דוגמה לנקודה על ציר <span class="math-ltr" dir="ltr">x</span>: <span class="blank" style="--blank-width:10ch"></span></p>
+</section>
+<section class="q-card"><h3>טעות בהזזה</h3>
+<p>מ־<span class="math-ltr" dir="ltr">(3,2)</span> זזים 4 ימינה. תלמיד כתב <span class="math-ltr" dir="ltr">(7,6)</span>.</p>
+<p>מה צריך להישאר זהה? <span class="blank" style="--blank-width:10ch"></span></p>
+<p>התשובה הנכונה: <span class="blank" style="--blank-width:10ch"></span></p>
+</section>
+<section class="q-card"><h3>טעות בקטעים</h3>
+<p>נאמר שהקטע בין <span class="math-ltr" dir="ltr">(2,1)</span> ל־<span class="math-ltr" dir="ltr">(2,5)</span> מקביל לציר <span class="math-ltr" dir="ltr">x</span>.</p>
+<p>האם הטענה נכונה? <span class="blank" style="--blank-width:8ch"></span></p>
+<p>תקנו ונמקו בעזרת הביטוי “שיעור <span class="math-ltr" dir="ltr">x</span> זהה”.</p>
+<div class="answer-line"></div>
+</section>
+<section class="q-card span-2"><h3>טעות במלבן</h3>
+<p>שלושה קודקודים של מלבן הם <span class="math-ltr" dir="ltr">(1,1), (6,1), (6,4)</span>. תלמיד הציע את <span class="math-ltr" dir="ltr">(2,4)</span> כקודקוד הרביעי.</p>
+<p>הקודקוד הנכון: <span class="blank" style="--blank-width:10ch"></span></p>
+<p>הסבירו באמצעות צלע אופקית וצלע אנכית.</p>
+<div class="answer-line"></div>
+</section>
+<section class="q-card span-2"><h3>בודקים ניסוח</h3>
+<p>החליפו את הביטוי הלא מדויק “שיעור <span class="math-ltr" dir="ltr">y</span> קטן פי 2” בניסוח חד־משמעי:</p>
+<p><span class="blank" style="--blank-width:32ch"></span></p>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-27" class="sheet guided dense" id="page-27">
+<header class="sheet-header"><div><div class="eyebrow">שלב 14 - למידה מודרכת</div><h1 id="title-27">מלבנים במערכת הצירים</h1><p>קודקודים, צלעות מקבילות, היקף ושטח</p></div><div aria-label="עמוד 27" class="sheet-number">27</div></header>
+<main class="sheet-content">
+<div class="cols-2"><div aria-label="מלבן ABCD" class="coordinate-grid grid-md" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 1, "y": 1, "label": "A"}, {"x": 6, "y": 1, "label": "B"}, {"x": 6, "y": 4, "label": "C"}, {"x": 1, "y": 4, "label": "D"}]' data-polygons='[{"points": [[1, 1], [6, 1], [6, 4], [1, 4]]}]' data-segments="[]" role="img"></div><div><section class="q-card"><h3>א. לפי הגרף.</h3><p>קודקודים עם אותו x: <span class="blank" style="--blank-width:10ch"></span></p><p>קודקודים עם אותו y: <span class="blank" style="--blank-width:10ch"></span></p><p>צלעות מקבילות ל־x: <span class="blank" style="--blank-width:8ch"></span></p><p>צלעות מקבילות ל־y: <span class="blank" style="--blank-width:8ch"></span></p></section><section class="q-card"><h3>ב. אורכים ושטח.</h3><p>AB=<span class="blank" style="--blank-width:3ch"></span>, BC=<span class="blank" style="--blank-width:3ch"></span></p><p>היקף=<span class="blank" style="--blank-width:4ch"></span>, שטח=<span class="blank" style="--blank-width:4ch"></span></p></section></div></div>
+<section class="q-card"><h3>ג. הזיזו את המלבן 1 ימינה ו־2 למעלה.</h3><div class="cols-2"><div><p>A′=<span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span> B′=<span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></p><p>C′=<span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span> D′=<span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></p></div><div><p>מה השתנה? <span class="blank" style="--blank-width:12ch"></span></p><p>מה נשאר זהה? <span class="blank" style="--blank-width:12ch"></span></p><p>אורכים / היקף / שטח: <span class="blank" style="--blank-width:12ch"></span></p></div></div></section>
+<div class="cols-2"><section class="q-card"><h3>ד. קודקוד חסר: P(2,2), Q(7,2), R(7,5). מצאו S והסבירו.</h3><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-sm" data-arrows="[]" data-labelboxes="[]" data-points='[{"x": 2, "y": 2, "label": "P"}, {"x": 7, "y": 2, "label": "Q"}, {"x": 7, "y": 5, "label": "R"}]' data-polygons="[]" data-segments='[{"from": [2, 2], "to": [7, 2]}, {"from": [7, 2], "to": [7, 5]}]' role="img"></div><p>S=<span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span> | היקף=<span class="blank" style="--blank-width:4ch"></span> | שטח=<span class="blank" style="--blank-width:4ch"></span></p></section><section class="q-card"><h3>ה. עבור A(2,2), B(7,2), C(7,5) - הקיפו את הקודקוד הרביעי והסבירו.</h3><div class="choice-row"><span class="choice"><span class="math-ltr" dir="ltr">(2,5)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(5,2)</span></span><span class="choice"><span class="math-ltr" dir="ltr">(5,7)</span></span></div><div class="answer-line"></div><div class="answer-line"></div></section></div>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-28" class="sheet practice" id="page-28">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 14 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-28">מלבנים במערכת הצירים</h1>
+<p>קודקודים, צלעות אופקיות ואנכיות, היקף ושטח</p>
+</div>
+<div aria-label="עמוד 28" class="sheet-number">28</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>משלימים מלבן</h3>
+<p>נתונים שלושה קודקודים: <span class="math-ltr" dir="ltr">A(1,1), B(6,1), C(6,4)</span>.</p>
+<div aria-label="שלושה קודקודים של מלבן" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 1, "y": 1, "label": "A", "dx": 10, "dy": -10}, {"x": 6, "y": 1, "label": "B", "dx": 10, "dy": -10}, {"x": 6, "y": 4, "label": "C", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments='[{"from": [1, 1], "to": [6, 1], "type": "shape"}, {"from": [6, 1], "to": [6, 4], "type": "shape"}]' role="img"></div>
+<p>סמנו את הקודקוד הרביעי <span class="math-ltr" dir="ltr">D</span> וכתבו את שיעוריו: <span class="blank" style="--blank-width:10ch"></span></p>
+</section>
+<section class="q-card"><h3>אורכי צלעות</h3>
+<div aria-label="מלבן PQRS במערכת צירים" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 2, "y": 2, "label": "P", "dx": 10, "dy": -10}, {"x": 7, "y": 2, "label": "Q", "dx": 10, "dy": -10}, {"x": 7, "y": 5, "label": "R", "dx": 10, "dy": -10}, {"x": 2, "y": 5, "label": "S", "dx": 10, "dy": -10}]' data-polygons='[{"points": [[2, 2], [7, 2], [7, 5], [2, 5]], "type": "shape"}]' data-segments="[]" role="img"></div>
+<ul class="tasks compact">
+<li>אורך הצלע האופקית <span class="math-ltr" dir="ltr">PQ</span>: <span class="blank" style="--blank-width:4ch"></span> יחידות.</li>
+<li>אורך הצלע האנכית <span class="math-ltr" dir="ltr">QR</span>: <span class="blank" style="--blank-width:4ch"></span> יחידות.</li>
+<li>היקף המלבן: <span class="blank" style="--blank-width:5ch"></span> יחידות.</li>
+<li>שטח המלבן: <span class="blank" style="--blank-width:5ch"></span> יחידות ריבועיות.</li>
+</ul>
+</section>
+<section class="q-card span-2"><h3>מזהים קודקודים</h3>
+<p>למלבן צלעות מקבילות לצירים. שני קודקודים נגדיים הם <span class="math-ltr" dir="ltr">(1,2)</span> ו־<span class="math-ltr" dir="ltr">(7,5)</span>.</p>
+<p>כתבו את שני הקודקודים האחרים:</p>
+<p><span class="blank" style="--blank-width:10ch"></span>    <span class="blank" style="--blank-width:10ch"></span></p>
+<p>אורך המלבן: <span class="blank" style="--blank-width:4ch"></span>   רוחב המלבן: <span class="blank" style="--blank-width:4ch"></span></p>
+</section>
+<section class="q-card span-2"><h3>בונים מלבן</h3>
+<p>ציירו מלבן שאחד מקודקודיו הוא <span class="math-ltr" dir="ltr">(2,1)</span>, אורכו 4 יחידות ורוחבו 3 יחידות. כל הקודקודים חייבים להיות ברביע הראשון.</p>
+<div aria-label="מערכת צירים ריקה לבניית מלבן" class="coordinate-grid grid-large" data-arrows="[]" data-points="[]" data-polygons="[]" data-segments="[]" role="img"></div>
+<p>כתבו את ארבעת הקודקודים: <span class="blank" style="--blank-width:35ch"></span></p>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>
