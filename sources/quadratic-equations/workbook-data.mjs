@@ -253,11 +253,11 @@ const perfectSquareDenominator = (u, v, h) => {
 
 const s1 = [
   squareEq('2x^2=18', 9),
-  squareEq('3x^2=48', 16),
+  squareEq('48=3x^2', 16),
   squareEq('5x^2=125', 25),
   squareEq('2x^2=162', 81),
-  squareEq('7x^2=343', 49),
-  squareEq('8x^2=200', 25),
+  squareEq('-3=-3x^2', 1),
+  squareEq('-288=-8x^2', 36),
   cZero('6x^2 + 15x = 0', 6, 15),
   cZero('14x^2 - 21x = 0', 14, -21),
   cZero('-9x^2 + 12x = 0', -9, 12),

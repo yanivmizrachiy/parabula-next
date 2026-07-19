@@ -48,15 +48,35 @@ test('rational-equation sections always include a domain restriction', () => {
   }
 });
 
-test('the opening page starts with simple ax^2=c equations', () => {
+test('the opening page varies ax^2=c orientation before two negative equations', () => {
   const openingPage = pages[0];
   assert.equal(openingPage.globalNumber, 31);
   assert.equal(openingPage.exercises.length, 6);
   assert.ok(openingPage.title.includes('(b=0)'));
   assert.ok(openingPage.exercises.some(exercise => exercise.equation === '2x^2=162'));
   assert.ok(openingPage.exercises.some(exercise => exercise.equation === '5x^2=125'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '-3=-3x^2'));
+
+  const equations = openingPage.exercises.map(exercise => exercise.equation);
+  const xOnRight = equations.filter(equation => equation.split('=')[1].includes('x^2'));
+  const negativeOnBothSides = equations.filter(equation => {
+    const [left, right] = equation.split('=');
+    return left.startsWith('-') && right.startsWith('-');
+  });
+
+  assert.equal(xOnRight.length, 3, 'expected an even left/right orientation mix');
+  assert.equal(negativeOnBothSides.length, 2, 'expected exactly two negative equations');
+  assert.equal(
+    new Set(openingPage.exercises.map(exercise => exercise.answer)).size,
+    openingPage.exercises.length,
+    'expected a different absolute root in every opening exercise',
+  );
   for (const exercise of openingPage.exercises) {
-    assert.match(exercise.equation, /^\d+x\^2=\d+$/u, `${exercise.id}: expected ax^2=c`);
+    assert.match(
+      exercise.equation,
+      /^(?:-?\d+x\^2=-?\d+|-?\d+=-?\d+x\^2)$/u,
+      `${exercise.id}: expected ax^2=c or c=ax^2`,
+    );
   }
 });
 
