@@ -1,0 +1,245 @@
+name: One-time rectangle workbook sync
+
+on:
+  push:
+    branches:
+      - feat/rectangle-self-study
+    paths:
+      - .github/workflows/rectangle-sync-once.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rectangle-sync-once
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/rectangle-self-study
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Renumber, merge, register and validate
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main feat/rectangle-self-study
+          git checkout feat/rectangle-self-study
+
+          node <<'NODE'
+          const fs = require('fs');
+          const oldStart = 395;
+          const newStart = 471;
+
+          for (let i = 0; i < 7; i++) {
+            const oldN = oldStart + i;
+            const newN = newStart + i;
+            for (const rel of [`עמוד-${oldN}.html`, `styles/pages/עמוד-${oldN}.css`]) {
+              if (!fs.existsSync(rel)) throw new Error(`Missing source file: ${rel}`);
+            }
+            for (const rel of [`עמוד-${newN}.html`, `styles/pages/עמוד-${newN}.css`]) {
+              if (fs.existsSync(rel)) throw new Error(`Target already exists on feature branch: ${rel}`);
+            }
+          }
+
+          const { execFileSync } = require('child_process');
+          for (let i = 0; i < 7; i++) {
+            const newN = newStart + i;
+            for (const rel of [`עמוד-${newN}.html`, `styles/pages/עמוד-${newN}.css`]) {
+              try {
+                execFileSync('git', ['cat-file', '-e', `origin/main:${rel}`], { stdio: 'ignore' });
+                throw new Error(`Target exists on origin/main: ${rel}`);
+              } catch (error) {
+                if (error.message?.startsWith('Target exists')) throw error;
+              }
+            }
+          }
+
+          for (let i = 0; i < 7; i++) {
+            const oldN = oldStart + i;
+            const newN = newStart + i;
+            fs.renameSync(`עמוד-${oldN}.html`, `עמוד-${newN}.html`);
+            fs.renameSync(`styles/pages/עמוד-${oldN}.css`, `styles/pages/עמוד-${newN}.css`);
+          }
+
+          const mapping = Array.from({ length: 7 }, (_, i) => [oldStart + i, newStart + i]);
+          for (const [, newN] of mapping) {
+            const file = `עמוד-${newN}.html`;
+            let text = fs.readFileSync(file, 'utf8');
+            for (const [oldValue, newValue] of mapping) {
+              text = text.replaceAll(`עמוד-${oldValue}`, `עמוד-${newValue}`);
+              text = text.replaceAll(`page-${oldValue}`, `page-${newValue}`);
+            }
+            if (newN === 471) {
+              text = text.replace('href="עמוד-394.html">הקודם', 'href="עמוד-470.html">הקודם');
+            }
+            for (const [oldValue] of mapping) {
+              if (text.includes(`עמוד-${oldValue}`) || text.includes(`page-${oldValue}`)) {
+                throw new Error(`${file} still references old page ${oldValue}`);
+              }
+            }
+            fs.writeFileSync(file, text);
+          }
+          NODE
+
+          git checkout origin/main -- עמוד-394.html
+
+          git add \
+            עמוד-394.html \
+            עמוד-395.html עמוד-396.html עמוד-397.html עמוד-398.html עמוד-399.html עמוד-400.html עמוד-401.html \
+            עמוד-471.html עמוד-472.html עמוד-473.html עמוד-474.html עמוד-475.html עמוד-476.html עמוד-477.html \
+            styles/pages/עמוד-395.css styles/pages/עמוד-396.css styles/pages/עמוד-397.css styles/pages/עמוד-398.css \
+            styles/pages/עמוד-399.css styles/pages/עמוד-400.css styles/pages/עמוד-401.css \
+            styles/pages/עמוד-471.css styles/pages/עמוד-472.css styles/pages/עמוד-473.css styles/pages/עמוד-474.css \
+            styles/pages/עמוד-475.css styles/pages/עמוד-476.css styles/pages/עמוד-477.css
+          git commit -m "refactor(מלבן): העברת האצווה לטווח 471–477"
+
+          node <<'NODE'
+          const fs = require('fs');
+          const text = fs.readFileSync('CLAUDE.md', 'utf8');
+          const match = text.match(/\n### 4\.2\.1 חוזה חוברת „מלבן לכיתה ז׳” — למידה עצמית[\s\S]*?(?=\n---\n\n## 4\.3|\n## 4\.3)/);
+          if (!match) throw new Error('Rectangle contract section was not found in CLAUDE.md');
+          fs.writeFileSync('/tmp/rectangle-contract.md', match[0].trim());
+          NODE
+
+          set +e
+          git merge --no-edit origin/main
+          merge_status=$?
+          set -e
+          if [ "$merge_status" -ne 0 ]; then
+            mapfile -t conflicts < <(git diff --name-only --diff-filter=U)
+            if [ "${#conflicts[@]}" -ne 1 ] || [ "${conflicts[0]}" != "CLAUDE.md" ]; then
+              printf 'Unexpected merge conflicts:\n%s\n' "${conflicts[*]}" >&2
+              exit 1
+            fi
+            git checkout --theirs CLAUDE.md
+            node <<'NODE'
+            const fs = require('fs');
+            let text = fs.readFileSync('CLAUDE.md', 'utf8');
+            const section = fs.readFileSync('/tmp/rectangle-contract.md', 'utf8').trim();
+            if (!text.includes('### 4.2.1 חוזה חוברת „מלבן לכיתה ז׳” — למידה עצמית')) {
+              const heading = text.indexOf('\n## 4.3');
+              if (heading < 0) throw new Error('Could not locate section 4.3 in main CLAUDE.md');
+              const separator = text.lastIndexOf('\n---', heading);
+              const at = separator >= 0 ? separator : heading;
+              text = `${text.slice(0, at).trimEnd()}\n\n${section}\n\n${text.slice(at).trimStart()}`;
+              fs.writeFileSync('CLAUDE.md', text);
+            }
+            NODE
+            git add CLAUDE.md
+            git commit --no-edit
+          fi
+
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'meta/topics.json';
+          const data = JSON.parse(fs.readFileSync(path, 'utf8'));
+          const topicName = 'מלבן לכיתה ז׳';
+          const curriculumId = 'g7.geo.quads.rectSquare';
+          const first = 471;
+          const count = 7;
+
+          for (const n of Array.from({ length: count }, (_, i) => first + i)) {
+            if (!fs.existsSync(`עמוד-${n}.html`)) throw new Error(`Missing page עמוד-${n}.html`);
+            if (!fs.existsSync(`styles/pages/עמוד-${n}.css`)) throw new Error(`Missing CSS for page ${n}`);
+          }
+
+          data.topics = data.topics.filter(topic => topic.name !== topicName);
+          const existingFiles = new Set(data.topics.flatMap(topic => topic.pages.map(page => page.file)));
+          const pages = Array.from({ length: count }, (_, i) => {
+            const number = first + i;
+            const file = `עמוד-${number}.html`;
+            if (existingFiles.has(file)) throw new Error(`Metadata already contains ${file}`);
+            return {
+              number,
+              file,
+              title: `עמוד ${i + 1} — ${topicName}`,
+              h1: topicName,
+              topic: topicName,
+              curriculumId,
+              previewPath: `/${file}`,
+              siteUrl: `${data.siteUrl}${file}`
+            };
+          });
+          data.topics.push({ name: topicName, count: pages.length, pages });
+
+          const pageMap = new Map();
+          for (const topic of data.topics) {
+            topic.count = topic.pages.length;
+            for (const page of topic.pages) {
+              const list = pageMap.get(page.curriculumId) || [];
+              list.push(page.number);
+              pageMap.set(page.curriculumId, list);
+            }
+          }
+
+          let foundRectangleNode = false;
+          let totalNodes = 0;
+          let leafNodes = 0;
+          let emptyLeafNodes = 0;
+          function rebuild(node) {
+            totalNodes++;
+            const directPages = [...new Set(pageMap.get(node.id) || [])].sort((a, b) => a - b);
+            node.directCount = directPages.length;
+            if (directPages.length) node.pages = directPages;
+            else delete node.pages;
+            if (node.id === curriculumId) foundRectangleNode = true;
+            const children = node.children || [];
+            if (!children.length) {
+              leafNodes++;
+              if (!directPages.length) emptyLeafNodes++;
+            }
+            const childrenCount = children.reduce((sum, child) => sum + rebuild(child), 0);
+            node.pageCount = node.directCount + childrenCount;
+            return node.pageCount;
+          }
+          for (const node of data.curriculum.nodes) rebuild(node);
+          if (!foundRectangleNode) throw new Error(`Curriculum node not found: ${curriculumId}`);
+
+          data.curriculum.totalNodes = totalNodes;
+          data.curriculum.leafNodes = leafNodes;
+          data.curriculum.emptyLeafNodes = emptyLeafNodes;
+          data.totalPages = data.topics.reduce((sum, topic) => sum + topic.pages.length, 0);
+          if (data.totalPages !== 477) throw new Error(`Expected 477 metadata pages, found ${data.totalPages}`);
+          data.generatedAt = new Date().toISOString();
+          fs.writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
+          NODE
+
+          node scripts/generate-pages-registry.mjs
+          git rm .github/workflows/rectangle-sync-once.yml
+
+          npm ci
+          npm test
+          npm run verify
+          npm run validate:meta
+          npm run validate:schema
+          npm run validate:access
+          npm run validate:mobile
+          npm run rules:check
+          npm run validate:html
+          npm run vendorize:check
+          npm run health:report
+          npm run build
+
+          git add CLAUDE.md meta/topics.json meta/pages.json \
+            עמוד-471.html עמוד-472.html עמוד-473.html עמוד-474.html עמוד-475.html עמוד-476.html עמוד-477.html \
+            styles/pages/עמוד-471.css styles/pages/עמוד-472.css styles/pages/עמוד-473.css styles/pages/עמוד-474.css \
+            styles/pages/עמוד-475.css styles/pages/עמוד-476.css styles/pages/עמוד-477.css \
+            .github/workflows/rectangle-sync-once.yml
+          git commit -m "chore(מלבן): סנכרון metadata ובדיקות מול main"
+          git push origin feat/rectangle-self-study
