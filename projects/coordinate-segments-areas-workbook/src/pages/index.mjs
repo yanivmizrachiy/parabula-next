@@ -6,7 +6,7 @@ import unit03Enrichment from './unit-03-enrichment.mjs';
 import page36 from './unit-03-page36.mjs';
 import pages37to38 from './unit-03-pages37-38.mjs';
 import { page37Balance, page38Balance } from './unit-03-balance.mjs';
-import advancedTrianglePages from './unit-03-advanced.mjs';
+import advancedTrianglePages from './unit-03-advanced-v2.mjs';
 import advancedTriangleEnrichment from './unit-03-advanced-enrichment.mjs';
 import page46 from './unit-03-assessment.mjs';
 
