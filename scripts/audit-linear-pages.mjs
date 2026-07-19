@@ -154,7 +154,10 @@ for (const p of pages) {
       for (const t of texts) {
         const tb = t.getBoundingClientRect();
         if (tb.width === 0) continue;
-        const shrink = 0.22 * Math.min(tb.width, tb.height);
+        // כל תווית נושאת הילה לבנה (paint-order stroke), ולכן קו שנוגע בשוליה
+        // אינו מסתיר אותה — כך מסרטטים גם בספרי הלימוד. נבדק ויזואלית בזום.
+        // חסימה אמיתית היא קו שעובר דרך ליבת הגליף, ולכן מכווצים ל-35%.
+        const shrink = 0.35 * Math.min(tb.width, tb.height);
         const box = { l: tb.left + shrink, r: tb.right - shrink, t: tb.top + shrink, b: tb.bottom - shrink };
         for (const s of strokes) {
           if (s.tagName.toLowerCase() === 'path' && s.closest('marker')) continue;

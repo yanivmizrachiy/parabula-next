@@ -44,7 +44,10 @@
     "audit:a4:visual": "node scripts/a4-visual-audit.mjs",
     "audit:a4:utilization": "node scripts/a4-utilization-audit.mjs",
     "export:pdf:sample": "node scripts/export-pdf-sample.mjs",
-    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:interactions && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample"
+    "tech:max": "npm run ci:all && npm run validate:mobile:browser && npm run validate:mobile:interactions && npm run validate:mobile:all-pages && npm run audit:a4:visual && npm run audit:a4:utilization && npm run export:pdf:sample",
+    "audit:linear": "node scripts/audit-linear-pages.mjs",
+    "calibrate:linear": "node scripts/calibrate-linear-pages.mjs",
+    "build:linear": "node scripts/build-linear-function-pages.mjs"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "^4.1.3",
