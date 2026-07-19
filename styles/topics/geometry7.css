@@ -64,6 +64,11 @@
 .geo7-page .wline.w90 { min-width: 90px; }
 .geo7-page .wline.w120 { min-width: 120px; }
 
+/* ביטוי מענה מרובה-תיבות: תיבה נפרדת לכל ערך שהתלמיד נדרש לכתוב,
+   עם האופרטור מודפס ביניהן. מכל LTR — זהו ביטוי מתמטי (§4.3). */
+.geo7-page .wexpr { display: inline-flex; align-items: baseline; gap: 5px; direction: ltr; vertical-align: baseline; }
+.geo7-page .wexpr .wop { font-weight: 700; color: #1f2a44; line-height: 1; }
+
 /* אזור סרטוט לתלמיד — רקע נקודות עדין */
 .geo7-page .drawrow { display: flex; gap: 10px; margin-top: 5px; }
 .geo7-page .drawbox { flex: 1; border: 1.5px dashed var(--grid-line); border-radius: 8px; background-image: radial-gradient(#d8dee9 1px, transparent 1.2px); background-size: 14px 14px; background-position: 7px 7px; position: relative; }
