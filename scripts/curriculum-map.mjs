@@ -374,7 +374,8 @@ export const PAGE_ASSIGNMENTS = {
   'g7.alg.functions.functions.intro': ['130-133'],
 
   // ── כיתה ז' · תחום גאומטרי ─────────────────────────────────────────
-  'g7.geo.quads.rectSquare.square': [336],
+  'g7.geo.quads.rectSquare.rectangle': ['531-536'],
+  'g7.geo.quads.rectSquare.square': [336, 537],
   'g7.geo.quads.rectSquare.perimeterArea': [353, 355, 386, 387, 389],
   'g7.geo.quads.congruent': ['222-223', '349-352'],
   'g7.geo.quads.solids': ['365-374'],

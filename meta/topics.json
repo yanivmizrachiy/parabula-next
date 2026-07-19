@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-18T20:21:20.763Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 530,
+  "totalPages": 537,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -5392,19 +5392,95 @@
           "curriculumId": "g7.extra.summary"
         }
       ]
+    },
+    {
+      "name": "מלבן לכיתה ז׳",
+      "count": 7,
+      "pages": [
+        {
+          "number": 531,
+          "file": "עמוד-531.html",
+          "title": "עמוד 1 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-531.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-531.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 532,
+          "file": "עמוד-532.html",
+          "title": "עמוד 2 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-532.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-532.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 533,
+          "file": "עמוד-533.html",
+          "title": "עמוד 3 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-533.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-533.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 534,
+          "file": "עמוד-534.html",
+          "title": "עמוד 4 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-534.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-534.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 535,
+          "file": "עמוד-535.html",
+          "title": "עמוד 5 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-535.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-535.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 536,
+          "file": "עמוד-536.html",
+          "title": "עמוד 6 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-536.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-536.html",
+          "curriculumId": "g7.geo.quads.rectSquare.rectangle"
+        },
+        {
+          "number": 537,
+          "file": "עמוד-537.html",
+          "title": "עמוד 7 — מלבן לכיתה ז׳",
+          "h1": "מלבן לכיתה ז׳",
+          "topic": "מלבן לכיתה ז׳",
+          "previewPath": "/עמוד-537.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-537.html",
+          "curriculumId": "g7.geo.quads.rectSquare.square"
+        }
+      ]
     }
   ],
   "curriculum": {
     "source": "כותרות לדפי עבודה במתמטיקה חטיבת ביניים",
     "totalNodes": 132,
     "leafNodes": 93,
-    "emptyLeafNodes": 28,
+    "emptyLeafNodes": 27,
     "nodes": [
       {
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 189,
+        "pageCount": 196,
         "children": [
           {
             "id": "g7.num",
@@ -5744,33 +5820,42 @@
             "id": "g7.geo",
             "name": "תחום גאומטרי",
             "directCount": 0,
-            "pageCount": 96,
+            "pageCount": 103,
             "children": [
               {
                 "id": "g7.geo.quads",
                 "name": "מרובעים, תלת-ממד וישרים",
                 "directCount": 0,
-                "pageCount": 22,
+                "pageCount": 29,
                 "children": [
                   {
                     "id": "g7.geo.quads.rectSquare",
                     "name": "מלבן וריבוע",
                     "directCount": 0,
-                    "pageCount": 6,
+                    "pageCount": 13,
                     "children": [
                       {
                         "id": "g7.geo.quads.rectSquare.rectangle",
                         "name": "מלבן ותכונותיו",
-                        "directCount": 0,
-                        "pageCount": 0
+                        "directCount": 6,
+                        "pageCount": 6,
+                        "pages": [
+                          531,
+                          532,
+                          533,
+                          534,
+                          535,
+                          536
+                        ]
                       },
                       {
                         "id": "g7.geo.quads.rectSquare.square",
                         "name": "ריבוע ותכונותיו",
-                        "directCount": 1,
-                        "pageCount": 1,
+                        "directCount": 2,
+                        "pageCount": 2,
                         "pages": [
-                          336
+                          336,
+                          537
                         ]
                       },
                       {
