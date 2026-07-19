@@ -1,0 +1,87 @@
+name: Build coordinate segments and areas workbook
+
+# מריץ בדיקות ובנייה לחוברת „אורכי קטעים, שטחים והיקפים במערכת הצירים” בלבד.
+# הכללים המחייבים נמצאים ב־CLAUDE.md; קובץ זה אינו מגדיר כללים משלו.
+# ה־workflow מוגבל בנתיבים כדי שלא ייגע בנושאים אחרים בריפו.
+
+on:
+  push:
+    branches:
+      - agent/coordinate-segments-areas-workbook
+    paths:
+      - projects/coordinate-segments-areas-workbook/**
+      - .github/workflows/build-coordinate-segments-areas.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - projects/coordinate-segments-areas-workbook/**
+      - .github/workflows/build-coordinate-segments-areas.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coordinate-segments-areas-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/coordinate-segments-areas-workbook
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install build tools
+        working-directory: .
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils zip
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      # הבדיקות שאינן תלויות בדפדפן רצות ראשונות: כשל כאן חוסך בנייה מלאה.
+      - name: Unit and contract tests
+        run: node --test "tests/coordinate-svg.test.mjs" "tests/pages.test.mjs" "tests/answers.test.mjs" "tests/guards.test.mjs"
+
+      - name: Build workbook
+        id: workbook_build
+        run: |
+          mkdir -p audit
+          set -o pipefail
+          node src/build.mjs 2>&1 | tee audit/build.log
+
+      # בדיקת הגאומטריה מודדת את dist שנבנה זה עתה, ולכן היא רצה אחרי הבנייה.
+      - name: A4 geometry tests in a real browser
+        run: node --test "tests/a4-geometry.test.mjs"
+
+      - name: Assert the build skipped nothing
+        run: |
+          SKIPPED="$(node -p "JSON.parse(require('fs').readFileSync('audit/generated-audit.json','utf8')).skipped.join(',')")"
+          if [ -n "$SKIPPED" ]; then
+            echo "Build skipped required stages: $SKIPPED" >&2
+            exit 1
+          fi
+
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coordinate-segments-areas-workbook
+          if-no-files-found: warn
+          retention-days: 7
+          path: |
+            projects/coordinate-segments-areas-workbook/dist
+            projects/coordinate-segments-areas-workbook/downloads
+            projects/coordinate-segments-areas-workbook/preview
+            projects/coordinate-segments-areas-workbook/audit/generated-audit.json
+            projects/coordinate-segments-areas-workbook/audit/build.log
+            projects/coordinate-segments-areas-workbook/SHA256SUMS.txt
