@@ -91,17 +91,21 @@ const page_twoPoints = () => [
     stem: `נתון שגרף של פונקציה קווית עובר דרך הנקודות <span class="ltr">\\((1,-2)\\)</span> ו־<span class="ltr">\\((2,3)\\)</span>.`,
     subs: [
       { l: 'א.', t: `מהו קצב ההשתנות של הפונקציה? <span class="ltr">\\(m =\\)</span> ${wline('w40')}` },
-      { l: 'ג.', t: `מהו ערך הפונקציה כש־\\(x = 0\\)? ${wline('w40')} &nbsp; כש־\\(x = 5\\)? ${wline('w40')}` },
-      { l: 'ד.', t: `מהו הייצוג האלגברי של פונקציה זו? ${weq()}` },
+      { l: 'ב.', t: `שרטטו את גרף הפונקציה.` },
     ],
-    tail: `<div class="workrow top"><div class="figure"><div class="figcap">ב. שרטטו את גרף הפונקציה.</div>` +
+    // הגרף מתחת לסעיף ב' שדורש אותו, וסעיפים ג-ד אחריו — כדי שרצף האותיות יישמר.
+    tail: `<div class="figure">` +
       axesSvg({
         id: 'tp1', xMin: -3, xMax: 5, yMin: -8, yMax: 8,
         xUnit: 15, yUnit: 7.5, padL: 24, pad: 14,
         xGridStep: 1, yGridStep: 1, xTickStep: 1, yTickStep: 2,
         points: [{ x: 1, y: -2, name: '', r: 2.6 }, { x: 2, y: 3, name: '', r: 2.6 }],
         ariaLabel: 'מערכת צירים ובה שתי הנקודות (1,-2) ו-(2,3) לשרטוט הישר',
-      }) + `</div></div>`,
+      }) + `</div>` +
+      `<div class="subs">` +
+      `<div class="sub"><span class="subl">ג.</span><span class="subt">מהו ערך הפונקציה כש־\\(x = 0\\)? ${wline('w40')} &nbsp; כש־\\(x = 5\\)? ${wline('w40')}</span></div>` +
+      `<div class="sub"><span class="subl">ד.</span><span class="subt">מהו הייצוג האלגברי של פונקציה זו? ${weq()}</span></div>` +
+      `</div>`,
   }),
 
   q({
@@ -125,18 +129,20 @@ const page_intersection = () => [
 
   q({
     stem: `נתונות שתי הפונקציות: &nbsp; <span class="ltr">\\(f(x) = 3x + 5\\)</span> &nbsp;&nbsp; <span class="ltr">\\(g(x) = -2x - 10\\)</span>`,
-    subs: [
-      { l: 'ב.', t: `מהם שיעורי נקודת החיתוך של שני הגרפים? ${wpoint()}` },
-      { l: 'ג.', t: `מהו הערך של \\(x\\) שעבורו <span class="ltr">\\(f(x) = g(x)\\)</span>? ${wline('w40')}` },
-    ],
-    tail: `<div class="workrow top"><div class="figure"><div class="figcap">א. שרטטו את הגרפים של שתי הפונקציות במערכת צירים משותפת.</div>` +
+    // רצף האותיות רץ א→ב→ג על הדף: הסעיף שדורש סרטוט ראשון, והגרף מתחתיו.
+    tail: `<div class="subs"><div class="sub"><span class="subl">א.</span><span class="subt">שרטטו את הגרפים של שתי הפונקציות במערכת צירים משותפת.</span></div></div>` +
+      `<div class="workrow top"><div class="figure">` +
       axesSvg({
         id: 'int1', xMin: -7, xMax: 4, yMin: -14, yMax: 10,
         xUnit: 15, yUnit: 6.4, padL: 28, pad: 14,
         xGridStep: 1, yGridStep: 2, xTickStep: 1, yTickStep: 4,
         ariaLabel: 'מערכת צירים ריקה לשרטוט שני הגרפים',
       }) + `</div>` +
-      `<div class="pairs-col"><span>דרך הפתרון:</span>${linesBlock(4)}</div></div>`,
+      `<div class="pairs-col"><span>דרך הפתרון:</span>${linesBlock(4)}</div></div>` +
+      `<div class="subs">` +
+      `<div class="sub"><span class="subl">ב.</span><span class="subt">מהם שיעורי נקודת החיתוך של שני הגרפים? ${wpoint()}</span></div>` +
+      `<div class="sub"><span class="subl">ג.</span><span class="subt">מהו הערך של \\(x\\) שעבורו <span class="ltr">\\(f(x) = g(x)\\)</span>? ${wline('w40')}</span></div>` +
+      `</div>`,
   }),
 ];
 
@@ -208,8 +214,27 @@ const EXISTING_PAGES = {
   'increasing-decreasing': [96, 97, 98],
 };
 
+// דוגמאות תוכנית הלימודים נבנו ידנית כבלוקי HTML. במקום לתת לכל אחת דף לעצמה
+// (מה שהותיר עמודים בניצול 45%), מפרקים אותן לפריטים ומכניסים אותן לאותה אריזה
+// כמו שאלות המקור. כרטיס ההגדרה הופך לכותרת פתיחה של תת־הנושא.
+export const SUBTOPIC_INTRO = {};
+const CURRICULUM_ITEMS = {};
+for (const [slug, pages] of Object.entries(CURRICULUM_PAGES)) {
+  const blocks = pages.flatMap((p) => p.blocks());
+  const defs = blocks.filter((b) => b.startsWith('<div class="defcard"'));
+  const qs = blocks.filter((b) => b.startsWith('<div class="q">'));
+  if (defs.length) SUBTOPIC_INTRO[slug] = defs.join('');
+  CURRICULUM_ITEMS[slug] = qs.map((html, i) => ({
+    id: `cur-${slug}-${i}`, subtopic: slug, source: 'תוכנית הלימודים', _html: html,
+  }));
+}
+
+/** כל שאלות תת־הנושא בסדר: דוגמאות תוכנית הלימודים ואז שאלות המקור. */
+export const SUBTOPIC_QUESTIONS = Object.fromEntries(
+  SUBTOPICS.map((st) => [st.slug, [...(CURRICULUM_ITEMS[st.slug] || []), ...(BANK[st.slug] || [])]]),
+);
+
 export const TOPIC_ORDER = SUBTOPICS.flatMap((st) => [
-  ...(CURRICULUM_PAGES[st.slug] || []).map((p) => ({ kind: 'new', slug: st.slug, ...p })),
   ...(EXISTING_PAGES[st.slug] || []).map((file) => ({ kind: 'existing', file, slug: st.slug, chapter: st.chapter })),
-  ...buildSubtopicPages(st, BANK[st.slug] || []),
+  ...buildSubtopicPages(st, SUBTOPIC_QUESTIONS[st.slug], SUBTOPIC_INTRO[st.slug]),
 ]);

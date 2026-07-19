@@ -13,9 +13,11 @@ import { spawn } from 'node:child_process';
 import { composeQuestion } from './lib/compose-question.mjs';
 import { chapterBar } from './lib/linear-page.mjs';
 import { SUBTOPICS } from './lib/pack-pages.mjs';
+import { SUBTOPIC_QUESTIONS, SUBTOPIC_INTRO } from './data/linear-function-worksheets.mjs';
 
 const root = process.cwd();
-const BANK = JSON.parse(fs.readFileSync(path.join(root, 'sources', 'linear-function', 'bank.json'), 'utf8'));
+// מודדים את אותה רשימה שהאורז יארוז — כולל פריטי תוכנית הלימודים.
+const BANK = SUBTOPIC_QUESTIONS;
 const outFile = path.join(root, 'sources', 'linear-function', 'heights.json');
 
 const PORT = 5189;
@@ -45,11 +47,13 @@ const gap = await page.evaluate(() =>
 
 const heights = {};
 const chapterH = {};
+const introH = {};
 
 for (const st of SUBTOPICS) {
   const qs = BANK[st.slug] || [];
   if (!qs.length) continue;
   const html = chapterBar(st.chapter, st.sub)
+    + (SUBTOPIC_INTRO[st.slug] ? `<div data-introfor="${st.slug}">${SUBTOPIC_INTRO[st.slug]}</div>` : '')
     + qs.map((qq, i) => `<div data-qid="${qq.id}">${composeQuestion(qq, `cal${i}`)}</div>`).join('');
 
   await page.evaluate(async (h) => {
@@ -67,17 +71,20 @@ for (const st of SUBTOPICS) {
       out[el.dataset.qid] = el.getBoundingClientRect().height;
     }
     const cb = document.querySelector('.chapter-bar');
-    return { out, cb: cb ? cb.getBoundingClientRect().height : 0 };
+    const intro = document.querySelector('[data-introfor]');
+    return { out, cb: cb ? cb.getBoundingClientRect().height : 0,
+      intro: intro ? intro.getBoundingClientRect().height : 0 };
   });
   Object.assign(heights, res.out);
   chapterH[st.slug] = res.cb;
+  introH[st.slug] = res.intro;
   process.stdout.write(`  ${st.slug.padEnd(22)} ${qs.length} שאלות נמדדו\n`);
 }
 
 await browser.close();
 try { child.kill(); } catch {}
 
-fs.writeFileSync(outFile, JSON.stringify({ availH, gap, chapterH, heights }, null, 1), 'utf8');
+fs.writeFileSync(outFile, JSON.stringify({ availH, gap, chapterH, introH, heights }, null, 1), 'utf8');
 
 const vals = Object.values(heights);
 console.log(`\n[OK] נמדדו ${vals.length} שאלות`);

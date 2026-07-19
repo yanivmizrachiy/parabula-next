@@ -139,6 +139,10 @@ export function weight(qq) {
 
 /** בונה את בלוק ה-HTML של השאלה. */
 export function composeQuestion(qq, id) {
+  // פריט שנבנה ידנית (דוגמה מתוכנית הלימודים) מגיע כ-HTML מוכן ונארז ככל שאלה
+  // אחרת, כדי שלא יקבל דף לעצמו בניצול 45%.
+  if (qq._html) return qq._html;
+
   const svg = figureSvg(qq.figure, id);
   const parts = qq.parts || [];
 
@@ -146,7 +150,9 @@ export function composeQuestion(qq, id) {
     const widget = answerWidget(p.answerShape || qq.answerShape);
     // חלק מהסעיפים במקור אינם נושאים אות (המשך שאלה, רשימה לא ממוספרת).
     // אסור להמציא להם אות (§4) — ואסור גם להדפיס "null." כפי שקרה קודם.
-    const letter = p.letter == null || p.letter === '' ? '·' : `${p.letter}.`;
+    // חלק מהמקורות כבר כוללים את הנקודה/הסוגר בתווית ("ה." או "ד)") — אין לכפול.
+    const raw = p.letter == null ? '' : String(p.letter).trim();
+    const letter = raw === '' ? '·' : (/[.)\]]$/.test(raw) ? raw : `${raw}.`);
     return { l: letter, t: autoLtr(p.text) + (widget ? ' ' + widget : '') };
   });
 

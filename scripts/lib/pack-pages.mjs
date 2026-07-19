@@ -53,10 +53,10 @@ export function heightOf(qq) {
  * אורז את שאלות תת־הנושא לעמודים לפי גובה נמדד.
  * שאלה שגבוהה מהתקציב מקבלת עמוד לעצמה — לא מכווצים גופן ולא מוחקים תוכן (§4.3).
  */
-export function packSubtopic(questions, slug) {
+export function packSubtopic(questions, slug, introH = 0) {
   const avail = (M?.availH ?? 945) * 0.985;
   const gap = M?.gap ?? 6;
-  const budget = avail - (M?.chapterH?.[slug] ?? 34) - gap;
+  const budget = avail - (M?.chapterH?.[slug] ?? 34) - gap - (introH ? introH + gap : 0);
 
   // אריזת מכלים First-Fit Decreasing. אריזה סדרתית פשוטה השאירה עמודים בניצול
   // ~55% (שאלה מילולית גבוהה לבדה בעמוד); FFD מזווג שאלה גבוהה עם קצרות ומעלה
@@ -94,16 +94,21 @@ export function packSubtopic(questions, slug) {
     .map((b) => b.items.sort((a, z) => a.i - z.i).map((x) => x.qq));
 }
 
-/** בונה רשומות עמוד עבור תת־נושא. */
-export function buildSubtopicPages(st, questions) {
-  return packSubtopic(questions, st.slug).map((group, i, all) => ({
-    kind: 'new',
-    chapter: st.chapter,
-    subtitle: st.subtitle,
-    slug: st.slug,
-    blocks: () => [
-      chapterBar(st.chapter, all.length > 1 ? `${st.sub} · ${i + 1} מתוך ${all.length}` : st.sub),
-      ...group.map((qq, k) => composeQuestion(qq, `${st.slug.replace(/[^a-z]/g, '')}${i}${k}`)),
-    ],
-  }));
+/**
+ * בונה רשומות עמוד עבור תת־נושא.
+ * `intro` (כרטיס הגדרה/כללים) מוצג בעמוד הראשון של תת־הנושא בלבד.
+ */
+export function buildSubtopicPages(st, questions, intro = null) {
+  return packSubtopic(questions, st.slug, intro ? (M?.introH?.[st.slug] ?? 60) : 0)
+    .map((group, i, all) => ({
+      kind: 'new',
+      chapter: st.chapter,
+      subtitle: st.subtitle,
+      slug: st.slug,
+      blocks: () => [
+        chapterBar(st.chapter, all.length > 1 ? `${st.sub} · ${i + 1} מתוך ${all.length}` : st.sub),
+        ...(i === 0 && intro ? [intro] : []),
+        ...group.map((qq, k) => composeQuestion(qq, `${st.slug.replace(/[^a-z]/g, '')}${i}${k}`)),
+      ],
+    }));
 }
