@@ -72,7 +72,6 @@ jobs:
           echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
           echo "Using browser: $CHROME"
           "$CHROME" --version
-          pdfinfo -v
 
       - name: Build and audit workbook
         id: workbook_build
@@ -84,7 +83,7 @@ jobs:
           node src/build.mjs 2>&1 | tee audit/build.log
 
       - name: Commit generated outputs
-        if: github.event_name == 'push' && steps.workbook_build.outcome == 'success'
+        if: github.event_name == 'push' && steps.workbook_build.outcome == 'success' && github.ref_name != 'main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -102,7 +101,7 @@ jobs:
         with:
           name: coordinate-first-quadrant-workbook
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
           path: |
             projects/coordinate-first-quadrant-workbook/dist
             projects/coordinate-first-quadrant-workbook/downloads
