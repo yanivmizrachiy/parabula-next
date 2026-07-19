@@ -5,6 +5,7 @@ import unit03 from './unit-03.mjs';
 import unit03Enrichment from './unit-03-enrichment.mjs';
 import page36 from './unit-03-page36.mjs';
 import pages37to38 from './unit-03-pages37-38.mjs';
+import { page37Balance, page38Balance } from './unit-03-balance.mjs';
 
 const enrichmentLimits = new Map([[33, 1], [34, 1], [35, 1]]);
 const enrichedUnit03 = unit03.map(page => {
@@ -18,10 +19,9 @@ const enrichedUnit03 = unit03.map(page => {
 
 const balancedPage36 = { ...page36, blocks: page36.blocks.slice(0, 3) };
 const [rawPage37, rawPage38] = pages37to38;
-const movedFinalTask = rawPage38.blocks.at(-1);
 const balancedPages37to38 = [
-  { ...rawPage37, blocks: [...rawPage37.blocks, movedFinalTask] },
-  { ...rawPage38, blocks: rawPage38.blocks.slice(0, -1) }
+  { ...rawPage37, blocks: [...rawPage37.blocks, page37Balance] },
+  { ...rawPage38, blocks: [...rawPage38.blocks.slice(0, -1), page38Balance] }
 ];
 
 export default [
