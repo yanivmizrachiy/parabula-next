@@ -28,8 +28,18 @@ function copyDirIfExists(fromRel, toRel = fromRel) {
   const from = path.join(root, fromRel);
   if (!fs.existsSync(from) || !fs.statSync(from).isDirectory()) return false;
   const to = path.join(dist, toRel);
-  fs.cpSync(from, to, { recursive: true, force: true });
+  copyTree(from, to);
   return true;
+}
+
+function copyTree(from, to) {
+  ensureDir(to);
+  for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+    const source = path.join(from, entry.name);
+    const target = path.join(to, entry.name);
+    if (entry.isDirectory()) copyTree(source, target);
+    else fs.copyFileSync(source, target);
+  }
 }
 
 if (!fs.existsSync(dist)) {

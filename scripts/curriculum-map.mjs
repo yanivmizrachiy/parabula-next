@@ -411,9 +411,9 @@ export const PAGE_ASSIGNMENTS = {
 
   // ── כיתה ט' ────────────────────────────────────────────────────────
   'g9.alg.parabola.intro': ['3-6'],
-  'g9.alg.quadratic.incomplete': [31, 33, 34, 35],
-  'g9.alg.quadratic.formula': [36],
-  'g9.alg.quadratic.factoring': [32],
+  'g9.alg.quadratic.incomplete': ['31-36', '471-478'],
+  'g9.alg.quadratic.formula': ['479-482', '493-508'],
+  'g9.alg.quadratic.factoring': ['483-492', '509-514'],
   'g9.geo.similarTriangles': ['227-230'],
   'g9.geo.quadFamily.parallelogram': [39, 40],
   'g9.prob.probability': ['257-260'],

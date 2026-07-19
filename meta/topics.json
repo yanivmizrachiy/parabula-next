@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-18T20:21:20.763Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 470,
+  "totalPages": 514,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -1727,67 +1727,507 @@
     },
     {
       "name": "משוואות ריבועיות",
-      "count": 6,
+      "count": 50,
       "pages": [
         {
           "number": 31,
           "file": "עמוד-31.html",
-          "title": "עמוד 1 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 1 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-31.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html",
-          "curriculumId": "g9.alg.quadratic.incomplete"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-31.html"
         },
         {
           "number": 32,
           "file": "עמוד-32.html",
-          "title": "עמוד 2 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 2 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-32.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html",
-          "curriculumId": "g9.alg.quadratic.factoring"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-32.html"
         },
         {
           "number": 33,
           "file": "עמוד-33.html",
-          "title": "עמוד 3 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 3 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-33.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html",
-          "curriculumId": "g9.alg.quadratic.incomplete"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-33.html"
         },
         {
           "number": 34,
           "file": "עמוד-34.html",
-          "title": "עמוד 4 — משוואה ריבועית",
-          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "title": "עמוד 4 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-34.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html",
-          "curriculumId": "g9.alg.quadratic.incomplete"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-34.html"
         },
         {
           "number": 35,
           "file": "עמוד-35.html",
-          "title": "עמוד 5 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 5 — משוואה ריבועית חסרה (c=0)",
+          "h1": "משוואה ריבועית חסרה \\((c=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-35.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html",
-          "curriculumId": "g9.alg.quadratic.incomplete"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-35.html"
         },
         {
           "number": 36,
           "file": "עמוד-36.html",
-          "title": "עמוד 6 — משוואה ריבועית",
-          "h1": "משוואה ריבועית",
+          "title": "עמוד 6 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
           "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
           "previewPath": "/עמוד-36.html",
-          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html",
-          "curriculumId": "g9.alg.quadratic.formula"
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-36.html"
+        },
+        {
+          "number": 471,
+          "file": "עמוד-471.html",
+          "title": "עמוד 7 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-471.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-471.html"
+        },
+        {
+          "number": 472,
+          "file": "עמוד-472.html",
+          "title": "עמוד 8 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-472.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-472.html"
+        },
+        {
+          "number": 473,
+          "file": "עמוד-473.html",
+          "title": "עמוד 9 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-473.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-473.html"
+        },
+        {
+          "number": 474,
+          "file": "עמוד-474.html",
+          "title": "עמוד 10 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-474.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-474.html"
+        },
+        {
+          "number": 475,
+          "file": "עמוד-475.html",
+          "title": "עמוד 11 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-475.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-475.html"
+        },
+        {
+          "number": 476,
+          "file": "עמוד-476.html",
+          "title": "עמוד 12 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-476.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-476.html"
+        },
+        {
+          "number": 477,
+          "file": "עמוד-477.html",
+          "title": "עמוד 13 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-477.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-477.html"
+        },
+        {
+          "number": 478,
+          "file": "עמוד-478.html",
+          "title": "עמוד 14 — משוואה ריבועית חסרה (b=0)",
+          "h1": "משוואה ריבועית חסרה \\((b=0)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.incomplete",
+          "previewPath": "/עמוד-478.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-478.html"
+        },
+        {
+          "number": 479,
+          "file": "עמוד-479.html",
+          "title": "עמוד 15 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-479.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-479.html"
+        },
+        {
+          "number": 480,
+          "file": "עמוד-480.html",
+          "title": "עמוד 16 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-480.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-480.html"
+        },
+        {
+          "number": 481,
+          "file": "עמוד-481.html",
+          "title": "עמוד 17 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-481.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-481.html"
+        },
+        {
+          "number": 482,
+          "file": "עמוד-482.html",
+          "title": "עמוד 18 — משוואה ריבועית מלאה",
+          "h1": "משוואה ריבועית מלאה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-482.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-482.html"
+        },
+        {
+          "number": 483,
+          "file": "עמוד-483.html",
+          "title": "עמוד 19 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-483.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-483.html"
+        },
+        {
+          "number": 484,
+          "file": "עמוד-484.html",
+          "title": "עמוד 20 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-484.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-484.html"
+        },
+        {
+          "number": 485,
+          "file": "עמוד-485.html",
+          "title": "עמוד 21 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-485.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-485.html"
+        },
+        {
+          "number": 486,
+          "file": "עמוד-486.html",
+          "title": "עמוד 22 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-486.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-486.html"
+        },
+        {
+          "number": 487,
+          "file": "עמוד-487.html",
+          "title": "עמוד 23 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-487.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-487.html"
+        },
+        {
+          "number": 488,
+          "file": "עמוד-488.html",
+          "title": "עמוד 24 — משוואות ריבועיות עם סוגריים",
+          "h1": "משוואות ריבועיות עם סוגריים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-488.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-488.html"
+        },
+        {
+          "number": 489,
+          "file": "עמוד-489.html",
+          "title": "עמוד 25 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-489.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-489.html"
+        },
+        {
+          "number": 490,
+          "file": "עמוד-490.html",
+          "title": "עמוד 26 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-490.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-490.html"
+        },
+        {
+          "number": 491,
+          "file": "עמוד-491.html",
+          "title": "עמוד 27 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-491.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-491.html"
+        },
+        {
+          "number": 492,
+          "file": "עמוד-492.html",
+          "title": "עמוד 28 — משוואות מהצורה: a(x+b)²=c",
+          "h1": "משוואות מהצורה: \\(a(x+b)^2=c\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-492.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-492.html"
+        },
+        {
+          "number": 493,
+          "file": "עמוד-493.html",
+          "title": "עמוד 29 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-493.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-493.html"
+        },
+        {
+          "number": 494,
+          "file": "עמוד-494.html",
+          "title": "עמוד 30 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-494.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-494.html"
+        },
+        {
+          "number": 495,
+          "file": "עמוד-495.html",
+          "title": "עמוד 31 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-495.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-495.html"
+        },
+        {
+          "number": 496,
+          "file": "עמוד-496.html",
+          "title": "עמוד 32 — משוואות ריבועיות עם פרמטרים:",
+          "h1": "משוואות ריבועיות עם פרמטרים:",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-496.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-496.html"
+        },
+        {
+          "number": 497,
+          "file": "עמוד-497.html",
+          "title": "עמוד 33 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-497.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-497.html"
+        },
+        {
+          "number": 498,
+          "file": "עמוד-498.html",
+          "title": "עמוד 34 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-498.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-498.html"
+        },
+        {
+          "number": 499,
+          "file": "עמוד-499.html",
+          "title": "עמוד 35 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-499.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-499.html"
+        },
+        {
+          "number": 500,
+          "file": "עמוד-500.html",
+          "title": "עמוד 36 — משוואות ריבועיות עם מכנה מספרי",
+          "h1": "משוואות ריבועיות עם מכנה מספרי",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-500.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-500.html"
+        },
+        {
+          "number": 501,
+          "file": "עמוד-501.html",
+          "title": "עמוד 37 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-501.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-501.html"
+        },
+        {
+          "number": 502,
+          "file": "עמוד-502.html",
+          "title": "עמוד 38 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-502.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-502.html"
+        },
+        {
+          "number": 503,
+          "file": "עמוד-503.html",
+          "title": "עמוד 39 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-503.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-503.html"
+        },
+        {
+          "number": 504,
+          "file": "עמוד-504.html",
+          "title": "עמוד 40 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-504.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-504.html"
+        },
+        {
+          "number": 505,
+          "file": "עמוד-505.html",
+          "title": "עמוד 41 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-505.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-505.html"
+        },
+        {
+          "number": 506,
+          "file": "עמוד-506.html",
+          "title": "עמוד 42 — משוואות ריבועיות עם X במכנה",
+          "h1": "משוואות ריבועיות עם \\(X\\) במכנה",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-506.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-506.html"
+        },
+        {
+          "number": 507,
+          "file": "עמוד-507.html",
+          "title": "עמוד 43 — משוואות ריבועיות עם שברים ופירוקים",
+          "h1": "משוואות ריבועיות עם שברים ופירוקים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-507.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-507.html"
+        },
+        {
+          "number": 508,
+          "file": "עמוד-508.html",
+          "title": "עמוד 44 — משוואות ריבועיות עם שברים ופירוקים",
+          "h1": "משוואות ריבועיות עם שברים ופירוקים",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.formula",
+          "previewPath": "/עמוד-508.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-508.html"
+        },
+        {
+          "number": 509,
+          "file": "עמוד-509.html",
+          "title": "עמוד 45 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-509.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-509.html"
+        },
+        {
+          "number": 510,
+          "file": "עמוד-510.html",
+          "title": "עמוד 46 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-510.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-510.html"
+        },
+        {
+          "number": 511,
+          "file": "עמוד-511.html",
+          "title": "עמוד 47 — משוואות הכוללות שימוש בנוסחת הכפל המקוצר: a²-b²=(a+b)(a-b)",
+          "h1": "משוואות הכוללות שימוש בנוסחת הכפל המקוצר: \\(a^2-b^2=(a+b)(a-b)\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-511.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-511.html"
+        },
+        {
+          "number": 512,
+          "file": "עמוד-512.html",
+          "title": "עמוד 48 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-512.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-512.html"
+        },
+        {
+          "number": 513,
+          "file": "עמוד-513.html",
+          "title": "עמוד 49 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-513.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-513.html"
+        },
+        {
+          "number": 514,
+          "file": "עמוד-514.html",
+          "title": "עמוד 50 — משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: (a± b)²=a²±2ab+b²",
+          "h1": "משוואות הכוללות שימוש בנוסחאות הכפל המקוצר: \\((a\\pm b)^2=a^2\\pm2ab+b^2\\)",
+          "topic": "משוואות ריבועיות",
+          "curriculumId": "g9.alg.quadratic.factoring",
+          "previewPath": "/עמוד-514.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-514.html"
         }
       ]
     },
@@ -6012,13 +6452,13 @@
         "id": "g9",
         "name": "כיתה ט'",
         "directCount": 0,
-        "pageCount": 20,
+        "pageCount": 64,
         "children": [
           {
             "id": "g9.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 10,
+            "pageCount": 54,
             "children": [
               {
                 "id": "g9.alg.parabola",
@@ -6062,36 +6502,80 @@
                 "id": "g9.alg.quadratic",
                 "name": "משוואות ריבועיות וטכניקה אלגברית",
                 "directCount": 0,
-                "pageCount": 6,
+                "pageCount": 50,
                 "children": [
                   {
                     "id": "g9.alg.quadratic.incomplete",
                     "name": "פתרון משוואות ריבועיות חסרות (b=0, c=0)",
-                    "directCount": 4,
-                    "pageCount": 4,
+                    "directCount": 14,
+                    "pageCount": 14,
                     "pages": [
                       31,
+                      32,
                       33,
                       34,
-                      35
+                      35,
+                      36,
+                      471,
+                      472,
+                      473,
+                      474,
+                      475,
+                      476,
+                      477,
+                      478
                     ]
                   },
                   {
                     "id": "g9.alg.quadratic.formula",
                     "name": "פתרון משוואה ריבועית באמצעות נוסחת השורשים",
-                    "directCount": 1,
-                    "pageCount": 1,
+                    "directCount": 20,
+                    "pageCount": 20,
                     "pages": [
-                      36
+                      479,
+                      480,
+                      481,
+                      482,
+                      493,
+                      494,
+                      495,
+                      496,
+                      497,
+                      498,
+                      499,
+                      500,
+                      501,
+                      502,
+                      503,
+                      504,
+                      505,
+                      506,
+                      507,
+                      508
                     ]
                   },
                   {
                     "id": "g9.alg.quadratic.factoring",
                     "name": "פתרון משוואות על ידי פירוק טרינום וכפל מקוצר",
-                    "directCount": 1,
-                    "pageCount": 1,
+                    "directCount": 16,
+                    "pageCount": 16,
                     "pages": [
-                      32
+                      483,
+                      484,
+                      485,
+                      486,
+                      487,
+                      488,
+                      489,
+                      490,
+                      491,
+                      492,
+                      509,
+                      510,
+                      511,
+                      512,
+                      513,
+                      514
                     ]
                   },
                   {
