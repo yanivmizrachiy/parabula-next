@@ -22,6 +22,10 @@ source = source.replaceAll(
   "run('git', ['clean', '-fdx']);",
   "run('git', ['clean', '-fdx', '-e', 'projects/coordinate-first-quadrant-workbook/audit/build.log']);"
 );
+source = source.replace(
+  "run('npm', ['ci']);\nrun('npx', ['playwright', 'install', 'chromium', '--with-deps']);\nconsole.log('Rectangle bootstrap: running maximum validation');\nrun('npm', ['run', 'tech:max']);",
+  "run('npm', ['ci']);\nrun('npm', ['install', '--no-save', '--package-lock=false', 'node@22']);\nprocess.env.PATH = `${path.join(repo, 'node_modules', '.bin')}:${process.env.PATH}`;\nrun('node', ['--version']);\nrun('npx', ['playwright', 'install', 'chromium', '--with-deps']);\nconsole.log('Rectangle bootstrap: running maximum validation under Node 22');\nrun('npm', ['run', 'tech:max']);"
+);
 
 fs.writeFileSync(diagnosticPath, source, 'utf8');
 process.env.RECTANGLE_REPO = repo;
