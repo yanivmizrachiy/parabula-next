@@ -34,3 +34,7 @@
 .graph-slope-page .slope-table th { background: var(--bg-subtle); font-weight: 500 !important; }
 .graph-slope-page .slope-table svg { width: 108px; height: 76px; display: block; margin: 0 auto; }
 .graph-slope-page .table-option { display: grid; justify-items: center; gap: 3px; }
+
+/* נוסחאות MathJax בהקשר RTL — בלי בידוד ה-bidi הופך את הנוסחה עצמה:
+   \(A(0,-6)\) התרנדר `A(0-6),` (הפסיק נדד לסוף). נמדד ב-audit-linear-pages (§4.3). */
+.graph-slope-page mjx-container { direction: ltr; unicode-bidi: isolate; }

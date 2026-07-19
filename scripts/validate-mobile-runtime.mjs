@@ -156,15 +156,33 @@ async function runBrowserAudit() {
     page.on('pageerror', error => pageErrors.push(error.message));
     await page.goto(`${started.origin}/?view=mobile`, { waitUntil: 'networkidle' });
     await page.waitForURL(/mobile-app\.html/);
-    await page.locator('.topic-btn').first().waitFor({ state: 'visible' });
-    add('browser-all-topics-rendered', await page.locator('.topic-btn').count() === (meta?.topics?.length || 0), `expected=${meta?.topics?.length || 0}`);
+    // הניווט הוא עץ תכנית הלימודים: שורשי העץ הם צמתי הפתיחה, והעלים
+    // בלבד נושאים .topic-btn — הילדים מרונדרים עצלנית בעת פתיחה (§4.4).
+    await page.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible' });
+    const expectedRoots = (meta?.curriculum?.nodes || []).length;
+    const actualRoots = await page.locator('#topicStrip > .topic-node').count();
+    add('browser-all-topics-rendered', actualRoots === expectedRoots, `roots=${actualRoots}; expected=${expectedRoots}`);
     const overflow = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - innerWidth);
     add('browser-no-horizontal-overflow', overflow <= 1, `overflow=${overflow}`);
 
-    const topic = (meta?.topics || []).find(item => (item.pages || []).length >= 2) || meta?.topics?.[0];
-    const first = topic?.pages?.[0];
-    const second = topic?.pages?.[1];
-    await page.locator(`.topic-btn[data-topic="${topic.name}"]`).click();
+    const byNode = new Map();
+    for (const t of meta?.topics || []) {
+      for (const p of t.pages || []) {
+        if (!p.curriculumId) continue;
+        if (!byNode.has(p.curriculumId)) byNode.set(p.curriculumId, []);
+        byNode.get(p.curriculumId).push(p);
+      }
+    }
+    const [nodeId, nodePages] = [...byNode.entries()].find(([, list]) => list.length >= 2) || [...byNode.entries()][0];
+    const first = nodePages?.[0];
+    const second = nodePages?.[1];
+    // פתיחת שרשרת האבות עד שכפתור העלה נראה
+    const parts = String(nodeId).split('.');
+    for (let i = 1; i < parts.length; i += 1) {
+      const head = page.locator(`.topic-node[data-node-id="${parts.slice(0, i).join('.')}"] > .topic-node-head`);
+      if (await head.count() && (await head.getAttribute('aria-expanded')) === 'false') await head.click();
+    }
+    await page.locator(`.topic-btn[data-topic="${nodeId}"]`).click();
     await page.locator(`.page-card[data-file="${first.file}"] .page-open`).click();
     await waitForWorksheetFrame(page, first.file);
     const metrics = await page.evaluate(() => {
@@ -190,7 +208,7 @@ async function runBrowserAudit() {
     await waitForWorksheetFrame(popup, second?.file || first.file);
     const popupUrl = new URL(popup.url());
     add('browser-open-full-url', popupUrl.searchParams.get('mode') === 'full' && popupUrl.searchParams.get('file') === (second?.file || first.file), popup.url());
-    add('browser-open-full-navigation', topic.pages.length < 2 || !(await popup.locator('#prevPageBtn').isDisabled()), 'full mode keeps topic navigation');
+    add('browser-open-full-navigation', nodePages.length < 2 || !(await popup.locator('#prevPageBtn').isDisabled()), 'full mode keeps topic navigation');
     add('browser-open-full-isolated', await popup.evaluate(() => window.opener === null), 'noopener');
     await popup.close();
     add('browser-no-page-errors', pageErrors.length === 0, pageErrors.join(' | ') || 'none');

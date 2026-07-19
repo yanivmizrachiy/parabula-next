@@ -48,7 +48,7 @@ const lines = [
   `Result: ${missing.length || obsolete.length ? 'FAIL' : 'PASS'}`
 ];
 
-const outFile = path.join(root, 'STATE', 'PREVIEW_OVERLAP_AUDIT.md');
+const outFile = path.join(root, 'meta', 'audit', 'preview-overlaps.md');
 fs.mkdirSync(path.dirname(outFile), { recursive: true });
 fs.writeFileSync(outFile, lines.join('\n') + '\n', 'utf8');
 console.log(lines.join('\n'));
