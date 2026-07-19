@@ -39,14 +39,35 @@
     </div>
 
     <div class="header-right">
+      <a class="chip-btn" href="coordinate-first-quadrant.html" title="פתיחת חוברת מערכת צירים — רביע ראשון">📘 מערכת צירים — 30 עמודים</a>
       <div id="modeSwitch" class="mode-switch" role="group" aria-label="מצב דפדוף">
         <button data-mode="single" class="mode-btn is-active" type="button" title="עמוד בודד">עמוד</button>
         <button data-mode="spread" class="mode-btn" type="button" title="כפולת עמודים">כפולה</button>
         <button data-mode="scroll" class="mode-btn" type="button" title="גלילה רציפה של הפרק">גלילה</button>
       </div>
+      <button id="boardBtn" class="chip-btn" type="button" aria-haspopup="dialog" aria-controls="board"
+              title="לוח מונים — כמה דפי עבודה קיימים בכל נושא ותת־נושא">📊 לוח מונים</button>
       <span id="statChip" class="stat-chip">— דפים · — נושאים</span>
     </div>
   </header>
+
+  <!-- ═══ COUNTERS BOARD ═══ -->
+  <div id="board" class="board" hidden role="dialog" aria-modal="true" aria-labelledby="boardTitle">
+    <div class="board-backdrop" data-close></div>
+    <div class="board-panel" tabindex="-1">
+      <div class="board-head">
+        <div>
+          <h2 id="boardTitle" class="board-title">לוח מונים — דפי עבודה לפי תכנית הלימודים</h2>
+          <p id="boardSummary" class="board-summary" role="status"></p>
+        </div>
+        <button id="boardClose" class="chip-btn" type="button" aria-label="סגירת לוח המונים">✕ סגירה</button>
+      </div>
+      <div class="board-filters" role="group" aria-label="סינון תצוגה">
+        <button id="boardToggleEmpty" class="chip-btn" type="button" aria-pressed="true">נושאים ריקים</button>
+      </div>
+      <div id="boardBody" class="board-body"><!-- filled by JS --></div>
+    </div>
+  </div>
 
   <!-- ═══ LAYOUT ═══ -->
   <div class="app-layout">

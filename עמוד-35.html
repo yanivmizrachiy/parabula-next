@@ -3,195 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>עמוד 5 — משוואה ריבועית</title>
-
+    <title>עמוד 5 — משוואה ריבועית חסרה (c=0)</title>
     <link rel="stylesheet" href="vendor/fonts/rubik.css" />
-
-    <script>
-      MathJax = { tex: { inlineMath: [["\\(", "\\)"]] }, chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' } };
-    </script>
+    <script>MathJax = { tex: { inlineMath: [["\\(", "\\)"]] }, chtml: { fontURL: 'vendor/mathjax/tex-font/chtml/woff2' } };</script>
     <script id="MathJax-script" async src="vendor/mathjax/tex-mml-chtml.js"></script>
-
     <link rel="stylesheet" href="styles/a4-base.css" />
+    <link rel="stylesheet" href="styles/topics/quadratic-equations.css" />
     <link rel="stylesheet" href="styles/pages/עמוד-35.css" />
   </head>
   <body>
     <nav class="preview-nav" aria-label="ניווט בין עמודים">
       <div class="preview-nav-top">
-        <div class="nav-side">
-          <a class="nav-link" href="עמוד-34.html">הקודם</a>
-        </div>
-        <div class="nav-meta">משוואה ריבועית — עמוד 5 / 6</div>
-        <div class="nav-side">
-          <a class="nav-link" href="עמוד-36.html">הבא</a>
-        </div>
+        <div class="nav-side"><a class="nav-link" href="עמוד-34.html">הקודם</a></div>
+        <div class="nav-meta">משוואות ריבועיות — עמוד 5 / 50</div>
+        <div class="nav-side"><a class="nav-link" href="עמוד-36.html">הבא</a></div>
       </div>
       <div class="preview-nav-topics" aria-label="מעבר בין נושאים">
         <a class="topic-link" href="עמוד-1.html">חוקיות</a>
         <a class="topic-link" href="עמוד-3.html">פונקציה ריבועית</a>
         <a class="topic-link" href="עמוד-9.html">משפט פיתגורס</a>
-        <a class="topic-link is-active" href="עמוד-35.html" aria-current="page">משוואה ריבועית</a>
+        <a class="topic-link is-active" href="עמוד-35.html" aria-current="page">משוואות ריבועיות</a>
         <a class="topic-link" href="עמוד-37.html">פילוג מורחב</a>
-        <a class="topic-link" href="עמוד-39.html">מקבילית</a>
         <a class="topic-link" href="עמוד-42.html">משוואות</a>
       </div>
     </nav>
 
-    <main class="a4-page page-35">
+    <main class="a4-page page-35 quadratic-page count-6" data-section="2" data-local-page="5">
       <header class="header-container">
-        <h1 class="page-title">משוואה ריבועית</h1>
+        <div class="title-wrap">
+          <div class="eyebrow">תרגול מדורג לכיתה ט׳ · חלק 2 מתוך 2</div>
+          <h1 class="page-title has-formula"><span class="title-text">משוואה ריבועית חסרה</span><span class="title-formula" dir="ltr">\((c=0)\)</span></h1>
+        </div>
         <div class="page-number">5</div>
       </header>
 
-      <div class="question-block">
-        <div class="eq-body" aria-label="תוכן">
-          <div class="q-main">
-            <div class="bullet-container"><div class="bullet-large"></div></div>
-            <div class="q-text">פתרו את המשוואות:</div>
-          </div>
-
-          <div class="eq-grid" role="group" aria-label="תרגילים">
-            <div class="problem-block" aria-label="תרגיל 1">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">1</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 1">
-                  <div class="problem-equation">\(9x^2 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 2">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">2</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 2">
-                  <div class="problem-equation">\(36x^2 + 4 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 3">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">3</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 3">
-                  <div class="problem-equation">\(x^2 + 10 = -1\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 4">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">4</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 4">
-                  <div class="problem-equation">\(25 = 4x^2\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 5">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">5</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 5">
-                  <div class="problem-equation">\(25y^2 = -49\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(y_1\) = <span class="answer-box box-sm"></span>, \(y_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 6">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">6</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 6">
-                  <div class="problem-equation">\(x^2 + 100 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 7">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">7</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 7">
-                  <div class="problem-equation">\((x - 3)(x + 3) + 16 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 8">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">8</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 8">
-                  <div class="problem-equation">\(12x^2 - 48 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-
-            <div class="problem-block" aria-label="תרגיל 9">
-              <div class="problem-top">
-                <div class="bullet-num" aria-hidden="true">9</div>
-              </div>
-              <div class="problem-work">
-                <div class="problem-figure" aria-label="משוואה 9">
-                  <div class="problem-equation">\((x - 7)(x + 7) + 16 = 0\)</div>
-                </div>
-                <div class="solution-space" aria-label="אזור פתרון (כתיבה חופשית)"></div>
-              </div>
-              <div class="problem-answer">\(x_1\) = <span class="answer-box box-sm"></span>, \(x_2\) = <span class="answer-box box-sm"></span></div>
-            </div>
-          </div>
+      <section class="question-block">
+        <div class="q-main">
+          <div class="bullet-container"><div class="bullet-large"></div></div>
+          <div class="q-text">פתרו. שימו לב למשתנה, לשברים ולסידור האגפים.</div>
         </div>
-
-        <div class="eq-footer" aria-label="סיכום ופתרונות">
-          <hr />
-
-          <div class="eq-solutions" aria-label="פתרונות">
-            <div class="q-sub">
-              <div class="bullet-container"><div class="bullet-small"></div></div>
-              <div class="q-text">
-                <span class="solutions-label">תשובות:</span>
-                <span class="eq-solution">\(1)\;(0,\,0)\)</span>
-                <span class="eq-solution">\(2)\;\text{אין פתרון}\)</span>
-                <span class="eq-solution">\(3)\;\text{אין פתרון}\)</span>
-                <span class="eq-solution">\(4)\;\left(\frac{5}{2},\,-\frac{5}{2}\right)\)</span>
-                <span class="eq-solution">\(5)\;\text{אין פתרון}\)</span>
-                <span class="eq-solution">\(6)\;\text{אין פתרון}\)</span>
-                <span class="eq-solution">\(7)\;\text{אין פתרון}\)</span>
-                <span class="eq-solution">\(8)\;(2,\,-2)\)</span>
-                <span class="eq-solution">\(9)\;(\sqrt{33},\,-\sqrt{33})\)</span>
-              </div>
+        <div class="exercise-grid">
+          <article class="exercise-card" data-exercise-id="2-7" data-level="3">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 7">7</span>
             </div>
-          </div>
+            <div class="equation" dir="ltr">\(3y(y-2)=y^2\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
+          <article class="exercise-card" data-exercise-id="2-8" data-level="3">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 8">8</span>
+            </div>
+            <div class="equation" dir="ltr">\(4t(t+1)=6t^2\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
+          <article class="exercise-card" data-exercise-id="2-9" data-level="3">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 9">9</span>
+            </div>
+            <div class="equation" dir="ltr">\(z(2z-5)+3z=z^2\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
+          <article class="exercise-card" data-exercise-id="2-10" data-level="4">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 10">10</span>
+            </div>
+            <div class="equation" dir="ltr">\(5x^2-2x=3x^2+7x\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
+          <article class="exercise-card" data-exercise-id="2-11" data-level="4">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 11">11</span>
+            </div>
+            <div class="equation" dir="ltr">\(\frac{x}{3}(x-6)=2x\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
+          <article class="exercise-card" data-exercise-id="2-12" data-level="4">
+            <div class="exercise-head">
+              <span class="exercise-index" aria-label="תרגיל 12">12</span>
+            </div>
+            <div class="equation" dir="ltr">\(0.4x(x+5)=x\)</div>
+            <div class="work-area" aria-label="אזור חישוב"></div>
+            <div class="response-area"><div class="answer-entry pair-entry" dir="ltr"><span>\(x_1=\)</span><span class="root-box"></span><span>\(x_2=\)</span><span class="root-box"></span></div></div>
+          </article>
         </div>
-      </div>
+      </section>
+
+      <section class="answers-panel" aria-label="תשובות לבדיקה עצמית">
+        <div class="answers-heading"><span>תשובות לבדיקה עצמית</span><small>6 תרגילים</small></div>
+        <div class="solutions-grid"><div class="solution-item"><span class="solution-index">7</span><span dir="ltr">\(x_1=0,\quad x_2=3\)</span></div>
+<div class="solution-item"><span class="solution-index">8</span><span dir="ltr">\(x_1=0,\quad x_2=2\)</span></div>
+<div class="solution-item"><span class="solution-index">9</span><span dir="ltr">\(x_1=0,\quad x_2=2\)</span></div>
+<div class="solution-item"><span class="solution-index">10</span><span dir="ltr">\(x_1=0,\quad x_2=\frac{9}{2}\)</span></div>
+<div class="solution-item"><span class="solution-index">11</span><span dir="ltr">\(x_1=0,\quad x_2=12\)</span></div>
+<div class="solution-item"><span class="solution-index">12</span><span dir="ltr">\(x_1=0,\quad x_2=-\frac{5}{2}\)</span></div></div>
+      </section>
+
+      <footer class="quadratic-footer">
+        <span>יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</span>
+        <span>משוואות ריבועיות · 246 תרגילים מקוריים · פי 2 מחוברת המקור (123)</span>
+      </footer>
     </main>
   </body>
 </html>

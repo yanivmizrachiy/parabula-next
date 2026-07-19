@@ -87,6 +87,7 @@ const aiEntryFiles = [
   ...walk('.claude/agents', rel => rel.endsWith('.md')),
   ...walk('.claude/commands', rel => rel.endsWith('.md')),
   ...walk('.github/prompts', rel => rel.endsWith('.md')),
+  ...walk('.github/instructions', rel => rel.endsWith('.md')),
   '.github/copilot-instructions.md'
 ].filter(exists);
 
@@ -165,6 +166,76 @@ for (const rel of mobileVersionFiles) {
   if (/2026071\d{4}/.test(text)) errors.push(`${rel} contains a manual mobile release number`);
 }
 
+// ── סריקה רוחבית: כל קובץ Markdown בריפו, לא רק נקודות הכניסה ל-AI ──────
+// כל מסמך שמנסח כללים מחייבים חייב להפנות ל-CLAUDE.md ולא לשכפל אותו.
+const skipPrefixes = ['node_modules/', 'dist/', '.git/', 'sources/lovable/', 'meta/audit/'];
+// לא רק Markdown: מסמך כללים יכול להיכתב גם כ-txt, yml, json או html,
+// ורק סיומת אחת נסרקה עד כה.
+const scanExtensions = ['.md', '.txt', '.rst', '.adoc'];
+const allMarkdown = walk('.', rel => {
+  const clean = rel.replace(/^\.\//, '');
+  if (!scanExtensions.some(ext => clean.endsWith(ext))) return false;
+  return !skipPrefixes.some(prefix => clean.includes(prefix));
+}).map(rel => rel.replace(/^\.\//, ''));
+
+const contractPatterns = [
+  // כותרת חוזה, גם כשהיא ממוספרת ("## 2. חוזה תחזוקה").
+  // אין להשתמש ב-\b סביב עברית: אותיות עבריות אינן \w ולכן הגבול לעולם אינו מתקיים.
+  [/^#{1,6}[^\n]{0,14}?(?<![א-ת])חוזה(?![א-ת])/m, 'independent contract section'],
+  [/^#{1,6}[^\n]{0,14}?(?<![א-ת])כללי עבודה(?![א-ת])/m, 'independent working rules section'],
+  // §0 אוסר קובץ memory/contract/instructions נוסף ו-§9 אוסר system-state או
+  // זיכרון סשן. עד כה הם נחסמו רק ברשימת שמות קבועה, וכל שם חדש חמק.
+  [/(?<![א-ת])זיכרון (?:קבוע|סשן|מתמשך)(?![א-ת])/, 'persistent agent memory document'],
+  [/(?<![א-ת])מצב נוכחי של (?:המערכת|הריפו|הפרויקט)(?![א-ת])/, 'stored system state'],
+  [/\bpersistent (?:agent )?memory\b/i, 'persistent agent memory document'],
+  [/\bsystem state\b/i, 'stored system state'],
+  [/\bBINDING RULES\b/i, 'independent binding rules document'],
+  [/\bעקרונות מחייבים\b/, 'independent mandatory principles'],
+  [/\bמקור האמת הקנוני\b/, 'competing source-of-truth claim'],
+  [/PROJECT_(?:RULES|MEMORY)\.md/, 'obsolete rules source'],
+  [/\bSTATE\/[A-Z]/, 'state document dependency'],
+  [/mobile-topics\.json/, 'obsolete metadata mirror'],
+];
+// שפה מחייבת: מסמך שמנסח דרישות חייב להפנות ל-CLAUDE.md, אחרת הוא מקור כללים מתחרה.
+// הסף קיים כדי שאזכור בודד בתוך תיאור תוכן לא ייחשב חוזה.
+const directivePattern = /(?:^|\s)(?:חייב(?:ים|ת)?|אסור|יש ל[א-ת]+|אין ל[א-ת]+|must not|must|never|always|required to)(?:\s|$)/gm;
+const DIRECTIVE_THRESHOLD = 4;
+
+const rulesScanned = [];
+for (const rel of allMarkdown) {
+  if (rel === canonical) continue;
+  const text = read(rel);
+  rulesScanned.push(rel);
+  for (const [pattern, label] of contractPatterns) {
+    if (pattern.test(text)) {
+      errors.push(`${rel} contains ${label}; CLAUDE.md must be the only rules source`);
+    }
+  }
+  const directives = (text.match(directivePattern) || []).length;
+  if (directives >= DIRECTIVE_THRESHOLD && !text.includes(canonical)) {
+    errors.push(
+      `${rel} states ${directives} requirements but never points to ${canonical}; ` +
+        'a document that defines rules must defer to the canonical file',
+    );
+  }
+}
+
+// ── אסור שסקריפט או workflow יכתוב מסמך אל STATE/ מחוץ ל-STATE/reports/ ──
+// שני קבצי השמירה עצמם מונים נתיבים אסורים כדי לחסום אותם — זהו שימוש לגיטימי.
+const guardScripts = new Set(['scripts/single-rules-source-check.mjs', 'scripts/app-layer-check.mjs']);
+const codeFiles = [
+  ...walk('scripts', rel => rel.endsWith('.mjs') || rel.endsWith('.js')),
+  ...walk('.github/workflows', rel => rel.endsWith('.yml')),
+];
+for (const rel of codeFiles) {
+  if (guardScripts.has(rel)) continue;
+  const text = read(rel);
+  const match = /STATE\/(?!reports\/)[A-Za-z0-9_.-]+/.exec(text);
+  if (match) {
+    errors.push(`${rel} depends on ${match[0]}; audit output belongs in meta/audit/ (CLAUDE.md §6)`);
+  }
+}
+
 const output = {
   generatedAt: new Date().toISOString(),
   status: errors.length ? 'fail' : 'pass',
@@ -173,6 +244,8 @@ const output = {
   aiEntryFiles,
   scannedDocs: docsFiles.length,
   docsFiles,
+  scannedMarkdown: rulesScanned.length,
+  scannedCodeFiles: codeFiles.length,
   errors,
   warnings
 };

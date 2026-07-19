@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - content/coordinate-first-quadrant-final
+      - main
     paths-ignore:
       - projects/coordinate-first-quadrant-workbook/dist/**
       - projects/coordinate-first-quadrant-workbook/downloads/**
@@ -36,37 +37,53 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TARGET_BRANCH: ${{ github.head_ref || github.ref_name }}
+
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || github.ref_name }}
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y poppler-utils
+
       - name: Install build tools
+        working-directory: projects/coordinate-first-quadrant-workbook
         run: |
-          sudo apt-get update >/tmp/apt-update.log
-          sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Locate system Chrome
+
+      - name: Locate system Chrome and set CHROME_PATH
         run: |
-          CHROME_PATH="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          if [ -z "$CHROME_PATH" ]; then
-            echo "No system Chrome or Chromium executable was found." >&2
-            exit 1
+          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
+          if [ -z "$CHROME" ]; then
+            echo "No system Chrome found, installing google-chrome-stable..."
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update -q
+            sudo apt-get install -y google-chrome-stable
+            CHROME=$(command -v google-chrome-stable)
           fi
-          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
-          "$CHROME_PATH" --version
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          echo "Using browser: $CHROME"
+          "$CHROME" --version
+
       - name: Build and audit workbook
         id: workbook_build
+        working-directory: projects/coordinate-first-quadrant-workbook
         continue-on-error: true
         run: |
-          mkdir -p projects/coordinate-first-quadrant-workbook/audit
+          mkdir -p audit
           set -o pipefail
-          node projects/coordinate-first-quadrant-workbook/src/build.mjs 2>&1 | tee projects/coordinate-first-quadrant-workbook/audit/build.log
+          node src/build.mjs 2>&1 | tee audit/build.log
+
       - name: Commit generated outputs
-        if: github.event_name == 'push' && steps.workbook_build.outcome == 'success'
+        if: github.event_name == 'push' && steps.workbook_build.outcome == 'success' && github.ref_name != 'main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -76,14 +93,15 @@ jobs:
             projects/coordinate-first-quadrant-workbook/preview \
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json \
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
-          git diff --cached --quiet || git commit -m "build(מערכת צירים): generate verified outputs"
+          git diff --cached --quiet || git commit -m "build(coordinate-workbook): generate verified outputs"
           git push origin HEAD:"${TARGET_BRANCH}"
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coordinate-first-quadrant-workbook
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
           path: |
             projects/coordinate-first-quadrant-workbook/dist
             projects/coordinate-first-quadrant-workbook/downloads
@@ -91,6 +109,10 @@ jobs:
             projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
             projects/coordinate-first-quadrant-workbook/audit/build.log
             projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+
       - name: Fail when workbook build failed
         if: steps.workbook_build.outcome != 'success'
-        run: exit 1
+        run: |
+          echo "Build failed! See audit/build.log for details."
+          cat projects/coordinate-first-quadrant-workbook/audit/build.log || true
+          exit 1

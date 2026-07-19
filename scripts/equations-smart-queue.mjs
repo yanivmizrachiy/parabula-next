@@ -10,7 +10,7 @@ const stamp = new Date().toISOString().replace(/[:.]/g, '-');
 const requestedReportPath = process.env.EQUATIONS_QUEUE_REPORT_PATH || '';
 const reportPath = requestedReportPath
   ? path.resolve(root, requestedReportPath)
-  : path.join(root, 'STATE', `EQUATIONS_SMART_QUEUE_${stamp}.md`);
+  : path.join(root, 'meta', 'audit', `equations-smart-queue-${stamp}.md`);
 
 function readText(rel) {
   const full = path.join(root, rel);
@@ -84,7 +84,7 @@ function classifyPage(page) {
       priority = 10;
     } else if (facts.verified > 0) {
       status = 'html-verified-needs-visual-lock';
-      nextAction = 'בדיקה חזותית ונעילה בדוח STATE';
+      nextAction = 'בדיקה חזותית ונעילה בדוח audit';
       priority = 30;
     } else {
       status = 'html-live-needs-provenance';
@@ -131,7 +131,7 @@ const next = rows
   .sort((a, b) => a.priority - b.priority || a.local - b.local)[0];
 
 const canonicalPrint = 'preview/print.html?topic=משוואות&autoselect=topic&maxLocalPage=3';
-const previewOverlap = readText('STATE/PREVIEW_OVERLAP_AUDIT.md');
+const previewOverlap = readText('meta/audit/preview-overlaps.md');
 const printJs = readText('preview/print.js');
 const hasCanonicalPrint = previewOverlap.includes('preview/print.html: YES') && previewOverlap.includes('canonical: preview/print.js => YES');
 const printSupportsScope = printJs.includes('maxLocalPage') && printJs.includes('isWithinRequestedScope');
@@ -176,14 +176,10 @@ ${tableRows}
 
 ${next ? `- local page: ${next.local}\n- file: \`${next.file}\`\n- status: ${next.status}\n- action: ${next.nextAction}` : '- no next page selected'}
 
-## Fast automation strategy
+## Source of rules
 
-1. Keep using \`preview/print.html\` for printing and selection.
-2. Improve one worksheet page at a time.
-3. If page is HTML-live: adjust only that page HTML/CSS and preserve source provenance.
-4. If page is SVG-only: do not invent exercises; first extract/verify source from PDF or SVG evidence.
-5. After each page: run this queue script and add a STATE lock report only for meaningful milestones.
-6. Never commit from a dirty local repo; use a clean clone or exact \`git add\` file list.
+This report is evidence only and states no rules of its own.
+Working rules, Git policy and worksheet contracts are defined solely in \`CLAUDE.md\`.
 `;
 
 if (writeReport) {

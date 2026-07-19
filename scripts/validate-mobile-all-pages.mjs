@@ -10,7 +10,18 @@ const allPages = (meta.topics || []).flatMap(topic =>
   (topic.pages || []).map(page => ({ ...page, topic: page.topic || topic.name }))
 );
 const canonicalFiles = new Set(allPages.map(page => page.file));
-const expectedTopicCount = (meta.topics || []).length;
+// מספר שורשי עץ תכנית הלימודים (כיתות), שהם צמתי הפתיחה בניווט הנייד.
+// הקורא מוסיף שורש "ממתינים לשיוך" בזמן ריצה כשיש דף בלי צומת מוכר,
+// ולכן הציפייה חייבת לכלול אותו — אחרת רשת הביטחון מפילה את הבדיקה.
+const curriculumIds = new Set();
+(function collectIds(nodes) {
+  for (const node of nodes || []) {
+    curriculumIds.add(node.id);
+    if (node.children?.length) collectIds(node.children);
+  }
+})(meta.curriculum?.nodes);
+const hasOrphanPages = allPages.some(page => !curriculumIds.has(page.curriculumId));
+const expectedTopicCount = (meta.curriculum?.nodes || []).length + (hasOrphanPages ? 1 : 0);
 
 const args = Object.fromEntries(process.argv.slice(2).map(arg => {
   const [key, value = 'true'] = arg.replace(/^--/, '').split('=');
@@ -274,10 +285,11 @@ async function run() {
       app.on('pageerror', error => appErrors.push(error.message));
       await app.goto(`${origin}/?view=mobile`, { waitUntil: 'networkidle' });
       await app.waitForURL(/mobile-app\.html/, { timeout: 10000 });
-      await app.locator('.topic-btn').first().waitFor({ state: 'visible', timeout: 10000 });
+      await app.locator('#topicStrip > .topic-node').first().waitFor({ state: 'visible', timeout: 10000 });
 
       const shellIssues = [];
-      const topicCount = await app.locator('.topic-btn').count();
+      // הניווט הוא עץ תכנית הלימודים: משווים את שורשי העץ, לא נושאים שטוחים (CLAUDE.md §4.4)
+      const topicCount = await app.locator('#topicStrip > .topic-node').count();
       if (topicCount !== expectedTopicCount) shellIssues.push({ code: 'wrong-app-topic-count', expected: expectedTopicCount, actual: topicCount });
       const shellOverflow = await app.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - window.innerWidth);
       if (shellOverflow > 2) shellIssues.push({ code: 'app-horizontal-overflow', value: shellOverflow });

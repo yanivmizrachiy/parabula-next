@@ -229,6 +229,12 @@
       saveSelection();
       emitSelection();
     },
+    selectFiles(files) {
+      const valid = new Set(store.pages.map((page) => page.file));
+      (files || []).forEach((file) => { if (valid.has(file)) store.selection.add(file); });
+      saveSelection();
+      emitSelection();
+    },
     clearSelection() {
       store.selection.clear();
       saveSelection();

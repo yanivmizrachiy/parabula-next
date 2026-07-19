@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# DEPRECATED — לא בשימוש ואינו מקור כללים.
+# הכלי נכתב לסביבת Termux (נתיב /data/data/com.termux/...) ומפנה אל PROJECT_RULES.md ואל STATE/
+# שאינם קיימים בריפו. הוא אינו יכול לרוץ, ואין לקרוא את הטענות שבו ככללי עבודה.
+# מקור הכללים היחיד הוא CLAUDE.md.
 from pathlib import Path
 import json, subprocess, sys, datetime
 

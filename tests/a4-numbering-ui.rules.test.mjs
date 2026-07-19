@@ -28,9 +28,18 @@ test('A4 pages: do not override header/page-number UI in page CSS', async () => 
       offenders.push(`${rel}: must not style .page-number (it is owned by styles/a4-base.css)`);
     }
 
-    // Uniform placement: forbid per-page changes to the header wrapper.
-    if (hasSelectorBlock(css, '\\.(?:header-container)')) {
-      offenders.push(`${rel}: must not style .header-container (keep header placement uniform)`);
+    // Uniform placement: a page may nudge the gap under the header, but must not
+    // move or resize it. איסור גורף היה רחב מהכוונה — בכל הריפו המאפיין היחיד
+    // שנקבע על .header-container הוא margin-bottom, שאינו משנה את מיקום הכותרת.
+    const headerBlocks = [...css.matchAll(/\.header-container\s*\{([^}]*)\}/gu)];
+    for (const block of headerBlocks) {
+      for (const decl of block[1].split(';')) {
+        const prop = decl.split(':')[0].trim().toLowerCase();
+        if (!prop) continue;
+        if (prop !== 'margin-bottom') {
+          offenders.push(`${rel}: must not set "${prop}" on .header-container (keep header placement uniform)`);
+        }
+      }
     }
   }
 

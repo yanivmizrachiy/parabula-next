@@ -1,0 +1,181 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import {
+  exerciseCount,
+  pageCount,
+  pages,
+  sections,
+  sourceExerciseCount,
+} from '../../sources/quadratic-equations/workbook-data.mjs';
+
+const root = process.cwd();
+
+test('quadratic workbook doubles the mapped source exactly', () => {
+  assert.equal(sections.length, 16);
+  assert.equal(sourceExerciseCount, 123);
+  assert.equal(exerciseCount, sourceExerciseCount * 2);
+  assert.equal(exerciseCount, 246);
+  assert.equal(pageCount, 50);
+  assert.equal(pages.length, 50);
+});
+
+test('every section is uniquely generated and difficulty never decreases', () => {
+  const equations = [];
+  for (const section of sections) {
+    assert.equal(section.exercises.length, section.sourceCount * 2, `section ${section.number}`);
+    assert.deepEqual([...new Set(section.exercises.map(exercise => exercise.level))], [1, 2, 3, 4], `section ${section.number}: all four stages`);
+    for (let index = 0; index < section.exercises.length; index += 1) {
+      const exercise = section.exercises[index];
+      assert.ok(exercise.equation.trim(), `${exercise.id}: equation`);
+      assert.ok(exercise.answer.trim(), `${exercise.id}: answer`);
+      assert.ok(exercise.method.trim(), `${exercise.id}: method`);
+      if (index > 0) {
+        assert.ok(exercise.level >= section.exercises[index - 1].level, `${exercise.id}: difficulty regressed`);
+      }
+      equations.push(exercise.equation.replaceAll(/\s+/gu, ''));
+    }
+  }
+  assert.equal(new Set(equations).size, equations.length, 'all 246 equations must be unique');
+});
+
+test('rational-equation sections always include a domain restriction', () => {
+  for (const section of sections.filter(candidate => candidate.number >= 12)) {
+    for (const exercise of section.exercises) {
+      assert.ok(exercise.restriction.includes('\\ne'), `${exercise.id}: missing domain restriction`);
+    }
+  }
+});
+
+test('the opening page varies ax^2=c orientation before two negative equations', () => {
+  const openingPage = pages[0];
+  assert.equal(openingPage.globalNumber, 31);
+  assert.equal(openingPage.exercises.length, 6);
+  assert.ok(openingPage.title.includes('(b=0)'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '2x^2=162'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '5x^2=125'));
+  assert.ok(openingPage.exercises.some(exercise => exercise.equation === '-3=-3x^2'));
+
+  const equations = openingPage.exercises.map(exercise => exercise.equation);
+  const xOnRight = equations.filter(equation => equation.split('=')[1].includes('x^2'));
+  const negativeOnBothSides = equations.filter(equation => {
+    const [left, right] = equation.split('=');
+    return left.startsWith('-') && right.startsWith('-');
+  });
+
+  assert.equal(xOnRight.length, 3, 'expected an even left/right orientation mix');
+  assert.equal(negativeOnBothSides.length, 2, 'expected exactly two negative equations');
+  assert.equal(
+    new Set(openingPage.exercises.map(exercise => exercise.answer)).size,
+    openingPage.exercises.length,
+    'expected a different absolute root in every opening exercise',
+  );
+  for (const exercise of openingPage.exercises) {
+    assert.match(
+      exercise.equation,
+      /^(?:-?\d+x\^2=-?\d+|-?\d+=-?\d+x\^2)$/u,
+      `${exercise.id}: expected ax^2=c or c=ax^2`,
+    );
+  }
+});
+
+test('page 2 is a graded like-terms bridge before common-factor equations', () => {
+  const likeTermsPage = pages[1];
+  assert.equal(likeTermsPage.globalNumber, 32);
+  assert.equal(likeTermsPage.exercises.length, 6);
+  assert.ok(likeTermsPage.title.includes('(b=0)'));
+  assert.ok(likeTermsPage.prompt.includes('כנסו איברים דומים'));
+
+  const equations = likeTermsPage.exercises.map(exercise => exercise.equation);
+  assert.ok(equations.includes('x^2+x^2=162'));
+
+  let previousRoot = 0;
+  for (const equation of equations) {
+    const match = equation.match(/^(\d*)x\^2\+(\d*)x\^2=(\d+)$/u);
+    assert.ok(match, `${equation}: expected ax^2+bx^2=c`);
+    const leftCoefficient = Number(match[1] || 1) + Number(match[2] || 1);
+    const square = Number(match[3]) / leftCoefficient;
+    const root = Math.sqrt(square);
+    assert.ok(Number.isInteger(root), `${equation}: expected integer roots`);
+    assert.ok(root > previousRoot, `${equation}: expected strictly graded positive roots`);
+    previousRoot = root;
+  }
+
+  const firstFactoringPage = pages[2];
+  assert.equal(firstFactoringPage.globalNumber, 33);
+  assert.ok(firstFactoringPage.title.includes('(c=0)'));
+  assert.deepEqual(
+    firstFactoringPage.exercises.map(exercise => exercise.equation),
+    [
+      'x^2 - 3x = 0',
+      'x^2 + 4x = 0',
+      '2x^2 - 14x = 0',
+      '3x^2 + 18x = 0',
+      '5x^2 = 20x',
+      '2x^2 + 8x = 0',
+    ],
+  );
+});
+
+test('generated canonical pages match the data model', () => {
+  let renderedExercises = 0;
+  for (const page of pages) {
+    const file = `עמוד-${page.globalNumber}.html`;
+    const cssFile = `styles/pages/עמוד-${page.globalNumber}.css`;
+    assert.ok(fs.existsSync(path.join(root, file)), `${file}: missing`);
+    assert.ok(fs.existsSync(path.join(root, cssFile)), `${cssFile}: missing`);
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.match(html, new RegExp(`page-${page.globalNumber}\\b`), `${file}: page class`);
+    assert.ok(html.includes('quadratic-page'), `${file}: topic scope`);
+    assert.ok(html.includes('styles/topics/quadratic-equations.css'), `${file}: shared topic CSS`);
+    assert.ok(html.includes(cssFile.replaceAll('\\', '/')), `${file}: page CSS`);
+    assert.ok(html.includes(`data-local-page="${page.localNumber}"`), `${file}: local page`);
+    const cards = html.match(/class="exercise-card"/gu) ?? [];
+    assert.equal(cards.length, page.exercises.length, `${file}: exercise count`);
+    renderedExercises += cards.length;
+  }
+  assert.equal(renderedExercises, 246);
+});
+
+test('quadratic pages never expose the internal difficulty scale as demo UI', () => {
+  const forbiddenUi = [
+    'learning-band',
+    'stage-copy',
+    'exercise-range',
+    'progress-track',
+    'progress-step',
+    'רמת התרגול',
+  ];
+  for (const page of pages) {
+    const file = `עמוד-${page.globalNumber}.html`;
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    for (const token of forbiddenUi) {
+      assert.ok(!html.includes(token), `${file}: forbidden difficulty UI token ${token}`);
+    }
+  }
+});
+
+test('quadratic exercises never render per-card method headings', () => {
+  for (const page of pages) {
+    const file = `עמוד-${page.globalNumber}.html`;
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(!html.includes('method-chip'), `${file}: per-exercise method heading`);
+  }
+  for (const file of [
+    'scripts/generate-quadratic-equations-workbook.mjs',
+    'styles/topics/quadratic-equations.css',
+  ]) {
+    const source = fs.readFileSync(path.join(root, file), 'utf8');
+    assert.ok(!source.includes('method-chip'), `${file}: obsolete method-chip source`);
+  }
+});
+
+test('topics metadata exposes the complete workbook in pedagogical order', () => {
+  const metadata = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
+  const topic = metadata.topics.find(candidate => candidate.name === 'משוואות ריבועיות');
+  assert.ok(topic, 'quadratic topic missing');
+  assert.equal(topic.count, 50);
+  assert.deepEqual(topic.pages.map(page => page.number), pages.map(page => page.globalNumber));
+  assert.deepEqual(topic.pages.map(page => page.h1), pages.map(page => page.title));
+});

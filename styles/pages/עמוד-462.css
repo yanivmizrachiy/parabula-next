@@ -1,0 +1,8 @@
+@import url('../topics/linear-function.css');
+
+/* איזון A4 ממוקד לדף זה בלבד (audit:a4:visual מדד גלישה אנכית של 15px).
+   הדף מכיל שאלה אחת עם 11 סעיפים וטבלת סיווג בת 10 שורות; הידוק גובה שורת
+   הטבלה מ-28px ל-26px משיב ~20px בלי לפגוע בשימושיות תא המענה. אין הסתרת
+   overflow ואין מחיקת תוכן (CLAUDE.md §3, §4.3). */
+.page-462 table.ctab th,
+.page-462 table.ctab td { height: 26px; padding: 3px 8px; }

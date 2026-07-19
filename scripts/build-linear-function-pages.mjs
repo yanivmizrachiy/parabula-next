@@ -1,0 +1,218 @@
+// scripts/build-linear-function-pages.mjs
+// בונה את דפי הנושא "פונקציה קווית" (כיתה ח) ומסנכרן אותם ל-meta/topics.json.
+//
+// סדר תתי־הנושאים נגזר מתוכנית הלימודים הרשמית — כיתה ח, סבב 1, תחום אלגברי,
+// "פונקציה קווית, אי-שוויון" (20 שעות), לפי עשרת הדגשים שבעמוד 53 של התוכנית.
+//
+// הסקריפט הוא renderer: התוכן מגיע מ-scripts/data/linear-function-worksheets.mjs
+// ומקורו בחומרי המקור שסיפק יניב ובדוגמאות תוכנית הלימודים. הוא אינו מחולל שאלות.
+//
+// הרצה:  node scripts/build-linear-function-pages.mjs [--dry]
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { buildPage } from './lib/linear-page.mjs';
+import { TOPIC_ORDER, FIRST_NEW_FILE } from './data/linear-function-worksheets.mjs';
+
+const root = process.cwd();
+const dry = process.argv.includes('--dry');
+const TOPIC = 'פונקציה קווית';
+
+/* ---------- 1. הקצאת מספרי קבצים ומספור מקומי ---------- */
+// מספרי דפים תפוסים: כל דף של נושא **אחר** ב-topics.json, וכל קובץ בדיסק שאינו
+// שייך לנושא הזה. הריפו משותף לתהליכי עבודה נוספים שמוסיפים דפים במקביל,
+// ולכן הקצאה רצה פשוטה מ-395 מתנגשת בהם.
+const metaForAlloc = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
+const ownFiles = new Set(
+  (metaForAlloc.topics.find((t) => t.name === TOPIC)?.pages || []).map((p) => p.number),
+);
+const taken = new Set();
+for (const t of metaForAlloc.topics) {
+  if (t.name === TOPIC) continue;
+  for (const p of t.pages) taken.add(p.number);
+}
+for (const f of fs.readdirSync(root)) {
+  const m = /^עמוד-(\d+)\.html$/.exec(f);
+  if (m && !ownFiles.has(Number(m[1]))) taken.add(Number(m[1]));
+}
+
+let nextFile = FIRST_NEW_FILE;
+const allocate = () => {
+  while (taken.has(nextFile)) nextFile += 1;
+  taken.add(nextFile);
+  return nextFile++;
+};
+
+const seq = TOPIC_ORDER.map((entry, i) => {
+  const fileNumber = entry.kind === 'existing' ? entry.file : allocate();
+  return { ...entry, fileNumber, localNumber: i + 1 };
+});
+
+/* ---------- 1א. שער בטיחות לפני כל כתיבה (§4.3) ---------- */
+// למה: בגרסה קודמת הכתיבה קדמה לבדיקת האינווריאנטים. כשהקצאת המספרים גלשה
+// לטווח של נושא אחר, הסקריפט **דרס 16 דפים של חוברת אחרת** לפני שנעצר.
+// אינווריאנט שנשבר — לא כותבים כלום.
+{
+  const others = new Set();
+  for (const t of metaForAlloc.topics) {
+    if (t.name === TOPIC) continue;
+    for (const p of t.pages) others.add(p.number);
+  }
+  const clash = seq.filter((e) => others.has(e.fileNumber));
+  if (clash.length) {
+    throw new Error(
+      `הקצאת מספרי דפים מתנגשת ב-${clash.length} דפים של נושאים אחרים: ` +
+      clash.map((e) => e.fileNumber).join(', ') + ' — לא נכתב דבר.',
+    );
+  }
+  const nums = seq.map((e) => e.fileNumber);
+  if (new Set(nums).size !== nums.length) throw new Error('הוקצה מספר דף כפול — לא נכתב דבר.');
+  const locals = seq.map((e) => e.localNumber);
+  if (locals.some((n, i) => n !== i + 1)) throw new Error('המספור המקומי אינו רציף — לא נכתב דבר.');
+}
+const total = seq.length;
+
+/* ---------- 1ב. שכני הנושא בסדר הקריאה הגלובלי ---------- */
+// הנושא יושב באמצע הספר; בלי חיבור לשכנים "הקודם" של הדף הראשון ו"הבא" של
+// האחרון היו מושבתים, והקורא היה נעצר בגבול הנושא.
+const metaPre = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
+const topicIdx = metaPre.topics.findIndex((t) => t.name === TOPIC);
+const beforeTopic = metaPre.topics[topicIdx - 1];
+const afterTopic = metaPre.topics[topicIdx + 1];
+// מערך pages ב-topics.json הוא בסדר הכנסה, לא בסדר הקריאה. ב"פונקציה ריבועית"
+// למשל האחרון במערך הוא עמוד-6 (מקומי 2) בעוד האחרון בקריאה הוא עמוד-5 (מקומי 4).
+// בלי המיון הזה הדף הראשון של הנושא נקשר לאמצע הנושא הקודם ושובר את השרשרת.
+const byLocal = (pages = []) =>
+  pages.slice().sort((a, b) => {
+    const la = Number((String(a.title).match(/עמוד\s+(\d+)/) || [])[1] ?? a.number);
+    const lb = Number((String(b.title).match(/עמוד\s+(\d+)/) || [])[1] ?? b.number);
+    return la - lb;
+  });
+let neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
+let neighbourNext = byLocal(afterTopic?.pages)[0]?.file ?? null;
+
+// מקור סדר הקריאה הגלובלי הוא **רצועת ה-topic-link** בדפים, ולא סדר המערך
+// ב-topics.json — כך גוזר אותו tests/a4-pages.rules.test.mjs. שני המקורות אינם
+// זהים, ולכן חישוב לפי המערך שבר את שרשרת "הבא" בגבול הנושא. מיישרים לרצועה.
+{
+  const stripRe = /<div class="preview-nav-topics"[^>]*>([\s\S]*?)<\/div>/;
+  let best = [];
+  for (const f of fs.readdirSync(root)) {
+    if (!/^עמוד-\d+\.html$/.test(f)) continue;
+    const m = stripRe.exec(fs.readFileSync(path.join(root, f), 'utf8'));
+    if (!m) continue;
+    const hrefs = [...m[1].matchAll(/class="topic-link[^"]*"\s+href="([^"]+)"/g)].map((x) => x[1]);
+    if (hrefs.length > best.length) best = hrefs;
+  }
+  // ה-href ברצועה מצביע על הדף ההיסטורי הראשון של הנושא (עמוד-96), לא על
+  // הדף הראשון הנוכחי — לכן מחפשים כל דף ששייך לנושא.
+  const ownFiles = new Set(seq.map((e) => `עמוד-${e.fileNumber}.html`));
+  const i = best.findIndex((h) => ownFiles.has(h));
+  if (i >= 0) {
+    if (i > 0) neighbourPrev = null;      // הרצועה אינה נותנת את *אחרון* הנושא הקודם
+    if (i + 1 < best.length) neighbourNext = best[i + 1];
+  }
+  // "הקודם" של הדף הראשון נשאר לפי סדר המערך אם הרצועה לא סייעה
+  if (neighbourPrev === null) neighbourPrev = byLocal(beforeTopic?.pages).at(-1)?.file ?? null;
+}
+
+/* ---------- 2. כתיבת הדפים ---------- */
+const written = [];
+for (let i = 0; i < seq.length; i++) {
+  const e = seq[i];
+  const prevFile = i > 0 ? `עמוד-${seq[i - 1].fileNumber}.html` : neighbourPrev;
+  const nextF = i < seq.length - 1 ? `עמוד-${seq[i + 1].fileNumber}.html` : neighbourNext;
+  const htmlPath = path.join(root, `עמוד-${e.fileNumber}.html`);
+
+  if (e.kind === 'existing') {
+    // דף קיים: מעדכנים רק את שכבת הניווט והכותרת — התוכן המתמטי לא נגרע ולא משתנה (§8).
+    let html = fs.readFileSync(htmlPath, 'utf8');
+    const before = { svg: (html.match(/<svg/g) || []).length, div: (html.match(/<div/g) || []).length };
+
+    html = html.replace(/<title>[^<]*<\/title>/, `<title>עמוד ${e.localNumber} — ${TOPIC}</title>`);
+    html = html.replace(/<div class="nav-meta">[^<]*<\/div>/,
+      `<div class="nav-meta">${TOPIC} — עמוד ${e.localNumber} / ${total}</div>`);
+    html = html.replace(/<div class="nav-side">\s*(?:<a class="nav-link" href="[^"]*">הקודם<\/a>|<span class="nav-link is-disabled" aria-disabled="true">הקודם<\/span>)\s*<\/div>/,
+      `<div class="nav-side">${prevFile ? `<a class="nav-link" href="${prevFile}">הקודם</a>` : '<span class="nav-link is-disabled" aria-disabled="true">הקודם</span>'}</div>`);
+    html = html.replace(/<div class="nav-side">\s*(?:<a class="nav-link" href="[^"]*">הבא<\/a>|<span class="nav-link is-disabled" aria-disabled="true">הבא<\/span>)\s*<\/div>/,
+      `<div class="nav-side">${nextF ? `<a class="nav-link" href="${nextF}">הבא</a>` : '<span class="nav-link is-disabled" aria-disabled="true">הבא</span>'}</div>`);
+
+    const after = { svg: (html.match(/<svg/g) || []).length, div: (html.match(/<div/g) || []).length };
+    if (after.svg !== before.svg || after.div !== before.div) {
+      throw new Error(`אינווריאנט מבני נשבר בעמוד-${e.fileNumber}: svg ${before.svg}->${after.svg}, div ${before.div}->${after.div}`);
+    }
+    if (!dry) fs.writeFileSync(htmlPath, html, 'utf8');
+    written.push({ ...e, mode: 'updated' });
+    continue;
+  }
+
+  const html = buildPage({
+    fileNumber: e.fileNumber,
+    localNumber: e.localNumber,
+    topicTotal: total,
+    prevFile,
+    nextFile: nextF,
+    subtitle: e.subtitle,
+    blocks: e.blocks(),
+  });
+  if (!dry) {
+    fs.writeFileSync(htmlPath, html, 'utf8');
+    fs.writeFileSync(path.join(root, 'styles', 'pages', `עמוד-${e.fileNumber}.css`),
+      `@import url('../topics/linear-function.css');\n`, 'utf8');
+  }
+  written.push({ ...e, mode: 'created' });
+}
+
+/* ---------- 3. סנכרון meta/topics.json ---------- */
+const tp = path.join(root, 'meta', 'topics.json');
+const meta = JSON.parse(fs.readFileSync(tp, 'utf8'));
+const topic = meta.topics.find((t) => t.name === TOPIC);
+if (!topic) throw new Error(`הנושא "${TOPIC}" לא נמצא ב-topics.json`);
+
+const otherPages = meta.topics.filter((t) => t.name !== TOPIC).reduce((n, t) => n + t.pages.length, 0);
+
+// שיוך תכנית הלימודים נקבע ב-scripts/build-curriculum.mjs. בלי שימור מפורש
+// כאן, כל בנייה הייתה מוחקת אותו ומפילה את validate:schema ו-validate:curriculum.
+const prevCurriculumId = new Map(topic.pages.map((p) => [p.file, p.curriculumId]));
+
+topic.pages = seq.map((e) => {
+  const file = `עמוד-${e.fileNumber}.html`;
+  const page = {
+    number: e.fileNumber,
+    file,
+    title: `עמוד ${e.localNumber} — ${TOPIC}`,
+    h1: TOPIC,
+    topic: TOPIC,
+    previewPath: `/${file}`,
+    siteUrl: `https://yanivmizrachiy.github.io/parabula-next/${file}`,
+  };
+  const cid = prevCurriculumId.get(file);
+  if (cid) page.curriculumId = cid;
+  return page;
+});
+topic.count = topic.pages.length;
+meta.totalPages = otherPages + topic.count;
+
+// --- אינווריאנטים לפני כתיבה ---
+const files = meta.topics.flatMap((t) => t.pages.map((p) => p.file));
+if (new Set(files).size !== files.length) throw new Error('נמצא קובץ כפול ב-topics.json');
+if (!dry) {
+  for (const p of topic.pages) {
+    if (!fs.existsSync(path.join(root, p.file))) throw new Error(`חסר קובץ ${p.file}`);
+  }
+}
+const localNums = topic.pages.map((p) => Number(p.title.match(/עמוד (\d+)/)[1]));
+if (localNums.some((n, i) => n !== i + 1)) throw new Error('המספור המקומי אינו רציף');
+
+if (!dry) fs.writeFileSync(tp, JSON.stringify(meta, null, 2) + '\n', 'utf8');
+
+/* ---------- 4. דוח ---------- */
+const created = written.filter((w) => w.mode === 'created').length;
+const updated = written.filter((w) => w.mode === 'updated').length;
+console.log(`\n[${dry ? 'DRY' : 'OK'}] נושא "${TOPIC}" — ${total} דפים (${created} חדשים, ${updated} קיימים עודכנו)`);
+let lastSub = null;
+for (const w of written) {
+  if (w.chapter !== lastSub) { console.log(`\n  ── ${w.chapter}`); lastSub = w.chapter; }
+  console.log(`     עמוד ${String(w.localNumber).padStart(2)} → עמוד-${w.fileNumber}.html  ${w.mode === 'created' ? '' : '(קיים)'}`);
+}
+console.log(`\n  סה״כ דפים בריפו: ${meta.totalPages}`);

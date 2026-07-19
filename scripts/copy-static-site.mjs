@@ -28,8 +28,18 @@ function copyDirIfExists(fromRel, toRel = fromRel) {
   const from = path.join(root, fromRel);
   if (!fs.existsSync(from) || !fs.statSync(from).isDirectory()) return false;
   const to = path.join(dist, toRel);
-  fs.cpSync(from, to, { recursive: true, force: true });
+  copyTree(from, to);
   return true;
+}
+
+function copyTree(from, to) {
+  ensureDir(to);
+  for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+    const source = path.join(from, entry.name);
+    const target = path.join(to, entry.name);
+    if (entry.isDirectory()) copyTree(source, target);
+    else fs.copyFileSync(source, target);
+  }
 }
 
 if (!fs.existsSync(dist)) {
@@ -39,6 +49,18 @@ if (!fs.existsSync(dist)) {
 const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor', 'assets'];
 for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
+}
+
+const coordinateWorkbookRoot = 'projects/coordinate-first-quadrant-workbook';
+const coordinateWorkbookTarget = 'projects/coordinate-first-quadrant-workbook';
+if (copyDirIfExists(`${coordinateWorkbookRoot}/dist`, coordinateWorkbookTarget)) {
+  log(`copied ${coordinateWorkbookRoot}/dist/`);
+}
+if (copyDirIfExists(`${coordinateWorkbookRoot}/downloads`, `${coordinateWorkbookTarget}/downloads`)) {
+  log(`copied ${coordinateWorkbookRoot}/downloads/`);
+}
+if (copyDirIfExists(`${coordinateWorkbookRoot}/preview`, `${coordinateWorkbookTarget}/preview`)) {
+  log(`copied ${coordinateWorkbookRoot}/preview/`);
 }
 
 if (!fs.existsSync(path.join(dist, 'assets/pythagoras/vector'))) {
@@ -67,7 +89,12 @@ const required = [
   'styles/a4-base.css',
   'preview/index.html',
   'assets/pythagoras/vector/page-05.svg',
-  'assets/pythagoras/vector/page-22.svg'
+  'assets/pythagoras/vector/page-22.svg',
+  'coordinate-first-quadrant.html',
+  'projects/coordinate-first-quadrant-workbook/index.html',
+  'projects/coordinate-first-quadrant-workbook/workbook.css',
+  'projects/coordinate-first-quadrant-workbook/workbook.js',
+  'projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-workbook.pdf'
 ];
 
 const missing = required.filter(rel => !fs.existsSync(path.join(dist, rel)));
