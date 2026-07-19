@@ -49,7 +49,9 @@ fs.writeFileSync(path.join(distDir, 'workbook.css'), css);
 fs.writeFileSync(path.join(distDir, 'workbook.js'), js);
 fs.writeFileSync(path.join(distDir, 'standalone-source.html'), standalone);
 
-const browser = await chromium.launch({ headless: true });
+const launchOptions = { headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] };
+if (process.env.CHROME_PATH) launchOptions.executablePath = process.env.CHROME_PATH;
+const browser = await chromium.launch(launchOptions);
 const page = await browser.newPage({ viewport: { width: 1440, height: 1100 }, deviceScaleFactor: 1 });
 await page.goto(pathToFileURL(path.join(distDir, 'index.html')).href, { waitUntil: 'networkidle' });
 await page.waitForFunction(() => document.querySelectorAll('.coordinate-grid svg').length === document.querySelectorAll('.coordinate-grid').length);
