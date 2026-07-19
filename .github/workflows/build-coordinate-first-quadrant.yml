@@ -50,19 +50,16 @@ jobs:
           sudo apt-get update >/tmp/apt-update.log
           sudo apt-get install -y poppler-utils zip >/tmp/apt-install.log
           npm install --no-save --package-lock=false playwright@1.55.0
-      - name: Install Playwright browsers and locate executable
+      - name: Install Playwright chromium and locate headless_shell
         run: |
-          npx playwright install --with-deps
-          # Find the actual headless_shell executable path and export it
-          CHROME_PATH=$(find /home/runner/.cache/ms-playwright -name 'headless_shell' -type f 2>/dev/null | head -1)
+          npx playwright install chromium --with-deps
+          # Playwright 1.55 uses chromium-headless-shell; find it under chromium* dirs only
+          CHROME_PATH=$(find /home/runner/.cache/ms-playwright/chromium_headless_shell-*/chrome-linux -name 'headless_shell' -type f 2>/dev/null | head -1)
           if [ -z "$CHROME_PATH" ]; then
-            CHROME_PATH=$(find /home/runner/.cache/ms-playwright -name 'chrome' -o -name 'chromium' -type f 2>/dev/null | head -1)
+            CHROME_PATH=$(find /home/runner/.cache/ms-playwright/chromium-*/chrome-linux -name 'chrome' -type f 2>/dev/null | head -1)
           fi
-          if [ -z "$CHROME_PATH" ]; then
-            CHROME_PATH=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || true)
-          fi
-          echo "Found Chrome at: $CHROME_PATH"
-          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+          echo "Found Chrome at: ${CHROME_PATH:-not found}"
+          echo "CHROME_PATH=${CHROME_PATH}" >> "$GITHUB_ENV"
       - name: Build and audit workbook
         id: workbook_build
         continue-on-error: true
