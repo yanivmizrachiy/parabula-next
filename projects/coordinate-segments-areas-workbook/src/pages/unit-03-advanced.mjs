@@ -49,8 +49,8 @@ function page41Grid() {
 function page42Grid() {
   const g = grid({ xMin: -2, xMax: 12, yMin: -4, yMax: 10, unit: 12 });
   g.segment([2, 3], [10, 3]);
-  g.lineHorizontal(8, { dashed: true });
-  g.lineHorizontal(-2, { dashed: true });
+  g.segment([-2, 8], [12, 8], { dashed: true });
+  g.segment([-2, -2], [12, -2], { dashed: true });
   g.point(2, 3, 'A', { dx: -5, dy: 11 });
   g.point(10, 3, 'B', { dx: 5, dy: 11 });
   g.point(5, 8, 'C₁', { dx: 5, dy: -6 });
@@ -61,7 +61,7 @@ function page42Grid() {
 function page43Grid() {
   const g = grid({ xMin: -1, xMax: 13, yMin: -1, yMax: 10, unit: 13 });
   g.segment([1, 2], [9, 2]);
-  g.lineHorizontal(8, { dashed: true });
+  g.segment([-1, 8], [13, 8], { dashed: true });
   g.point(1, 2, 'A', { dx: -5, dy: 11 });
   g.point(9, 2, 'B', { dx: 5, dy: 11 });
   g.point(2, 8, 'P', { dx: 0, dy: -7 });
