@@ -1,4 +1,13 @@
-import { Blank, Checkbox, PageLayout, QSep, Question, SubQuestion } from '../pages/PageLayout';
+import {
+  AnswerLine,
+  Blank,
+  Checkbox,
+  PageLayout,
+  QSep,
+  Question,
+  SubQuestion,
+  WorksheetTable,
+} from '../pages/PageLayout';
 
 const CH = 'פרק 1 – יסודות היחס';
 
@@ -91,6 +100,34 @@ export function RatioPage01() {
         <p>אלי שיחק עם חבריו בגולות אדומות וגולות לבנות.</p>
         <SubQuestion label="א."><p>בתום המשחק מספר הגולות האדומות של אלי <strong>גָדַל פי 2</strong> וגם מספר הגולות הלבנות גָדַל פי 2. האם היחס בין מספר הגולות האדומות למספר הלבנות השתנה? <Blank /></p></SubQuestion>
         <SubQuestion label="ב."><p>לרפי <strong>נוספו</strong> 2 גולות אדומות וגם 2 גולות לבנות, והיחס לא השתנה. מהו היחס שהיה לרפי לפני המשחק? <Blank /></p></SubQuestion>
+      </Question>
+
+      <QSep />
+
+      <Question>
+        <p><strong>בדיקת הבנה – הרחבת היחס 3 : 2</strong></p>
+        <p>השלימו את הטבלה כך שבכל שורה יישמר היחס בין מספר העיגולים השחורים למספר העיגולים הלבנים.</p>
+        <WorksheetTable
+          headers={['מספר העיגולים הכולל', 'עיגולים לבנים', 'עיגולים שחורים']}
+          rows={[
+            ['5', '2', '3'],
+            ['10', '4', '6'],
+            [<Blank />, '6', <Blank />],
+            ['25', <Blank />, <Blank />],
+          ]}
+        />
+        <SubQuestion label="א."><p>מהו גורם ההרחבה מן השורה הראשונה אל השורה הרביעית? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>כתבו אפשרות נוספת שבה היחס הוא 3 : 2 ומספר העיגולים הכולל גדול מ־25.</p></SubQuestion>
+        <AnswerLine label="אפשרות נוספת:" />
+      </Question>
+
+      <QSep />
+
+      <Question>
+        <p><strong>חשיבה והסבר</strong></p>
+        <SubQuestion label="א."><p>בקבוצה יש 6 עיגולים שחורים ו־4 עיגולים לבנים. הוסיפו 3 שחורים ו־2 לבנים. האם היחס נשמר? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ב."><p>לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע. האם היחס נשמר? נמקו באמצעות יחס מצומצם.</p></SubQuestion>
+        <AnswerLine label="הסבר:" />
       </Question>
     </PageLayout>
   );
