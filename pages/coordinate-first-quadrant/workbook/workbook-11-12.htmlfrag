@@ -1,0 +1,105 @@
+<section aria-labelledby="title-21" class="sheet guided ultra-dense" id="page-21">
+<header class="sheet-header"><div><div class="eyebrow">שלב 11 - למידה מודרכת</div><h1 id="title-21">מרחק והזזה אל הצירים</h1><p>מרחק לציר x, לציר y, אופקי ואנכי</p></div><div aria-label="עמוד 21" class="sheet-number">21</div></header>
+<main class="sheet-content">
+<div class="cols-2 compact-top"><div class="rule-box">אל ציר y משנים x ל־0. אל ציר x משנים y ל־0.</div><div aria-label="מערכת צירים ברביע הראשון" class="coordinate-grid grid-sm" data-arrows='[{"from": [6, 4], "to": [0, 4], "label": "6 שמאלה"}, {"from": [6, 4], "to": [6, 0], "label": "4 למטה"}]' data-labelboxes="[]" data-points='[{"x": 6, "y": 4, "label": "P"}, {"x": 0, "y": 4, "label": ""}, {"x": 6, "y": 0, "label": ""}]' data-polygons="[]" data-segments="[]" role="img"></div></div>
+<section class="q-card"><h3>א. השלימו את הטבלה.</h3><table class="work-table center small"><tr><th>נקודה</th><th>מרחק לציר y</th><th>על ציר y</th><th>מרחק לציר x</th><th>על ציר x</th></tr><tr><td><span class="math-ltr" dir="ltr">A(3,5)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span class="math-ltr" dir="ltr">B(7,2)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span class="math-ltr" dir="ltr">C(4,4)</span></td><td></td><td></td><td></td><td></td></tr><tr><td><span class="math-ltr" dir="ltr">D(1,6)</span></td><td></td><td></td><td></td><td></td></tr></table></section>
+<section class="q-card"><h3>ב. לאיזה ציר קרובה יותר כל נקודה?</h3><div class="task-grid"><div>A: <div class="choice-row"><span class="choice">ציר x</span><span class="choice">ציר y</span><span class="choice">מרחקים זהים</span></div></div><div>B: <div class="choice-row"><span class="choice">ציר x</span><span class="choice">ציר y</span><span class="choice">מרחקים זהים</span></div></div><div>C: <div class="choice-row"><span class="choice">ציר x</span><span class="choice">ציר y</span><span class="choice">מרחקים זהים</span></div></div></div></section>
+<div class="cols-2"><section class="q-card"><h3>ג. מרחק אופקי: A(2,5), B(7,5).</h3><p>השיעור הזהה: <span class="blank" style="--blank-width:4ch"></span></p><p>המרחק: <span class="blank" style="--blank-width:4ch"></span></p></section><section class="q-card"><h3>ד. מרחק אנכי: C(4,1), D(4,6).</h3><p>השיעור הזהה: <span class="blank" style="--blank-width:4ch"></span></p><p>המרחק: <span class="blank" style="--blank-width:4ch"></span></p></section></div>
+<section class="q-card"><h3>ה. ניתוח טעות: תלמיד חישב את המרחק בין (2,5) ל־(7,5) באמצעות 7+2. הסבירו ותקנו.</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+<section class="q-card"><h3>ו. חשיבה: נקודה שמרחקה זהה משני הצירים - מה אפשר לומר על שיעוריה?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-22" class="sheet practice" id="page-22">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 11 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-22">מרחק והזזה אל הצירים</h1>
+<p>המרחק לציר נקבע לפי השיעור המתאים</p>
+</div>
+<div aria-label="עמוד 22" class="sheet-number">22</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>מרחק מן הצירים</h3>
+<div class="rule-box">
+    המרחק של <span class="math-ltr" dir="ltr">(x,y)</span> מציר <span class="math-ltr" dir="ltr">y</span> הוא <span class="math-ltr" dir="ltr">x</span> יחידות.<br/>
+    המרחק של <span class="math-ltr" dir="ltr">(x,y)</span> מציר <span class="math-ltr" dir="ltr">x</span> הוא <span class="math-ltr" dir="ltr">y</span> יחידות.
+  </div>
+<ul class="tasks">
+<li>המרחק של <span class="math-ltr" dir="ltr">(5,2)</span> מציר <span class="math-ltr" dir="ltr">y</span>: <span class="blank" style="--blank-width:5ch"></span> יחידות.</li>
+<li>המרחק של <span class="math-ltr" dir="ltr">(5,2)</span> מציר <span class="math-ltr" dir="ltr">x</span>: <span class="blank" style="--blank-width:5ch"></span> יחידות.</li>
+<li>המרחק של <span class="math-ltr" dir="ltr">(0,6)</span> מציר <span class="math-ltr" dir="ltr">y</span>: <span class="blank" style="--blank-width:5ch"></span> יחידות.</li>
+</ul>
+</section>
+<section class="q-card"><h3>אל הצירים</h3>
+<p>כדי להגיע מציר כלשהו, משנים רק שיעור אחד.</p>
+<ul class="tasks">
+<li>מ־<span class="math-ltr" dir="ltr">(7,3)</span> אל ציר <span class="math-ltr" dir="ltr">y</span>: הזזה של <span class="blank" style="--blank-width:4ch"></span> יחידות <span class="blank" style="--blank-width:8ch"></span>.</li>
+<li>מ־<span class="math-ltr" dir="ltr">(4,5)</span> אל ציר <span class="math-ltr" dir="ltr">x</span>: הזזה של <span class="blank" style="--blank-width:4ch"></span> יחידות <span class="blank" style="--blank-width:8ch"></span>.</li>
+<li>הנקודה המתקבלת מ־<span class="math-ltr" dir="ltr">(3,6)</span> לאחר ירידה לציר <span class="math-ltr" dir="ltr">x</span>: <span class="blank" style="--blank-width:10ch"></span></li>
+</ul>
+</section>
+<section class="q-card span-2"><h3>רואים את המרחק</h3>
+<div aria-label="הנקודה P והזזות אל שני הצירים" class="coordinate-grid grid-large" data-arrows='[{"from": [6, 4], "to": [0, 4], "label": "6 שמאלה"}, {"from": [6, 4], "to": [6, 0], "label": "4 למטה"}]' data-points='[{"x": 6, "y": 4, "label": "P", "dx": 10, "dy": -10}, {"x": 0, "y": 4, "label": "Q", "dx": 12, "dy": -10}, {"x": 6, "y": 0, "label": "R", "dx": 10, "dy": -12}]' data-polygons="[]" data-segments="[]" role="img"></div>
+<p>כתבו את שיעורי <span class="math-ltr" dir="ltr">Q</span>: <span class="blank" style="--blank-width:9ch"></span></p>
+<p>כתבו את שיעורי <span class="math-ltr" dir="ltr">R</span>: <span class="blank" style="--blank-width:9ch"></span></p>
+</section>
+<section class="q-card span-2"><h3>המסלול הקצר</h3>
+<p>הנקודה <span class="math-ltr" dir="ltr">M(3,5)</span> יכולה להגיע לציר <span class="math-ltr" dir="ltr">x</span> או לציר <span class="math-ltr" dir="ltr">y</span>.</p>
+<p>לאיזה ציר המסלול קצר יותר? <span class="blank" style="--blank-width:8ch"></span>   בכמה יחידות? <span class="blank" style="--blank-width:4ch"></span></p>
+<p>נמקו.</p><div class="answer-line"></div>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-23" class="sheet guided" id="page-23">
+<header class="sheet-header"><div><div class="eyebrow">שלב 12 - למידה מודרכת</div><h1 id="title-23">משלימים שיעור חסר ודפוסים</h1><p>לפי תיאור מילולי או חוקיות</p></div><div aria-label="עמוד 23" class="sheet-number">23</div></header>
+<main class="sheet-content">
+<section class="q-card"><h3>א. השלימו את השיעור החסר.</h3><div class="cols-2 task-grid"><div><span class="math-ltr" dir="ltr">A(5,__)</span> על ציר x</div><div><span class="math-ltr" dir="ltr">B(__,4)</span> על ציר y</div><div><span class="math-ltr" dir="ltr">C(3,__)</span> - שני השיעורים זהים</div><div><span class="math-ltr" dir="ltr">D(__,6)</span> - y גדול פי 2 מ־x</div><div><span class="math-ltr" dir="ltr">E(2,__)</span> - y גדול ב־3 מ־x</div><div><span class="math-ltr" dir="ltr">F(__,3)</span> - x גדול ב־4 מ־y</div></div></section>
+<section class="q-card"><h3>ב. מי אני? כתבו את הזוג הסדור.</h3><ul class="tasks compact"><li>על ציר x ושיעור x שלי 6: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,0)</span></li><li>על ציר y ושיעור y שלי 5: <span class="pair math-ltr" dir="ltr">(0,<span class="pair-blank"></span>)</span></li><li>שני שיעוריי 4: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></li><li>3 מימין לציר y ו־2 מעל ציר x: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></li><li>x כמו של <span class="math-ltr" dir="ltr">(5,1)</span> ו־y כמו של <span class="math-ltr" dir="ltr">(2,4)</span>: <span class="pair math-ltr" dir="ltr">(<span class="pair-blank"></span>,<span class="pair-blank"></span>)</span></li></ul></section>
+<section class="q-card"><h3>ג. דפוס: (2,1), (4,2), (6,3), (8,4).</h3><div class="cols-2 task-grid"><div>מה משתנה ב־x? <span class="blank" style="--blank-width:8ch"></span></div><div>מה משתנה ב־y? <span class="blank" style="--blank-width:8ch"></span></div><div>מה הקשר בין x ל־y? <span class="blank" style="--blank-width:10ch"></span></div><div>האם <span class="math-ltr" dir="ltr">(6,4)</span> מתאים? <span class="blank" style="--blank-width:5ch"></span></div></div><p>כתבו כלל במילים:</p><div class="answer-line"></div></section>
+<section class="q-card"><h3>ד. דפוס: (1,3), (2,4), (3,5), (4,6).</h3><p>y גדול ב־<span class="blank" style="--blank-width:3ch"></span> מ־x.</p><p>האם <span class="math-ltr" dir="ltr">(5,5)</span> מתאים? <span class="blank" style="--blank-width:5ch"></span></p></section>
+<section class="q-card"><h3>ה. שאלה פתוחה: האם “מעל ציר x ומימין לציר y” קובע נקודה אחת בלבד?</h3><div class="answer-line"></div><div class="answer-line"></div></section>
+</main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section><section aria-labelledby="title-24" class="sheet practice" id="page-24">
+<header class="sheet-header">
+<div>
+<div class="eyebrow">שלב 12 - תרגול, העמקה וחשיבה</div>
+<h1 id="title-24">שיעור חסר ודפוסים</h1>
+<p>מסיקים שיעור מתוך קו משותף או חוקיות</p>
+</div>
+<div aria-label="עמוד 24" class="sheet-number">24</div>
+</header>
+<main class="sheet-content">
+<div class="two-col">
+<section class="q-card"><h3>שיעור חסר</h3>
+<ul class="tasks">
+<li><span class="math-ltr" dir="ltr">A(__,4)</span> נמצאת על אותו קו אנכי כמו <span class="math-ltr" dir="ltr">B(6,1)</span>. לכן <span class="math-ltr" dir="ltr">A=</span> <span class="blank" style="--blank-width:10ch"></span></li>
+<li><span class="math-ltr" dir="ltr">C(3,__ )</span> נמצאת על אותו קו אופקי כמו <span class="math-ltr" dir="ltr">D(7,5)</span>. לכן <span class="math-ltr" dir="ltr">C=</span> <span class="blank" style="--blank-width:10ch"></span></li>
+<li><span class="math-ltr" dir="ltr">E(__,__ )</span> נמצאת על ציר <span class="math-ltr" dir="ltr">x</span> מתחת לנקודה <span class="math-ltr" dir="ltr">F(4,3)</span>. לכן <span class="math-ltr" dir="ltr">E=</span> <span class="blank" style="--blank-width:10ch"></span></li>
+<li><span class="math-ltr" dir="ltr">G(__,__ )</span> נמצאת על ציר <span class="math-ltr" dir="ltr">y</span> משמאל לנקודה <span class="math-ltr" dir="ltr">H(5,2)</span>. לכן <span class="math-ltr" dir="ltr">G=</span> <span class="blank" style="--blank-width:10ch"></span></li>
+</ul>
+</section>
+<section class="q-card"><h3>דפוס של שיעורים שווים</h3>
+<div aria-label="הנקודות אחת אחת עד ארבע ארבע" class="coordinate-grid grid-large" data-arrows="[]" data-points='[{"x": 1, "y": 1, "label": "A", "dx": 10, "dy": -10}, {"x": 2, "y": 2, "label": "B", "dx": 10, "dy": -10}, {"x": 3, "y": 3, "label": "C", "dx": 10, "dy": -10}, {"x": 4, "y": 4, "label": "D", "dx": 10, "dy": -10}]' data-polygons="[]" data-segments='[{"from": [1, 1], "to": [4, 4], "type": "guide", "dashed": true}]' role="img"></div>
+<p>המשיכו את הדפוס בשתי נקודות נוספות:</p>
+<p><span class="blank" style="--blank-width:9ch"></span>    <span class="blank" style="--blank-width:9ch"></span></p>
+<p>כתבו כלל המתאר את כל הנקודות בדפוס: <span class="blank" style="--blank-width:16ch"></span></p>
+</section>
+<section class="q-card span-2"><h3>משלימים סדרה</h3>
+<table class="work-table center">
+<thead><tr><th>מיקום בסדרה</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+<tbody>
+<tr><th>נקודה</th><td><span class="math-ltr" dir="ltr">(1,5)</span></td><td><span class="math-ltr" dir="ltr">(2,5)</span></td><td><span class="math-ltr" dir="ltr">(3,5)</span></td><td></td><td></td></tr>
+</tbody>
+</table>
+<p>מה נשאר קבוע? <span class="blank" style="--blank-width:12ch"></span>   מה משתנה? <span class="blank" style="--blank-width:12ch"></span></p>
+</section>
+<section class="q-card span-2"><h3>שאלת אתגר</h3>
+<p>בכל שלב שיעור <span class="math-ltr" dir="ltr">x</span> גדל ב־2 ושיעור <span class="math-ltr" dir="ltr">y</span> קטן ב־1. נקודת ההתחלה היא <span class="math-ltr" dir="ltr">(1,6)</span>.</p>
+<p>כתבו את שלוש הנקודות הבאות:</p>
+<p><span class="blank" style="--blank-width:9ch"></span>   <span class="blank" style="--blank-width:9ch"></span>   <span class="blank" style="--blank-width:9ch"></span></p>
+</section>
+</div></main>
+<footer class="sheet-footer"><span>שם: ____________________</span><span>תאריך: ____________________</span></footer>
+</section>
