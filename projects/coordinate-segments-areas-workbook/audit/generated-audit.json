@@ -620,8 +620,8 @@
   "files": [
     {
       "path": "dist/index.html",
-      "bytes": 889821,
-      "sha256": "6d6ea962c6e1974ccc6d548e919de87052aeb2038bb8701629cc3c5d8af4579c"
+      "bytes": 889834,
+      "sha256": "e4e2e5de9bf2a2828ffde5dfe0d9929010687497933d2cc5c708cdd7a11633d9"
     },
     {
       "path": "dist/workbook.css",
@@ -645,13 +645,13 @@
     },
     {
       "path": "downloads/coordinate-segments-areas-workbook.pdf",
-      "bytes": 1098493,
-      "sha256": "a880fa42354b4f190d150a46cd6c4b0ceeda1b7be463b5b0b599c58c5157c24f"
+      "bytes": 1098516,
+      "sha256": "120389965cf13f48db60a5696e836c52be1d9d446b00555f5f4631163704cbec"
     },
     {
       "path": "downloads/coordinate-segments-areas-source.zip",
-      "bytes": 235897,
-      "sha256": "1730998f1c1eb63bb010a01669850d3dd53cfeb6c44b1bf2ff99b0a51f48bbd2"
+      "bytes": 243659,
+      "sha256": "1d2efa2d1b142bdd54d6429711e6f3f120a8c43a859231e5e60fd9aadd85dc3b"
     },
     {
       "path": "preview/page-01.png",
