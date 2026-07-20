@@ -16,7 +16,7 @@ function readPage(globalPage) {
   return fs.readFileSync(path.join(root, `עמוד-${globalPage}.html`), 'utf8');
 }
 
-test('ratio baseline keeps exactly 48 canonical pages with stable numbering', () => {
+test('ratio keeps exactly 48 canonical pages with stable numbering', () => {
   for (let localPage = 1; localPage <= pageCount; localPage += 1) {
     const globalPage = firstGlobalPage + localPage - 1;
     const file = path.join(root, `עמוד-${globalPage}.html`);
@@ -34,7 +34,7 @@ test('ratio baseline keeps exactly 48 canonical pages with stable numbering', ()
   assert.equal(lastGlobalPage, 319);
 });
 
-test('ratio baseline preserves the full-book previous and next chain', () => {
+test('ratio preserves the full-book previous and next chain', () => {
   for (let localPage = 1; localPage <= pageCount; localPage += 1) {
     const globalPage = firstGlobalPage + localPage - 1;
     const html = readPage(globalPage);
@@ -43,17 +43,5 @@ test('ratio baseline preserves the full-book previous and next chain', () => {
 
     assert.ok(html.includes(`href="עמוד-${expectedPrevious}.html">הקודם</a>`), `עמוד-${globalPage}.html: wrong previous link`);
     assert.ok(html.includes(`href="עמוד-${expectedNext}.html">הבא</a>`), `עמוד-${globalPage}.html: wrong next link`);
-  }
-});
-
-test('current raster mapping is documented until the live HTML exporter replaces it', () => {
-  for (let localPage = 1; localPage <= pageCount; localPage += 1) {
-    const globalPage = firstGlobalPage + localPage - 1;
-    const html = readPage(globalPage);
-    const image = `assets/ratio/page-${String(localPage).padStart(3, '0')}.png`;
-
-    assert.ok(html.includes(`class="ratio-import-image"`), `עמוד-${globalPage}.html: missing current raster marker`);
-    assert.ok(html.includes(`src="${image}"`), `עמוד-${globalPage}.html: wrong raster source`);
-    assert.ok(fs.existsSync(path.join(root, image)), `Missing baseline asset ${image}`);
   }
 });
