@@ -80,9 +80,12 @@ function rewriteAssetReferences(value, prefix) {
 }
 
 function sanitizeBundledCss(css) {
-  const withoutRemoteFonts = css
-    .replace(/@import\s+url\([^)]*fonts\.googleapis\.com[^)]*\)\s*;?/giu, '')
-    .replace(/@import\s+["'][^"']*fonts\.googleapis\.com[^"']*["']\s*;?/giu, '');
+  const googleFontImport = /@import\s*(?:url\(\s*["']?[^)]*fonts\.googleapis\.com[^)]*\)|["'][^"']*fonts\.googleapis\.com[^"']*["'])\s*;?/giu;
+  const withoutRemoteFonts = css.replace(googleFontImport, '');
+
+  if (withoutRemoteFonts.includes('fonts.googleapis.com')) {
+    throw new Error('Could not remove every Google Fonts reference from the ratio CSS bundle.');
+  }
 
   const rewritten = rewriteAssetReferences(withoutRemoteFonts, '../../assets/ratio/live/');
   return `${rewritten.trim()}\n\n/* Canonical Parabula wrapper */
