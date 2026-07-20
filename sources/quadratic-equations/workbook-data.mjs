@@ -407,7 +407,6 @@ const s16 = [
   perfectSquareDenominator(4, 9, 2), perfectSquareDenominator(-7, 3, -2), perfectSquareDenominator(5, -3, 4), perfectSquareDenominator(-8, -1, 3),
 ];
 
-export const stageNames = ['ביסוס', 'שלב ביניים', 'שילוב כלים', 'אתגר'];
 
 const curriculumIdForSection = number => {
   if (number <= 5) return 'g9.alg.quadratic.incomplete';

@@ -14,7 +14,7 @@
 /* כרטיס שאלה */
 .bbb-geometry8-page .q { border: 1px solid var(--border-light); border-radius: 10px; background: #fff; padding: 8px 12px 10px; break-inside: avoid; page-break-inside: avoid; }
 .bbb-geometry8-page .qhead { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-.bbb-geometry8-page .qnum { min-width: 26px; height: 26px; padding: 0 9px; border: 1.5px solid var(--title-blue); color: var(--title-blue); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 13.5px; font-weight: 500 !important; flex: 0 0 auto; }
+.bbb-geometry8-page .qdot { width: 11px; height: 11px; border-radius: 50%; background: #000; flex: 0 0 auto; }
 .bbb-geometry8-page .qtags { display: flex; gap: 6px; }
 .bbb-geometry8-page .pill { border: 1px solid var(--border-light); background: var(--bg-subtle); color: var(--title-blue); border-radius: 999px; padding: 1px 10px; font-size: 11px; font-weight: 500 !important; }
 .bbb-geometry8-page .qbody { font-size: 15px; line-height: 1.5; }

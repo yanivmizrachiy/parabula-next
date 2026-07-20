@@ -18,7 +18,6 @@ const els = {
   currentPageTitle: document.getElementById('currentPageTitle'),
   currentPageMeta: document.getElementById('currentPageMeta'),
   topicProgress: document.getElementById('topicProgress'),
-  globalProgress: document.getElementById('globalProgress'),
   mobilePageFrame: document.getElementById('mobilePageFrame'),
   mobileLoadingState: document.getElementById('mobileLoadingState'),
   mobileErrorState: document.getElementById('mobileErrorState'),
@@ -199,21 +198,18 @@ function setTopicsPanelOpen(open) {
 function setProgress(page) {
   if (!page) {
     els.topicProgress.textContent = '—';
-    els.globalProgress.textContent = '—';
     return;
   }
   const nodeId = activeNodeOf(page);
   const topicPages = nodePagesOf(nodeId);
   const topicIndex = topicPages.findIndex((item) => item.file === page.file);
-  const globalIndex = state.flatPages.findIndex((item) => item.file === page.file);
   els.topicProgress.textContent = topicIndex >= 0 ? `עמוד ${topicIndex + 1} מתוך ${topicPages.length} בנושא` : '—';
-  els.globalProgress.textContent = globalIndex >= 0 ? `עמוד ${globalIndex + 1} מתוך ${state.flatPages.length} בספר` : '—';
 }
 
 function updatePageHeading(page) {
   if (!page) return;
   els.currentPageTitle.textContent = page.title || page.h1 || page.file;
-  els.currentPageMeta.textContent = `${nodePathOf(activeNodeOf(page))} · עמוד ${page.number}`;
+  els.currentPageMeta.textContent = nodePathOf(activeNodeOf(page));
   els.sheetPageTitle.textContent = page.title || page.h1 || page.file;
   setProgress(page);
 }

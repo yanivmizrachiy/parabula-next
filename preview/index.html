@@ -114,7 +114,7 @@
           btn.type = 'button';
           btn.className = 'page-btn';
           btn.dataset.file = page.file;
-          btn.innerHTML = `<div class="page-num">עמוד ${page.number}</div><div>${page.title}</div>`;
+          btn.innerHTML = `<div>${page.title}</div>`;
           btn.addEventListener('click', () => setCurrentPage(page.file));
           pagesWrap.appendChild(btn);
         }
@@ -151,7 +151,7 @@
 
       viewer.src = page.previewPath + '?v=' + Date.now();
       currentTitle.textContent = page.title;
-      currentMeta.textContent = `${page.topic} · עמוד ${page.number} · ${page.file}`;
+      currentMeta.textContent = `${page.topic} · ${page.file}`;
       openRealSiteBtn.href = page.siteUrl;
       openPageBtn.onclick = () => window.open(page.previewPath, '_blank');
       openSiteHome.href = db.siteUrl;

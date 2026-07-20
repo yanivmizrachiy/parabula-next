@@ -27,13 +27,6 @@
   min-width: 0;
 }
 
-.quadratic-page .eyebrow {
-  color: var(--quad-cyan);
-  font-size: 11px;
-  font-weight: 500 !important;
-  letter-spacing: 0.02em;
-}
-
 .quadratic-page .page-title {
   display: flex;
   align-items: baseline;
@@ -371,9 +364,10 @@
 .quadratic-page .quadratic-footer {
   flex: 0 0 auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  text-align: center;
+  gap: 1px;
   margin-top: 5px;
   padding-top: 5px;
   border-top: 3px double var(--quad-blue);

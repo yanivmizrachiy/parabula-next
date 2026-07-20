@@ -3,3 +3,9 @@
 /* ניצול מלא של גובה ה-A4 (CLAUDE.md §4) — פריסה בלבד, אפס שינוי תוכן:
    כרטיסי השאלות גדלים למילוי הדף ומעניקים מרחב עבודה לתלמיד */
 .page-169 .question-block > .q, .page-169 .question-block > .note { flex: 1 0 auto; }
+
+/* עולה/יורד יושבים יחד בצמוד לשאלה — לא נמתחים על כל רוחב העמוד */
+.page-169 .mc { display: flex; flex-wrap: wrap; gap: 8px 44px; }
+
+/* מרווח נשימה סביב מערכת הצירים הגדולה */
+.page-169 .figure { margin-block: 10px 4px; }

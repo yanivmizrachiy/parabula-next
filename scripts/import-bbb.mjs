@@ -116,9 +116,12 @@ function classOf(childHtml) {
   return m ? m[1].split(/\s+/)[0] : '';
 }
 
-// טקסט קנוני להשוואת נאמנות: מרחיב data-tex, מסיר תגיות, מנרמל רווחים
+// טקסט קנוני להשוואת נאמנות: מרחיב data-tex, מסיר תגיות, מנרמל רווחים.
+// מספר השאלה (qnum) הוא כרום של המקור ולא תוכן — מוחרג מההשוואה משני הצדדים,
+// כי בדף הקנוני אין מספור שאלות גלוי (CLAUDE.md §4).
 function canonicalText(html) {
-  let text = html.replace(/<span class="math" data-tex="([^"]*)"><\/span>/g, (_, tex) => ` ${decodeEntities(tex)} `);
+  let text = html.replace(/<span class="qnum">[^<]*<\/span>/g, ' ');
+  text = text.replace(/<span class="math" data-tex="([^"]*)"><\/span>/g, (_, tex) => ` ${decodeEntities(tex)} `);
   text = text.replace(/<span class="math">\\\((.*?)\\\)<\/span>/gs, (_, tex) => ` ${decodeEntities(tex)} `);
   text = text.replace(/<[^>]+>/g, ' ');
   return decodeEntities(text).replace(/\s+/g, ' ').trim();
@@ -128,6 +131,10 @@ function canonicalText(html) {
 
 function transformItemHtml(html, book, assetStats) {
   let out = html;
+
+  // אין מספור שאלות גלוי בדף עבודה (CLAUDE.md §4) — העיגול הממוספר של המקור
+  // מוחלף בכדור שחור ללא טקסט; canonicalText מחריג את המספר משני צידי ההשוואה.
+  out = out.replace(/<span class="qnum">[^<]*<\/span>/g, '<span class="qdot" aria-hidden="true"></span>');
 
   // dir="ltr" -> class="ltr" (LTR מוגדר ב-CSS בלבד לפי CLAUDE.md §4)
   out = out.replaceAll('<span dir="ltr">', '<span class="ltr">');
@@ -317,6 +324,10 @@ function measureHarnessHtml(book) {
             <div class="page-number">99</div>
         </header>
         <div class="question-block" id="flow"></div>
+        <footer class="gz-footer">
+            <div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div>
+            <div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div>
+        </footer>
     </main>
 </body>
 </html>`;
@@ -652,6 +663,11 @@ ${navRow(book, firstNewFile)}
         <div class="question-block">
 ${itemsHtml.map(h => `            ${h}`).join('\n')}
         </div>
+
+        <footer class="gz-footer">
+            <div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div>
+            <div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div>
+        </footer>
     </main>
 </body>
 </html>
