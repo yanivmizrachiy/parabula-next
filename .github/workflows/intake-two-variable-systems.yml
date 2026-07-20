@@ -36,6 +36,48 @@ jobs:
           npm run curriculum:build
           npm run validate:meta
 
+      - name: Diagnose global navigation order
+        run: |
+          node <<'NODE' > nav-order-report.txt
+          const fs = require('fs');
+          const files = fs.readdirSync('.').filter((name) => /^עמוד-\d+\.html$/u.test(name)).sort((a, b) => a.localeCompare(b, 'he'));
+          const strip = (value) => value.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+          const entries = [];
+          let best = [];
+          for (const file of files) {
+            const html = fs.readFileSync(file, 'utf8');
+            const meta = html.match(/<div\s+class="nav-meta"[^>]*>([\s\S]*?)<\/div>/iu);
+            if (!meta) continue;
+            const parsed = strip(meta[1]).match(/^(.*?)\s*—\s*עמוד\s*(\d+)\s*\/\s*(\d+)\s*$/u);
+            if (!parsed) continue;
+            const block = html.match(/<div\s+class="preview-nav-topics"[\s\S]*?<\/div>/iu)?.[0] ?? '';
+            const hints = [];
+            for (const match of block.matchAll(/<a\s+class="topic-link[^"]*"[\s\S]*?>([\s\S]*?)<\/a>/giu)) hints.push(strip(match[1]));
+            if (hints.length > best.length) best = hints;
+            entries.push({ file, topic: parsed[1].trim(), index: Number(parsed[2]), total: Number(parsed[3]) });
+          }
+          const topics = new Map();
+          for (const entry of entries) {
+            if (!topics.has(entry.topic)) topics.set(entry.topic, []);
+            topics.get(entry.topic).push(entry);
+          }
+          const sorted = [...topics.entries()].map(([name, pages]) => ({ name, pages: pages.sort((a,b)=>a.index-b.index) }));
+          sorted.sort((a,b) => {
+            if (a.name === 'אחר' || b.name === 'אחר') return a.name === 'אחר' ? 1 : -1;
+            const ai = best.indexOf(a.name), bi = best.indexOf(b.name);
+            if (ai >= 0 && bi >= 0) return ai-bi;
+            if ((ai >= 0) !== (bi >= 0)) return ai >= 0 ? -1 : 1;
+            return a.name.localeCompare(b.name, 'he');
+          });
+          console.log('BEST_HINTS=' + JSON.stringify(best));
+          sorted.forEach((topic, i) => console.log(`${i+1}. ${topic.name}: ${topic.pages[0].file} .. ${topic.pages.at(-1).file}`));
+          const pos = sorted.findIndex((topic) => topic.name === 'מערכת משוואות בשני נעלמים');
+          console.log('NEW_TOPIC_POSITION=' + pos);
+          console.log('EXPECTED_PREV=' + (pos > 0 ? sorted[pos-1].pages.at(-1).file : 'DISABLED'));
+          console.log('EXPECTED_NEXT=' + (pos < sorted.length-1 ? sorted[pos+1].pages[0].file : 'DISABLED'));
+          NODE
+          cat nav-order-report.txt
+
       - name: Package generated canonical files
         run: |
           mkdir -p generated-intake/styles/pages generated-intake/styles/topics generated-intake/scripts generated-intake/meta
@@ -89,7 +131,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: systems-intake-validation-report
-          path: validation-report.txt
+          path: |
+            validation-report.txt
+            nav-order-report.txt
           if-no-files-found: error
           retention-days: 3
 
