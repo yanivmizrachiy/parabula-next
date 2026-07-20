@@ -1,0 +1,97 @@
+name: Sync two-variable systems from Drive
+
+on:
+  push:
+    branches:
+      - agent/two-variable-systems-drive-pages
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-validate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/two-variable-systems-drive-pages
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate synchronized workbook
+        run: node scripts/sync-two-variable-systems-drive.mjs
+
+      - name: Synchronize curriculum and registries
+        run: |
+          npm run curriculum:build
+          npm run validate:meta
+
+      - name: Validate repository contracts
+        run: |
+          npm test
+          npm run verify
+          npm run validate:schema
+          npm run curriculum:check
+          npm run validate:curriculum
+          npm run validate:html
+          npm run build
+
+      - name: Locate system Chrome
+        run: |
+          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
+          if [ -z "$CHROME" ]; then
+            echo "No system Chrome found" >&2
+            exit 1
+          fi
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          "$CHROME" --version
+
+      - name: Run targeted visual audit
+        run: node scripts/audit-two-variable-systems-sync.mjs
+
+      - name: Upload visual audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-variable-systems-sync-audit
+          path: STATE/reports/two-variable-systems-sync
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Commit verified canonical files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- \
+            עמוד-531.html עמוד-573.html \
+            עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
+            עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html \
+            עמוד-609.html עמוד-610.html עמוד-611.html עמוד-612.html \
+            עמוד-613.html עמוד-614.html עמוד-615.html \
+            styles/topics/two-variable-systems.css \
+            styles/pages/עמוד-601.css styles/pages/עמוד-602.css \
+            styles/pages/עמוד-603.css styles/pages/עמוד-604.css \
+            styles/pages/עמוד-605.css styles/pages/עמוד-606.css \
+            styles/pages/עמוד-607.css styles/pages/עמוד-608.css \
+            styles/pages/עמוד-609.css styles/pages/עמוד-610.css \
+            styles/pages/עמוד-611.css styles/pages/עמוד-612.css \
+            styles/pages/עמוד-613.css styles/pages/עמוד-614.css \
+            styles/pages/עמוד-615.css \
+            scripts/curriculum-map.mjs \
+            meta/topics.json meta/pages.json meta/systems-drive-sync.json
+          if git diff --cached --quiet; then
+            echo "No canonical changes to commit."
+          else
+            git commit -m "feat(מערכות): סנכרן את כל חומרי שני הנעלמים מה-Drive"
+            git push origin HEAD:agent/two-variable-systems-drive-pages
+          fi
