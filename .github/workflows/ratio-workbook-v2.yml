@@ -31,7 +31,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: ratio-workbook-live-${{ github.workflow }}-${{ github.ref }}
@@ -135,6 +135,9 @@ jobs:
             assets/ratio/page-005.png
             assets/ratio/page-006.png
             assets/ratio/page-007.png
+            assets/ratio/page-011.png
+            assets/ratio/page-013.png
+            assets/ratio/page-016.png
             assets/ratio/page-029.png
             ratio-ci-all.log
             ratio-ci-status.txt
@@ -143,3 +146,23 @@ jobs:
             mobile-status.txt
             test-results/
           if-no-files-found: warn
+
+      - name: Commit generated canonical pages
+        if: github.event_name == 'push' && github.ref_name == 'agent/ratio-canonical-live-pages'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for number in $(seq 272 319); do
+            git add -- "עמוד-${number}.html" "styles/pages/עמוד-${number}.css"
+          done
+          git add -- styles/topics/ratio-live.css
+          if [ -d assets/ratio/live ]; then
+            git add -A -- assets/ratio/live
+          fi
+          if git diff --cached --quiet; then
+            echo "Canonical live ratio pages are already current."
+          else
+            git commit -m "feat(יחס): עדכון דפי HTML חיים מאומתים"
+            git push origin HEAD:agent/ratio-canonical-live-pages
+          fi
