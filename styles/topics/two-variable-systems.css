@@ -80,3 +80,19 @@
     grid-area: content;
     direction: rtl;
 }
+
+/* Five-story application page: compact only where explicitly requested. */
+.systems2-page.systems-stories-five { padding-top: 8mm; padding-bottom: 7mm; }
+.systems2-page.systems-stories-five .header-container { margin-bottom: 5px; padding-bottom: 5px; }
+.systems2-page.systems-stories-five .question-block { gap: 4px; }
+.systems2-page.systems-stories-five .instruction { min-height: 29px; padding: 5px 9px; font-size: 14px; }
+.systems2-page.systems-stories-five .story-list { gap: 4px; }
+.systems2-page.systems-stories-five .story-card { gap: 7px; padding: 5px 9px; border-radius: 7px; }
+.systems2-page.systems-stories-five .story-card .qdot { margin-top: 5px; width: 7px; height: 7px; }
+.systems2-page.systems-stories-five .story-text { margin-bottom: 2px; font-size: 12.8px; line-height: 1.32; }
+.systems2-page.systems-stories-five .story-hint { margin-bottom: 3px; font-size: 10.8px; line-height: 1.25; }
+.systems2-page.systems-stories-five .model-grid { grid-template-columns: 106px 1fr; gap: 2px 7px; font-size: 10.4px; }
+.systems2-page.systems-stories-five .model-line { height: 13px; }
+.systems2-page.systems-stories-five .story-card-focus,
+.systems2-page.systems-stories-five .story-card-parking { background: #fbfdff; border-color: #bfdbfe; }
+.systems2-page.systems-stories-five > .gz-footer { margin-top: 3px; }
