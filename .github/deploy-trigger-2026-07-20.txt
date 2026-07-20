@@ -1,0 +1,2 @@
+Temporary deployment trigger for GitHub Pages verification.
+Created and removed automatically on 2026-07-20.
