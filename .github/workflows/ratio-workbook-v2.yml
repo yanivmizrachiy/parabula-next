@@ -86,7 +86,13 @@ jobs:
         run: npm run ratio:export:check
 
       - name: Run repository contract suite
-        run: npm run ci:all
+        shell: bash
+        run: |
+          set +e
+          npm run ci:all 2>&1 | tee ratio-ci-all.log
+          ci_status=${PIPESTATUS[0]}
+          printf 'ci_status=%s\n' "$ci_status" > ratio-ci-status.txt
+          exit "$ci_status"
 
       - name: Run mobile browser checks with diagnostics
         shell: bash
@@ -109,6 +115,9 @@ jobs:
           path: |
             assets/ratio/audit-v2.json
             styles/topics/ratio-live.css
+            עמוד-272.html
+            ratio-ci-all.log
+            ratio-ci-status.txt
             mobile-browser.log
             mobile-interactions.log
             mobile-status.txt
