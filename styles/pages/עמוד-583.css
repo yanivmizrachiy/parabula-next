@@ -1,0 +1,6 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 583 — זוויות ברחובות העיר: כרזת מפת הרחובות (raster מהמקור, ממלאת את הדף) */
+.page-583 .question-block { justify-content: center; }
+.page-583 .p583-mapwrap { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; justify-content: center; margin: 0; }
+.page-583 .p583-map { width: 100%; height: auto; max-height: 100%; object-fit: contain; margin: 0; }

@@ -1,0 +1,23 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 27 — זוויות ישרות, חדות וקהות (אומדן ביחס לזווית ישרה, דף מקופל) */
+.page-600 .question-block { justify-content: flex-start; gap: 9px; }
+.page-600 .p600-namerow { display: flex; justify-content: flex-end; }
+.page-600 .p600-namerow .zb-nameline { width: 250px; }
+.page-600 .p600-namerow .wline { flex: 1 1 auto; }
+.page-600 .p600-lead { margin: 0; text-align: center; font-size: 17.5px; font-weight: 700 !important; }
+.page-600 .p600-foldrow { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.page-600 .p600-foldrow svg.chart { margin: 0; flex: none; }
+.page-600 .p600-foldlabel { font-size: 16.5px; font-weight: 700 !important; flex: none; }
+.page-600 .p600-expl { margin: 0; align-self: flex-end; max-width: 210px; text-align: center; color: #2c6e6b; font-size: 14.5px; font-weight: 500 !important; line-height: 1.45; }
+.page-600 .p600-cmprow { display: flex; justify-content: space-evenly; align-items: flex-start; gap: 18px; }
+.page-600 .p600-cmpcol { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.page-600 .p600-cmpcol svg.chart { margin: 0; }
+.page-600 .p600-cmpcap { margin: 0; text-align: center; font-size: 16px; font-weight: 700 !important; }
+.page-600 .p600-cmpteal { margin: 0; text-align: center; max-width: 230px; color: #2c6e6b; font-size: 14.5px; font-weight: 500 !important; line-height: 1.45; }
+.page-600 .p600-grid { flex: 1 1 auto; min-height: 0; direction: ltr; display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 8px; }
+.page-600 .p600-cell { display: flex; flex-direction: column; min-height: 0; }
+.page-600 .p600-cell svg.chart { flex: 1 1 0; min-height: 0; width: 100%; margin: 0; }
+.page-600 .p600-numrow { direction: ltr; display: flex; align-items: baseline; gap: 10px; padding-inline-start: 14px; }
+.page-600 .p600-num { font-size: 16px; font-weight: 700 !important; }
+.page-600 .p600-numrow .wline { flex: 0 1 120px; }

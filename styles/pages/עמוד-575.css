@@ -1,0 +1,10 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 575 — „השלימו את ההיגדים": פריסה מרווחת כבמקור —
+   כל היגד בשורה משלו עם רווח נדיב, מחסן מילים נדיב בתחתית */
+.page-575 .q .sub { margin: 18px 0 0; }
+.page-575 .q .sub:first-child { margin-top: 4px; }
+.page-575 .q .qbody { font-size: 15.5px; line-height: 1.65; }
+.page-575 .zb-wordbank { padding: 12px 14px 16px; }
+.page-575 .zb-chip { padding: 4px 16px; }
+.page-575 .zb-chips + .zb-chips { margin-top: 12px; }

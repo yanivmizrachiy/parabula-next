@@ -1,0 +1,29 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-580 — מספריים פתוחים: היגדים והשלמת משפטים */
+.page-580 .qlead { font-weight: 500 !important; color: #1f2a44; }
+.page-580 .zb-photo { width: 470px; }
+
+/* היגדים עם תיבת סימון צבעונית (נאמן לצבעי המקור) */
+.page-580 .checks { margin-top: 12px; }
+.page-580 .check { display: flex; align-items: center; gap: 11px; margin: 13px 0 0; }
+.page-580 .cbox { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px; background: #fff; border: 2px solid #94a3b8; }
+.page-580 .cbox.c1 { border-color: #e8a33d; }
+.page-580 .cbox.c2 { border-color: #2f9e8f; }
+.page-580 .cbox.c3 { border-color: #e05252; }
+.page-580 .cbox.c4 { border-color: #8b7ad6; }
+.page-580 .cbox.c5 { border-color: #6aa84f; }
+.page-580 .ctext { flex: 1; }
+
+/* תיבות השלמה צבעוניות בתוך המשפטים */
+.page-580 .fbox { display: inline-block; vertical-align: middle; width: 120px; height: 30px; border-radius: 9px; background: #fff; border: 2px solid #94a3b8; margin: 0 4px; }
+.page-580 .fbox.f1 { border-color: #8b7ad6; }
+.page-580 .fbox.f2 { border-color: #6aa84f; }
+.page-580 .fbox.f3 { border-color: #e8a33d; }
+.page-580 .fbox.f4 { border-color: #e05252; }
+.page-580 .fbox.f5 { border-color: #2f9e8f; }
+
+.page-580 .sub { margin-top: 14px; align-items: center; }
+.page-580 .zb-wordbank { margin-top: 18px; }
+.page-580 .zb-wordbank .zb-chips { padding: 4px 0; }
+.page-580 .q { padding-top: 10px; padding-bottom: 12px; }

@@ -1,0 +1,6 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 1 — „סוגי זוויות — זוויות סביבנו": רשת 3×3 שממלאה את גוף הדף,
+   כמו במקור (הרשת נמתחת והשורות מתפרסות; השם וההוראה נשארים למעלה) */
+.page-574 .question-block { justify-content: flex-start; gap: 10px; }
+.page-574 .zb-aru { flex: 1 1 auto; align-content: space-between; }

@@ -1,0 +1,28 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-591 — השוואת זוויות מן הראשית אל נקודות שונות (חוברת זוויות, עמוד 20) */
+.page-591 .qbody { display: flex; flex-direction: column; gap: 7px; }
+.page-591 .given-title { font-weight: 500 !important; }
+.page-591 .pts-line { text-align: center; font-size: 17px; font-weight: 600 !important; color: #1f2a44; }
+.page-591 .figure { margin: 2px auto 0; }
+.page-591 .subs { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.page-591 .sub { align-items: flex-start; }
+.page-591 .subt { display: flex; flex-direction: column; gap: 8px; }
+
+/* סעיף ג — שלוש אפשרויות להקפה */
+.page-591 .chips { display: flex; justify-content: center; gap: 26px; margin-top: 3px; }
+.page-591 .chip { border: 1.6px solid var(--title-blue); border-radius: 10px; background: #fff; color: #1f2a44; font-weight: 600 !important; font-size: 14.5px; padding: 8px 24px; }
+
+/* סעיף ד — שורת הזוויות ותיבת המענה */
+.page-591 .ordwrap { text-align: center; margin-top: 2px; }
+.page-591 .ordline { display: inline-flex; align-items: center; gap: 12px; font-size: 21px; font-weight: 600 !important; color: #1f2a44; }
+.page-591 .ordline .ang { width: 20px; height: 16px; margin-right: 4px; }
+.page-591 .osep { font-weight: 600 !important; }
+.page-591 .ansframe { border: 1.6px solid var(--title-blue); border-radius: 12px; padding: 16px 16px 18px; text-align: center; }
+.page-591 .wexpr { direction: ltr; unicode-bidi: isolate; display: inline-flex; align-items: baseline; gap: 16px; }
+.page-591 .wexpr .wline.wq { min-width: 118px; }
+.page-591 .wop { font-size: 16px; font-weight: 600 !important; color: #1f2a44; }
+
+/* סעיף ה — שורות השלמה */
+.page-591 .fillrow { line-height: 1.6; }
+.page-591 .fillrow .wline { min-width: 96px; }

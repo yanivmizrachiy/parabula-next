@@ -1,0 +1,13 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-582 — מה גודל הזווית בין מחוגי השעון: רשת 3×2 שעונים עם תיבת תשובה */
+.page-582 .question-block { justify-content: flex-start; gap: 10px; }
+.page-582 .zb-nameline .wline { flex: 0 1 220px; }
+
+/* הרשת נמתחת על שארית העמוד ושתי השורות נפרשות בה — כמו במקור */
+.page-582 .zb-clocks { flex: 1 1 auto; gap: 12px 26px; align-content: stretch; }
+.page-582 .zb-card { justify-content: center; align-items: center; gap: 12px; }
+.page-582 svg.clock { width: 100%; max-width: 208px; height: auto; }
+
+/* תיבת תשובה מתחת לכל שעון — פרופורציות המקור */
+.page-582 .zb-card .zb-ansbox { width: 78%; height: 34px; border-radius: 9px; background: #fff; }

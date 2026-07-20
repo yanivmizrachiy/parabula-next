@@ -1,0 +1,20 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-593 — „הזזת הנקודה B ימינה — חקירת הזווית, חלק ב" (מקור: page-22)
+   המשך החקירה: סעיפים ח–ט + מערכת הצירים עם הקרניים OA, OB, OC וחץ ההזזה B←C. */
+.page-593 .q { padding: 12px 16px 14px; }
+.page-593 .qbody { font-size: 16px; line-height: 1.6; }
+.page-593 .subs { margin-top: 9px; }
+.page-593 .sub { gap: 10px; margin: 10px 0 0; }
+.page-593 .subl { min-width: 20px; }
+
+/* תיבת הסבר גדולה — נאמן לתיבה הכחולה המעוגלת שבמקור */
+.page-593 .zb-explain { display: block; height: 185px; border: 2px solid #7ca4e4; border-radius: 14px; background: #fff; margin: 10px 0 0; }
+
+/* משפט השלמה עם תיבות מילוי צבעוניות, כמו במקור */
+.page-593 .cloze { display: block; margin-top: 8px; line-height: 2.4; }
+.page-593 .fillbox { display: inline-block; width: 170px; height: 38px; border: 2px solid; border-radius: 12px; background: #fff; vertical-align: middle; margin: 0 8px; }
+.page-593 .fb-orange { border-color: #dca454; }
+.page-593 .fb-teal { border-color: #3c948c; }
+
+.page-593 .figure { margin-top: 12px; }

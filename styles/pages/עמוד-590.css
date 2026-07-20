@@ -1,0 +1,30 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-590 — הזווית AOB במערכת הצירים, חלק ב (מקור: חוברת זוויות, עמוד 19) */
+
+/* כרטיס יחיד במסגרת כחולה כמו במקור */
+.page-590 .q { border: 2px solid #5b87c5; border-radius: 14px; padding: 12px 18px 14px; }
+.page-590 .sub { font-size: 15.5px; margin-top: 12px; }
+.page-590 .subl { min-width: 22px; }
+
+/* תיבת התשובה C( , ) */
+.page-590 .zb-cpair-wrap { text-align: center; margin: 14px 0 2px; }
+.page-590 .zb-cpair { font-size: 24px; gap: 9px; }
+.page-590 .zb-cpair .pl { color: #1f2a44; font-weight: 700 !important; }
+.page-590 .zb-cpair .pblank { width: 48px; height: 24px; }
+
+/* שלוש אפשרויות להקפה: תגדל / תקטן / לא תשתנה */
+.page-590 .zb-optbtns { display: flex; justify-content: center; gap: 20px; margin: 14px 0 2px; }
+.page-590 .zb-optbtn { border: 1.5px solid #7ea6d8; border-radius: 12px; padding: 10px 32px; font-size: 15.5px; font-weight: 500 !important; color: #1f2a44; background: #fff; }
+
+/* מסגרת ההסבר של סעיף ח */
+.page-590 .zb-expbox { border: 1.5px solid #7ea6d8; border-radius: 12px; height: 150px; margin: 12px 2px 2px; background: #fff; }
+
+/* משפט ההשלמה של סעיף ט עם שתי תיבות */
+.page-590 .zb-cloze { font-size: 15.5px; line-height: 2.4; margin: 8px 2px 0; }
+.page-590 .zb-blank { display: inline-block; width: 150px; height: 36px; border-radius: 10px; vertical-align: middle; margin: 0 6px; background: #fff; }
+.page-590 .zb-blank-or { border: 2px solid #e9a13b; }
+.page-590 .zb-blank-tl { border: 2px solid #2e968b; }
+
+/* איור מערכת הצירים */
+.page-590 .figure { margin-top: 10px; }

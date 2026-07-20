@@ -1,0 +1,7 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 584 — זוויות ברחובות העיר: שאלות. חיתוך הכיכר המרכזית מתוך כרזת המפה (עמוד קודם) + שני כרטיסי רב-ברירה */
+.page-584 .p584-mapwrap { margin: 0; }
+.page-584 .p584-map { width: 540px; }
+.page-584 .mc.mc2 { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 8px; gap: 8px 18px; }
+.page-584 .q { padding-top: 9px; padding-bottom: 10px; }

@@ -1,0 +1,19 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-587 — „השלימו את המשפטים בעזרת מחסן המילים — חלק ב" (מקור: page-16) */
+.page-587 .q { padding: 18px 18px; }
+.page-587 .qbody { font-size: 16px; line-height: 2; }
+
+/* תיבת השלמה צבעונית בתוך המשפט — נאמן לתיבות המעוגלות הצבעוניות שבמקור */
+.page-587 .fillbox { display: inline-block; width: 170px; height: 38px; border: 2px solid #94a3b8; border-radius: 12px; background: #fff; vertical-align: middle; margin: 0 8px; }
+.page-587 .fb-orange { border-color: #e5a33d; }
+.page-587 .fb-teal { border-color: #2a9d8f; }
+.page-587 .fb-red { border-color: #e57373; }
+.page-587 .fb-purple { border-color: #9b8fe0; }
+.page-587 .fb-green { border-color: #7cb356; }
+
+/* מחסן מילים מרווח יותר, כמו במקור */
+.page-587 .zb-wordbank { padding: 12px 16px 16px; }
+.page-587 .zb-wordbank .wb-title { font-size: 14px; }
+.page-587 .zb-chips { gap: 12px 14px; }
+.page-587 .zb-chip { font-size: 15px; padding: 6px 22px; }

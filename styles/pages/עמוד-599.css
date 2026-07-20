@@ -1,0 +1,31 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 26 — „חקירת נקודות ביחס למחוג" (page-28 בחוברת):
+   מבוא + הדגשת המחוג, מערכת צירים ברביע הראשון עם קרניים של 30°/60° ומחוג כתום,
+   וסעיפים א–ה (השלמה, רב-ברירה אנכית, מסקנה, בחירת נקודה ונימוק בתיבה גדולה) */
+.page-599 .question-block { justify-content: flex-start; gap: 8px; }
+
+/* מבוא */
+.page-599 .zb-intro { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.page-599 .introline { margin: 0; font-size: 15px; line-height: 1.5; }
+.page-599 .hl-note { margin: 0; display: inline-block; background: #fcf3d7; border-radius: 8px; padding: 3px 10px; font-size: 15px; font-weight: 500 !important; }
+
+/* אזכורי צירים צבועים כמו במקור: ציר X כחול, ציר Y אדום */
+.page-599 .axx { color: #2563eb; font-weight: 500 !important; }
+.page-599 .axy { color: #dc2626; font-weight: 500 !important; }
+
+/* גלולות רקע: ‎∠POA‎ ורשימת הנקודות בסעיף ד */
+.page-599 .chip { background: #eef2f7; border: 1px solid var(--border-light); border-radius: 8px; padding: 1px 8px; }
+
+/* רב-ברירה אנכית — עיגול סימון בכל שורה */
+.page-599 .mcv { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+
+/* מרווח בין סעיפים */
+.page-599 .sub { margin-top: 8px; }
+.page-599 .subs .sub:first-child { margin-top: 0; }
+
+/* האיור מוקטן מעט כדי שכל הסעיפים ייכנסו לעמוד */
+.page-599 .figure svg.chart { width: 348px; }
+
+/* תיבת נימוק גדולה (סעיף ה) */
+.page-599 .bigans { height: 76px; border: 1.5px solid var(--title-blue); border-radius: 12px; background: #fff; margin-top: 7px; }

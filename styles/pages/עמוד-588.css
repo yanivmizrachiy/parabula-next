@@ -1,0 +1,44 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-588 — „קרניים מאונכות וזווית ישרה — נכון, לא נכון או אי אפשר לדעת" (מקור: page-17)
+   תיבת הוראות + טבלת עשרה היגדים עם שלוש עמודות סימון צבועות, נאמן למקור. */
+
+/* תיבת „הוראות לתלמידים" */
+.page-588 .zb-instr { padding: 12px 16px 13px; font-size: 15px; line-height: 1.6; }
+.page-588 .instr-title { color: #7c1f30; font-weight: 500 !important; margin-bottom: 3px; }
+.page-588 .instr-line { margin: 2px 0 0; }
+
+/* טבלת ההיגדים — פסי עמודות צבועים, בלי קווי רשת קשיחים.
+   הטבלה נצמדת לתיבת ההוראות וגדלה למלוא גובה העמוד — שורות מרווחות כמו במקור. */
+.page-588 .question-block { justify-content: flex-start; gap: 10px; }
+.page-588 .tf-table { width: 100%; border-collapse: collapse; flex: 1 1 auto; }
+.page-588 .tf-table th,
+.page-588 .tf-table td { border: 0; border-bottom: 1px solid #e7ebf1; vertical-align: middle; }
+.page-588 .tf-table th { font-size: 15px; font-weight: 500 !important; padding: 10px 6px; color: #1f2a44; }
+.page-588 .tf-table td { font-size: 14.5px; line-height: 1.55; padding: 12px 6px; }
+
+.page-588 .c-num { width: 36px; text-align: center; }
+.page-588 td.c-num { color: #64748b; font-weight: 500 !important; }
+.page-588 .c-stmt { text-align: right; }
+.page-588 td.c-stmt { padding-inline-start: 12px; padding-inline-end: 10px; }
+.page-588 .c-yes, .page-588 .c-no, .page-588 .c-idk { width: 72px; text-align: center; }
+
+/* צבעי כותרות העמודות */
+.page-588 th.c-yes { color: #3f7d4e; background: #eaf3ea; }
+.page-588 th.c-no { color: #b3413a; background: #fbeeed; }
+.page-588 th.c-idk { color: #4f4b8f; background: #edecf5; }
+
+/* פסי הצבע לאורך העמודות */
+.page-588 td.c-yes { background: #f0f7f0; }
+.page-588 td.c-no { background: #fdf4f3; }
+.page-588 td.c-idk { background: #f2f1f8; }
+
+/* פסי רוחב מתחלפים בעמודות מס'/היגד, כמו במקור */
+.page-588 .tf-table tbody tr:nth-child(even) td.c-num,
+.page-588 .tf-table tbody tr:nth-child(even) td.c-stmt { background: #f6f8fa; }
+
+/* תיבת סימון מעוגלת */
+.page-588 .cb { display: inline-block; width: 22px; height: 22px; border: 2px solid; border-radius: 7px; background: #fff; vertical-align: middle; }
+.page-588 .cb-g { border-color: #6aa877; }
+.page-588 .cb-r { border-color: #d9756c; }
+.page-588 .cb-p { border-color: #8f88c9; }
