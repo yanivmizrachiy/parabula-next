@@ -95,6 +95,30 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-      - name: Fail when a validation command failed
-        if: steps.validation.outputs.FAILED == '1'
+      - name: Locate system Chrome
+        run: |
+          CHROME=$(command -v google-chrome-stable || command -v google-chrome || command -v chromium-browser || command -v chromium || true)
+          if [ -z "$CHROME" ]; then
+            echo "No system Chrome found" >&2
+            exit 1
+          fi
+          echo "CHROME_PATH=$CHROME" >> "$GITHUB_ENV"
+          "$CHROME" --version
+
+      - name: Run targeted visual audit
+        id: visual
+        continue-on-error: true
+        run: node scripts/audit-two-variable-systems.mjs
+
+      - name: Upload visual audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: systems-intake-visual-audit
+          path: STATE/reports/two-variable-systems
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Fail when validation failed
+        if: steps.validation.outputs.FAILED == '1' || steps.visual.outcome != 'success'
         run: exit 1
