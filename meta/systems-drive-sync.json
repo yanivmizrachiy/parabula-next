@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-07-20T15:05:23.048Z",
+  "topic": "מערכת משוואות בשני נעלמים",
+  "repositoryPages": [
+    609,
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608,
+    610,
+    611,
+    612,
+    613,
+    614,
+    615
+  ],
+  "policy": {
+    "canonicalRule": "Import unique mathematical tasks once, order from easy to hard, and map duplicate or out-of-scope Drive files without copying them again.",
+    "existingCoverage": {
+      "graphicalLinearSystems": [
+        190,
+        191,
+        192,
+        193,
+        194
+      ],
+      "eliminationAndApplication": [
+        195
+      ]
+    }
+  },
+  "sources": [
+    {
+      "role": "primary-graded-workbook",
+      "canonicalDriveId": "10XCu6l4sot6C8R62J7caSZXfaftMf_By",
+      "duplicateDriveIds": [
+        "1N5pVGpokCTflHKT5DAVsHMkVb3XmIPQm"
+      ],
+      "importedToPages": [
+        601,
+        602,
+        603,
+        604,
+        605,
+        606,
+        607,
+        608
+      ]
+    },
+    {
+      "role": "basic-entry-sheet",
+      "canonicalDriveId": "1URy_irCAY_uZvmMMHsilMIlLvLMnYrgY",
+      "duplicateDriveIds": [
+        "1hZokImMxwrNCTLW-yn2pBPYpdNbKIl01"
+      ],
+      "importedToPages": [
+        609
+      ]
+    },
+    {
+      "role": "summer-review-part-b",
+      "canonicalDriveId": "1ld5FTXE7vnRSrX4LO8YEu4iPKsMQjHHH",
+      "importedToPages": [
+        610,
+        611,
+        612,
+        613
+      ],
+      "mappedWithoutDuplication": {
+        "graphMatchingExercise": [
+          190,
+          191,
+          192,
+          193,
+          194
+        ]
+      },
+      "skipped": [
+        {
+          "exercise": 13,
+          "reason": "The embedded system and ordered pairs are absent/unreadable in the source PDF render."
+        }
+      ]
+    },
+    {
+      "role": "maze-practice",
+      "canonicalDriveId": "1W2OfNGTGkKe2-pnYbRv-0TlBC6uz3mz-",
+      "duplicateDriveIds": [
+        "1Gq8W1I_nPqkejg7aC7c4fdizikf1XMav",
+        "1kv4wYSiEyA8ioYLSgfgJOUr9GRieqdhm",
+        "1B5E-ho2Njsh3SG62ayId-LrxNRepgagP"
+      ],
+      "importedToPages": [
+        614,
+        615
+      ],
+      "transformation": "The 15 systems were retained, but the third-party maze layout was replaced by an original multiple-choice challenge layout."
+    },
+    {
+      "role": "grade-9-nonlinear-graphical-systems",
+      "canonicalDriveId": "16JOy5u5VAFwKHp_2XElb_jEHtllh5Zqn",
+      "duplicateDriveIds": [
+        "1YGOEGdDsDjF4UDE_yCM_lAyUcve6vUEv"
+      ],
+      "importedToPages": [],
+      "reason": "Quadratic-function intersections belong to a separate grade-9 nonlinear systems topic and are intentionally not mixed into the grade-8 linear workbook."
+    }
+  ]
+}
