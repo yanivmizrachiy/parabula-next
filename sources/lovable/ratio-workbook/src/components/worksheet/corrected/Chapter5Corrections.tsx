@@ -56,7 +56,7 @@ function RectangleChallenge() {
 
 export function RatioPage29() {
   return (
-    <PageLayout pageNumber={29} chapter={CH}>
+    <PageLayout pageNumber={29} chapter={CH} className="ratio-page-29">
       <Question>
         <p>במשולש ישר־הזווית ABC מתקיים ∠ABC=90°. הנקודה E היא אמצע AB והנקודה D היא אמצע BC. נתון AB=10a ו־BC=4a.</p>
         <MidpointTriangle />
