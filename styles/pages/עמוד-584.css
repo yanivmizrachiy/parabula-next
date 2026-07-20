@@ -1,7 +1,11 @@
 @import url('../topics/angles7-booklet.css');
 
-/* עמוד 584 — זוויות ברחובות העיר: שאלות. חיתוך הכיכר המרכזית מתוך כרזת המפה (עמוד קודם) + שני כרטיסי רב-ברירה */
-.page-584 .p584-mapwrap { margin: 0; }
-.page-584 .p584-map { width: 540px; }
-.page-584 .mc.mc2 { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 8px; gap: 8px 18px; }
-.page-584 .q { padding-top: 9px; padding-bottom: 10px; }
+/* עמוד 584 — „זוויות ברחובות העיר — שאלות".
+   במקור (page-13) הדף מכיל שני כרטיסי רב-ברירה בלבד; מפת הרחובות היא דף מקור נפרד
+   (registry: img 12 → עמוד-583) ומופיעה כאן רק כסימן־מים חיוור ברקע, ולכן אין בדף איור אטום.
+   המסיחים מסודרים בטור אחד כמו במקור, בגדלים ובמרווחים שממלאים את גוף ה-A4. */
+.page-584 .q { padding: 46px 20px 50px; }
+.page-584 .qbody { font-size: 17px; }
+.page-584 .mc { grid-template-columns: minmax(0, 1fr); gap: 36px; margin-top: 48px; }
+.page-584 .ol { width: 30px; height: 30px; font-size: 15px; }
+.page-584 .ot { font-size: 16px; }

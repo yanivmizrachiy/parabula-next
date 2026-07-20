@@ -2,24 +2,31 @@
 
 /* עמוד-578 — מי אני? — חידות על גודל הזווית
    שלושה כרטיסי חידה מהמקור (page-08): כרטיס זהב, כרטיס טורקיז וכרטיס בורדו.
-   צבעי הכרטיסים משמרים את זהות המקור בגרסה בהירה וידידותית להדפסה. */
+   צבעי הכרטיסים משמרים את זהות המקור בגרסה בהירה וידידותית להדפסה.
+   שלושת הכרטיסים נפרשים על מלוא האזור הזמין (שליש כל אחד) כדי שלא ייווצרו
+   פסי חלל מתים ביניהם; אזור הדרך בתוך כל כרטיס גדל יחד עם הכרטיס. */
 
-.page-578 .question-block { gap: 14px; }
+.page-578 .question-block { gap: 16px; justify-content: flex-start; }
 
-.page-578 .riddle { padding: 12px 16px 14px; border-radius: 14px; }
-.page-578 .riddle .rwrap { display: flex; gap: 20px; align-items: stretch; }
-.page-578 .riddle .rmain { flex: 1.15; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 7px; }
-.page-578 .riddle .rwork { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding-inline-start: 18px; border-inline-start: 1.5px dashed rgba(100, 116, 139, 0.45); }
+/* כל כרטיס תופס שליש מהגובה הזמין — הגידול הולך כולו למקום הפתרון */
+.page-578 .riddle { flex: 1 1 0; min-height: 0; display: flex; padding: 12px 18px 14px; border-radius: 14px; }
+.page-578 .riddle .qrow { flex: 1; align-items: stretch; }
+.page-578 .riddle .qbody { display: flex; }
+.page-578 .riddle .rwrap { flex: 1; display: flex; gap: 22px; align-items: stretch; }
+.page-578 .riddle .rmain { flex: 1.05; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; }
+.page-578 .riddle .rwork { flex: 1; display: flex; flex-direction: column; padding-inline-start: 20px; border-inline-start: 1.5px dashed rgba(100, 116, 139, 0.45); }
 
-.page-578 .rhead { font-size: 23px; font-weight: 700 !important; }
-.page-578 .ricons { display: flex; direction: ltr; justify-content: center; align-items: flex-end; gap: 28px; }
-.page-578 .rtext { font-size: 17px; line-height: 1.6; margin: 0; }
-.page-578 .rask { font-size: 17px; font-weight: 500 !important; margin: 0; }
+.page-578 .rhead { font-size: 25px; font-weight: 700 !important; }
+.page-578 .ricons { display: flex; direction: ltr; justify-content: center; align-items: flex-end; gap: 30px; }
+.page-578 .rtext { font-size: 18px; line-height: 1.65; margin: 0; }
+.page-578 .rask { font-size: 18px; font-weight: 500 !important; margin: 0; }
 
-.page-578 .rwork .lines { margin: 0; }
-.page-578 .rwork .ln { height: 31px; }
-.page-578 .rans { display: flex; align-items: baseline; gap: 8px; margin-top: 12px; font-size: 15px; font-weight: 500 !important; }
-.page-578 .rans .wline { min-width: 64px; }
+/* מקום מענה: כותרת אזור הדרך, שורות כתיבה שגדלות עם הכרטיס, ותשובה סופית */
+.page-578 .rwork .wcap { font-size: 14px; color: #475569; font-weight: 500 !important; }
+.page-578 .rwork .lines { flex: 1; display: flex; flex-direction: column; margin: 6px 0 0; }
+.page-578 .rwork .ln { flex: 1 1 0; min-height: 30px; }
+.page-578 .rans { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; font-size: 16px; font-weight: 500 !important; }
+.page-578 .rans .wline { min-width: 96px; }
 
 /* כרטיס 1 — מסגרת זהב, כותרת כחולה, זווית טורקיז */
 .page-578 .riddle.r1 { background: #fdf9ec; border: 2px solid #d9a93f; }
