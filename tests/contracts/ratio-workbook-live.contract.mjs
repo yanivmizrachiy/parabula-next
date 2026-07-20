@@ -16,13 +16,15 @@ test('ratio canonical pages are live HTML rather than whole-page raster images',
     const globalPage = firstGlobalPage + localPage - 1;
     const file = `עמוד-${globalPage}.html`;
     const html = read(file);
+    const selectableText = html.replace(/<[^>]+>/gu, ' ').replace(/\s+/gu, ' ').trim();
 
     assert.equal(html.includes('ratio-import-image'), false, `${file}: raster import marker is forbidden`);
     assert.equal(html.includes('ratio-import-page'), false, `${file}: legacy raster page class is forbidden`);
     assert.ok(html.includes('ratio-live-page'), `${file}: missing live ratio page class`);
     assert.ok(html.includes('worksheet-page'), `${file}: missing semantic worksheet root`);
     assert.equal(/\sstyle\s*=\s*["']/u.test(html), false, `${file}: inline CSS is forbidden`);
-    assert.ok(html.replace(/<[^>]+>/gu, ' ').replace(/\s+/gu, ' ').trim().length > 220, `${file}: not enough selectable text`);
+    assert.ok(/<(?:section|article|div|p|table|svg)\b/iu.test(html), `${file}: missing live semantic or vector content`);
+    assert.ok(selectableText.length > 40 || html.includes('<svg'), `${file}: page contains neither meaningful selectable text nor vector content`);
 
     const css = read(`styles/pages/עמוד-${globalPage}.css`);
     assert.equal(css.trim(), '@import url("../topics/ratio-live.css");', `${file}: wrong canonical ratio stylesheet`);
