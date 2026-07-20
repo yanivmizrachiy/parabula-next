@@ -1,6 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+const allowLegacyRasterImport = process.argv.includes('--allow-raster-baseline');
+if (!allowLegacyRasterImport) {
+  throw new Error([
+    'Legacy ratio raster import is disabled because it overwrites canonical live HTML pages.',
+    'Use `npm run ratio:export` to generate editable canonical pages.',
+    'For an intentional historical baseline rebuild only, rerun this script with --allow-raster-baseline.',
+  ].join(' '));
+}
+
 const root = process.cwd();
 const topicName = 'יחס';
 const startPage = 272;
@@ -151,4 +160,4 @@ writeText('sources/lovable/ratio-workbook/PARABULA-INTEGRATION.md', `# שילו�
 לאחר שינוי במקור יש להריץ מחדש את תהליך הייבוא כדי לרנדר את 48 הדפים מחדש. כל כללי העבודה המחייבים נמצאים בקובץ \`CLAUDE.md\` בשורש הריפו.
 `);
 
-console.log(`Imported topic ${topicName}: ${pageCount} pages (${startPage}-${endPage}).`);
+console.log(`Imported legacy raster topic ${topicName}: ${pageCount} pages (${startPage}-${endPage}).`);
