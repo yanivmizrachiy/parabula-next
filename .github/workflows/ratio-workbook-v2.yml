@@ -146,6 +146,5 @@ jobs:
             echo "Canonical live ratio pages are already current."
           else
             git commit -m "feat(יחס): ייצוא 48 דפי HTML חיים"
-            git pull --rebase origin agent/ratio-canonical-live-pages
             git push origin HEAD:agent/ratio-canonical-live-pages
           fi
