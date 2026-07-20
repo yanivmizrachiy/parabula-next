@@ -28,7 +28,7 @@ function Diamond({ filled = false }: { filled?: boolean }) {
 
 export function RatioPage01() {
   return (
-    <PageLayout pageNumber={1} chapter={CH}>
+    <PageLayout pageNumber={1} chapter={CH} className="ratio-page-1">
       <Question>
         <p>סמנו את האיור שבו היחס בין מספר המעויינים השחורים לבין מספר המעויינים הלבנים הוא 2 : 1.</p>
       </Question>
@@ -92,8 +92,7 @@ export function RatioPage01() {
           </div>
         </SubQuestion>
         <SubQuestion label="ב.">
-          <p>מה היחס בין מספר המשבצות השחורות למספר המשבצות הלבנות?</p>
-          <RatioAnswer />
+          <p>מה היחס בין מספר המשבצות השחורות למספר המשבצות הלבנות? <RatioAnswer inline /></p>
         </SubQuestion>
         <SubQuestion label="ג."><p><strong>השלימו:</strong> מספר המשבצות השחורות גדול פי <Blank /> ממספר המשבצות הלבנות.</p></SubQuestion>
       </Question>
@@ -104,8 +103,7 @@ export function RatioPage01() {
         <p>אלי שיחק עם חבריו בגולות אדומות וגולות לבנות.</p>
         <SubQuestion label="א."><p>בתום המשחק מספר הגולות האדומות של אלי <strong>גָדַל פי 2</strong> וגם מספר הגולות הלבנות גָדַל פי 2. האם היחס בין מספר הגולות האדומות למספר הלבנות השתנה? <Blank /></p></SubQuestion>
         <SubQuestion label="ב.">
-          <p>לרפי <strong>נוספו</strong> 2 גולות אדומות וגם 2 גולות לבנות, והיחס לא השתנה. מהו היחס שהיה לרפי לפני המשחק?</p>
-          <RatioAnswer />
+          <p>לרפי <strong>נוספו</strong> 2 גולות אדומות וגם 2 גולות לבנות, והיחס לא השתנה. מהו היחס שהיה לרפי לפני המשחק? <RatioAnswer inline /></p>
         </SubQuestion>
       </Question>
 
@@ -124,8 +122,7 @@ export function RatioPage01() {
           ]}
         />
         <SubQuestion label="א."><p>מהו גורם ההרחבה מן השורה הראשונה אל השורה הרביעית? <Blank /></p></SubQuestion>
-        <SubQuestion label="ב."><p>כתבו אפשרות נוספת שבה היחס הוא 3 : 2 ומספר העיגולים הכולל גדול מ־25.</p></SubQuestion>
-        <RatioAnswer label="אפשרות נוספת:" />
+        <SubQuestion label="ב."><p>כתבו אפשרות נוספת שבה היחס הוא 3 : 2 ומספר העיגולים הכולל גדול מ־25. <RatioAnswer inline /></p></SubQuestion>
         <SubQuestion label="ג."><p>בקבוצה יש 6 עיגולים שחורים ו־4 עיגולים לבנים. הוסיפו 3 שחורים ו־2 לבנים. האם היחס נשמר? הסבירו.</p></SubQuestion>
         <SubQuestion label="ד."><p>לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע. האם היחס נשמר? נמקו באמצעות יחס מצומצם.</p></SubQuestion>
         <WorkArea label="הסבר:" lines={2} />
