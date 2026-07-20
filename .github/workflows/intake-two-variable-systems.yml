@@ -1,19 +1,15 @@
 name: Intake two-variable systems pages
 
 on:
-  push:
-    branches:
-      - agent/two-variable-systems-drive-pages
   pull_request:
     branches:
       - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   generate-and-validate:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -40,26 +36,27 @@ jobs:
           npm run curriculum:build
           npm run validate:meta
 
-      - name: Commit generated canonical files
+      - name: Package generated canonical files
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            עמוד-195.html עמוד-320.html \
-            עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
-            עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html \
-            styles/topics/two-variable-systems.css \
-            styles/pages/עמוד-601.css styles/pages/עמוד-602.css \
-            styles/pages/עמוד-603.css styles/pages/עמוד-604.css \
-            styles/pages/עמוד-605.css styles/pages/עמוד-606.css \
-            styles/pages/עמוד-607.css styles/pages/עמוד-608.css \
-            scripts/curriculum-map.mjs meta/topics.json meta/pages.json
-          if git diff --cached --quiet; then
-            echo "No generated changes to commit."
-          else
-            git commit -m "feat(מערכות): דפי עבודה מדורגים ממשימות הדרייב"
-            git push origin HEAD:agent/two-variable-systems-drive-pages
-          fi
+          mkdir -p generated-intake/styles/pages generated-intake/styles/topics generated-intake/scripts generated-intake/meta
+          cp עמוד-195.html עמוד-320.html generated-intake/
+          cp עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html generated-intake/
+          cp עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html generated-intake/
+          cp styles/topics/two-variable-systems.css generated-intake/styles/topics/
+          cp styles/pages/עמוד-601.css styles/pages/עמוד-602.css generated-intake/styles/pages/
+          cp styles/pages/עמוד-603.css styles/pages/עמוד-604.css generated-intake/styles/pages/
+          cp styles/pages/עמוד-605.css styles/pages/עמוד-606.css generated-intake/styles/pages/
+          cp styles/pages/עמוד-607.css styles/pages/עמוד-608.css generated-intake/styles/pages/
+          cp scripts/curriculum-map.mjs generated-intake/scripts/
+          cp meta/topics.json meta/pages.json generated-intake/meta/
+
+      - name: Upload generated intake artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: systems-intake-generated
+          path: generated-intake
+          if-no-files-found: error
+          retention-days: 3
 
       - name: Validate generated changes
         run: |
