@@ -1,0 +1,17 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 24 — „הנקודה E — רביעים וגודל הזווית": כרטיס יחיד כבמקור —
+   נתוני הנקודות במרכז, שלושה סעיפים עם גלולות בחירה, ומערכת צירים גדולה בתחתית */
+.page-597 .question-block { justify-content: flex-start; gap: 8px; }
+.page-597 .q { padding: 12px 16px 11px; }
+.page-597 .qbody { font-size: 15.5px; }
+.page-597 .zb-given { font-weight: 500 !important; font-size: 16px; }
+.page-597 .zb-pts { direction: ltr; unicode-bidi: isolate; text-align: center; font-weight: 500 !important; font-size: 17.5px; color: #1f2a44; margin: 4px 0 6px; }
+.page-597 .zb-intro { margin-top: 2px; }
+.page-597 .sub { margin: 14px 0 0; }
+.page-597 .cho-row { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 10px 2px 0; }
+.page-597 .cho { display: inline-flex; align-items: center; justify-content: center; min-width: 118px; border: 1.5px solid #4f7ec2; border-radius: 10px; background: #fff; color: #14304f; font-weight: 500 !important; font-size: 15px; padding: 6px 18px; }
+.page-597 .zb-fill { margin-top: 12px; line-height: 2.1; }
+.page-597 .vlet { font-family: 'Times New Roman', Georgia, serif; font-style: italic; }
+.page-597 .zb-axes { margin-top: 5px; }
+.page-597 svg.chart text.axl { font-family: 'Times New Roman', Georgia, serif; font-style: italic; }

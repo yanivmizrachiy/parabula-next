@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-19T20:18:13.004Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 573,
+  "totalPages": 600,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -5846,6 +5846,282 @@
           "curriculumId": "g7.num.directed.axesFirst"
         }
       ]
+    },
+    {
+      "name": "חוברת זוויות לכיתה ז",
+      "count": 27,
+      "pages": [
+        {
+          "number": 574,
+          "file": "עמוד-574.html",
+          "title": "עמוד 1 — חוברת זוויות לכיתה ז",
+          "h1": "סוגי זוויות — זוויות סביבנו",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-574.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-574.html",
+          "curriculumId": "g7.geo.angles.concept"
+        },
+        {
+          "number": 575,
+          "file": "עמוד-575.html",
+          "title": "עמוד 2 — חוברת זוויות לכיתה ז",
+          "h1": "השלימו את ההיגדים — הזוויות שבין העצים",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-575.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-575.html",
+          "curriculumId": "g7.geo.angles.concept"
+        },
+        {
+          "number": 576,
+          "file": "עמוד-576.html",
+          "title": "עמוד 3 — חוברת זוויות לכיתה ז",
+          "h1": "ציור של שני עטים — סימון ההיגדים הנכונים",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-576.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-576.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 577,
+          "file": "עמוד-577.html",
+          "title": "עמוד 4 — חוברת זוויות לכיתה ז",
+          "h1": "התבוננו בכל זוג עטים — התאמה למידת הזווית",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-577.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-577.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 578,
+          "file": "עמוד-578.html",
+          "title": "עמוד 5 — חוברת זוויות לכיתה ז",
+          "h1": "מי אני? — חידות על גודל הזווית",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-578.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-578.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 579,
+          "file": "עמוד-579.html",
+          "title": "עמוד 6 — חוברת זוויות לכיתה ז",
+          "h1": "הזווית שבין העץ הנטוי למישור הדשא",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-579.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-579.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 580,
+          "file": "עמוד-580.html",
+          "title": "עמוד 7 — חוברת זוויות לכיתה ז",
+          "h1": "מספריים פתוחים — היגדים והשלמת משפטים",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-580.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-580.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 581,
+          "file": "עמוד-581.html",
+          "title": "עמוד 8 — חוברת זוויות לכיתה ז",
+          "h1": "זוויות על פני השעון",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-581.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-581.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 582,
+          "file": "עמוד-582.html",
+          "title": "עמוד 9 — חוברת זוויות לכיתה ז",
+          "h1": "מה גודל הזווית בין מחוגי השעון",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-582.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-582.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 583,
+          "file": "עמוד-583.html",
+          "title": "עמוד 10 — חוברת זוויות לכיתה ז",
+          "h1": "זוויות ברחובות העיר — מפת הרחובות",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-583.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-583.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 584,
+          "file": "עמוד-584.html",
+          "title": "עמוד 11 — חוברת זוויות לכיתה ז",
+          "h1": "זוויות ברחובות העיר — שאלות",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-584.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-584.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 585,
+          "file": "עמוד-585.html",
+          "title": "עמוד 12 — חוברת זוויות לכיתה ז",
+          "h1": "השלימו את המשפטים בעזרת מחסן המילים — חלק א",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-585.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-585.html",
+          "curriculumId": "g7.geo.angles.concept"
+        },
+        {
+          "number": 586,
+          "file": "עמוד-586.html",
+          "title": "עמוד 13 — חוברת זוויות לכיתה ז",
+          "h1": "שרטוט ומדידת זוויות",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-586.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-586.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        },
+        {
+          "number": 587,
+          "file": "עמוד-587.html",
+          "title": "עמוד 14 — חוברת זוויות לכיתה ז",
+          "h1": "השלימו את המשפטים בעזרת מחסן המילים — חלק ב",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-587.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-587.html",
+          "curriculumId": "g7.geo.angles.concept"
+        },
+        {
+          "number": 588,
+          "file": "עמוד-588.html",
+          "title": "עמוד 15 — חוברת זוויות לכיתה ז",
+          "h1": "קרניים מאונכות וזווית ישרה — נכון, לא נכון או אי אפשר לדעת",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-588.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-588.html",
+          "curriculumId": "g7.geo.angles.concept"
+        },
+        {
+          "number": 589,
+          "file": "עמוד-589.html",
+          "title": "עמוד 16 — חוברת זוויות לכיתה ז",
+          "h1": "הזווית AOB במערכת הצירים — חלק א",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-589.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-589.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 590,
+          "file": "עמוד-590.html",
+          "title": "עמוד 17 — חוברת זוויות לכיתה ז",
+          "h1": "הזווית AOB במערכת הצירים — חלק ב",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-590.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-590.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 591,
+          "file": "עמוד-591.html",
+          "title": "עמוד 18 — חוברת זוויות לכיתה ז",
+          "h1": "השוואת זוויות מן הראשית אל נקודות שונות",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-591.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-591.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 592,
+          "file": "עמוד-592.html",
+          "title": "עמוד 19 — חוברת זוויות לכיתה ז",
+          "h1": "הזזת הנקודה B ימינה — חקירת הזווית, חלק א",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-592.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-592.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 593,
+          "file": "עמוד-593.html",
+          "title": "עמוד 20 — חוברת זוויות לכיתה ז",
+          "h1": "הזזת הנקודה B ימינה — חקירת הזווית, חלק ב",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-593.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-593.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 594,
+          "file": "עמוד-594.html",
+          "title": "עמוד 21 — חוברת זוויות לכיתה ז",
+          "h1": "הזזת הנקודה B ימינה ומעלה — חקירת הזווית",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-594.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-594.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 595,
+          "file": "עמוד-595.html",
+          "title": "עמוד 22 — חוברת זוויות לכיתה ז",
+          "h1": "הנקודה F — קרבה לציר וגודל הזווית",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-595.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-595.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 596,
+          "file": "עמוד-596.html",
+          "title": "עמוד 23 — חוברת זוויות לכיתה ז",
+          "h1": "הנקודות C ו-D על אותה קרן — הזווית נשמרת",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-596.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-596.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 597,
+          "file": "עמוד-597.html",
+          "title": "עמוד 24 — חוברת זוויות לכיתה ז",
+          "h1": "הנקודה E — רביעים וגודל הזווית",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-597.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-597.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 598,
+          "file": "עמוד-598.html",
+          "title": "עמוד 25 — חוברת זוויות לכיתה ז",
+          "h1": "קרניים של 30° ו-60° — מיקום נקודות ביחס לקרן",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-598.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-598.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 599,
+          "file": "עמוד-599.html",
+          "title": "עמוד 26 — חוברת זוויות לכיתה ז",
+          "h1": "חקירת נקודות ביחס למחוג",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-599.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-599.html",
+          "curriculumId": "g7.num.directed.axesFirst"
+        },
+        {
+          "number": 600,
+          "file": "עמוד-600.html",
+          "title": "עמוד 27 — חוברת זוויות לכיתה ז",
+          "h1": "זוויות ישרות, חדות וקהות",
+          "topic": "חוברת זוויות לכיתה ז",
+          "previewPath": "/עמוד-600.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-600.html",
+          "curriculumId": "g7.geo.angles.measuring"
+        }
+      ]
     }
   ],
   "curriculum": {
@@ -5858,13 +6134,13 @@
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 232,
+        "pageCount": 259,
         "children": [
           {
             "id": "g7.num",
             "name": "תחום מספרי",
             "directCount": 0,
-            "pageCount": 49,
+            "pageCount": 60,
             "children": [
               {
                 "id": "g7.num.ops",
@@ -5904,7 +6180,7 @@
                 "id": "g7.num.directed",
                 "name": "מספרים מכוונים",
                 "directCount": 0,
-                "pageCount": 49,
+                "pageCount": 60,
                 "children": [
                   {
                     "id": "g7.num.directed.intro",
@@ -5970,8 +6246,8 @@
                   {
                     "id": "g7.num.directed.axesFirst",
                     "name": "מערכת צירים - רביע ראשון בלבד",
-                    "directCount": 34,
-                    "pageCount": 34,
+                    "directCount": 45,
+                    "pageCount": 45,
                     "pages": [
                       531,
                       532,
@@ -6003,6 +6279,17 @@
                       558,
                       559,
                       560,
+                      589,
+                      590,
+                      591,
+                      592,
+                      593,
+                      594,
+                      595,
+                      596,
+                      597,
+                      598,
+                      599,
                       268,
                       269,
                       270,
@@ -6245,7 +6532,7 @@
             "id": "g7.geo",
             "name": "תחום גאומטרי",
             "directCount": 0,
-            "pageCount": 100,
+            "pageCount": 116,
             "children": [
               {
                 "id": "g7.geo.quads",
@@ -6463,13 +6750,13 @@
                 "id": "g7.geo.angles",
                 "name": "זוויות",
                 "directCount": 0,
-                "pageCount": 26,
+                "pageCount": 42,
                 "children": [
                   {
                     "id": "g7.geo.angles.concept",
                     "name": "מושג הזווית",
-                    "directCount": 7,
-                    "pageCount": 7,
+                    "directCount": 12,
+                    "pageCount": 12,
                     "pages": [
                       268,
                       269,
@@ -6477,21 +6764,37 @@
                       271,
                       320,
                       322,
-                      327
+                      327,
+                      574,
+                      575,
+                      585,
+                      587,
+                      588
                     ]
                   },
                   {
                     "id": "g7.geo.angles.measuring",
                     "name": "מדידת זוויות",
-                    "directCount": 6,
-                    "pageCount": 6,
+                    "directCount": 17,
+                    "pageCount": 17,
                     "pages": [
                       323,
                       324,
                       325,
                       326,
                       328,
-                      329
+                      329,
+                      576,
+                      577,
+                      578,
+                      579,
+                      580,
+                      581,
+                      582,
+                      583,
+                      584,
+                      586,
+                      600
                     ]
                   },
                   {

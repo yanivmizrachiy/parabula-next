@@ -1,0 +1,19 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 592 — הזזת הנקודה B ימינה — חקירת הזווית, חלק א (מקור: page-21) */
+.page-592 .q { border-width: 2px; border-color: #7ba2e0; border-radius: 16px; padding: 16px 18px 12px; }
+.page-592 .qbody { font-size: 16.5px; }
+.page-592 .given-head { font-weight: 700 !important; font-size: 18px; margin: 0 0 8px; }
+.page-592 .points-line { text-align: center; font-weight: 700 !important; font-size: 19px; margin: 0 0 12px; letter-spacing: 0.02em; }
+.page-592 .qline { margin: 0 0 9px; }
+.page-592 .qline b, .page-592 .subt b { font-weight: 700 !important; }
+.page-592 .subs { margin-top: 10px; }
+.page-592 .sub { align-items: baseline; }
+.page-592 .subl { min-width: 22px; }
+.page-592 .c-ans { text-align: center; margin: 14px 0 2px; }
+.page-592 .pair-lg { font-size: 27px; gap: 9px; }
+.page-592 .pair-lg .pl { font-weight: 700 !important; }
+.page-592 .pair-lg .pblank { width: 48px; height: 24px; border-bottom-width: 2px; }
+.page-592 .obox-row { display: flex; gap: 26px; margin: 12px 30px 2px 0; }
+.page-592 .obox { border: 2px solid #4a7fd6; border-radius: 12px; padding: 9px 28px; font-weight: 600 !important; color: #1f2a44; font-size: 16px; background: #fff; }
+.page-592 .figure { margin-top: 14px; }

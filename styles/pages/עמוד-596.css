@@ -1,0 +1,18 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-596 — הנקודות C ו-D על אותה קרן — הזווית נשמרת */
+.page-596 .qbody > p { margin: 10px 0 0; }
+.page-596 .qbody > p:first-child { margin-top: 2px; }
+.page-596 .ghead { font-weight: 500 !important; font-size: 16px; }
+.page-596 .pts { text-align: center; margin-top: 10px; }
+.page-596 .pts .ltr { font-weight: 500 !important; font-size: 18px; }
+.page-596 .subs .sub { margin-top: 16px; }
+.page-596 .subt { display: block; }
+.page-596 .dpair { text-align: center; margin: 18px 0 10px; }
+.page-596 .pair.bigpair { font-size: 26px; font-weight: 500 !important; gap: 9px; }
+.page-596 .pair.bigpair .pblank { width: 48px; height: 26px; border-bottom-width: 2px; }
+.page-596 .choices { display: flex; gap: 18px; margin: 14px 0 6px; }
+.page-596 .choice { border: 1.8px solid var(--title-blue); border-radius: 12px; padding: 7px 30px; font-weight: 500 !important; font-size: 15px; color: #1f2a44; background: #fff; }
+.page-596 .fillrow { margin: 12px 0 0; }
+.page-596 .fillbox { display: inline-block; width: 175px; height: 40px; border: 2px solid #e8a33d; border-radius: 10px; background: #fff; vertical-align: middle; margin-inline: 5px; }
+.page-596 .figure { margin-top: 16px; }

@@ -1,0 +1,36 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-581 — זוויות על פני השעון */
+.page-581 .intro-wrap { display: flex; flex-direction: column; gap: 10px; }
+.page-581 .lead { font-size: 15px; margin: 0; }
+.page-581 .hintcard { background: #eef7f5; border-color: #cfe5e1; border-right-color: #2e8c80; font-size: 14.5px; }
+.page-581 .hintcard b { color: #2e7d73; }
+
+/* minmax(0,1fr) + min-width:0 — בלי זה min-width:auto של פריט grid מרחיב כל מסלול
+   לרוחב המינימלי של תוכנו ודוחף את הרשת כולה אל מחוץ לגבול הדף. */
+.page-581 .clkgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; justify-items: center; }
+.page-581 .clkcard { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 0; }
+.page-581 .clktime { font-size: 21px; font-weight: 700 !important; color: #1f2a44; letter-spacing: 0.5px; }
+.page-581 .ansgrid { display: grid; grid-template-columns: auto auto; gap: 10px 7px; align-items: center; min-width: 0; }
+.page-581 .alab { font-size: 14.5px; font-weight: 500 !important; text-align: end; }
+.page-581 .boxwrap { display: flex; align-items: flex-start; gap: 5px; }
+/* מידות התיבות נמדדו מהמקור (page-11.webp, סריקת פיקסלים): הזווית 90×44 ו-הסוג 132×47
+   פיקסלים במקור ברוחב 1250px, כלומר 57×28 ו-84×30 CSS px ב-A4 של 793.7px. */
+.page-581 .abox { display: inline-block; width: 58px; height: 32px; border: 2px solid #94a3b8; border-radius: 11px; background: #fff; }
+.page-581 .abox.tbox { width: 86px; }
+.page-581 .adeg { font-size: 15px; color: #475569; line-height: 1; }
+.page-581 .c-amber .abox { border-color: #e6a23c; }
+.page-581 .c-teal .abox { border-color: #35a795; }
+.page-581 .c-red .abox { border-color: #e0534f; }
+.page-581 .c-purple .abox { border-color: #8b7fd4; }
+
+.page-581 .challenge { background: #faf4e7; border: 1px solid #f0e4cc; border-radius: 16px; padding: 16px 20px; display: flex; align-items: center; gap: 22px; }
+.page-581 .ch-text { flex: 1; display: flex; flex-direction: column; gap: 9px; }
+.page-581 .ch-title { color: #cf9430; font-size: 17.5px; font-weight: 700 !important; }
+.page-581 .ch-star { margin-inline-end: 2px; }
+.page-581 .ch-p { font-size: 15.5px; line-height: 1.55; margin: 0; }
+.page-581 .ch-p .bluebold { color: #2563eb; font-weight: 700 !important; }
+.page-581 .ch-q { font-size: 15px; margin: 0; }
+.page-581 .ch-q .und { text-decoration: underline; }
+.page-581 .ch-hint { color: #8b929c; font-size: 12.5px; }
+.page-581 .ch-clock { flex: 0 0 auto; }

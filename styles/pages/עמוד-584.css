@@ -1,0 +1,11 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 584 — „זוויות ברחובות העיר — שאלות".
+   במקור (page-13) הדף מכיל שני כרטיסי רב-ברירה בלבד; מפת הרחובות היא דף מקור נפרד
+   (registry: img 12 → עמוד-583) ומופיעה כאן רק כסימן־מים חיוור ברקע, ולכן אין בדף איור אטום.
+   המסיחים מסודרים בטור אחד כמו במקור, בגדלים ובמרווחים שממלאים את גוף ה-A4. */
+.page-584 .q { padding: 46px 20px 50px; }
+.page-584 .qbody { font-size: 17px; }
+.page-584 .mc { grid-template-columns: minmax(0, 1fr); gap: 36px; margin-top: 48px; }
+.page-584 .ol { width: 30px; height: 30px; font-size: 15px; }
+.page-584 .ot { font-size: 16px; }

@@ -1,0 +1,48 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד-578 — מי אני? — חידות על גודל הזווית
+   שלושה כרטיסי חידה מהמקור (page-08): כרטיס זהב, כרטיס טורקיז וכרטיס בורדו.
+   צבעי הכרטיסים משמרים את זהות המקור בגרסה בהירה וידידותית להדפסה.
+   שלושת הכרטיסים נפרשים על מלוא האזור הזמין (שליש כל אחד) כדי שלא ייווצרו
+   פסי חלל מתים ביניהם; אזור הדרך בתוך כל כרטיס גדל יחד עם הכרטיס. */
+
+.page-578 .question-block { gap: 16px; justify-content: flex-start; }
+
+/* כל כרטיס תופס שליש מהגובה הזמין — הגידול הולך כולו למקום הפתרון */
+.page-578 .riddle { flex: 1 1 0; min-height: 0; display: flex; padding: 12px 18px 14px; border-radius: 14px; }
+.page-578 .riddle .qrow { flex: 1; align-items: stretch; }
+.page-578 .riddle .qbody { display: flex; }
+.page-578 .riddle .rwrap { flex: 1; display: flex; gap: 22px; align-items: stretch; }
+.page-578 .riddle .rmain { flex: 1.05; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px; }
+.page-578 .riddle .rwork { flex: 1; display: flex; flex-direction: column; padding-inline-start: 20px; border-inline-start: 1.5px dashed rgba(100, 116, 139, 0.45); }
+
+.page-578 .rhead { font-size: 25px; font-weight: 700 !important; }
+.page-578 .ricons { display: flex; direction: ltr; justify-content: center; align-items: flex-end; gap: 30px; }
+.page-578 .rtext { font-size: 18px; line-height: 1.65; margin: 0; }
+.page-578 .rask { font-size: 18px; font-weight: 500 !important; margin: 0; }
+
+/* מקום מענה: כותרת אזור הדרך, שורות כתיבה שגדלות עם הכרטיס, ותשובה סופית */
+.page-578 .rwork .wcap { font-size: 14px; color: #475569; font-weight: 500 !important; }
+.page-578 .rwork .lines { flex: 1; display: flex; flex-direction: column; margin: 6px 0 0; }
+.page-578 .rwork .ln { flex: 1 1 0; min-height: 30px; }
+.page-578 .rans { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; font-size: 16px; font-weight: 500 !important; }
+.page-578 .rans .wline { min-width: 96px; }
+
+/* כרטיס 1 — מסגרת זהב, כותרת כחולה, זווית טורקיז */
+.page-578 .riddle.r1 { background: #fdf9ec; border: 2px solid #d9a93f; }
+.page-578 .r1 .rhead { color: #1f3a63; }
+.page-578 .r1 .ricon { color: #2a9d8f; }
+.page-578 .r1 .hl { color: #2a9d8f; font-weight: 700 !important; }
+
+/* כרטיס 2 — במקור כרטיס טורקיז כהה עם כותרת זהב; כאן רקע טורקיז בהיר */
+.page-578 .riddle.r2 { background: #eaf5f4; border: 2px solid #1d6a6f; }
+.page-578 .r2 .rhead { color: #a8842c; }
+.page-578 .r2 .ricon { color: #a8842c; }
+.page-578 .r2 .hlt { color: #1d7a74; font-weight: 700 !important; }
+.page-578 .r2 .hlg { color: #a8842c; font-weight: 700 !important; }
+
+/* כרטיס 3 — מסגרת וכותרת בורדו, הדגשות אדומות */
+.page-578 .riddle.r3 { background: #fdf6f1; border: 2px solid #8e2f3c; }
+.page-578 .r3 .rhead { color: #8e2f3c; }
+.page-578 .r3 .ricon { color: #b08a3e; }
+.page-578 .r3 .hl { color: #c0392b; font-weight: 700 !important; }

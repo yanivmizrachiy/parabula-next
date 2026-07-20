@@ -1,0 +1,12 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 579 — הזווית שבין העץ הנטוי למישור הדשא */
+.page-579 .qbody { font-size: 16.5px; }
+.page-579 .ph-tree { width: 100%; }
+.page-579 .opts-col { display: flex; flex-direction: column; gap: 20px; padding: 4px 6px 6px 0; }
+.page-579 .copt { display: flex; align-items: center; gap: 12px; font-size: 15.5px; }
+.page-579 .cb { flex: 0 0 auto; width: 25px; height: 25px; border-radius: 8px; background: #fff; border: 2.5px solid #94a3b8; }
+.page-579 .cb1 { border-color: #e49e44; }
+.page-579 .cb2 { border-color: #2c9d89; }
+.page-579 .cb3 { border-color: #e0616a; }
+.page-579 .cb4 { border-color: #887dc3; }

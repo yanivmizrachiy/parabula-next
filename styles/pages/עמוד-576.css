@@ -1,0 +1,23 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 576 — ציור של שני עטים: סימון ההיגדים הנכונים */
+.page-576 .q { padding: 12px 16px 16px; }
+
+/* כותרת השאלה — סמן כתום מעוגל לצד הכותרת, וקו מפריד בגוון בז' כמו במקור */
+.page-576 .qhead { border-bottom: 2px solid #ece4d2; padding-bottom: 9px; }
+.page-576 .qtitle { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 19px; font-weight: 500 !important; color: #1f2a44; }
+.page-576 .qtitle::before { content: ""; flex: 0 0 auto; width: 10px; height: 26px; border-radius: 999px; background: #e8a33d; }
+.page-576 .qsub { margin: 9px 0 0; font-size: 15px; color: #475569; }
+
+/* איור העטים — תצלום סצנה מהמקור, ללא מסגרת, ממורכז */
+.page-576 .penswrap { text-align: center; }
+.page-576 .pens { display: inline-block; border: none; border-radius: 0; width: 395px; margin: 12px auto 0; }
+
+/* היגדים עם תיבת סימון צבעונית מעוגלת (כמו במקור) */
+.page-576 .cstmts { display: flex; flex-direction: column; gap: 27px; margin-top: 22px; }
+.page-576 .cstmt { display: flex; align-items: center; gap: 13px; font-size: 16px; color: #1f2a44; }
+.page-576 .cbox { flex: 0 0 auto; width: 23px; height: 23px; border-radius: 8px; border: 2.5px solid #94a3b8; background: #fff; }
+.page-576 .cb1 { border-color: #e8a33d; }
+.page-576 .cb2 { border-color: #2e9c8e; }
+.page-576 .cb3 { border-color: #e05c5c; }
+.page-576 .cb4 { border-color: #8b7fd6; }

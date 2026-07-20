@@ -1,0 +1,13 @@
+@import url('../topics/angles7-booklet.css');
+
+/* עמוד 585 — „השלימו את המשפטים בעזרת מחסן המילים — חלק א"
+   חמישה משפטי השלמה, כל אחד עם תיבת מענה צבעונית כבמקור (כתום, טורקיז, אדום, סגול, ירוק).
+   המשפטים מפוזרים לגובה העמוד כמו במקור (space-between של .question-block). */
+.page-585 .q { padding: 16px 18px; }
+.page-585 .qbody { font-size: 17px; line-height: 2.1; }
+.page-585 .fillbox { display: inline-block; vertical-align: middle; width: 124px; height: 32px; border: 2px solid #94a3b8; border-radius: 10px; background: #fff; margin: 0 5px; }
+.page-585 .fb-orange { border-color: #e39b3b; }
+.page-585 .fb-teal { border-color: #2f9c8e; }
+.page-585 .fb-red { border-color: #dd5a52; }
+.page-585 .fb-purple { border-color: #8f85d6; }
+.page-585 .fb-green { border-color: #63a94f; }
