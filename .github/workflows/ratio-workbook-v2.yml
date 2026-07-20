@@ -31,14 +31,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ratio-workbook-live-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify-export-and-commit:
+  verify-and-package:
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -107,18 +107,35 @@ jobs:
             exit 1
           fi
 
-      - name: Upload diagnostics and ratio audit
+      - name: Package generated canonical pages
+        shell: bash
+        run: |
+          rm -rf ratio-generated
+          mkdir -p ratio-generated/styles/pages ratio-generated/styles/topics
+          for number in $(seq 272 319); do
+            cp -- "עמוד-${number}.html" ratio-generated/
+            cp -- "styles/pages/עמוד-${number}.css" ratio-generated/styles/pages/
+          done
+          cp -- styles/topics/ratio-live.css ratio-generated/styles/topics/
+          if [ -d assets/ratio/live ]; then
+            mkdir -p ratio-generated/assets/ratio
+            cp -a assets/ratio/live ratio-generated/assets/ratio/
+          fi
+
+      - name: Upload generated pages and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: ratio-workbook-live-audit
           path: |
+            ratio-generated/
             assets/ratio/audit-v2.json
             assets/ratio/page-001.png
+            assets/ratio/page-004.png
+            assets/ratio/page-005.png
+            assets/ratio/page-006.png
+            assets/ratio/page-007.png
             assets/ratio/page-029.png
-            styles/topics/ratio-live.css
-            עמוד-272.html
-            עמוד-300.html
             ratio-ci-all.log
             ratio-ci-status.txt
             mobile-browser.log
@@ -126,25 +143,3 @@ jobs:
             mobile-status.txt
             test-results/
           if-no-files-found: warn
-
-      - name: Commit generated canonical live pages
-        if: >-
-          (github.event_name == 'push' && github.ref_name == 'agent/ratio-canonical-live-pages') ||
-          (github.event_name == 'pull_request' && github.head_ref == 'agent/ratio-canonical-live-pages' && github.event.pull_request.head.repo.full_name == github.repository)
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for number in $(seq 272 319); do
-            git add -- "עמוד-${number}.html" "styles/pages/עמוד-${number}.css"
-          done
-          git add -- styles/topics/ratio-live.css
-          if [ -e assets/ratio/live ]; then
-            git add -A -- assets/ratio/live
-          fi
-          if git diff --cached --quiet; then
-            echo "Canonical live ratio pages are already current."
-          else
-            git commit -m "feat(יחס): ייצוא 48 דפי HTML חיים"
-            git push origin HEAD:agent/ratio-canonical-live-pages
-          fi
