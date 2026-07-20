@@ -9,35 +9,130 @@
   flex: 1 1 0;
 }
 
+.ratio-answer-container.is-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+.ratio-answer-container.is-inline .ratio-answer-box {
+  width: 28px;
+  height: 21px;
+}
+
 .response-set {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.75fr);
-  gap: 3px 10px;
-  margin: 4px 18px 5px 0;
-  padding: 4px 7px;
+  grid-template-columns: minmax(170px, 1fr) repeat(3, minmax(78px, auto));
+  align-items: end;
+  gap: 3px 8px;
+  margin: 2px 18px 3px 0;
+  padding: 3px 6px;
   border: 1px solid var(--ws-rule);
   border-radius: 4px;
   break-inside: avoid;
 }
 
 .response-set .work-area {
-  grid-row: 1 / span 4;
+  grid-row: auto;
   margin: 0;
+}
+
+.response-set .work-area-lines {
+  gap: 2px;
+}
+
+.response-set .work-area-line {
+  min-height: 14px;
 }
 
 .response-set .final-answer {
   min-width: 0;
   margin: 0;
-  padding: 2px 0;
+  padding: 0;
   border-top: 0;
+  gap: 4px;
+}
+
+.response-set .answer-label {
+  white-space: nowrap;
 }
 
 .response-set .final-answer-line {
-  min-width: 52px;
-  max-width: 110px;
+  min-width: 44px;
+  max-width: 82px;
+}
+
+.response-set .ratio-answer {
+  gap: 4px;
+  min-height: 21px;
 }
 
 .response-set .ratio-answer-box {
-  width: 27px;
-  height: 21px;
+  width: 23px;
+  height: 19px;
+}
+
+.ratio-page-1 .q-separator,
+.ratio-page-29 .q-separator {
+  min-height: 6px;
+  max-height: 9px;
+}
+
+.ratio-page-1 .circles-grid {
+  margin: 3px 0;
+}
+
+.ratio-page-1 .drawing-box {
+  min-height: 34px;
+  margin: 2px 0;
+  padding: 4px 8px;
+}
+
+.ratio-page-1 .sub-question,
+.ratio-page-29 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .work-area {
+  margin: 2px 0 0;
+}
+
+.ratio-page-1 .work-area-lines {
+  gap: 2px;
+}
+
+.ratio-page-1 .work-area-line {
+  min-height: 14px;
+}
+
+.ratio-page-29 .question-block {
+  margin-bottom: 1px;
+}
+
+.ratio-page-29 .geo-figure.compact {
+  margin: 0 auto;
+}
+
+.ratio-page-29 .geo-figure.compact .geo-svg {
+  width: auto;
+  max-width: 100%;
+  max-height: 88px;
+}
+
+.ratio-page-29 .cookie-trays.compact {
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.ratio-page-29 .cookie-trays.compact .tray {
+  padding: 3px;
+}
+
+@media (max-width: 720px) {
+  .response-set {
+    grid-template-columns: 1fr;
+  }
 }
