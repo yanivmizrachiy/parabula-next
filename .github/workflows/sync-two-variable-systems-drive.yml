@@ -1,9 +1,9 @@
 name: Sync two-variable systems from Drive
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/two-variable-systems-drive-pages
+      - main
 
 permissions:
   contents: write
@@ -93,5 +93,7 @@ jobs:
             echo "No canonical changes to commit."
           else
             git commit -m "feat(מערכות): סנכרן את כל חומרי שני הנעלמים מה-Drive"
+            git fetch origin agent/two-variable-systems-drive-pages
+            git rebase origin/agent/two-variable-systems-drive-pages
             git push origin HEAD:agent/two-variable-systems-drive-pages
           fi
