@@ -1,6 +1,13 @@
-import { Blank, PageLayout, QSep, Question, SubQuestion } from '../pages/PageLayout';
+import {
+  FinalAnswer,
+  PageLayout,
+  QSep,
+  Question,
+  SubQuestion,
+  WorkArea,
+} from '../pages/PageLayout';
 
-const CH = 'פרק 5 – שאלות אתגר';
+const CH = 'פרק 5 – יחס בגאומטריה ובכמויות';
 
 function MidpointTriangle() {
   return (
@@ -56,6 +63,12 @@ export function RatioPage29() {
         <SubQuestion label="א."><p>הביעו באמצעות a את האורכים BE ו־CD.</p></SubQuestion>
         <SubQuestion label="ב."><p>חשבו את היחס בין שטח △ABC לשטח △ADC.</p></SubQuestion>
         <SubQuestion label="ג."><p>חשבו את היחס בין שטח △BCE לשטח △ABC.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. BE, CD:" />
+          <FinalAnswer label="ב." type="ratio" />
+          <FinalAnswer label="ג." type="ratio" />
+        </div>
       </Question>
 
       <QSep />
@@ -70,6 +83,12 @@ export function RatioPage29() {
         <SubQuestion label="א."><p>באיזה מגש היחס חומות : לבנות הוא 1 : 4?</p></SubQuestion>
         <SubQuestion label="ב."><p>מאחדים את מגשים 2 ו־3. מהו היחס לבנות : חומות?</p></SubQuestion>
         <SubQuestion label="ג."><p>מאחדים את מגשים 1 ו־3. איזה אחוז מהעוגיות חומות?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. מגש:" />
+          <FinalAnswer label="ב." type="ratio" />
+          <FinalAnswer label="ג." unit="%" />
+        </div>
       </Question>
 
       <QSep />
@@ -78,6 +97,11 @@ export function RatioPage29() {
         <p>בכוס 2 יש 400 מ״ל מיץ, והיחס בין הכמות בכוס 1 לכמות בכוס 2 הוא 1 : 4.</p>
         <SubQuestion label="א."><p>כמה מ״ל יש בכוס 1?</p></SubQuestion>
         <SubQuestion label="ב."><p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נמצא כעת בכוס 2?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א." unit="מ״ל" />
+          <FinalAnswer label="ב." unit="%" />
+        </div>
       </Question>
 
       <QSep />
@@ -91,9 +115,15 @@ export function RatioPage29() {
           <span>2. BC : היקף המלבן = 1 : 8.</span>
           <span>3. BC : AB = 6 : 2.</span>
         </div>
-        <SubQuestion label="ב."><p>השלימו: שטח המלבן : שטח △DEF = <Blank />.</p></SubQuestion>
-        <SubQuestion label="ג."><p>שטח △BEF : שטח המלבן = <Blank />.</p></SubQuestion>
-        <SubQuestion label="ד."><p>שטח △CDE : שטח △ADE = <Blank />.</p></SubQuestion>
+        <SubQuestion label="ב."><p>השלימו את היחס בין שטח המלבן לשטח △DEF.</p></SubQuestion>
+        <SubQuestion label="ג."><p>השלימו את היחס בין שטח △BEF לשטח המלבן.</p></SubQuestion>
+        <SubQuestion label="ד."><p>השלימו את היחס בין שטח △CDE לשטח △ADE.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="ב." type="ratio" />
+          <FinalAnswer label="ג." type="ratio" />
+          <FinalAnswer label="ד." type="ratio" />
+        </div>
       </Question>
     </PageLayout>
   );
