@@ -1,16 +1,15 @@
 name: Sync two-variable systems from Drive
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/two-variable-systems-drive-pages
+      - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   sync-and-validate:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -37,15 +36,68 @@ jobs:
           npm run curriculum:build
           npm run validate:meta
 
-      - name: Validate repository contracts
+      - name: Package synchronized canonical files
         run: |
-          npm test
-          npm run verify
-          npm run validate:schema
-          npm run curriculum:check
-          npm run validate:curriculum
-          npm run validate:html
-          npm run build
+          mkdir -p synchronized/styles/pages synchronized/styles/topics synchronized/scripts synchronized/meta
+          cp עמוד-531.html עמוד-573.html synchronized/
+          cp עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html synchronized/
+          cp עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html synchronized/
+          cp עמוד-609.html עמוד-610.html עמוד-611.html עמוד-612.html synchronized/
+          cp עמוד-613.html עמוד-614.html עמוד-615.html synchronized/
+          cp styles/topics/two-variable-systems.css synchronized/styles/topics/
+          cp styles/pages/עמוד-601.css styles/pages/עמוד-602.css synchronized/styles/pages/
+          cp styles/pages/עמוד-603.css styles/pages/עמוד-604.css synchronized/styles/pages/
+          cp styles/pages/עמוד-605.css styles/pages/עמוד-606.css synchronized/styles/pages/
+          cp styles/pages/עמוד-607.css styles/pages/עמוד-608.css synchronized/styles/pages/
+          cp styles/pages/עמוד-609.css styles/pages/עמוד-610.css synchronized/styles/pages/
+          cp styles/pages/עמוד-611.css styles/pages/עמוד-612.css synchronized/styles/pages/
+          cp styles/pages/עמוד-613.css styles/pages/עמוד-614.css synchronized/styles/pages/
+          cp styles/pages/עמוד-615.css synchronized/styles/pages/
+          cp scripts/curriculum-map.mjs synchronized/scripts/
+          cp meta/topics.json meta/pages.json meta/systems-drive-sync.json synchronized/meta/
+
+      - name: Upload synchronized workbook
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-variable-systems-synchronized
+          path: synchronized
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Run repository validation suite
+        id: validation
+        shell: bash
+        run: |
+          set +e
+          : > validation-report.txt
+          failed=0
+          run_check() {
+            name="$1"
+            shift
+            echo "===== $name =====" | tee -a validation-report.txt
+            "$@" 2>&1 | tee -a validation-report.txt
+            code=${PIPESTATUS[0]}
+            echo "EXIT_CODE=$code" | tee -a validation-report.txt
+            echo | tee -a validation-report.txt
+            if [ "$code" -ne 0 ]; then failed=1; fi
+          }
+          run_check "npm test" npm test
+          run_check "npm run verify" npm run verify
+          run_check "npm run validate:schema" npm run validate:schema
+          run_check "npm run curriculum:check" npm run curriculum:check
+          run_check "npm run validate:curriculum" npm run validate:curriculum
+          run_check "npm run validate:html" npm run validate:html
+          run_check "npm run build" npm run build
+          echo "FAILED=$failed" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-variable-systems-validation-report
+          path: validation-report.txt
+          if-no-files-found: error
+          retention-days: 3
 
       - name: Locate system Chrome
         run: |
@@ -58,9 +110,12 @@ jobs:
           "$CHROME" --version
 
       - name: Run targeted visual audit
+        id: visual
+        continue-on-error: true
         run: node scripts/audit-two-variable-systems-sync.mjs
 
       - name: Upload visual audit
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: two-variable-systems-sync-audit
@@ -68,30 +123,6 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-      - name: Commit verified canonical files
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- \
-            עמוד-531.html עמוד-573.html \
-            עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
-            עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html \
-            עמוד-609.html עמוד-610.html עמוד-611.html עמוד-612.html \
-            עמוד-613.html עמוד-614.html עמוד-615.html \
-            styles/topics/two-variable-systems.css \
-            styles/pages/עמוד-601.css styles/pages/עמוד-602.css \
-            styles/pages/עמוד-603.css styles/pages/עמוד-604.css \
-            styles/pages/עמוד-605.css styles/pages/עמוד-606.css \
-            styles/pages/עמוד-607.css styles/pages/עמוד-608.css \
-            styles/pages/עמוד-609.css styles/pages/עמוד-610.css \
-            styles/pages/עמוד-611.css styles/pages/עמוד-612.css \
-            styles/pages/עמוד-613.css styles/pages/עמוד-614.css \
-            styles/pages/עמוד-615.css \
-            scripts/curriculum-map.mjs \
-            meta/topics.json meta/pages.json meta/systems-drive-sync.json
-          if git diff --cached --quiet; then
-            echo "No canonical changes to commit."
-          else
-            git commit -m "feat(מערכות): סנכרן את כל חומרי שני הנעלמים מה-Drive"
-            git push origin HEAD:agent/two-variable-systems-drive-pages
-          fi
+      - name: Fail when any validation failed
+        if: steps.validation.outputs.FAILED == '1' || steps.visual.outcome != 'success'
+        run: exit 1
