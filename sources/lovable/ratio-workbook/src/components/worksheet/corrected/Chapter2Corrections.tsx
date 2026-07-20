@@ -1,12 +1,12 @@
 import {
-  AnswerLine,
-  Blank,
   Checkbox,
+  FinalAnswer,
   Frac,
   PageLayout,
   QSep,
   Question,
   SubQuestion,
+  WorkArea,
 } from '../pages/PageLayout';
 
 const CH = 'פרק 2 – חלוקה ביחס נתון';
@@ -39,11 +39,15 @@ function SpiceGraph() {
 
 export function RatioPage11() {
   return (
-    <PageLayout pageNumber={11} chapter={CH}>
+    <PageLayout pageNumber={11} chapter={CH} className="ratio-page-11">
       <Question>
         <p>ביום קיץ הגיעו לבית הספר יותר מ־65 תלמידים. היחס בין מספר התלמידים שנעלו נעלי ספורט למספר התלמידים שנעלו סנדלים היה 5 : 3.</p>
         <SubQuestion label="א."><p>הסבירו מדוע לא ייתכן שהגיעו 83 תלמידים.</p></SubQuestion>
         <SubQuestion label="ב."><p>כתבו אפשרות אחת למספר התלמידים שהגיעו.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea label="הסבר:" lines={1} />
+          <FinalAnswer label="ב. אפשרות:" unit="תלמידים" />
+        </div>
       </Question>
 
       <QSep />
@@ -52,6 +56,11 @@ export function RatioPage11() {
         <p>מחירם של סלט וכריך יחד הוא 40 ש״ח. היחס בין מחיר הסלט למחיר הכריך הוא 4 : 1.</p>
         <SubQuestion label="א."><p>חשבו את מחיר הסלט ואת מחיר הכריך.</p></SubQuestion>
         <SubQuestion label="ב."><p>דניאל קנה סלט וארבעה כריכים. מהו היחס בין מחיר הסלט לסכום הכולל ששילם?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. סלט, כריך:" unit="ש״ח" />
+          <FinalAnswer label="ב." type="ratio" />
+        </div>
       </Question>
 
       <QSep />
@@ -60,6 +69,11 @@ export function RatioPage11() {
         <p>יוסי שילם במוסך 2,240 ש״ח. היחס בין שכר העבודה למחיר חלקי החילוף הוא 5 : 2.</p>
         <SubQuestion label="א."><p>מה היה שכר העבודה?</p></SubQuestion>
         <SubQuestion label="ב."><p>מה היה מחיר חלקי החילוף?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. עבודה:" unit="ש״ח" />
+          <FinalAnswer label="ב. חלקים:" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -68,6 +82,11 @@ export function RatioPage11() {
         <p>בכיתה ח׳1 יש 30 תלמידים ובכיתה ח׳2 יש 32 תלמידים. מחיר הטיול <strong>לכל תלמיד</strong> היה זהה, והעלות הכוללת לשתי הכיתות הייתה 2,480 ש״ח.</p>
         <SubQuestion label="א."><p>מה היה המחיר לתלמיד?</p></SubQuestion>
         <SubQuestion label="ב."><p>מה הייתה עלות הטיול לכל אחת מהכיתות?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. לתלמיד:" unit="ש״ח" />
+          <FinalAnswer label="ב. ח׳1, ח׳2:" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -77,6 +96,11 @@ export function RatioPage11() {
         <SpiceGraph />
         <SubQuestion label="א."><p>מהו היחס בין כמות הקינמון לכמות הווניל?</p></SubQuestion>
         <SubQuestion label="ב."><p>כמה גרם מכל תבלין יש בתערובת שמשקלה 560 גרם?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א." type="ratio" />
+          <FinalAnswer label="ב. קינמון, וניל:" unit="גרם" />
+        </div>
       </Question>
     </PageLayout>
   );
@@ -84,11 +108,16 @@ export function RatioPage11() {
 
 export function RatioPage13() {
   return (
-    <PageLayout pageNumber={13} chapter={CH}>
+    <PageLayout pageNumber={13} chapter={CH} className="ratio-page-13">
       <Question>
         <p>שטחו של מלבן הוא 48 סמ״ר. היחס בין אורכי צלעותיו הוא 3 : 1.</p>
         <SubQuestion label="א."><p>חשבו את אורכי צלעות המלבן.</p></SubQuestion>
         <SubQuestion label="ב."><p>חשבו את היקף המלבן.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. צלעות:" unit="ס״מ" />
+          <FinalAnswer label="ב. היקף:" unit="ס״מ" />
+        </div>
       </Question>
 
       <QSep />
@@ -98,6 +127,12 @@ export function RatioPage13() {
         <SubQuestion label="א."><p>בשק ב׳ יש 5 כדורים. כמה כדורים יש בסך הכול?</p></SubQuestion>
         <SubQuestion label="ב."><p>בכל השקים יחד יש 70 כדורים. כמה כדורים יש בכל שק?</p></SubQuestion>
         <SubQuestion label="ג."><p>האם ייתכן שבכל השקים יחד יהיו 72 כדורים? נמקו.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea label="דרך ונימוק:" lines={1} />
+          <FinalAnswer label="א. סך הכול:" unit="כדורים" />
+          <FinalAnswer label="ב. א׳, ב׳, ג׳:" unit="כדורים" />
+          <FinalAnswer label="ג. תשובה:" />
+        </div>
       </Question>
 
       <QSep />
@@ -106,6 +141,11 @@ export function RatioPage13() {
         <p>בכיתה 24 תלמידים. היחס בין מספר הבנים למספר הבנות הוא 5 : 3.</p>
         <SubQuestion label="א."><p>כמה בנים וכמה בנות בכיתה?</p></SubQuestion>
         <SubQuestion label="ב."><p>כמה <strong>בנות</strong> צריך לצרף לכיתה כדי שהיחס בין מספר הבנים למספר הבנות יהיה 1 : 1?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. בנים, בנות:" />
+          <FinalAnswer label="ב. בנות לצירוף:" />
+        </div>
       </Question>
 
       <QSep />
@@ -113,7 +153,10 @@ export function RatioPage13() {
       <Question>
         <p>זווית אחת במשולש היא 120°. היחס בין שתי הזוויות האחרות הוא 1 : 5.</p>
         <p>חשבו את גודלן של שתי הזוויות האחרות.</p>
-        <AnswerLine label="פתרון:" />
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="הזוויות:" unit="°" />
+        </div>
       </Question>
     </PageLayout>
   );
@@ -121,11 +164,16 @@ export function RatioPage13() {
 
 export function RatioPage16() {
   return (
-    <PageLayout pageNumber={16} chapter={CH}>
+    <PageLayout pageNumber={16} chapter={CH} className="ratio-page-16">
       <Question>
         <p>בקבוצת מחקר לכל פרופסור מסייעים 5 סטודנטים. היחס בין מספר הפרופסורים למספר הסטודנטים הוא 1 : 5.</p>
         <SubQuestion label="א."><p>בקבוצה 30 אנשי מחקר. כמה מהם פרופסורים וכמה סטודנטים?</p></SubQuestion>
         <SubQuestion label="ב."><p>לכנס יצאו 18 אנשי מחקר באותו יחס. כמה פרופסורים וכמה סטודנטים יצאו?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. פרופסורים, סטודנטים:" />
+          <FinalAnswer label="ב. פרופסורים, סטודנטים:" />
+        </div>
       </Question>
 
       <QSep />
@@ -134,6 +182,11 @@ export function RatioPage16() {
         <p>להכנת סלט פירות משתמשים ב־3 תפוזים, 2 בננות ותפוח אחד.</p>
         <SubQuestion label="א."><p>נועה השתמשה ב־9 תפוזים. כמה בננות וכמה תפוחים עליה להוסיף?</p></SubQuestion>
         <SubQuestion label="ב."><p>לשרית יש 2 בננות. כמה תפוזים וכמה תפוחים דרושים כדי לשמור על היחס?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. בננות, תפוחים:" />
+          <FinalAnswer label="ב. תפוזים, תפוחים:" />
+        </div>
       </Question>
 
       <QSep />
@@ -155,6 +208,12 @@ export function RatioPage16() {
         <SubQuestion label="א."><p>איזה חלק מהפרס יקבל כל אחד?</p></SubQuestion>
         <SubQuestion label="ב."><p>אם יזכו ב־70 ש״ח, כמה יקבל כל אחד?</p></SubQuestion>
         <SubQuestion label="ג."><p>אם יזכו ב־x ש״ח, כתבו ביטוי אלגברי לסכום שיקבל כל אחד.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. טל, אורי:" />
+          <FinalAnswer label="ב. טל, אורי:" unit="ש״ח" />
+          <FinalAnswer label="ג. טל, אורי:" />
+        </div>
       </Question>
 
       <QSep />
@@ -163,7 +222,11 @@ export function RatioPage16() {
         <p>בחנות הוכרז מבצע: „קנו 3 ספרים — הזול ביותר חינם”. יפה בחרה ספרים במחירים 57 ו־33 ש״ח, ונעמה בחרה ספר במחיר 45 ש״ח.</p>
         <SubQuestion label="א."><p>כמה כסף חסכו יחד?</p></SubQuestion>
         <SubQuestion label="ב."><p>חלקו את החיסכון ביניהן ביחס לסכומי הקנייה שלהן לפני המבצע.</p></SubQuestion>
-        <AnswerLine label="פתרון:" />
+        <div className="response-set">
+          <WorkArea lines={2} />
+          <FinalAnswer label="א. חיסכון:" unit="ש״ח" />
+          <FinalAnswer label="ב. יפה, נעמה:" unit="ש״ח" />
+        </div>
       </Question>
     </PageLayout>
   );
