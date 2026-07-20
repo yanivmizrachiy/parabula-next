@@ -58,12 +58,41 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-      - name: Validate generated changes
+      - name: Run validation suite and capture report
+        id: validation
+        shell: bash
         run: |
-          npm test
-          npm run verify
-          npm run validate:schema
-          npm run curriculum:check
-          npm run validate:curriculum
-          npm run validate:html
-          npm run build
+          set +e
+          : > validation-report.txt
+          failed=0
+          run_check() {
+            name="$1"
+            shift
+            echo "===== $name =====" | tee -a validation-report.txt
+            "$@" 2>&1 | tee -a validation-report.txt
+            code=${PIPESTATUS[0]}
+            echo "EXIT_CODE=$code" | tee -a validation-report.txt
+            echo | tee -a validation-report.txt
+            if [ "$code" -ne 0 ]; then failed=1; fi
+          }
+          run_check "npm test" npm test
+          run_check "npm run verify" npm run verify
+          run_check "npm run validate:schema" npm run validate:schema
+          run_check "npm run curriculum:check" npm run curriculum:check
+          run_check "npm run validate:curriculum" npm run validate:curriculum
+          run_check "npm run validate:html" npm run validate:html
+          run_check "npm run build" npm run build
+          echo "FAILED=$failed" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: systems-intake-validation-report
+          path: validation-report.txt
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Fail when a validation command failed
+        if: steps.validation.outputs.FAILED == '1'
+        run: exit 1
