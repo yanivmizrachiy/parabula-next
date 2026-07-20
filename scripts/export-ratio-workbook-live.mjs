@@ -216,7 +216,7 @@ try {
       if ('fonts' in document) await document.fonts.ready;
     });
 
-    const source = await page.evaluate(() => {
+    const source = await page.evaluate((expectedPageNumber) => {
       const sheet = document.querySelector('.worksheet-page');
       if (!(sheet instanceof HTMLElement)) {
         throw new Error('Missing .worksheet-page');
@@ -228,6 +228,40 @@ try {
       }
 
       clone.querySelectorAll('.gz-footer, .preview-nav, script').forEach((element) => element.remove());
+
+      const existingHeader = clone.querySelector('.page-header, .header-container');
+      if (existingHeader instanceof HTMLElement) {
+        const canonicalHeader = document.createElement('header');
+        canonicalHeader.className = 'header-container page-header';
+        for (const child of Array.from(existingHeader.childNodes)) {
+          canonicalHeader.append(child);
+        }
+        existingHeader.replaceWith(canonicalHeader);
+
+        const title = canonicalHeader.querySelector('.page-header-title, .page-title');
+        if (title instanceof HTMLElement) {
+          title.classList.add('page-title');
+        }
+
+        const oldNumber = canonicalHeader.querySelector('.page-header-num, .page-number');
+        const pageNumber = document.createElement('div');
+        pageNumber.className = 'page-number';
+        pageNumber.textContent = oldNumber?.textContent?.trim() || String(expectedPageNumber);
+        if (oldNumber) oldNumber.replaceWith(pageNumber);
+        else canonicalHeader.append(pageNumber);
+      } else {
+        const canonicalHeader = document.createElement('header');
+        canonicalHeader.className = 'header-container';
+        const title = document.createElement('h1');
+        title.className = 'page-title';
+        title.textContent = 'יחס';
+        const pageNumber = document.createElement('div');
+        pageNumber.className = 'page-number';
+        pageNumber.textContent = String(expectedPageNumber);
+        canonicalHeader.append(title, pageNumber);
+        clone.prepend(canonicalHeader);
+      }
+
       const inlineStyle = clone.querySelector('[style]');
       if (inlineStyle) {
         throw new Error(`Inline CSS is forbidden in ratio source: ${inlineStyle.tagName.toLowerCase()}`);
@@ -237,7 +271,7 @@ try {
         classes: Array.from(clone.classList).filter((name) => name !== 'worksheet-page'),
         html: clone.innerHTML.trim(),
       };
-    });
+    }, localPage);
 
     const sourceHtml = rewriteAssetReferences(source.html, 'assets/ratio/live/');
     if (sourceHtml.includes('ratio-import-image')) {
