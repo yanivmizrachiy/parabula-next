@@ -57,18 +57,19 @@ export function Blank() {
 interface RatioAnswerProps {
   label?: string;
   className?: string;
+  inline?: boolean;
 }
 
-export function RatioAnswer({ label, className }: RatioAnswerProps) {
+export function RatioAnswer({ label, className, inline = false }: RatioAnswerProps) {
   return (
-    <div className={cn('ratio-answer-container', className)}>
+    <span className={cn('ratio-answer-container', inline && 'is-inline', className)}>
       {label && <span className="answer-label">{label}</span>}
       <span className="ratio-answer" dir="ltr" aria-label="מקום לכתיבת יחס">
         <span className="ratio-answer-box" aria-hidden="true" />
         <span className="ratio-answer-colon" aria-hidden="true">:</span>
         <span className="ratio-answer-box" aria-hidden="true" />
       </span>
-    </div>
+    </span>
   );
 }
 
