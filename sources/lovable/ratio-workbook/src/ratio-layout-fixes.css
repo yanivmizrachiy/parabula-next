@@ -8,3 +8,36 @@
   min-width: 0;
   flex: 1 1 0;
 }
+
+.response-set {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.75fr);
+  gap: 3px 10px;
+  margin: 4px 18px 5px 0;
+  padding: 4px 7px;
+  border: 1px solid var(--ws-rule);
+  border-radius: 4px;
+  break-inside: avoid;
+}
+
+.response-set .work-area {
+  grid-row: 1 / span 4;
+  margin: 0;
+}
+
+.response-set .final-answer {
+  min-width: 0;
+  margin: 0;
+  padding: 2px 0;
+  border-top: 0;
+}
+
+.response-set .final-answer-line {
+  min-width: 52px;
+  max-width: 110px;
+}
+
+.response-set .ratio-answer-box {
+  width: 27px;
+  height: 21px;
+}
