@@ -30,7 +30,9 @@ jobs:
         run: npm ci
 
       - name: Generate synchronized workbook
-        run: node scripts/sync-two-variable-systems-drive.mjs
+        run: |
+          node scripts/sync-two-variable-systems-drive.mjs
+          node scripts/fix-two-variable-systems-story-layout.mjs
 
       - name: Synchronize curriculum and registries
         run: |
