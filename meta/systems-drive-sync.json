@@ -18,6 +18,12 @@
     614,
     615
   ],
+  "deployment": {
+    "manuallyTriggeredAt": "2026-07-20T19:26:34+03:00",
+    "reason": "User-approved GitHub Pages redeploy after merging PR #89",
+    "sourceMergeCommit": "04a1c4399236109f261dd160ec74e6d03696e2bc",
+    "worksheetContentChanged": false
+  },
   "policy": {
     "canonicalRule": "Import unique mathematical tasks once, order from easy to hard, and map duplicate or out-of-scope Drive files without copying them again.",
     "existingCoverage": {
