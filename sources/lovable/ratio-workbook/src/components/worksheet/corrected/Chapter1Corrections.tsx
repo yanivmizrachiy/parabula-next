@@ -1,12 +1,15 @@
 import {
-  AnswerLine,
   Blank,
+  CalculationResponse,
   Checkbox,
+  FinalAnswer,
   Frac,
   PageLayout,
   QSep,
   Question,
+  RatioAnswer,
   SubQuestion,
+  WorkArea,
   WorksheetTable,
 } from '../pages/PageLayout';
 
@@ -81,7 +84,7 @@ export function RatioPage02() {
 
 export function RatioPage04() {
   return (
-    <PageLayout pageNumber={4} chapter={CH}>
+    <PageLayout pageNumber={4} chapter={CH} className="ratio-page-4">
       <Question>
         <p>בין אורי ודן חילקו 56 גולות ביחס של 5 : 2. ידוע שאורי קיבל את החלק הגדול. אילו היגדים מתאימים?</p>
         <SubQuestion label="א."><p>אורי קיבל <Frac num={5} den={7} /> מהגולות ודן קיבל <Frac num={2} den={7} /> מהגולות.</p></SubQuestion>
@@ -103,7 +106,7 @@ export function RatioPage04() {
       <Question>
         <p>היחס בין מספר כוסות התרכיז למספר כוסות המים הוא 3 : 2. יש 12 כוסות מים.</p>
         <p>כמה כוסות תרכיז יש במיכל?</p>
-        <AnswerLine label="תשובה:" />
+        <CalculationResponse lines={1} unit="כוסות" className="compact-response" />
       </Question>
 
       <QSep />
@@ -111,6 +114,7 @@ export function RatioPage04() {
       <Question>
         <p>לצביעת חדרים השתמשו בצבע ירוק ובצבע לבן. לכל 7 פחים ירוקים הוסיפו 3 פחים לבנים.</p>
         <p>אם השתמשו ב־21 פחים ירוקים, בכמה פחים לבנים השתמשו?</p>
+        <CalculationResponse lines={1} unit="פחים" className="compact-response" />
       </Question>
 
       <QSep />
@@ -130,7 +134,11 @@ export function RatioPage04() {
       <Question>
         <p>בקנקני שתייה היחס בין מספר כוסות התרכיז למספר כוסות המים הוא 7 : 2.</p>
         <p>השתמשו ב־35 כוסות תרכיז. כמה כוסות מים הוסיפו, וכמה כוסות משקה הכינו בסך הכול?</p>
-        <AnswerLine label="פתרון:" />
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="מים:" unit="כוסות" />
+          <FinalAnswer label="סך הכול:" unit="כוסות" />
+        </div>
       </Question>
     </PageLayout>
   );
@@ -138,10 +146,15 @@ export function RatioPage04() {
 
 export function RatioPage05() {
   return (
-    <PageLayout pageNumber={5} chapter={CH}>
+    <PageLayout pageNumber={5} chapter={CH} className="ratio-page-5">
       <Question>
         <SubQuestion label="א."><p>היחס בין גיל האב לגיל הבן במשפחת תמיר הוא 6 : 1. האב בן 42. בן כמה הבן?</p></SubQuestion>
         <SubQuestion label="ב."><p>במשפחת סביון מתקיים אותו יחס. יונתן בן 6. בן כמה אביו?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א." unit="שנים" />
+          <FinalAnswer label="ב." unit="שנים" />
+        </div>
       </Question>
 
       <QSep />
@@ -149,6 +162,7 @@ export function RatioPage05() {
       <Question>
         <p>היחס בין מספר בקבוקי השתייה המוגזת למספר הבקבוקים הכולל הוא 6 : 11.</p>
         <p>הוזמנו 18 בקבוקי שתייה מוגזת. כמה בקבוקים הוזמנו בסך הכול?</p>
+        <CalculationResponse lines={1} unit="בקבוקים" className="compact-response" />
       </Question>
 
       <QSep />
@@ -168,10 +182,15 @@ export function RatioPage05() {
 
       <Question>
         <p>היחס בין מספר הבנות למספר הבנים בכיתה הוא 4 : 3.</p>
-        <SubQuestion label="א."><p>היחס בין מספר הבנות למספר תלמידי הכיתה הוא <Blank />.</p></SubQuestion>
-        <SubQuestion label="ב."><p>היחס בין מספר תלמידי הכיתה למספר הבנים הוא <Blank />.</p></SubQuestion>
-        <SubQuestion label="ג."><p>אם יש 12 בנות, יש <Blank /> בנים.</p></SubQuestion>
-        <SubQuestion label="ד."><p>אם יש 12 בנים, יש בסך הכול <Blank /> תלמידים.</p></SubQuestion>
+        <SubQuestion label="א."><p>היחס בין מספר הבנות למספר תלמידי הכיתה הוא <RatioAnswer inline />.</p></SubQuestion>
+        <SubQuestion label="ב."><p>היחס בין מספר תלמידי הכיתה למספר הבנים הוא <RatioAnswer inline />.</p></SubQuestion>
+        <SubQuestion label="ג."><p>אם יש 12 בנות, כמה בנים יש?</p></SubQuestion>
+        <SubQuestion label="ד."><p>אם יש 12 בנים, כמה תלמידים יש בסך הכול?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={1} />
+          <FinalAnswer label="ג. בנים:" />
+          <FinalAnswer label="ד. תלמידים:" />
+        </div>
       </Question>
 
       <QSep />
@@ -189,6 +208,7 @@ export function RatioPage05() {
       <Question>
         <p>בתמיסת דשן היחס בין כמות החנקן לשאר החומרים הוא 13 : 4.</p>
         <p>כמה גרם חנקן יש בבקבוק המכיל 1,360 גרם תמיסה?</p>
+        <CalculationResponse lines={1} unit="גרם" className="compact-response" />
       </Question>
     </PageLayout>
   );
@@ -196,12 +216,17 @@ export function RatioPage05() {
 
 export function RatioPage06() {
   return (
-    <PageLayout pageNumber={6} chapter={CH}>
+    <PageLayout pageNumber={6} chapter={CH} className="ratio-page-6">
       <Question>
         <p>בכיתה ח׳1 היחס בין מספר הבנים למספר הבנות הוא 4 : 3.</p>
         <SubQuestion label="א."><p>אם מספר הבנות הוא 15, מה מספר הבנים?</p></SubQuestion>
         <SubQuestion label="ב."><p>מהו היחס בין מספר הבנים לכלל התלמידים?</p></SubQuestion>
         <SubQuestion label="ג."><p>האם ייתכן שבכיתה אחרת בעלת אותו יחס יש 14 בנות? הסבירו.</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea label="דרך והסבר:" lines={2} />
+          <FinalAnswer label="א. בנים:" />
+          <FinalAnswer label="ב." type="ratio" />
+        </div>
       </Question>
 
       <QSep />
@@ -212,6 +237,11 @@ export function RatioPage06() {
         <SubQuestion label="ב."><p>האם ייתכן שבכד ב׳ יש 8 כדורים לבנים? הסבירו.</p></SubQuestion>
         <SubQuestion label="ג."><p>ידוע שבכל כד יש 12 כדורים אדומים. חשבו את מספר הכדורים הלבנים בכל כד.</p></SubQuestion>
         <SubQuestion label="ד."><p>מהו היחס בין מספר הכדורים הכולל בכד א׳ למספר הכדורים הכולל בכד ב׳?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea label="דרך והסבר:" lines={2} />
+          <FinalAnswer label="ג. כד א׳, כד ב׳:" />
+          <FinalAnswer label="ד." type="ratio" />
+        </div>
       </Question>
 
       <QSep />
@@ -220,6 +250,11 @@ export function RatioPage06() {
         <p>דן נבחן ב־33 מבחנים. היחס בין מספר ההצלחות למספר הכישלונות שלו הוא 10 : 1.</p>
         <SubQuestion label="א."><p>בכמה מבחנים הצליח דן ובכמה נכשל?</p></SubQuestion>
         <SubQuestion label="ב."><p>רונן נבחן ב־32 מבחנים. היחס בין מספר ההצלחות למספר הכישלונות שלו הוא 7 : 1. למי היו יותר כישלונות ובכמה?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={2} />
+          <FinalAnswer label="א. הצליח, נכשל:" />
+          <FinalAnswer label="ב. למי וכמה:" />
+        </div>
       </Question>
     </PageLayout>
   );
@@ -240,17 +275,16 @@ function PenCases() {
 
 export function RatioPage07() {
   return (
-    <PageLayout pageNumber={7} chapter={CH}>
+    <PageLayout pageNumber={7} chapter={CH} className="ratio-page-7">
       <Question>
-        <p>בסרטוט יש 4 מלבנים מקווקווים ו־3 מלבנים שאינם מקווקווים. מהו היחס בין מספר המלבנים המקווקווים למספר המלבנים האחרים?</p>
-        <AnswerLine label="היחס:" />
+        <p>בסרטוט יש 4 מלבנים מקווקווים ו־3 מלבנים שאינם מקווקווים. מהו היחס בין מספר המלבנים המקווקווים למספר המלבנים האחרים? <RatioAnswer inline /></p>
       </Question>
 
       <QSep />
 
       <Question>
         <p>במחרוזת יש 6 חרוזים שחורים ו־4 חרוזים לבנים.</p>
-        <SubQuestion label="א."><p>מהו היחס בין מספר החרוזים השחורים למספר החרוזים הלבנים?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר החרוזים השחורים למספר החרוזים הלבנים? <RatioAnswer inline /></p></SubQuestion>
         <SubQuestion label="ב."><p>ציירו מחרוזת נוספת שבה אותו יחס, ובה לפחות 15 חרוזים.</p></SubQuestion>
         <div className="drawing-box min-h-60"><p className="drawing-label">המחרוזת שלי:</p></div>
       </Question>
@@ -259,9 +293,9 @@ export function RatioPage07() {
 
       <Question>
         <p>בזר פרחים יש 12 פרחים אדומים ו־6 פרחים לבנים.</p>
-        <SubQuestion label="א."><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים האדומים?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין מספר הפרחים האדומים למספר הפרחים הכולל?</p></SubQuestion>
-        <SubQuestion label="ג."><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים הכולל?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים האדומים? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הפרחים האדומים למספר הפרחים הכולל? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים הכולל? <RatioAnswer inline /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -272,6 +306,12 @@ export function RatioPage07() {
         <SubQuestion label="א."><p>אם בקלמר ב׳ יש 6 עטים, כמה עטים יש בקלמר א׳?</p></SubQuestion>
         <SubQuestion label="ב."><p>אם בקלמר א׳ יש 28 עטים, כמה עטים יש בקלמר ב׳?</p></SubQuestion>
         <SubQuestion label="ג."><p>בשני הקלמרים יחד יש 36 עטים. כמה עטים יש בכל קלמר?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={2} />
+          <FinalAnswer label="א. קלמר א׳:" />
+          <FinalAnswer label="ב. קלמר ב׳:" />
+          <FinalAnswer label="ג. א׳, ב׳:" />
+        </div>
       </Question>
     </PageLayout>
   );
