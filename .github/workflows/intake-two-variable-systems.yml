@@ -134,7 +134,7 @@ jobs:
             styles/pages/עמוד-603.css styles/pages/עמוד-604.css \
             styles/pages/עמוד-605.css styles/pages/עמוד-606.css \
             styles/pages/עמוד-607.css styles/pages/עמוד-608.css \
-            scripts/curriculum-map.mjs meta/topics.json meta/pages.json
+            scripts/curriculum-map.mjs meta/topics.json
           if git diff --cached --quiet; then
             echo "No generated changes to commit."
           else
