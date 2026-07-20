@@ -50,7 +50,19 @@ jobs:
             styles/pages/עמוד-603.css styles/pages/עמוד-604.css \
             styles/pages/עמוד-605.css styles/pages/עמוד-606.css \
             styles/pages/עמוד-607.css styles/pages/עמוד-608.css \
-            scripts/curriculum-map.mjs meta/topics.json
+            scripts/curriculum-map.mjs
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const current = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const committed = JSON.parse(execFileSync('git', ['show', 'HEAD:meta/topics.json'], { encoding: 'utf8' }));
+          delete current.generatedAt;
+          delete committed.generatedAt;
+          if (JSON.stringify(current) !== JSON.stringify(committed)) {
+            console.error('meta/topics.json differs from the committed canonical structure');
+            process.exit(1);
+          }
+          NODE
 
       - name: Package generated canonical files
         run: |
