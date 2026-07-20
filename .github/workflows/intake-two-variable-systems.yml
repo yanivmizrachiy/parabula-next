@@ -40,16 +40,6 @@ jobs:
           npm run curriculum:build
           npm run validate:meta
 
-      - name: Validate generated changes
-        run: |
-          npm test
-          npm run verify
-          npm run validate:schema
-          npm run curriculum:check
-          npm run validate:curriculum
-          npm run validate:html
-          npm run build
-
       - name: Commit generated canonical files
         run: |
           git config user.name "github-actions[bot]"
@@ -70,3 +60,13 @@ jobs:
             git commit -m "feat(מערכות): דפי עבודה מדורגים ממשימות הדרייב"
             git push origin HEAD:agent/two-variable-systems-drive-pages
           fi
+
+      - name: Validate generated changes
+        run: |
+          npm test
+          npm run verify
+          npm run validate:schema
+          npm run curriculum:check
+          npm run validate:curriculum
+          npm run validate:html
+          npm run build
