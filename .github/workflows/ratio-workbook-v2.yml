@@ -114,8 +114,11 @@ jobs:
           name: ratio-workbook-live-audit
           path: |
             assets/ratio/audit-v2.json
+            assets/ratio/page-001.png
+            assets/ratio/page-029.png
             styles/topics/ratio-live.css
             עמוד-272.html
+            עמוד-300.html
             ratio-ci-all.log
             ratio-ci-status.txt
             mobile-browser.log
@@ -125,7 +128,9 @@ jobs:
           if-no-files-found: warn
 
       - name: Commit generated canonical live pages
-        if: github.event_name == 'push' && github.ref_name == 'agent/ratio-canonical-live-pages'
+        if: >-
+          (github.event_name == 'push' && github.ref_name == 'agent/ratio-canonical-live-pages') ||
+          (github.event_name == 'pull_request' && github.head_ref == 'agent/ratio-canonical-live-pages' && github.event.pull_request.head.repo.full_name == github.repository)
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
