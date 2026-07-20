@@ -15,6 +15,7 @@
     "ratio:export": "node scripts/export-ratio-workbook-live.mjs",
     "ratio:export:check": "node scripts/export-ratio-workbook-live.mjs --check",
     "ratio:contracts": "node --test tests/contracts/ratio-workbook-baseline.test.mjs",
+    "ratio:live-contracts": "node --test tests/contracts/ratio-workbook-live.contract.mjs",
     "quadratics:generate": "node scripts/generate-quadratic-equations-workbook.mjs",
     "quadratics:export": "node scripts/export-quadratic-equations-workbook.mjs",
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
