@@ -448,6 +448,7 @@ export const PAGE_ASSIGNMENTS = {
   'g8.alg.linear.intersection': [137, 179, 181, '451-453'],
   'g8.alg.linear.inequalities': [138],
   'g8.alg.systems.graphic': ['190-194'],
+  'g8.alg.systems.substitution': ['601-608'],
   'g8.alg.systems.elimination': [195],
   'g8.alg.technique.distribution': [37, 38],
   'g8.alg.technique.fractions': ['82-94'],

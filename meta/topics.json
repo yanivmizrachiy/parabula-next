@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-19T20:18:13.004Z",
+  "generatedAt": "2026-07-20T14:17:40.366Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 600,
+  "totalPages": 608,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -3374,6 +3374,92 @@
       ]
     },
     {
+      "name": "מערכת משוואות בשני נעלמים",
+      "count": 8,
+      "pages": [
+        {
+          "number": 601,
+          "file": "עמוד-601.html",
+          "title": "עמוד 1 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-601.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-601.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 602,
+          "file": "עמוד-602.html",
+          "title": "עמוד 2 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-602.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-602.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 603,
+          "file": "עמוד-603.html",
+          "title": "עמוד 3 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-603.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-603.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 604,
+          "file": "עמוד-604.html",
+          "title": "עמוד 4 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-604.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-604.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 605,
+          "file": "עמוד-605.html",
+          "title": "עמוד 5 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-605.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-605.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 606,
+          "file": "עמוד-606.html",
+          "title": "עמוד 6 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-606.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-606.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 607,
+          "file": "עמוד-607.html",
+          "title": "עמוד 7 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-607.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-607.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 608,
+          "file": "עמוד-608.html",
+          "title": "עמוד 8 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-608.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-608.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        }
+      ]
+    },
+    {
       "name": "גאומטריה לכיתה ח'",
       "count": 35,
       "pages": [
@@ -6128,7 +6214,7 @@
     "source": "כותרות לדפי עבודה במתמטיקה חטיבת ביניים",
     "totalNodes": 139,
     "leafNodes": 97,
-    "emptyLeafNodes": 30,
+    "emptyLeafNodes": 29,
     "nodes": [
       {
         "id": "g7",
@@ -6946,13 +7032,13 @@
         "id": "g8",
         "name": "כיתה ח'",
         "directCount": 0,
-        "pageCount": 277,
+        "pageCount": 285,
         "children": [
           {
             "id": "g8.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 166,
+            "pageCount": 174,
             "children": [
               {
                 "id": "g8.alg.linear",
@@ -7171,7 +7257,7 @@
                 "id": "g8.alg.systems",
                 "name": "מערכת משוואות ליניאריות",
                 "directCount": 0,
-                "pageCount": 6,
+                "pageCount": 14,
                 "children": [
                   {
                     "id": "g8.alg.systems.graphic",
@@ -7189,8 +7275,18 @@
                   {
                     "id": "g8.alg.systems.substitution",
                     "name": "שיטת ההצבה",
-                    "directCount": 0,
-                    "pageCount": 0
+                    "directCount": 8,
+                    "pageCount": 8,
+                    "pages": [
+                      601,
+                      602,
+                      603,
+                      604,
+                      605,
+                      606,
+                      607,
+                      608
+                    ]
                   },
                   {
                     "id": "g8.alg.systems.elimination",
