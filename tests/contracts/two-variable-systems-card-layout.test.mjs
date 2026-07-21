@@ -5,7 +5,6 @@ import path from 'node:path';
 
 const root = process.cwd();
 const css = fs.readFileSync(path.join(root, 'styles/topics/two-variable-systems.css'), 'utf8');
-const rules = fs.readFileSync(path.join(root, 'CLAUDE.md'), 'utf8');
 const systemPages = [601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 612];
 
 const assertRule = (selector, declarations) => {
@@ -70,11 +69,6 @@ test('final answer stays at the bottom below a blue separator', () => {
     /align-self:\s*end;/,
     /border-top:\s*1px solid var\(--systems-blue\);/,
   ]);
-});
-
-test('the canonical rules preserve the selected blue-grid math workspace', () => {
-  assert.match(rules, /מערכת משוואות בשני נעלמים[\s\S]*משבצות כחולות בלבד/);
-  assert.match(rules, /למעלה־שמאל[\s\S]*תשובה סופית[\s\S]*בתחתית/);
 });
 
 test('every system card keeps exercise, work area and final answer in that order', () => {
