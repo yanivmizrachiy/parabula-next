@@ -31,11 +31,12 @@ test('build, offline cache and dedicated workflow do not reference legacy assets
   }
 });
 
-test('systems workflow watches both canonical readers and live verification', () => {
+test('systems workflow watches both canonical readers, direct links and live verification', () => {
   for (const asset of [
     'catalog.html',
     'catalog.css',
     'catalog.js',
+    'catalog-deep-link.js',
     'mobile-app.html',
     'mobile-app.css',
     'mobile-app.js',
