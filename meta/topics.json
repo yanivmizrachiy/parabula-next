@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-20T15:05:23.044Z",
+  "generatedAt": "2026-07-21T05:44:30.481Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 615,
+  "totalPages": 616,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -3375,7 +3375,7 @@
     },
     {
       "name": "מערכת משוואות בשני נעלמים",
-      "count": 15,
+      "count": 16,
       "pages": [
         {
           "number": 609,
@@ -3525,6 +3525,16 @@
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-615.html",
           "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-615.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
+          "number": 616,
+          "file": "עמוד-616.html",
+          "title": "עמוד 16 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-616.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-616.html",
           "curriculumId": "g8.alg.systems.substitution"
         }
       ]
@@ -7102,13 +7112,13 @@
         "id": "g8",
         "name": "כיתה ח'",
         "directCount": 0,
-        "pageCount": 292,
+        "pageCount": 293,
         "children": [
           {
             "id": "g8.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 181,
+            "pageCount": 182,
             "children": [
               {
                 "id": "g8.alg.linear",
@@ -7327,7 +7337,7 @@
                 "id": "g8.alg.systems",
                 "name": "מערכת משוואות ליניאריות",
                 "directCount": 0,
-                "pageCount": 21,
+                "pageCount": 22,
                 "children": [
                   {
                     "id": "g8.alg.systems.graphic",
@@ -7346,8 +7356,8 @@
                   {
                     "id": "g8.alg.systems.substitution",
                     "name": "שיטת ההצבה",
-                    "directCount": 14,
-                    "pageCount": 14,
+                    "directCount": 15,
+                    "pageCount": 15,
                     "pages": [
                       601,
                       602,
@@ -7362,7 +7372,8 @@
                       611,
                       612,
                       614,
-                      615
+                      615,
+                      616
                     ]
                   },
                   {

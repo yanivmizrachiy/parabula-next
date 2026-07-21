@@ -104,3 +104,24 @@
 .systems2-page.systems-stories-five .story-card-focus { border-right: 4px solid #2563eb; }
 .systems2-page.systems-stories-five .story-card-parking { border-right: 4px solid #0f766e; }
 .systems2-page.systems-stories-five > .gz-footer { margin-top: 3px; }
+
+/* BEGIN systems reasoning page 616 */
+.systems2-page.systems-reasoning { padding-top: 9mm; padding-bottom: 8mm; }
+.systems2-page.systems-reasoning .question-block { gap: 7px; }
+.systems2-page.systems-reasoning .instruction { min-height: 34px; font-size: 14.5px; }
+.systems2-page.systems-reasoning .reasoning-list { display: grid; grid-template-columns: 1fr; gap: 8px; flex: 1 1 auto; min-height: 0; }
+.systems2-page.systems-reasoning .reasoning-card { display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 10px 12px; border: 1px solid var(--systems-border); border-radius: 9px; background: #fff; break-inside: avoid; }
+.systems2-page.systems-reasoning .reasoning-card-structure { border-right: 4px solid #2563eb; }
+.systems2-page.systems-reasoning .reasoning-card-one-calc { border-right: 4px solid #0f766e; }
+.systems2-page.systems-reasoning .reasoning-card-conditions { border-right: 4px solid #7c3aed; }
+.systems2-page.systems-reasoning .reasoning-badge { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid #94a3b8; border-radius: 50%; color: #0f172a; font-size: 15px; font-weight: 700; }
+.systems2-page.systems-reasoning .reasoning-content { min-width: 0; }
+.systems2-page.systems-reasoning .reasoning-content h2 { margin: 0 0 4px; color: #17213a; font-size: 16px; line-height: 1.25; }
+.systems2-page.systems-reasoning .reasoning-content p { margin: 0 0 5px; color: #111827; font-size: 14px; line-height: 1.4; }
+.systems2-page.systems-reasoning .reasoning-system { direction: ltr; text-align: center; font-size: 17px; }
+.systems2-page.systems-reasoning .reasoning-system mjx-container[display="true"] { margin: 0.1em 0 !important; }
+.systems2-page.systems-reasoning .reasoning-parts { margin: 4px 0 5px; padding-right: 22px; color: #111827; font-size: 13.5px; line-height: 1.38; }
+.systems2-page.systems-reasoning .reasoning-parts li { margin-bottom: 2px; }
+.systems2-page.systems-reasoning .reasoning-answer-grid { display: grid; grid-template-columns: 122px 1fr; gap: 3px 8px; align-items: end; color: #334155; font-size: 11.5px; }
+.systems2-page.systems-reasoning .reasoning-line { height: 17px; border-bottom: 1px solid var(--systems-line); }
+/* END systems reasoning page 616 */
