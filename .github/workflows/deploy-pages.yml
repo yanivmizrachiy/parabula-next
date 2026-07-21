@@ -32,6 +32,42 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate Mitzav systems reasoning page
+        run: node scripts/import-mitsav-systems-reasoning.mjs
+
+      - name: Upload generated Mitzav systems files
+        uses: actions/upload-artifact@v4
+        with:
+          name: mitsav-systems-page-616-generated
+          path: |
+            עמוד-531.html
+            עמוד-601.html
+            עמוד-602.html
+            עמוד-603.html
+            עמוד-604.html
+            עמוד-605.html
+            עמוד-606.html
+            עמוד-607.html
+            עמוד-608.html
+            עמוד-609.html
+            עמוד-610.html
+            עמוד-611.html
+            עמוד-612.html
+            עמוד-613.html
+            עמוד-614.html
+            עמוד-615.html
+            עמוד-616.html
+            styles/pages/עמוד-616.css
+            styles/topics/two-variable-systems.css
+            scripts/curriculum-map.mjs
+            scripts/import-first-quadrant-workbook.mjs
+            meta/topics.json
+            meta/pages.json
+            meta/systems-drive-sync.json
+            tests/contracts/two-variable-systems-page-616.test.mjs
+          if-no-files-found: error
+          retention-days: 3
+
       - name: Contract tests
         run: npm test
 
