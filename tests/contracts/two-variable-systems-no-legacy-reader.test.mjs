@@ -31,7 +31,7 @@ test('build, offline cache and dedicated workflow do not reference legacy assets
   }
 });
 
-test('systems workflow watches both canonical readers, direct links and live verification', () => {
+test('systems workflow watches both canonical readers, history controllers and live verification', () => {
   for (const asset of [
     'catalog.html',
     'catalog.css',
@@ -40,6 +40,7 @@ test('systems workflow watches both canonical readers, direct links and live ver
     'mobile-app.html',
     'mobile-app.css',
     'mobile-app.js',
+    'mobile-deep-link.js',
     'scripts/verify-live-systems-workbook.mjs',
   ]) {
     assert.match(workflow, new RegExp(asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
