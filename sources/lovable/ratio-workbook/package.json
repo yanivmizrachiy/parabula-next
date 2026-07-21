@@ -15,7 +15,9 @@
     "semantic:pilot:check": "node scripts/export-semantic-pages.mjs --page=1",
     "semantic:pilot:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --page=1 --write",
     "semantic:all:check": "node scripts/export-semantic-pages.mjs --all",
-    "semantic:all:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --all --write"
+    "semantic:all:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --all --write",
+    "manifest:check": "node scripts/generate-content-manifest.mjs",
+    "manifest:write": "node scripts/generate-content-manifest.mjs --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
