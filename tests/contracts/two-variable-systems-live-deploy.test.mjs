@@ -15,15 +15,26 @@ test('live verification derives the expected state from canonical repository dat
   assert.doesNotMatch(script, /totalTasks\s*===\s*69/);
 });
 
-test('live verification checks the gateway, both canonical readers and every page', () => {
+test('live verification checks the gateway, direct links, both readers and every page', () => {
   assert.match(script, /systems-workbook\.html/);
   assert.match(script, /catalog\.html/);
+  assert.match(script, /const deepLinkScript = extractAsset/);
+  assert.match(script, /catalog deep-link script/);
   assert.match(script, /mobile-app\.html/);
-  assert.match(script, /parabula-catalog:last-file/);
+  assert.match(script, /target\.searchParams\.set\('file', requested\)/);
+  assert.match(script, /searchParams\.get\('file'\)/);
+  assert.match(script, /MutationObserver/);
+  assert.match(script, /popstate/);
   assert.match(script, /bootConfig\.requestedFile/);
   assert.match(script, /liveManifest\.pages\.map/);
   assert.match(script, /class=\\?"a4-page/);
   assert.match(script, /JSON\.stringify\(liveManifest\) === JSON\.stringify\(expectedManifest\)/);
+});
+
+test('live verification rejects unresolved versions and stale local-storage routing', () => {
+  assert.match(script, /__MOBILE_VERSION__/);
+  assert.match(script, /!gateHtml\.includes\('parabula-catalog:last-file'\)/);
+  assert.match(script, /!catalogHtml\.includes\('__MOBILE_VERSION__'\)/);
 });
 
 test('live verification retries after deployment propagation and bypasses stale caches', () => {

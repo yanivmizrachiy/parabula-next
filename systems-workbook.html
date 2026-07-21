@@ -24,7 +24,7 @@
     <h1>מערכת משוואות בשני נעלמים</h1>
     <p id="status" role="status" aria-live="polite">פותח את החוברת בקורא המתאים למכשיר…</p>
     <div class="links">
-      <a id="mobileFallback" href="./mobile-app.html?file=%D7%A2%D7%9E%D7%95%D7%93-609.html">פתיחה באפליקציה</a>
+      <a id="readerFallback" href="./mobile-app.html?file=%D7%A2%D7%9E%D7%95%D7%93-609.html">פתיחה באפליקציה</a>
       <a class="secondary" href="./עמוד-609.html">פתיחת הדף הראשון</a>
     </div>
   </main>
@@ -46,14 +46,11 @@
       const isMobile = viewportIsCompact || uaMobile || phoneLikeTouchDevice;
 
       const target = new URL(isMobile ? './mobile-app.html' : './catalog.html', window.location.href);
-      if (isMobile) {
-        target.searchParams.set('file', requested);
-      } else {
-        try { localStorage.setItem('parabula-catalog:last-file', requested); }
-        catch { /* אחסון חסום אינו מונע פתיחה של הקורא */ }
-      }
+      target.searchParams.set('file', requested);
       target.hash = window.location.hash;
-      document.getElementById('mobileFallback').href = `./mobile-app.html?file=${encodeURIComponent(requested)}`;
+      const fallback = document.getElementById('readerFallback');
+      fallback.href = target.href;
+      fallback.textContent = isMobile ? 'פתיחה באפליקציה' : 'פתיחה בקורא המחשב';
       window.location.replace(target.href);
     })();
   </script>
