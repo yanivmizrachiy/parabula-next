@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -22,6 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -67,6 +70,28 @@ jobs:
             tests/contracts/two-variable-systems-page-616.test.mjs
           if-no-files-found: error
           retention-days: 3
+
+      - name: Commit generated files and restore workflow
+        if: github.event_name == 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout origin/main -- .github/workflows/deploy-pages.yml
+          git add .github/workflows/deploy-pages.yml \
+            עמוד-531.html עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
+            עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html עמוד-609.html \
+            עמוד-610.html עמוד-611.html עמוד-612.html עמוד-613.html עמוד-614.html \
+            עמוד-615.html עמוד-616.html styles/pages/עמוד-616.css \
+            styles/topics/two-variable-systems.css scripts/curriculum-map.mjs \
+            scripts/import-first-quadrant-workbook.mjs meta/topics.json meta/pages.json \
+            meta/systems-drive-sync.json tests/contracts/two-variable-systems-page-616.test.mjs
+          if git diff --cached --quiet; then
+            echo "Generated output is already committed."
+            exit 0
+          fi
+          git commit -m "feat: add Mitzav reasoning page 616"
+          git push origin HEAD:${{ github.head_ref }}
 
       - name: Contract tests
         run: npm test
