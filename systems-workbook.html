@@ -4,85 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0f2f66" />
-  <meta name="description" content="תצוגה נוחה ורציפה של חוברת מערכת משוואות בשני נעלמים — 16 דפי עבודה ו-69 משימות." />
-  <title>מערכת משוואות בשני נעלמים — החוברת המלאה</title>
+  <meta name="description" content="פתיחה חכמה של חוברת מערכת משוואות בשני נעלמים בקורא המתאים למחשב או לטלפון." />
+  <title>מערכת משוואות בשני נעלמים — פתיחת החוברת</title>
   <link rel="stylesheet" href="vendor/fonts/rubik.css" />
-  <link rel="stylesheet" href="systems-workbook.css?v=__MOBILE_VERSION__" />
-  <script type="module" src="systems-workbook.js?v=__MOBILE_VERSION__"></script>
+  <style>
+    :root { color-scheme: light; font-family: Rubik, Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    body { min-height: 100dvh; margin: 0; display: grid; place-items: center; padding: 24px; background: #eef4ff; color: #102a56; }
+    main { width: min(560px, 100%); padding: 32px; border: 1px solid #c9d8f2; border-radius: 24px; background: #fff; box-shadow: 0 18px 50px rgba(15, 47, 102, .14); text-align: center; }
+    h1 { margin: 0 0 12px; font-size: clamp(1.5rem, 5vw, 2.2rem); }
+    p { margin: 0 0 22px; line-height: 1.7; }
+    .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    a { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; padding: 10px 18px; border-radius: 12px; background: #0f4fa8; color: #fff; font-weight: 700; text-decoration: none; }
+    a.secondary { background: #e8f0ff; color: #123e7c; }
+  </style>
 </head>
 <body>
-  <header class="app-header">
-    <button class="icon-button menu-button" id="menu-button" type="button" aria-label="פתיחת רשימת הדפים" aria-controls="page-sidebar" aria-expanded="false">תוכן</button>
-    <div class="app-heading">
-      <a class="brand-link" href="./?view=catalog">פרבולה</a>
-      <div>
-        <h1>מערכת משוואות בשני נעלמים</h1>
-        <p id="workbook-stats">טוען את החוברת…</p>
-      </div>
+  <main>
+    <h1>מערכת משוואות בשני נעלמים</h1>
+    <p id="status" role="status" aria-live="polite">פותח את החוברת בקורא המתאים למכשיר…</p>
+    <div class="links">
+      <a id="mobileFallback" href="./mobile-app.html?file=%D7%A2%D7%9E%D7%95%D7%93-609.html">פתיחה באפליקציה</a>
+      <a class="secondary" href="./עמוד-609.html">פתיחת הדף הראשון</a>
     </div>
-    <div class="header-actions" aria-label="פעולות בחוברת">
-      <button class="action-button" id="copy-link-button" type="button">העתקת קישור</button>
-      <a class="action-button" id="open-page-link" href="עמוד-609.html" target="_blank" rel="noopener">פתיחת הדף</a>
-      <button class="action-button primary" id="print-page-button" type="button">הדפסת הדף</button>
-      <a class="action-button catalog-link" href="./?view=catalog">כל החומרים</a>
-    </div>
-  </header>
-
-  <main class="app-layout">
-    <aside class="page-sidebar" id="page-sidebar" aria-label="תוכן החוברת">
-      <div class="sidebar-header">
-        <div>
-          <strong>תוכן החוברת</strong>
-          <span id="sidebar-summary">16 דפים</span>
-        </div>
-        <button class="icon-button close-sidebar" id="close-sidebar-button" type="button" aria-label="סגירת רשימת הדפים">סגירה</button>
-      </div>
-      <ol class="page-list" id="page-list"></ol>
-    </aside>
-
-    <section class="viewer-panel" id="viewer-panel" aria-label="צפייה בדף העבודה">
-      <nav class="viewer-controls" aria-label="ניווט בחוברת">
-        <button class="nav-button" id="previous-button" type="button">הדף הקודם</button>
-        <label class="page-select-label" for="page-select">
-          <span>מעבר מהיר</span>
-          <select id="page-select" aria-label="בחירת דף בחוברת"></select>
-        </label>
-        <div class="current-page-copy" aria-live="polite">
-          <strong id="current-page-title">עמוד 1 מתוך 16</strong>
-          <span id="current-page-detail">טוען…</span>
-        </div>
-        <button class="nav-button primary" id="next-button" type="button">הדף הבא</button>
-        <button class="nav-button fullscreen-button" id="fullscreen-button" type="button">מסך מלא</button>
-      </nav>
-
-      <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
-
-      <div class="frame-stage" id="frame-stage">
-        <div class="loading-indicator" id="loading-indicator" role="status">טוען את הדף…</div>
-        <iframe
-          id="workbook-frame"
-          title="דף עבודה מתוך החוברת מערכת משוואות בשני נעלמים"
-          src="עמוד-609.html"
-          loading="eager"
-        ></iframe>
-      </div>
-
-      <footer class="viewer-help">
-        <span>בטלפון: החליקו ימינה או שמאלה.</span>
-        <span>במקלדת: חץ שמאלה לדף הבא, חץ ימינה לדף הקודם.</span>
-      </footer>
-    </section>
   </main>
 
-  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
-  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
-  <div class="sr-only" id="live-region" aria-live="polite"></div>
+  <script>
+    (() => {
+      const ENTRY_FILE = 'עמוד-609.html';
+      const params = new URLSearchParams(window.location.search);
+      const requested = /^עמוד-\d+\.html$/.test(params.get('file') || '')
+        ? params.get('file')
+        : ENTRY_FILE;
+
+      const viewportIsCompact = window.matchMedia?.('(max-width: 820px)').matches || false;
+      const coarsePointer = window.matchMedia?.('(pointer: coarse)').matches || false;
+      const touchDevice = Number(navigator.maxTouchPoints || 0) > 0;
+      const uaMobile = navigator.userAgentData?.mobile === true || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || '');
+      const shortScreenSide = Math.min(Number(screen.width || 0), Number(screen.height || 0));
+      const phoneLikeTouchDevice = coarsePointer && touchDevice && shortScreenSide > 0 && shortScreenSide <= 1024;
+      const isMobile = viewportIsCompact || uaMobile || phoneLikeTouchDevice;
+
+      const target = new URL(isMobile ? './mobile-app.html' : './catalog.html', window.location.href);
+      if (isMobile) {
+        target.searchParams.set('file', requested);
+      } else {
+        try { localStorage.setItem('parabula-catalog:last-file', requested); }
+        catch { /* אחסון חסום אינו מונע פתיחה של הקורא */ }
+      }
+      target.hash = window.location.hash;
+      document.getElementById('mobileFallback').href = `./mobile-app.html?file=${encodeURIComponent(requested)}`;
+      window.location.replace(target.href);
+    })();
+  </script>
 
   <noscript>
-    <div class="noscript-message">
-      כדי להשתמש בתצוגת החוברת יש להפעיל JavaScript.
-      <a href="עמוד-609.html">אפשר לפתוח ישירות את הדף הראשון.</a>
-    </div>
+    <p><a href="./עמוד-609.html">פתיחת הדף הראשון ללא JavaScript</a></p>
   </noscript>
 </body>
 </html>
