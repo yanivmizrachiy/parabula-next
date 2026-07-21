@@ -14,14 +14,13 @@ on:
       - "preview/topics.css"
       - "preview/topics.js"
       - "meta/topics.json"
-      - "styles/topics/equations.css"
-      - "styles/pages/עמוד-*.css"
-      - "עמוד-*.html"
       - "pages/משוואות/assets/page-*.svg"
       - "scripts/validate-equations-suite.mjs"
       - "package.json"
+      - "package-lock.json"
       - ".github/workflows/equations-app-validation.yml"
   pull_request:
+    branches: ["main"]
     paths:
       - "preview/equations.html"
       - "preview/equations.css"
@@ -33,11 +32,10 @@ on:
       - "preview/topics.css"
       - "preview/topics.js"
       - "meta/topics.json"
-      - "styles/topics/equations.css"
-      - "styles/pages/עמוד-*.css"
-      - "עמוד-*.html"
       - "pages/משוואות/assets/page-*.svg"
       - "scripts/validate-equations-suite.mjs"
+      - "package.json"
+      - "package-lock.json"
       - ".github/workflows/equations-app-validation.yml"
   workflow_dispatch:
 
@@ -54,7 +52,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
+          cache: npm
 
-      - name: Run complete equations validation suite
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run complete equations application validation suite
         run: npm run validate:equations:all
