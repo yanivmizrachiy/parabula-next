@@ -71,15 +71,12 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-      - name: Commit generated files and restore workflow
+      - name: Commit generated files
         if: github.event_name == 'pull_request'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin main
-          git checkout origin/main -- .github/workflows/deploy-pages.yml
-          git add .github/workflows/deploy-pages.yml \
-            עמוד-531.html עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
+          git add עמוד-531.html עמוד-601.html עמוד-602.html עמוד-603.html עמוד-604.html \
             עמוד-605.html עמוד-606.html עמוד-607.html עמוד-608.html עמוד-609.html \
             עמוד-610.html עמוד-611.html עמוד-612.html עמוד-613.html עמוד-614.html \
             עמוד-615.html עמוד-616.html styles/pages/עמוד-616.css \
