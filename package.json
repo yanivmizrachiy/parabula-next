@@ -14,6 +14,8 @@
     "ratio:render": "node scripts/render-ratio-workbook.mjs",
     "ratio:import:check": "node scripts/import-ratio-workbook.mjs",
     "ratio:import:write": "node scripts/import-ratio-workbook.mjs --write",
+    "ratio:audit": "node scripts/audit-ratio-compliance.mjs",
+    "ratio:audit:report": "node scripts/audit-ratio-compliance.mjs --report",
     "quadratics:generate": "node scripts/generate-quadratic-equations-workbook.mjs",
     "quadratics:export": "node scripts/export-quadratic-equations-workbook.mjs",
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
