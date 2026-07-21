@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T15:05:23.048Z",
+  "generatedAt": "2026-07-21T05:02:00.000Z",
   "topic": "מערכת משוואות בשני נעלמים",
   "repositoryPages": [
     609,
@@ -64,6 +64,9 @@
     {
       "role": "summer-review-part-b",
       "canonicalDriveId": "1ld5FTXE7vnRSrX4LO8YEu4iPKsMQjHHH",
+      "duplicateDriveIds": [
+        "1CbwtTi3Ovxvvb1G8glJliIaaC1UjvGXt"
+      ],
       "importedToPages": [
         610,
         611,
@@ -85,6 +88,31 @@
           "reason": "The embedded system and ordered pairs are absent/unreadable in the source PDF render."
         }
       ]
+    },
+    {
+      "role": "summer-review-part-a-parking-comparison",
+      "canonicalDriveId": "1NTT85p_RJculp4UqaOtnKHVrDhbyCChq",
+      "duplicateDriveIds": [
+        "1BZnvM6zYFpa0geyp-rWekQu53U9Nf48_",
+        "1Gg9JQ-OYlFUvyh_0d_lBH3D78d8x9bod"
+      ],
+      "importedToPages": [
+        611
+      ],
+      "transformation": "The parking-tariff comparison was adapted into one compact multi-part task: define two linear models, find and interpret their intersection, compare the economical domain for each offer, and verify the conclusion at two fractional-hour durations."
+    },
+    {
+      "role": "pedagogical-substitution-meaning",
+      "canonicalDriveId": "1r6PY0_n1jN-RXVqWwmacJ-1T4J28ehxQ",
+      "importedToPages": [
+        611
+      ],
+      "mappedWithoutDuplication": {
+        "rectangleToSquareContext": [
+          611
+        ]
+      },
+      "transformation": "The existing rectangle-to-square story was retained and enriched with prompts asking students to write two expressions for the same side and explain why the expressions must be equal when a square is formed."
     },
     {
       "role": "maze-practice",
