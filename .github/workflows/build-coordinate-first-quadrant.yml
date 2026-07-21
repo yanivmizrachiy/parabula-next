@@ -5,23 +5,29 @@ on:
     branches:
       - content/coordinate-first-quadrant-final
       - main
-    paths-ignore:
-      - projects/coordinate-first-quadrant-workbook/dist/**
-      - projects/coordinate-first-quadrant-workbook/downloads/**
-      - projects/coordinate-first-quadrant-workbook/preview/**
-      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
-      - projects/coordinate-first-quadrant-workbook/audit/build.log
-      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+    paths:
+      - .github/workflows/build-coordinate-first-quadrant.yml
+      - projects/coordinate-first-quadrant-workbook/**
+      - scripts/import-first-quadrant-workbook.mjs
+      - '!projects/coordinate-first-quadrant-workbook/dist/**'
+      - '!projects/coordinate-first-quadrant-workbook/downloads/**'
+      - '!projects/coordinate-first-quadrant-workbook/preview/**'
+      - '!projects/coordinate-first-quadrant-workbook/audit/generated-audit.json'
+      - '!projects/coordinate-first-quadrant-workbook/audit/build.log'
+      - '!projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt'
   pull_request:
     branches:
       - main
-    paths-ignore:
-      - projects/coordinate-first-quadrant-workbook/dist/**
-      - projects/coordinate-first-quadrant-workbook/downloads/**
-      - projects/coordinate-first-quadrant-workbook/preview/**
-      - projects/coordinate-first-quadrant-workbook/audit/generated-audit.json
-      - projects/coordinate-first-quadrant-workbook/audit/build.log
-      - projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt
+    paths:
+      - .github/workflows/build-coordinate-first-quadrant.yml
+      - projects/coordinate-first-quadrant-workbook/**
+      - scripts/import-first-quadrant-workbook.mjs
+      - '!projects/coordinate-first-quadrant-workbook/dist/**'
+      - '!projects/coordinate-first-quadrant-workbook/downloads/**'
+      - '!projects/coordinate-first-quadrant-workbook/preview/**'
+      - '!projects/coordinate-first-quadrant-workbook/audit/generated-audit.json'
+      - '!projects/coordinate-first-quadrant-workbook/audit/build.log'
+      - '!projects/coordinate-first-quadrant-workbook/SHA256SUMS.txt'
   workflow_dispatch:
 
 permissions:
