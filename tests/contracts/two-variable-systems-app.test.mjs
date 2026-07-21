@@ -39,12 +39,18 @@ test('mobile canonical reader accepts and opens the requested systems page', () 
   assert.match(mobileJs, /syncCurrentPage\(first, \{ persist: !requested \}\)/);
 });
 
-test('gateway and canonical readers remain part of production and offline builds', () => {
-  for (const asset of ['systems-workbook.html', 'catalog.html', 'catalog.js', 'mobile-app.html', 'mobile-app.js', 'meta/two-variable-systems-manifest.json']) {
-    assert.match(copyStaticSite, new RegExp(asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+test('gateway and canonical readers are required in production builds', () => {
+  for (const asset of ['catalog.html', 'catalog.js', 'catalog.css', 'mobile-app.html', 'mobile-app.js', 'systems-workbook.html', 'meta/two-variable-systems-manifest.json']) {
+    assert.match(copyStaticSite, new RegExp(`['"]${asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"]`));
   }
-  assert.match(serviceWorker, /systems-workbook\.html/);
-  assert.match(serviceWorker, /catalog\.html/);
-  assert.match(serviceWorker, /mobile-app\.html/);
+  assert.match(copyStaticSite, /for \(const file of rootFiles\)[\s\S]*\(html\|css\|js\|json\|svg\|webmanifest\)/);
+});
+
+test('gateway and both canonical readers have offline shells', () => {
+  for (const asset of ['systems-workbook.html', 'catalog.html', 'catalog.css', 'catalog.js', 'mobile-app.html', 'mobile-app.js']) {
+    assert.match(serviceWorker, new RegExp(asset.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  assert.match(serviceWorker, /const catalogPath = new URL\('\.\/catalog\.html'/);
+  assert.match(serviceWorker, /pathname === catalogPath/);
   assert.match(serviceWorker, new RegExp(entryFile.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 });
