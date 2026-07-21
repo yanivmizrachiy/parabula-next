@@ -15,6 +15,7 @@ const CORE_ASSETS = [
   './mobile-app.html',
   './mobile-app.css',
   './mobile-app.js',
+  './mobile-deep-link.js',
   './mobile-app.webmanifest',
   './systems-workbook.html',
   './meta/two-variable-systems-manifest.json',
