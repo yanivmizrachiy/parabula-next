@@ -7,20 +7,28 @@ const startPage = 272;
 const pageCount = 48;
 const endPage = startPage + pageCount - 1;
 const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
+const writeMode = process.argv.includes('--write');
 
-function writeText(rel, content) {
-  const target = path.join(root, rel);
-  fs.mkdirSync(path.dirname(target), { recursive: true });
-  fs.writeFileSync(target, content, 'utf8');
+function normalizeText(content) {
+  return content.endsWith('\n') ? content : `${content}\n`;
 }
 
-function pageHtml(globalPage, localPage) {
-  const prev = localPage > 1
-    ? `<a class="nav-link" href="עמוד-${globalPage - 1}.html">הקודם</a>`
-    : `<span class="nav-link is-disabled" aria-disabled="true">הקודם</span>`;
-  const next = localPage < pageCount
-    ? `<a class="nav-link" href="עמוד-${globalPage + 1}.html">הבא</a>`
-    : `<span class="nav-link is-disabled" aria-disabled="true">הבא</span>`;
+function readText(rel) {
+  return fs.readFileSync(path.join(root, rel), 'utf8');
+}
+
+function existingText(rel) {
+  const target = path.join(root, rel);
+  return fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
+}
+
+function pageHtml(globalPage, localPage, previousGlobalPage, nextGlobalPage) {
+  const previous = previousGlobalPage
+    ? `<a class="nav-link" href="עמוד-${previousGlobalPage}.html">הקודם</a>`
+    : '<span class="nav-link is-disabled" aria-disabled="true">הקודם</span>';
+  const next = nextGlobalPage
+    ? `<a class="nav-link" href="עמוד-${nextGlobalPage}.html">הבא</a>`
+    : '<span class="nav-link is-disabled" aria-disabled="true">הבא</span>';
   const image = `assets/ratio/page-${String(localPage).padStart(3, '0')}.png`;
 
   return `<!DOCTYPE html>
@@ -36,7 +44,7 @@ function pageHtml(globalPage, localPage) {
 <body>
   <nav class="preview-nav" aria-label="ניווט בין עמודי יחס">
     <div class="preview-nav-top">
-      <div class="nav-side">${prev}</div>
+      <div class="nav-side">${previous}</div>
       <div class="nav-meta">יחס — עמוד ${localPage} / ${pageCount}</div>
       <div class="nav-side">${next}</div>
     </div>
@@ -54,34 +62,49 @@ function pageHtml(globalPage, localPage) {
     </footer>
   </main>
 </body>
-</html>
-`;
+</html>`;
 }
 
 const topicsPath = path.join(root, 'meta', 'topics.json');
-const topics = JSON.parse(fs.readFileSync(topicsPath, 'utf8'));
-const priorRatio = (topics.topics || []).find((topic) => topic.name === topicName);
-if (priorRatio) {
-  for (const page of priorRatio.pages || []) {
-    if (Number.isInteger(page.number)) {
-      fs.rmSync(path.join(root, `עמוד-${page.number}.html`), { force: true });
-      fs.rmSync(path.join(root, 'styles', 'pages', `עמוד-${page.number}.css`), { force: true });
-    }
-  }
+const topicsDocument = JSON.parse(fs.readFileSync(topicsPath, 'utf8'));
+const topicList = Array.isArray(topicsDocument.topics) ? topicsDocument.topics : [];
+const priorRatioIndex = topicList.findIndex((topic) => topic.name === topicName);
+
+if (priorRatioIndex < 0) {
+  throw new Error(`Topic ${topicName} does not exist in meta/topics.json; refusing to guess its position.`);
 }
 
-topics.topics = (topics.topics || []).filter((topic) => topic.name !== topicName);
+const priorRatio = topicList[priorRatioIndex];
+const previousTopic = topicList[priorRatioIndex - 1];
+const nextTopic = topicList[priorRatioIndex + 1];
+const previousTopicPages = previousTopic?.pages || [];
+const nextTopicPages = nextTopic?.pages || [];
+const previousBookPage = previousTopicPages.at(-1)?.number ?? null;
+const nextBookPage = nextTopicPages[0]?.number ?? null;
 
+const expectedImagePaths = Array.from({ length: pageCount }, (_, index) =>
+  `assets/ratio/page-${String(index + 1).padStart(3, '0')}.png`,
+);
+const missingImages = expectedImagePaths.filter((rel) => !fs.existsSync(path.join(root, rel)));
+if (missingImages.length > 0) {
+  throw new Error(`Missing rendered ratio images:\n${missingImages.join('\n')}`);
+}
+
+const generatedFiles = new Map();
 const pages = [];
 for (let localPage = 1; localPage <= pageCount; localPage += 1) {
   const globalPage = startPage + localPage - 1;
-  const imagePath = path.join(root, 'assets', 'ratio', `page-${String(localPage).padStart(3, '0')}.png`);
-  if (!fs.existsSync(imagePath)) {
-    throw new Error(`Missing rendered ratio page image: ${path.relative(root, imagePath)}`);
-  }
+  const previousGlobalPage = localPage > 1 ? globalPage - 1 : previousBookPage;
+  const nextGlobalPage = localPage < pageCount ? globalPage + 1 : nextBookPage;
 
-  writeText(`עמוד-${globalPage}.html`, pageHtml(globalPage, localPage));
-  writeText(`styles/pages/עמוד-${globalPage}.css`, '@import url("./ratio-import.css");\n');
+  generatedFiles.set(
+    `עמוד-${globalPage}.html`,
+    normalizeText(pageHtml(globalPage, localPage, previousGlobalPage, nextGlobalPage)),
+  );
+  generatedFiles.set(
+    `styles/pages/עמוד-${globalPage}.css`,
+    '@import url("./ratio-import.css");\n',
+  );
   pages.push({
     number: globalPage,
     file: `עמוד-${globalPage}.html`,
@@ -93,11 +116,10 @@ for (let localPage = 1; localPage <= pageCount; localPage += 1) {
   });
 }
 
-writeText('styles/pages/ratio-import.css', `
+generatedFiles.set('styles/pages/ratio-import.css', normalizeText(`
 .ratio-import-page {
   position: relative;
   padding: 0;
-  overflow: hidden;
   background: #fff;
 }
 
@@ -113,9 +135,16 @@ writeText('styles/pages/ratio-import.css', `
 .ratio-import-image {
   display: block;
   inline-size: 100%;
-  block-size: 100%;
+  flex: 1 1 auto;
+  min-block-size: 0;
+  block-size: auto;
   object-fit: contain;
   background: #fff;
+}
+
+.ratio-import-page > .gz-footer {
+  padding-inline: 10mm;
+  padding-bottom: 3mm;
 }
 
 @media print {
@@ -126,29 +155,88 @@ writeText('styles/pages/ratio-import.css', `
   }
 
   .ratio-import-image {
-    inline-size: 210mm;
-    block-size: 297mm;
+    inline-size: 100%;
+    block-size: auto;
   }
 }
-`);
+`));
 
-topics.topics.push({ name: topicName, count: pageCount, pages });
-topics.generatedAt = new Date().toISOString();
-topics.totalPages = topics.topics.reduce((sum, topic) => sum + (topic.pages || []).length, 0);
-writeText('meta/topics.json', `${JSON.stringify(topics, null, 2)}\n`);
+const updatedTopics = structuredClone(topicsDocument);
+updatedTopics.topics[priorRatioIndex] = { name: topicName, count: pageCount, pages };
+updatedTopics.totalPages = updatedTopics.topics.reduce(
+  (sum, topic) => sum + (topic.pages || []).length,
+  0,
+);
+if (writeMode) {
+  updatedTopics.generatedAt = new Date().toISOString();
+}
+generatedFiles.set('meta/topics.json', `${JSON.stringify(updatedTopics, null, 2)}\n`);
 
-writeText('sources/lovable/ratio-workbook/PARABULA-INTEGRATION.md', `# שילוב חוברת יחס ב-Parabula Next
+generatedFiles.set('sources/lovable/ratio-workbook/PARABULA-INTEGRATION.md', normalizeText(`# שילוב חוברת יחס ב-Parabula Next
 
-המקור המלא של פרויקט Lovable נשמר בתיקייה זו לצורך עריכה עתידית.
+המקור המלא של פרויקט React/TypeScript נשמר בתיקייה זו לצורך עריכה עתידית.
 
 - מקור פעיל: רכיבי React/TypeScript בתוך \`src/\`.
 - רשימת 48 הדפים: \`src/data/worksheetPages.tsx\`.
-- דפי התוכן: \`src/components/worksheet/pages/Chapter*Pages.tsx\`.
-- עיצוב המקור: \`src/index.css\`.
+- דפי התוכן: \`src/components/worksheet/pages/Chapter*Pages.tsx\` ורכיבי התיקון המאושרים.
+- עיצוב המקור: \`src/ratio-v2.css\` ושכבות העיצוב הפעילות בפרויקט.
 - עותקי התצוגה באתר: \`assets/ratio/page-001.png\` עד \`page-048.png\`.
 - דפי Parabula הקנוניים: \`עמוד-${startPage}.html\` עד \`עמוד-${endPage}.html\`.
 
-לאחר שינוי במקור יש להריץ מחדש את תהליך הייבוא כדי לרנדר את 48 הדפים מחדש. כל כללי העבודה המחייבים נמצאים בקובץ \`CLAUDE.md\` בשורש הריפו.
-`);
+## הפעלה בטוחה
 
-console.log(`Imported topic ${topicName}: ${pageCount} pages (${startPage}-${endPage}).`);
+ברירת המחדל היא בדיקה בלבד ואינה משנה קבצים:
+
+\`node scripts/import-ratio-workbook.mjs\`
+
+כתיבה מתבצעת רק בהוראה מפורשת:
+
+\`node scripts/import-ratio-workbook.mjs --write\`
+
+לפני כתיבה הסקריפט מאמת שכל 48 התמונות קיימות, משמר את מיקום הנושא ב־metadata ומחשב ניווט רציף לנושא הקודם והבא. כל כללי העבודה המחייבים נמצאים ב־\`CLAUDE.md\` בשורש הריפו.
+`));
+
+const staleFiles = [];
+for (const page of priorRatio.pages || []) {
+  if (!Number.isInteger(page.number)) continue;
+  if (page.number >= startPage && page.number <= endPage) continue;
+  staleFiles.push(`עמוד-${page.number}.html`, `styles/pages/עמוד-${page.number}.css`);
+}
+
+const changes = [];
+for (const [rel, content] of generatedFiles) {
+  const current = existingText(rel);
+  if (current !== content) {
+    changes.push({ type: current === null ? 'create' : 'update', rel, content });
+  }
+}
+for (const rel of staleFiles) {
+  if (fs.existsSync(path.join(root, rel))) {
+    changes.push({ type: 'delete', rel });
+  }
+}
+
+console.log(`Ratio import preflight: ${pageCount} pages (${startPage}-${endPage}).`);
+console.log(`Book neighbors: previous=${previousBookPage ?? 'none'}, next=${nextBookPage ?? 'none'}.`);
+console.log(`Planned changes: ${changes.length}.`);
+for (const change of changes) {
+  console.log(`- ${change.type}: ${change.rel}`);
+}
+
+if (!writeMode) {
+  console.log('Read-only preflight complete. Re-run with --write only after explicit approval.');
+  process.exit(0);
+}
+
+for (const change of changes.filter((item) => item.type !== 'delete')) {
+  const target = path.join(root, change.rel);
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  const temporary = `${target}.tmp-ratio-import`;
+  fs.writeFileSync(temporary, change.content, 'utf8');
+  fs.renameSync(temporary, target);
+}
+for (const change of changes.filter((item) => item.type === 'delete')) {
+  fs.rmSync(path.join(root, change.rel), { force: true });
+}
+
+console.log(`Imported topic ${topicName}: ${pageCount} pages (${startPage}-${endPage}); ${changes.length} changes written.`);
