@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f2f66" />
+  <meta name="description" content="תצוגה נוחה ורציפה של חוברת מערכת משוואות בשני נעלמים — 16 דפי עבודה ו-69 משימות." />
+  <title>מערכת משוואות בשני נעלמים — החוברת המלאה</title>
+  <link rel="stylesheet" href="vendor/fonts/rubik.css" />
+  <link rel="stylesheet" href="systems-workbook.css?v=__MOBILE_VERSION__" />
+  <script type="module" src="systems-workbook.js?v=__MOBILE_VERSION__"></script>
+</head>
+<body>
+  <header class="app-header">
+    <button class="icon-button menu-button" id="menu-button" type="button" aria-label="פתיחת רשימת הדפים" aria-controls="page-sidebar" aria-expanded="false">תוכן</button>
+    <div class="app-heading">
+      <a class="brand-link" href="./?view=catalog">פרבולה</a>
+      <div>
+        <h1>מערכת משוואות בשני נעלמים</h1>
+        <p id="workbook-stats">טוען את החוברת…</p>
+      </div>
+    </div>
+    <div class="header-actions" aria-label="פעולות בחוברת">
+      <button class="action-button" id="copy-link-button" type="button">העתקת קישור</button>
+      <a class="action-button" id="open-page-link" href="עמוד-609.html" target="_blank" rel="noopener">פתיחת הדף</a>
+      <button class="action-button primary" id="print-page-button" type="button">הדפסת הדף</button>
+      <a class="action-button catalog-link" href="./?view=catalog">כל החומרים</a>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <aside class="page-sidebar" id="page-sidebar" aria-label="תוכן החוברת">
+      <div class="sidebar-header">
+        <div>
+          <strong>תוכן החוברת</strong>
+          <span id="sidebar-summary">16 דפים</span>
+        </div>
+        <button class="icon-button close-sidebar" id="close-sidebar-button" type="button" aria-label="סגירת רשימת הדפים">סגירה</button>
+      </div>
+      <ol class="page-list" id="page-list"></ol>
+    </aside>
+
+    <section class="viewer-panel" id="viewer-panel" aria-label="צפייה בדף העבודה">
+      <nav class="viewer-controls" aria-label="ניווט בחוברת">
+        <button class="nav-button" id="previous-button" type="button">הדף הקודם</button>
+        <label class="page-select-label" for="page-select">
+          <span>מעבר מהיר</span>
+          <select id="page-select" aria-label="בחירת דף בחוברת"></select>
+        </label>
+        <div class="current-page-copy" aria-live="polite">
+          <strong id="current-page-title">עמוד 1 מתוך 16</strong>
+          <span id="current-page-detail">טוען…</span>
+        </div>
+        <button class="nav-button primary" id="next-button" type="button">הדף הבא</button>
+        <button class="nav-button fullscreen-button" id="fullscreen-button" type="button">מסך מלא</button>
+      </nav>
+
+      <div class="progress-track" aria-hidden="true"><span id="progress-bar"></span></div>
+
+      <div class="frame-stage" id="frame-stage">
+        <div class="loading-indicator" id="loading-indicator" role="status">טוען את הדף…</div>
+        <iframe
+          id="workbook-frame"
+          title="דף עבודה מתוך החוברת מערכת משוואות בשני נעלמים"
+          src="עמוד-609.html"
+          loading="eager"
+        ></iframe>
+      </div>
+
+      <footer class="viewer-help">
+        <span>בטלפון: החליקו ימינה או שמאלה.</span>
+        <span>במקלדת: חץ שמאלה לדף הבא, חץ ימינה לדף הקודם.</span>
+      </footer>
+    </section>
+  </main>
+
+  <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sr-only" id="live-region" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript-message">
+      כדי להשתמש בתצוגת החוברת יש להפעיל JavaScript.
+      <a href="עמוד-609.html">אפשר לפתוח ישירות את הדף הראשון.</a>
+    </div>
+  </noscript>
+</body>
+</html>
