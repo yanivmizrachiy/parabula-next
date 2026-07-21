@@ -10,7 +10,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "semantic:css": "tailwindcss -i ./src/index.css -o ../../../preview/ratio-semantic/ratio-semantic-base.css --minify",
+    "semantic:pilot:check": "node scripts/export-semantic-pages.mjs --page=1",
+    "semantic:pilot:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --page=1 --write",
+    "semantic:all:check": "node scripts/export-semantic-pages.mjs --all",
+    "semantic:all:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --all --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
