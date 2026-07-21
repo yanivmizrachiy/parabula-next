@@ -91,13 +91,16 @@ async function verifyLiveDeployment() {
     fetchText('mobile-app.html'),
   ]);
   assert(!catalogHtml.includes('__MOBILE_VERSION__'), 'live desktop reader contains an unresolved build version token');
+  assert(!mobileHtml.includes('__MOBILE_VERSION__'), 'live mobile reader contains an unresolved build version token');
   const catalogScript = extractAsset(catalogHtml, /<script[^>]+src="([^"]*catalog\.js[^"]*)"/, 'catalog script');
   const deepLinkScript = extractAsset(catalogHtml, /<script[^>]+src="([^"]*catalog-deep-link\.js[^"]*)"/, 'catalog deep-link script');
   const mobileScript = extractAsset(mobileHtml, /<script[^>]+src="([^"]*mobile-app\.js[^"]*)"/, 'mobile application script');
-  const [{ text: catalogJs }, { text: catalogDeepLink }, { text: mobileJs }] = await Promise.all([
+  const mobileDeepLinkScript = extractAsset(mobileHtml, /<script[^>]+src="([^"]*mobile-deep-link\.js[^"]*)"/, 'mobile deep-link script');
+  const [{ text: catalogJs }, { text: catalogDeepLink }, { text: mobileJs }, { text: mobileDeepLink }] = await Promise.all([
     fetchText(catalogScript),
     fetchText(deepLinkScript),
     fetchText(mobileScript),
+    fetchText(mobileDeepLinkScript),
   ]);
   assert(catalogJs.includes("const LS_POS = 'parabula-catalog:last-file'"), 'desktop reader lost its remembered-position fallback');
   assert(catalogDeepLink.includes("searchParams.get('file')"), 'desktop reader does not accept a direct requested file');
@@ -106,6 +109,11 @@ async function verifyLiveDeployment() {
   assert(catalogDeepLink.includes('popstate'), 'desktop deep-link controller cannot restore browser history');
   assert(mobileHtml.includes("requestedFile: params.get('file') || ''"), 'mobile reader does not accept a requested file');
   assert(mobileJs.includes('bootConfig.requestedFile'), 'mobile reader does not consume the requested file');
+  assert(mobileDeepLink.includes("searchParams.set('file', normalized)"), 'mobile reader cannot sync the active page URL');
+  assert(mobileDeepLink.includes('.page-card.active'), 'mobile reader cannot detect the active page');
+  assert(mobileDeepLink.includes('MutationObserver'), 'mobile reader cannot observe page changes');
+  assert(mobileDeepLink.includes('popstate'), 'mobile reader cannot restore browser history');
+  assert(mobileDeepLink.includes('window.location.reload()'), 'mobile reader cannot restore a page across topics');
 
   const pageResults = await Promise.all(liveManifest.pages.map(async (page) => {
     const file = `עמוד-${page.page}.html`;
@@ -122,6 +130,7 @@ async function verifyLiveDeployment() {
     entryPage: liveManifest.entryPage,
     readers: 2,
     directLinks: 2,
+    historyControllers: 2,
   };
 }
 
@@ -130,7 +139,7 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const result = await verifyLiveDeployment();
     console.log(`Live systems workbook verified: ${result.site}`);
-    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers} directLinks=${result.directLinks}`);
+    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers} directLinks=${result.directLinks} historyControllers=${result.historyControllers}`);
     process.exit(0);
   } catch (error) {
     lastError = error;
