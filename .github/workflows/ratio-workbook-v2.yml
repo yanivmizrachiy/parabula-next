@@ -65,6 +65,9 @@ jobs:
       - name: Verify all 48 React pages support semantic SSR export
         run: npm run ratio:semantic:all:check
 
+      - name: Verify measurable content manifest for all 48 pages
+        run: npm run manifest:check --prefix sources/lovable/ratio-workbook
+
       - name: Render and audit all 48 A4 pages
         run: npm run ratio:render
 
