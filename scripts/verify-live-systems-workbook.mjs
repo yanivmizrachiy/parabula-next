@@ -82,21 +82,28 @@ async function verifyLiveDeployment() {
   assert(gateHtml.includes(`const ENTRY_FILE = '${entryFile}'`), 'live systems gateway does not use the canonical entry page');
   assert(gateHtml.includes("'./catalog.html'"), 'live systems gateway is missing the desktop canonical reader');
   assert(gateHtml.includes("'./mobile-app.html'"), 'live systems gateway is missing the mobile canonical reader');
-  assert(gateHtml.includes('parabula-catalog:last-file'), 'live systems gateway cannot deep-link the desktop reader');
+  assert(gateHtml.includes("target.searchParams.set('file', requested)"), 'live systems gateway does not pass the requested file directly');
+  assert(!gateHtml.includes('parabula-catalog:last-file'), 'live systems gateway still depends on desktop local storage');
   assert(gateHtml.includes('window.location.replace(target.href)'), 'live systems gateway does not redirect safely');
 
   const [{ text: catalogHtml }, { text: mobileHtml }] = await Promise.all([
     fetchText('catalog.html'),
     fetchText('mobile-app.html'),
   ]);
+  assert(!catalogHtml.includes('__MOBILE_VERSION__'), 'live desktop reader contains an unresolved build version token');
   const catalogScript = extractAsset(catalogHtml, /<script[^>]+src="([^"]*catalog\.js[^"]*)"/, 'catalog script');
+  const deepLinkScript = extractAsset(catalogHtml, /<script[^>]+src="([^"]*catalog-deep-link\.js[^"]*)"/, 'catalog deep-link script');
   const mobileScript = extractAsset(mobileHtml, /<script[^>]+src="([^"]*mobile-app\.js[^"]*)"/, 'mobile application script');
-  const [{ text: catalogJs }, { text: mobileJs }] = await Promise.all([
+  const [{ text: catalogJs }, { text: catalogDeepLink }, { text: mobileJs }] = await Promise.all([
     fetchText(catalogScript),
+    fetchText(deepLinkScript),
     fetchText(mobileScript),
   ]);
-  assert(catalogJs.includes("const LS_POS = 'parabula-catalog:last-file'"), 'desktop reader cannot restore the requested page');
-  assert(catalogJs.includes('state.pages.findIndex((p) => p.file === savedFile)'), 'desktop reader does not locate the requested page');
+  assert(catalogJs.includes("const LS_POS = 'parabula-catalog:last-file'"), 'desktop reader lost its remembered-position fallback');
+  assert(catalogDeepLink.includes("searchParams.get('file')"), 'desktop reader does not accept a direct requested file');
+  assert(catalogDeepLink.includes('target.click()'), 'desktop deep-link controller cannot open the requested page');
+  assert(catalogDeepLink.includes('MutationObserver'), 'desktop deep-link controller cannot sync the active page URL');
+  assert(catalogDeepLink.includes('popstate'), 'desktop deep-link controller cannot restore browser history');
   assert(mobileHtml.includes("requestedFile: params.get('file') || ''"), 'mobile reader does not accept a requested file');
   assert(mobileJs.includes('bootConfig.requestedFile'), 'mobile reader does not consume the requested file');
 
@@ -114,6 +121,7 @@ async function verifyLiveDeployment() {
     tasks: liveManifest.totalTasks,
     entryPage: liveManifest.entryPage,
     readers: 2,
+    directLinks: 2,
   };
 }
 
@@ -122,7 +130,7 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const result = await verifyLiveDeployment();
     console.log(`Live systems workbook verified: ${result.site}`);
-    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers}`);
+    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers} directLinks=${result.directLinks}`);
     process.exit(0);
   } catch (error) {
     lastError = error;
