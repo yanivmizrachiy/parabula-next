@@ -8,6 +8,8 @@ on:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
       - 'scripts/import-ratio-workbook.mjs'
+      - 'scripts/audit-ratio-compliance.mjs'
+      - 'tests/contracts/ratio-*.test.mjs'
       - 'package.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   pull_request:
@@ -15,6 +17,8 @@ on:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
       - 'scripts/import-ratio-workbook.mjs'
+      - 'scripts/audit-ratio-compliance.mjs'
+      - 'tests/contracts/ratio-*.test.mjs'
       - 'package.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   workflow_dispatch:
@@ -57,6 +61,9 @@ jobs:
 
       - name: Test ratio mathematics and structure
         run: npm run ratio:test
+
+      - name: Verify all 48 React pages support semantic SSR export
+        run: npm run ratio:semantic:all:check
 
       - name: Render and audit all 48 A4 pages
         run: npm run ratio:render
