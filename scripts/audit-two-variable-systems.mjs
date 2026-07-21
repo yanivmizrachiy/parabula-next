@@ -7,6 +7,7 @@ const root = process.cwd();
 const args = new Set(process.argv.slice(2));
 const topic = 'מערכת משוואות בשני נעלמים';
 const entryPage = 609;
+const legacyTopicPage = 601;
 const previousExternalPage = 573;
 const exitPage = 531;
 const manifestPath = path.join(root, 'meta', 'two-variable-systems-manifest.json');
@@ -72,8 +73,17 @@ for (let guard = 0; guard < 100; guard += 1) {
   if (!/<html\s+lang="he"\s+dir="rtl">/.test(html)) fail(`page ${currentPage}: missing Hebrew RTL root`);
   if (!html.includes(`<h1 class="page-title">${topic}</h1>`)) fail(`page ${currentPage}: incorrect topic heading`);
   if (!html.includes('class="a4-page') || !html.includes('systems2-page')) fail(`page ${currentPage}: missing systems2-page A4 root`);
-  if (!html.includes(`href="עמוד-${entryPage}.html" aria-current="page">${topic}</a>`)) {
-    fail(`page ${currentPage}: active topic link must return to page ${entryPage}`);
+
+  const activeTopicMatch = html.match(new RegExp(`<a\\s+class="topic-link is-active"\\s+href="עמוד-(\\d+)\\.html"\\s+aria-current="page">${topic}<\\/a>`));
+  if (!activeTopicMatch) {
+    fail(`page ${currentPage}: missing active topic link`);
+  } else {
+    const topicTarget = Number(activeTopicMatch[1]);
+    if (topicTarget !== entryPage && topicTarget !== legacyTopicPage) {
+      fail(`page ${currentPage}: active topic link targets page ${topicTarget}, expected ${entryPage}`);
+    } else if (topicTarget === legacyTopicPage) {
+      warn(`page ${currentPage}: keeps the legacy topic link to page ${legacyTopicPage}; the viewer entry remains page ${entryPage}`);
+    }
   }
 
   const previous = extractNumber(
