@@ -6,7 +6,6 @@ import path from 'node:path';
 const root = process.cwd();
 const script = fs.readFileSync(path.join(root, 'scripts', 'verify-live-systems-workbook.mjs'), 'utf8');
 const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'systems-live-deploy-smoke.yml'), 'utf8');
-const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
 
 test('live verification derives the expected state from canonical repository data', () => {
   assert.match(script, /meta['"], 'two-variable-systems-manifest\.json'/);
@@ -32,11 +31,11 @@ test('live verification retries after deployment propagation and bypasses stale 
   assert.match(script, /live-smoke/);
 });
 
-test('workflow runs only after a successful main deployment and exposes a local command', () => {
+test('workflow runs only after a successful main deployment without widening package-level CI', () => {
   assert.match(workflow, /workflow_run:/);
   assert.match(workflow, /Validate and deploy parabula-next/);
   assert.match(workflow, /branches:\s*\n\s*- main/);
   assert.match(workflow, /workflow_run\.conclusion == 'success'/);
-  assert.match(workflow, /npm run systems:live:check/);
-  assert.equal(packageJson.scripts['systems:live:check'], 'node scripts/verify-live-systems-workbook.mjs');
+  assert.match(workflow, /node scripts\/verify-live-systems-workbook\.mjs/);
+  assert.doesNotMatch(workflow, /npm run systems:live:check/);
 });
