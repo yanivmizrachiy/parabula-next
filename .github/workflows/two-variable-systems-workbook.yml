@@ -6,8 +6,12 @@ on:
       - main
     paths:
       - 'systems-workbook.html'
-      - 'systems-workbook.css'
-      - 'systems-workbook.js'
+      - 'catalog.html'
+      - 'catalog.css'
+      - 'catalog.js'
+      - 'mobile-app.html'
+      - 'mobile-app.css'
+      - 'mobile-app.js'
       - 'sw.js'
       - 'scripts/copy-static-site.mjs'
       - 'עמוד-60*.html'
@@ -16,6 +20,7 @@ on:
       - 'styles/pages/עמוד-61*.css'
       - 'styles/topics/two-variable-systems.css'
       - 'scripts/audit-two-variable-systems.mjs'
+      - 'scripts/verify-live-systems-workbook.mjs'
       - 'meta/systems-drive-sync.json'
       - 'meta/two-variable-systems-manifest.json'
       - 'tests/contracts/two-variable-systems-*.test.mjs'
@@ -24,8 +29,12 @@ on:
   pull_request:
     paths:
       - 'systems-workbook.html'
-      - 'systems-workbook.css'
-      - 'systems-workbook.js'
+      - 'catalog.html'
+      - 'catalog.css'
+      - 'catalog.js'
+      - 'mobile-app.html'
+      - 'mobile-app.css'
+      - 'mobile-app.js'
       - 'sw.js'
       - 'scripts/copy-static-site.mjs'
       - 'עמוד-60*.html'
@@ -34,6 +43,7 @@ on:
       - 'styles/pages/עמוד-61*.css'
       - 'styles/topics/two-variable-systems.css'
       - 'scripts/audit-two-variable-systems.mjs'
+      - 'scripts/verify-live-systems-workbook.mjs'
       - 'meta/systems-drive-sync.json'
       - 'meta/two-variable-systems-manifest.json'
       - 'tests/contracts/two-variable-systems-*.test.mjs'
@@ -92,5 +102,5 @@ jobs:
       - name: Run equation print smoke validation
         run: npm run validate:equations:print-smoke
 
-      - name: Verify production build includes the workbook app
+      - name: Verify production build includes the workbook gateway and canonical readers
         run: npm run build
