@@ -67,7 +67,24 @@ jobs:
         run: npm ci
 
       - name: Verify workbook manifest, navigation and task counts
-        run: npm run systems:ci
+        shell: bash
+        run: |
+          set +e
+          npm run systems:ci > systems-ci.log 2>&1
+          status=$?
+          cat systems-ci.log
+          printf '%s\n' "$status" > systems-ci-status.txt
+          exit "$status"
+
+      - name: Upload systems diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: systems-workbook-diagnostics
+          path: |
+            systems-ci.log
+            systems-ci-status.txt
+          if-no-files-found: warn
 
       - name: Run mobile static validation
         run: npm run validate:mobile
