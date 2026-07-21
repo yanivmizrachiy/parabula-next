@@ -15,6 +15,7 @@ const requiredFiles = [
   'mobile-app.html',
   'mobile-app.js',
   'mobile-app.css',
+  'mobile-deep-link.js',
   'mobile-app.webmanifest',
   'sw.js',
   'preview/app.html',
@@ -74,11 +75,15 @@ requireIncludes('preview/app.html', './topics.html');
 requireIncludes('preview/app.html', './print.html');
 requireIncludes('preview/app.html', '../mobile-app.html');
 requireIncludes('preview/print.html', './print.js');
+requireIncludes('mobile-app.html', './mobile-deep-link.js?v=__MOBILE_VERSION__');
 requireIncludes('mobile-app.js', './meta/topics.json');
 requireIncludes('mobile-app.js', 'beforeinstallprompt');
 requireIncludes('mobile-app.js', 'display-mode: standalone');
 requireIncludes('mobile-app.js', "target.searchParams.set('mode', 'full')");
 requireIncludes('mobile-app.js', "target.searchParams.set('file', page.file)");
+requireIncludes('mobile-deep-link.js', 'MutationObserver');
+requireIncludes('mobile-deep-link.js', 'popstate');
+requireIncludes('mobile-deep-link.js', "searchParams.set('file', normalized)");
 requireIncludes('mobile-app.css', 'body.full-mode');
 requireIncludes('scripts/copy-static-site.mjs', 'assets/pythagoras/vector');
 requireIncludes('scripts/validate-mobile-all-pages.mjs', 'missing-full-mode-shell');

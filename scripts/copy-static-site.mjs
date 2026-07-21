@@ -85,6 +85,7 @@ const required = [
   'mobile-app.html',
   'mobile-app.js',
   'mobile-app.css',
+  'mobile-deep-link.js',
   'mobile-app.webmanifest',
   'systems-workbook.html',
   'sw.js',
@@ -113,7 +114,7 @@ if (missing.length) {
 const versionInputs = [
   'index.html', 'index.js',
   'catalog.html', 'catalog.css', 'catalog.js', 'catalog-deep-link.js',
-  'mobile-app.html', 'mobile-app.css', 'mobile-app.js', 'mobile-app.webmanifest',
+  'mobile-app.html', 'mobile-app.css', 'mobile-app.js', 'mobile-deep-link.js', 'mobile-app.webmanifest',
   'systems-workbook.html', 'sw.js', 'reader-actions.css', 'reader-actions.js',
   'meta/topics.json', 'meta/two-variable-systems-manifest.json'
 ];
