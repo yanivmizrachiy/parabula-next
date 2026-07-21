@@ -39,4 +39,4 @@ jobs:
           GITHUB_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
           LIVE_SMOKE_ATTEMPTS: 12
           LIVE_SMOKE_DELAY_MS: 5000
-        run: npm run systems:live:check
+        run: node scripts/verify-live-systems-workbook.mjs
