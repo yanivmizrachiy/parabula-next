@@ -19,7 +19,7 @@ const assertRule = (selector, declarations) => {
 test('system cards use a vertical exercise-work-answer layout', () => {
   assert.match(css, /grid-template-areas:\s*"dot system"\s*"\. work"\s*"\. answer"/);
   assert.doesNotMatch(css, /"dot system work"/);
-  assert.doesNotMatch(css, /border-right:\s*1px dashed var\(--systems-line\)/);
+  assertRule('.systems2-page .system-card', [/direction:\s*ltr;/]);
 });
 
 test('all displayed exercises are left aligned, LTR and exactly 13px', () => {
@@ -47,6 +47,28 @@ test('MathJax display containers cannot recenter the exercises', () => {
   for (const selector of displayRules) {
     assertRule(selector, [/text-align:\s*left\s*!important;/]);
   }
+});
+
+test('solution workspace is a large blue square grid with no writing lines', () => {
+  assertRule('.systems2-page .work-lines', [
+    /display:\s*block;/,
+    /min-height:\s*64px;/,
+    /border:\s*1px solid var\(--systems-grid-border\);/,
+    /linear-gradient\(to right,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
+    /linear-gradient\(to bottom,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
+    /background-size:\s*12px 12px;/,
+    /print-color-adjust:\s*exact;/,
+  ]);
+  assertRule('.systems2-page .work-line', [/display:\s*none;/]);
+  assert.doesNotMatch(css, /\.work-line\s*\{[^}]*border-bottom:/s);
+});
+
+test('final answer stays at the bottom below a blue separator', () => {
+  assertRule('.systems2-page .final-answer', [
+    /grid-area:\s*answer;/,
+    /align-self:\s*end;/,
+    /border-top:\s*1px solid var\(--systems-blue\);/,
+  ]);
 });
 
 test('every system card keeps exercise, work area and final answer in that order', () => {
