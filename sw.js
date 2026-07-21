@@ -12,6 +12,15 @@ const CORE_ASSETS = [
   './mobile-app.css',
   './mobile-app.js',
   './mobile-app.webmanifest',
+  './systems-workbook.html',
+  './systems-workbook.css',
+  './systems-workbook.js',
+  './meta/two-variable-systems-manifest.json',
+  './עמוד-609.html',
+  './styles/a4-base.css',
+  './styles/pages/עמוד-609.css',
+  './styles/topics/two-variable-systems.css',
+  './vendor/mathjax/tex-mml-chtml.js',
   './reader-actions.css',
   './reader-actions.js',
   './icon.svg',
@@ -75,8 +84,13 @@ async function networkFirst(request) {
     if (request.mode === 'navigate') {
       const pathname = new URL(request.url).pathname;
       const shellPath = new URL('./mobile-app.html', self.registration.scope).pathname;
+      const systemsPath = new URL('./systems-workbook.html', self.registration.scope).pathname;
       const indexPath = new URL('./index.html', self.registration.scope).pathname;
       const scopePath = new URL('./', self.registration.scope).pathname;
+      if (pathname === systemsPath) {
+        const systemsShell = await cache.match(new Request(new URL('./systems-workbook.html', self.registration.scope).href));
+        if (systemsShell) return systemsShell;
+      }
       if ([shellPath, indexPath, scopePath].includes(pathname)) {
         const shell = await cache.match(new Request(new URL('./mobile-app.html', self.registration.scope).href));
         if (shell) return shell;
