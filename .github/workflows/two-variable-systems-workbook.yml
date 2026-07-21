@@ -8,6 +8,8 @@ on:
       - 'systems-workbook.html'
       - 'systems-workbook.css'
       - 'systems-workbook.js'
+      - 'sw.js'
+      - 'scripts/copy-static-site.mjs'
       - 'עמוד-60*.html'
       - 'עמוד-61*.html'
       - 'styles/pages/עמוד-60*.css'
@@ -24,6 +26,8 @@ on:
       - 'systems-workbook.html'
       - 'systems-workbook.css'
       - 'systems-workbook.js'
+      - 'sw.js'
+      - 'scripts/copy-static-site.mjs'
       - 'עמוד-60*.html'
       - 'עמוד-61*.html'
       - 'styles/pages/עמוד-60*.css'
@@ -70,3 +74,6 @@ jobs:
 
       - name: Run equation print smoke validation
         run: npm run validate:equations:print-smoke
+
+      - name: Verify production build includes the workbook app
+        run: npm run build
