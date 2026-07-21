@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T19:37:02.000Z",
+  "generatedAt": "2026-07-21T05:02:00.000Z",
   "topic": "מערכת משוואות בשני נעלמים",
   "repositoryPages": [
     609,
@@ -99,7 +99,7 @@
       "importedToPages": [
         611
       ],
-      "transformation": "The parking-tariff comparison was adapted into one compact multi-part task: define two linear models, find their intersection, and determine the economical domain for each offer."
+      "transformation": "The parking-tariff comparison was adapted into one compact multi-part task: define two linear models, find and interpret their intersection, compare the economical domain for each offer, and verify the conclusion at two fractional-hour durations."
     },
     {
       "role": "pedagogical-substitution-meaning",
@@ -112,7 +112,7 @@
           611
         ]
       },
-      "transformation": "The existing rectangle-to-square story was retained and enriched with prompts asking students to write two expressions for the same side and explain why substitution is mathematically valid."
+      "transformation": "The existing rectangle-to-square story was retained and enriched with prompts asking students to write two expressions for the same side and explain why the expressions must be equal when a square is formed."
     },
     {
       "role": "maze-practice",
