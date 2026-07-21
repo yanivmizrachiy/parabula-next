@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -22,9 +22,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -34,112 +31,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Generate Mitzav systems reasoning page
-        run: node scripts/import-mitsav-systems-reasoning.mjs
-
-      - name: Upload generated Mitzav systems files
-        uses: actions/upload-artifact@v4
-        with:
-          name: mitsav-systems-page-616-generated
-          path: |
-            עמוד-531.html
-            עמוד-601.html
-            עמוד-602.html
-            עמוד-603.html
-            עמוד-604.html
-            עמוד-605.html
-            עמוד-606.html
-            עמוד-607.html
-            עמוד-608.html
-            עמוד-609.html
-            עמוד-610.html
-            עמוד-611.html
-            עמוד-612.html
-            עמוד-613.html
-            עמוד-614.html
-            עמוד-615.html
-            עמוד-616.html
-            styles/pages/עמוד-616.css
-            styles/topics/two-variable-systems.css
-            scripts/curriculum-map.mjs
-            scripts/import-first-quadrant-workbook.mjs
-            meta/topics.json
-            meta/pages.json
-            meta/systems-drive-sync.json
-            tests/contracts/two-variable-systems-page-616.test.mjs
-          if-no-files-found: error
-          retention-days: 3
-
-      - name: Commit generated files through Git Data API
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          TARGET_BRANCH: ${{ github.head_ref }}
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          import subprocess
-          import urllib.error
-          import urllib.request
-
-          repo = os.environ['GITHUB_REPOSITORY']
-          branch = os.environ['TARGET_BRANCH']
-          token = os.environ['GH_TOKEN']
-          files = [
-              'עמוד-531.html', 'עמוד-601.html', 'עמוד-602.html', 'עמוד-603.html',
-              'עמוד-604.html', 'עמוד-605.html', 'עמוד-606.html', 'עמוד-607.html',
-              'עמוד-608.html', 'עמוד-609.html', 'עמוד-610.html', 'עמוד-611.html',
-              'עמוד-612.html', 'עמוד-613.html', 'עמוד-614.html', 'עמוד-615.html',
-              'עמוד-616.html', 'styles/pages/עמוד-616.css',
-              'styles/topics/two-variable-systems.css', 'scripts/curriculum-map.mjs',
-              'scripts/import-first-quadrant-workbook.mjs', 'meta/topics.json',
-              'meta/pages.json', 'meta/systems-drive-sync.json',
-              'tests/contracts/two-variable-systems-page-616.test.mjs',
-          ]
-
-          def api(method, route, payload=None):
-              data = None if payload is None else json.dumps(payload, ensure_ascii=False).encode('utf-8')
-              request = urllib.request.Request(
-                  f'https://api.github.com/repos/{repo}{route}',
-                  data=data,
-                  method=method,
-                  headers={
-                      'Authorization': f'Bearer {token}',
-                      'Accept': 'application/vnd.github+json',
-                      'X-GitHub-Api-Version': '2022-11-28',
-                      'User-Agent': 'parabula-next-page-616-generator',
-                      'Content-Type': 'application/json',
-                  },
-              )
-              try:
-                  with urllib.request.urlopen(request) as response:
-                      return json.load(response)
-              except urllib.error.HTTPError as error:
-                  body = error.read().decode('utf-8', errors='replace')
-                  raise RuntimeError(f'GitHub API {method} {route} failed: {error.code} {body}') from error
-
-          parent = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
-          commit_data = api('GET', f'/git/commits/{parent}')
-          entries = []
-          for file in files:
-              with open(file, 'r', encoding='utf-8') as handle:
-                  entries.append({
-                      'path': file,
-                      'mode': '100644',
-                      'type': 'blob',
-                      'content': handle.read(),
-                  })
-          tree = api('POST', '/git/trees', {'base_tree': commit_data['tree']['sha'], 'tree': entries})
-          commit = api('POST', '/git/commits', {
-              'message': 'feat: add Mitzav reasoning page 616',
-              'tree': tree['sha'],
-              'parents': [parent],
-          })
-          api('PATCH', f'/git/refs/heads/{branch}', {'sha': commit['sha'], 'force': False})
-          print(f"Created atomic commit {commit['sha']} on {branch}")
-          PY
 
       - name: Contract tests
         run: npm test
