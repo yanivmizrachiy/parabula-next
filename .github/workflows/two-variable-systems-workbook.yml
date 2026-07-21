@@ -1,0 +1,66 @@
+name: Two Variable Systems Workbook
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'עמוד-60*.html'
+      - 'עמוד-61*.html'
+      - 'styles/pages/עמוד-60*.css'
+      - 'styles/pages/עמוד-61*.css'
+      - 'styles/topics/two-variable-systems.css'
+      - 'scripts/audit-two-variable-systems.mjs'
+      - 'meta/systems-drive-sync.json'
+      - 'meta/two-variable-systems-manifest.json'
+      - 'tests/contracts/two-variable-systems-*.test.mjs'
+      - 'package.json'
+      - '.github/workflows/two-variable-systems-workbook.yml'
+  pull_request:
+    paths:
+      - 'עמוד-60*.html'
+      - 'עמוד-61*.html'
+      - 'styles/pages/עמוד-60*.css'
+      - 'styles/pages/עמוד-61*.css'
+      - 'styles/topics/two-variable-systems.css'
+      - 'scripts/audit-two-variable-systems.mjs'
+      - 'meta/systems-drive-sync.json'
+      - 'meta/two-variable-systems-manifest.json'
+      - 'tests/contracts/two-variable-systems-*.test.mjs'
+      - 'package.json'
+      - '.github/workflows/two-variable-systems-workbook.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: systems-workbook-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify workbook manifest, navigation and task counts
+        run: npm run systems:ci
+
+      - name: Run mobile static validation
+        run: npm run validate:mobile
+
+      - name: Run equation print smoke validation
+        run: npm run validate:equations:print-smoke
