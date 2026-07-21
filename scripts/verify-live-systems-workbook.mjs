@@ -64,7 +64,7 @@ function assertManifestIntegrity(manifest) {
 
 function extractAsset(html, pattern, label) {
   const match = html.match(pattern);
-  assert(match, `live workbook: missing ${label}`);
+  assert(match, `live reader: missing ${label}`);
   return match[1];
 }
 
@@ -76,20 +76,29 @@ async function verifyLiveDeployment() {
     'live manifest does not match the canonical repository manifest yet',
   );
 
-  const { text: appHtml } = await fetchText('systems-workbook.html');
-  assert(!appHtml.includes('__MOBILE_VERSION__'), 'live workbook still contains an unresolved build version token');
-  assert(appHtml.includes(`<h1>${liveManifest.topic}</h1>`), 'live workbook heading differs from the manifest topic');
-  assert(appHtml.includes('id="workbook-frame"'), 'live workbook is missing the worksheet frame');
-  assert(
-    appHtml.includes(`src="עמוד-${liveManifest.entryPage}.html"`),
-    'live workbook frame does not open the canonical entry page',
-  );
+  const entryFile = `עמוד-${liveManifest.entryPage}.html`;
+  const { text: gateHtml } = await fetchText('systems-workbook.html');
+  assert(!gateHtml.includes('__MOBILE_VERSION__'), 'live systems gateway contains an unresolved build version token');
+  assert(gateHtml.includes(`const ENTRY_FILE = '${entryFile}'`), 'live systems gateway does not use the canonical entry page');
+  assert(gateHtml.includes("'./catalog.html'"), 'live systems gateway is missing the desktop canonical reader');
+  assert(gateHtml.includes("'./mobile-app.html'"), 'live systems gateway is missing the mobile canonical reader');
+  assert(gateHtml.includes('parabula-catalog:last-file'), 'live systems gateway cannot deep-link the desktop reader');
+  assert(gateHtml.includes('window.location.replace(target.href)'), 'live systems gateway does not redirect safely');
 
-  const stylesheet = extractAsset(appHtml, /<link[^>]+rel="stylesheet"[^>]+href="([^"]*systems-workbook\.css[^"]*)"/, 'stylesheet');
-  const script = extractAsset(appHtml, /<script[^>]+src="([^"]*systems-workbook\.js[^"]*)"/, 'application script');
-  const [{ text: css }, { text: js }] = await Promise.all([fetchText(stylesheet), fetchText(script)]);
-  assert(css.includes('.app-layout'), 'live workbook stylesheet is incomplete');
-  assert(js.includes('two-variable-systems-manifest.json'), 'live workbook script is incomplete');
+  const [{ text: catalogHtml }, { text: mobileHtml }] = await Promise.all([
+    fetchText('catalog.html'),
+    fetchText('mobile-app.html'),
+  ]);
+  const catalogScript = extractAsset(catalogHtml, /<script[^>]+src="([^"]*catalog\.js[^"]*)"/, 'catalog script');
+  const mobileScript = extractAsset(mobileHtml, /<script[^>]+src="([^"]*mobile-app\.js[^"]*)"/, 'mobile application script');
+  const [{ text: catalogJs }, { text: mobileJs }] = await Promise.all([
+    fetchText(catalogScript),
+    fetchText(mobileScript),
+  ]);
+  assert(catalogJs.includes("const LS_POS = 'parabula-catalog:last-file'"), 'desktop reader cannot restore the requested page');
+  assert(catalogJs.includes('state.pages.findIndex((p) => p.file === savedFile)'), 'desktop reader does not locate the requested page');
+  assert(mobileHtml.includes("requestedFile: params.get('file') || ''"), 'mobile reader does not accept a requested file');
+  assert(mobileJs.includes('bootConfig.requestedFile'), 'mobile reader does not consume the requested file');
 
   const pageResults = await Promise.all(liveManifest.pages.map(async (page) => {
     const file = `עמוד-${page.page}.html`;
@@ -104,6 +113,7 @@ async function verifyLiveDeployment() {
     pages: pageResults.length,
     tasks: liveManifest.totalTasks,
     entryPage: liveManifest.entryPage,
+    readers: 2,
   };
 }
 
@@ -112,7 +122,7 @@ for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const result = await verifyLiveDeployment();
     console.log(`Live systems workbook verified: ${result.site}`);
-    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage}`);
+    console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers}`);
     process.exit(0);
   } catch (error) {
     lastError = error;
