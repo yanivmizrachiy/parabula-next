@@ -78,13 +78,14 @@ for (const file of rootFiles) {
 const required = [
   'index.html',
   'index.js',
+  'catalog.html',
+  'catalog.js',
+  'catalog.css',
   'mobile-app.html',
   'mobile-app.js',
   'mobile-app.css',
   'mobile-app.webmanifest',
   'systems-workbook.html',
-  'systems-workbook.css',
-  'systems-workbook.js',
   'sw.js',
   'reader-actions.js',
   'reader-actions.css',
@@ -109,10 +110,11 @@ if (missing.length) {
 }
 
 const versionInputs = [
-  'index.html', 'index.js', 'mobile-app.html', 'mobile-app.css', 'mobile-app.js',
-  'mobile-app.webmanifest', 'systems-workbook.html', 'systems-workbook.css', 'systems-workbook.js',
-  'sw.js', 'reader-actions.css', 'reader-actions.js', 'meta/topics.json',
-  'meta/two-variable-systems-manifest.json'
+  'index.html', 'index.js',
+  'catalog.html', 'catalog.css', 'catalog.js',
+  'mobile-app.html', 'mobile-app.css', 'mobile-app.js', 'mobile-app.webmanifest',
+  'systems-workbook.html', 'sw.js', 'reader-actions.css', 'reader-actions.js',
+  'meta/topics.json', 'meta/two-variable-systems-manifest.json'
 ];
 const hash = crypto.createHash('sha256');
 for (const rel of versionInputs) {
@@ -140,6 +142,7 @@ function walkHtml(dir) {
   }
   return out;
 }
+
 let versionedCount = 0;
 for (const file of walkHtml(dist)) {
   const src = fs.readFileSync(file, 'utf8');
