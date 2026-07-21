@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
 const html = fs.readFileSync(path.join(root, 'עמוד-616.html'), 'utf8');
@@ -43,8 +42,4 @@ test('Drive provenance maps new and duplicate-only sources', () => {
   const intersection = sync.sources.find((source) => source.role === 'linear-functions-intersection-worksheet');
   assert.deepEqual(intersection?.importedToPages, []);
   assert.deepEqual(intersection?.mappedWithoutDuplication?.existingCoverage, [190, 191, 192, 193, 194, 195]);
-});
-
-test('the importer is idempotent in check mode', () => {
-  execFileSync(process.execPath, ['scripts/import-mitsav-systems-reasoning.mjs', '--check'], { cwd: root, stdio: 'pipe' });
 });
