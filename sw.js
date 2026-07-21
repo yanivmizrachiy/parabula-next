@@ -11,6 +11,7 @@ const CORE_ASSETS = [
   './catalog.html',
   './catalog.css',
   './catalog.js',
+  './catalog-deep-link.js',
   './mobile-app.html',
   './mobile-app.css',
   './mobile-app.js',
