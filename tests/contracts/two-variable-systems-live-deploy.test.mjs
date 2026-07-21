@@ -18,7 +18,8 @@ test('live verification derives the expected state from canonical repository dat
 test('live verification checks the gateway, direct links, both readers and every page', () => {
   assert.match(script, /systems-workbook\.html/);
   assert.match(script, /catalog\.html/);
-  assert.match(script, /catalog-deep-link\.js/);
+  assert.match(script, /const deepLinkScript = extractAsset/);
+  assert.match(script, /catalog deep-link script/);
   assert.match(script, /mobile-app\.html/);
   assert.match(script, /target\.searchParams\.set\('file', requested\)/);
   assert.match(script, /searchParams\.get\('file'\)/);
