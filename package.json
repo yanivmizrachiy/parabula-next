@@ -12,6 +12,8 @@
     "ratio:test": "npm test --prefix sources/lovable/ratio-workbook",
     "ratio:build": "npm run build --prefix sources/lovable/ratio-workbook",
     "ratio:render": "node scripts/render-ratio-workbook.mjs",
+    "ratio:import:check": "node scripts/import-ratio-workbook.mjs",
+    "ratio:import:write": "node scripts/import-ratio-workbook.mjs --write",
     "quadratics:generate": "node scripts/generate-quadratic-equations-workbook.mjs",
     "quadratics:export": "node scripts/export-quadratic-equations-workbook.mjs",
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
