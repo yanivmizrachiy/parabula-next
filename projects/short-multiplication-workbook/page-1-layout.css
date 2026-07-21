@@ -1,0 +1,80 @@
+.short-mult-page .formula-strip {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  padding: 5px 12px;
+  border: 1px solid var(--sm-border);
+  border-radius: 8px;
+  background: var(--sm-soft);
+  direction: ltr;
+  color: var(--sm-ink);
+  font-size: 14.5px;
+  font-weight: 650;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.short-mult-page .formula-strip > div {
+  display: block;
+  width: 100%;
+}
+
+.short-mult-page .formula-strip mjx-container {
+  margin: 0 !important;
+}
+
+.short-mult-page.cover-page .question-block {
+  gap: 5px;
+}
+
+.short-mult-page.cover-page .two-col {
+  gap: 5px;
+}
+
+.short-mult-page.cover-page .prompt {
+  font-size: 13.5px;
+  line-height: 1.32;
+}
+
+.short-mult-page.cover-page .exercise-grid {
+  gap: 4px;
+}
+
+.short-mult-page.cover-page .exercise-card {
+  padding: 4px 8px 4px 6px;
+  row-gap: 2px;
+}
+
+.short-mult-page.cover-page .exercise-card > .qdot {
+  margin-top: 10px;
+}
+
+.short-mult-page.cover-page .equation {
+  min-height: 23px;
+  font-size: 15.5px;
+}
+
+.short-mult-page.cover-page .work-area {
+  min-height: 26px;
+}
+
+.short-mult-page.cover-page .write-row {
+  height: 11px;
+}
+
+.short-mult-page.cover-page .final-answer {
+  gap: 5px;
+  font-size: 11.5px;
+}
+
+.short-mult-page.cover-page .answer-line {
+  height: 20px;
+}
+
+.short-mult-page.cover-page .geo-card {
+  padding: 6px 9px;
+}
+
+.short-mult-page.cover-page .diagram {
+  max-height: 125px;
+}
