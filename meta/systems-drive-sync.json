@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T05:02:00.000Z",
+  "generatedAt": "2026-07-21T05:44:30.486Z",
   "topic": "מערכת משוואות בשני נעלמים",
   "repositoryPages": [
     609,
@@ -16,7 +16,8 @@
     612,
     613,
     614,
-    615
+    615,
+    616
   ],
   "policy": {
     "canonicalRule": "Import unique mathematical tasks once, order from easy to hard, and map duplicate or out-of-scope Drive files without copying them again.",
@@ -136,6 +137,30 @@
       ],
       "importedToPages": [],
       "reason": "Quadratic-function intersections belong to a separate grade-9 nonlinear systems topic and are intentionally not mixed into the grade-8 linear workbook."
+    },
+    {
+      "role": "mitsav-2025-reasoning-applications",
+      "canonicalDriveId": "1SSym_YW1EaafAYqy4KuNw66KwkLxldFk",
+      "importedToPages": [
+        616
+      ],
+      "transformation": "Three original adaptations preserve the assessed reasoning moves: deriving x+y without solving both variables first, isolating a two-item price by one subtraction, and combining price conditions with an inequality and verification."
+    },
+    {
+      "role": "linear-functions-intersection-worksheet",
+      "canonicalDriveId": "1PR7kPVcdWqzJtSmV4ly5Qo2ZpWpmxm4J",
+      "importedToPages": [],
+      "mappedWithoutDuplication": {
+        "existingCoverage": [
+          190,
+          191,
+          192,
+          193,
+          194,
+          195
+        ]
+      },
+      "reason": "Its graph reading, equation-to-graph matching, line construction from point and slope, graphing, intersection and comparison tasks are already covered by pages 190-195."
     }
   ]
 }
