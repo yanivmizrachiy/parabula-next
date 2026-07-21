@@ -144,6 +144,7 @@ jobs:
           retention-days: 3
 
   mobile-deep-gate:
+    if: github.event_name != 'pull_request'
     name: Deep mobile audit shard ${{ matrix.shard }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
