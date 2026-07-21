@@ -24,7 +24,6 @@
     "systems:manifest:check": "node scripts/audit-two-variable-systems.mjs --check",
     "systems:manifest:write": "node scripts/audit-two-variable-systems.mjs --write",
     "systems:ci": "npm run systems:manifest:check && node --test tests/contracts/two-variable-systems-*.test.mjs",
-    "systems:live:check": "node scripts/verify-live-systems-workbook.mjs",
     "quadratics:generate": "node scripts/generate-quadratic-equations-workbook.mjs",
     "quadratics:export": "node scripts/export-quadratic-equations-workbook.mjs",
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
