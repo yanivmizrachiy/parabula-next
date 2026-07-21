@@ -75,6 +75,28 @@ jobs:
       - name: Repository health
         run: npm run health:report
 
+      - name: Recovery, preview and app-layer audits
+        run: |
+          node scripts/recovery-audit.mjs
+          node scripts/preview-guard.mjs
+          node scripts/preview-style-audit.mjs
+          node scripts/app-layer-check.mjs
+          node scripts/duplicate-audit.mjs
+
+      - name: Upload consolidated health audits
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-health-audits
+          path: |
+            meta/audit/recovery-audit.json
+            meta/audit/preview-guard.json
+            meta/audit/preview-style-audit.json
+            meta/audit/app-layer-check.json
+            meta/audit/duplicate-audit.json
+          if-no-files-found: warn
+          retention-days: 3
+
       - name: Build production artifact
         run: npm run build
 
