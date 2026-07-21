@@ -1,8 +1,6 @@
 name: Recovery Audit
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -18,7 +16,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run repository recovery audit
         run: node scripts/recovery-audit.mjs
