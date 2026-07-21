@@ -4,6 +4,7 @@ import path from 'node:path';
 const root = process.cwd();
 const topicName = 'יחס';
 const expectedCount = 48;
+const writeReport = process.argv.includes('--report');
 const reportPath = path.join(root, 'assets', 'ratio', 'compliance-audit.json');
 
 function read(rel) {
@@ -15,7 +16,9 @@ function exists(rel) {
 }
 
 const topics = JSON.parse(read('meta/topics.json'));
-const topic = (topics.topics || []).find((candidate) => candidate.name === topicName);
+const topicList = topics.topics || [];
+const topicIndex = topicList.findIndex((candidate) => candidate.name === topicName);
+const topic = topicList[topicIndex];
 if (!topic) {
   throw new Error(`Topic ${topicName} is missing from meta/topics.json.`);
 }
@@ -53,10 +56,10 @@ for (let index = 0; index < (topic.pages || []).length; index += 1) {
   const localPage = index + 1;
   const expectedPrevious = index > 0
     ? topic.pages[index - 1]?.number
-    : (topics.topics || [])[(topics.topics || []).indexOf(topic) - 1]?.pages?.at(-1)?.number;
+    : topicList[topicIndex - 1]?.pages?.at(-1)?.number;
   const expectedNext = index < topic.pages.length - 1
     ? topic.pages[index + 1]?.number
-    : (topics.topics || [])[(topics.topics || []).indexOf(topic) + 1]?.pages?.[0]?.number;
+    : topicList[topicIndex + 1]?.pages?.[0]?.number;
 
   if (/<img[^>]+assets\/ratio\/page-\d{3}\.png/i.test(html)) {
     imageOnlyPages += 1;
@@ -123,9 +126,13 @@ const summary = {
   findings,
 };
 
-fs.mkdirSync(path.dirname(reportPath), { recursive: true });
-fs.writeFileSync(reportPath, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
-console.log(JSON.stringify(summary, null, 2));
+const serialized = `${JSON.stringify(summary, null, 2)}\n`;
+console.log(serialized);
+if (writeReport) {
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, serialized, 'utf8');
+  console.log(`Wrote report: ${path.relative(root, reportPath)}`);
+}
 
 if (findings.some((finding) => finding.severity === 'critical')) {
   process.exitCode = 1;
