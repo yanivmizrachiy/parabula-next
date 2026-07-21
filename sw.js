@@ -8,13 +8,14 @@ const CORE_ASSETS = [
   './index.html',
   './index.css',
   './index.js',
+  './catalog.html',
+  './catalog.css',
+  './catalog.js',
   './mobile-app.html',
   './mobile-app.css',
   './mobile-app.js',
   './mobile-app.webmanifest',
   './systems-workbook.html',
-  './systems-workbook.css',
-  './systems-workbook.js',
   './meta/two-variable-systems-manifest.json',
   './עמוד-609.html',
   './styles/a4-base.css',
@@ -83,7 +84,8 @@ async function networkFirst(request) {
 
     if (request.mode === 'navigate') {
       const pathname = new URL(request.url).pathname;
-      const shellPath = new URL('./mobile-app.html', self.registration.scope).pathname;
+      const mobilePath = new URL('./mobile-app.html', self.registration.scope).pathname;
+      const catalogPath = new URL('./catalog.html', self.registration.scope).pathname;
       const systemsPath = new URL('./systems-workbook.html', self.registration.scope).pathname;
       const indexPath = new URL('./index.html', self.registration.scope).pathname;
       const scopePath = new URL('./', self.registration.scope).pathname;
@@ -91,7 +93,11 @@ async function networkFirst(request) {
         const systemsShell = await cache.match(new Request(new URL('./systems-workbook.html', self.registration.scope).href));
         if (systemsShell) return systemsShell;
       }
-      if ([shellPath, indexPath, scopePath].includes(pathname)) {
+      if (pathname === catalogPath) {
+        const catalogShell = await cache.match(new Request(new URL('./catalog.html', self.registration.scope).href));
+        if (catalogShell) return catalogShell;
+      }
+      if ([mobilePath, indexPath, scopePath].includes(pathname)) {
         const shell = await cache.match(new Request(new URL('./mobile-app.html', self.registration.scope).href));
         if (shell) return shell;
       }
