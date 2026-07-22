@@ -17,6 +17,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  scope:
+    runs-on: ubuntu-latest
+    outputs:
+      mobile: ${{ steps.classify.outputs.mobile }}
+      changed_count: ${{ steps.classify.outputs.changed_count }}
+      reason: ${{ steps.classify.outputs.reason }}
+    steps:
+      - name: Checkout with history for change classification
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Classify whether browser-heavy mobile checks are relevant
+        id: classify
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node scripts/classify-ci-change-scope.mjs
+
+      - name: Publish classification summary
+        run: |
+          {
+            echo "### CI change scope"
+            echo "- Mobile browser gates: ${{ steps.classify.outputs.mobile }}"
+            echo "- Changed files: ${{ steps.classify.outputs.changed_count }}"
+            echo "- Reason: ${{ steps.classify.outputs.reason }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -110,6 +143,8 @@ jobs:
           retention-days: 1
 
   mobile-browser-gate:
+    needs: scope
+    if: needs.scope.outputs.mobile == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     container:
@@ -137,6 +172,8 @@ jobs:
           retention-days: 3
 
   mobile-interaction-gate:
+    needs: scope
+    if: needs.scope.outputs.mobile == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     container:
