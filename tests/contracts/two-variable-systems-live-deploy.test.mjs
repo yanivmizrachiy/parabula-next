@@ -48,11 +48,24 @@ test('live verification retries after deployment propagation and bypasses stale 
   assert.match(script, /live-smoke/);
 });
 
-test('workflow runs only after a successful main deployment without widening package-level CI', () => {
+test('live verification writes structured success and failure diagnostics', () => {
+  assert.match(script, /meta['"], 'audit', 'systems-live-deploy\.json'/);
+  assert.match(script, /function writeReport/);
+  assert.match(script, /status: 'success'/);
+  assert.match(script, /status: 'failure'/);
+  assert.match(script, /durationMs/);
+  assert.match(script, /failures/);
+});
+
+test('workflow runs only after a successful main deployment and preserves the report artifact', () => {
   assert.match(workflow, /workflow_run:/);
   assert.match(workflow, /Validate and deploy parabula-next/);
   assert.match(workflow, /branches:\s*\n\s*- main/);
   assert.match(workflow, /workflow_run\.conclusion == 'success'/);
   assert.match(workflow, /node scripts\/verify-live-systems-workbook\.mjs/);
+  assert.match(workflow, /actions\/upload-artifact@v4/);
+  assert.match(workflow, /name: systems-live-deploy-report/);
+  assert.match(workflow, /path: meta\/audit\/systems-live-deploy\.json/);
+  assert.match(workflow, /if-no-files-found: error/);
   assert.doesNotMatch(workflow, /npm run systems:live:check/);
 });
