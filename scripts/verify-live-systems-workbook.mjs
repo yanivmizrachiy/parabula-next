@@ -6,6 +6,7 @@ import path from 'node:path';
 const root = process.cwd();
 const manifestPath = path.join(root, 'meta', 'two-variable-systems-manifest.json');
 const topicsPath = path.join(root, 'meta', 'topics.json');
+const reportPath = path.join(root, 'meta', 'audit', 'systems-live-deploy.json');
 const expectedManifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const topics = JSON.parse(fs.readFileSync(topicsPath, 'utf8'));
 const siteUrl = process.env.SITE_URL || topics.siteUrl;
@@ -13,14 +14,20 @@ const siteUrl = process.env.SITE_URL || topics.siteUrl;
 if (!siteUrl) throw new Error('Missing site URL: set SITE_URL or meta/topics.json siteUrl');
 
 const baseUrl = new URL(siteUrl.endsWith('/') ? siteUrl : `${siteUrl}/`);
-const attempts = Number(process.env.LIVE_SMOKE_ATTEMPTS || 12);
-const delayMs = Number(process.env.LIVE_SMOKE_DELAY_MS || 5000);
+const attempts = Math.max(1, Number(process.env.LIVE_SMOKE_ATTEMPTS || 12));
+const delayMs = Math.max(0, Number(process.env.LIVE_SMOKE_DELAY_MS || 5000));
 const smokeVersion = process.env.GITHUB_SHA || String(Date.now());
+const startedAt = Date.now();
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const assert = (condition, message) => {
   if (!condition) throw new Error(message);
 };
+
+function writeReport(payload) {
+  fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+  fs.writeFileSync(reportPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+}
 
 function liveUrl(relativePath) {
   const url = new URL(relativePath, baseUrl);
@@ -135,17 +142,40 @@ async function verifyLiveDeployment() {
 }
 
 let lastError;
+const failures = [];
 for (let attempt = 1; attempt <= attempts; attempt += 1) {
   try {
     const result = await verifyLiveDeployment();
+    writeReport({
+      schemaVersion: 1,
+      status: 'success',
+      checkedAt: new Date().toISOString(),
+      durationMs: Date.now() - startedAt,
+      commit: smokeVersion,
+      attempt,
+      failures,
+      ...result,
+    });
     console.log(`Live systems workbook verified: ${result.site}`);
     console.log(`pages=${result.pages} tasks=${result.tasks} entryPage=${result.entryPage} canonicalReaders=${result.readers} directLinks=${result.directLinks} historyControllers=${result.historyControllers}`);
     process.exit(0);
   } catch (error) {
     lastError = error;
+    failures.push({ attempt, message: error.message });
     console.warn(`Live verification attempt ${attempt}/${attempts} failed: ${error.message}`);
     if (attempt < attempts) await sleep(delayMs);
   }
 }
+
+writeReport({
+  schemaVersion: 1,
+  status: 'failure',
+  checkedAt: new Date().toISOString(),
+  durationMs: Date.now() - startedAt,
+  commit: smokeVersion,
+  attempts,
+  failures,
+  error: lastError?.message || 'Live verification failed without an error message',
+});
 
 throw lastError;
