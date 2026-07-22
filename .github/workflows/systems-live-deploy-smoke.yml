@@ -40,3 +40,12 @@ jobs:
           LIVE_SMOKE_ATTEMPTS: 12
           LIVE_SMOKE_DELAY_MS: 5000
         run: node scripts/verify-live-systems-workbook.mjs
+
+      - name: Upload live verification report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: systems-live-deploy-report
+          path: meta/audit/systems-live-deploy.json
+          if-no-files-found: error
+          retention-days: 14
