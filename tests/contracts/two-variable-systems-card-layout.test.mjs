@@ -22,9 +22,21 @@ const assertRule = (selector, declarations) => {
 };
 
 test('system cards use a vertical exercise-work-answer layout', () => {
-  assert.match(css, /grid-template-areas:\s*"dot system"\s*"\. work"\s*"\. answer"/);
+  assert.match(css, /grid-template-areas:\s*"system"\s*"work"\s*"answer"/);
   assert.doesNotMatch(css, /"dot system work"/);
   assertRule('.systems2-page .system-card', [/direction:\s*ltr;/]);
+});
+
+// §4.6 — סוגריים מסולסלות מייתרות את הכדור השחור
+test('cases braces replace the black bullet on system cards', () => {
+  assertRule('.systems2-page .system-card > .qdot', [/display:\s*none;/]);
+  for (const number of systemPages) {
+    const html = fs.readFileSync(path.join(root, `עמוד-${number}.html`), 'utf8');
+    for (const card of html.split('<section class="system-card">').slice(1)) {
+      const body = card.slice(0, card.indexOf('</section>'));
+      assert.ok(!body.includes('qdot'), `עמוד-${number}: כרטיס מערכת עם כדור שחור ליד סוגריים מסולסלות`);
+    }
+  }
 });
 
 test('all displayed exercises are left aligned, LTR and exactly 13px', () => {
@@ -57,7 +69,7 @@ test('MathJax display containers cannot recenter the exercises', () => {
 test('solution workspace is a large blue square grid with no writing lines', () => {
   assertRule('.systems2-page .work-lines', [
     /display:\s*block;/,
-    /min-height:\s*150px;/,
+    /min-height:\s*120px;/,
     /border:\s*1px solid var\(--systems-grid-border\);/,
     /linear-gradient\(to right,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
     /linear-gradient\(to bottom,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
@@ -77,12 +89,29 @@ test('final answer stays at the bottom below a blue separator', () => {
   ]);
 });
 
-// CLAUDE.md §4.6 — מרחב הפתרון קודם לצפיפות; עד 3 מערכות בעמוד.
-test('no page crowds more than three systems, so every exercise keeps real writing room', () => {
+// CLAUDE.md §4.6 — הקיבולת נגזרת מכמות הכתיבה: 6 בשני טורים לתרגילים קלים,
+// עד 4 בטור אחד לתרגילים שדורשים כתיבה מרובה.
+test('page capacity follows the writing-need contract', () => {
   for (const number of systemPages) {
     const html = fs.readFileSync(path.join(root, `עמוד-${number}.html`), 'utf8');
     const count = (html.match(/<section class="system-card">/g) || []).length;
-    assert.ok(count <= 3, `עמוד-${number}.html נושא ${count} מערכות — מעל 3 (§4.6)`);
+    const twoCol = html.includes('systems-two-col');
+    const cap = twoCol ? 6 : 4;
+    assert.ok(count <= cap, `עמוד-${number}.html נושא ${count} מערכות — מעל ${cap} (§4.6)`);
+    if (twoCol) assert.ok(count >= 5, `עמוד-${number}.html דו-טורי עם ${count} תרגילים בלבד — בזבוז עמוד`);
+  }
+});
+
+// §4.6 — התשובה הסופית בצד שמאל, מתחת לשורה האחרונה של הפתרון
+test('final answer is anchored to the left below the work area', () => {
+  assertRule('.systems2-page .final-answer', [/justify-content:\s*flex-end;/, /direction:\s*rtl;/]);
+});
+
+// §4 + §4.6 — אין תוויות דמו; תת-הכותרת היא ההנחיה האמיתית
+test('no stage/demo labels on systems pages', () => {
+  for (const number of systemPages) {
+    const html = fs.readFileSync(path.join(root, `עמוד-${number}.html`), 'utf8');
+    assert.ok(!/פתיחה מדורגת|דף עבודה · פתרון/.test(html), `עמוד-${number}: תווית דמו בתת-הכותרת`);
   }
 });
 

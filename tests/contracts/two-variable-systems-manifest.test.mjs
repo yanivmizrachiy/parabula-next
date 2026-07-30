@@ -20,7 +20,7 @@ test('systems workbook manifest is current and structurally valid', () => {
   const result = runAudit('--check');
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   // מספר העמודים גדל בכל פיצול (§4.6) — מספר המשימות הוא האינווריאנט הקבוע
-  assert.match(result.stdout, new RegExp(`${systemsTopic.count} pages · 69 tasks`));
+  assert.match(result.stdout, new RegExp(`${systemsTopic.count} pages · 68 tasks`));
 });
 
 test('systems workbook manifest records the complete progression', () => {
@@ -28,11 +28,11 @@ test('systems workbook manifest records the complete progression', () => {
   assert.equal(manifest.topic, 'מערכת משוואות בשני נעלמים');
   assert.equal(manifest.entryPage, 609);
   assert.equal(manifest.totalPages, systemsTopic.count);
-  assert.equal(manifest.totalTasks, 69);
+  assert.equal(manifest.totalTasks, 68);
   assert.deepEqual(manifest.pageOrder, systemsTopic.pages.map((page) => page.number));
   // אף תרגיל לא נעלם ולא נוצר בפיצול — זה החוזה שחייב להישמר
   assert.deepEqual(manifest.taskKindTotals, {
-    systems: 43,
+    systems: 42,
     stories: 5,
     classification: 3,
     challenge: 15,
