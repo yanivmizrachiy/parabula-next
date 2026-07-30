@@ -13,21 +13,26 @@ const runAudit = (...args) => spawnSync(
   { cwd: root, encoding: 'utf8' },
 );
 
+const topics = JSON.parse(fs.readFileSync(path.join(root, 'meta', 'topics.json'), 'utf8'));
+const systemsTopic = topics.topics.find((entry) => entry.name === 'מערכת משוואות בשני נעלמים');
+
 test('systems workbook manifest is current and structurally valid', () => {
   const result = runAudit('--check');
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /16 pages · 69 tasks/);
+  // מספר העמודים גדל בכל פיצול (§4.6) — מספר המשימות הוא האינווריאנט הקבוע
+  assert.match(result.stdout, new RegExp(`${systemsTopic.count} pages · 68 tasks`));
 });
 
 test('systems workbook manifest records the complete progression', () => {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   assert.equal(manifest.topic, 'מערכת משוואות בשני נעלמים');
   assert.equal(manifest.entryPage, 609);
-  assert.equal(manifest.totalPages, 16);
-  assert.equal(manifest.totalTasks, 69);
-  assert.deepEqual(manifest.pageOrder, [609, 601, 602, 603, 604, 605, 606, 607, 608, 610, 611, 612, 613, 614, 615, 616]);
+  assert.equal(manifest.totalPages, systemsTopic.count);
+  assert.equal(manifest.totalTasks, 68);
+  assert.deepEqual(manifest.pageOrder, systemsTopic.pages.map((page) => page.number));
+  // אף תרגיל לא נעלם ולא נוצר בפיצול — זה החוזה שחייב להישמר
   assert.deepEqual(manifest.taskKindTotals, {
-    systems: 43,
+    systems: 42,
     stories: 5,
     classification: 3,
     challenge: 15,

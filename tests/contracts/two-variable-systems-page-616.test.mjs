@@ -9,12 +9,12 @@ const css = fs.readFileSync(path.join(root, 'styles/topics/two-variable-systems.
 const topics = JSON.parse(fs.readFileSync(path.join(root, 'meta/topics.json'), 'utf8'));
 const sync = JSON.parse(fs.readFileSync(path.join(root, 'meta/systems-drive-sync.json'), 'utf8'));
 
-test('page 616 is the canonical sixteenth systems page', () => {
-  assert.ok(html.includes('עמוד 16 / 16'));
-  assert.ok(html.includes('href="עמוד-615.html">הקודם'));
-  assert.ok(html.includes('href="עמוד-531.html">הבא'));
+test('page 616 stays the last systems page, numbered from the metadata', () => {
   const topic = topics.topics.find((entry) => entry.name === 'מערכת משוואות בשני נעלמים');
-  assert.equal(topic.count, 16);
+  // המספור המקומי נגזר מהמטא־דאטה ולא מרשימה קשיחה — הוא זז בכל פיצול (§4.6, §6)
+  assert.ok(html.includes(`עמוד ${topic.count} / ${topic.count}`));
+  assert.ok(html.includes(`href="עמוד-${topic.pages.at(-2).number}.html">הקודם`));
+  assert.ok(html.includes('href="עמוד-531.html">הבא'));
   assert.equal(topic.pages.at(-1)?.number, 616);
   assert.equal(topic.pages.at(-1)?.curriculumId, 'g8.alg.systems.substitution');
 });
