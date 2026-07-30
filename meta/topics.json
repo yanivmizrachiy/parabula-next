@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-21T05:44:30.481Z",
   "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/",
-  "totalPages": 616,
+  "totalPages": 623,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -3375,7 +3375,7 @@
     },
     {
       "name": "מערכת משוואות בשני נעלמים",
-      "count": 16,
+      "count": 23,
       "pages": [
         {
           "number": 609,
@@ -3388,9 +3388,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 617,
+          "file": "עמוד-617.html",
+          "title": "עמוד 2 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-617.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-617.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 601,
           "file": "עמוד-601.html",
-          "title": "עמוד 2 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 3 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-601.html",
@@ -3398,9 +3408,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 618,
+          "file": "עמוד-618.html",
+          "title": "עמוד 4 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-618.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-618.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 602,
           "file": "עמוד-602.html",
-          "title": "עמוד 3 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 5 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-602.html",
@@ -3408,9 +3428,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 619,
+          "file": "עמוד-619.html",
+          "title": "עמוד 6 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-619.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-619.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 603,
           "file": "עמוד-603.html",
-          "title": "עמוד 4 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 7 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-603.html",
@@ -3418,9 +3448,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 620,
+          "file": "עמוד-620.html",
+          "title": "עמוד 8 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-620.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-620.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 604,
           "file": "עמוד-604.html",
-          "title": "עמוד 5 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 9 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-604.html",
@@ -3428,9 +3468,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 621,
+          "file": "עמוד-621.html",
+          "title": "עמוד 10 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-621.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-621.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 605,
           "file": "עמוד-605.html",
-          "title": "עמוד 6 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 11 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-605.html",
@@ -3440,7 +3490,7 @@
         {
           "number": 606,
           "file": "עמוד-606.html",
-          "title": "עמוד 7 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 12 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-606.html",
@@ -3450,7 +3500,7 @@
         {
           "number": 607,
           "file": "עמוד-607.html",
-          "title": "עמוד 8 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 13 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-607.html",
@@ -3460,7 +3510,7 @@
         {
           "number": 608,
           "file": "עמוד-608.html",
-          "title": "עמוד 9 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 14 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-608.html",
@@ -3470,7 +3520,7 @@
         {
           "number": 610,
           "file": "עמוד-610.html",
-          "title": "עמוד 10 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 15 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-610.html",
@@ -3478,9 +3528,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 622,
+          "file": "עמוד-622.html",
+          "title": "עמוד 16 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-622.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-622.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 611,
           "file": "עמוד-611.html",
-          "title": "עמוד 11 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 17 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-611.html",
@@ -3490,7 +3550,7 @@
         {
           "number": 612,
           "file": "עמוד-612.html",
-          "title": "עמוד 12 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 18 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-612.html",
@@ -3498,9 +3558,19 @@
           "curriculumId": "g8.alg.systems.substitution"
         },
         {
+          "number": 623,
+          "file": "עמוד-623.html",
+          "title": "עמוד 19 — מערכת משוואות בשני נעלמים",
+          "h1": "מערכת משוואות בשני נעלמים",
+          "topic": "מערכת משוואות בשני נעלמים",
+          "previewPath": "/עמוד-623.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/parabula-next/עמוד-623.html",
+          "curriculumId": "g8.alg.systems.substitution"
+        },
+        {
           "number": 613,
           "file": "עמוד-613.html",
-          "title": "עמוד 13 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 20 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-613.html",
@@ -3510,7 +3580,7 @@
         {
           "number": 614,
           "file": "עמוד-614.html",
-          "title": "עמוד 14 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 21 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-614.html",
@@ -3520,7 +3590,7 @@
         {
           "number": 615,
           "file": "עמוד-615.html",
-          "title": "עמוד 15 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 22 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-615.html",
@@ -3530,7 +3600,7 @@
         {
           "number": 616,
           "file": "עמוד-616.html",
-          "title": "עמוד 16 — מערכת משוואות בשני נעלמים",
+          "title": "עמוד 23 — מערכת משוואות בשני נעלמים",
           "h1": "מערכת משוואות בשני נעלמים",
           "topic": "מערכת משוואות בשני נעלמים",
           "previewPath": "/עמוד-616.html",
@@ -7112,13 +7182,13 @@
         "id": "g8",
         "name": "כיתה ח'",
         "directCount": 0,
-        "pageCount": 293,
+        "pageCount": 300,
         "children": [
           {
             "id": "g8.alg",
             "name": "תחום אלגברי",
             "directCount": 0,
-            "pageCount": 182,
+            "pageCount": 189,
             "children": [
               {
                 "id": "g8.alg.linear",
@@ -7337,7 +7407,7 @@
                 "id": "g8.alg.systems",
                 "name": "מערכת משוואות ליניאריות",
                 "directCount": 0,
-                "pageCount": 22,
+                "pageCount": 29,
                 "children": [
                   {
                     "id": "g8.alg.systems.graphic",
@@ -7356,8 +7426,8 @@
                   {
                     "id": "g8.alg.systems.substitution",
                     "name": "שיטת ההצבה",
-                    "directCount": 15,
-                    "pageCount": 15,
+                    "directCount": 22,
+                    "pageCount": 22,
                     "pages": [
                       601,
                       602,
@@ -7373,7 +7443,14 @@
                       612,
                       614,
                       615,
-                      616
+                      616,
+                      617,
+                      618,
+                      619,
+                      620,
+                      621,
+                      622,
+                      623
                     ]
                   },
                   {

@@ -5,7 +5,12 @@ import path from 'node:path';
 
 const root = process.cwd();
 const css = fs.readFileSync(path.join(root, 'styles/topics/two-variable-systems.css'), 'utf8');
-const systemPages = [601, 602, 603, 604, 605, 606, 607, 608, 609, 610, 612];
+const meta = JSON.parse(fs.readFileSync(path.join(root, 'meta/topics.json'), 'utf8'));
+const systemsTopic = meta.topics.find((topic) => topic.name === 'מערכת משוואות בשני נעלמים');
+// נגזר מהמטא־דאטה — לא רשימה קשיחה שמתיישנת בכל פיצול (CLAUDE.md §6)
+const systemPages = systemsTopic.pages
+  .map((page) => page.number)
+  .filter((number) => fs.readFileSync(path.join(root, `עמוד-${number}.html`), 'utf8').includes('<section class="system-card">'));
 
 const assertRule = (selector, declarations) => {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -52,7 +57,7 @@ test('MathJax display containers cannot recenter the exercises', () => {
 test('solution workspace is a large blue square grid with no writing lines', () => {
   assertRule('.systems2-page .work-lines', [
     /display:\s*block;/,
-    /min-height:\s*64px;/,
+    /min-height:\s*150px;/,
     /border:\s*1px solid var\(--systems-grid-border\);/,
     /linear-gradient\(to right,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
     /linear-gradient\(to bottom,\s*var\(--systems-grid\)\s*1px,\s*transparent\s*1px\)/,
@@ -68,7 +73,21 @@ test('final answer stays at the bottom below a blue separator', () => {
     /grid-area:\s*answer;/,
     /align-self:\s*end;/,
     /border-top:\s*1px solid var\(--systems-blue\);/,
+    /width:\s*100%;/,
   ]);
+});
+
+// CLAUDE.md §4.6 — מרחב הפתרון קודם לצפיפות; עד 3 מערכות בעמוד.
+test('no page crowds more than three systems, so every exercise keeps real writing room', () => {
+  for (const number of systemPages) {
+    const html = fs.readFileSync(path.join(root, `עמוד-${number}.html`), 'utf8');
+    const count = (html.match(/<section class="system-card">/g) || []).length;
+    assert.ok(count <= 3, `עמוד-${number}.html נושא ${count} מערכות — מעל 3 (§4.6)`);
+  }
+});
+
+test('the solution grid stretches to fill the page height', () => {
+  assertRule('.systems2-page .systems-list', [/grid-auto-rows:\s*1fr;/]);
 });
 
 test('every system card keeps exercise, work area and final answer in that order', () => {

@@ -17,7 +17,9 @@
 .systems2-page .question-block { justify-content: flex-start; gap: 7px; min-height: 0; }
 .systems2-page .instruction { display: flex; align-items: center; gap: 9px; min-height: 34px; padding: 7px 11px; border-right: 4px solid var(--systems-blue); background: var(--systems-soft); color: var(--systems-ink); font-size: 15.5px; font-weight: 550; line-height: 1.35; }
 .systems2-page .instruction::before { content: ""; width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #000; }
-.systems2-page .systems-list { display: grid; grid-template-columns: 1fr; gap: 7px; min-height: 0; flex: 1 1 auto; }
+/* הכרטיסים נמתחים שווה בשווה על גובה העמוד, כך שמרחב הפתרון של כל תרגיל
+   הוא הגדול ביותר שהעמוד מאפשר (CLAUDE.md §4.3). */
+.systems2-page .systems-list { display: grid; grid-template-columns: 1fr; grid-auto-rows: 1fr; gap: 8px; min-height: 0; flex: 1 1 auto; }
 .systems2-page .system-card { display: grid; direction: ltr; grid-template-columns: 12px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "dot system" ". work" ". answer"; column-gap: 10px; row-gap: 5px; align-items: start; min-height: 0; padding: 7px 10px 7px 8px; border: 1px solid #9bbcf2; border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(30, 64, 175, 0.06); break-inside: avoid; }
 .systems2-page .qdot { grid-area: dot; width: 8px; height: 8px; border-radius: 50%; background: #000; align-self: start; margin-top: 13px; }
 .systems2-page .system-math { grid-area: system; direction: ltr; unicode-bidi: isolate; text-align: left; color: #000; font-size: 13px; min-width: 0; width: 100%; }
@@ -28,7 +30,7 @@
     display: block;
     min-width: 0;
     width: 100%;
-    min-height: 64px;
+    min-height: 150px;
     border: 1px solid var(--systems-grid-border);
     border-radius: 5px;
     background-color: #fff;
@@ -42,23 +44,25 @@
     print-color-adjust: exact;
 }
 .systems2-page .work-line { display: none; }
-.systems2-page .final-answer { grid-area: answer; align-self: end; display: flex; justify-content: flex-start; align-items: center; gap: 7px; min-height: 27px; padding-top: 5px; border-top: 1px solid var(--systems-blue); direction: rtl; color: #334155; font-size: 12.5px; white-space: nowrap; }
+/* התשובה הסופית צמודה מיד מתחת למרחב הפתרון של התלמיד ומיושרת לקצה הימני
+   שלו (RTL) — הזוג הסדור נמצא בדיוק מתחת לדרך שנכתבה (CLAUDE.md §4.6). */
+.systems2-page .final-answer { grid-area: answer; align-self: end; display: flex; justify-content: flex-start; align-items: center; gap: 7px; width: 100%; min-height: 30px; margin-top: 0; padding-top: 6px; border-top: 1px solid var(--systems-blue); direction: rtl; color: #334155; font-size: 12.5px; white-space: nowrap; }
 .systems2-page .answer-pair { display: inline-flex; align-items: center; gap: 5px; direction: ltr; unicode-bidi: isolate; color: #000; font-size: 17px; }
 .systems2-page .answer-box { width: 42px; height: 23px; margin: 0; transform: none; border: 1px solid #94a3b8; border-radius: 4px; background: #fff; }
 .systems2-page .answer-box::before { left: 5px; right: 5px; bottom: 4px; border-bottom-color: #cbd5e1; }
 .systems2-page > .gz-footer { margin-top: 5px; border-top-color: var(--systems-blue); }
-.systems2-page.systems-dense .system-card { row-gap: 3px; padding-top: 5px; padding-bottom: 5px; }
-.systems2-page.systems-dense .work-lines { min-height: 44px; background-size: 10px 10px; }
+.systems2-page.systems-dense .system-card { row-gap: 4px; padding-top: 6px; padding-bottom: 6px; }
+.systems2-page.systems-dense .work-lines { min-height: 150px; }
 .systems2-page.systems-wide .system-card { padding: 10px 12px 8px; }
 .systems2-page.systems-wide .qdot { margin-top: 15px; }
 .systems2-page.systems-wide .system-math { text-align: left; font-size: 13px; }
-.systems2-page.systems-wide .work-lines { min-height: 74px; }
+.systems2-page.systems-wide .work-lines { min-height: 150px; }
 @media print { .systems2-page { padding: 10mm 15mm 9mm; } }
 
 /* Drive sync extension: basic, stories, classification and challenge pages */
 .systems2-page.systems-intro .system-card { min-height: 132px; }
 .systems2-page.systems-intro .system-math { text-align: left; font-size: 13px; }
-.systems2-page.systems-intro .work-lines { min-height: 72px; }
+.systems2-page.systems-intro .work-lines { min-height: 150px; }
 .systems2-page.systems-stories .question-block { gap: 6px; }
 .systems2-page .story-list { display: grid; grid-template-columns: 1fr; gap: 7px; flex: 1 1 auto; min-height: 0; }
 .systems2-page .story-card { display: grid; grid-template-columns: 12px 1fr; gap: 9px; padding: 8px 11px; border: 1px solid var(--systems-border); border-radius: 8px; background: #fff; break-inside: avoid; }

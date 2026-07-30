@@ -49,6 +49,8 @@
     "curriculum:build": "node scripts/build-curriculum.mjs",
     "curriculum:check": "node scripts/build-curriculum.mjs --check",
     "validate:curriculum": "node scripts/validate-curriculum.mjs",
+    "systems:split": "node scripts/split-two-variable-systems.mjs",
+    "systems:check": "node scripts/split-two-variable-systems.mjs --check",
     "validate:html": "html-validate \"עמוד-*.html\"",
     "validate:schema": "node scripts/validate-topics-schema.mjs",
     "vendorize": "node scripts/vendorize-cdn.mjs",

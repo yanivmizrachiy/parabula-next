@@ -83,6 +83,11 @@ jobs:
           npm run curriculum:check
           npm run validate:curriculum
 
+      # שער מרחב הפתרון (§4.6): נכשל אם דף מערכות נדחס מעל 3 תרגילים
+      # או אם הפיצול והמספור אינם מעודכנים מול המקור.
+      - name: Systems solution space
+        run: npm run systems:check
+
       - name: Access and mobile architecture
         run: |
           npm run validate:access
