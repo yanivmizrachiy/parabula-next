@@ -332,7 +332,7 @@ npm run validate:mobile:all-pages
 - `docs/` מסביר ארכיטקטורה רק כאשר המידע אינו כלל וניתן להפיקו מהקוד; מסמך מיושן נמחק.
 - אין `next-session`,‏ system-state ידני או זיכרון סשן שמלמד AI מצב ישן.
 - `scripts/single-rules-source-check.mjs` חייב לסרוק את כל נקודות הכניסה ל־AI ולחסום מקור הוראות נוסף. הסריקה כוללת גם את `.github/instructions/`, את **כל** קובצי ה־Markdown בריפו (למעט `node_modules/`,‏ `dist/`,‏ `.git/`,‏ `sources/lovable/`), ואת כל הסקריפטים וה־workflows.
-- כלי שאינו יכול לרוץ עוד — נתיב מכונה זר, הפניה ל־`PROJECT_RULES.md` או ל־`STATE/` — מסומן `DEPRECATED` בראשו ואינו נקרא ככלל עבודה. `tools/external_link_audit.py`,‏ `tools/master_conformance_audit.py`,‏ `tools/parabula_ops.py` ו־`tools/apply_topic_metadata_candidate.sh` הם כאלה.
+- כלי שאינו יכול לרוץ עוד — נתיב מכונה זר, הפניה ל־`PROJECT_RULES.md` או ל־`STATE/` — מסומן `DEPRECATED` בראשו ואינו נקרא ככלל עבודה, וכשהוא כבר אינו נחוץ הוא נמחק.
 
 ---
 
