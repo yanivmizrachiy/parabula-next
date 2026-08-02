@@ -1,59 +1,158 @@
+/* דף כניסה — פרבולה. עיצוב פרימיום על-מותג, מודע לערכת נושא, נגיש ורספונסיבי. */
+:root {
+  --bg-1: #eef3fb;
+  --bg-2: #dbe6f6;
+  --surface: #ffffff;
+  --border: #d9e2ec;
+  --ink: #0f172a;
+  --ink-soft: #475569;
+  --accent: #1d4ed8;
+  --accent-ink: #ffffff;
+  --shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+  --ring: rgba(29, 78, 216, 0.35);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #0b1220;
+    --bg-2: #131f36;
+    --surface: #131c2e;
+    --border: #26334d;
+    --ink: #e8eefb;
+    --ink-soft: #9fb0cc;
+    --accent: #3b82f6;
+    --accent-ink: #0b1220;
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    --ring: rgba(59, 130, 246, 0.45);
+  }
+}
+
+* { box-sizing: border-box; }
+
 html, body {
   margin: 0;
   min-height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #eef3f8;
-  color: #0f172a;
 }
 body {
-  display: grid;
-  place-items: center;
-  padding: 24px;
-}
-.entry-card {
-  width: min(680px, 100%);
-  background: #ffffff;
-  border: 1px solid #d9e2ec;
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-  text-align: center;
-}
-.entry-title {
-  margin: 0 0 8px;
-  font-size: 2rem;
-}
-.entry-copy {
-  margin: 0 0 20px;
-  color: #475569;
-  line-height: 1.6;
-}
-.entry-actions {
+  min-height: 100dvh;
   display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.entry-link {
-  display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 18px;
-  border-radius: 12px;
-  border: 1px solid #d9e2ec;
-  color: #0f172a;
-  text-decoration: none;
+  gap: 22px;
+  padding: clamp(20px, 4vw, 48px);
+  font-family: 'Rubik', -apple-system, 'Segoe UI', Arial, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 640px at 50% -12%, var(--bg-2), transparent 60%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+}
+
+.entry {
+  width: min(760px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* ---- Hero ---- */
+.entry-logo {
+  display: inline-flex;
+  width: 76px;
+  height: 76px;
+  color: var(--accent);
+}
+.entry-logo svg { width: 100%; height: 100%; }
+
+.entry-title {
+  margin: 12px 0 6px;
+  font-size: clamp(2rem, 5vw, 2.8rem);
   font-weight: 700;
-  background: #ffffff;
+  letter-spacing: 0.5px;
 }
-.entry-link.primary {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
-  color: #ffffff;
+.entry-sub {
+  margin: 0 auto;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  line-height: 1.7;
+  font-size: clamp(0.98rem, 2.4vw, 1.08rem);
 }
+
+/* ---- כרטיסי בחירת מכשיר ---- */
+.entry-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 26px 0 6px;
+}
+@media (max-width: 560px) {
+  .entry-actions { grid-template-columns: 1fr; }
+}
+
+.entry-choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: start;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.entry-choice:hover,
+.entry-choice:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 30px rgba(29, 78, 216, 0.18);
+  outline: none;
+}
+.entry-choice:focus-visible { box-shadow: 0 0 0 4px var(--ring); }
+
+.entry-choice-icon {
+  font-size: 1.9rem;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+.entry-choice-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.entry-choice-title { font-weight: 700; font-size: 1.12rem; }
+.entry-choice-desc { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.45; }
+
+.entry-choice-badge {
+  position: absolute;
+  inset-block-start: -10px;
+  inset-inline-end: 14px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(29, 78, 216, 0.3);
+}
+.entry-choice.is-recommended { border-color: var(--accent); }
+
 .entry-note {
-  display: block;
-  margin-top: 18px;
-  color: #475569;
+  margin: 16px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+/* ---- קרדיט ---- */
+.entry-footer {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.entry-footer-name { font-weight: 500; }
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-choice { transition: none; }
+  .entry-choice:hover, .entry-choice:focus-visible { transform: none; }
 }

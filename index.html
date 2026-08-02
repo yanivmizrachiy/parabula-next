@@ -3,20 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>פרבולה — ספר דפי העבודה של יניב</title>
-  <meta name="description" content="ספר דפי עבודה מתמטי דיגיטלי בעברית: צפייה לפי נושאים, הדפסה ו-PDF." />
+  <title>דפי עבודה במתמטיקה — ספר העבודה של יניב</title>
+  <meta name="description" content="ספר דפי עבודה מתמטי דיגיטלי בעברית: צפייה לפי נושאים, חיפוש בכל הספר, הדפסה ו-PDF." />
+  <meta name="theme-color" content="#1d4ed8" />
+  <link rel="stylesheet" href="./vendor/fonts/rubik.css?v=__MOBILE_VERSION__" />
   <link rel="stylesheet" href="./index.css?v=__MOBILE_VERSION__" />
   <script src="./index.js?v=__MOBILE_VERSION__" defer></script>
 </head>
 <body>
-  <main class="entry-card">
-    <h1 class="entry-title">פרבולה</h1>
-    <p class="entry-copy">מעביר אותך לתצוגה המתאימה למכשיר שלך.</p>
-    <div class="entry-actions">
-      <a class="entry-link primary" href="./?view=catalog">כניסה במחשב</a>
-      <a class="entry-link" href="./?view=mobile">כניסה בטלפון</a>
+  <main class="entry" aria-labelledby="entry-title">
+    <div class="entry-hero">
+      <span class="entry-logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img" aria-label="דפי עבודה">
+          <rect x="14" y="8" width="36" height="48" rx="5" fill="none" stroke="currentColor" stroke-width="4" />
+          <line x1="22" y1="22" x2="42" y2="22" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="22" y1="32" x2="42" y2="32" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+          <line x1="22" y1="42" x2="34" y2="42" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+        </svg>
+      </span>
+      <h1 class="entry-title" id="entry-title">דפי עבודה במתמטיקה</h1>
+      <p class="entry-sub">ספר דפי העבודה של יניב — צפייה לפי נושאים, חיפוש בכל הספר, הדפסה ו-PDF.</p>
     </div>
-    <small class="entry-note">אפשר לבחור ידנית אם ההפניה האוטומטית לא מתאימה.</small>
+
+    <div class="entry-actions" role="group" aria-label="בחירת מכשיר כניסה">
+      <a class="entry-choice" href="./?view=catalog" data-target="catalog">
+        <span class="entry-choice-icon" aria-hidden="true">🖥️</span>
+        <span class="entry-choice-body">
+          <span class="entry-choice-title">כניסה במחשב</span>
+          <span class="entry-choice-desc">קטלוג מלא, תצוגה כפולה, חיפוש והדפסה</span>
+        </span>
+        <span class="entry-choice-badge" hidden>מומלץ למכשיר שלך</span>
+      </a>
+      <a class="entry-choice" href="./?view=mobile" data-target="mobile">
+        <span class="entry-choice-icon" aria-hidden="true">📱</span>
+        <span class="entry-choice-body">
+          <span class="entry-choice-title">כניסה בטלפון</span>
+          <span class="entry-choice-desc">קורא מותאם מגע, גלילה רציפה, התקנה כאפליקציה</span>
+        </span>
+        <span class="entry-choice-badge" hidden>מומלץ למכשיר שלך</span>
+      </a>
+    </div>
+
+    <p class="entry-note" id="entry-note">בחרו כיצד להיכנס, או המתינו לזיהוי אוטומטי של המכשיר.</p>
   </main>
+
+  <footer class="entry-footer">
+    <div class="entry-footer-name">יניב רז — מדריך מחוזי חט"ב בעיר ירושלים</div>
+    <div class="entry-footer-org">הדרכה במחוז ירושלים והעיר ירושלים — מנח"י, בהובלת איילת קריספין</div>
+  </footer>
 </body>
 </html>
