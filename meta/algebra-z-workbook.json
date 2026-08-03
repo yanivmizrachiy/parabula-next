@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "release": "2.0.0-hybrid",
+  "release": "2.1.0-strict-local",
   "title": "אלגברה לכיתה ז׳",
   "subtitle": "ביטויים אלגבריים, חוק הפילוג וסדר פעולות חשבון",
   "pageCount": 15,
@@ -10,17 +10,15 @@
       "label": "גרסה צבעונית",
       "filename": "algebra-z-color.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-color.pdf",
-      "fallbackDriveId": "1sc4iqSAMTji4sroQZvLx5jpAWqtiA2Mw",
-      "bytes": 620807,
-      "sha256": "17a5d54d170239e68a9f980a5be1e612ab7daa81493ee38223b9bb4ac9c2ca4b"
+      "bytes": 4344125,
+      "sha256": "349969fd8c79398081f1d98b7abfdce9d77043837ceeb59b0eda47a6679b1c7c"
     },
     "bw": {
       "label": "גרסה בשחור־לבן",
       "filename": "algebra-z-bw.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-bw.pdf",
-      "fallbackDriveId": "17sDILtaouvzKLF9sQ2z4Un9yZhaxAlp_",
-      "bytes": 624606,
-      "sha256": "12b1ecf04a4cca71d090e9d7d77b102f88ed1c8ccd5b5b7f34b9c921037251ba"
+      "bytes": 3515626,
+      "sha256": "d2cfdf6ebe914410947ab79afccea821e5b448f29bff1d9f8940b65dc1c208c4"
     }
   },
   "credits": [
@@ -28,8 +26,9 @@
     "הדרכה במחוז ירושלים והעיר ירושלים - מנח״י, בהובלת איילת קריספין"
   ],
   "migration": {
-    "strategy": "local-first-with-drive-fallback",
-    "strictLocalReady": false,
-    "nextGate": "Commit both verified PDFs to the canonical local paths and run algebra-z:audit:strict"
+    "strategy": "strict-local",
+    "strictLocalReady": true,
+    "nextGate": "Run CI, merge to main and verify the live GitHub Pages release",
+    "currentGate": "All strict-local PDF gates passed"
   }
 }
