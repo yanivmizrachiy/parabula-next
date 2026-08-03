@@ -16,7 +16,9 @@
 - [x] manifest קנוני: `meta/algebra-z-workbook.json`.
 - [x] רישום 15 עמודים, גדלים ו־SHA-256 לשתי הגרסאות.
 - [x] נתיבי יעד מקומיים תחת `assets/workbooks/algebra-z/downloads/`.
-- [ ] שני קובצי PDF מאומתים נמצאים בנתיבים המקומיים.
+- [x] מנגנון דטרמיניסטי להרכבת PDF מחלקי base64 דחוסים.
+- [ ] חלקי המקור של שני קובצי ה־PDF נמצאים תחת `assets/workbooks/algebra-z/chunks/`.
+- [ ] שני קובצי PDF מאומתים מופקים אוטומטית בנתיבים המקומיים.
 - [ ] לוגו מקומי מחליף את הנכס המרוחק.
 
 ### 2. קורא דיגיטלי
@@ -30,6 +32,8 @@
 ### 3. אוטומציה ואימות
 - [x] `scripts/audit-algebra-z-workbook.mjs`.
 - [x] חוזה `tests/contracts/algebra-z-workbook.test.mjs`.
+- [x] `scripts/build-algebra-z-local-assets.mjs` להרכבה, gunzip, SHA-256, גודל, כותרת PDF, EOF וספירת 15 עמודים.
+- [x] פקודות `algebra-z:assets`, `algebra-z:assets:check`, `algebra-z:assets:strict`.
 - [x] פקודות `algebra-z:audit`, `algebra-z:audit:report`, `algebra-z:audit:strict`.
 - [x] workflow ממוקד: `.github/workflows/algebra-z-guard.yml`.
 - [x] דוח artifact ל־hybrid audit ולמוכנות strict-local.
@@ -38,18 +42,21 @@
 
 ### 4. שילוב ופריסה
 - [x] קישור בקטלוג המחשב.
+- [x] הקורא המחוזק והאוטומציות מוזגו ל־`main` בקומיט `2df45912`.
+- [x] כל שערי ה־PR של השדרוג המחוזק הסתיימו בירוק.
 - [ ] קישור שקול בקורא הנייד.
 - [ ] cache/offline לשני קובצי ה־PDF.
-- [ ] CI מלא ירוק.
-- [ ] מיזוג PR ו־GitHub Pages ירוק.
+- [ ] הפקת הנכסים המקומיים ב־GitHub Actions.
+- [ ] GitHub Pages לאחר שלב strict-local ירוק.
 - [ ] בדיקה אנונימית של הקישור הציבורי.
 
 ## שערי סיום מדידים
-- `npm run algebra-z:audit:strict` עובר.
+- `npm run algebra-z:assets:strict` עובר.
+- `npm run algebra-z:audit:strict` עובר אחרי ההרכבה.
 - `npm run ci:all` עובר.
 - האתר החי מחזיר 200 לעמוד, ל־CSS, ל־JS, ל־manifest ולשני קובצי ה־PDF.
 - כל אחת משתי הגרסאות נפתחת, מדפדפת, יורדת ומודפסת בנייד ובמחשב.
 - אין שימוש בפועל ב־Drive לאחר מעבר הנכסים המקומיים.
 
 ## נקודת העבודה הנוכחית
-הקורא והאוטומציות נמצאים בענף `agent/algebra-z-finishline-v2` וב־PR מספר 111. החסם העיקרי שנותר הוא הכנסת שני קובצי ה־PDF המאומתים לנתיבים המקומיים, ולאחר מכן הפעלת שער strict-local ובדיקות הפריסה החיה.
+שלב הקורא המחוזק הושלם ומוזג. העבודה הפעילה עברה לענף `agent/algebra-z-strict-local`. מנגנון ההרכבה המקומי כבר מחובר אוטומטית ל־`prebuild`; החסם שנותר הוא הוספת חלקי שני קובצי ה־PDF המאומתים, ואז הפעלת שני שערי strict-local ובדיקות הפריסה החיה.

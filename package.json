@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/build-algebra-z-local-assets.mjs",
     "build": "vite build",
     "postbuild": "node scripts/copy-static-site.mjs",
     "preview:vite": "vite preview",
@@ -27,6 +28,9 @@
     "quadratics:generate": "node scripts/generate-quadratic-equations-workbook.mjs",
     "quadratics:export": "node scripts/export-quadratic-equations-workbook.mjs",
     "validate:quadratics": "node --test tests/contracts/quadratic-equations-workbook.test.mjs",
+    "algebra-z:assets": "node scripts/build-algebra-z-local-assets.mjs",
+    "algebra-z:assets:check": "node scripts/build-algebra-z-local-assets.mjs --check",
+    "algebra-z:assets:strict": "node scripts/build-algebra-z-local-assets.mjs --strict --check",
     "algebra-z:audit": "node scripts/audit-algebra-z-workbook.mjs",
     "algebra-z:audit:report": "node scripts/audit-algebra-z-workbook.mjs --report",
     "algebra-z:audit:strict": "node scripts/audit-algebra-z-workbook.mjs --strict-local",
