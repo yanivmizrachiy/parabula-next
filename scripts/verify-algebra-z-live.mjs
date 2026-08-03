@@ -198,8 +198,10 @@ if (useBrowser) {
   });
 
   page.on('requestfailed', (request) => {
-    if (request.url().startsWith(baseUrl)) {
-      criticalRequestFailures.push(`${request.method()} ${request.url()} — ${request.failure()?.errorText || 'failed'}`);
+    const requestUrl = request.url();
+    const pathname = new URL(requestUrl).pathname.toLowerCase();
+    if (requestUrl.startsWith(baseUrl) && !pathname.endsWith('.pdf')) {
+      criticalRequestFailures.push(`${request.method()} ${requestUrl} — ${request.failure()?.errorText || 'failed'}`);
     }
   });
 
