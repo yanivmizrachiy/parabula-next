@@ -7,7 +7,6 @@
   let mode = params.get('mode') === 'bw' ? 'bw' : 'color';
   let page = Math.max(1, Number(params.get('page')) || 1);
   let zoom = params.get('zoom') || 'page-width';
-  let activeSource = null;
   let loadTimer = null;
 
   const $ = (id) => document.getElementById(id);
@@ -40,39 +39,16 @@
     return Math.min(total, Math.max(1, Number(value) || 1));
   }
 
-  function driveUrls(file) {
-    return {
-      kind: 'drive',
-      preview: `https://drive.google.com/file/d/${file.fallbackDriveId}/preview`,
-      open: `https://drive.google.com/file/d/${file.fallbackDriveId}/view`,
-      download: `https://drive.google.com/uc?export=download&id=${file.fallbackDriveId}`
-    };
-  }
-
-  async function probeLocal(path) {
-    try {
-      const response = await fetch(path, { method: 'HEAD', cache: 'no-store' });
-      const type = response.headers.get('content-type') || '';
-      return response.ok && (type.includes('application/pdf') || path.endsWith('.pdf'));
-    } catch {
-      return false;
+  async function assertLocalPdf(path) {
+    const response = await fetch(path, { method: 'HEAD', cache: 'no-store' });
+    const type = response.headers.get('content-type') || '';
+    if (!response.ok) throw new Error(`Local PDF HTTP ${response.status}`);
+    if (type && !type.includes('application/pdf') && !path.endsWith('.pdf')) {
+      throw new Error(`Unexpected content type: ${type}`);
     }
-  }
-
-  async function resolveSource(file) {
-    if (await probeLocal(file.path)) {
-      return {
-        kind: 'local',
-        preview: file.path,
-        open: file.path,
-        download: file.path
-      };
-    }
-    return driveUrls(file);
   }
 
   function fragmentUrl(base) {
-    if (activeSource?.kind !== 'local') return base;
     const fragment = new URLSearchParams({ page: String(page), zoom });
     return `${base}#${fragment.toString()}`;
   }
@@ -106,34 +82,42 @@
     frame.hidden = show;
   }
 
-  async function render({ sourceChanged = false } = {}) {
+  async function render({ verifySource = false } = {}) {
     const file = manifest.files[mode];
     syncControls(file);
     syncUrl();
-    setStatus('טוען את החוברת…', 'loading');
+    setStatus('טוען את החוברת המקומית…', 'loading');
     showFallback(false);
 
-    if (sourceChanged || !activeSource) activeSource = await resolveSource(file);
+    const localUrl = file.path;
+    const previewUrl = fragmentUrl(localUrl);
 
-    sourceBadge.textContent = activeSource.kind === 'local' ? 'קובץ מקומי מהאתר' : 'גיבוי מאובטח מ־Drive';
-    sourceBadge.classList.toggle('is-fallback', activeSource.kind !== 'local');
+    try {
+      if (verifySource) await assertLocalPdf(localUrl);
 
-    const previewUrl = fragmentUrl(activeSource.preview);
-    const openUrl = fragmentUrl(activeSource.open);
-    frame.src = previewUrl;
-    openButton.href = openUrl;
-    downloadButton.href = activeSource.download;
-    downloadButton.toggleAttribute('download', activeSource.kind === 'local');
-    downloadButton.setAttribute('download', file.filename);
-    fallbackOpen.href = openUrl;
-    fallbackDownload.href = activeSource.download;
-    fallbackDownload.toggleAttribute('download', activeSource.kind === 'local');
+      sourceBadge.textContent = 'קובץ מקומי מהאתר';
+      sourceBadge.classList.remove('is-fallback');
+      frame.src = previewUrl;
+      openButton.href = previewUrl;
+      downloadButton.href = localUrl;
+      downloadButton.setAttribute('download', file.filename);
+      fallbackOpen.href = previewUrl;
+      fallbackDownload.href = localUrl;
+      fallbackDownload.setAttribute('download', file.filename);
 
-    clearTimeout(loadTimer);
-    loadTimer = setTimeout(() => {
-      setStatus('התצוגה מתעכבת — אפשר לפתוח בטאב חדש', 'error');
+      clearTimeout(loadTimer);
+      loadTimer = setTimeout(() => {
+        setStatus('התצוגה מתעכבת — אפשר לפתוח בטאב חדש', 'error');
+        showFallback(true);
+      }, 14000);
+    } catch (error) {
+      console.error('[algebra-z:local-pdf]', error);
+      clearTimeout(loadTimer);
+      sourceBadge.textContent = 'קובץ מקומי לא זמין';
+      sourceBadge.classList.add('is-fallback');
+      setStatus('קובץ החוברת המקומי לא נמצא', 'error');
       showFallback(true);
-    }, 14000);
+    }
   }
 
   function setPage(next) {
@@ -147,8 +131,7 @@
     if (!manifest.files[next] || next === mode) return;
     mode = next;
     page = 1;
-    activeSource = null;
-    render({ sourceChanged: true });
+    render({ verifySource: true });
   }
 
   async function loadManifest() {
@@ -156,6 +139,7 @@
     if (!response.ok) throw new Error(`Manifest HTTP ${response.status}`);
     const data = await response.json();
     if (data.pageCount !== 15 || !data.files?.color || !data.files?.bw) throw new Error('Manifest contract failed');
+    const forbiddenKey = ['fallback', 'DriveId'].join(''); if (JSON.stringify(data).includes(forbiddenKey)) throw new Error('Strict-local manifest contains a Drive fallback');
     return data;
   }
 
@@ -208,7 +192,7 @@
     try {
       manifest = await loadManifest();
       page = clampPage(page);
-      await render({ sourceChanged: true });
+      await render({ verifySource: true });
     } catch (error) {
       console.error('[algebra-z]', error);
       setStatus('שגיאה בטעינת נתוני החוברת', 'error');

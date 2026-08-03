@@ -25,26 +25,34 @@ const htmlPath = 'algebra-z-workbook.html';
 const jsPath = 'algebra-z-workbook.js';
 const cssPath = 'algebra-z-workbook.css';
 
-const manifest = JSON.parse(readText(manifestPath));
+const manifestRaw = readText(manifestPath);
+const manifest = JSON.parse(manifestRaw);
 const html = readText(htmlPath);
 const js = readText(jsPath);
 const css = readText(cssPath);
+const publicRuntime = `${manifestRaw}\n${html}\n${js}`;
 
 assert(manifest.pageCount === 15, 'manifest.pageCount must equal 15');
 assert(manifest.format === 'A4', 'manifest.format must equal A4');
 assert(manifest.files?.color && manifest.files?.bw, 'manifest must define color and bw files');
+assert(manifest.migration?.strategy === 'strict-local', 'migration strategy must be strict-local');
 assert(Array.isArray(manifest.credits) && manifest.credits.length === 2, 'manifest must contain the two canonical credit lines');
 assert(manifest.credits?.[0] === 'יניב רז - מדריך מחוזי חט״ב בעיר ירושלים', 'first credit line is not canonical');
 assert(manifest.credits?.[1] === 'הדרכה במחוז ירושלים והעיר ירושלים - מנח״י, בהובלת איילת קריספין', 'second credit line is not canonical');
+assert(!publicRuntime.includes('drive.google.com'), 'public runtime must not contain Drive URLs');
+assert(!publicRuntime.includes('fallbackDriveId'), 'public runtime must not contain fallbackDriveId');
+assert(!publicRuntime.includes('drive.usercontent.google.com'), 'public runtime must not contain Drive download endpoints');
 
 for (const id of ['colorMode', 'bwMode', 'prevPage', 'nextPage', 'pageNumber', 'zoomMode', 'downloadButton', 'openButton', 'fullscreenButton', 'pdfFrame']) {
   assert(html.includes(`id="${id}"`), `missing viewer control #${id}`);
 }
 assert(html.includes(manifest.credits[0]) && html.includes(manifest.credits[1]), 'HTML is missing canonical credits');
-assert(js.includes('local-first') || js.includes('probeLocal'), 'viewer must probe the local PDF before fallback');
-assert(js.includes('fallbackDriveId'), 'viewer must retain a controlled fallback until strict-local migration is complete');
-assert(!html.includes('drive.google.com'), 'HTML must not hard-code Drive URLs');
+assert(js.includes('assertLocalPdf'), 'viewer must verify the local PDF');
 assert(css.includes(':fullscreen'), 'viewer must define a fullscreen layout');
+
+if (strictLocal) {
+  assert(manifest.migration?.strictLocalReady === true, 'strictLocalReady must be true for a strict-local release');
+}
 
 const fileResults = {};
 for (const [mode, file] of Object.entries(manifest.files)) {
@@ -54,9 +62,10 @@ for (const [mode, file] of Object.entries(manifest.files)) {
   assert(/^[a-f0-9]{64}$/.test(file.sha256), `${mode}: invalid SHA-256 in manifest`);
   assert(Number.isInteger(file.bytes) && file.bytes > 100_000, `${mode}: invalid byte count in manifest`);
   assert(file.path.startsWith('assets/workbooks/algebra-z/downloads/'), `${mode}: non-canonical local path`);
+  assert(!('fallbackDriveId' in file), `${mode}: Drive fallback identifier is forbidden`);
 
   if (!exists) {
-    const message = `${mode}: local PDF is not committed yet (${file.path})`;
+    const message = `${mode}: local PDF is not built yet (${file.path})`;
     if (strictLocal) errors.push(message);
     else warnings.push(message);
     continue;
@@ -84,6 +93,7 @@ const report = {
   errors,
   warnings,
   pageCount: manifest.pageCount,
+  migration: manifest.migration,
   files: fileResults
 };
 

@@ -1,4 +1,4 @@
-name: Algebra Z workbook guard
+name: Algebra Z strict-local release guard
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
       - "algebra-z-workbook.*"
       - "meta/algebra-z-workbook.json"
       - "assets/workbooks/algebra-z/**"
+      - "scripts/build-algebra-z-local-assets.mjs"
       - "scripts/audit-algebra-z-workbook.mjs"
       - "tests/contracts/algebra-z-workbook.test.mjs"
       - "package.json"
@@ -17,6 +18,7 @@ on:
       - "algebra-z-workbook.*"
       - "meta/algebra-z-workbook.json"
       - "assets/workbooks/algebra-z/**"
+      - "scripts/build-algebra-z-local-assets.mjs"
       - "scripts/audit-algebra-z-workbook.mjs"
       - "tests/contracts/algebra-z-workbook.test.mjs"
       - "package.json"
@@ -27,9 +29,9 @@ permissions:
   contents: read
 
 jobs:
-  fast-contracts:
+  strict-local-release:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -40,52 +42,29 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check algebra-z-workbook.js
+          node --check scripts/build-algebra-z-local-assets.mjs
           node --check scripts/audit-algebra-z-workbook.mjs
-      - name: Focused contracts
-        run: node --test tests/contracts/algebra-z-workbook.test.mjs
-      - name: Hybrid migration audit
+      - name: Rebuild both local PDFs from committed chunks
+        run: npm run algebra-z:assets
+      - name: Verify deterministic PDF bytes and SHA-256
+        run: npm run algebra-z:assets:strict
+      - name: Write audit evidence
         run: npm run algebra-z:audit:report
-      - name: Upload audit evidence
+      - name: Enforce no-Drive strict-local workbook audit
+        run: npm run algebra-z:audit:strict
+      - name: Focused viewer contracts
+        run: node --test tests/contracts/algebra-z-workbook.test.mjs
+      - name: Production build
+        run: npm run build
+      - name: Upload strict-local evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: algebra-z-workbook-audit
-          path: meta/audit/algebra-z-workbook-validation.json
-          if-no-files-found: error
-          retention-days: 7
-
-  migration-readiness:
-    runs-on: ubuntu-latest
-    timeout-minutes: 4
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Measure strict local-PDF readiness
-        id: strict
-        shell: bash
-        run: |
-          set +e
-          npm run algebra-z:audit:strict > strict-local-audit.log 2>&1
-          code=$?
-          cat strict-local-audit.log
-          if [ "$code" -eq 0 ]; then
-            echo "ready=true" >> "$GITHUB_OUTPUT"
-            echo "### Algebra Z local assets: READY" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-            {
-              echo "### Algebra Z local assets: PENDING"
-              echo "The hardened viewer is local-first and uses the controlled Drive fallback until both verified PDF binaries are committed."
-              echo "The strict audit remains the final no-Drive release gate."
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
-          exit 0
-      - name: Upload strict-readiness evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: algebra-z-strict-local-readiness
-          path: strict-local-audit.log
+          name: algebra-z-strict-local-evidence
+          path: |
+            meta/algebra-z-workbook.json
+            meta/audit/algebra-z-workbook-validation.json
+            assets/workbooks/algebra-z/downloads/algebra-z-color.pdf
+            assets/workbooks/algebra-z/downloads/algebra-z-bw.pdf
           if-no-files-found: error
           retention-days: 7
