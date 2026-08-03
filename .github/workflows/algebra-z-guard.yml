@@ -1,0 +1,70 @@
+name: Algebra Z workbook guard
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "algebra-z-workbook.*"
+      - "meta/algebra-z-workbook.json"
+      - "assets/workbooks/algebra-z/**"
+      - "scripts/audit-algebra-z-workbook.mjs"
+      - "tests/contracts/algebra-z-workbook.test.mjs"
+      - "package.json"
+      - ".github/workflows/algebra-z-guard.yml"
+  push:
+    branches: ["main"]
+    paths:
+      - "algebra-z-workbook.*"
+      - "meta/algebra-z-workbook.json"
+      - "assets/workbooks/algebra-z/**"
+      - "scripts/audit-algebra-z-workbook.mjs"
+      - "tests/contracts/algebra-z-workbook.test.mjs"
+      - "package.json"
+      - ".github/workflows/algebra-z-guard.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fast-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: JavaScript syntax
+        run: |
+          node --check algebra-z-workbook.js
+          node --check scripts/audit-algebra-z-workbook.mjs
+      - name: Focused contracts
+        run: node --test tests/contracts/algebra-z-workbook.test.mjs
+      - name: Hybrid migration audit
+        run: npm run algebra-z:audit:report
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: algebra-z-workbook-audit
+          path: meta/audit/algebra-z-workbook-validation.json
+          if-no-files-found: error
+          retention-days: 7
+
+  strict-local-assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Strict local-PDF gate
+        run: npm run algebra-z:audit:strict
+      - name: Explain migration state
+        if: failure()
+        run: echo "Local PDFs are the final migration gate; the viewer remains local-first with controlled Drive fallback until both verified binaries are committed."
