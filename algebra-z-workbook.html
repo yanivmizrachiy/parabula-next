@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f2747" />
+  <title>אלגברה לכיתה ז׳ — חוברת דיגיטלית</title>
+  <meta name="description" content="חוברת אלגברה לכיתה ז׳ — דפדוף, הורדה והדפסה בצבע או בשחור־לבן." />
+  <link rel="stylesheet" href="vendor/fonts/rubik.css" />
+  <link rel="stylesheet" href="algebra-z-workbook.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="catalog.html" aria-label="חזרה לקטלוג דפי העבודה">
+      <img class="district-logo" src="https://raw.githubusercontent.com/yanivmizrachiy/zaviyot-digital-workbook/main/public/logo.png" alt="יחד מתמטיקה — מחוז ירושלים והעיר ירושלים" />
+      <span>
+        <strong>אלגברה לכיתה ז׳</strong>
+        <small>חוברת דיגיטלית · 15 עמודים</small>
+      </span>
+    </a>
+
+    <nav class="actions" aria-label="פעולות החוברת">
+      <div class="mode-switch" role="group" aria-label="בחירת גרסה">
+        <button id="colorMode" class="mode is-active" type="button" aria-pressed="true">צבעוני</button>
+        <button id="bwMode" class="mode" type="button" aria-pressed="false">שחור־לבן</button>
+      </div>
+      <a id="downloadButton" class="button primary" href="#" target="_blank" rel="noopener">⬇ הורדת PDF</a>
+      <a id="openButton" class="button" href="#" target="_blank" rel="noopener">↗ פתיחה והדפסה</a>
+      <button id="fullscreenButton" class="button" type="button">⛶ מסך מלא</button>
+    </nav>
+  </header>
+
+  <main class="workbook-shell">
+    <section class="intro" aria-labelledby="workbookTitle">
+      <div>
+        <p class="eyebrow">דפי עבודה במתמטיקה · חוברת להוראה ולהדפסה</p>
+        <h1 id="workbookTitle">ביטויים אלגבריים, חוק הפילוג וסדר פעולות חשבון</h1>
+        <p>החוברת עוצבה מחדש ללא המיתוג הישן, עם כותרות אחידות, מספור 1–15, שתי גרסאות הדפסה וקרדיט מחוזי קבוע.</p>
+      </div>
+      <div class="legend" aria-label="פרטי החוברת">
+        <span><b>15</b> עמודים</span>
+        <span><b>A4</b> להדפסה</span>
+        <span><b>2</b> גרסאות</span>
+      </div>
+    </section>
+
+    <section id="viewerPanel" class="viewer-panel" aria-label="תצוגת החוברת">
+      <div class="viewer-head">
+        <div>
+          <strong id="viewerModeLabel">גרסה צבעונית</strong>
+          <span>השתמשו בבקרי ה-PDF לדפדוף, הגדלה, הורדה והדפסה.</span>
+        </div>
+        <span class="status" id="status">מוכן לדפדוף</span>
+      </div>
+      <iframe id="pdfFrame" title="חוברת אלגברה לכיתה ז׳" loading="eager" allow="fullscreen"></iframe>
+    </section>
+  </main>
+
+  <footer class="credits">
+    <strong>יניב רז - מדריך מחוזי חט״ב בעיר ירושלים</strong>
+    <span>הדרכה במחוז ירושלים והעיר ירושלים - מנח״י, בהובלת איילת קריספין</span>
+  </footer>
+
+  <script src="algebra-z-workbook.js"></script>
+</body>
+</html>

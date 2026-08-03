@@ -91,6 +91,19 @@
   });
   observer.observe(tocList, { subtree: true, attributes: true, attributeFilter: ['class'] });
 
+  // חוברת עצמאית מתוך פרויקט Parabula Next — כפתור קבוע בכותרת הקטלוג.
+  const headerRight = document.querySelector('.header-right');
+  if (headerRight && !document.getElementById('algebraZWorkbookLink')) {
+    const link = document.createElement('a');
+    link.id = 'algebraZWorkbookLink';
+    link.className = 'chip-btn';
+    link.href = 'algebra-z-workbook.html';
+    link.title = 'פתיחת חוברת אלגברה לכיתה ז׳ — דפדוף, PDF והדפסה';
+    link.textContent = '📗 אלגברה ז׳ — 15 עמודים';
+    const modeSwitch = document.getElementById('modeSwitch');
+    headerRight.insertBefore(link, modeSwitch || headerRight.firstChild);
+  }
+
   window.addEventListener('popstate', restoreFromLocation);
   requestAnimationFrame(openInitialFile);
 })();
