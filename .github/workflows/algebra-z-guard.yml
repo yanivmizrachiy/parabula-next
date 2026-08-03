@@ -54,17 +54,38 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  strict-local-assets:
+  migration-readiness:
     runs-on: ubuntu-latest
     timeout-minutes: 4
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Strict local-PDF gate
-        run: npm run algebra-z:audit:strict
-      - name: Explain migration state
-        if: failure()
-        run: echo "Local PDFs are the final migration gate; the viewer remains local-first with controlled Drive fallback until both verified binaries are committed."
+      - name: Measure strict local-PDF readiness
+        id: strict
+        shell: bash
+        run: |
+          set +e
+          npm run algebra-z:audit:strict > strict-local-audit.log 2>&1
+          code=$?
+          cat strict-local-audit.log
+          if [ "$code" -eq 0 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "### Algebra Z local assets: READY" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Algebra Z local assets: PENDING"
+              echo "The hardened viewer is local-first and uses the controlled Drive fallback until both verified PDF binaries are committed."
+              echo "The strict audit remains the final no-Drive release gate."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+          exit 0
+      - name: Upload strict-readiness evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: algebra-z-strict-local-readiness
+          path: strict-local-audit.log
+          if-no-files-found: error
+          retention-days: 7
