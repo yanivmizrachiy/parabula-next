@@ -18,8 +18,9 @@ body {
   color: var(--ink);
   background: var(--soft);
 }
-a, button { font: inherit; }
+a, button, input, select { font: inherit; }
 button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .45; }
 .topbar {
   position: sticky;
   z-index: 20;
@@ -44,7 +45,7 @@ button { cursor: pointer; }
 .mode-switch { display: inline-flex; overflow: hidden; border: 1px solid var(--line); border-radius: 11px; background: #fff; }
 .mode { min-height: 40px; padding: 9px 14px; border: 0; color: var(--navy); background: #fff; }
 .mode.is-active { color: #fff; background: var(--navy); }
-.button {
+.button, .page-button {
   min-height: 40px;
   padding: 9px 14px;
   border: 1px solid var(--line);
@@ -54,9 +55,12 @@ button { cursor: pointer; }
   background: #fff;
   font-weight: 600;
 }
-.button:hover { border-color: var(--blue); background: #f8fbff; }
+.button:hover, .page-button:hover:not(:disabled) { border-color: var(--blue); background: #f8fbff; }
 .button.primary { color: #fff; border-color: var(--blue); background: var(--blue); }
-.button:focus-visible, .mode:focus-visible { outline: 3px solid rgba(37,99,235,.3); outline-offset: 2px; }
+.button:focus-visible, .mode:focus-visible, .page-button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(37,99,235,.3);
+  outline-offset: 2px;
+}
 .workbook-shell { width: min(1500px, 100%); margin: 0 auto; padding: clamp(16px, 2.5vw, 36px); }
 .intro {
   margin-bottom: 18px;
@@ -83,27 +87,58 @@ h1 { margin: 0; color: var(--navy); font-size: clamp(1.45rem, 3vw, 2.45rem); lin
 .viewer-head { min-height: 64px; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
 .viewer-head strong, .viewer-head span { display: block; }
 .viewer-head strong { color: var(--navy); }
-.viewer-head div span { margin-top: 3px; color: var(--muted); font-size: .9rem; }
-.status { padding: 7px 11px; color: #166534; border-radius: 999px; background: #dcfce7; font-size: .84rem; white-space: nowrap; }
-#pdfFrame { display: block; width: 100%; height: calc(100vh - 250px); min-height: 690px; border: 0; background: #e8eef7; }
+.viewer-head > div > span { margin-top: 3px; color: var(--muted); font-size: .9rem; }
+.viewer-state { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.status, .source-badge { padding: 7px 11px; border-radius: 999px; font-size: .82rem; white-space: nowrap; }
+.status { color: #166534; background: #dcfce7; }
+.status.is-loading { color: #854d0e; background: #fef3c7; }
+.status.is-error { color: #991b1b; background: #fee2e2; }
+.source-badge { color: #1e3a8a; background: #dbeafe; }
+.source-badge.is-fallback { color: #7c2d12; background: #ffedd5; }
+.page-toolbar {
+  min-height: 58px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  background: #f8fbff;
+}
+.page-jump, .zoom-control { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); font-size: .9rem; }
+.page-jump input { width: 66px; min-height: 38px; padding: 6px 8px; text-align: center; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--navy); font-weight: 700; }
+.zoom-control select { min-height: 38px; padding: 6px 30px 6px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--navy); }
+#pdfFrame { display: block; width: 100%; height: calc(100vh - 285px); min-height: 680px; border: 0; background: #e8eef7; }
+.viewer-fallback { min-height: 420px; padding: 42px 20px; display: grid; place-items: center; align-content: center; gap: 12px; text-align: center; color: var(--navy); background: #f8fbff; }
+.viewer-fallback[hidden] { display: none; }
+.viewer-fallback > span { color: var(--muted); }
+.viewer-fallback > div { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .credits { padding: 15px 20px 20px; display: flex; flex-direction: column; gap: 4px; text-align: center; color: var(--navy); background: #fff; border-top: 2px solid var(--blue); font-size: .86rem; }
 .credits span { color: var(--muted); }
+.viewer-panel:fullscreen { display: flex; flex-direction: column; width: 100vw; height: 100dvh; border: 0; border-radius: 0; }
+.viewer-panel:fullscreen #pdfFrame { flex: 1; min-height: 0; height: auto; }
 @media (max-width: 900px) {
   .topbar { position: relative; align-items: flex-start; flex-direction: column; }
   .actions { width: 100%; justify-content: flex-start; }
   .intro { align-items: stretch; flex-direction: column; }
   .legend { justify-content: flex-start; }
+  .viewer-head { align-items: flex-start; }
   #pdfFrame { min-height: 620px; height: 76vh; }
 }
-@media (max-width: 560px) {
+@media (max-width: 620px) {
   .actions { display: grid; grid-template-columns: 1fr 1fr; }
-  .mode-switch { grid-column: 1 / -1; }
+  .mode-switch { grid-column: 1 / -1; display: flex; }
   .mode { flex: 1; }
   .button { text-align: center; }
   .workbook-shell { padding: 10px; }
   .intro { border-radius: 16px; }
   .viewer-panel { border-radius: 14px; }
-  .viewer-head { align-items: flex-start; flex-direction: column; }
+  .viewer-head { flex-direction: column; }
+  .viewer-state { justify-content: flex-start; }
+  .page-toolbar { display: grid; grid-template-columns: 1fr 1fr; }
+  .page-jump, .zoom-control { grid-column: 1 / -1; justify-content: center; }
+  .page-button { width: 100%; }
   #pdfFrame { min-height: 560px; height: 72vh; }
-  .credits { font-size: .78rem; }
+  .credits { font-size: .78rem; padding-inline: max(12px, env(safe-area-inset-left)); }
 }
