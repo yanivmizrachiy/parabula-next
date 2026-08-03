@@ -24,7 +24,7 @@
         <button id="colorMode" class="mode is-active" type="button" aria-pressed="true">צבעוני</button>
         <button id="bwMode" class="mode" type="button" aria-pressed="false">שחור־לבן</button>
       </div>
-      <a id="downloadButton" class="button primary" href="#" target="_blank" rel="noopener">⬇ הורדת PDF</a>
+      <a id="downloadButton" class="button primary" href="#" download>⬇ הורדת PDF</a>
       <a id="openButton" class="button" href="#" target="_blank" rel="noopener">↗ פתיחה והדפסה</a>
       <button id="fullscreenButton" class="button" type="button">⛶ מסך מלא</button>
     </nav>
@@ -35,7 +35,7 @@
       <div>
         <p class="eyebrow">דפי עבודה במתמטיקה · חוברת להוראה ולהדפסה</p>
         <h1 id="workbookTitle">ביטויים אלגבריים, חוק הפילוג וסדר פעולות חשבון</h1>
-        <p>החוברת עוצבה מחדש ללא המיתוג הישן, עם כותרות אחידות, מספור 1–15, שתי גרסאות הדפסה וקרדיט מחוזי קבוע.</p>
+        <p>דפדוף נוח בין 15 עמודי A4, בחירה בין גרסה צבעונית לשחור־לבן, הורדה והדפסה ישירות מהחוברת.</p>
       </div>
       <div class="legend" aria-label="פרטי החוברת">
         <span><b>15</b> עמודים</span>
@@ -48,11 +48,44 @@
       <div class="viewer-head">
         <div>
           <strong id="viewerModeLabel">גרסה צבעונית</strong>
-          <span>השתמשו בבקרי ה-PDF לדפדוף, הגדלה, הורדה והדפסה.</span>
+          <span id="viewerHelp">השתמשו בחצים, במספר העמוד או במקשי המקלדת לדפדוף.</span>
         </div>
-        <span class="status" id="status">מוכן לדפדוף</span>
+        <div class="viewer-state">
+          <span class="source-badge" id="sourceBadge">בודק מקור…</span>
+          <span class="status" id="status" role="status" aria-live="polite">טוען…</span>
+        </div>
       </div>
+
+      <div class="page-toolbar" role="group" aria-label="ניווט בעמודי החוברת">
+        <button id="prevPage" class="page-button" type="button">◄ הקודם</button>
+        <label class="page-jump" for="pageNumber">
+          <span>עמוד</span>
+          <input id="pageNumber" type="number" min="1" max="15" value="1" inputmode="numeric" />
+          <span>מתוך <b id="pageCount">15</b></span>
+        </label>
+        <button id="nextPage" class="page-button" type="button">הבא ►</button>
+        <label class="zoom-control" for="zoomMode">
+          <span>תצוגה</span>
+          <select id="zoomMode">
+            <option value="page-width">רוחב העמוד</option>
+            <option value="page-fit">עמוד מלא</option>
+            <option value="100">100%</option>
+            <option value="125">125%</option>
+            <option value="150">150%</option>
+          </select>
+        </label>
+      </div>
+
       <iframe id="pdfFrame" title="חוברת אלגברה לכיתה ז׳" loading="eager" allow="fullscreen"></iframe>
+
+      <div id="viewerFallback" class="viewer-fallback" hidden>
+        <strong>לא ניתן להציג את ה־PDF בתוך החלון.</strong>
+        <span>אפשר לפתוח אותו בטאב חדש או להוריד אותו ישירות.</span>
+        <div>
+          <a id="fallbackOpen" class="button primary" href="#" target="_blank" rel="noopener">פתיחת החוברת</a>
+          <a id="fallbackDownload" class="button" href="#" download>הורדת PDF</a>
+        </div>
+      </div>
     </section>
   </main>
 
