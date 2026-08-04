@@ -71,7 +71,9 @@
     "audit:linear": "node scripts/audit-linear-pages.mjs",
     "calibrate:linear": "node scripts/calibrate-linear-pages.mjs",
     "build:linear": "node scripts/build-linear-function-pages.mjs",
-    "audit:linear:print": "node scripts/audit-linear-print.mjs --all && python scripts/measure-pdf.py"
+    "audit:linear:print": "node scripts/audit-linear-print.mjs --all && python scripts/measure-pdf.py",
+    "algebra-z:live": "node scripts/verify-algebra-z-live.mjs",
+    "algebra-z:live:browser": "node scripts/verify-algebra-z-live.mjs --browser"
   },
   "devDependencies": {
     "@mathjax/mathjax-tex-font": "^4.1.3",

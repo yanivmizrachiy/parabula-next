@@ -1,0 +1,55 @@
+name: Algebra Z live release smoke
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 4 * * *"
+  workflow_run:
+    workflows:
+      - Validate and deploy parabula-next
+    types:
+      - completed
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live-release:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify the live workbook, PDFs and browser interactions
+        run: >
+          node scripts/verify-algebra-z-live.mjs
+          --browser
+          --out=meta/audit/algebra-z-live-verification.json
+          --screenshot=meta/audit/algebra-z-live-smoke.png
+
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: algebra-z-live-verification
+          path: |
+            meta/audit/algebra-z-live-verification.json
+            meta/audit/algebra-z-live-smoke.png
+          if-no-files-found: error
+          retention-days: 14
