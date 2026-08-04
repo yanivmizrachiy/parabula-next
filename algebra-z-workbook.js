@@ -1,7 +1,8 @@
 (() => {
   'use strict';
 
-  const MANIFEST_URL = 'meta/algebra-z-workbook.json';
+  const RELEASE_VERSION = 'logo-free-20260804-r2';
+  const MANIFEST_URL = `meta/algebra-z-workbook.json?v=${RELEASE_VERSION}`;
   const params = new URLSearchParams(location.search);
   let manifest;
   let mode = params.get('mode') === 'bw' ? 'bw' : 'color';
@@ -50,7 +51,7 @@
 
   function versionedAssetUrl(file) {
     const separator = file.path.includes('?') ? '&' : '?';
-    return `${file.path}${separator}v=${file.sha256.slice(0, 12)}`;
+    return `${file.path}${separator}v=${file.sha256.slice(0, 12)}-${RELEASE_VERSION}`;
   }
 
   function fragmentUrl(base) {
@@ -63,6 +64,7 @@
     url.searchParams.set('mode', mode);
     url.searchParams.set('page', String(page));
     url.searchParams.set('zoom', zoom);
+    url.searchParams.set('release', RELEASE_VERSION);
     history.replaceState(null, '', url);
   }
 
@@ -144,7 +146,9 @@
     if (!response.ok) throw new Error(`Manifest HTTP ${response.status}`);
     const data = await response.json();
     if (data.pageCount !== 15 || !data.files?.color || !data.files?.bw) throw new Error('Manifest contract failed');
-    const forbiddenKey = ['fallback', 'DriveId'].join(''); if (JSON.stringify(data).includes(forbiddenKey)) throw new Error('Strict-local manifest contains a Drive fallback');
+    if (data.presentation?.assetVersion !== 'logo-free-20260804') throw new Error('Unexpected PDF asset version');
+    const forbiddenKey = ['fallback', 'DriveId'].join('');
+    if (JSON.stringify(data).includes(forbiddenKey)) throw new Error('Strict-local manifest contains a Drive fallback');
     return data;
   }
 
