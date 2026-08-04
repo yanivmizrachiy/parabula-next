@@ -10,15 +10,15 @@
       "label": "גרסה צבעונית",
       "filename": "algebra-z-color.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-color.pdf",
-      "bytes": 4344125,
-      "sha256": "349969fd8c79398081f1d98b7abfdce9d77043837ceeb59b0eda47a6679b1c7c"
+      "bytes": 4341937,
+      "sha256": "86dfe26853036f4c20e136b9ec9307c680cd050a34207e0c4036b4df2d545d55"
     },
     "bw": {
       "label": "גרסה בשחור־לבן",
       "filename": "algebra-z-bw.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-bw.pdf",
-      "bytes": 3515626,
-      "sha256": "d2cfdf6ebe914410947ab79afccea821e5b448f29bff1d9f8940b65dc1c208c4"
+      "bytes": 3513444,
+      "sha256": "da35e7b84155907eb7556881c116f0e8b388363175859bf2e4f9cf7407ec166d"
     }
   },
   "credits": [
