@@ -1,6 +1,26 @@
 name: Algebra Z post-deploy logo-free guard
 
 on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "algebra-z-workbook.html"
+      - "algebra-z-workbook.js"
+      - "meta/algebra-z-workbook.json"
+      - "scripts/verify-algebra-z-live.mjs"
+      - "scripts/verify-algebra-z-logo-free-live.mjs"
+      - ".github/workflows/algebra-z-post-deploy-logo-guard.yml"
+      - "assets/workbooks/algebra-z/**"
+  push:
+    branches: [main]
+    paths:
+      - "algebra-z-workbook.html"
+      - "algebra-z-workbook.js"
+      - "meta/algebra-z-workbook.json"
+      - "scripts/verify-algebra-z-live.mjs"
+      - "scripts/verify-algebra-z-logo-free-live.mjs"
+      - ".github/workflows/algebra-z-post-deploy-logo-guard.yml"
+      - "assets/workbooks/algebra-z/**"
   workflow_run:
     workflows: ["Validate and deploy parabula-next"]
     types: [completed]
@@ -13,7 +33,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: algebra-z-post-deploy-logo-guard
+  group: algebra-z-post-deploy-${{ github.event_name }}-${{ github.ref || github.event.workflow_run.id }}
   cancel-in-progress: true
 
 jobs:
