@@ -44,3 +44,19 @@ test('algebra-z viewer carries the exact district credits', () => {
   assert.ok(html.includes(first));
   assert.ok(html.includes(second));
 });
+
+// BEGIN APPROVED LOGO-FREE ALGEBRA-Z RELEASE
+test('algebra-z PDFs are the approved logo-free release', () => {
+  assert.equal(manifest.presentation?.logoRemoved, true);
+  assert.deepEqual(
+    {
+      color: manifest.files.color.sha256,
+      bw: manifest.files.bw.sha256
+    },
+    {
+      color: 'c2efa89f9e71384e60a29bfed96a0ffe55a56905a57ab42b273b06afd6deaff8',
+      bw: '64658224a48acf9b682dcec4a8e00fa157910cbd01964a7ad92f00eae4535024'
+    }
+  );
+});
+// END APPROVED LOGO-FREE ALGEBRA-Z RELEASE
