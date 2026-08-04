@@ -9,14 +9,14 @@
     "color": {
       "label": "גרסה צבעונית",
       "filename": "algebra-z-color.pdf",
-      "path": "assets/workbooks/algebra-z/downloads/algebra-z-color.pdf",
+      "path": "assets/workbooks/algebra-z/downloads/logo-free-20260804/algebra-z-color.pdf",
       "bytes": 4341698,
       "sha256": "c2efa89f9e71384e60a29bfed96a0ffe55a56905a57ab42b273b06afd6deaff8"
     },
     "bw": {
       "label": "גרסה בשחור־לבן",
       "filename": "algebra-z-bw.pdf",
-      "path": "assets/workbooks/algebra-z/downloads/algebra-z-bw.pdf",
+      "path": "assets/workbooks/algebra-z/downloads/logo-free-20260804/algebra-z-bw.pdf",
       "bytes": 3513148,
       "sha256": "64658224a48acf9b682dcec4a8e00fa157910cbd01964a7ad92f00eae4535024"
     }
@@ -33,6 +33,7 @@
   },
   "presentation": {
     "logoRemoved": true,
-    "logoRemovalScope": "all-15-pages-both-pdf-variants"
+    "logoRemovalScope": "all-15-pages-both-pdf-variants",
+    "assetVersion": "logo-free-20260804"
   }
 }

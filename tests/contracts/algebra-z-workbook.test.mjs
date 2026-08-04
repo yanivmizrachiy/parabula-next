@@ -15,7 +15,7 @@ test('algebra-z manifest preserves the 15-page dual-output local contract', () =
   assert.equal(manifest.migration.strictLocalReady, true);
   assert.deepEqual(Object.keys(manifest.files).sort(), ['bw', 'color']);
   for (const file of Object.values(manifest.files)) {
-    assert.match(file.path, /^assets\/workbooks\/algebra-z\/downloads\/algebra-z-(?:color|bw)\.pdf$/);
+    assert.match(file.path, /^assets\/workbooks\/algebra-z\/downloads\/logo-free-20260804\/algebra-z-(?:color|bw)\.pdf$/);
     assert.match(file.sha256, /^[a-f0-9]{64}$/);
     assert.ok(file.bytes > 100_000);
     assert.equal('fallbackDriveId' in file, false);
@@ -48,6 +48,7 @@ test('algebra-z viewer carries the exact district credits', () => {
 // BEGIN APPROVED LOGO-FREE ALGEBRA-Z RELEASE
 test('algebra-z PDFs are the approved logo-free release', () => {
   assert.equal(manifest.presentation?.logoRemoved, true);
+  assert.equal(manifest.presentation?.assetVersion, 'logo-free-20260804');
   assert.deepEqual(
     {
       color: manifest.files.color.sha256,
