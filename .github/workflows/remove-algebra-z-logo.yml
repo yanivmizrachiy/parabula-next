@@ -79,6 +79,10 @@ jobs:
             assets/workbooks/algebra-z/chunks/bw \
             meta/algebra-z-workbook.json \
             tests/contracts/algebra-z-workbook.test.mjs
-          git diff --cached --check
+          git diff --cached --check -- \
+            assets/workbooks/algebra-z/chunks/color \
+            assets/workbooks/algebra-z/chunks/bw \
+            meta/algebra-z-workbook.json \
+            tests/contracts/algebra-z-workbook.test.mjs
           git commit -m "fix: remove Algebra Z page logo [logo-generated]"
           git push origin HEAD:agent/remove-algebra-z-logo
