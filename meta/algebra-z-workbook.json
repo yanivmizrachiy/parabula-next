@@ -10,15 +10,15 @@
       "label": "גרסה צבעונית",
       "filename": "algebra-z-color.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-color.pdf",
-      "bytes": 4344125,
-      "sha256": "349969fd8c79398081f1d98b7abfdce9d77043837ceeb59b0eda47a6679b1c7c"
+      "bytes": 4341698,
+      "sha256": "c2efa89f9e71384e60a29bfed96a0ffe55a56905a57ab42b273b06afd6deaff8"
     },
     "bw": {
       "label": "גרסה בשחור־לבן",
       "filename": "algebra-z-bw.pdf",
       "path": "assets/workbooks/algebra-z/downloads/algebra-z-bw.pdf",
-      "bytes": 3515626,
-      "sha256": "d2cfdf6ebe914410947ab79afccea821e5b448f29bff1d9f8940b65dc1c208c4"
+      "bytes": 3513148,
+      "sha256": "64658224a48acf9b682dcec4a8e00fa157910cbd01964a7ad92f00eae4535024"
     }
   },
   "credits": [
@@ -30,5 +30,9 @@
     "strictLocalReady": true,
     "nextGate": "Run CI, merge to main and verify the live GitHub Pages release",
     "currentGate": "All strict-local PDF gates passed"
+  },
+  "presentation": {
+    "logoRemoved": true,
+    "logoRemovalScope": "all-15-pages-both-pdf-variants"
   }
 }
