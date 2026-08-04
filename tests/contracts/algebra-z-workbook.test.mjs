@@ -63,10 +63,13 @@ test('algebra-z PDFs are the approved logo-free release', () => {
 // END APPROVED LOGO-FREE ALGEBRA-Z RELEASE
 
 // BEGIN ALGEBRA-Z LOGO-FREE CACHE CONTRACT
-test('algebra-z viewer cache-busts the logo-free PDFs by their release hashes', () => {
+test('algebra-z viewer cache-busts every release surface', () => {
+  assert.match(js, /const RELEASE_VERSION = 'logo-free-20260804-r2'/);
+  assert.match(js, /meta\/algebra-z-workbook\.json\?v=\$\{RELEASE_VERSION\}/);
   assert.match(js, /function versionedAssetUrl\(file\)/);
-  assert.match(js, /file\.sha256\.slice\(0, 12\)/);
-  assert.match(js, /const localUrl = versionedAssetUrl\(file\)/);
-  assert.match(html, /algebra-z-workbook\.js\?v=logo-free-20260804/);
+  assert.match(js, /file\.sha256\.slice\(0, 12\).*RELEASE_VERSION/);
+  assert.match(js, /url\.searchParams\.set\('release', RELEASE_VERSION\)/);
+  assert.match(html, /meta name="algebra-z-release" content="logo-free-20260804-r2"/);
+  assert.match(html, /algebra-z-workbook\.js\?v=logo-free-20260804-r2/);
 });
 // END ALGEBRA-Z LOGO-FREE CACHE CONTRACT
