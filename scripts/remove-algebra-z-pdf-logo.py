@@ -7,121 +7,108 @@ import json
 from pathlib import Path
 
 import fitz
-from PIL import Image
+from PIL import Image, ImageStat
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "meta/algebra-z-workbook.json"
 CHUNK_ROOT = ROOT / "assets/workbooks/algebra-z/chunks"
+LOGO_RECT = fitz.Rect(25, 8, 190, 100)
+EXPECTED_PAGES = 15
+MIN_PDF_BYTES = 1_000_000
 
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def detect_header_logo_rect(pdf_path: Path) -> fitz.Rect:
-    doc = fitz.open(pdf_path)
-    page = doc[0]
-    matrix = fitz.Matrix(3, 3)
-    pix = page.get_pixmap(matrix=matrix, alpha=False)
-    image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-    width, height = image.size
-    top_limit = int(height * 0.18)
-    pixels = image.load()
+def render_page(page: fitz.Page, scale: float = 3.0) -> Image.Image:
+    pix = page.get_pixmap(matrix=fitz.Matrix(scale, scale), alpha=False)
+    return Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
 
-    mask = bytearray(width * top_limit)
-    for y in range(top_limit):
-        row = y * width
-        for x in range(width):
-            r, g, b = pixels[x, y]
-            blue = b >= 95 and b >= r + 18 and b >= g + 6
-            navy = b >= 55 and b >= r + 8 and g >= r + 4 and (r + g + b) < 390
-            if blue or navy:
-                mask[row + x] = 1
 
-    seen = bytearray(len(mask))
-    components: list[tuple[int, int, int, int, int]] = []
-    for y in range(top_limit):
-        for x in range(width):
-            idx = y * width + x
-            if not mask[idx] or seen[idx]:
-                continue
-            stack = [(x, y)]
-            seen[idx] = 1
-            min_x = max_x = x
-            min_y = max_y = y
-            count = 0
-            while stack:
-                cx, cy = stack.pop()
-                count += 1
-                min_x = min(min_x, cx)
-                max_x = max(max_x, cx)
-                min_y = min(min_y, cy)
-                max_y = max(max_y, cy)
-                for ny in range(max(0, cy - 1), min(top_limit, cy + 2)):
-                    for nx in range(max(0, cx - 1), min(width, cx + 2)):
-                        nidx = ny * width + nx
-                        if mask[nidx] and not seen[nidx]:
-                            seen[nidx] = 1
-                            stack.append((nx, ny))
-            if count >= 24:
-                components.append((min_x, min_y, max_x, max_y, count))
-
-    candidates = []
-    for box in components:
-        min_x, min_y, max_x, max_y, count = box
-        box_width = max_x - min_x + 1
-        box_height = max_y - min_y + 1
-        center_x = (min_x + max_x) / 2
-        if box_width > width * 0.35:
-            continue
-        if center_x > width * 0.48:
-            continue
-        if min_y > top_limit * 0.82:
-            continue
-        if box_height < 4 or count < 24:
-            continue
-        candidates.append(box)
-
-    if not candidates:
-        doc.close()
-        return fitz.Rect(30, 12, 185, 92)
-
-    min_x = min(box[0] for box in candidates)
-    min_y = min(box[1] for box in candidates)
-    max_x = max(box[2] for box in candidates)
-    max_y = max(box[3] for box in candidates)
-
-    scale_x = page.rect.width / width
-    scale_y = page.rect.height / height
-    rect = fitz.Rect(
-        max(0, (min_x - 18) * scale_x),
-        max(0, (min_y - 14) * scale_y),
-        min(page.rect.width, (max_x + 18) * scale_x),
-        min(page.rect.height, (max_y + 14) * scale_y),
+def page_rect_to_pixels(page: fitz.Page, image: Image.Image, rect: fitz.Rect) -> tuple[int, int, int, int]:
+    sx = image.width / page.rect.width
+    sy = image.height / page.rect.height
+    return (
+        max(0, round(rect.x0 * sx)),
+        max(0, round(rect.y0 * sy)),
+        min(image.width, round(rect.x1 * sx)),
+        min(image.height, round(rect.y1 * sy)),
     )
 
-    # Safety bounds: the requested mark is confined to the upper-left header.
-    if rect.width < 45 or rect.width > 220 or rect.height < 20 or rect.height > 115:
-        rect = fitz.Rect(30, 12, 185, 92)
 
-    doc.close()
-    return rect
+def estimate_background(pdf_path: Path) -> tuple[float, float, float]:
+    doc = fitz.open(pdf_path)
+    try:
+        page = doc[0]
+        image = render_page(page)
+        sx = image.width / page.rect.width
+        sy = image.height / page.rect.height
+        sample_box = (
+            round(205 * sx),
+            round(18 * sy),
+            round(285 * sx),
+            round(82 * sy),
+        )
+        sample = image.crop(sample_box)
+        pixels = [pixel for pixel in sample.getdata() if min(pixel) >= 210]
+        if not pixels:
+            return (1.0, 1.0, 1.0)
+        probe = Image.new("RGB", (len(pixels), 1))
+        probe.putdata(pixels)
+        median = ImageStat.Stat(probe).median
+        return tuple(round(channel / 255, 4) for channel in median)
+    finally:
+        doc.close()
 
 
-def redact_pdf(pdf_path: Path, rect: fitz.Rect) -> None:
-    source = fitz.open(pdf_path)
-    output = fitz.open()
-    output.insert_pdf(source)
-    source.close()
+def cover_logo(pdf_path: Path, rect: fitz.Rect, fill: tuple[float, float, float]) -> None:
+    original_size = pdf_path.stat().st_size
+    doc = fitz.open(pdf_path)
+    try:
+        if doc.page_count != EXPECTED_PAGES:
+            raise RuntimeError(f"expected {EXPECTED_PAGES} pages, got {doc.page_count}")
 
-    for page in output:
-        page.add_redact_annot(rect, fill=(1, 1, 1))
-        page.apply_redactions(images=fitz.PDF_REDACT_IMAGE_REMOVE)
+        for page in doc:
+            page.draw_rect(rect, color=None, fill=fill, overlay=True)
 
-    temp = pdf_path.with_suffix(".tmp.pdf")
-    output.save(temp, garbage=4, deflate=True, clean=True)
-    output.close()
+        temp = pdf_path.with_suffix(".tmp.pdf")
+        doc.save(temp, garbage=3, deflate=True, clean=True)
+    finally:
+        doc.close()
+
+    new_size = temp.stat().st_size
+    if new_size < MIN_PDF_BYTES or new_size < original_size * 0.75:
+        temp.unlink(missing_ok=True)
+        raise RuntimeError(
+            f"edited PDF became implausibly small: original={original_size}, edited={new_size}"
+        )
+
     temp.replace(pdf_path)
+
+
+def verify_logo_removed(pdf_path: Path, rect: fitz.Rect, fill: tuple[float, float, float]) -> None:
+    doc = fitz.open(pdf_path)
+    try:
+        if doc.page_count != EXPECTED_PAGES:
+            raise RuntimeError(f"expected {EXPECTED_PAGES} pages, got {doc.page_count}")
+
+        expected_rgb = tuple(round(value * 255) for value in fill)
+        for page_number, page in enumerate(doc, start=1):
+            image = render_page(page, scale=2.0)
+            crop = image.crop(page_rect_to_pixels(page, image, rect))
+            pixels = list(crop.getdata())
+            mismatches = 0
+            for pixel in pixels:
+                if max(abs(pixel[index] - expected_rgb[index]) for index in range(3)) > 12:
+                    mismatches += 1
+            mismatch_ratio = mismatches / max(1, len(pixels))
+            if mismatch_ratio > 0.01:
+                raise RuntimeError(
+                    f"page {page_number}: logo area is not clean enough ({mismatch_ratio:.2%} mismatched pixels)"
+                )
+    finally:
+        doc.close()
 
 
 def write_chunks(mode: str, pdf_bytes: bytes) -> None:
@@ -134,25 +121,33 @@ def write_chunks(mode: str, pdf_bytes: bytes) -> None:
     encoded = base64.b64encode(compressed).decode("ascii")
     chunk_size = 900_000
     for index, start in enumerate(range(0, len(encoded), chunk_size), start=1):
-        (target / f"part-{index:03d}.b64").write_text(encoded[start:start + chunk_size] + "\n", encoding="ascii")
+        (target / f"part-{index:03d}.b64").write_text(
+            encoded[start:start + chunk_size] + "\n",
+            encoding="ascii",
+        )
 
 
 def main() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     color_path = ROOT / manifest["files"]["color"]["path"]
-    rect = detect_header_logo_rect(color_path)
-    print(f"Detected logo rectangle: {tuple(round(value, 2) for value in rect)}")
+    fill = estimate_background(color_path)
+    print(f"Cover rectangle: {tuple(LOGO_RECT)}")
+    print(f"Background fill: {fill}")
 
     for mode in ("color", "bw"):
         pdf_path = ROOT / manifest["files"][mode]["path"]
-        redact_pdf(pdf_path, rect)
+        cover_logo(pdf_path, LOGO_RECT, fill)
+        verify_logo_removed(pdf_path, LOGO_RECT, fill)
         data = pdf_path.read_bytes()
         manifest["files"][mode]["bytes"] = len(data)
         manifest["files"][mode]["sha256"] = sha256(data)
         write_chunks(mode, data)
         print(f"{mode}: {len(data)} bytes, {sha256(data)}")
 
-    MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    MANIFEST.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 if __name__ == "__main__":
