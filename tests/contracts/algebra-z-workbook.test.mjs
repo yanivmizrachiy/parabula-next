@@ -22,6 +22,14 @@ test('algebra-z manifest preserves the 15-page dual-output local contract', () =
   }
 });
 
+test('algebra-z generated PDFs remain full-sized after artwork edits', () => {
+  for (const file of Object.values(manifest.files)) {
+    const actualBytes = fs.statSync(file.path).size;
+    assert.equal(actualBytes, file.bytes);
+    assert.ok(actualBytes > 1_000_000);
+  }
+});
+
 test('algebra-z viewer exposes all essential reading and print actions', () => {
   for (const id of ['colorMode', 'bwMode', 'prevPage', 'nextPage', 'pageNumber', 'zoomMode', 'downloadButton', 'openButton', 'fullscreenButton', 'pdfFrame']) {
     assert.match(html, new RegExp(`id="${id}"`));
