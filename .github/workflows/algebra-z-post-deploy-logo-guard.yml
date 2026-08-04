@@ -1,0 +1,58 @@
+name: Algebra Z post-deploy logo-free guard
+
+on:
+  workflow_run:
+    workflows: ["Validate and deploy parabula-next"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: algebra-z-post-deploy-logo-guard
+  cancel-in-progress: true
+
+jobs:
+  verify-live-logo-free-release:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify the deployed logo-free release
+        run: node scripts/verify-algebra-z-logo-free-live.mjs --browser --attempts=20 --delay-ms=30000
+
+      - name: Upload live verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: algebra-z-logo-free-live-evidence
+          path: |
+            meta/audit/algebra-z-live/logo-free-live-summary.json
+            meta/audit/algebra-z-live/logo-free-live-verification.json
+            meta/audit/algebra-z-live/logo-free-live-verification.png
+          if-no-files-found: warn
+          retention-days: 7
