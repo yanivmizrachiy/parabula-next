@@ -31,9 +31,13 @@ if (!html.includes(newScriptTag)) throw new Error('HTML JavaScript cache-bust ta
 const startMarker = '// BEGIN ALGEBRA-Z LOGO-FREE CACHE CONTRACT';
 const endMarker = '// END ALGEBRA-Z LOGO-FREE CACHE CONTRACT';
 const testBlock = `${startMarker}\ntest('algebra-z viewer cache-busts the logo-free PDFs by their release hashes', () => {\n  assert.match(js, /function versionedAssetUrl\\(file\\)/);\n  assert.match(js, /file\\.sha256\\.slice\\(0, 12\\)/);\n  assert.match(js, /const localUrl = versionedAssetUrl\\(file\\)/);\n  assert.match(html, /algebra-z-workbook\\.js\\?v=logo-free-20260804/);\n});\n${endMarker}`;
-const markerPattern = new RegExp(`${startMarker.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}[\\s\\S]*?${endMarker.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`);
-if (markerPattern.test(test)) test = test.replace(markerPattern, testBlock);
-else test = `${test.trimEnd()}\n\n${testBlock}\n`;
+const markerStart = test.indexOf(startMarker);
+const markerEnd = test.indexOf(endMarker);
+if (markerStart >= 0 && markerEnd >= markerStart) {
+  test = `${test.slice(0, markerStart)}${testBlock}${test.slice(markerEnd + endMarker.length)}`;
+} else {
+  test = `${test.trimEnd()}\n\n${testBlock}\n`;
+}
 
 fs.writeFileSync(jsPath, js, 'utf8');
 fs.writeFileSync(htmlPath, html, 'utf8');
