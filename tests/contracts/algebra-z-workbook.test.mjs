@@ -60,3 +60,12 @@ test('algebra-z PDFs are the approved logo-free release', () => {
   );
 });
 // END APPROVED LOGO-FREE ALGEBRA-Z RELEASE
+
+// BEGIN ALGEBRA-Z LOGO-FREE CACHE CONTRACT
+test('algebra-z viewer cache-busts the logo-free PDFs by their release hashes', () => {
+  assert.match(js, /function versionedAssetUrl\(file\)/);
+  assert.match(js, /file\.sha256\.slice\(0, 12\)/);
+  assert.match(js, /const localUrl = versionedAssetUrl\(file\)/);
+  assert.match(html, /algebra-z-workbook\.js\?v=logo-free-20260804/);
+});
+// END ALGEBRA-Z LOGO-FREE CACHE CONTRACT

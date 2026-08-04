@@ -48,6 +48,11 @@
     }
   }
 
+  function versionedAssetUrl(file) {
+    const separator = file.path.includes('?') ? '&' : '?';
+    return `${file.path}${separator}v=${file.sha256.slice(0, 12)}`;
+  }
+
   function fragmentUrl(base) {
     const fragment = new URLSearchParams({ page: String(page), zoom });
     return `${base}#${fragment.toString()}`;
@@ -89,7 +94,7 @@
     setStatus('טוען את החוברת המקומית…', 'loading');
     showFallback(false);
 
-    const localUrl = file.path;
+    const localUrl = versionedAssetUrl(file);
     const previewUrl = fragmentUrl(localUrl);
 
     try {
