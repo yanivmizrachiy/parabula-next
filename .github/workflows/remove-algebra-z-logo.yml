@@ -60,6 +60,9 @@ jobs:
             assets/workbooks/algebra-z/chunks/color \
             assets/workbooks/algebra-z/chunks/bw \
             meta/algebra-z-workbook.json
-          git diff --cached --check
+          git diff --cached --check -- \
+            meta/algebra-z-workbook.json \
+            assets/workbooks/algebra-z/chunks/color \
+            assets/workbooks/algebra-z/chunks/bw
           git commit -m 'fix: remove the logo from Algebra Z PDF pages'
           git push origin HEAD:fix/remove-algebra-z-pdf-logo
