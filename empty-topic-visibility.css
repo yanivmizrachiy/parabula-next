@@ -1,0 +1,8 @@
+/**
+ * Empty curriculum nodes stay in meta/topics.json and in repository diagnostics,
+ * but are not shown in the public navigation on desktop or mobile.
+ */
+.toc-node.is-empty,
+.topic-node.is-empty {
+  display: none !important;
+}
