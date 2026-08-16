@@ -1,4 +1,4 @@
-/* משפט פיתגורס — פריסה לעמודים המבוססים על תמונות PDF (ללא שינוי טוקנים) */
+/* משפט פיתגורס — פריסה משותפת */
 
 @import "./pythagoras-overlays.css";
 
@@ -36,4 +36,40 @@
 .pythagoras .pyt-fig-row .pyt-figure {
 	max-width: 100%;
 	flex: 1 1 320px;
+}
+
+/*
+ * פיתגורס 2026-08: 17 דפי יסוד חדשים קודמים לחומר הוותיק.
+ * זהות הקובץ הגלובלית נשמרת; המספר המקומי שהתלמיד רואה משתנה בלבד.
+ * עמוד-9..עמוד-30 ועמוד-41 הופכים מקומית לעמודים 18..40.
+ */
+body:has(.page-9)  { --pyt-local-page: "18"; --pyt-nav-label: "משפט פיתגורס — עמוד 18 / 40"; }
+body:has(.page-10) { --pyt-local-page: "19"; --pyt-nav-label: "משפט פיתגורס — עמוד 19 / 40"; }
+body:has(.page-11) { --pyt-local-page: "20"; --pyt-nav-label: "משפט פיתגורס — עמוד 20 / 40"; }
+body:has(.page-12) { --pyt-local-page: "21"; --pyt-nav-label: "משפט פיתגורס — עמוד 21 / 40"; }
+body:has(.page-13) { --pyt-local-page: "22"; --pyt-nav-label: "משפט פיתגורס — עמוד 22 / 40"; }
+body:has(.page-14) { --pyt-local-page: "23"; --pyt-nav-label: "משפט פיתגורס — עמוד 23 / 40"; }
+body:has(.page-15) { --pyt-local-page: "24"; --pyt-nav-label: "משפט פיתגורס — עמוד 24 / 40"; }
+body:has(.page-16) { --pyt-local-page: "25"; --pyt-nav-label: "משפט פיתגורס — עמוד 25 / 40"; }
+body:has(.page-17) { --pyt-local-page: "26"; --pyt-nav-label: "משפט פיתגורס — עמוד 26 / 40"; }
+body:has(.page-18) { --pyt-local-page: "27"; --pyt-nav-label: "משפט פיתגורס — עמוד 27 / 40"; }
+body:has(.page-19) { --pyt-local-page: "28"; --pyt-nav-label: "משפט פיתגורס — עמוד 28 / 40"; }
+body:has(.page-20) { --pyt-local-page: "29"; --pyt-nav-label: "משפט פיתגורס — עמוד 29 / 40"; }
+body:has(.page-21) { --pyt-local-page: "30"; --pyt-nav-label: "משפט פיתגורס — עמוד 30 / 40"; }
+body:has(.page-22) { --pyt-local-page: "31"; --pyt-nav-label: "משפט פיתגורס — עמוד 31 / 40"; }
+body:has(.page-23) { --pyt-local-page: "32"; --pyt-nav-label: "משפט פיתגורס — עמוד 32 / 40"; }
+body:has(.page-24) { --pyt-local-page: "33"; --pyt-nav-label: "משפט פיתגורס — עמוד 33 / 40"; }
+body:has(.page-25) { --pyt-local-page: "34"; --pyt-nav-label: "משפט פיתגורס — עמוד 34 / 40"; }
+body:has(.page-26) { --pyt-local-page: "35"; --pyt-nav-label: "משפט פיתגורס — עמוד 35 / 40"; }
+body:has(.page-27) { --pyt-local-page: "36"; --pyt-nav-label: "משפט פיתגורס — עמוד 36 / 40"; }
+body:has(.page-28) { --pyt-local-page: "37"; --pyt-nav-label: "משפט פיתגורס — עמוד 37 / 40"; }
+body:has(.page-29) { --pyt-local-page: "38"; --pyt-nav-label: "משפט פיתגורס — עמוד 38 / 40"; }
+body:has(.page-30) { --pyt-local-page: "39"; --pyt-nav-label: "משפט פיתגורס — עמוד 39 / 40"; }
+body:has(.page-41) { --pyt-local-page: "40"; --pyt-nav-label: "משפט פיתגורס — עמוד 40 / 40"; }
+
+body:has(.page-9), body:has(.page-10), body:has(.page-11), body:has(.page-12), body:has(.page-13), body:has(.page-14), body:has(.page-15), body:has(.page-16), body:has(.page-17), body:has(.page-18), body:has(.page-19), body:has(.page-20), body:has(.page-21), body:has(.page-22), body:has(.page-23), body:has(.page-24), body:has(.page-25), body:has(.page-26), body:has(.page-27), body:has(.page-28), body:has(.page-29), body:has(.page-30), body:has(.page-41) {
+	.page-number { font-size: 0; }
+	.page-number::after { content: var(--pyt-local-page); font-size: 16px; }
+	.nav-meta { font-size: 0; }
+	.nav-meta::after { content: var(--pyt-nav-label); font-size: 14px; }
 }
