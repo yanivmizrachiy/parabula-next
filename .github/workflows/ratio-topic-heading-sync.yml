@@ -1,0 +1,103 @@
+name: Normalize ratio topic headings
+
+on:
+  push:
+    branches:
+      - agent/ratio-max-quality-v1
+    paths:
+      - '.github/workflows/ratio-topic-heading-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Normalize mathematical topic headings
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+            'sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter1Pages.tsx': [
+              ("const CH = 'פרק 1 – יחס';", "const CH = 'פרק 1 – יסודות היחס';"),
+            ],
+            'sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter3Pages.tsx': [
+              ("const CH = 'פרק 3 – מהו היחס ?';", "const CH = 'פרק 3 – כתיבה, צמצום והשוואה';"),
+            ],
+            'sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter4Pages.tsx': [
+              ("const CH = 'פרק 4 – האם היחס נשמר ?';", "const CH = 'פרק 4 – שמירת יחס ושיעור ליחידה';"),
+            ],
+            'sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter7Pages.tsx': [
+              ('const CH = \'פרק 7 – מבחני מיצ"ב\';', "const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';"),
+              ('const TOPIC = \'יחס - מבחני מיצ"ב\';', "const TOPIC = 'יחס בנתונים, תרשימים וגאומטריה';"),
+            ],
+            'sources/lovable/ratio-workbook/src/components/worksheet/corrected/Chapter7Corrections.tsx': [
+              ("const CH = 'פרק 7 – מבחני מיצ״ב';", "const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';"),
+            ],
+          }
+
+          changed = []
+          for file_name, pairs in replacements.items():
+            path = Path(file_name)
+            text = path.read_text(encoding='utf-8')
+            original = text
+            for old, new in pairs:
+              count = text.count(old)
+              if count != 1:
+                raise SystemExit(f'{file_name}: expected exactly one occurrence of {old!r}, got {count}')
+              text = text.replace(old, new)
+            if text != original:
+              path.write_text(text, encoding='utf-8')
+              changed.append(file_name)
+
+          expected = sorted(replacements)
+          if sorted(changed) != expected:
+            raise SystemExit(f'Changed mismatch: {changed} != {expected}')
+          PY
+
+      - name: Verify and self-remove
+        shell: bash
+        run: |
+          grep -Fq "const CH = 'פרק 1 – יסודות היחס';" sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter1Pages.tsx
+          grep -Fq "const CH = 'פרק 3 – כתיבה, צמצום והשוואה';" sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter3Pages.tsx
+          grep -Fq "const CH = 'פרק 4 – שמירת יחס ושיעור ליחידה';" sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter4Pages.tsx
+          grep -Fq "const TOPIC = 'יחס בנתונים, תרשימים וגאומטריה';" sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter7Pages.tsx
+          grep -Fq "const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';" sources/lovable/ratio-workbook/src/components/worksheet/corrected/Chapter7Corrections.tsx
+          git rm -f .github/workflows/ratio-topic-heading-sync.yml
+          git add \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter1Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter3Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter4Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter7Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/corrected/Chapter7Corrections.tsx
+          staged="$(git diff --cached --name-only | sort)"
+          expected="$(printf '%s\n' \
+            .github/workflows/ratio-topic-heading-sync.yml \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter1Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter3Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter4Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/pages/Chapter7Pages.tsx \
+            sources/lovable/ratio-workbook/src/components/worksheet/corrected/Chapter7Corrections.tsx | sort)"
+          if [ "$staged" != "$expected" ]; then
+            echo 'Unexpected staged files; refusing to commit.'
+            printf 'Staged:\n%s\n' "$staged"
+            exit 1
+          fi
+
+      - name: Commit normalized headings
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix(ratio): use mathematical topic headings'
+          git push origin HEAD:agent/ratio-max-quality-v1
