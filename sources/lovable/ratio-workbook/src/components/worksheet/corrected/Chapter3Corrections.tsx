@@ -6,6 +6,7 @@ import {
   PageLayout,
   QSep,
   Question,
+  RatioAnswer,
   SubQuestion,
   WorksheetTable,
 } from '../pages/PageLayout';
@@ -76,7 +77,7 @@ function PopulationChart() {
 
 export function RatioPage18() {
   return (
-    <PageLayout pageNumber={18} chapter={CH}>
+    <PageLayout pageNumber={18} chapter={CH} className="ratio-page-18">
       <Question>
         <p>בדגם הריצוף יש 6 אריחים לבנים ו־4 אריחים כחולים. מהו היחס בין מספר האריחים הלבנים למספר האריחים הכחולים?</p>
         <TilingModel />
@@ -88,8 +89,8 @@ export function RatioPage18() {
       <Question>
         <p>במחרוזת יש 4 חרוזים אדומים ו־6 חרוזים כחולים.</p>
         <div className="svg-center svg-center--tight"><NecklaceModel red={4} blue={6} /></div>
-        <SubQuestion label="א."><p>מהו היחס בין האדומים לכחולים?</p></SubQuestion>
-        <SubQuestion label="ב."><p>באיזו מחרוזת נשמר אותו יחס?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין האדומים לכחולים? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>באיזו מחרוזת נשמר אותו יחס? <Blank /></p></SubQuestion>
         <div className="svg-figure-row">
           <div className="svg-cell"><span>1</span><NecklaceModel red={6} blue={9} /></div>
           <div className="svg-cell"><span>2</span><NecklaceModel red={6} blue={8} /></div>
@@ -102,9 +103,9 @@ export function RatioPage18() {
 
       <Question>
         <p>במשפחת ארז 5 בנות ובן אחד.</p>
-        <SubQuestion label="א."><p>מהו היחס בין מספר הבנות למספר הילדים?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין מספר הבנים למספר הילדים?</p></SubQuestion>
-        <SubQuestion label="ג."><p>איזה חלק מהילדים הן בנות?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הבנות למספר הילדים? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הבנים למספר הילדים? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ג."><p>איזה חלק מהילדים הן בנות? <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -118,9 +119,9 @@ export function RatioPage18() {
 
       <Question>
         <p>באוטובוס 8 מבוגרים ו־6 ילדים. כתבו יחס מצומצם.</p>
-        <SubQuestion label="א."><p>מבוגרים : ילדים</p></SubQuestion>
-        <SubQuestion label="ב."><p>ילדים : מבוגרים</p></SubQuestion>
-        <SubQuestion label="ג."><p>ילדים : כלל הנוסעים</p></SubQuestion>
+        <SubQuestion label="א."><p>מבוגרים : ילדים <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>ילדים : מבוגרים <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ג."><p>ילדים : כלל הנוסעים <RatioAnswer inline /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -428,7 +429,7 @@ function RectangleEModel() {
 
 export function RatioPage22() {
   return (
-    <PageLayout pageNumber={22} chapter={CH}>
+    <PageLayout pageNumber={22} chapter={CH} className="ratio-page-22">
       <Question>
         <p>במלבן שאורכו 16 ורוחבו 2 מסורטט משולש שבסיסו 6 וגובהו 2. חשבו את היחס בין שטח המשולש לשטח המלבן.</p>
         <SubQuestion label="א."><p>שטח המשולש: <Blank /></p></SubQuestion>
@@ -440,8 +441,8 @@ export function RatioPage22() {
 
       <Question>
         <p>במלבן שאורכו 14 ורוחבו 6 מסורטט משולש שבסיסו 7 וגובהו 6.</p>
-        <SubQuestion label="א."><p>מהו היחס בין שטח המשולש לשטח המלבן?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין שטח המשולש לשטח הלבן שנותר?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין שטח המשולש לשטח המלבן? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין שטח המשולש לשטח הלבן שנותר? <RatioAnswer inline /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -462,9 +463,9 @@ export function RatioPage22() {
       <Question>
         <p>במלבן ABCD: ‏AB=12,‏ AD=8, והנקודה E על AB כך ש־AE=8 ו־EB=4.</p>
         <RectangleEModel />
-        <SubQuestion label="א."><p>מהו היחס בין שטח △BCE לשטח △CDE?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין שטח המלבן לשטח △CDE?</p></SubQuestion>
-        <SubQuestion label="ג."><p>מהו היחס בין שטח המרובע AECD לשטח △BCE?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין שטח △BCE לשטח △CDE? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין שטח המלבן לשטח △CDE? <RatioAnswer inline /></p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין שטח המרובע AECD לשטח △BCE? <RatioAnswer inline /></p></SubQuestion>
       </Question>
     </PageLayout>
   );

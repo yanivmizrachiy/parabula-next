@@ -2,11 +2,14 @@ import {
   AnswerLine,
   Blank,
   Checkbox,
+  FinalAnswer,
   Frac,
   PageLayout,
   QSep,
   Question,
+  RatioAnswer,
   SubQuestion,
+  WorkArea,
 } from '../pages/PageLayout';
 
 const CH = 'פרק 2 – חלוקה ביחס נתון';
@@ -39,11 +42,15 @@ function SpiceGraph() {
 
 export function RatioPage11() {
   return (
-    <PageLayout pageNumber={11} chapter={CH}>
+    <PageLayout pageNumber={11} chapter={CH} className="ratio-page-11">
       <Question>
         <p>ביום קיץ הגיעו לבית הספר יותר מ־65 תלמידים. היחס בין מספר התלמידים שנעלו נעלי ספורט למספר התלמידים שנעלו סנדלים היה 5 : 3.</p>
         <SubQuestion label="א."><p>הסבירו מדוע לא ייתכן שהגיעו 83 תלמידים.</p></SubQuestion>
         <SubQuestion label="ב."><p>כתבו אפשרות אחת למספר התלמידים שהגיעו.</p></SubQuestion>
+        <div className="response-set ratio-page-11-response ratio-page-11-response--explanation">
+          <WorkArea label="א. נימוק:" lines={2} />
+          <FinalAnswer label="ב." />
+        </div>
       </Question>
 
       <QSep />
@@ -52,6 +59,12 @@ export function RatioPage11() {
         <p>מחירם של סלט וכריך יחד הוא 40 ש״ח. היחס בין מחיר הסלט למחיר הכריך הוא 4 : 1.</p>
         <SubQuestion label="א."><p>חשבו את מחיר הסלט ואת מחיר הכריך.</p></SubQuestion>
         <SubQuestion label="ב."><p>דניאל קנה סלט וארבעה כריכים. מהו היחס בין מחיר הסלט לסכום הכולל ששילם?</p></SubQuestion>
+        <div className="response-set ratio-page-11-response">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א. סלט:" unit="ש״ח" />
+          <FinalAnswer label="א. כריך:" unit="ש״ח" />
+          <RatioAnswer label="ב." />
+        </div>
       </Question>
 
       <QSep />
@@ -60,6 +73,11 @@ export function RatioPage11() {
         <p>יוסי שילם במוסך 2,240 ש״ח. היחס בין שכר העבודה למחיר חלקי החילוף הוא 5 : 2.</p>
         <SubQuestion label="א."><p>מה היה שכר העבודה?</p></SubQuestion>
         <SubQuestion label="ב."><p>מה היה מחיר חלקי החילוף?</p></SubQuestion>
+        <div className="response-set ratio-page-11-response">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א." unit="ש״ח" />
+          <FinalAnswer label="ב." unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -68,6 +86,12 @@ export function RatioPage11() {
         <p>בכיתה ח׳1 יש 30 תלמידים ובכיתה ח׳2 יש 32 תלמידים. מחיר הטיול <strong>לכל תלמיד</strong> היה זהה, והעלות הכוללת לשתי הכיתות הייתה 2,480 ש״ח.</p>
         <SubQuestion label="א."><p>מה היה המחיר לתלמיד?</p></SubQuestion>
         <SubQuestion label="ב."><p>מה הייתה עלות הטיול לכל אחת מהכיתות?</p></SubQuestion>
+        <div className="response-set ratio-page-11-response">
+          <WorkArea lines={1} />
+          <FinalAnswer label="א." unit="ש״ח" />
+          <FinalAnswer label="ב. ח׳1:" unit="ש״ח" />
+          <FinalAnswer label="ב. ח׳2:" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -77,6 +101,12 @@ export function RatioPage11() {
         <SpiceGraph />
         <SubQuestion label="א."><p>מהו היחס בין כמות הקינמון לכמות הווניל?</p></SubQuestion>
         <SubQuestion label="ב."><p>כמה גרם מכל תבלין יש בתערובת שמשקלה 560 גרם?</p></SubQuestion>
+        <div className="response-set ratio-page-11-response">
+          <WorkArea lines={1} />
+          <RatioAnswer label="א." />
+          <FinalAnswer label="ב. קינמון:" unit="גרם" />
+          <FinalAnswer label="ב. וניל:" unit="גרם" />
+        </div>
       </Question>
     </PageLayout>
   );
