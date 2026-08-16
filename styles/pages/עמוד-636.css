@@ -1,1 +1,22 @@
 @import url("../topics/pythagoras-foundations.css");
+
+.page-636 .question-block {
+  justify-content: flex-start;
+  gap: 22px;
+}
+
+.page-636 > .question-block > .foundation-card {
+  min-height: 240px;
+}
+
+.page-636 .foundation-grid {
+  min-height: 360px;
+}
+
+.page-636 .foundation-grid .foundation-card {
+  min-height: 0;
+}
+
+.page-636 .foundation-grid .foundation-svg {
+  height: 190px;
+}
