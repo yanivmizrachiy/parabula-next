@@ -131,9 +131,14 @@ export function RatioPage01() {
         <SubQuestion label="א."><p>מהו גורם ההרחבה מן השורה הראשונה אל השורה הרביעית? <Blank /></p></SubQuestion>
         <SubQuestion label="ב."><p>כתבו אפשרות נוספת שבה היחס הוא 3 : 2 ומספר העיגולים הכולל גדול מ־25.</p></SubQuestion>
         <RatioAnswer label="אפשרות נוספת:" />
-        <SubQuestion label="ג."><p>בקבוצה יש 6 עיגולים שחורים ו־4 עיגולים לבנים. הוסיפו 3 שחורים ו־2 לבנים. האם היחס נשמר? הסבירו.</p></SubQuestion>
-        <SubQuestion label="ד."><p>לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע. האם היחס נשמר? נמקו באמצעות יחס מצומצם.</p></SubQuestion>
-        <WorkArea label="הסבר:" lines={2} />
+        <SubQuestion label="ג.">
+          <p>בקבוצה יש 6 עיגולים שחורים ו־4 עיגולים לבנים. הוסיפו 3 שחורים ו־2 לבנים. האם היחס נשמר? הסבירו.</p>
+          <WorkArea label="תשובה:" lines={1} className="ratio-page-1-inline-explanation" />
+        </SubQuestion>
+        <SubQuestion label="ד.">
+          <p>לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע. האם היחס נשמר? נמקו באמצעות יחס מצומצם.</p>
+          <WorkArea label="תשובה:" lines={1} className="ratio-page-1-inline-explanation" />
+        </SubQuestion>
       </Question>
     </PageLayout>
   );
