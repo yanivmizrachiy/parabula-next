@@ -9,7 +9,8 @@
   flex: 1 1 0;
 }
 
-.ratio-answer-container.is-inline {
+.ratio-answer-container.is-inline,
+.ordered-pair-answer-container.is-inline {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -20,6 +21,40 @@
 .ratio-answer-container.is-inline .ratio-answer-box {
   width: 28px;
   height: 21px;
+}
+
+.ordered-pair-answer-container {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 5px 18px 4px 0;
+  break-inside: avoid;
+}
+
+.ordered-pair-answer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  min-height: 25px;
+}
+
+.ordered-pair-box {
+  display: inline-block;
+  width: 34px;
+  height: 24px;
+  border: 1.4px solid var(--ws-line);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.ordered-pair-paren,
+.ordered-pair-comma {
+  color: var(--ws-ink);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .response-set {
