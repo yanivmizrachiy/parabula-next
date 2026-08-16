@@ -42,7 +42,7 @@ describe('ratio workbook structure', () => {
     }
   });
 
-  it('renders every page with one clean topic heading and no question headings', () => {
+  it('renders every page with one clean mathematical topic heading and no question headings', () => {
     for (const page of WORKSHEET_PAGES) {
       const markup = renderToStaticMarkup(<>{page.component()}</>);
       expect(markup).toContain('worksheet-page');
@@ -50,6 +50,7 @@ describe('ratio workbook structure', () => {
       expect(markup).toMatch(/<span class="page-header-title page-title">[^<]+<\/span>/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">\s*נושא:/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*פרק\s*\d+/);
+      expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*מבחנ/);
       expect(markup).not.toMatch(/<h[1-6](?:\s|>)/i);
       expect(markup).not.toContain('question-title');
       expect(markup).not.toContain('question-eyebrow');
@@ -68,7 +69,7 @@ describe('ratio workbook structure', () => {
       const markup = renderToStaticMarkup(<>{page.component()}</>);
       const questionCount = markup.match(/class="question-block"/g)?.length ?? 0;
       const subQuestionCount = markup.match(/class="sub-question"/g)?.length ?? 0;
-      const policyCount = markup.match(/data-auto-response="(?:none|short|ratio|calculation|explanation)"/g)?.length ?? 0;
+      const policyCount = markup.match(/data-auto-response="(?:none|short|ratio|calculation|explanation|drawing)"/g)?.length ?? 0;
       expect(policyCount).toBe(questionCount + subQuestionCount);
     }
   });
