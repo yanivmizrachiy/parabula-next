@@ -169,3 +169,69 @@
 .ratio-page-29 .cookie-trays.compact .tray {
   padding: 3px;
 }
+
+.ratio-page-35 .q-separator {
+  min-height: 4px;
+  max-height: 6px;
+}
+
+.ratio-page-35 .question-block {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .question-content p,
+.ratio-page-35 .sub-content p {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .info-box {
+  margin: 2px 0 3px;
+  padding: 4px 8px;
+}
+
+.ratio-page-35 .info-box p {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35-response {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.ratio-page-35-response .work-area-lines {
+  gap: 1px;
+}
+
+.ratio-page-35-response .work-area-line {
+  min-height: 13px;
+}
+
+.ratio-page-35-response--explanation {
+  grid-template-columns: minmax(280px, 1fr) minmax(150px, auto);
+}
+
+.ratio-page-35-response--methods {
+  grid-template-columns: minmax(300px, 1fr) minmax(120px, auto) minmax(120px, auto);
+}
+
+.ratio-page-35 .calculation-response {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.ratio-page-35 .calculation-response .work-area-lines {
+  gap: 2px;
+}
+
+.ratio-page-35 .calculation-response .work-area-line {
+  min-height: 14px;
+}
