@@ -6,6 +6,10 @@ dist/
 .next
 out
 
+# .NET build artifacts (guard against an accidental `dotnet` scaffold re-entering)
+obj/
+bin/
+
 # Generated metadata
 meta/pages.json
 
