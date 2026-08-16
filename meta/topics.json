@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-21T05:44:30.481Z",
+  "generatedAt": "2026-08-16T13:12:23.621Z",
   "siteUrl": "https://yanivmizrachiy.github.io/razpages/",
-  "totalPages": 615,
+  "totalPages": 632,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -603,12 +603,182 @@
     },
     {
       "name": "משפט פיתגורס",
-      "count": 23,
+      "count": 40,
       "pages": [
+        {
+          "number": 617,
+          "file": "עמוד-617.html",
+          "title": "עמוד 1 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-617.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-617.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 618,
+          "file": "עמוד-618.html",
+          "title": "עמוד 2 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-618.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-618.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 619,
+          "file": "עמוד-619.html",
+          "title": "עמוד 3 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-619.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-619.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 620,
+          "file": "עמוד-620.html",
+          "title": "עמוד 4 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-620.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-620.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 621,
+          "file": "עמוד-621.html",
+          "title": "עמוד 5 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-621.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-621.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 622,
+          "file": "עמוד-622.html",
+          "title": "עמוד 6 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-622.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-622.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 623,
+          "file": "עמוד-623.html",
+          "title": "עמוד 7 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-623.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-623.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 624,
+          "file": "עמוד-624.html",
+          "title": "עמוד 8 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-624.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-624.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 625,
+          "file": "עמוד-625.html",
+          "title": "עמוד 9 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-625.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-625.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 626,
+          "file": "עמוד-626.html",
+          "title": "עמוד 10 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-626.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-626.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 627,
+          "file": "עמוד-627.html",
+          "title": "עמוד 11 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-627.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-627.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 628,
+          "file": "עמוד-628.html",
+          "title": "עמוד 12 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-628.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-628.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 629,
+          "file": "עמוד-629.html",
+          "title": "עמוד 13 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-629.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-629.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 630,
+          "file": "עמוד-630.html",
+          "title": "עמוד 14 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-630.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-630.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 631,
+          "file": "עמוד-631.html",
+          "title": "עמוד 15 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-631.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-631.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 632,
+          "file": "עמוד-632.html",
+          "title": "עמוד 16 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-632.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-632.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 633,
+          "file": "עמוד-633.html",
+          "title": "עמוד 17 — משפט פיתגורס",
+          "h1": "משפט פיתגורס",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-633.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-633.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
         {
           "number": 9,
           "file": "עמוד-9.html",
-          "title": "עמוד 1 — משפט פיתגורס",
+          "title": "עמוד 18 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-9.html",
@@ -618,7 +788,7 @@
         {
           "number": 10,
           "file": "עמוד-10.html",
-          "title": "עמוד 2 — משפט פיתגורס",
+          "title": "עמוד 19 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-10.html",
@@ -628,7 +798,7 @@
         {
           "number": 11,
           "file": "עמוד-11.html",
-          "title": "עמוד 3 — משפט פיתגורס",
+          "title": "עמוד 20 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-11.html",
@@ -638,7 +808,7 @@
         {
           "number": 12,
           "file": "עמוד-12.html",
-          "title": "עמוד 4 — משפט פיתגורס",
+          "title": "עמוד 21 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-12.html",
@@ -648,7 +818,7 @@
         {
           "number": 13,
           "file": "עמוד-13.html",
-          "title": "עמוד 5 — משפט פיתגורס",
+          "title": "עמוד 22 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-13.html",
@@ -658,7 +828,7 @@
         {
           "number": 14,
           "file": "עמוד-14.html",
-          "title": "עמוד 6 — משפט פיתגורס",
+          "title": "עמוד 23 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-14.html",
@@ -668,7 +838,7 @@
         {
           "number": 15,
           "file": "עמוד-15.html",
-          "title": "עמוד 7 — משפט פיתגורס",
+          "title": "עמוד 24 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-15.html",
@@ -678,7 +848,7 @@
         {
           "number": 16,
           "file": "עמוד-16.html",
-          "title": "עמוד 8 — משפט פיתגורס",
+          "title": "עמוד 25 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-16.html",
@@ -688,7 +858,7 @@
         {
           "number": 17,
           "file": "עמוד-17.html",
-          "title": "עמוד 9 — משפט פיתגורס",
+          "title": "עמוד 26 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-17.html",
@@ -698,7 +868,7 @@
         {
           "number": 18,
           "file": "עמוד-18.html",
-          "title": "עמוד 10 — משפט פיתגורס",
+          "title": "עמוד 27 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-18.html",
@@ -708,7 +878,7 @@
         {
           "number": 19,
           "file": "עמוד-19.html",
-          "title": "עמוד 11 — משפט פיתגורס",
+          "title": "עמוד 28 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-19.html",
@@ -718,7 +888,7 @@
         {
           "number": 20,
           "file": "עמוד-20.html",
-          "title": "עמוד 12 — משפט פיתגורס",
+          "title": "עמוד 29 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-20.html",
@@ -728,7 +898,7 @@
         {
           "number": 21,
           "file": "עמוד-21.html",
-          "title": "עמוד 13 — משפט פיתגורס",
+          "title": "עמוד 30 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-21.html",
@@ -738,7 +908,7 @@
         {
           "number": 22,
           "file": "עמוד-22.html",
-          "title": "עמוד 14 — משפט פיתגורס",
+          "title": "עמוד 31 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-22.html",
@@ -748,7 +918,7 @@
         {
           "number": 23,
           "file": "עמוד-23.html",
-          "title": "עמוד 15 — משפט פיתגורס",
+          "title": "עמוד 32 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-23.html",
@@ -758,7 +928,7 @@
         {
           "number": 24,
           "file": "עמוד-24.html",
-          "title": "עמוד 16 — משפט פיתגורס",
+          "title": "עמוד 33 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-24.html",
@@ -768,7 +938,7 @@
         {
           "number": 25,
           "file": "עמוד-25.html",
-          "title": "עמוד 17 — משפט פיתגורס",
+          "title": "עמוד 34 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-25.html",
@@ -778,7 +948,7 @@
         {
           "number": 26,
           "file": "עמוד-26.html",
-          "title": "עמוד 18 — משפט פיתגורס",
+          "title": "עמוד 35 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-26.html",
@@ -788,7 +958,7 @@
         {
           "number": 27,
           "file": "עמוד-27.html",
-          "title": "עמוד 19 — משפט פיתגורס",
+          "title": "עמוד 36 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-27.html",
@@ -798,7 +968,7 @@
         {
           "number": 28,
           "file": "עמוד-28.html",
-          "title": "עמוד 20 — משפט פיתגורס",
+          "title": "עמוד 37 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-28.html",
@@ -808,7 +978,7 @@
         {
           "number": 29,
           "file": "עמוד-29.html",
-          "title": "עמוד 21 — משפט פיתגורס",
+          "title": "עמוד 38 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-29.html",
@@ -818,7 +988,7 @@
         {
           "number": 30,
           "file": "עמוד-30.html",
-          "title": "עמוד 22 — משפט פיתגורס",
+          "title": "עמוד 39 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-30.html",
@@ -828,7 +998,7 @@
         {
           "number": 41,
           "file": "עמוד-41.html",
-          "title": "עמוד 23 — משפט פיתגורס",
+          "title": "עמוד 40 — משפט פיתגורס",
           "h1": "משפט פיתגורס",
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-41.html",
@@ -6290,7 +6460,7 @@
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 259,
+        "pageCount": 276,
         "children": [
           {
             "id": "g7.num",
@@ -6688,7 +6858,7 @@
             "id": "g7.geo",
             "name": "תחום גאומטרי",
             "directCount": 0,
-            "pageCount": 116,
+            "pageCount": 133,
             "children": [
               {
                 "id": "g7.geo.quads",
@@ -6868,8 +7038,8 @@
               {
                 "id": "g7.geo.pythagoras",
                 "name": "משפט פיתגורס",
-                "directCount": 29,
-                "pageCount": 29,
+                "directCount": 46,
+                "pageCount": 46,
                 "pages": [
                   9,
                   10,
@@ -6899,7 +7069,24 @@
                   377,
                   378,
                   379,
-                  380
+                  380,
+                  617,
+                  618,
+                  619,
+                  620,
+                  621,
+                  622,
+                  623,
+                  624,
+                  625,
+                  626,
+                  627,
+                  628,
+                  629,
+                  630,
+                  631,
+                  632,
+                  633
                 ]
               },
               {
