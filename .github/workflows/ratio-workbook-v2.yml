@@ -93,8 +93,15 @@ jobs:
       - name: Verify generated images are committed and current
         shell: bash
         run: |
-          if ! git diff --exit-code -- assets/ratio/page-*.png; then
-            echo 'Rendered ratio images are stale. Regenerate them locally, review the diff, and commit explicitly.'
+          changed_images="$(git diff --name-only -- 'assets/ratio/page-*.png')"
+          if [ -n "$changed_images" ]; then
+            mkdir -p test-results/ratio-generated-images
+            while IFS= read -r image; do
+              [ -n "$image" ] || continue
+              cp "$image" "test-results/ratio-generated-images/$(basename "$image")"
+            done <<< "$changed_images"
+            printf '%s\n' "$changed_images" > test-results/ratio-generated-images/changed-images.txt
+            echo 'Rendered ratio images are stale. The generated replacements were saved in the workflow artifact for explicit review and commit.'
             exit 1
           fi
 
