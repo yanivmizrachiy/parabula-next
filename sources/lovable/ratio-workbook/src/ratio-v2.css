@@ -21,7 +21,8 @@
   font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
 
-.page-header {
+.page-header,
+.header-container {
   min-height: 15mm;
   padding: 4.2mm 14mm 3mm;
   background: #fff;
@@ -35,24 +36,32 @@
   letter-spacing: 0;
 }
 
-.page-header-title {
+.page-header-title,
+.page-title {
   letter-spacing: 0;
   gap: 0;
 }
 
-.page-header-title::before {
+.page-header-title::before,
+.page-title::before {
   content: none;
 }
 
-.page-header-num {
+.page-header-num,
+.page-number {
   width: 30px;
   height: 30px;
   border: 1.5px solid var(--ws-accent);
+  border-radius: 50%;
   color: var(--ws-accent);
   background: #fff;
   box-shadow: none;
   font-size: 13px;
   font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
 }
 
 .page-content {
@@ -93,6 +102,7 @@
 
 .sub-label,
 .answer-label,
+.work-area-label,
 .drawing-label,
 .tray-num {
   color: var(--ws-accent-2);
@@ -138,6 +148,89 @@
 
 .answer-line {
   border-bottom: 1.3px dotted var(--ws-line);
+}
+
+.ratio-answer-container,
+.final-answer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 5px 18px 4px 0;
+  break-inside: avoid;
+}
+
+.ratio-answer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  min-height: 25px;
+}
+
+.ratio-answer-box {
+  display: inline-block;
+  width: 34px;
+  height: 24px;
+  border: 1.4px solid var(--ws-line);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.ratio-answer-colon {
+  color: var(--ws-ink);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.calculation-response {
+  margin: 5px 18px 7px 0;
+  padding: 5px 8px 6px;
+  border: 1px solid var(--ws-rule);
+  border-radius: 4px;
+  background: #fff;
+  break-inside: avoid;
+}
+
+.work-area {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 8px;
+}
+
+.work-area-lines {
+  display: grid;
+  gap: 6px;
+  padding-top: 2px;
+}
+
+.work-area-line {
+  display: block;
+  min-height: 16px;
+  border-bottom: 1px dotted var(--ws-line-soft);
+}
+
+.final-answer {
+  margin: 7px 0 0;
+  padding-top: 5px;
+  border-top: 1px solid var(--ws-rule);
+}
+
+.final-answer-line {
+  display: inline-block;
+  flex: 1 1 130px;
+  min-width: 90px;
+  max-width: 230px;
+  height: 20px;
+  border-bottom: 1.4px solid var(--ws-line);
+}
+
+.answer-unit {
+  color: var(--ws-ink-soft);
+  font-weight: 500;
 }
 
 .drawing-box {
@@ -249,7 +342,8 @@
     overflow: visible !important;
   }
 
-  .page-header {
+  .page-header,
+  .header-container {
     background: #fff !important;
     color: var(--ws-accent-2) !important;
     border-bottom-color: var(--ws-accent) !important;
