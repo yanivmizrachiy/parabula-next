@@ -1,4 +1,4 @@
-import { Children, isValidElement, ReactNode } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PageLayoutProps {
@@ -9,11 +9,19 @@ interface PageLayoutProps {
   topic?: string;
 }
 
+function cleanTopicTitle(chapter: string, topic: string): string {
+  const chapterTitle = chapter.replace(/^פרק\s*\d+\s*[–-]\s*/, '').trim();
+  const explicitTopic = topic.trim();
+  if (!explicitTopic || explicitTopic === 'יחס') return chapterTitle || 'יחס';
+  return explicitTopic;
+}
+
 export function PageLayout({ pageNumber, chapter, children, className, topic = 'יחס' }: PageLayoutProps) {
+  const pageTopicTitle = cleanTopicTitle(chapter, topic);
   return (
     <div className={cn('worksheet-page relative bg-white', className)} dir="rtl">
       <header className="header-container page-header">
-        <span className="page-header-title page-title">נושא: {topic} | {chapter}</span>
+        <span className="page-header-title page-title">{pageTopicTitle}</span>
         <div className="page-number">{pageNumber}</div>
       </header>
       <div className="page-content">
@@ -37,7 +45,7 @@ function getNodeText(node: ReactNode): string {
   return getNodeText((node.props as { children?: ReactNode }).children);
 }
 
-function hasNode(node: ReactNode, predicate: (element: React.ReactElement) => boolean): boolean {
+function hasNode(node: ReactNode, predicate: (element: ReactElement) => boolean): boolean {
   let found = false;
   Children.forEach(node, (child) => {
     if (found || !isValidElement(child)) return;
