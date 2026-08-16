@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/pythagoras-foundations-sync.yml
       - scripts/sync-pythagoras-foundations-once.mjs
+      - tests/contracts/pythagoras-foundations.test.mjs
 
 permissions:
   contents: write
