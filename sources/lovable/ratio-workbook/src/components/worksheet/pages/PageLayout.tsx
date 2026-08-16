@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Children, isValidElement, ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PageLayoutProps {
@@ -23,20 +23,101 @@ export function PageLayout({ pageNumber, chapter, children, className, topic = '
   );
 }
 
+type AutoResponseKind = 'none' | 'short' | 'ratio' | 'calculation' | 'explanation';
+
+const NO_WRITING_CUES = /סמנו|בחרו|הקיפו|השלימו|צבעו|ציירו|שרטטו|התאימו|מתחו קו|סדרו/;
+const EXPLANATION_CUES = /הסבירו|הסבר|נמקו|נמק|מדוע|הראו|הוכיחו|תארו|מה מייצג|כתבו במילים|כתבו סיפור/;
+const CALCULATION_CUES = /כמה|חשבו|מצאו|מה גודל|מהו מספר|מה היה|מה הייתה|מהם אורכי|מה גודלן|איזה סכום|מהו הסכום|עלות|מחיר|היקף|שטח|אומדן/;
+const RATIO_CUES = /מהו היחס|מה היחס|כתבו יחס|כתבו פרופורציה/;
+const SHORT_ANSWER_CUES = /\?|איזה חלק|האם|מה יש יותר|באיזו|מה מבטא|איזו|מהו|מהי|מה הם|מה הן|כתבו אפשרות/;
+
+function getNodeText(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  if (!isValidElement(node)) return '';
+  return getNodeText((node.props as { children?: ReactNode }).children);
+}
+
+function hasNode(node: ReactNode, predicate: (element: React.ReactElement) => boolean): boolean {
+  let found = false;
+  Children.forEach(node, (child) => {
+    if (found || !isValidElement(child)) return;
+    if (predicate(child)) {
+      found = true;
+      return;
+    }
+    if (hasNode((child.props as { children?: ReactNode }).children, predicate)) found = true;
+  });
+  return found;
+}
+
+function hasClassName(node: ReactNode, fragment: string): boolean {
+  return hasNode(node, (element) => {
+    const className = (element.props as { className?: string }).className;
+    return typeof className === 'string' && className.includes(fragment);
+  });
+}
+
+function hasExplicitResponse(node: ReactNode): boolean {
+  return hasNode(node, (element) => (
+    element.type === AnswerLine ||
+    element.type === Blank ||
+    element.type === RatioAnswer ||
+    element.type === OrderedPairAnswer ||
+    element.type === WorkArea ||
+    element.type === FinalAnswer ||
+    element.type === CalculationResponse ||
+    element.type === Checkbox ||
+    element.type === WorksheetTable ||
+    element.type === MultipleChoice ||
+    hasClassName(element, 'response-set') ||
+    hasClassName(element, 'options-row') ||
+    hasClassName(element, 'checkbox-list') ||
+    hasClassName(element, 'drawing-box')
+  ));
+}
+
+function inferResponseKind(children: ReactNode): AutoResponseKind {
+  if (hasExplicitResponse(children)) return 'none';
+  const text = getNodeText(children).replace(/\s+/g, ' ').trim();
+  if (!text || NO_WRITING_CUES.test(text)) return 'none';
+  if (EXPLANATION_CUES.test(text)) return 'explanation';
+  if (RATIO_CUES.test(text) && !CALCULATION_CUES.test(text)) return 'ratio';
+  if (CALCULATION_CUES.test(text)) return 'calculation';
+  if (SHORT_ANSWER_CUES.test(text)) return 'short';
+  return 'none';
+}
+
+function AutoResponse({ kind }: { kind: AutoResponseKind }) {
+  if (kind === 'short') return <AnswerLine label="תשובה:" />;
+  if (kind === 'ratio') return <RatioAnswer label="תשובה:" />;
+  if (kind === 'calculation') return <CalculationResponse lines={1} className="auto-response auto-response--calculation" />;
+  if (kind === 'explanation') return <WorkArea lines={2} label="תשובה:" className="auto-response auto-response--explanation" />;
+  return null;
+}
+
 export function Question({ children }: { children: ReactNode }) {
+  const hasSubQuestions = hasNode(children, (element) => element.type === SubQuestion);
+  const responseKind = hasSubQuestions ? 'none' : inferResponseKind(children);
   return (
-    <div className="question-block">
+    <div className="question-block" data-auto-response={responseKind}>
       <span className="question-bullet" aria-hidden="true" />
-      <div className="question-content">{children}</div>
+      <div className="question-content">
+        {children}
+        <AutoResponse kind={responseKind} />
+      </div>
     </div>
   );
 }
 
 export function SubQuestion({ label, children }: { label: string; children: ReactNode }) {
+  const responseKind = inferResponseKind(children);
   return (
-    <div className="sub-question">
+    <div className="sub-question" data-auto-response={responseKind}>
       <span className="sub-label">{label}</span>
-      <div className="sub-content">{children}</div>
+      <div className="sub-content">
+        {children}
+        <AutoResponse kind={responseKind} />
+      </div>
     </div>
   );
 }
