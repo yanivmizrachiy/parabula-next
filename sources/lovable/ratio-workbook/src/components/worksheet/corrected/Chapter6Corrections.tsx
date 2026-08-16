@@ -1,16 +1,31 @@
-import { AnswerLine, Frac, PageLayout, QSep, Question, SubQuestion } from '../pages/PageLayout';
+import {
+  CalculationResponse,
+  FinalAnswer,
+  Frac,
+  PageLayout,
+  QSep,
+  Question,
+  SubQuestion,
+  WorkArea,
+} from '../pages/PageLayout';
 
 const CH = 'פרק 6 – פרופורציה';
 const TOPIC = 'יחס ופרופורציה';
 
 export function RatioPage35() {
   return (
-    <PageLayout pageNumber={35} chapter={CH} topic={TOPIC}>
+    <PageLayout pageNumber={35} chapter={CH} topic={TOPIC} className="ratio-page-35">
       <Question>
         <p>בכל סעיף בדקו אם מתקיימת פרופורציה ונמקו.</p>
         <SubQuestion label="א."><p>באולם רקפת 35 שולחנות ו־350 כיסאות; באולם כלנית 40 שולחנות ו־400 כיסאות.</p></SubQuestion>
         <SubQuestion label="ב."><p>בקלמר של דינה 12 טושים ו־3 עפרונות; בקלמר של מירי 8 טושים ו־2 עפרונות.</p></SubQuestion>
         <SubQuestion label="ג."><p>בקייטנה אחת 24 חניכים ו־3 מדריכים; בקייטנה אחרת 30 חניכים ו־5 מדריכים.</p></SubQuestion>
+        <div className="response-set ratio-page-35-response">
+          <WorkArea label="נימוקים:" lines={2} />
+          <FinalAnswer label="א." />
+          <FinalAnswer label="ב." />
+          <FinalAnswer label="ג." />
+        </div>
       </Question>
 
       <QSep />
@@ -21,6 +36,13 @@ export function RatioPage35() {
         <SubQuestion label="ב."><p>מהו היחס בין מספרי הגולות האדומות של גדי ודני?</p></SubQuestion>
         <SubQuestion label="ג."><p>מהו היחס בין מספרי הגולות הכחולות של גדי ודני?</p></SubQuestion>
         <SubQuestion label="ד."><p>כתבו פרופורציה נכונה המתארת את הנתונים.</p></SubQuestion>
+        <div className="response-set ratio-page-35-response">
+          <WorkArea lines={2} />
+          <FinalAnswer label="א." type="ratio" />
+          <FinalAnswer label="ב." type="ratio" />
+          <FinalAnswer label="ג." type="ratio" />
+          <FinalAnswer label="ד." />
+        </div>
       </Question>
 
       <QSep />
@@ -30,6 +52,10 @@ export function RatioPage35() {
         <SubQuestion label="א."><p>הסבירו במילים את הפרופורציה <Frac num={42} den={39} /> = <Frac num={14} den={13} />.</p></SubQuestion>
         <SubQuestion label="ב."><p>הסבירו במילים את הפרופורציה <Frac num={42} den={14} /> = <Frac num={39} den={13} />.</p></SubQuestion>
         <SubQuestion label="ג."><p>כתבו פרופורציה נוספת בין הגילים.</p></SubQuestion>
+        <div className="response-set ratio-page-35-response ratio-page-35-response--explanation">
+          <WorkArea label="הסברים:" lines={3} />
+          <FinalAnswer label="ג." />
+        </div>
       </Question>
 
       <QSep />
@@ -44,6 +70,11 @@ export function RatioPage35() {
           <p><strong>דרך III:</strong> ‏w הוא הסכום שמשלמת הדרים: <Frac num={600} den={1600} /> = <Frac num="w" den={400000} />.</p>
         </div>
         <p>פתרו בכל דרך והסבירו מה מייצג המשתנה.</p>
+        <div className="response-set ratio-page-35-response ratio-page-35-response--methods">
+          <WorkArea label="שלוש דרכי פתרון והסבר:" lines={4} />
+          <FinalAnswer label="הדרים:" unit="ש״ח" />
+          <FinalAnswer label="נטעים:" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -51,7 +82,7 @@ export function RatioPage35() {
       <Question>
         <p>בבריכת דגים סימנו 100 דגים והחזירו אותם. במדגם נוסף של 80 דגים נמצאו 4 מסומנים.</p>
         <p>כתבו אומדן למספר הדגים בבריכה והסבירו את הפרופורציה שבה השתמשתם.</p>
-        <AnswerLine label="אומדן ונימוק:" />
+        <CalculationResponse lines={2} unit="דגים" />
       </Question>
     </PageLayout>
   );
