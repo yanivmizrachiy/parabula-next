@@ -1,0 +1,71 @@
+name: Sync all verified ratio renders
+
+on:
+  push:
+    branches:
+      - agent/ratio-max-quality-v1
+    paths:
+      - .github/workflows/ratio-sync-all-generated-images.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ratio-sync-all-generated-images
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            sources/lovable/ratio-workbook/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
+          npx playwright install --with-deps chromium
+
+      - name: Render all ratio pages
+        run: npm run ratio:render
+
+      - name: Verify exactly all 48 generated images changed
+        shell: bash
+        run: |
+          expected="$(for i in $(seq 1 48); do printf 'assets/ratio/page-%03d.png\n' "$i"; done)"
+          actual="$(git diff --name-only -- 'assets/ratio/page-*.png' | sort)"
+          if [ "$actual" != "$expected" ]; then
+            echo 'Generated-image scope mismatch; refusing to commit.'
+            printf 'Expected:\n%s\nActual:\n%s\n' "$expected" "$actual"
+            exit 1
+          fi
+
+      - name: Commit verified renders and self-remove
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/ratio/page-*.png
+          git rm .github/workflows/ratio-sync-all-generated-images.yml
+          expected="$(printf '%s\n' .github/workflows/ratio-sync-all-generated-images.yml; for i in $(seq 1 48); do printf 'assets/ratio/page-%03d.png\n' "$i"; done)"
+          staged="$(git diff --cached --name-only | sort)"
+          if [ "$staged" != "$expected" ]; then
+            echo 'Unexpected staged scope; refusing to commit.'
+            printf 'Expected:\n%s\nStaged:\n%s\n' "$expected" "$staged"
+            exit 1
+          fi
+          git commit -m 'build(ratio): sync all verified workbook renders'
+          git push origin HEAD:agent/ratio-max-quality-v1
