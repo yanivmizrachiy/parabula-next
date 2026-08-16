@@ -38,11 +38,7 @@
 	flex: 1 1 320px;
 }
 
-/*
- * פיתגורס 2026-08: 17 דפי יסוד חדשים קודמים לחומר הוותיק.
- * זהות הקובץ הגלובלית נשמרת; המספר המקומי שהתלמיד רואה משתנה בלבד.
- * עמוד-9..עמוד-30 ועמוד-41 הופכים מקומית לעמודים 18..40.
- */
+/* 17 דפי היסוד החדשים קודמים לחומר הוותיק. זהות הקובץ נשמרת; המספר המקומי משתנה בלבד. */
 body:has(.page-9)  { --pyt-local-page: "18"; --pyt-nav-label: "משפט פיתגורס — עמוד 18 / 40"; }
 body:has(.page-10) { --pyt-local-page: "19"; --pyt-nav-label: "משפט פיתגורס — עמוד 19 / 40"; }
 body:has(.page-11) { --pyt-local-page: "20"; --pyt-nav-label: "משפט פיתגורס — עמוד 20 / 40"; }
@@ -67,9 +63,108 @@ body:has(.page-29) { --pyt-local-page: "38"; --pyt-nav-label: "משפט פיתג
 body:has(.page-30) { --pyt-local-page: "39"; --pyt-nav-label: "משפט פיתגורס — עמוד 39 / 40"; }
 body:has(.page-41) { --pyt-local-page: "40"; --pyt-nav-label: "משפט פיתגורס — עמוד 40 / 40"; }
 
-body:has(.page-9), body:has(.page-10), body:has(.page-11), body:has(.page-12), body:has(.page-13), body:has(.page-14), body:has(.page-15), body:has(.page-16), body:has(.page-17), body:has(.page-18), body:has(.page-19), body:has(.page-20), body:has(.page-21), body:has(.page-22), body:has(.page-23), body:has(.page-24), body:has(.page-25), body:has(.page-26), body:has(.page-27), body:has(.page-28), body:has(.page-29), body:has(.page-30), body:has(.page-41) {
-	.page-number { font-size: 0; }
-	.page-number::after { content: var(--pyt-local-page); font-size: 16px; }
-	.nav-meta { font-size: 0; }
-	.nav-meta::after { content: var(--pyt-nav-label); font-size: 14px; }
+body:has(.page-9) .page-number,
+body:has(.page-10) .page-number,
+body:has(.page-11) .page-number,
+body:has(.page-12) .page-number,
+body:has(.page-13) .page-number,
+body:has(.page-14) .page-number,
+body:has(.page-15) .page-number,
+body:has(.page-16) .page-number,
+body:has(.page-17) .page-number,
+body:has(.page-18) .page-number,
+body:has(.page-19) .page-number,
+body:has(.page-20) .page-number,
+body:has(.page-21) .page-number,
+body:has(.page-22) .page-number,
+body:has(.page-23) .page-number,
+body:has(.page-24) .page-number,
+body:has(.page-25) .page-number,
+body:has(.page-26) .page-number,
+body:has(.page-27) .page-number,
+body:has(.page-28) .page-number,
+body:has(.page-29) .page-number,
+body:has(.page-30) .page-number,
+body:has(.page-41) .page-number {
+	font-size: 0;
+}
+
+body:has(.page-9) .page-number::after,
+body:has(.page-10) .page-number::after,
+body:has(.page-11) .page-number::after,
+body:has(.page-12) .page-number::after,
+body:has(.page-13) .page-number::after,
+body:has(.page-14) .page-number::after,
+body:has(.page-15) .page-number::after,
+body:has(.page-16) .page-number::after,
+body:has(.page-17) .page-number::after,
+body:has(.page-18) .page-number::after,
+body:has(.page-19) .page-number::after,
+body:has(.page-20) .page-number::after,
+body:has(.page-21) .page-number::after,
+body:has(.page-22) .page-number::after,
+body:has(.page-23) .page-number::after,
+body:has(.page-24) .page-number::after,
+body:has(.page-25) .page-number::after,
+body:has(.page-26) .page-number::after,
+body:has(.page-27) .page-number::after,
+body:has(.page-28) .page-number::after,
+body:has(.page-29) .page-number::after,
+body:has(.page-30) .page-number::after,
+body:has(.page-41) .page-number::after {
+	content: var(--pyt-local-page);
+	font-size: 16px;
+}
+
+body:has(.page-9) .nav-meta,
+body:has(.page-10) .nav-meta,
+body:has(.page-11) .nav-meta,
+body:has(.page-12) .nav-meta,
+body:has(.page-13) .nav-meta,
+body:has(.page-14) .nav-meta,
+body:has(.page-15) .nav-meta,
+body:has(.page-16) .nav-meta,
+body:has(.page-17) .nav-meta,
+body:has(.page-18) .nav-meta,
+body:has(.page-19) .nav-meta,
+body:has(.page-20) .nav-meta,
+body:has(.page-21) .nav-meta,
+body:has(.page-22) .nav-meta,
+body:has(.page-23) .nav-meta,
+body:has(.page-24) .nav-meta,
+body:has(.page-25) .nav-meta,
+body:has(.page-26) .nav-meta,
+body:has(.page-27) .nav-meta,
+body:has(.page-28) .nav-meta,
+body:has(.page-29) .nav-meta,
+body:has(.page-30) .nav-meta,
+body:has(.page-41) .nav-meta {
+	font-size: 0;
+}
+
+body:has(.page-9) .nav-meta::after,
+body:has(.page-10) .nav-meta::after,
+body:has(.page-11) .nav-meta::after,
+body:has(.page-12) .nav-meta::after,
+body:has(.page-13) .nav-meta::after,
+body:has(.page-14) .nav-meta::after,
+body:has(.page-15) .nav-meta::after,
+body:has(.page-16) .nav-meta::after,
+body:has(.page-17) .nav-meta::after,
+body:has(.page-18) .nav-meta::after,
+body:has(.page-19) .nav-meta::after,
+body:has(.page-20) .nav-meta::after,
+body:has(.page-21) .nav-meta::after,
+body:has(.page-22) .nav-meta::after,
+body:has(.page-23) .nav-meta::after,
+body:has(.page-24) .nav-meta::after,
+body:has(.page-25) .nav-meta::after,
+body:has(.page-26) .nav-meta::after,
+body:has(.page-27) .nav-meta::after,
+body:has(.page-28) .nav-meta::after,
+body:has(.page-29) .nav-meta::after,
+body:has(.page-30) .nav-meta::after,
+body:has(.page-41) .nav-meta::after {
+	content: var(--pyt-nav-label);
+	font-size: 14px;
 }
