@@ -73,6 +73,27 @@ export function RatioAnswer({ label, className, inline = false }: RatioAnswerPro
   );
 }
 
+interface OrderedPairAnswerProps {
+  label?: string;
+  className?: string;
+  inline?: boolean;
+}
+
+export function OrderedPairAnswer({ label, className, inline = false }: OrderedPairAnswerProps) {
+  return (
+    <span className={cn('ordered-pair-answer-container', inline && 'is-inline', className)}>
+      {label && <span className="answer-label">{label}</span>}
+      <span className="ordered-pair-answer" dir="ltr" aria-label="מקום לכתיבת זוג סדור">
+        <span className="ordered-pair-paren" aria-hidden="true">(</span>
+        <span className="ordered-pair-box" aria-hidden="true" />
+        <span className="ordered-pair-comma" aria-hidden="true">,</span>
+        <span className="ordered-pair-box" aria-hidden="true" />
+        <span className="ordered-pair-paren" aria-hidden="true">)</span>
+      </span>
+    </span>
+  );
+}
+
 interface WorkAreaProps {
   lines?: number;
   label?: string;
