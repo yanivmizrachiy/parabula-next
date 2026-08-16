@@ -109,7 +109,8 @@
 }
 
 .ratio-page-1 .q-separator,
-.ratio-page-29 .q-separator {
+.ratio-page-29 .q-separator,
+.ratio-page-48 .q-separator {
   min-height: 6px;
   max-height: 9px;
 }
