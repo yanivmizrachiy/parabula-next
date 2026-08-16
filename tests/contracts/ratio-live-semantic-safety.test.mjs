@@ -24,6 +24,13 @@ test('semantic canonical wrapper never hides overflow', () => {
   assert.doesNotMatch(exporter, /\.ratio-live-page \{[\s\S]*?overflow:\s*hidden;/);
 });
 
+test('semantic canonical wrapper neutralizes shared A4 class collisions instead of changing worksheet content', () => {
+  assert.match(exporter, /\.ratio-live-page > \.header-container \{\s*margin-bottom: 0;/);
+  assert.match(exporter, /\.ratio-live-page \.page-title \{[\s\S]*?font-size: inherit;[\s\S]*?font-weight: inherit;/);
+  assert.match(exporter, /\.ratio-live-page \.question-block \{\s*flex-direction: row;\s*justify-content: flex-start;/);
+  assert.match(exporter, /\.ratio-live-page \.multiple-choice \{[\s\S]*?padding: 0;[\s\S]*?background: transparent;/);
+});
+
 test('semantic canonical exporter derives cross-topic navigation from metadata', () => {
   assert.match(exporter, /previousBookPage/);
   assert.match(exporter, /nextBookPage/);
