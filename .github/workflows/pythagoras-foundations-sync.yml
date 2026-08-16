@@ -1,0 +1,61 @@
+name: Pythagoras foundations canonical sync
+
+on:
+  push:
+    branches:
+      - gpt/pythagoras-foundations-v1
+    paths:
+      - .github/workflows/pythagoras-foundations-sync.yml
+      - scripts/sync-pythagoras-foundations-once.mjs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pythagoras-foundations-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Restore unchanged canonical guards
+        run: |
+          git fetch origin main
+          git checkout origin/main -- tests/contracts/root-pages.test.mjs scripts/verify.mjs
+
+      - name: Syntax check one-shot sync
+        run: node --check scripts/sync-pythagoras-foundations-once.mjs
+
+      - name: Apply canonical Pythagoras sync
+        run: node scripts/sync-pythagoras-foundations-once.mjs
+
+      - name: Run focused contracts before commit
+        run: |
+          node --test tests/contracts/root-pages.test.mjs tests/contracts/pythagoras-foundations.test.mjs
+          node scripts/verify.mjs
+          node scripts/validate-curriculum.mjs
+          node scripts/single-rules-source-check.mjs
+
+      - name: Commit canonical outputs back to branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No canonical changes to commit."
+            exit 0
+          fi
+          git commit -m "feat(pythagoras): sync foundations into canonical metadata"
+          git push origin HEAD:gpt/pythagoras-foundations-v1
