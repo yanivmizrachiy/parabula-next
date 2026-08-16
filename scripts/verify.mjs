@@ -12,6 +12,11 @@ function ok(message) {
   console.log(`OK: ${message}`);
 }
 
+function isPythagorasFoundationPage(n) {
+  const page = Number(n);
+  return Number.isInteger(page) && page >= 617 && page <= 633;
+}
+
 const pageFiles = fs.readdirSync(root).filter(name => /^עמוד-\d+\.html$/.test(name));
 if (pageFiles.length === 0) fail('No canonical root pages found');
 
@@ -30,7 +35,14 @@ for (const file of pageFiles) {
 
   if (!html.includes(`page-${n}`)) fail(`${file}: missing page-${n} class`);
   if (!html.includes('styles/a4-base.css')) fail(`${file}: missing styles/a4-base.css`);
-  if (!html.includes(`styles/pages/עמוד-${n}.css`)) fail(`${file}: missing styles/pages/עמוד-${n}.css`);
+
+  const hasPageCss = html.includes(`styles/pages/עמוד-${n}.css`);
+  const hasCanonicalPythagorasFoundationCss =
+    isPythagorasFoundationPage(n) && html.includes('styles/topics/pythagoras-foundations.css');
+  if (!hasPageCss && !hasCanonicalPythagorasFoundationCss) {
+    fail(`${file}: missing styles/pages/עמוד-${n}.css or approved canonical Pythagoras foundation topic CSS`);
+  }
+
   if (/\sstyle\s*=\s*["']/.test(html)) fail(`${file}: inline CSS is forbidden`);
 }
 
