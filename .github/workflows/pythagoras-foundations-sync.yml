@@ -42,12 +42,37 @@ jobs:
       - name: Apply canonical Pythagoras sync
         run: node scripts/sync-pythagoras-foundations-once.mjs
 
-      - name: Run focused contracts before commit
+      - name: Page contracts
+        id: page_contracts
+        continue-on-error: true
+        run: node --test tests/contracts/root-pages.test.mjs tests/contracts/pythagoras-foundations.test.mjs
+
+      - name: Canonical verify
+        id: canonical_verify
+        continue-on-error: true
+        run: node scripts/verify.mjs
+
+      - name: Curriculum validation
+        id: curriculum
+        continue-on-error: true
+        run: node scripts/validate-curriculum.mjs
+
+      - name: Rules source validation
+        id: rules
+        continue-on-error: true
+        run: node scripts/single-rules-source-check.mjs
+
+      - name: Require focused checks
+        if: always()
         run: |
-          node --test tests/contracts/root-pages.test.mjs tests/contracts/pythagoras-foundations.test.mjs
-          node scripts/verify.mjs
-          node scripts/validate-curriculum.mjs
-          node scripts/single-rules-source-check.mjs
+          echo "page_contracts=${{ steps.page_contracts.outcome }}"
+          echo "canonical_verify=${{ steps.canonical_verify.outcome }}"
+          echo "curriculum=${{ steps.curriculum.outcome }}"
+          echo "rules=${{ steps.rules.outcome }}"
+          test "${{ steps.page_contracts.outcome }}" = "success"
+          test "${{ steps.canonical_verify.outcome }}" = "success"
+          test "${{ steps.curriculum.outcome }}" = "success"
+          test "${{ steps.rules.outcome }}" = "success"
 
       - name: Commit canonical outputs back to branch
         run: |
