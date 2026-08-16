@@ -55,4 +55,13 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('גורם ההרחבה מן השורה הראשונה אל השורה הרביעית');
     expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
   });
+
+  it('provides structured ratio answer boxes and explanation space on page 1', () => {
+    const markup = renderPage(1);
+    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(markup).toContain('ratio-answer-colon');
+    expect(markup).toContain('work-area-line');
+    expect(markup).toContain('אפשרות נוספת:');
+    expect(markup).toContain('הסבר:');
+  });
 });
