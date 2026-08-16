@@ -6,6 +6,8 @@ on:
       - gpt/pythagoras-foundations-v2
     paths:
       - .github/workflows/pythagoras-v2-a4.yml
+      - styles/pages/עמוד-9.css
+      - styles/pages/עמוד-10.css
 
 permissions:
   contents: write
