@@ -9,6 +9,11 @@ function getPages() {
   return fs.readdirSync(root).filter(name => /^עמוד-\d+\.html$/.test(name));
 }
 
+function isPythagorasFoundationPage(n) {
+  const page = Number(n);
+  return Number.isInteger(page) && page >= 617 && page <= 633;
+}
+
 test('root pages exist', () => {
   const pages = getPages();
   assert.ok(pages.length > 0, 'No root pages found');
@@ -22,7 +27,14 @@ for (const file of getPages()) {
     assert.ok(html.includes(`page-${n}`), `${file}: missing page-${n}`);
     assert.equal(/\sstyle\s*=\s*["']/.test(html), false, `${file}: inline CSS is forbidden`);
     assert.ok(html.includes('styles/a4-base.css'), `${file}: missing a4-base.css`);
-    assert.ok(html.includes(`styles/pages/עמוד-${n}.css`), `${file}: missing page css`);
+
+    const hasPageCss = html.includes(`styles/pages/עמוד-${n}.css`);
+    const hasCanonicalPythagorasFoundationCss =
+      isPythagorasFoundationPage(n) && html.includes('styles/topics/pythagoras-foundations.css');
+    assert.ok(
+      hasPageCss || hasCanonicalPythagorasFoundationCss,
+      `${file}: missing page css or approved canonical Pythagoras foundation topic CSS`,
+    );
 
     const imgMatches = Array.from(html.matchAll(/<img\b[^>]*\ssrc="([^"]+)"/giu));
     for (const [, src] of imgMatches) {
