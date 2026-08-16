@@ -115,6 +115,10 @@
   max-height: 9px;
 }
 
+.ratio-page-48 .info-box {
+  margin-bottom: 5px;
+}
+
 .ratio-page-1 .circles-grid {
   margin: 3px 0;
 }
