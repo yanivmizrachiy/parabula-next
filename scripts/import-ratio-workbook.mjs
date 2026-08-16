@@ -13,10 +13,6 @@ function normalizeText(content) {
   return content.endsWith('\n') ? content : `${content}\n`;
 }
 
-function readText(rel) {
-  return fs.readFileSync(path.join(root, rel), 'utf8');
-}
-
 function existingText(rel) {
   const target = path.join(root, rel);
   return fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
@@ -171,30 +167,6 @@ if (writeMode) {
   updatedTopics.generatedAt = new Date().toISOString();
 }
 generatedFiles.set('meta/topics.json', `${JSON.stringify(updatedTopics, null, 2)}\n`);
-
-generatedFiles.set('sources/lovable/ratio-workbook/PARABULA-INTEGRATION.md', normalizeText(`# שילוב חוברת יחס ב-Parabula Next
-
-המקור המלא של פרויקט React/TypeScript נשמר בתיקייה זו לצורך עריכה עתידית.
-
-- מקור פעיל: רכיבי React/TypeScript בתוך \`src/\`.
-- רשימת 48 הדפים: \`src/data/worksheetPages.tsx\`.
-- דפי התוכן: \`src/components/worksheet/pages/Chapter*Pages.tsx\` ורכיבי התיקון המאושרים.
-- עיצוב המקור: \`src/ratio-v2.css\` ושכבות העיצוב הפעילות בפרויקט.
-- עותקי התצוגה באתר: \`assets/ratio/page-001.png\` עד \`page-048.png\`.
-- דפי Parabula הקנוניים: \`עמוד-${startPage}.html\` עד \`עמוד-${endPage}.html\`.
-
-## הפעלה בטוחה
-
-ברירת המחדל היא בדיקה בלבד ואינה משנה קבצים:
-
-\`node scripts/import-ratio-workbook.mjs\`
-
-כתיבה מתבצעת רק בהוראה מפורשת:
-
-\`node scripts/import-ratio-workbook.mjs --write\`
-
-לפני כתיבה הסקריפט מאמת שכל 48 התמונות קיימות, משמר את מיקום הנושא ב־metadata ומחשב ניווט רציף לנושא הקודם והבא. כל כללי העבודה המחייבים נמצאים ב־\`CLAUDE.md\` בשורש הריפו.
-`));
 
 const staleFiles = [];
 for (const page of priorRatio.pages || []) {
