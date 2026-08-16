@@ -1,0 +1,79 @@
+name: Sync verified ratio page 35 render
+
+on:
+  push:
+    branches:
+      - agent/ratio-max-quality-v1
+    paths:
+      - '.github/workflows/ratio-sync-page-35.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ratio-sync-page-35-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout exact branch head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            sources/lovable/ratio-workbook/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
+          npx playwright install --with-deps chromium
+
+      - name: Render verified ratio pages
+        run: npm run ratio:render
+
+      - name: Verify exact generated image scope
+        shell: bash
+        run: |
+          mapfile -t changed < <(git diff --name-only -- 'assets/ratio/page-*.png' | sort)
+          expected=('assets/ratio/page-035.png')
+          printf 'Changed images:\n%s\n' "${changed[*]}"
+          if [ "${#changed[@]}" -ne "${#expected[@]}" ]; then
+            echo 'Unexpected number of generated image changes; refusing to write.'
+            exit 1
+          fi
+          if [ "${changed[0]}" != "${expected[0]}" ]; then
+            echo "Unexpected generated image: ${changed[0]} (expected ${expected[0]})"
+            exit 1
+          fi
+
+      - name: Commit only verified generated image and self-remove
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/ratio/page-035.png
+          git rm -f --ignore-unmatch .github/workflows/ratio-sync-page-35.yml
+          staged="$(git diff --cached --name-only | sort)"
+          expected="$(printf '%s\n' \
+            .github/workflows/ratio-sync-page-35.yml \
+            assets/ratio/page-035.png | sort)"
+          if [ "$staged" != "$expected" ]; then
+            echo 'Unexpected staged files; refusing to commit.'
+            printf 'Staged:\n%s\n' "$staged"
+            exit 1
+          fi
+          git commit -m 'build(ratio): sync verified page 35 render'
+          git push origin HEAD:agent/ratio-max-quality-v1
