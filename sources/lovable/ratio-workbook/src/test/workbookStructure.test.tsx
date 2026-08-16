@@ -51,6 +51,7 @@ describe('ratio workbook structure', () => {
       expect(markup).not.toMatch(/<span class="page-header-title page-title">\s*נושא:/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*פרק\s*\d+/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*מבחנ/);
+      expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*\|/);
       expect(markup).not.toMatch(/<h[1-6](?:\s|>)/i);
       expect(markup).not.toContain('question-title');
       expect(markup).not.toContain('question-eyebrow');
