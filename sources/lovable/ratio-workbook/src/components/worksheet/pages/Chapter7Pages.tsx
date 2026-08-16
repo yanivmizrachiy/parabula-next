@@ -1,7 +1,7 @@
 import { PageLayout, Question, SubQuestion, Blank, Frac, AnswerLine, QSep, WorksheetTable, MultipleChoice } from './PageLayout';
 
-const CH = 'פרק 7 – מבחני מיצ"ב';
-const TOPIC = 'יחס - מבחני מיצ"ב';
+const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';
+const TOPIC = 'יחס בנתונים, תרשימים וגאומטריה';
 
 /* ─────────────────────────── SVG helpers ─────────────────────────── */
 

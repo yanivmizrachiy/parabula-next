@@ -10,7 +10,7 @@ import {
   WorkArea,
 } from '../pages/PageLayout';
 
-const CH = 'פרק 7 – מבחני מיצ״ב';
+const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';
 
 function CoordinateTriangles() {
   const originX = 62;

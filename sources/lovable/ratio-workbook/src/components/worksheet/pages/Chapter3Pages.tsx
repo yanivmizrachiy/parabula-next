@@ -1,6 +1,6 @@
 import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep } from './PageLayout';
 
-const CH = 'פרק 3 – מהו היחס ?';
+const CH = 'פרק 3 – כתיבה, צמצום והשוואה';
 
 // ── Page 8: Q1-Q6 ──
 export function Ch3Page1() {
