@@ -1,0 +1,67 @@
+name: Pythagoras v2 one-shot A4 audit
+
+on:
+  push:
+    branches:
+      - gpt/pythagoras-foundations-v2
+    paths:
+      - .github/workflows/pythagoras-v2-a4.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pythagoras-v2-a4
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.61.1-noble
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Limit audit registry to visible Pythagoras sequence in runner only
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const file = 'meta/topics.json';
+          const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+          const topic = data.topics.find((t) => t.name === 'משפט פיתגורס');
+          if (!topic || topic.pages.length !== 43) throw new Error('Expected 43 visible Pythagoras pages');
+          data.topics = [topic];
+          data.totalPages = topic.pages.length;
+          fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n');
+          NODE
+
+      - name: Render and audit all 43 Pythagoras A4 pages
+        run: npm run audit:a4:visual
+
+      - name: Upload A4 audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pythagoras-v2-a4-audit
+          path: STATE/reports/a4-visual-audit
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Remove one-shot workflow after successful audit
+        if: success()
+        run: |
+          git checkout -- meta/topics.json
+          rm .github/workflows/pythagoras-v2-a4.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(pythagoras): remove one-shot A4 audit"
+          git push origin HEAD:gpt/pythagoras-foundations-v2
