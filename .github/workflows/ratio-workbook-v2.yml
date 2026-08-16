@@ -76,7 +76,10 @@ jobs:
         run: npm run ratio:render
 
       - name: Preflight 48 semantic canonical A4 pages without writing
-        run: node scripts/export-ratio-workbook-live.mjs
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/export-ratio-workbook-live.mjs 2>&1 | tee semantic-preflight.log
 
       - name: Verify safe import plan without writing
         run: npm run ratio:import:check
@@ -119,6 +122,7 @@ jobs:
           name: ratio-workbook-v2-audit
           path: |
             assets/ratio/audit-v2.json
+            semantic-preflight.log
             mobile-browser.log
             mobile-interactions.log
             mobile-status.txt
