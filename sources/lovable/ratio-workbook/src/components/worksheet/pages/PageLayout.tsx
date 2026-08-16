@@ -1,4 +1,4 @@
-import { Children, isValidElement, ReactElement, ReactNode } from 'react';
+import { Children, createContext, isValidElement, ReactElement, ReactNode, useContext } from 'react';
 import { cn } from '@/lib/utils';
 
 interface PageLayoutProps {
@@ -31,13 +31,16 @@ export function PageLayout({ pageNumber, chapter, children, className, topic = '
   );
 }
 
-type AutoResponseKind = 'none' | 'short' | 'ratio' | 'calculation' | 'explanation';
+type AutoResponseKind = 'none' | 'short' | 'ratio' | 'calculation' | 'explanation' | 'drawing';
 
-const NO_WRITING_CUES = /סמנו|בחרו|הקיפו|השלימו|צבעו|ציירו|שרטטו|התאימו|מתחו קו|סדרו/;
+const SuppressSubResponseContext = createContext(false);
+
+const NO_WRITING_CUES = /סמנו|בחרו|הקיפו|התאימו|מתחו קו|צבעו/;
+const DRAWING_CUES = /ציירו|שרטטו/;
 const EXPLANATION_CUES = /הסבירו|הסבר|נמקו|נמק|מדוע|הראו|הוכיחו|תארו|מה מייצג|כתבו במילים|כתבו סיפור/;
-const CALCULATION_CUES = /כמה|חשבו|מצאו|מה גודל|מהו מספר|מה היה|מה הייתה|מהם אורכי|מה גודלן|איזה סכום|מהו הסכום|עלות|מחיר|היקף|שטח|אומדן/;
+const CALCULATION_CUES = /כמה|חשבו|מצאו|פתרו|חלקו|מה גודל|מהו מספר|מה היה|מה הייתה|מהם אורכי|מה גודלן|איזה סכום|מהו הסכום|עלות|מחיר|היקף|שטח|אומדן/;
 const RATIO_CUES = /מהו היחס|מה היחס|כתבו יחס|כתבו פרופורציה/;
-const SHORT_ANSWER_CUES = /\?|איזה חלק|האם|מה יש יותר|באיזו|מה מבטא|איזו|מהו|מהי|מה הם|מה הן|כתבו אפשרות/;
+const SHORT_ANSWER_CUES = /\?|איזה חלק|האם|מה יש יותר|באיזו|מה מבטא|איזו|מהו|מהי|מה הם|מה הן|כתבו אפשרות|כתבו|קבעו|רשמו|ציינו|השלימו/;
 
 function getNodeText(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') return String(node);
@@ -88,6 +91,7 @@ function inferResponseKind(children: ReactNode): AutoResponseKind {
   if (hasExplicitResponse(children)) return 'none';
   const text = getNodeText(children).replace(/\s+/g, ' ').trim();
   if (!text || NO_WRITING_CUES.test(text)) return 'none';
+  if (DRAWING_CUES.test(text)) return 'drawing';
   if (EXPLANATION_CUES.test(text)) return 'explanation';
   if (RATIO_CUES.test(text) && !CALCULATION_CUES.test(text)) return 'ratio';
   if (CALCULATION_CUES.test(text)) return 'calculation';
@@ -100,25 +104,30 @@ function AutoResponse({ kind }: { kind: AutoResponseKind }) {
   if (kind === 'ratio') return <RatioAnswer label="תשובה:" />;
   if (kind === 'calculation') return <CalculationResponse lines={1} className="auto-response auto-response--calculation" />;
   if (kind === 'explanation') return <WorkArea lines={2} label="תשובה:" className="auto-response auto-response--explanation" />;
+  if (kind === 'drawing') return <div className="drawing-box auto-response auto-response--drawing" aria-label="מקום לציור או לשרטוט" />;
   return null;
 }
 
 export function Question({ children }: { children: ReactNode }) {
   const hasSubQuestions = hasNode(children, (element) => element.type === SubQuestion);
+  const hasGroupedResponse = hasClassName(children, 'response-set');
   const responseKind = hasSubQuestions ? 'none' : inferResponseKind(children);
   return (
-    <div className="question-block" data-auto-response={responseKind}>
-      <span className="question-bullet" aria-hidden="true" />
-      <div className="question-content">
-        {children}
-        <AutoResponse kind={responseKind} />
+    <SuppressSubResponseContext.Provider value={hasGroupedResponse}>
+      <div className="question-block" data-auto-response={responseKind} data-grouped-response={hasGroupedResponse ? 'true' : 'false'}>
+        <span className="question-bullet" aria-hidden="true" />
+        <div className="question-content">
+          {children}
+          <AutoResponse kind={responseKind} />
+        </div>
       </div>
-    </div>
+    </SuppressSubResponseContext.Provider>
   );
 }
 
 export function SubQuestion({ label, children }: { label: string; children: ReactNode }) {
-  const responseKind = inferResponseKind(children);
+  const suppressAutoResponse = useContext(SuppressSubResponseContext);
+  const responseKind = suppressAutoResponse ? 'none' : inferResponseKind(children);
   return (
     <div className="sub-question" data-auto-response={responseKind}>
       <span className="sub-label">{label}</span>
