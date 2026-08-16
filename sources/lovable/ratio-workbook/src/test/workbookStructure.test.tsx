@@ -90,6 +90,17 @@ describe('ratio workbook structure', () => {
     }
   });
 
+  it('provides genuine working and final-answer space on dense page 35', () => {
+    const markup = renderPage(35);
+    expect(markup).toContain('ratio-page-35');
+    expect(markup.match(/response-set/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(markup).toContain('calculation-response');
+    expect(markup.match(/work-area-line/g)?.length).toBeGreaterThanOrEqual(13);
+    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(markup).toContain('שלוש דרכי פתרון והסבר:');
+    expect(markup).toContain('אומדן למספר הדגים');
+  });
+
   it('uses an ordered-pair response and LTR coordinates on page 42', () => {
     const markup = renderPage(42);
     expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
