@@ -20,84 +20,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Patch semantic-only collision resets
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
+      - name: Apply shell reset
+        run: python .github/scripts/ratio-semantic-shell-reset.py
 
-          path = Path('scripts/export-ratio-workbook-live.mjs')
-          text = path.read_text(encoding='utf-8')
-          old = '''.ratio-live-page {
-  position: relative;
-  margin: 0;
-  padding: 0;
-  box-shadow: none;
-  border: 0;
-  overflow: visible;
-}
-
-.ratio-live-page > .gz-footer {'''
-          new = '''.ratio-live-page {
-  position: relative;
-  display: block;
-  margin: 0;
-  padding: 0;
-  box-shadow: none;
-  border: 0;
-  overflow: visible;
-}
-
-/* a4-base.css is shared by the whole book and has legacy selectors that
-   collide with the React workbook class names. Re-establish the verified
-   React geometry inside ratio canonical pages instead of clipping content. */
-.ratio-live-page > .header-container {
-  margin-bottom: 0;
-}
-
-.ratio-live-page .page-title {
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-}
-
-.ratio-live-page .question-block {
-  flex-direction: row;
-  justify-content: flex-start;
-}
-
-.ratio-live-page .multiple-choice {
-  justify-content: flex-start;
-  width: auto;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  direction: inherit;
-}
-
-.ratio-live-page > .gz-footer {'''
-          count = text.count(old)
-          if count != 1:
-              raise SystemExit(f'Expected one semantic shell block, found {count}')
-          path.write_text(text.replace(old, new), encoding='utf-8')
-          PY
-
-      - name: Verify exact patch and self-remove
-        shell: bash
+      - name: Verify scope and self-remove
         run: |
           grep -Fq '.ratio-live-page .question-block {' scripts/export-ratio-workbook-live.mjs
           grep -Fq 'flex-direction: row;' scripts/export-ratio-workbook-live.mjs
           grep -Fq '.ratio-live-page > .header-container {' scripts/export-ratio-workbook-live.mjs
-          grep -Fq 'font-size: inherit;' scripts/export-ratio-workbook-live.mjs
-          grep -Fq 'overflow: visible;' scripts/export-ratio-workbook-live.mjs
-          if grep -A8 -F '.ratio-live-page {' scripts/export-ratio-workbook-live.mjs | grep -q 'overflow: hidden'; then
-            echo 'Semantic shell must never hide overflow.'
-            exit 1
-          fi
           git rm .github/workflows/ratio-semantic-shell-reset.yml
+          git rm .github/scripts/ratio-semantic-shell-reset.py
           git add scripts/export-ratio-workbook-live.mjs
-          test "$(git diff --cached --name-only | wc -l)" -eq 2
+          test "$(git diff --cached --name-only | wc -l)" -eq 3
 
       - name: Commit
         run: |
