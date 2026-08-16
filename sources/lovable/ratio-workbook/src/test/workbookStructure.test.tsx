@@ -10,6 +10,13 @@ const forbiddenBrokenFragments = [
   'כמה בנים צריך לצרף לכיתה כדי שהיחס בין מספר הבנים למספר הבנות יהיה 1 : 1',
 ];
 
+const forbiddenVisibleLabels = [
+  'בדיקת הבנה',
+  'חשיבה והסבר',
+  'שאלות אתגר',
+  'תרגול מסכם',
+];
+
 function renderPage(pageId: number) {
   const page = WORKSHEET_PAGES.find((candidate) => candidate.id === pageId);
   expect(page).toBeDefined();
@@ -23,21 +30,28 @@ describe('ratio workbook structure', () => {
     expect(new Set(WORKSHEET_PAGES.map((page) => page.id)).size).toBe(48);
   });
 
-  it('uses meaningful navigation titles and chapter names', () => {
+  it('uses meaningful navigation titles and chapter names without visible level labels', () => {
     for (const page of WORKSHEET_PAGES) {
       expect(page.title).not.toMatch(/^עמוד \d+$/);
       expect(page.title.length).toBeGreaterThan(8);
       expect(page.chapter).toMatch(/^\d · /);
+      for (const label of forbiddenVisibleLabels) {
+        expect(page.title).not.toContain(label);
+        expect(page.chapter).not.toContain(label);
+      }
     }
   });
 
-  it('renders every page and excludes all known broken formulations', () => {
+  it('renders every page and excludes broken formulations and forbidden labels', () => {
     for (const page of WORKSHEET_PAGES) {
       const markup = renderToStaticMarkup(<>{page.component()}</>);
       expect(markup).toContain('worksheet-page');
       expect(markup).toContain(`>${page.id}<`);
       for (const fragment of forbiddenBrokenFragments) {
         expect(markup).not.toContain(fragment);
+      }
+      for (const label of forbiddenVisibleLabels) {
+        expect(markup).not.toContain(label);
       }
     }
   });
@@ -50,7 +64,7 @@ describe('ratio workbook structure', () => {
 
   it('uses the lower area of page 1 for meaningful ratio practice', () => {
     const markup = renderPage(1);
-    expect(markup).toContain('בדיקת הבנה – הרחבת היחס 3 : 2');
+    expect(markup).toContain('הרחבת היחס 3 : 2');
     expect(markup).toContain('מספר העיגולים הכולל');
     expect(markup).toContain('גורם ההרחבה מן השורה הראשונה אל השורה הרביעית');
     expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
