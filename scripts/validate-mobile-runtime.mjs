@@ -81,7 +81,7 @@ add('pwa-update-ui', html.includes('id="updateBar"') && js.includes('controllerc
 add('offline-ui', html.includes('id="networkStatus"') && js.includes("window.addEventListener('offline'"), 'offline state visible');
 add('manifest-canonical', manifest?.id === './mobile-app.html' && String(manifest?.start_url || '').includes('mobile-app.html'), 'canonical installed shell');
 add('full-mode-canonical', js.includes("target.searchParams.set('mode', 'full')") && js.includes("target.searchParams.set('file', page.file)"), 'open-full remains in mobile app');
-add('manual-view-overrides', indexJs.includes("view === 'mobile'") && indexJs.includes("view === 'catalog'") && indexHtml.includes('?view=mobile'), 'entry override supported');
+add('manual-view-overrides', indexJs.includes("requestedView === 'mobile'") && indexJs.includes("requestedView === 'catalog'") && indexHtml.includes('mobile-app.html') && indexHtml.includes('catalog.html'), 'entry override supported');
 
 function contentType(filePath) {
   return ({
