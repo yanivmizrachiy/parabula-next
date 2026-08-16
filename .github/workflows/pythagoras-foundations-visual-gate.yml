@@ -1,0 +1,130 @@
+name: Pythagoras foundations targeted A4 visual gate
+
+on:
+  push:
+    branches:
+      - gpt/pythagoras-foundations-v1
+    paths:
+      - .github/workflows/pythagoras-foundations-visual-gate.yml
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run targeted Pythagoras A4 audit
+        run: |
+          cat > .tmp-pythagoras-a4-audit.mjs <<'NODE'
+          import { chromium } from '@playwright/test';
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { spawn } from 'node:child_process';
+
+          const root = process.cwd();
+          const outDir = path.join(root, 'STATE', 'reports', 'pythagoras-foundations-visual');
+          fs.mkdirSync(outDir, { recursive: true });
+          const ids = Array.from({ length: 17 }, (_, i) => 634 + i);
+          const server = spawn(process.execPath, ['preview/server.mjs'], { cwd: root, stdio: ['ignore', 'pipe', 'pipe'] });
+          server.stdout.on('data', d => process.stdout.write(String(d)));
+          server.stderr.on('data', d => process.stderr.write(String(d)));
+
+          async function waitForServer() {
+            const start = Date.now();
+            while (Date.now() - start < 15000) {
+              try {
+                const response = await fetch('http://127.0.0.1:5179/preview');
+                if (response.ok) return;
+              } catch {}
+              await new Promise(r => setTimeout(r, 250));
+            }
+            throw new Error('Preview server did not start');
+          }
+
+          let browser;
+          const results = [];
+          let failures = 0;
+          try {
+            await waitForServer();
+            browser = await chromium.launch();
+            const page = await browser.newPage({ viewport: { width: 1400, height: 1800 } });
+            const runtimeErrors = [];
+            page.on('pageerror', error => runtimeErrors.push(String(error)));
+            page.on('console', msg => { if (msg.type() === 'error') runtimeErrors.push(msg.text()); });
+
+            for (let i = 0; i < ids.length; i += 1) {
+              const id = ids[i];
+              runtimeErrors.length = 0;
+              const file = `עמוד-${id}.html`;
+              const response = await page.goto(`http://127.0.0.1:5179/${encodeURIComponent(file)}`, { waitUntil: 'domcontentloaded' });
+              await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+              await page.evaluate(async () => {
+                if (globalThis.MathJax?.startup?.promise) await globalThis.MathJax.startup.promise;
+                if (document.fonts?.ready) await document.fonts.ready;
+              });
+
+              const locator = page.locator('.a4-page');
+              const count = await locator.count();
+              if (count !== 1) throw new Error(`${file}: expected exactly one .a4-page, got ${count}`);
+              const audit = await locator.evaluate(el => {
+                const rect = el.getBoundingClientRect();
+                return {
+                  scrollWidth: el.scrollWidth,
+                  clientWidth: el.clientWidth,
+                  scrollHeight: el.scrollHeight,
+                  clientHeight: el.clientHeight,
+                  width: Math.round(rect.width),
+                  height: Math.round(rect.height),
+                  direction: getComputedStyle(el).direction,
+                };
+              });
+              const overflowX = audit.scrollWidth > audit.clientWidth + 2;
+              const overflowY = audit.scrollHeight > audit.clientHeight + 2;
+              const a4Like = audit.width >= 760 && audit.width <= 830 && audit.height >= 1080 && audit.height <= 1160;
+              const rtl = audit.direction === 'rtl';
+              const ok = response?.ok() && !overflowX && !overflowY && a4Like && rtl && runtimeErrors.length === 0;
+              const screenshot = path.join(outDir, `page-${String(i + 1).padStart(2, '0')}-global-${id}.png`);
+              await locator.screenshot({ path: screenshot, animations: 'disabled' });
+              results.push({ localPage: i + 1, id, file, ok, status: response?.status(), audit, runtimeErrors: [...runtimeErrors], screenshot });
+              if (!ok) {
+                failures += 1;
+                console.error('[FAIL]', file, { status: response?.status(), audit, runtimeErrors });
+              } else {
+                console.log('[OK]', file, audit);
+              }
+            }
+
+            fs.writeFileSync(path.join(outDir, 'PYTHAGORAS_A4_VISUAL_AUDIT.json'), JSON.stringify({ checkedPages: ids.length, failures, results }, null, 2));
+            if (failures) process.exitCode = 1;
+            else console.log('[SUCCESS] 17/17 Pythagoras foundation pages passed targeted A4 visual audit');
+          } finally {
+            if (browser) await browser.close();
+            server.kill();
+          }
+          NODE
+          node .tmp-pythagoras-a4-audit.mjs
+          rm -f .tmp-pythagoras-a4-audit.mjs
+
+      - name: Upload screenshots and audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pythagoras-foundations-a4-visual
+          path: STATE/reports/pythagoras-foundations-visual/
+          if-no-files-found: error
