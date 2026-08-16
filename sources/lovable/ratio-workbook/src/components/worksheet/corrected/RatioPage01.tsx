@@ -117,7 +117,7 @@ export function RatioPage01() {
       <QSep />
 
       <Question>
-        <p><strong>בדיקת הבנה – הרחבת היחס 3 : 2</strong></p>
+        <p><strong>הרחבת היחס 3 : 2</strong></p>
         <p>השלימו את הטבלה כך שבכל שורה יישמר היחס בין מספר העיגולים השחורים למספר העיגולים הלבנים.</p>
         <WorksheetTable
           headers={['מספר העיגולים הכולל', 'עיגולים לבנים', 'עיגולים שחורים']}
@@ -131,7 +131,6 @@ export function RatioPage01() {
         <SubQuestion label="א."><p>מהו גורם ההרחבה מן השורה הראשונה אל השורה הרביעית? <Blank /></p></SubQuestion>
         <SubQuestion label="ב."><p>כתבו אפשרות נוספת שבה היחס הוא 3 : 2 ומספר העיגולים הכולל גדול מ־25.</p></SubQuestion>
         <RatioAnswer label="אפשרות נוספת:" />
-        <p><strong>חשיבה והסבר</strong></p>
         <SubQuestion label="ג."><p>בקבוצה יש 6 עיגולים שחורים ו־4 עיגולים לבנים. הוסיפו 3 שחורים ו־2 לבנים. האם היחס נשמר? הסבירו.</p></SubQuestion>
         <SubQuestion label="ד."><p>לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע. האם היחס נשמר? נמקו באמצעות יחס מצומצם.</p></SubQuestion>
         <WorkArea label="הסבר:" lines={2} />
