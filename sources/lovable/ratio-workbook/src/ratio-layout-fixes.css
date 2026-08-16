@@ -8,3 +8,48 @@
   min-width: 0;
   flex: 1 1 0;
 }
+
+.ratio-answer-container.is-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+.ratio-answer-container.is-inline .ratio-answer-box {
+  width: 28px;
+  height: 21px;
+}
+
+.ratio-page-1 .q-separator {
+  min-height: 6px;
+  max-height: 9px;
+}
+
+.ratio-page-1 .circles-grid {
+  margin: 3px 0;
+}
+
+.ratio-page-1 .drawing-box {
+  min-height: 34px;
+  margin: 2px 0;
+  padding: 4px 8px;
+}
+
+.ratio-page-1 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .work-area {
+  margin: 2px 0 0;
+}
+
+.ratio-page-1 .work-area-lines {
+  gap: 2px;
+}
+
+.ratio-page-1 .work-area-line {
+  min-height: 14px;
+}
