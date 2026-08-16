@@ -235,3 +235,61 @@
 .ratio-page-35 .calculation-response .work-area-line {
   min-height: 14px;
 }
+
+/* Automatic response sizing: allocate only the writing space the task truly needs. */
+[data-auto-response="short"] > .sub-content > .answer-line-container,
+.question-block[data-auto-response="short"] .question-content > .answer-line-container {
+  width: min(260px, 100%);
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 2px;
+}
+
+[data-auto-response="short"] .answer-line {
+  min-width: 90px;
+  height: 16px;
+}
+
+[data-auto-response="ratio"] > .sub-content > .ratio-answer-container,
+.question-block[data-auto-response="ratio"] .question-content > .ratio-answer-container {
+  margin-top: 2px;
+  margin-bottom: 1px;
+}
+
+.auto-response--calculation {
+  margin: 2px 0 3px;
+  padding: 3px 6px 4px;
+}
+
+.auto-response--calculation .work-area-lines {
+  gap: 1px;
+}
+
+.auto-response--calculation .work-area-line {
+  min-height: 14px;
+}
+
+.auto-response--calculation .final-answer {
+  width: min(300px, 100%);
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 3px;
+  padding-top: 3px;
+}
+
+.auto-response--calculation .final-answer-line {
+  min-width: 80px;
+  max-width: 180px;
+}
+
+.auto-response--explanation {
+  margin: 2px 0 3px;
+}
+
+.auto-response--explanation .work-area-lines {
+  gap: 2px;
+}
+
+.auto-response--explanation .work-area-line {
+  min-height: 15px;
+}
