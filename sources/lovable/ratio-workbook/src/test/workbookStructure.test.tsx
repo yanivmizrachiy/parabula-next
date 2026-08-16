@@ -64,4 +64,15 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('אפשרות נוספת:');
     expect(markup).toContain('הסבר:');
   });
+
+  it('provides work areas, structured answers and correct SVG direction on page 29', () => {
+    const markup = renderPage(29);
+    expect(markup).not.toContain('שאלות אתגר');
+    expect(markup.match(/class="response-set"/g)).toHaveLength(4);
+    expect(markup.match(/class="work-area-line"/g)).toHaveLength(4);
+    expect(markup.match(/class="ratio-answer-box"/g)?.length).toBeGreaterThanOrEqual(12);
+    for (const value of ['10a', '4a', '6p', '2p', '3p']) {
+      expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value}</text>`));
+    }
+  });
 });
