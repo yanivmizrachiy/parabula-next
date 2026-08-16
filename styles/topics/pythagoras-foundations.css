@@ -8,6 +8,8 @@
 .pyt-foundation .foundation-card { border: 1px solid var(--border-light); border-radius: 10px; background: var(--bg-paper); padding: 10px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
 .pyt-foundation .foundation-card p { margin: 0; text-align: center; line-height: 1.4; }
 .pyt-foundation .foundation-svg { width: 100%; max-width: 230px; height: 135px; display: block; }
+.pyt-foundation .foundation-svg.hero { max-width: 420px; height: 180px; }
+.pyt-foundation .foundation-svg.hero-wide { max-width: 500px; height: 220px; }
 .pyt-foundation .foundation-svg .edge { fill: none; stroke: var(--accent-dark); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .pyt-foundation .foundation-svg .mark { fill: none; stroke: var(--accent-dark); stroke-width: 2.4; vector-effect: non-scaling-stroke; }
 .pyt-foundation .foundation-svg .pt, .pyt-foundation .foundation-svg .lbl { fill: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 600; }
@@ -15,6 +17,7 @@
 .pyt-foundation .response-line { display: inline-block; min-width: 100px; height: 24px; border-bottom: 1.5px solid var(--text-main); vertical-align: bottom; }
 .pyt-foundation .response-line.long { min-width: 210px; }
 .pyt-foundation .work-lines { min-height: 92px; border: 1px solid var(--border-light); border-radius: 8px; background: repeating-linear-gradient(to bottom, var(--bg-paper) 0, var(--bg-paper) 27px, var(--grid-line) 28px); }
+.pyt-foundation .foundation-card .work-lines { width: 100%; }
 .pyt-foundation .power-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
 .pyt-foundation .math-card { direction: ltr; unicode-bidi: isolate; border: 1px solid var(--border-light); border-radius: 9px; background: var(--bg-paper); padding: 12px 8px; text-align: center; font-size: 19px; min-height: 54px; }
 .pyt-foundation .statement-list { display: grid; gap: 10px; }
