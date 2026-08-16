@@ -7,6 +7,7 @@ on:
     paths:
       - .github/workflows/pythagoras-foundations-v2-sync.yml
       - scripts/extend-pythagoras-foundations-v2-once.mjs
+      - scripts/repair-pythagoras-v2-script-once.mjs
 
 permissions:
   contents: write
@@ -33,6 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Repair source-truth payload quoting
+        run: node scripts/repair-pythagoras-v2-script-once.mjs
 
       - name: Syntax check one-shot extender
         run: node --check scripts/extend-pythagoras-foundations-v2-once.mjs
