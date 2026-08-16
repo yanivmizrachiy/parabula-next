@@ -39,7 +39,7 @@ for (const file of pages) {
 
 const report = {
   generatedAt: now,
-  repo: 'yanivmizrachiy/parabula-next',
+  repo: 'yanivmizrachiy/razpages',
   summary: {
     totalRootPages: pages.length,
     missingPageCss: missingPageCss.length,

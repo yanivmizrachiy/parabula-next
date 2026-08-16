@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/parabula-next/',
+  base: '/razpages/',
   build: {
     outDir: 'dist',
     emptyOutDir: true

@@ -2,7 +2,7 @@
 
 מערכת ליצירה, ניהול, קריאה והדפסה של דפי עבודה במתמטיקה בעברית RTL, עם קורא מחשב, אפליקציית נייד ו־PWA.
 
-**האתר החי:** https://yanivmizrachiy.github.io/parabula-next/
+**האתר החי:** https://yanivmizrachiy.github.io/razpages/
 
 ## מקור הכללים היחיד
 

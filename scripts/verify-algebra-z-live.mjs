@@ -9,7 +9,7 @@ const outArg = args.find((arg) => arg.startsWith('--out='));
 const screenshotArg = args.find((arg) => arg.startsWith('--screenshot='));
 const outputPath = outArg ? outArg.slice('--out='.length) : null;
 const screenshotPath = screenshotArg ? screenshotArg.slice('--screenshot='.length) : null;
-const baseUrl = (process.env.ALGEBRA_Z_BASE_URL || 'https://yanivmizrachiy.github.io/parabula-next').replace(/\/$/, '');
+const baseUrl = (process.env.ALGEBRA_Z_BASE_URL || 'https://yanivmizrachiy.github.io/razpages').replace(/\/$/, '');
 const checkedAt = new Date().toISOString();
 const errors = [];
 const evidence = {};

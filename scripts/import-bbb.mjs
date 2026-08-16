@@ -16,7 +16,7 @@ import { chromium } from '@playwright/test';
 
 const ROOT = process.cwd();
 const PROTECTED_MAX_PAGE = 98; // לעולם לא נוגעים בעמוד-1..98
-const SITE_BASE = 'https://yanivmizrachiy.github.io/parabula-next';
+const SITE_BASE = 'https://yanivmizrachiy.github.io/razpages';
 const SAFETY_PX = 14; // מרווח ביטחון בתחתית הדף בעת אריזה (מונע גלישה משונות רינדור זעירות)
 const MIN_UTIL = 50; // סף ניצול A4 (CLAUDE.md §4)
 const STRETCH_BELOW_UTIL = 72; // מתחת לזה מותחים את הפריסה לגובה מלא (עיצוב בלבד)
