@@ -6,7 +6,7 @@ const topicName = 'יחס';
 const startPage = 272;
 const pageCount = 48;
 const endPage = startPage + pageCount - 1;
-const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
+const siteBase = 'https://yanivmizrachiy.github.io/razpages/';
 const writeMode = process.argv.includes('--write');
 
 function normalizeText(content) {

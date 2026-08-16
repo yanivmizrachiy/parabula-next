@@ -6,7 +6,7 @@
 
 ## קישורים מהירים
 
-- [צפייה אונליין](https://yanivmizrachiy.github.io/parabula-next/catalog.html)
+- [צפייה אונליין](https://yanivmizrachiy.github.io/razpages/catalog.html)
 - [הורדת PDF](downloads/coordinate-first-quadrant-workbook.pdf)
 - [קוד מקור (ZIP)](downloads/coordinate-first-quadrant-source.zip)
 - [GitHub Actions CI](https://github.com/yanivmizrachiy/parabula-next/actions/workflows/build-coordinate-first-quadrant.yml)

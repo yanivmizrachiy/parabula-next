@@ -184,7 +184,7 @@ topic.pages = seq.map((e) => {
     h1: TOPIC,
     topic: TOPIC,
     previewPath: `/${file}`,
-    siteUrl: `https://yanivmizrachiy.github.io/parabula-next/${file}`,
+    siteUrl: `https://yanivmizrachiy.github.io/razpages/${file}`,
   };
   const cid = prevCurriculumId.get(file);
   if (cid) page.curriculumId = cid;

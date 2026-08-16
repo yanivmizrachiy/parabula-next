@@ -56,7 +56,7 @@ const registry = pageFiles.map(file => {
     status: 'active',
     cssFile: cssExists ? cssFile : null,
     previewPath: meta.previewPath || `/${file}`,
-    siteUrl: meta.siteUrl || `https://yanivmizrachiy.github.io/parabula-next/${file}`,
+    siteUrl: meta.siteUrl || `https://yanivmizrachiy.github.io/razpages/${file}`,
   };
 });
 

@@ -22,7 +22,7 @@ const pageCount = 30;
 // הנושא "מערכת צירים - רביע ראשון בלבד" יושב אחרי "מערכת משוואות בשני נעלמים" (עמוד-616) ל"משוואות ריבועיות" (עמוד-31).
 const chainPrev = 'עמוד-616.html';
 const chainNext = 'עמוד-31.html';
-const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
+const siteBase = 'https://yanivmizrachiy.github.io/razpages/';
 const workbookDir = path.join(root, 'projects', 'coordinate-first-quadrant-workbook', 'workbook');
 
 const fragments = [

@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 const root = process.cwd();
 const checkOnly = process.argv.includes('--check');
 const topicName = 'מערכת משוואות בשני נעלמים';
-const siteBase = 'https://yanivmizrachiy.github.io/parabula-next/';
+const siteBase = 'https://yanivmizrachiy.github.io/razpages/';
 const branchPage = 616;
 const workbookPages = [609, 601, 602, 603, 604, 605, 606, 607, 608, 610, 611, 612, 613, 614, 615, 616];
 const changed = [];

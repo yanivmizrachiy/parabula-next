@@ -157,7 +157,7 @@ topic.pages = pages.map(page => ({
   topic: topicName,
   curriculumId: page.curriculumId,
   previewPath: `/עמוד-${page.globalNumber}.html`,
-  siteUrl: `https://yanivmizrachiy.github.io/parabula-next/עמוד-${page.globalNumber}.html`,
+  siteUrl: `https://yanivmizrachiy.github.io/razpages/עמוד-${page.globalNumber}.html`,
 }));
 topics.totalPages = Math.max(
   ...topics.topics.flatMap(candidate => candidate.pages.map(page => page.number)),
