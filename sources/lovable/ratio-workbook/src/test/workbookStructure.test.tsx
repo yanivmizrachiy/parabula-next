@@ -88,13 +88,37 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
   });
 
-  it('provides structured ratio answer boxes and explanation space on page 1', () => {
+  it('provides structured ratio answers and two compact explanation lines on page 1', () => {
     const markup = renderPage(1);
     expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
     expect(markup).toContain('ratio-answer-colon');
-    expect(markup).toContain('work-area-line');
+    expect(markup.match(/ratio-page-1-inline-explanation/g)).toHaveLength(2);
+    expect(markup.match(/class="work-area-line"/g)?.length).toBeGreaterThanOrEqual(2);
     expect(markup).toContain('אפשרות נוספת:');
-    expect(markup).toContain('הסבר:');
+  });
+
+  it('balances dense page 11 with grouped work and compact final answers', () => {
+    const markup = renderPage(11);
+    expect(markup).toContain('ratio-page-11');
+    expect(markup.match(/response-set ratio-page-11-response/g)).toHaveLength(5);
+    expect(markup.match(/class="work-area-line"/g)).toHaveLength(6);
+    expect(markup.match(/data-grouped-response="true"/g)).toHaveLength(5);
+    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('keeps short answers inline on dense page 18 while preserving calculation work', () => {
+    const markup = renderPage(18);
+    expect(markup).toContain('ratio-page-18');
+    expect(markup.match(/ratio-answer-container is-inline/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(markup.match(/auto-response--calculation/g)).toHaveLength(1);
+    expect(markup).toContain('באיזו מחרוזת נשמר אותו יחס?');
+  });
+
+  it('keeps ratio responses inline on dense page 22', () => {
+    const markup = renderPage(22);
+    expect(markup).toContain('ratio-page-22');
+    expect(markup.match(/ratio-answer-container is-inline/g)).toHaveLength(5);
+    expect(markup.match(/ratio-answer-box/g)).toHaveLength(10);
   });
 
   it('provides work areas, structured answers and correct SVG direction on page 29', () => {
