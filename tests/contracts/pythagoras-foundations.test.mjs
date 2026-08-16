@@ -29,7 +29,7 @@ for (let i = 0; i < files.length; i += 1) {
     assert.match(html, new RegExp(pageCss.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'u'));
     assert.ok(fs.existsSync(path.join(ROOT, pageCss)), `${file}: חסר CSS קנוני לדף`);
     assert.match(read(pageCss), /@import url\("\.\.\/topics\/pythagoras-foundations\.css"\);/u);
-    assert.match(html, /class="a4-page[^\"]*pythagoras[^\"]*pyt-foundation/u);
+    assert.match(html, /class="a4-page[^"]*pythagoras[^"]*pyt-foundation/u);
     assert.match(html, /<footer class="gz-footer">/u);
     assert.match(html, /יניב רז - מדריך מחוזי חט"ב בעיר ירושלים/u);
     assert.match(html, /הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין/u);
