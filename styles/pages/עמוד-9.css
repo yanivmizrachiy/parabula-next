@@ -2,8 +2,8 @@
 @import url("../topics/pythagoras.css");
 
 .page-9 {
-	/* 300px גרם לגלישה אנכית של ~2% מעבר ל-A4 (נחתך בהדפסה) */
-	--problem-block-height: 290px;
+	/* שלוש שורות: 283px משאיר את הדף בתוך A4 ומפנה מקום לדרך הפתרון */
+	--problem-block-height: 283px;
 }
 
 .page-9 .q-main {
@@ -45,27 +45,9 @@
 	overflow: hidden;
 }
 
+/* אין מספור שאלות גלוי; הכרטיס מתחיל ישירות בסרטוט ובדרך. */
 .page-9 .problem-top {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	gap: 10px;
-	min-height: 22px;
-}
-
-.page-9 .problem-top .bullet-num {
-	width: 22px;
-	height: 22px;
-	border-radius: 50%;
-	border: 1.5px solid var(--accent-dark);
-	background: var(--bg-paper);
-	color: var(--text-main);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 12px;
-	line-height: 1;
-	flex: 0 0 auto;
+	display: none;
 }
 
 .page-9 .problem-answer {
@@ -143,7 +125,6 @@
 	font-style: italic;
 	unicode-bidi: isolate;
 }
-
 
 .page-9 .solution-space {
 	flex: 1;
