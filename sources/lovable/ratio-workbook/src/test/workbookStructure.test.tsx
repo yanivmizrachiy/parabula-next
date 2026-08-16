@@ -89,4 +89,28 @@ describe('ratio workbook structure', () => {
       expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value}</text>`));
     }
   });
+
+  it('uses an ordered-pair response and LTR coordinates on page 42', () => {
+    const markup = renderPage(42);
+    expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
+    expect(markup.match(/ordered-pair-box/g)).toHaveLength(2);
+    expect(markup).toContain('ordered-pair-comma');
+    expect(markup).toContain('calculation-response');
+    expect(markup.match(/work-area-line/g)?.length).toBeGreaterThanOrEqual(2);
+    for (const value of ['C(4,0)', 'D(0,6)', 'A(10,0)', 'B(0,15)']) {
+      expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value.replace(/[()]/g, '\\$&')}</text>`));
+    }
+  });
+
+  it('provides precise SVG direction and structured calculation responses on page 48', () => {
+    const markup = renderPage(48);
+    expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
+    expect(markup.match(/calculation-response/g)).toHaveLength(2);
+    expect(markup).toContain('הסבר:');
+    expect(markup).toContain('ratio-answer-colon');
+    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(2);
+    for (const value of ['12', '6', '8', '10', 'AB=18', 'BC=15', 'DF=5']) {
+      expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value}</text>`));
+    }
+  });
 });
