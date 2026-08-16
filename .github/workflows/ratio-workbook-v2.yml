@@ -6,6 +6,7 @@ on:
       - fix/ratio-workbook-deep-audit
     paths:
       - 'sources/lovable/ratio-workbook/**'
+      - 'assets/ratio/page-*.png'
       - 'scripts/render-ratio-workbook.mjs'
       - 'scripts/import-ratio-workbook.mjs'
       - 'scripts/audit-ratio-compliance.mjs'
@@ -15,6 +16,7 @@ on:
   pull_request:
     paths:
       - 'sources/lovable/ratio-workbook/**'
+      - 'assets/ratio/page-*.png'
       - 'scripts/render-ratio-workbook.mjs'
       - 'scripts/import-ratio-workbook.mjs'
       - 'scripts/audit-ratio-compliance.mjs'
