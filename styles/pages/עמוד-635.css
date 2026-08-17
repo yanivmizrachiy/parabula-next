@@ -51,8 +51,9 @@
   gap: 14px;
 }
 
+/* שטח פנוי בדף מוקדש למשימת הציור עצמה, לא לרווח מת. */
 .page-635 .drawing-card {
-  min-height: 176px;
+  min-height: 238px;
   align-items: stretch;
   justify-content: flex-start;
   padding: 10px 14px 12px;
@@ -70,7 +71,7 @@
 
 .page-635 .guided-triangle-svg {
   width: 100%;
-  height: 108px;
+  height: 166px;
   border: 1px dashed var(--grid-line);
   border-radius: 8px;
   background: var(--bg-paper);
