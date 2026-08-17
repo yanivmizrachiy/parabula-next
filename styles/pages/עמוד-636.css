@@ -2,21 +2,71 @@
 
 .page-636 .question-block {
   justify-content: flex-start;
-  gap: 22px;
+  gap: 12px;
+}
+
+.page-636 .foundation-note {
+  padding-block: 10px;
 }
 
 .page-636 > .question-block > .foundation-card {
-  min-height: 240px;
-}
-
-.page-636 .foundation-grid {
-  min-height: 360px;
-}
-
-.page-636 .foundation-grid .foundation-card {
   min-height: 0;
 }
 
-.page-636 .foundation-grid .foundation-svg {
-  height: 190px;
+.page-636 .example-card {
+  min-height: 142px;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+}
+
+.page-636 .example-card .foundation-svg.hero {
+  width: 210px;
+  max-width: 210px;
+  height: 108px;
+}
+
+.page-636 .example-caption {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.page-636 .foundation-grid {
+  min-height: 0;
+}
+
+.page-636 .leg-practice-grid {
+  gap: 10px 12px;
+}
+
+.page-636 .leg-practice-grid .foundation-card {
+  min-height: 168px;
+  padding: 8px 10px;
+}
+
+.page-636 .leg-practice-grid .foundation-svg {
+  height: 102px;
+  max-width: 210px;
+}
+
+.page-636 .leg-practice-grid p {
+  font-size: 16px;
+}
+
+.page-636 .concept-check {
+  min-height: 72px;
+  padding: 10px 16px;
+}
+
+.page-636 .concept-check p {
+  margin: 0;
+  font-size: 17px;
+}
+
+.page-636 .short-line {
+  min-width: 68px;
 }
