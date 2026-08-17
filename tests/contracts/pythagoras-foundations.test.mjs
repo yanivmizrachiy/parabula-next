@@ -10,6 +10,7 @@ const LEGACY_VISIBLE = [...Array.from({length:22},(_,i)=>9+i),41];
 const ADVANCED_RELATED = [375,376,377,378,379,380];
 const ALL_VISIBLE = [...FOUNDATION,...LEGACY_VISIBLE];
 const read = (file) => fs.readFileSync(path.join(ROOT,file),'utf8');
+const foundationNote = (html) => html.match(/<div class="foundation-note">([\s\S]*?)<\/div>/u)?.[1] ?? '';
 
 const PAGE_TITLES = [
   'זווית ישרה',
@@ -67,6 +68,81 @@ for (let i=0;i<FOUNDATION.length;i+=1) {
   });
 }
 
+test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוטים מנופחים',()=>{
+  for (const n of [634,635,636,637]) {
+    const css = read(`styles/pages/עמוד-${n}.css`);
+    const minHeights = [...css.matchAll(/min-height:\s*(\d+)px/gu)].map((m)=>Number(m[1]));
+    const fixedHeights = [...css.matchAll(/(?<!min-)height:\s*(\d+)px/gu)].map((m)=>Number(m[1]));
+    assert.ok(Math.max(0,...minHeights) <= 180, `עמוד ${n}: אין להחזיר בלוקי תרגול ענקיים`);
+    assert.ok(Math.max(0,...fixedHeights) <= 120, `עמוד ${n}: אין להחזיר שרטוטי SVG ענקיים`);
+  }
+  const p1=read('עמוד-634.html');
+  assert.match(p1,/angle-choice-grid/u);
+  assert.match(p1,/quick-practice-grid/u);
+  assert.equal((p1.match(/class="foundation-card drawing-card\b/gu)||[]).length,2,'עמוד 1 צריך שתי משימות ציור מרווחות');
+  const p2=read('עמוד-635.html');
+  assert.match(p2,/triangle-choice-grid/u);
+  assert.match(p2,/mark-angle-grid/u);
+  assert.equal((p2.match(/class="foundation-card drawing-card\b/gu)||[]).length,2,'עמוד 2 צריך שתי משימות ציור מרווחות');
+  const p3=read('עמוד-636.html');
+  assert.equal((p3.match(/הניצבים:/gu)||[]).length,4,'עמוד 3 צריך לכלול ארבעה פריטי תרגול של שמות ניצבים');
+  assert.match(p3,/concept-check-grid/u,'עמוד 3 צריך מקבץ השלמות קצר לאחר זיהוי הניצבים');
+  assert.equal((p3.match(/class="foundation-card concept-check"/gu)||[]).length,3,'עמוד 3 צריך שלושה סעיפי השלמה מקבילים');
+  assert.match(p3,/synthesis-drawing-card/u,'עמוד 3 צריך משימת סינתזה פתוחה');
+  const p4=read('עמוד-637.html');
+  assert.equal((p4.match(/<p>היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
+  assert.match(p4,/length-check-grid/u,'עמוד 4 צריך מקבץ זיהוי יתר לפי אורכי צלעות');
+  assert.equal((p4.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length,3,'זיהוי יתר לפי אורכים חייב להופיע בשלושה סעיפים מקבילים');
+  for (const triple of ['3, 4, 5','6, 8, 10','5, 12, 13']) assert.ok(p4.includes(triple));
+  assert.match(p4,/synthesis-drawing-card/u,'עמוד 4 צריך משימת סינתזה פתוחה');
+});
+
+test('עמודים 1, 3 ו-4 אינם מציגים פורמט חדש כפריט בודד ואינם מוחקים משימות טובות',()=>{
+  const p1=read('עמוד-634.html');
+  assert.match(p1,/קבעו בכל סרטוט: ישרה או לא ישרה/u);
+  assert.equal((p1.match(/aria-label="כתבו ישרה או לא ישרה"/gu)||[]).length,3,'סיווג ישרה/לא ישרה חייב להופיע לפחות בשלושה סעיפים מקבילים');
+  assert.match(p1,/בחרו זווית ישרה אחת מהסרטוטים וכתבו את מידתה/u,'משימת כתיבת המידה הטובה חייבת להישמר');
+  assert.match(p1,/הוסיפו בסרטוט סימון של זווית ישרה/u,'משימת הוספת הסימון הטובה חייבת להישמר');
+  const p3=read('עמוד-636.html');
+  assert.equal((p3.match(/class="foundation-card concept-check"/gu)||[]).length,3,'השלמות מושגי הניצבים צריכות להופיע כמקבץ של שלושה');
+  const p4=read('עמוד-637.html');
+  assert.equal((p4.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length,3,'זיהוי היתר לפי אורכים צריך להופיע כמקבץ של שלושה');
+});
+
+test('ההסבר העליון בעמודים 1-4 הוא השלמה מודרכת עם תיבה שמתאימה לסוג התשובה',()=>{
+  const p1 = foundationNote(read('עמוד-634.html'));
+  const p2 = foundationNote(read('עמוד-635.html'));
+  const p3 = foundationNote(read('עמוד-636.html'));
+  const p4 = foundationNote(read('עמוד-637.html'));
+
+  for (const note of [p1,p2]) {
+    assert.match(note,/foundation-fill-number/u,'מספר המעלות צריך תיבה מספרית קצרה');
+    assert.match(note,/foundation-unit">°<\/span>/u,'סימן המעלות צריך להיות נתון לתלמיד מחוץ לתיבה');
+    assert.doesNotMatch(note,/90/u,'אין לחשוף בהסבר העליון את המספר שהתלמיד משלים');
+  }
+  assert.match(p3,/foundation-fill-term/u,'המושג ניצבים צריך תיבה רחבה יותר ממספר');
+  assert.doesNotMatch(p3,/ניצבים/u,'אין לחשוף בתוך משפט ההשלמה את המושג שהתלמיד משלים');
+  assert.match(p4,/foundation-fill-short/u,'המושג יתר צריך תיבה קצרה');
+  assert.match(p4,/foundation-fill-medium/u,'התיאור הארוכה צריך תיבה בינונית');
+  assert.doesNotMatch(p4,/יתר|הארוכה/u,'אין לחשוף בתוך משפט ההשלמה את המילים שהתלמיד משלים');
+
+  const sharedCss = read('styles/topics/pythagoras-foundations.css');
+  assert.match(sharedCss,/\.foundation-fill \{[^}]*border: 1\.35px solid #1f2a44;[^}]*border-radius: 8px;[^}]*box-shadow:/u,'תיבת סגנון 5 חייבת להישאר יוקרתית ותלת-ממדית בעדינות');
+  assert.match(sharedCss,/\.foundation-fill-number \{ width: 58px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-short \{ width: 82px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-term \{ width: 118px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-medium \{ width: 112px; \}/u);
+  assert.doesNotMatch(read('עמוד-635.html'),/>90°<\/text>/u,'תרגול עמוד 2 לא יחשוף את התשובה של ההשלמה העליונה');
+});
+
+test('מדידת ניצול A4 אינה נסמכת על הפוטר ושומרת על טווח מאוזן בעמודים 1-4',()=>{
+  const audit=read('scripts/a4-utilization-audit.mjs');
+  assert.match(audit,/footer\.contains\(el\)/u,'הפוטר חייב להיות מוחרג מחישוב ניצול התוכן');
+  for (const n of [634,635,636,637]) {
+    assert.ok(audit.includes(`'עמוד-${n}.html': { min: 80, max: 93 }`),`עמוד ${n} חייב להישאר בטווח 80-93%`);
+  }
+});
+
 test('רצף פיתגורס הגלוי הוא 1-43 והחומר הוותיק ממשיך אחרי היסודות',()=>{
   for (let i=0;i<ALL_VISIBLE.length;i+=1) {
     const html=read(`עמוד-${ALL_VISIBLE[i]}.html`);
@@ -76,9 +152,10 @@ test('רצף פיתגורס הגלוי הוא 1-43 והחומר הוותיק מ�
 });
 
 test('היתר נלמד גם כמול הזווית הישרה וגם כצלע הארוכה ביותר',()=>{
-  assert.match(read('עמוד-637.html'),/הצלע שמול הזווית הישרה/u);
-  assert.match(read('עמוד-637.html'),/הצלע הארוכה ביותר/u);
-  assert.match(read('עמוד-638.html'),/אורכי צלעותיו 6, 8, 10/u);
+  const html=read('עמוד-637.html');
+  assert.match(html,/הצלע שמול הזווית הישרה נקראת <span class="foundation-fill foundation-fill-short"/u);
+  assert.match(html,/היא גם הצלע <span class="foundation-fill foundation-fill-medium"[^>]*><\/span> ביותר במשולש/u);
+  assert.match(html,/אורכי הצלעות: 6, 8, 10/u);
 });
 
 test('x בריבוע נפתר בדרך מלאה לפני פיתגורס',()=>{

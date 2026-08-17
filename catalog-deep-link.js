@@ -2,18 +2,26 @@
 
 (() => {
   const FILE_PATTERN = /^עמוד-\d+\.html$/;
+  const MODE_PATTERN = /^(single|spread|scroll)$/;
   const NAVIGATION_SELECTOR = '#navPrev,#navNext,#footPrev,#footNext,.toc-page,.search-item';
   const tocList = document.getElementById('tocList');
   if (!tocList) return;
 
   const requestedFile = normalizeFile(new URL(window.location.href).searchParams.get('file'));
+  const requestedMode = normalizeMode(new URL(window.location.href).searchParams.get('mode'));
   let initialHandled = !requestedFile;
+  let modeHandled = !requestedMode;
   let pendingHistoryMode = 'replace';
   let restoringHistory = false;
   let initialAttempts = 0;
+  let modeAttempts = 0;
 
   function normalizeFile(value) {
     return FILE_PATTERN.test(String(value || '')) ? String(value) : '';
+  }
+
+  function normalizeMode(value) {
+    return MODE_PATTERN.test(String(value || '')) ? String(value) : '';
   }
 
   function activeFile() {
@@ -50,6 +58,18 @@
     return true;
   }
 
+  function applyRequestedMode() {
+    if (modeHandled) return;
+    const button = document.querySelector(`#modeSwitch .mode-btn[data-mode="${requestedMode}"]`);
+    if (button) {
+      if (!button.classList.contains('is-active')) button.click();
+      modeHandled = true;
+      return;
+    }
+    modeAttempts += 1;
+    if (modeAttempts < 120) requestAnimationFrame(applyRequestedMode);
+  }
+
   function openInitialFile() {
     if (initialHandled) return;
     if (openFile(requestedFile, { historyMode: 'replace' })) {
@@ -61,7 +81,13 @@
   }
 
   function restoreFromLocation() {
-    const file = normalizeFile(new URL(window.location.href).searchParams.get('file'));
+    const url = new URL(window.location.href);
+    const mode = normalizeMode(url.searchParams.get('mode'));
+    if (mode) {
+      const button = document.querySelector(`#modeSwitch .mode-btn[data-mode="${mode}"]`);
+      if (button && !button.classList.contains('is-active')) button.click();
+    }
+    const file = normalizeFile(url.searchParams.get('file'));
     if (!file) return;
     let attempts = 0;
     const tryOpen = () => {
@@ -105,5 +131,6 @@
   }
 
   window.addEventListener('popstate', restoreFromLocation);
+  requestAnimationFrame(applyRequestedMode);
   requestAnimationFrame(openInitialFile);
 })();

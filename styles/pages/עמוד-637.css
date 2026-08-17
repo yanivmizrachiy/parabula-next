@@ -2,21 +2,108 @@
 
 .page-637 .question-block {
   justify-content: flex-start;
-  gap: 20px;
+  gap: 8px;
+}
+
+.page-637 .foundation-note {
+  padding-block: 8px;
 }
 
 .page-637 > .question-block > .foundation-card {
-  min-height: 235px;
-}
-
-.page-637 .foundation-grid {
-  min-height: 440px;
-}
-
-.page-637 .foundation-grid .foundation-card {
   min-height: 0;
 }
 
-.page-637 .foundation-grid .foundation-svg {
-  height: 165px;
+.page-637 .example-card {
+  min-height: 118px;
+  display: grid;
+  grid-template-columns: 195px 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+}
+
+.page-637 .example-card .foundation-svg.hero {
+  width: 195px;
+  max-width: 195px;
+  height: 92px;
+}
+
+.page-637 .example-caption {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.page-637 .foundation-grid {
+  min-height: 0;
+}
+
+.page-637 .hypotenuse-mark-grid,
+.page-637 .named-hypotenuse-grid,
+.page-637 .length-check-grid {
+  gap: 8px;
+}
+
+.page-637 .hypotenuse-mark-grid .foundation-card {
+  min-height: 106px;
+  padding: 5px 8px;
+}
+
+.page-637 .hypotenuse-mark-grid .foundation-svg {
+  max-width: 185px;
+  height: 82px;
+}
+
+.page-637 .named-hypotenuse-grid .foundation-card {
+  min-height: 130px;
+  padding: 6px 8px;
+}
+
+.page-637 .named-hypotenuse-grid .foundation-svg.mini {
+  max-width: 175px;
+  height: 80px;
+}
+
+.page-637 .named-hypotenuse-grid p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.page-637 .compact-instruction,
+.page-637 .length-instruction,
+.page-637 .synthesis-instruction {
+  margin-top: 0;
+}
+
+.page-637 .length-check-grid .concept-check {
+  min-height: 78px;
+  padding: 6px 10px;
+  justify-content: flex-start;
+}
+
+.page-637 .length-check-grid .concept-check p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.page-637 .synthesis-drawing-card {
+  min-height: 88px;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 6px 14px;
+}
+
+.page-637 .drawing-space-wide {
+  width: 100%;
+  min-height: 66px;
+  border: 1px dashed var(--grid-line);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-637 .short-line {
+  min-width: 62px;
 }
