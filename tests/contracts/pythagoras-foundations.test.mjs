@@ -96,7 +96,7 @@ test('מדידת ניצול A4 אינה נסמכת על הפוטר ושומרת 
   const audit=read('scripts/a4-utilization-audit.mjs');
   assert.match(audit,/footer\.contains\(el\)/u,'הפוטר חייב להיות מוחרג מחישוב ניצול התוכן');
   for (const n of [634,635,636,637]) {
-    assert.match(audit,new RegExp(`'עמוד-${n}\\.html': \\{ min: 80, max: 93 \\}`,'u'),`עמוד ${n} חייב להישאר בטווח 80-93%`);
+    assert.ok(audit.includes(`'עמוד-${n}.html': { min: 80, max: 93 }`),`עמוד ${n} חייב להישאר בטווח 80-93%`);
   }
 });
 
