@@ -1,1 +1,15 @@
 @import url("../topics/pythagoras-foundations.css");
+
+/* 12 שורשים ב-4 שורות רחבות: אזור מענה נוח יותר ופחות שטח מת ב-A4. */
+.page-641 .power-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.page-641 .math-card {
+  min-height: 78px;
+  padding: 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
