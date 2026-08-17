@@ -5,6 +5,7 @@ on:
     paths:
       - 'עמוד-*.html'
       - 'styles/pages/עמוד-*.css'
+      - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-foundations.css'
       - 'catalog.js'
       - 'catalog-deep-link.js'
