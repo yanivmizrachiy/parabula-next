@@ -40,7 +40,8 @@
 }
 
 .page-637 .hypotenuse-mark-grid,
-.page-637 .named-hypotenuse-grid {
+.page-637 .named-hypotenuse-grid,
+.page-637 .length-check-grid {
   gap: 9px;
 }
 
@@ -70,18 +71,22 @@
 }
 
 .page-637 .compact-instruction,
+.page-637 .length-instruction,
 .page-637 .synthesis-instruction {
   margin-top: 1px;
 }
 
-.page-637 .concept-check {
-  min-height: 68px;
-  padding: 9px 16px;
+.page-637 .length-check-grid .concept-check {
+  min-height: 88px;
+  padding: 8px 10px;
+  justify-content: flex-start;
 }
 
-.page-637 .concept-check p {
+.page-637 .length-check-grid .concept-check p {
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .page-637 .synthesis-drawing-card {
