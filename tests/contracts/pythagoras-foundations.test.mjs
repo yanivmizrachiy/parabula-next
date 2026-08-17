@@ -10,6 +10,7 @@ const LEGACY_VISIBLE = [...Array.from({length:22},(_,i)=>9+i),41];
 const ADVANCED_RELATED = [375,376,377,378,379,380];
 const ALL_VISIBLE = [...FOUNDATION,...LEGACY_VISIBLE];
 const read = (file) => fs.readFileSync(path.join(ROOT,file),'utf8');
+const foundationNote = (html) => html.match(/<div class="foundation-note">([\s\S]*?)<\/div>/u)?.[1] ?? '';
 
 const PAGE_TITLES = [
   'זווית ישרה',
@@ -92,6 +93,31 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   assert.match(p4,/synthesis-drawing-card/u,'עמוד 4 צריך משימת סינתזה פתוחה');
 });
 
+test('ההסבר העליון בעמודים 1-4 הוא השלמה מודרכת עם תיבה שמתאימה לסוג התשובה',()=>{
+  const p1 = foundationNote(read('עמוד-634.html'));
+  const p2 = foundationNote(read('עמוד-635.html'));
+  const p3 = foundationNote(read('עמוד-636.html'));
+  const p4 = foundationNote(read('עמוד-637.html'));
+
+  for (const note of [p1,p2]) {
+    assert.match(note,/foundation-fill-number/u,'מספר המעלות צריך תיבה מספרית קצרה');
+    assert.match(note,/foundation-unit">°<\/span>/u,'סימן המעלות צריך להיות נתון לתלמיד מחוץ לתיבה');
+    assert.doesNotMatch(note,/90/u,'אין לחשוף בהסבר העליון את המספר שהתלמיד משלים');
+  }
+  assert.match(p3,/foundation-fill-term/u,'המושג ניצבים צריך תיבה רחבה יותר ממספר');
+  assert.doesNotMatch(p3,/ניצבים/u,'אין לחשוף בתוך משפט ההשלמה את המושג שהתלמיד משלים');
+  assert.match(p4,/foundation-fill-short/u,'המושג יתר צריך תיבה קצרה');
+  assert.match(p4,/foundation-fill-medium/u,'התיאור הארוכה צריך תיבה בינונית');
+  assert.doesNotMatch(p4,/יתר|הארוכה/u,'אין לחשוף בתוך משפט ההשלמה את המילים שהתלמיד משלים');
+
+  const sharedCss = read('styles/topics/pythagoras-foundations.css');
+  assert.match(sharedCss,/\.foundation-fill-number \{ width: 54px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-short \{ width: 78px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-term \{ width: 112px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-medium \{ width: 102px; \}/u);
+  assert.doesNotMatch(read('עמוד-635.html'),/>90°<\/text>/u,'תרגול עמוד 2 לא יחשוף את התשובה של ההשלמה העליונה');
+});
+
 test('מדידת ניצול A4 אינה נסמכת על הפוטר ושומרת על טווח מאוזן בעמודים 1-4',()=>{
   const audit=read('scripts/a4-utilization-audit.mjs');
   assert.match(audit,/footer\.contains\(el\)/u,'הפוטר חייב להיות מוחרג מחישוב ניצול התוכן');
@@ -109,8 +135,9 @@ test('רצף פיתגורס הגלוי הוא 1-43 והחומר הוותיק מ�
 });
 
 test('היתר נלמד גם כמול הזווית הישרה וגם כצלע הארוכה ביותר',()=>{
-  assert.match(read('עמוד-637.html'),/הצלע שמול הזווית הישרה/u);
-  assert.match(read('עמוד-637.html'),/הצלע הארוכה ביותר/u);
+  const html=read('עמוד-637.html');
+  assert.match(html,/הצלע שמול הזווית הישרה נקראת <span class="foundation-fill foundation-fill-short"/u);
+  assert.match(html,/היא גם הצלע <span class="foundation-fill foundation-fill-medium"[^>]*><\/span> ביותר במשולש/u);
   assert.match(read('עמוד-638.html'),/אורכי צלעותיו 6, 8, 10/u);
 });
 
