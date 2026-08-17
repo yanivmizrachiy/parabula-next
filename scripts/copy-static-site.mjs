@@ -46,7 +46,9 @@ if (!fs.existsSync(dist)) {
   throw new Error('dist directory is missing. Run vite build before copy-static-site.');
 }
 
-const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor', 'assets'];
+// preview/ אינו מועתק: CLAUDE.md קובע שהוא משטח פיתוח מקומי בלבד ואינו חלק
+// מהאתר המפורסם. אין אליו הפניות זמן-ריצה מהקוראים או מדפי האתר.
+const dirs = ['styles', 'meta', 'pages', 'vendor', 'assets'];
 for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
 }
@@ -94,7 +96,6 @@ const required = [
   'meta/topics.json',
   'meta/two-variable-systems-manifest.json',
   'styles/a4-base.css',
-  'preview/index.html',
   'assets/pythagoras/vector/page-05.svg',
   'assets/pythagoras/vector/page-22.svg',
   'coordinate-first-quadrant.html',

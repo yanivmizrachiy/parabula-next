@@ -1,0 +1,750 @@
+{
+  "title": "אורכי קטעים, שטחים והיקפים במערכת הצירים",
+  "slug": "coordinate-segments-areas-workbook",
+  "htmlPages": 75,
+  "pdfPages": 75,
+  "answerRecords": 370,
+  "glossaryTerms": 12,
+  "usesMathJax": false,
+  "dom": {
+    "pages": 75,
+    "grids": 94,
+    "tasks": 320,
+    "answerSlots": 1484,
+    "rtl": true,
+    "title": "אורכי קטעים, שטחים והיקפים במערכת הצירים — עמוד 1"
+  },
+  "utilization": [
+    {
+      "page": 1,
+      "percent": 85.4,
+      "overflows": false,
+      "contentMm": 193.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 2,
+      "percent": 98.9,
+      "overflows": false,
+      "contentMm": 229.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 3,
+      "percent": 99.2,
+      "overflows": false,
+      "contentMm": 226.9,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 4,
+      "percent": 86.9,
+      "overflows": false,
+      "contentMm": 200.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 5,
+      "percent": 96.3,
+      "overflows": false,
+      "contentMm": 223.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 6,
+      "percent": 85.7,
+      "overflows": false,
+      "contentMm": 201.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 7,
+      "percent": 88.5,
+      "overflows": false,
+      "contentMm": 204.5,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 8,
+      "percent": 89.2,
+      "overflows": false,
+      "contentMm": 202.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 9,
+      "percent": 86.6,
+      "overflows": false,
+      "contentMm": 199.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 10,
+      "percent": 97.4,
+      "overflows": false,
+      "contentMm": 225.9,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 11,
+      "percent": 83.9,
+      "overflows": false,
+      "contentMm": 193.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 12,
+      "percent": 95.8,
+      "overflows": false,
+      "contentMm": 218.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 13,
+      "percent": 96.9,
+      "overflows": false,
+      "contentMm": 221.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 14,
+      "percent": 89.2,
+      "overflows": false,
+      "contentMm": 206.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 15,
+      "percent": 94.6,
+      "overflows": false,
+      "contentMm": 215.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 16,
+      "percent": 84.8,
+      "overflows": false,
+      "contentMm": 195.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 17,
+      "percent": 84.1,
+      "overflows": false,
+      "contentMm": 193.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 18,
+      "percent": 96.4,
+      "overflows": false,
+      "contentMm": 223.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 19,
+      "percent": 98.1,
+      "overflows": false,
+      "contentMm": 231.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 20,
+      "percent": 84.7,
+      "overflows": false,
+      "contentMm": 195.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 21,
+      "percent": 81.6,
+      "overflows": false,
+      "contentMm": 187.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 22,
+      "percent": 80.4,
+      "overflows": false,
+      "contentMm": 188,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 23,
+      "percent": 86,
+      "overflows": false,
+      "contentMm": 195,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 24,
+      "percent": 86,
+      "overflows": false,
+      "contentMm": 198.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 25,
+      "percent": 94.1,
+      "overflows": false,
+      "contentMm": 214.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 26,
+      "percent": 91.5,
+      "overflows": false,
+      "contentMm": 211.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 27,
+      "percent": 99.6,
+      "overflows": false,
+      "contentMm": 231.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 28,
+      "percent": 99.6,
+      "overflows": false,
+      "contentMm": 231.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 29,
+      "percent": 97,
+      "overflows": false,
+      "contentMm": 225,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 30,
+      "percent": 97.7,
+      "overflows": false,
+      "contentMm": 223.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 31,
+      "percent": 94.9,
+      "overflows": false,
+      "contentMm": 216.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 32,
+      "percent": 95,
+      "overflows": false,
+      "contentMm": 216.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 33,
+      "percent": 84.8,
+      "overflows": false,
+      "contentMm": 195.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 34,
+      "percent": 88.9,
+      "overflows": false,
+      "contentMm": 205.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 35,
+      "percent": 90.2,
+      "overflows": false,
+      "contentMm": 208.5,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 36,
+      "percent": 87,
+      "overflows": false,
+      "contentMm": 204.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 37,
+      "percent": 94.1,
+      "overflows": false,
+      "contentMm": 217.9,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 38,
+      "percent": 96.4,
+      "overflows": false,
+      "contentMm": 223.5,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 39,
+      "percent": 90.5,
+      "overflows": false,
+      "contentMm": 209.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 40,
+      "percent": 85.4,
+      "overflows": false,
+      "contentMm": 196.9,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 41,
+      "percent": 97.6,
+      "overflows": false,
+      "contentMm": 223.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 42,
+      "percent": 94.2,
+      "overflows": false,
+      "contentMm": 218.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 43,
+      "percent": 99.5,
+      "overflows": false,
+      "contentMm": 227.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 44,
+      "percent": 87.7,
+      "overflows": false,
+      "contentMm": 199,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 45,
+      "percent": 98.5,
+      "overflows": false,
+      "contentMm": 225.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 46,
+      "percent": 97.1,
+      "overflows": false,
+      "contentMm": 225.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 47,
+      "percent": 80.2,
+      "overflows": false,
+      "contentMm": 184.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 48,
+      "percent": 82.9,
+      "overflows": false,
+      "contentMm": 194.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 49,
+      "percent": 95.2,
+      "overflows": false,
+      "contentMm": 217.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 50,
+      "percent": 97.4,
+      "overflows": false,
+      "contentMm": 222.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 51,
+      "percent": 84.9,
+      "overflows": false,
+      "contentMm": 192.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 52,
+      "percent": 96.3,
+      "overflows": false,
+      "contentMm": 223.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 53,
+      "percent": 88.7,
+      "overflows": false,
+      "contentMm": 201.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 54,
+      "percent": 89.2,
+      "overflows": false,
+      "contentMm": 199.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 55,
+      "percent": 85.3,
+      "overflows": false,
+      "contentMm": 193.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 56,
+      "percent": 90.9,
+      "overflows": false,
+      "contentMm": 206.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 57,
+      "percent": 85.4,
+      "overflows": false,
+      "contentMm": 196.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 58,
+      "percent": 89.4,
+      "overflows": false,
+      "contentMm": 206.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 59,
+      "percent": 97.5,
+      "overflows": false,
+      "contentMm": 219.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 60,
+      "percent": 89.5,
+      "overflows": false,
+      "contentMm": 200.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 61,
+      "percent": 87.9,
+      "overflows": false,
+      "contentMm": 199.4,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 62,
+      "percent": 88.8,
+      "overflows": false,
+      "contentMm": 198.3,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 63,
+      "percent": 89.3,
+      "overflows": false,
+      "contentMm": 202.9,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 64,
+      "percent": 87.8,
+      "overflows": false,
+      "contentMm": 202.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 65,
+      "percent": 95.1,
+      "overflows": false,
+      "contentMm": 213.6,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 66,
+      "percent": 90.6,
+      "overflows": false,
+      "contentMm": 202.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 67,
+      "percent": 88.6,
+      "overflows": false,
+      "contentMm": 201.1,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 68,
+      "percent": 97.3,
+      "overflows": false,
+      "contentMm": 219,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 69,
+      "percent": 90.1,
+      "overflows": false,
+      "contentMm": 204.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 70,
+      "percent": 96.3,
+      "overflows": false,
+      "contentMm": 216.5,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 71,
+      "percent": 95.6,
+      "overflows": false,
+      "contentMm": 214.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 72,
+      "percent": 87.6,
+      "overflows": false,
+      "contentMm": 202.2,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 73,
+      "percent": 97.4,
+      "overflows": false,
+      "contentMm": 226,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 74,
+      "percent": 89.6,
+      "overflows": false,
+      "contentMm": 203.7,
+      "availableMm": 242.4,
+      "heightMm": 297
+    },
+    {
+      "page": 75,
+      "percent": 95,
+      "overflows": false,
+      "contentMm": 216.8,
+      "availableMm": 242.4,
+      "heightMm": 297
+    }
+  ],
+  "skipped": [],
+  "files": [
+    {
+      "path": "dist/index.html",
+      "bytes": 889834,
+      "sha256": "e4e2e5de9bf2a2828ffde5dfe0d9929010687497933d2cc5c708cdd7a11633d9"
+    },
+    {
+      "path": "dist/workbook.css",
+      "bytes": 7756,
+      "sha256": "c5dfb5fd7d073ac3bd8a04b866e4bd278028dba31a9fb69c38382d0160408543"
+    },
+    {
+      "path": "dist/workbook.js",
+      "bytes": 1235,
+      "sha256": "722875e6616a7b3fd37311337eca90d7a053b28aa3c6439c19fae4804c63a4f8"
+    },
+    {
+      "path": "dist/teacher-key.html",
+      "bytes": 152650,
+      "sha256": "331f807d24fe010913434aefba08131acbe671e9dc58bd794595fd3f3a883d5f"
+    },
+    {
+      "path": "dist/teacher-key.css",
+      "bytes": 1195,
+      "sha256": "129c615b7f1ae0b61b243e23f3ff46ff960083c71c01126493782fc87a8943d9"
+    },
+    {
+      "path": "downloads/coordinate-segments-areas-workbook.pdf",
+      "bytes": 1098516,
+      "sha256": "120389965cf13f48db60a5696e836c52be1d9d446b00555f5f4631163704cbec"
+    },
+    {
+      "path": "downloads/coordinate-segments-areas-source.zip",
+      "bytes": 243659,
+      "sha256": "1d2efa2d1b142bdd54d6429711e6f3f120a8c43a859231e5e60fd9aadd85dc3b"
+    },
+    {
+      "path": "preview/page-01.png",
+      "bytes": 51839,
+      "sha256": "f01867381df8909c625db5e81204b33435e7ed344620b3bd1e421408e5f72905"
+    },
+    {
+      "path": "preview/page-14.png",
+      "bytes": 56409,
+      "sha256": "56bf9884ef626fcc1e562d4d67adc08800e4cc15e41c171dbfdbc78b1b8bb4c9"
+    }
+  ],
+  "rightTriangleAnswerRecords": 24,
+  "triangleAreaAnswerRecords": 28,
+  "triangleAnswerRecords": 52,
+  "pointTriangleAnswerRecords": 4,
+  "kiteAnswerRecords": 9,
+  "rectilinearAnswerRecords": 6,
+  "answerPages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75
+  ]
+}

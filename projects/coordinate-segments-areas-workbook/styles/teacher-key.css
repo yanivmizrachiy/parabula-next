@@ -1,0 +1,74 @@
+/* מפתח מורה — מסמך עזר למורה, אינו דף A4 של תלמיד. */
+
+.tk-body {
+  background: #fff;
+  max-width: 210mm;
+  margin: 0 auto;
+  padding: 10mm;
+}
+
+.tk-body > h1 {
+  font-size: 18pt;
+  border-bottom: 2pt solid var(--seg-accent);
+  padding-bottom: 2mm;
+}
+
+.tk-note {
+  color: var(--seg-muted);
+  font-size: 10pt;
+}
+
+.tk-glossary ul {
+  columns: 2;
+  padding-inline-start: 6mm;
+}
+
+.tk-page {
+  margin-top: 6mm;
+  break-inside: avoid;
+}
+
+.tk-page > h2 {
+  font-size: 13pt;
+  color: var(--seg-accent);
+  border-bottom: 1pt solid var(--seg-rule);
+  padding-bottom: 1mm;
+}
+
+.tk-record {
+  margin: 3mm 0;
+  padding-inline-start: 4mm;
+  border-inline-start: 2pt solid var(--seg-soft);
+}
+
+.tk-record > h3 {
+  margin: 0;
+  font-size: 10.5pt;
+  font-family: Arial, sans-serif;
+  direction: ltr;
+  text-align: start;
+}
+
+.tk-source {
+  margin: 0.5mm 0 1.5mm;
+  font-size: 9pt;
+  color: var(--seg-muted);
+}
+
+.tk-table {
+  border-collapse: collapse;
+  font-size: 9.5pt;
+}
+
+.tk-table th,
+.tk-table td {
+  border: 0.6pt solid var(--seg-rule);
+  padding: 0.8mm 2mm;
+  text-align: start;
+}
+
+.tk-table th {
+  background: var(--seg-soft);
+  font-weight: 600;
+  white-space: nowrap;
+}

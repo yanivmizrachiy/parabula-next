@@ -1,0 +1,476 @@
+/* חוברת „אורכי קטעים, שטחים והיקפים במערכת הצירים” — CSS A4 יחיד.
+   חוזה A4 (CLAUDE.md §3): 210mm × 297mm, RTL, ללא overflow פנימי, ללא inline style. */
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+:root {
+  --seg-ink: #14181f;
+  --seg-muted: #55606f;
+  --seg-rule: #b9c2cf;
+  --seg-accent: #1d4ed8;
+  --seg-soft: #eef2fb;
+  --seg-grid: #d6dde8;
+  --seg-axis: #2a3444;
+  --seg-page-pad: 12mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+}
+
+body {
+  margin: 0;
+  background: #6b7280;
+  color: var(--seg-ink);
+  font-family: "Segoe UI", "Arial Hebrew", Arial, sans-serif;
+  font-size: 11pt;
+  line-height: 1.55;
+}
+
+/* ---------- מעטפת A4 ---------- */
+
+.a4-page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  /* השוליים התחתונים חייבים לפנות מקום לכותרת התחתית הממוקמת absolute. */
+  padding: var(--seg-page-pad) var(--seg-page-pad) 24mm;
+  margin: 8mm auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  break-after: page;
+  page-break-after: always;
+}
+
+.a4-page:last-of-type {
+  break-after: auto;
+  page-break-after: auto;
+}
+
+/* ---------- כותרת עליונה ---------- */
+
+.whead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "unit page" "title title";
+  align-items: baseline;
+  gap: 1mm 4mm;
+  padding-bottom: 2mm;
+  border-bottom: 1.6pt solid var(--seg-accent);
+  margin-bottom: 3.5mm;
+}
+
+.whead-unit {
+  grid-area: unit;
+  font-size: 9pt;
+  color: var(--seg-muted);
+  letter-spacing: 0.02em;
+}
+
+.whead-page {
+  grid-area: page;
+  font-size: 9pt;
+  font-weight: 700;
+  color: var(--seg-accent);
+}
+
+.whead-title {
+  grid-area: title;
+  margin: 0;
+  font-size: 15pt;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* ---------- גוף הדף ---------- */
+
+.wbody {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.4mm;
+  min-height: 0;
+  /* מקום המענה מתפרס על הגובה הפנוי במקום להשאיר שוליים ריקים בתחתית. */
+  justify-content: space-between;
+}
+
+.wcols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4mm;
+  align-items: start;
+}
+
+.wcol {
+  display: flex;
+  flex-direction: column;
+  gap: 3mm;
+  min-width: 0;
+}
+
+/* ---------- תיבת תזכורת ---------- */
+
+.wnote {
+  background: var(--seg-soft);
+  border-inline-start: 3pt solid var(--seg-accent);
+  border-radius: 2mm;
+  padding: 2.5mm 3.5mm;
+}
+
+.wnote-title {
+  margin: 0 0 1.5mm;
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--seg-accent);
+}
+
+.wnote-list {
+  margin: 0;
+  padding-inline-start: 5mm;
+  list-style: disc;
+}
+
+.wnote-list > li {
+  margin-bottom: 0.8mm;
+}
+
+/* ---------- כרטיס משימה ---------- */
+
+.wtask {
+  position: relative;
+  padding-inline-start: 5.5mm;
+}
+
+.wtask::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 1.9mm;
+  width: 2.2mm;
+  height: 2.2mm;
+  background: var(--seg-ink);
+  border-radius: 50%;
+}
+
+.wtask-text {
+  margin: 0 0 1.2mm;
+  font-weight: 600;
+}
+
+/* ---------- תת־סעיפים ---------- */
+
+.wsubs {
+  margin: 0;
+  padding-inline-start: 5mm;
+  list-style: none;
+}
+
+.wsubs > li {
+  position: relative;
+  padding-inline-start: 4.5mm;
+  margin-bottom: 1.8mm;
+}
+
+.wsubs > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 1.8mm;
+  width: 1.5mm;
+  height: 1.5mm;
+  background: var(--seg-muted);
+  border-radius: 50%;
+}
+
+.wlettered {
+  margin: 0;
+  padding-inline-start: 4mm;
+  list-style: none;
+}
+
+.wlettered > li {
+  display: flex;
+  gap: 1.5mm;
+  margin-bottom: 2mm;
+}
+
+.wletter {
+  flex: 0 0 auto;
+  font-weight: 700;
+  color: var(--seg-accent);
+}
+
+.wlettered-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---------- מקום מענה ---------- */
+
+.wlines {
+  display: flex;
+  flex-direction: column;
+  gap: 4.4mm;
+  margin: 2.5mm 0 1.5mm;
+}
+
+.wrule {
+  display: block;
+  border-bottom: 0.8pt solid var(--seg-rule);
+  height: 0;
+}
+
+.wlabel {
+  font-size: 9.5pt;
+  color: var(--seg-muted);
+}
+
+.wline {
+  display: inline-block;
+  border-bottom: 0.9pt solid var(--seg-rule);
+  vertical-align: baseline;
+}
+
+.wline-full {
+  width: 100%;
+  height: 5.5mm;
+}
+
+.wline-short {
+  width: 22mm;
+  height: 5.5mm;
+}
+
+/* תיבת ערך יחיד בתוך ביטוי מובנה */
+.wline-box {
+  width: 14mm;
+  height: 7mm;
+  border: 0.9pt solid var(--seg-rule);
+  border-radius: 1mm;
+}
+
+.wexpr-row {
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+  margin: 2mm 0;
+  flex-wrap: wrap;
+}
+
+.wexpr {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5mm;
+}
+
+.wop {
+  font-weight: 700;
+  font-size: 12pt;
+}
+
+/* ---------- בחירה מרובה ---------- */
+
+.wchoices {
+  margin: 1mm 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6mm 4mm;
+}
+
+.wchoices > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.8mm;
+}
+
+.wbox {
+  flex: 0 0 auto;
+  width: 3.4mm;
+  height: 3.4mm;
+  margin-top: 0.9mm;
+  border: 0.9pt solid var(--seg-ink);
+  border-radius: 0.6mm;
+}
+
+.wchoice-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---------- טבלה ---------- */
+
+.wtable {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5mm 0;
+}
+
+.wtable th,
+.wtable td {
+  border: 0.7pt solid var(--seg-rule);
+  padding: 1.4mm 1.6mm;
+  text-align: center;
+}
+
+.wtable th {
+  background: var(--seg-soft);
+  font-size: 9.5pt;
+  font-weight: 700;
+}
+
+.wtable td {
+  height: 8.5mm;
+}
+
+/* ---------- איורים ומערכות צירים ---------- */
+
+.wfigure {
+  margin: 0;
+  text-align: center;
+}
+
+.wfigcap {
+  margin-top: 1mm;
+  font-size: 9pt;
+  color: var(--seg-muted);
+}
+
+svg.cg {
+  max-width: 100%;
+  height: auto;
+}
+
+.cg-grid {
+  stroke: var(--seg-grid);
+  stroke-width: 0.5;
+}
+
+.cg-axis {
+  stroke: var(--seg-axis);
+  stroke-width: 1.2;
+}
+
+.cg-tick {
+  stroke: var(--seg-axis);
+  stroke-width: 1;
+}
+
+.cg-arrow-head {
+  fill: var(--seg-axis);
+}
+
+.cg-tick-label {
+  font-size: 8px;
+  fill: var(--seg-muted);
+  font-family: Arial, sans-serif;
+}
+
+.cg-axis-name {
+  font-size: 10px;
+  font-style: italic;
+  fill: var(--seg-axis);
+  font-family: Arial, sans-serif;
+}
+
+.cg-point {
+  fill: var(--seg-accent);
+}
+
+.cg-point-label {
+  font-size: 9px;
+  font-weight: 700;
+  fill: var(--seg-ink);
+  font-family: Arial, sans-serif;
+}
+
+.cg-text {
+  font-size: 9px;
+  fill: var(--seg-ink);
+}
+
+.cg-seg {
+  stroke: var(--seg-accent);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.cg-poly {
+  stroke: var(--seg-accent);
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.cg-fill {
+  fill: rgba(29, 78, 216, 0.09);
+}
+
+.cg-dashed {
+  stroke-dasharray: 4 3;
+}
+
+/* ---------- כותרת תחתית (CLAUDE.md §4.2) ---------- */
+
+.wfoot {
+  position: absolute;
+  inset-inline: var(--seg-page-pad);
+  bottom: 7mm;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4mm;
+  padding-top: 1.6mm;
+  border-top: 0.7pt solid var(--seg-rule);
+  font-size: 8pt;
+  color: var(--seg-muted);
+  text-align: center;
+}
+
+/* ---------- קטעי LTR ---------- */
+
+.ltr {
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: Arial, sans-serif;
+  font-weight: 600;
+}
+
+/* ---------- התאמת עמוד 19: שמירת מלוא התוכן ללא גלישה ---------- */
+/* ההפחתה ממוקדת רק במרווחים ובגובה תאי הטבלה; גודל הגופן ומקומות המענה נשמרים. */
+#page-19 .wlines {
+  gap: 3mm;
+  margin-block: 1.5mm 1mm;
+}
+
+#page-19 .wtable td {
+  height: 7.5mm;
+}
+
+/* ---------- הדפסה ---------- */
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .a4-page {
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+@media screen {
+  .a4-page {
+    box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.3);
+  }
+}

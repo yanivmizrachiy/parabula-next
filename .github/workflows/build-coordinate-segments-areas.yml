@@ -1,0 +1,134 @@
+name: Build coordinate segments and areas workbook
+
+# מריץ בדיקות ובנייה לחוברת „אורכי קטעים, שטחים והיקפים במערכת הצירים” בלבד.
+# הכללים המחייבים נמצאים ב־CLAUDE.md; קובץ זה אינו מגדיר כללים משלו.
+# ה־workflow מוגבל בנתיבים כדי שלא ייגע בנושאים אחרים בריפו.
+
+on:
+  push:
+    branches:
+      - agent/coordinate-segments-areas-workbook
+    paths:
+      - projects/coordinate-segments-areas-workbook/**
+      - .github/workflows/build-coordinate-segments-areas.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - projects/coordinate-segments-areas-workbook/**
+      - .github/workflows/build-coordinate-segments-areas.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coordinate-segments-areas-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: projects/coordinate-segments-areas-workbook
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install system build tools
+        working-directory: .
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils zip
+
+      # Playwright והדפדפן מותקנים מאותה package.json ובאותה תיקייה.
+      - name: Install project dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Install matching Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Prepare audit directory
+        run: mkdir -p audit
+
+      # הבדיקות שאינן תלויות בדפדפן רצות ראשונות: כשל כאן חוסך בנייה מלאה.
+      # הפלט נשמר תמיד כדי שאפשר יהיה לאבחן assertion מדויק מן ה־artifact.
+      - name: Unit and contract tests
+        run: |
+          set -o pipefail
+          node --test \
+            "tests/coordinate-svg.test.mjs" \
+            "tests/pages.test.mjs" \
+            "tests/answers.test.mjs" \
+            "tests/guards.test.mjs" \
+            "tests/isolation.test.mjs" \
+            "tests/unit-04.test.mjs" \
+            "tests/unit-05.test.mjs" \
+            "tests/unit-06.test.mjs" \
+            "tests/unit-07.test.mjs" \
+            "tests/unit-08.test.mjs" \
+            2>&1 | tee audit/unit-tests.log
+
+      - name: Build workbook and combined teacher key
+        id: workbook_build
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee audit/build.log
+
+      # בדיקת הגאומטריה מודדת את dist שנבנה זה עתה, ולכן היא רצה אחרי הבנייה.
+      - name: A4 geometry tests in a real browser
+        run: |
+          set -o pipefail
+          node --test "tests/a4-geometry.test.mjs" 2>&1 | tee audit/a4-tests.log
+
+      - name: Assert the build skipped nothing
+        run: |
+          SKIPPED="$(node -p "JSON.parse(require('fs').readFileSync('audit/generated-audit.json','utf8')).skipped.join(',')")"
+          if [ -n "$SKIPPED" ]; then
+            echo "Build skipped required stages: $SKIPPED" >&2
+            exit 1
+          fi
+
+      - name: Assert all pages have verified answers
+        run: |
+          node - <<'NODE'
+          const audit = JSON.parse(require('fs').readFileSync('audit/generated-audit.json', 'utf8'));
+          if (audit.answerPages.length !== audit.htmlPages) {
+            throw new Error(`Only ${audit.answerPages.length}/${audit.htmlPages} pages have verified answers`);
+          }
+          if (audit.triangleAnswerRecords < 9) {
+            throw new Error(`Only ${audit.triangleAnswerRecords} verified triangle records`);
+          }
+          NODE
+
+      - name: Verify checksums
+        run: sha256sum -c SHA256SUMS.txt
+
+      # הצלבת מקור/dist/audit/metadata/STATUS — נכשל על כל סתירה בין הדוחות למציאות.
+      - name: Cross-consistency validation
+        run: |
+          set -o pipefail
+          npm run validate 2>&1 | tee audit/validate.log
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coordinate-segments-areas-workbook
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            projects/coordinate-segments-areas-workbook/dist
+            projects/coordinate-segments-areas-workbook/downloads
+            projects/coordinate-segments-areas-workbook/preview
+            projects/coordinate-segments-areas-workbook/audit/generated-audit.json
+            projects/coordinate-segments-areas-workbook/audit/unit-tests.log
+            projects/coordinate-segments-areas-workbook/audit/build.log
+            projects/coordinate-segments-areas-workbook/audit/a4-tests.log
+            projects/coordinate-segments-areas-workbook/audit/validate.log
+            projects/coordinate-segments-areas-workbook/SHA256SUMS.txt
