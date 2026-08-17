@@ -45,7 +45,6 @@ test('כתיב וסימן כפל נקיים בכל הרצף',()=>{
     if(/(?:יתר[^.]{0,45}אלכסונ|אלכסונ[^.]{0,45}יתר)/u.test(text)) issues.push(`עמוד-${n}: אלכסון כשם ליתר`);
     if(/×/u.test(html)) issues.push(`עמוד-${n}: × אסור`);
     if(/\\times\b/u.test(html)) issues.push(`עמוד-${n}: \\times אסור`);
-    // בודקים את ה-HTML הגולמי, כדי שלא לחבר בטעות תוויות SVG נפרדות כמו 8, x, 5.
     if(/\b\d+\s*[xX]\s*\d+\b/u.test(html)) issues.push(`עמוד-${n}: x/X כסימן כפל`);
   }
   assert.deepEqual(issues,[],'\n'+issues.join('\n'));
@@ -76,14 +75,32 @@ test('עקרונות מתמטיים קריטיים נשמרים',()=>{
   assert.ok(leg.includes('x^2+4^2=5^2')); assert.ok(leg.includes('3=x'));
 });
 
-test('עמוד 33 דורש דרך מלאה ותשובה סופית לכל אחד משני הסעיפים',()=>{
+test('עמוד 33 נותן דרך מלאה לכל ארבעת המשולשים בלי דחיסת בעיה נוספת',()=>{
   const html=htmlOf(21),css=read('styles/pages/עמוד-21.css');
-  assert.equal((html.match(/class="solution-space"/gu)||[]).length,2);
+  assert.equal((html.match(/data-required-lines="4"/gu)||[]).length,4);
+  assert.equal((html.match(/class="solution-space pyt-mini-solution"/gu)||[]).length,4);
+  assert.equal((html.match(/class="pyt-cb-box"/gu)||[]).length,4);
+  assert.match(html,/הציגו חישוב מלא עבור כל ארבעת המשולשים/u);
+  assert.doesNotMatch(html,/לפניכם מלבן/u,'בעיית המלבן חייבת להיות בדף נפרד');
+  assert.match(css,/grid-template-columns:\s*repeat\(2/u);
+  assert.match(css,/min-height:\s*118px/u);
+});
+
+test('הדף החדש של המלבן נותן דרך מלאה נפרדת לשני הסעיפים',()=>{
+  assert.ok(VISIBLE.includes(654),'עמוד 654 חייב להיות רשום ברצף פיתגורס');
+  const html=htmlOf(654),css=read('styles/pages/עמוד-654.css');
+  assert.equal((html.match(/data-required-lines="6"/gu)||[]).length,2);
   assert.equal((html.match(/class="pyt-final-answer"/gu)||[]).length,2);
-  assert.equal((html.match(/הַציגו את דרך הפתרון:/gu)||[]).length,2);
+  assert.match(html,/חשבו את אורך הקטע/u);
   assert.match(html,/חשבו את היקף הטרפז/u);
-  assert.doesNotMatch(html,/הקיף הטרפז/u);
-  assert.match(css,/\.page-21 \.solution-space \{[^}]*min-height:\s*110px/u);
+  assert.match(css,/min-height:\s*154px/u);
+});
+
+test('קווי השרטוט בדפי פיתגורס הוותיקים עדינים להדפסה',()=>{
+  const css=read('styles/topics/pythagoras-live.css');
+  assert.match(css,/\.pyt-live \.pyt-edge \{[^}]*stroke-width:\s*1\.85;/u);
+  assert.match(css,/\.pyt-live \.pyt-right \{[^}]*stroke-width:\s*1\.55;/u);
+  assert.doesNotMatch(css,/stroke-width:\s*2\.5;/u);
 });
 
 test('הניווט של כל דפי הנושא רציף ונגזר מהמטא',()=>{
