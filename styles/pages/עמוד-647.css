@@ -1,1 +1,19 @@
 @import url("../topics/pythagoras-foundations.css");
+
+/* שישה משולשים = שתי שורות של שלושה; אין צורך בשטח עבודה נוסף כי נדרשת רק משוואה. */
+.page-647 .foundation-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.page-647 .foundation-card {
+  min-height: 208px;
+}
+
+.page-647 .foundation-svg {
+  height: 118px;
+}
+
+.page-647 .question-block > .work-lines {
+  display: none;
+}
