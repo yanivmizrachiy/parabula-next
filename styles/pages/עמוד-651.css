@@ -1,1 +1,5 @@
 @import url("../topics/pythagoras-foundations.css");
+
+.page-651 .work-lines.short {
+  min-height: 82px;
+}
