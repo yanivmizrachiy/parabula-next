@@ -10,6 +10,7 @@ on:
       - 'catalog.js'
       - 'catalog-deep-link.js'
       - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -57,3 +58,5 @@ jobs:
             עמוד-15.html עמוד-16.html עמוד-17.html עמוד-18.html עמוד-19.html עמוד-20.html \
             עמוד-21.html עמוד-22.html עמוד-23.html עמוד-24.html עמוד-25.html עמוד-26.html \
             עמוד-27.html עמוד-28.html עמוד-29.html עמוד-30.html עמוד-41.html
+      - name: Report dead whitespace inside all 43 Pythagoras pages
+        run: node scripts/pythagoras-whitespace-audit.mjs
