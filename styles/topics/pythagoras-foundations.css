@@ -30,6 +30,10 @@
 .pyt-foundation .response-line.long { min-width: 210px; }
 .pyt-foundation .work-lines { min-height: 92px; border: 1px solid var(--border-light); border-radius: 8px; background: repeating-linear-gradient(to bottom, var(--bg-paper) 0, var(--bg-paper) 27px, var(--grid-line) 28px); }
 .pyt-foundation .foundation-card .work-lines { width: 100%; }
+/* שאלה חישובית מלאה: דרך שורה-שורה + תשובה סופית נפרדת. */
+.pyt-foundation .full-solution-space { width: 100%; min-height: 140px; border: 1px solid var(--border-light); border-radius: 8px; background: repeating-linear-gradient(to bottom, var(--bg-paper) 0, var(--bg-paper) 27px, var(--grid-line) 28px); direction: ltr; unicode-bidi: isolate; }
+.pyt-foundation .student-final-answer { width: 100%; min-height: 38px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; direction: ltr; unicode-bidi: isolate; font-size: 16px; border-top: 1px solid var(--border-light); padding-top: 6px; }
+.pyt-foundation .student-final-answer .foundation-fill { height: 30px; }
 .pyt-foundation .power-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
 .pyt-foundation .math-card { direction: ltr; unicode-bidi: isolate; border: 1px solid var(--border-light); border-radius: 9px; background: var(--bg-paper); padding: 12px 8px; text-align: center; font-size: 19px; min-height: 54px; }
 .pyt-foundation .statement-list { display: grid; gap: 10px; }
