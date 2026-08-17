@@ -1,5 +1,11 @@
 @import url("../topics/pythagoras-foundations.css");
 
-.page-653 .equation-practice-card .work-lines {
-  min-height: 126px;
+.page-653 .equation-practice-card .full-solution-space {
+  min-height: 140px;
+}
+
+.page-653 .equation-practice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
