@@ -57,18 +57,26 @@
   font-size: 16px;
 }
 
+.page-636 .compact-instruction,
+.page-636 .synthesis-instruction {
+  margin-top: 1px;
+}
+
+.page-636 .concept-check-grid {
+  gap: 10px;
+}
+
 .page-636 .concept-check {
-  min-height: 72px;
-  padding: 10px 16px;
+  min-height: 92px;
+  padding: 10px 12px;
+  justify-content: flex-start;
 }
 
 .page-636 .concept-check p {
   margin: 0;
-  font-size: 17px;
-}
-
-.page-636 .synthesis-instruction {
-  margin-top: 1px;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .page-636 .synthesis-drawing-card {
