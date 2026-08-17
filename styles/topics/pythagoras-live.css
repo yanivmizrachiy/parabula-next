@@ -45,11 +45,19 @@
 	shape-rendering: geometricPrecision;
 }
 
-.pyt-live .pyt-edge,
+.pyt-live .pyt-edge {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.85;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
 .pyt-live .pyt-right {
 	fill: none;
 	stroke: currentColor;
-	stroke-width: 2.5;
+	stroke-width: 1.55;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
@@ -58,7 +66,7 @@
 .pyt-live .pyt-brace {
 	fill: none;
 	stroke: currentColor;
-	stroke-width: 1.5;
+	stroke-width: 1.4;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
@@ -67,7 +75,7 @@
 .pyt-live .pyt-fill {
 	fill: var(--bg-subtle);
 	stroke: currentColor;
-	stroke-width: 2.5;
+	stroke-width: 1.85;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
 }
@@ -77,7 +85,7 @@
 	fill: var(--text-main);
 	paint-order: stroke;
 	stroke: var(--bg-paper);
-	stroke-width: 2.5;
+	stroke-width: 1.5;
 }
 
 .pyt-live .pyt-point {
@@ -151,7 +159,7 @@
 .pyt-live .pyt-mc-box {
 	width: 19px;
 	height: 19px;
-	border: 1.5px solid var(--accent-dark);
+	border: 1.35px solid #1f2a44;
 	border-radius: 4px;
 	background: var(--bg-paper);
 	flex: 0 0 auto;
