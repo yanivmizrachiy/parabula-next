@@ -1,51 +1,60 @@
-/* עמוד 21 — משפט פיתגורס (שאלה 13: זיהוי יתר √13 מבין 4 משולשים; שאלה 14: מלבן ABCD, EC והיקף טרפז AECD) */
+/* עמוד 21 — משפט פיתגורס: זיהוי יתר √13 + מלבן ABCD עם דרך מלאה לשני הסעיפים */
 @import url("../topics/pythagoras-live.css");
 
 .page-21 {
-	--fig-w: 380px;
+	--fig-w: 330px;
 }
 
-/* ---- מבנה כללי של שתי השאלות ---- */
 .page-21 .question-block {
 	justify-content: flex-start;
-	gap: 12px;
+	gap: 9px;
 }
 
 .page-21 .pyt-qgroup {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 6px;
 }
 
 .page-21 .pyt-qgroup.pyt-grow {
-	flex: 1 1 auto;
 	border-top: 1px solid var(--border-light);
-	padding-top: 12px;
+	padding-top: 8px;
 }
 
-/* ---- שאלה 13: שורת ארבעת המשולשים ---- */
+/* ---- זיהוי √13: ארבעה סרטוטים מאוזנים בשורה אחת ---- */
 .page-21 .pyt-tri-row {
 	align-items: flex-end;
-	justify-content: space-around;
-	gap: 10px;
-	padding: 4px 6px 0;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	gap: 8px;
+	padding: 0 4px;
 }
 
 .page-21 .pyt-tri-cell {
 	align-items: center;
-	gap: 6px;
+	justify-content: flex-end;
+	gap: 4px;
+	min-width: 0;
+	flex: 1 1 0;
 }
 
 .page-21 .pyt-tri-svg-wrap {
 	display: flex;
 	align-items: flex-end;
 	justify-content: center;
+	height: 136px;
+	width: 100%;
+}
+
+.page-21 .pyt-tri-svg-wrap .pyt-fig-svg {
+	max-height: 132px;
+	width: auto;
 }
 
 .page-21 .pyt-choicebox {
 	display: flex;
 	align-items: flex-end;
-	gap: 2px;
+	gap: 3px;
 }
 
 .page-21 .pyt-cb-box {
@@ -59,29 +68,24 @@
 .page-21 .pyt-cb-num {
 	font-size: 10px;
 	color: var(--text-main);
-	align-self: flex-end;
 }
 
-/* ---- שאלה 14: פתיח (נתונים + תרשים) ---- */
+/* ---- המלבן: נתונים ותרשים זה לצד זה ---- */
 .page-21 .pyt-q14-intro {
-	display: flex;
-	flex-direction: row-reverse;
+	display: grid;
+	grid-template-columns: minmax(210px, 0.8fr) minmax(330px, 1.2fr);
 	align-items: center;
-	justify-content: flex-start;
-	gap: 18px;
-	flex-wrap: wrap;
+	gap: 12px;
 }
 
 .page-21 .pyt-q14-given {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
-	line-height: 22px;
-	min-width: 150px;
+	gap: 4px;
+	line-height: 20px;
 }
 
 .page-21 .pyt-q14-fig {
-	flex: 1 1 auto;
 	display: flex;
 	justify-content: center;
 }
@@ -89,31 +93,38 @@
 .page-21 .pyt-q14-fig .pyt-diagram-frame {
 	width: var(--fig-w);
 	max-width: 100%;
+	padding: 6px;
 }
 
-.page-21 .pyt-q14-mid {
-	line-height: 22px;
+.page-21 .pyt-q14-fig .pyt-fig-svg {
+	max-height: 116px;
+	width: auto;
 }
 
-/* ---- תת-סעיפים א' ו-ב' ---- */
+/* ---- לכל סעיף: דרך מלאה ואז תשובה סופית ---- */
+.page-21 .pyt-sub-block {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
 .page-21 .pyt-sub-line {
 	display: flex;
 	align-items: baseline;
-	gap: 8px;
-	line-height: 22px;
+	gap: 7px;
+	line-height: 21px;
 }
 
 .page-21 .pyt-solve-note {
-	margin-top: 2px;
-	line-height: 22px;
+	line-height: 20px;
+	font-weight: 500;
 }
 
-.page-21 .pyt-part-b {
-	margin-top: 6px;
-}
-
-/* ---- אזור פתרון מתרחב ---- */
 .page-21 .solution-space {
-	flex: 1;
-	min-height: 90px;
+	min-height: 110px;
+	flex: 0 0 110px;
+}
+
+.page-21 .pyt-final-row {
+	min-height: 30px;
 }
