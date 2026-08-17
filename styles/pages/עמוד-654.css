@@ -49,9 +49,10 @@
 	line-height: 24px;
 }
 
+/* השטח שהיה מת הופך למקום כתיבה: 6+ שורות בפועל בכל סעיף. */
 .page-654 .pyt-full-work {
-	min-height: 154px;
-	height: 154px;
+	min-height: 220px;
+	height: 220px;
 }
 
 .page-654 .pyt-final-row {
