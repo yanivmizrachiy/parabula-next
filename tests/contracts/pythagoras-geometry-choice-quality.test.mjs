@@ -12,13 +12,33 @@ function section(html, className) {
   return html.slice(from, nextInstruction >= 0 ? nextInstruction : html.length);
 }
 
-function trianglePaths(html) {
-  return [...html.matchAll(/<path class="edge" d="M\s*([\d.]+)\s+([\d.]+)\s+(?:H\s*([\d.]+)\s+L\s*([\d.]+)\s+([\d.]+)|L\s*([\d.]+)\s+([\d.]+)\s+L\s*([\d.]+)\s+([\d.]+))\s*Z"/gu)].map((m) => {
-    if (m[3] !== undefined) {
-      return [[Number(m[1]), Number(m[2])], [Number(m[3]), Number(m[2])], [Number(m[4]), Number(m[5])]];
+function pathToPoints(d) {
+  const tokens = d.match(/[MLHVZ]|-?\d+(?:\.\d+)?/gu) || [];
+  const points = [];
+  let i = 0;
+  let x = 0;
+  let y = 0;
+  while (i < tokens.length) {
+    const cmd = tokens[i++];
+    if (cmd === 'M' || cmd === 'L') {
+      x = Number(tokens[i++]);
+      y = Number(tokens[i++]);
+      points.push([x, y]);
+    } else if (cmd === 'H') {
+      x = Number(tokens[i++]);
+      points.push([x, y]);
+    } else if (cmd === 'V') {
+      y = Number(tokens[i++]);
+      points.push([x, y]);
+    } else if (cmd === 'Z') {
+      break;
     }
-    return [[Number(m[1]), Number(m[2])], [Number(m[6]), Number(m[7])], [Number(m[8]), Number(m[9])]];
-  });
+  }
+  return points.slice(0, 3);
+}
+
+function trianglePaths(html) {
+  return [...html.matchAll(/<path class="edge" d="([^"]+Z)"/gu)].map((m) => pathToPoints(m[1]));
 }
 
 function angleAt(a, b, c) {
@@ -32,6 +52,7 @@ function angleAt(a, b, c) {
 }
 
 function triangleAngles(points) {
+  assert.equal(points.length, 3, 'נתיב משולש חייב להכיל שלושה קודקודים');
   return [
     angleAt(points[1], points[0], points[2]),
     angleAt(points[0], points[1], points[2]),
@@ -85,6 +106,6 @@ test('קווי הגאומטריה בפיתגורס דקים ומתאימים ל�
   for (const file of ['styles/pages/עמוד-634.css', 'styles/pages/עמוד-635.css']) {
     const css = read(file);
     const widths = [...css.matchAll(/stroke-width:\s*([\d.]+)/gu)].map((m) => Number(m[1]));
-    assert.ok(widths.every((w) => w <= 2.2), `${file}: נמצא קו עבה מדי (${Math.max(...widths)}px)`);
+    assert.ok(widths.every((w) => w <= 2.2), `${file}: נמצא קו עבה מדי (${Math.max(0, ...widths)}px)`);
   }
 });
