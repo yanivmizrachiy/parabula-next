@@ -80,7 +80,7 @@
 .page-635 .guided-triangle-svg .guide-edge {
   fill: none;
   stroke: var(--accent-dark);
-  stroke-width: 3;
+  stroke-width: 2.1;
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
