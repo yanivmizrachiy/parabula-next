@@ -1,130 +1,67 @@
-/* עמוד 21 — משפט פיתגורס: זיהוי יתר √13 + מלבן ABCD עם דרך מלאה לשני הסעיפים */
+/* עמוד 21 — משפט פיתגורס: ארבעה משולשים, דרך מלאה לכל אחד */
 @import url("../topics/pythagoras-live.css");
 
-.page-21 {
-	--fig-w: 330px;
-}
-
 .page-21 .question-block {
-	justify-content: flex-start;
-	gap: 9px;
-}
-
-.page-21 .pyt-qgroup {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
+	justify-content: flex-start;
+	gap: 12px;
 }
 
-.page-21 .pyt-qgroup.pyt-grow {
-	border-top: 1px solid var(--border-light);
-	padding-top: 8px;
+.page-21 .pyt-tri-audit-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+	flex: 1 1 auto;
 }
 
-/* ---- זיהוי √13: ארבעה סרטוטים מאוזנים בשורה אחת ---- */
-.page-21 .pyt-tri-row {
-	align-items: flex-end;
-	justify-content: space-between;
-	flex-wrap: nowrap;
+.page-21 .pyt-tri-work-card {
+	display: grid;
+	grid-template-rows: 150px minmax(118px, 1fr) 32px;
 	gap: 8px;
-	padding: 0 4px;
+	align-items: stretch;
+	padding: 12px 14px;
+	border: 1px solid var(--border-light);
+	border-radius: 10px;
+	background: var(--bg-paper);
+	min-height: 0;
 }
 
-.page-21 .pyt-tri-cell {
-	align-items: center;
-	justify-content: flex-end;
-	gap: 4px;
-	min-width: 0;
-	flex: 1 1 0;
-}
-
-.page-21 .pyt-tri-svg-wrap {
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	height: 136px;
+.page-21 .pyt-tri-work-card .pyt-fig-svg {
 	width: 100%;
+	height: 150px;
+	max-height: 150px;
 }
 
-.page-21 .pyt-tri-svg-wrap .pyt-fig-svg {
-	max-height: 132px;
-	width: auto;
+.page-21 .pyt-tri-work-card .pyt-side {
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.page-21 .pyt-mini-solution {
+	min-height: 118px;
+	height: 100%;
 }
 
 .page-21 .pyt-choicebox {
 	display: flex;
-	align-items: flex-end;
-	gap: 3px;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 5px;
+	direction: ltr;
 }
 
 .page-21 .pyt-cb-box {
-	width: 26px;
-	height: 26px;
-	border: 1.5px solid var(--accent-dark);
-	background: var(--bg-paper);
+	width: 24px;
+	height: 24px;
+	border: 1.35px solid #1f2a44;
+	border-radius: 6px;
+	background: #fff;
+	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.08);
 	flex: 0 0 auto;
 }
 
 .page-21 .pyt-cb-num {
-	font-size: 10px;
+	font-size: 11px;
 	color: var(--text-main);
-}
-
-/* ---- המלבן: נתונים ותרשים זה לצד זה ---- */
-.page-21 .pyt-q14-intro {
-	display: grid;
-	grid-template-columns: minmax(210px, 0.8fr) minmax(330px, 1.2fr);
-	align-items: center;
-	gap: 12px;
-}
-
-.page-21 .pyt-q14-given {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	line-height: 20px;
-}
-
-.page-21 .pyt-q14-fig {
-	display: flex;
-	justify-content: center;
-}
-
-.page-21 .pyt-q14-fig .pyt-diagram-frame {
-	width: var(--fig-w);
-	max-width: 100%;
-	padding: 6px;
-}
-
-.page-21 .pyt-q14-fig .pyt-fig-svg {
-	max-height: 116px;
-	width: auto;
-}
-
-/* ---- לכל סעיף: דרך מלאה ואז תשובה סופית ---- */
-.page-21 .pyt-sub-block {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.page-21 .pyt-sub-line {
-	display: flex;
-	align-items: baseline;
-	gap: 7px;
-	line-height: 21px;
-}
-
-.page-21 .pyt-solve-note {
-	line-height: 20px;
-	font-weight: 500;
-}
-
-.page-21 .solution-space {
-	min-height: 110px;
-	flex: 0 0 110px;
-}
-
-.page-21 .pyt-final-row {
-	min-height: 30px;
 }
