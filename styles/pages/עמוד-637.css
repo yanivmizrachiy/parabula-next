@@ -36,7 +36,7 @@
 }
 
 .page-637 .reasoning-card {
-  min-height: 198px;
+  min-height: 262px;
   justify-content: flex-start;
   padding: 8px 10px 10px;
   gap: 6px;
@@ -52,6 +52,7 @@
   margin-top: auto;
 }
 
+/* ארבע שורות כתיבה אמיתיות לנימוק — השטח הפנוי משמש את התלמיד, לא רווח מלאכותי. */
 .page-637 .reason-space {
-  min-height: 56px;
+  min-height: 120px;
 }
