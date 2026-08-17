@@ -46,17 +46,17 @@
   margin-top: 2px;
 }
 
-/* שתי משימות הציור נשארות בגודל מאוזן, אך נערמות כדי לנצל את גובה ה-A4. */
+/* שתי משימות השלמה מקבילות: מרחב כתיבה אמיתי בלי לדחוס את ה-A4. */
 .page-635 .drawing-grid {
-  grid-template-columns: 1fr;
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
 .page-635 .drawing-card {
-  min-height: 142px;
+  min-height: 176px;
   align-items: stretch;
   justify-content: flex-start;
-  padding: 8px 14px 10px;
+  padding: 10px 14px 12px;
 }
 
 .page-635 .draw-label {
@@ -66,12 +66,12 @@
 }
 
 .page-635 .guided-triangle-card {
-  gap: 4px;
+  gap: 6px;
 }
 
 .page-635 .guided-triangle-svg {
   width: 100%;
-  height: 80px;
+  height: 108px;
   border: 1px dashed var(--grid-line);
   border-radius: 8px;
   background: var(--bg-paper);
@@ -93,6 +93,6 @@
 .page-635 .guide-caption {
   margin: 0;
   font-size: 16px;
-  line-height: 1.3;
+  line-height: 1.35;
   text-align: center;
 }
