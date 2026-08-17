@@ -6,7 +6,7 @@ const read = (file) => fs.readFileSync(file, 'utf8');
 
 test('עמוד 1 שומר את המשימות הטובות ומרחיב רק את סעיף הסיווג', () => {
   const html = read('עמוד-634.html');
-  assert.match(html, /בחרו אחת מן הזוויות הישרות וכתבו את מידתה/u);
+  assert.match(html, /בחרו זווית ישרה אחת מהסרטוטים וכתבו את מידתה/u);
   assert.match(html, /הוסיפו בסרטוט סימון של זווית ישרה/u);
   assert.match(html, /קבעו בכל סרטוט: ישרה או לא ישרה/u);
   assert.equal((html.match(/aria-label="כתבו ישרה או לא ישרה"/gu) || []).length, 3);
