@@ -86,21 +86,26 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   assert.equal((p2.match(/class="foundation-card drawing-card\b/gu)||[]).length,2,'עמוד 2 צריך שתי משימות ציור מרווחות');
   const p3=read('עמוד-636.html');
   assert.equal((p3.match(/הניצבים:/gu)||[]).length,4,'עמוד 3 צריך לכלול ארבעה פריטי תרגול של שמות ניצבים');
+  assert.match(p3,/concept-check-grid/u,'עמוד 3 צריך מקבץ השלמות קצר לאחר זיהוי הניצבים');
+  assert.equal((p3.match(/class="foundation-card concept-check"/gu)||[]).length,3,'עמוד 3 צריך שלושה סעיפי השלמה מקבילים');
   assert.match(p3,/synthesis-drawing-card/u,'עמוד 3 צריך משימת סינתזה פתוחה');
   const p4=read('עמוד-637.html');
   assert.equal((p4.match(/היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
-  assert.ok(p4.includes('אורכי צלעותיו 6, 8, 10'));
+  assert.match(p4,/length-check-grid/u,'עמוד 4 צריך מקבץ זיהוי יתר לפי אורכי צלעות');
+  assert.equal((p4.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length,3,'זיהוי יתר לפי אורכים חייב להופיע בשלושה סעיפים מקבילים');
+  for (const triple of ['3, 4, 5','6, 8, 10','5, 12, 13']) assert.ok(p4.includes(triple));
   assert.match(p4,/synthesis-drawing-card/u,'עמוד 4 צריך משימת סינתזה פתוחה');
 });
 
-test('עמוד 1 מתרגל כל פורמט חדש כמקבץ דידקטי ולא כפריט בודד',()=>{
+test('עמודים 1, 3 ו-4 אינם מציגים פורמט חדש כפריט בודד',()=>{
   const p1=read('עמוד-634.html');
   assert.match(p1,/קבעו בכל סרטוט: ישרה או לא ישרה/u);
   assert.equal((p1.match(/aria-label="כתבו ישרה או לא ישרה"/gu)||[]).length,3,'סיווג ישרה/לא ישרה חייב להופיע לפחות בשלושה סעיפים מקבילים');
-  assert.match(p1,/<span class="draw-label">א<\/span>/u);
-  assert.match(p1,/<span class="draw-label">ב<\/span>/u);
-  assert.match(p1,/<span class="draw-label">ג<\/span>/u);
   assert.doesNotMatch(p1,/בחרו זווית ישרה אחת מהסרטוטים/u,'אין לערבב במקבץ הסיווג משימת יחיד מסוג אחר');
+  const p3=read('עמוד-636.html');
+  assert.equal((p3.match(/class="foundation-card concept-check"/gu)||[]).length,3,'השלמות מושגי הניצבים צריכות להופיע כמקבץ של שלושה');
+  const p4=read('עמוד-637.html');
+  assert.equal((p4.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length,3,'זיהוי היתר לפי אורכים צריך להופיע כמקבץ של שלושה');
 });
 
 test('ההסבר העליון בעמודים 1-4 הוא השלמה מודרכת עם תיבה שמתאימה לסוג התשובה',()=>{
@@ -149,7 +154,7 @@ test('היתר נלמד גם כמול הזווית הישרה וגם כצלע ה
   const html=read('עמוד-637.html');
   assert.match(html,/הצלע שמול הזווית הישרה נקראת <span class="foundation-fill foundation-fill-short"/u);
   assert.match(html,/היא גם הצלע <span class="foundation-fill foundation-fill-medium"[^>]*><\/span> ביותר במשולש/u);
-  assert.match(read('עמוד-638.html'),/אורכי צלעותיו 6, 8, 10/u);
+  assert.match(html,/אורכי הצלעות: 6, 8, 10/u);
 });
 
 test('x בריבוע נפתר בדרך מלאה לפני פיתגורס',()=>{
