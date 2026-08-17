@@ -93,7 +93,7 @@ test('הדף החדש של המלבן נותן דרך מלאה נפרדת לשנ
   assert.equal((html.match(/class="pyt-final-answer"/gu)||[]).length,2);
   assert.match(html,/חשבו את אורך הקטע/u);
   assert.match(html,/חשבו את היקף הטרפז/u);
-  assert.match(css,/min-height:\s*154px/u);
+  assert.match(css,/min-height:\s*220px/u);
 });
 
 test('קווי השרטוט בדפי פיתגורס הוותיקים עדינים להדפסה',()=>{
