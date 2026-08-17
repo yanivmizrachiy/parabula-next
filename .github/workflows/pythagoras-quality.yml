@@ -48,7 +48,7 @@ jobs:
       - name: Audit all 43 Pythagoras A4 pages
         shell: bash
         run: |
-          node scripts/a4-utilization-audit.mjs \
+          node scripts/a4-utilization-audit.mjs --min=80 \
             עמוד-634.html עמוד-635.html עמוד-636.html עמוד-637.html עמוד-638.html \
             עמוד-639.html עמוד-640.html עמוד-641.html עמוד-651.html עמוד-642.html \
             עמוד-652.html עמוד-643.html עמוד-644.html עמוד-645.html עמוד-646.html \
