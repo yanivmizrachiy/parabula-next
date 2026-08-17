@@ -1,19 +1,29 @@
 @import url("../topics/pythagoras-foundations.css");
 
-/* שישה משולשים = שתי שורות של שלושה; אין צורך בשטח עבודה נוסף כי נדרשת רק משוואה. */
-.page-647 .foundation-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+/* שש שאלות חישוביות: שני טורים ושלוש שורות, עם דרך מלאה בכל כרטיס. */
+.page-647 .full-solution-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 12px;
 }
 
-.page-647 .foundation-card {
-  min-height: 208px;
+.page-647 .full-solution-card {
+  min-height: 286px;
+  padding: 8px 10px;
+  gap: 6px;
+  justify-content: flex-start;
 }
 
-.page-647 .foundation-svg {
-  height: 118px;
+.page-647 .full-solution-card .foundation-svg {
+  height: 78px;
+  max-width: 190px;
+  flex: 0 0 auto;
 }
 
-.page-647 .question-block > .work-lines {
-  display: none;
+.page-647 .full-solution-space {
+  min-height: 140px;
+  flex: 1 1 auto;
+}
+
+.page-647 .student-final-answer {
+  flex: 0 0 auto;
 }
