@@ -48,6 +48,41 @@
   text-align: center;
 }
 
+.page-634 .classification-card {
+  justify-content: flex-start;
+  gap: 5px;
+  padding-inline: 8px;
+}
+
+.page-634 .classification-prompt {
+  font-weight: 600;
+}
+
+.page-634 .classification-list {
+  width: 100%;
+  display: grid;
+  gap: 3px;
+}
+
+.page-634 .classification-row {
+  display: grid;
+  grid-template-columns: 18px 54px 1fr;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+}
+
+.page-634 .classification-svg {
+  width: 54px;
+  height: 30px;
+}
+
+.page-634 .classification-card .foundation-fill-short {
+  width: 74px;
+  height: 26px;
+  justify-self: center;
+}
+
 .page-634 .compact-instruction,
 .page-634 .drawing-instruction {
   margin-top: 2px;
