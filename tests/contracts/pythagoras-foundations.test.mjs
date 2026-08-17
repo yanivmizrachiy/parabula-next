@@ -67,6 +67,27 @@ for (let i=0;i<FOUNDATION.length;i+=1) {
   });
 }
 
+test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוטים מנופחים',()=>{
+  for (const n of [634,635,636,637]) {
+    const css = read(`styles/pages/עמוד-${n}.css`);
+    const minHeights = [...css.matchAll(/min-height:\s*(\d+)px/gu)].map((m)=>Number(m[1]));
+    const fixedHeights = [...css.matchAll(/(?<!min-)height:\s*(\d+)px/gu)].map((m)=>Number(m[1]));
+    assert.ok(Math.max(0,...minHeights) <= 180, `עמוד ${n}: אין להחזיר בלוקי תרגול ענקיים`);
+    assert.ok(Math.max(0,...fixedHeights) <= 120, `עמוד ${n}: אין להחזיר שרטוטי SVG ענקיים`);
+  }
+  const p1=read('עמוד-634.html');
+  assert.match(p1,/angle-choice-grid/u);
+  assert.match(p1,/quick-practice-grid/u);
+  const p2=read('עמוד-635.html');
+  assert.match(p2,/triangle-choice-grid/u);
+  assert.match(p2,/mark-angle-grid/u);
+  const p3=read('עמוד-636.html');
+  assert.equal((p3.match(/הניצבים:/gu)||[]).length,4,'עמוד 3 צריך לכלול ארבעה פריטי תרגול של שמות ניצבים');
+  const p4=read('עמוד-637.html');
+  assert.equal((p4.match(/היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
+  assert.ok(p4.includes('אורכי צלעותיו 6, 8, 10'));
+});
+
 test('רצף פיתגורס הגלוי הוא 1-43 והחומר הוותיק ממשיך אחרי היסודות',()=>{
   for (let i=0;i<ALL_VISIBLE.length;i+=1) {
     const html=read(`עמוד-${ALL_VISIBLE[i]}.html`);
