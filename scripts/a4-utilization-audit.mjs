@@ -5,19 +5,28 @@ import { chromium } from '@playwright/test';
 
 // Enforces CLAUDE.md §4: worksheet content must use the A4 page area —
 // no large unintended empty regions. Measures, per page, how far down the
-// A4 sheet the lowest visible content element reaches (utilization = lowest
-// content bottom / usable page height, in percent) and fails pages below
-// the threshold.
+// A4 sheet the lowest visible EDUCATIONAL content element reaches.
+// The fixed credit footer is deliberately excluded: otherwise every sparse
+// worksheet appears nearly 100% utilized merely because the footer is low.
 //
 // Usage:
 //   node scripts/a4-utilization-audit.mjs            -> audit all pages
-//   node scripts/a4-utilization-audit.mjs --min=70   -> custom threshold
+//   node scripts/a4-utilization-audit.mjs --min=70   -> custom global floor
+//   node scripts/a4-utilization-audit.mjs עמוד-634.html עמוד-635.html
 //
-// The threshold is deliberately a floor for "clearly wasted page", not a
-// perfection target: legacy layouts pass, new regressions are caught.
+// The global threshold remains a legacy-safe floor. New Pythagoras foundation
+// pages 1-4 use a stricter balanced band: enough content to avoid waste, while
+// retaining a deliberate breathing zone above the footer.
 
 const ROOT = process.cwd();
 const DEFAULT_MIN = 50;
+
+const BALANCED_BANDS = {
+  'עמוד-634.html': { min: 80, max: 93 },
+  'עמוד-635.html': { min: 80, max: 93 },
+  'עמוד-636.html': { min: 80, max: 93 },
+  'עמוד-637.html': { min: 80, max: 93 },
+};
 
 // Documented exceptions (CLAUDE.md §4): pages whose emptiness is faithful to
 // the source material and must NOT be stretched artificially.
@@ -60,8 +69,10 @@ for (const file of pages) {
     const padBottom = parseFloat(style.paddingBottom) || 0;
     const usableBottom = a4Rect.bottom - padBottom;
     const usableTop = a4Rect.top + (parseFloat(style.paddingTop) || 0);
+    const footer = a4.querySelector(':scope > .gz-footer');
     let lowest = usableTop;
     for (const el of a4.querySelectorAll('*')) {
+      if (footer && (el === footer || footer.contains(el))) continue;
       const cs = getComputedStyle(el);
       if (cs.display === 'none' || cs.visibility === 'hidden') continue;
       const r = el.getBoundingClientRect();
@@ -83,18 +94,30 @@ for (const file of pages) {
 await browser.close();
 server.kill();
 
-const offenders = results.filter((r) => r.util !== null && r.util < MIN_UTIL && !EXCEPTIONS[r.file]);
+const minFor = (file) => BALANCED_BANDS[file]?.min ?? MIN_UTIL;
+const maxFor = (file) => BALANCED_BANDS[file]?.max ?? null;
+const below = results.filter((r) => r.util !== null && r.util < minFor(r.file) && !EXCEPTIONS[r.file]);
+const above = results.filter((r) => {
+  const max = maxFor(r.file);
+  return max !== null && r.util !== null && r.util > max && !EXCEPTIONS[r.file];
+});
 const nulls = results.filter((r) => r.util === null);
 
 console.log('A4_UTILIZATION_AUDIT');
-console.log(`pages=${results.length} min_required=${MIN_UTIL}%`);
-for (const r of [...results].sort((a, b) => (a.util ?? 0) - (b.util ?? 0)).slice(0, 8)) {
-  console.log(`  ${r.util === null ? '??' : String(r.util).padStart(3)}%  ${r.file}`);
+console.log(`pages=${results.length} legacy_min=${MIN_UTIL}%`);
+for (const [file, band] of Object.entries(BALANCED_BANDS)) {
+  if (pages.includes(file)) console.log(`  balanced ${file}: ${band.min}-${band.max}%`);
+}
+for (const r of [...results].sort((a, b) => (a.util ?? 0) - (b.util ?? 0)).slice(0, 12)) {
+  const band = BALANCED_BANDS[r.file];
+  const suffix = band ? ` target=${band.min}-${band.max}%` : '';
+  console.log(`  ${r.util === null ? '??' : String(r.util).padStart(3)}%  ${r.file}${suffix}`);
 }
 if (nulls.length) console.error(`MISSING .a4-page: ${nulls.map((r) => r.file).join(', ')}`);
-if (offenders.length) {
-  console.error(`A4_UTILIZATION_FAILED: ${offenders.length} pages below ${MIN_UTIL}%`);
-  for (const r of offenders) console.error(`- ${r.file}: ${r.util}%`);
+if (below.length || above.length) {
+  console.error(`A4_UTILIZATION_FAILED: ${below.length + above.length} page(s) outside allowed utilization`);
+  for (const r of below) console.error(`- ${r.file}: ${r.util}% below ${minFor(r.file)}%`);
+  for (const r of above) console.error(`- ${r.file}: ${r.util}% above ${maxFor(r.file)}% — preserve breathing room`);
   process.exit(1);
 }
 console.log('A4_UTILIZATION_OK');
