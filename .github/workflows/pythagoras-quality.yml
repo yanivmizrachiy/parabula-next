@@ -6,9 +6,11 @@ on:
       - 'עמוד-*.html'
       - 'styles/pages/עמוד-*.css'
       - 'styles/topics/pythagoras.css'
+      - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
       - 'catalog.js'
       - 'catalog-deep-link.js'
+      - 'meta/topics.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
@@ -32,31 +34,17 @@ jobs:
       - run: npm ci
       - name: Pythagoras contracts and deep quality
         run: node --test tests/contracts/pythagoras-*.test.mjs
-      - name: Validate Pythagoras HTML
+      - name: Validate all registered Pythagoras HTML
         shell: bash
         run: |
-          npx html-validate \
-            עמוד-634.html עמוד-635.html עמוד-636.html עמוד-637.html עמוד-638.html \
-            עמוד-639.html עמוד-640.html עמוד-641.html עמוד-651.html עמוד-642.html \
-            עמוד-652.html עמוד-643.html עמוד-644.html עמוד-645.html עמוד-646.html \
-            עמוד-647.html עמוד-653.html עמוד-648.html עמוד-649.html עמוד-650.html \
-            עמוד-9.html עמוד-10.html עמוד-11.html עמוד-12.html עמוד-13.html עמוד-14.html \
-            עמוד-15.html עמוד-16.html עמוד-17.html עמוד-18.html עמוד-19.html עמוד-20.html \
-            עמוד-21.html עמוד-22.html עמוד-23.html עמוד-24.html עמוד-25.html עמוד-26.html \
-            עמוד-27.html עמוד-28.html עמוד-29.html עמוד-30.html עמוד-41.html
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס'); if(!topic) process.exit(2); process.stdout.write(topic.pages.map((p)=>p.file).join(' '));")"
+          npx html-validate $PYTHAGORAS_FILES
       - name: Install Chromium for A4 audit
         run: npx playwright install --with-deps chromium
-      - name: Audit all 43 Pythagoras A4 pages
+      - name: Audit all registered Pythagoras A4 pages
         shell: bash
         run: |
-          node scripts/a4-utilization-audit.mjs --min=80 \
-            עמוד-634.html עמוד-635.html עמוד-636.html עמוד-637.html עמוד-638.html \
-            עמוד-639.html עמוד-640.html עמוד-641.html עמוד-651.html עמוד-642.html \
-            עמוד-652.html עמוד-643.html עמוד-644.html עמוד-645.html עמוד-646.html \
-            עמוד-647.html עמוד-653.html עמוד-648.html עמוד-649.html עמוד-650.html \
-            עמוד-9.html עמוד-10.html עמוד-11.html עמוד-12.html עמוד-13.html עמוד-14.html \
-            עמוד-15.html עמוד-16.html עמוד-17.html עמוד-18.html עמוד-19.html עמוד-20.html \
-            עמוד-21.html עמוד-22.html עמוד-23.html עמוד-24.html עמוד-25.html עמוד-26.html \
-            עמוד-27.html עמוד-28.html עמוד-29.html עמוד-30.html עמוד-41.html
-      - name: Report dead whitespace inside all 43 Pythagoras pages
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס'); if(!topic) process.exit(2); process.stdout.write(topic.pages.map((p)=>p.file).join(' '));")"
+          node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
+      - name: Report dead whitespace inside all registered Pythagoras pages
         run: node scripts/pythagoras-whitespace-audit.mjs

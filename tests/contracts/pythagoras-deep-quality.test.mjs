@@ -5,14 +5,17 @@ import path from 'node:path';
 
 const ROOT = process.cwd();
 const FOUNDATION = [634,635,636,637,638,639,640,641,651,642,652,643,644,645,646,647,653,648,649,650];
-const LEGACY = [...Array.from({length:22},(_,i)=>9+i),41];
-const VISIBLE = [...FOUNDATION,...LEGACY];
 const TITLES = [
   ...Array(5).fill('מושגים בסיסיים'),
   ...Array(7).fill('חזקות ושורשים'),
   ...Array(8).fill('משפט פיתגורס')
 ];
 const read = (file) => fs.readFileSync(path.join(ROOT,file),'utf8');
+const meta = JSON.parse(read('meta/topics.json'));
+const pythagorasTopic = meta.topics.find((topic) => topic.name === 'משפט פיתגורס');
+if (!pythagorasTopic) throw new Error('הנושא משפט פיתגורס חסר מ-meta/topics.json');
+const VISIBLE = pythagorasTopic.pages.map((page) => page.number);
+const TOTAL = VISIBLE.length;
 const htmlOf = (n) => read(`עמוד-${n}.html`);
 const textOf = (html) => html
   .replace(/<script\b[\s\S]*?<\/script>/giu,' ')
@@ -29,8 +32,9 @@ const textOf = (html) => html
 const exactFooter1 = 'יניב רז - מדריך מחוזי חט"ב בעיר ירושלים';
 const exactFooter2 = 'הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין';
 
-test('כל 43 דפי פיתגורס עומדים בחוזה המבני והטיפוגרפי', () => {
+test('כל דפי פיתגורס הרשומים במטא עומדים בחוזה המבני והטיפוגרפי', () => {
   const issues = [];
+  assert.deepEqual(VISIBLE.slice(0, FOUNDATION.length), FOUNDATION, 'רצף דפי היסוד בתחילת הנושא השתנה');
   VISIBLE.forEach((n,index) => {
     const file = `עמוד-${n}.html`;
     if (!fs.existsSync(path.join(ROOT,file))) { issues.push(`${file}: חסר`); return; }
@@ -39,7 +43,7 @@ test('כל 43 דפי פיתגורס עומדים בחוזה המבני והטי�
     if (!/<html\s+lang="he"\s+dir="rtl"/u.test(html)) issues.push(`${file}: חסר RTL קנוני`);
     if ((html.match(/<h1\b/gu)||[]).length !== 1) issues.push(`${file}: חייב להיות h1 יחיד`);
     if ((html.match(/<h[2-6]\b/gu)||[]).length !== 0) issues.push(`${file}: אסורות כותרות h2-h6 לשאלות`);
-    if (!html.includes(`משפט פיתגורס — עמוד ${local} / 43`)) issues.push(`${file}: מספור מקומי אינו ${local}/43`);
+    if (!html.includes(`משפט פיתגורס — עמוד ${local} / ${TOTAL}`)) issues.push(`${file}: מספור מקומי אינו ${local}/${TOTAL}`);
     if (!html.includes(exactFooter1) || !html.includes(exactFooter2)) issues.push(`${file}: footer אינו קנוני`);
     if (/\sstyle\s*=\s*["']/u.test(html)) issues.push(`${file}: inline style אסור`);
     if (/(?:שאלה|תרגיל)\s*\d+/u.test(textOf(html))) issues.push(`${file}: מספור שאלות גלוי אסור`);
@@ -61,9 +65,7 @@ test('כתיב, מונחים וסימן הכפל נקיים בכל הרצף', ()
     const text = textOf(html);
     for (const [re,label] of forbiddenText) if (re.test(text)) issues.push(`עמוד-${n}.html: ${label}`);
     if (/ישר זווית/u.test(html)) issues.push(`עמוד-${n}.html: מונח לא תקני גם במטא/נגישות`);
-    // "אלכסון" הוא מונח תקין במלבן. הוא אסור רק כאשר משתמשים בו כשם חלופי ליתר.
     if (/(?:יתר[^.]{0,45}אלכסונ|אלכסונ[^.]{0,45}יתר)/u.test(text)) issues.push(`עמוד-${n}.html: אין לכנות יתר "אלכסון"`);
-    // כלל ברזל: כפל מוצג בנקודה בלבד. \cdot תקין כי הוא מרונדר כנקודה; ×, \times או x/X בין מספרים אסורים.
     if (/×/u.test(html)) issues.push(`עמוד-${n}.html: סימן כפל × אסור — יש להשתמש בנקודה`);
     if (/\\times\b/u.test(html)) issues.push(`עמוד-${n}.html: \\times אסור — יש להשתמש ב-\\cdot`);
     if (/\d\s*[xX]\s*\d/u.test(text)) issues.push(`עמוד-${n}.html: x/X בין מספרים אסור כסימן כפל`);
@@ -141,9 +143,23 @@ test('תיבת סגנון 5 והיחידות נשמרות לפי סוג התשו
     assert.match(html,/foundation-fill-number/u);
     assert.match(html,/foundation-unit">°<\/span>/u,'סימן המעלות חייב להיות מחוץ לתיבה');
   }
+
+  const liveCss = read('styles/topics/pythagoras-live.css');
+  assert.match(liveCss,/\.pyt-final-answer \{[^}]*height: 30px;[^}]*border: 1\.35px solid #1f2a44;[^}]*border-radius: 8px;[^}]*box-shadow:/u);
 });
 
-test('הרצף והניווט של 43 הדפים נשארים רציפים', () => {
+test('עמוד 33 מקצה דרך מלאה ותשובה סופית לשני סעיפי המלבן', () => {
+  const html = htmlOf(21);
+  const css = read('styles/pages/עמוד-21.css');
+  assert.equal((html.match(/class="solution-space"/gu)||[]).length,2,'נדרשים שני אזורי פתרון נפרדים');
+  assert.equal((html.match(/class="pyt-final-answer"/gu)||[]).length,2,'נדרשות שתי תיבות תשובה סופית');
+  assert.equal((html.match(/הַציגו את דרך הפתרון:/gu)||[]).length,2,'כל סעיף חישובי חייב לדרוש דרך');
+  assert.match(html,/חשבו את היקף הטרפז/u,'הכתיב היקף חייב להיות תקין');
+  assert.doesNotMatch(html,/הקיף הטרפז/u,'הטעות הקיף אסורה');
+  assert.match(css,/\.page-21 \.solution-space \{[^}]*min-height: 110px;[^}]*flex: 0 0 110px;/u,'כל סעיף חייב לקבל כחמש שורות כתיבה שימושיות');
+});
+
+test('הרצף והניווט של כל דפי הנושא נשארים רציפים', () => {
   const issues = [];
   VISIBLE.forEach((n,index) => {
     const html = htmlOf(n);
