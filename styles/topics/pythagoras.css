@@ -37,3 +37,30 @@
 	max-width: 100%;
 	flex: 1 1 320px;
 }
+
+/* תיבת התשובה הקנונית של פיתגורס — סגנון 5, גם בדפים הוותיקים. */
+.pythagoras .answer-box {
+	height: 30px;
+	border: 1.35px solid #1f2a44;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%);
+	box-shadow: 0 1px 0 rgba(15, 23, 42, .13), 0 4px 8px rgba(15, 23, 42, .11), inset 0 1px 0 rgba(255, 255, 255, .98);
+	transform: none;
+	vertical-align: middle;
+}
+
+.pythagoras .answer-box::before {
+	display: none;
+}
+
+.pythagoras .answer-box.box-sm {
+	width: 58px;
+}
+
+@media print {
+	.pythagoras .answer-box {
+		background: #fff;
+		box-shadow: none;
+		border-color: #1f2a44;
+	}
+}
