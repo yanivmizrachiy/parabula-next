@@ -21,10 +21,11 @@
 .pyt-foundation .foundation-svg { width: 100%; max-width: 230px; height: 135px; display: block; }
 .pyt-foundation .foundation-svg.hero { max-width: 420px; height: 180px; }
 .pyt-foundation .foundation-svg.hero-wide { max-width: 500px; height: 220px; }
-.pyt-foundation .foundation-svg .edge { fill: none; stroke: var(--accent-dark); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.pyt-foundation .foundation-svg .mark { fill: none; stroke: var(--accent-dark); stroke-width: 2.4; vector-effect: non-scaling-stroke; }
+/* שרטוטי תלמיד: קווים דקים, חדים וברורים בהדפסה. */
+.pyt-foundation .foundation-svg .edge { fill: none; stroke: var(--accent-dark); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.pyt-foundation .foundation-svg .mark { fill: none; stroke: var(--accent-dark); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
 .pyt-foundation .foundation-svg .pt, .pyt-foundation .foundation-svg .lbl { fill: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 600; }
-.pyt-foundation .foundation-svg .soft { fill: var(--bg-subtle); stroke: var(--border-light); stroke-width: 1.5; }
+.pyt-foundation .foundation-svg .soft { fill: var(--bg-subtle); stroke: var(--border-light); stroke-width: 1.25; }
 .pyt-foundation .response-line { display: inline-block; min-width: 100px; height: 24px; border-bottom: 1.5px solid var(--text-main); vertical-align: bottom; }
 .pyt-foundation .response-line.long { min-width: 210px; }
 .pyt-foundation .work-lines { min-height: 92px; border: 1px solid var(--border-light); border-radius: 8px; background: repeating-linear-gradient(to bottom, var(--bg-paper) 0, var(--bg-paper) 27px, var(--grid-line) 28px); }
@@ -33,7 +34,7 @@
 .pyt-foundation .math-card { direction: ltr; unicode-bidi: isolate; border: 1px solid var(--border-light); border-radius: 9px; background: var(--bg-paper); padding: 12px 8px; text-align: center; font-size: 19px; min-height: 54px; }
 .pyt-foundation .statement-list { display: grid; gap: 10px; }
 .pyt-foundation .statement { border: 1px solid var(--border-light); border-radius: 8px; padding: 10px 12px; line-height: 1.5; }
-.pyt-foundation .check { display: inline-block; width: 18px; height: 18px; border: 1.5px solid var(--text-main); margin-inline-end: 8px; vertical-align: -3px; }
+.pyt-foundation .check { display: inline-block; width: 18px; height: 18px; border: 1.35px solid var(--text-main); margin-inline-end: 8px; vertical-align: -3px; }
 .pyt-foundation .big-equation { direction: ltr; unicode-bidi: isolate; text-align: center; font-size: 27px; font-weight: 700; margin: 8px 0; }
 .pyt-foundation .side-table { width: 100%; border-collapse: collapse; text-align: center; }
 .pyt-foundation .side-table th, .pyt-foundation .side-table td { border: 1px solid var(--border-light); padding: 8px; }
