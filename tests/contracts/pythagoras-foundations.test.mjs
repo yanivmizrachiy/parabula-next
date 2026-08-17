@@ -79,11 +79,11 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   const p1=read('עמוד-634.html');
   assert.match(p1,/angle-choice-grid/u);
   assert.match(p1,/quick-practice-grid/u);
-  assert.equal((p1.match(/class="foundation-card drawing-card"/gu)||[]).length,2,'עמוד 1 צריך שתי משימות ציור מרווחות');
+  assert.equal((p1.match(/class="foundation-card drawing-card\b/gu)||[]).length,2,'עמוד 1 צריך שתי משימות ציור מרווחות');
   const p2=read('עמוד-635.html');
   assert.match(p2,/triangle-choice-grid/u);
   assert.match(p2,/mark-angle-grid/u);
-  assert.equal((p2.match(/class="foundation-card drawing-card"/gu)||[]).length,2,'עמוד 2 צריך שתי משימות ציור מרווחות');
+  assert.equal((p2.match(/class="foundation-card drawing-card\b/gu)||[]).length,2,'עמוד 2 צריך שתי משימות ציור מרווחות');
   const p3=read('עמוד-636.html');
   assert.equal((p3.match(/הניצבים:/gu)||[]).length,4,'עמוד 3 צריך לכלול ארבעה פריטי תרגול של שמות ניצבים');
   assert.match(p3,/synthesis-drawing-card/u,'עמוד 3 צריך משימת סינתזה פתוחה');
@@ -91,6 +91,16 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   assert.equal((p4.match(/היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
   assert.ok(p4.includes('אורכי צלעותיו 6, 8, 10'));
   assert.match(p4,/synthesis-drawing-card/u,'עמוד 4 צריך משימת סינתזה פתוחה');
+});
+
+test('עמוד 1 מתרגל כל פורמט חדש כמקבץ דידקטי ולא כפריט בודד',()=>{
+  const p1=read('עמוד-634.html');
+  assert.match(p1,/קבעו בכל סרטוט: ישרה או לא ישרה/u);
+  assert.equal((p1.match(/aria-label="כתבו ישרה או לא ישרה"/gu)||[]).length,3,'סיווג ישרה/לא ישרה חייב להופיע לפחות בשלושה סעיפים מקבילים');
+  assert.match(p1,/<span class="draw-label">א<\/span>/u);
+  assert.match(p1,/<span class="draw-label">ב<\/span>/u);
+  assert.match(p1,/<span class="draw-label">ג<\/span>/u);
+  assert.doesNotMatch(p1,/בחרו זווית ישרה אחת מהסרטוטים/u,'אין לערבב במקבץ הסיווג משימת יחיד מסוג אחר');
 });
 
 test('ההסבר העליון בעמודים 1-4 הוא השלמה מודרכת עם תיבה שמתאימה לסוג התשובה',()=>{
@@ -111,10 +121,11 @@ test('ההסבר העליון בעמודים 1-4 הוא השלמה מודרכת 
   assert.doesNotMatch(p4,/יתר|הארוכה/u,'אין לחשוף בתוך משפט ההשלמה את המילים שהתלמיד משלים');
 
   const sharedCss = read('styles/topics/pythagoras-foundations.css');
-  assert.match(sharedCss,/\.foundation-fill-number \{ width: 54px; \}/u);
-  assert.match(sharedCss,/\.foundation-fill-short \{ width: 78px; \}/u);
-  assert.match(sharedCss,/\.foundation-fill-term \{ width: 112px; \}/u);
-  assert.match(sharedCss,/\.foundation-fill-medium \{ width: 102px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill \{[^}]*border: 1\.35px solid #1f2a44;[^}]*border-radius: 8px;[^}]*box-shadow:/u,'תיבת סגנון 5 חייבת להישאר יוקרתית ותלת-ממדית בעדינות');
+  assert.match(sharedCss,/\.foundation-fill-number \{ width: 58px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-short \{ width: 82px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-term \{ width: 118px; \}/u);
+  assert.match(sharedCss,/\.foundation-fill-medium \{ width: 112px; \}/u);
   assert.doesNotMatch(read('עמוד-635.html'),/>90°<\/text>/u,'תרגול עמוד 2 לא יחשוף את התשובה של ההשלמה העליונה');
 });
 
