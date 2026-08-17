@@ -7,9 +7,8 @@
   const tocList = document.getElementById('tocList');
   if (!tocList) return;
 
-  const initialUrl = new URL(window.location.href);
-  const requestedFile = normalizeFile(initialUrl.searchParams.get('file'));
-  const requestedMode = normalizeMode(initialUrl.searchParams.get('mode'));
+  const requestedFile = normalizeFile(new URL(window.location.href).searchParams.get('file'));
+  const requestedMode = normalizeMode(new URL(window.location.href).searchParams.get('mode'));
   let initialHandled = !requestedFile;
   let modeHandled = !requestedMode;
   let pendingHistoryMode = 'replace';
