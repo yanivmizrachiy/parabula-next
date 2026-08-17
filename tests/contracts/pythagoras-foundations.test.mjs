@@ -78,14 +78,26 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   const p1=read('עמוד-634.html');
   assert.match(p1,/angle-choice-grid/u);
   assert.match(p1,/quick-practice-grid/u);
+  assert.equal((p1.match(/class="foundation-card drawing-card"/gu)||[]).length,2,'עמוד 1 צריך שתי משימות ציור מרווחות');
   const p2=read('עמוד-635.html');
   assert.match(p2,/triangle-choice-grid/u);
   assert.match(p2,/mark-angle-grid/u);
+  assert.equal((p2.match(/class="foundation-card drawing-card"/gu)||[]).length,2,'עמוד 2 צריך שתי משימות ציור מרווחות');
   const p3=read('עמוד-636.html');
   assert.equal((p3.match(/הניצבים:/gu)||[]).length,4,'עמוד 3 צריך לכלול ארבעה פריטי תרגול של שמות ניצבים');
+  assert.match(p3,/synthesis-drawing-card/u,'עמוד 3 צריך משימת סינתזה פתוחה');
   const p4=read('עמוד-637.html');
   assert.equal((p4.match(/היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
   assert.ok(p4.includes('אורכי צלעותיו 6, 8, 10'));
+  assert.match(p4,/synthesis-drawing-card/u,'עמוד 4 צריך משימת סינתזה פתוחה');
+});
+
+test('מדידת ניצול A4 אינה נסמכת על הפוטר ושומרת על טווח מאוזן בעמודים 1-4',()=>{
+  const audit=read('scripts/a4-utilization-audit.mjs');
+  assert.match(audit,/footer\.contains\(el\)/u,'הפוטר חייב להיות מוחרג מחישוב ניצול התוכן');
+  for (const n of [634,635,636,637]) {
+    assert.match(audit,new RegExp(`'עמוד-${n}\\.html': \\{ min: 80, max: 93 \\}`,'u'),`עמוד ${n} חייב להישאר בטווח 80-93%`);
+  }
 });
 
 test('רצף פיתגורס הגלוי הוא 1-43 והחומר הוותיק ממשיך אחרי היסודות',()=>{
