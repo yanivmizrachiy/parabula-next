@@ -5,9 +5,11 @@
 .pyt-foundation .foundation-note strong { font-weight: 700; }
 .pyt-foundation .foundation-fill-group { display: inline-flex; align-items: center; gap: 4px; direction: ltr; unicode-bidi: isolate; vertical-align: -7px; margin-inline: 4px; }
 .pyt-foundation .foundation-fill { display: inline-block; height: 30px; border: 1.35px solid #1f2a44; border-radius: 8px; background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%); box-shadow: 0 1px 0 rgba(15,23,42,.13), 0 4px 8px rgba(15,23,42,.11), inset 0 1px 0 rgba(255,255,255,.98); vertical-align: middle; }
+.pyt-foundation .foundation-fill-symbol { width: 42px; }
 .pyt-foundation .foundation-fill-number { width: 58px; }
 .pyt-foundation .foundation-fill-edge { width: 70px; }
 .pyt-foundation .foundation-fill-short { width: 82px; }
+.pyt-foundation .foundation-fill-product { width: 128px; }
 .pyt-foundation .foundation-fill-term { width: 118px; }
 .pyt-foundation .foundation-fill-medium { width: 112px; }
 .pyt-foundation .foundation-fill-expression { width: 220px; }
