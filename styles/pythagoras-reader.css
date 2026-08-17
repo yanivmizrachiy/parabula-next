@@ -1,0 +1,112 @@
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Rubik, Arial, sans-serif;
+  background: #eef2f7;
+  color: #172033;
+}
+.reader-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 22px;
+  background: rgba(255,255,255,.96);
+  border-bottom: 1px solid #d7dee8;
+  box-shadow: 0 5px 18px rgba(23,32,51,.08);
+  backdrop-filter: blur(10px);
+}
+.reader-title {
+  justify-self: start;
+  font-size: 20px;
+  font-weight: 700;
+}
+.reader-progress {
+  font-size: 16px;
+  font-weight: 600;
+  color: #334155;
+}
+.reader-jump {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #475569;
+}
+.reader-jump select {
+  min-width: 92px;
+  height: 36px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  background: #fff;
+  padding-inline: 10px;
+  font: inherit;
+  color: #172033;
+}
+.reader-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 24px 14px 70px;
+  scroll-snap-type: y proximity;
+}
+.reader-page {
+  width: min(794px, calc(100vw - 28px));
+  scroll-margin-top: 84px;
+  scroll-snap-align: start;
+}
+.reader-page-label {
+  margin: 0 0 8px;
+  padding-inline: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  text-align: right;
+}
+.reader-frame-shell {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(15,23,42,.13);
+}
+.reader-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 794px;
+  height: 1123px;
+  border: 0;
+  transform-origin: top left;
+  pointer-events: none;
+  background: #fff;
+}
+.reader-placeholder {
+  min-height: 420px;
+  display: grid;
+  place-items: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+@media (max-width: 680px) {
+  .reader-toolbar {
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    padding: 8px 12px;
+  }
+  .reader-title { font-size: 17px; }
+  .reader-progress { justify-self: end; }
+  .reader-jump { grid-column: 1 / -1; justify-self: stretch; justify-content: space-between; }
+  .reader-jump select { flex: 1; max-width: 150px; }
+  .reader-pages { gap: 18px; padding-inline: 8px; }
+  .reader-page { width: calc(100vw - 16px); }
+  .reader-frame-shell { border-radius: 8px; }
+}
