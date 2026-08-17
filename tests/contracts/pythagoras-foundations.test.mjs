@@ -64,8 +64,12 @@ test('קווי הגאומטריה דקים ונקיים להדפסה',()=>{
   assert.ok(edge&&Number(edge)<=2.2,`קווי הצלעות עבים מדי: ${edge}`);assert.ok(mark&&Number(mark)<=1.8,`סימוני הזווית עבים מדי: ${mark}`);
 });
 
-test('עמוד 4 נותן נימוק אמיתי; עמוד 5 משמר תרגול לפי אורכים',()=>{
-  const p4=read('עמוד-637.html'),p5=read('עמוד-638.html');assert.equal((p4.match(/data-required-reason-lines="2"/gu)||[]).length,6);assert.equal((p4.match(/class="reason-space"/gu)||[]).length,6);assert.ok((p5.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length>=2);assert.match(p5,/6, 8, 10/u);assert.match(p5,/5, 12, 13/u);
+test('עמוד 4 נותן ארבע שורות נימוק אמיתיות; עמוד 5 משמר תרגול לפי אורכים',()=>{
+  const p4=read('עמוד-637.html'),p5=read('עמוד-638.html'),css4=read('styles/pages/עמוד-637.css');
+  assert.equal((p4.match(/data-required-reason-lines="4"/gu)||[]).length,6);
+  assert.equal((p4.match(/class="reason-space"/gu)||[]).length,6);
+  assert.match(css4,/\.page-637 \.reason-space \{[^}]*min-height:\s*120px/us);
+  assert.ok((p5.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length>=2);assert.match(p5,/6, 8, 10/u);assert.match(p5,/5, 12, 13/u);
 });
 
 test('חזקות ושורשים מופיעים לפני פתרון פיתגורס בדרך מלאה',()=>{
