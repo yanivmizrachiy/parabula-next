@@ -90,7 +90,7 @@ test('עמודי היסוד 1-4 מנצלים A4 בלי בלוקים ושרטוט
   assert.equal((p3.match(/class="foundation-card concept-check"/gu)||[]).length,3,'עמוד 3 צריך שלושה סעיפי השלמה מקבילים');
   assert.match(p3,/synthesis-drawing-card/u,'עמוד 3 צריך משימת סינתזה פתוחה');
   const p4=read('עמוד-637.html');
-  assert.equal((p4.match(/היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
+  assert.equal((p4.match(/<p>היתר:/gu)||[]).length,3,'עמוד 4 צריך לכלול זיהוי היתר לפי שמות קודקודים');
   assert.match(p4,/length-check-grid/u,'עמוד 4 צריך מקבץ זיהוי יתר לפי אורכי צלעות');
   assert.equal((p4.match(/aria-label="כתבו את אורך היתר"/gu)||[]).length,3,'זיהוי יתר לפי אורכים חייב להופיע בשלושה סעיפים מקבילים');
   for (const triple of ['3, 4, 5','6, 8, 10','5, 12, 13']) assert.ok(p4.includes(triple));
