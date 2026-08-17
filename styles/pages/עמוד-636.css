@@ -2,11 +2,11 @@
 
 .page-636 .question-block {
   justify-content: flex-start;
-  gap: 12px;
+  gap: 10px;
 }
 
 .page-636 .foundation-note {
-  padding-block: 10px;
+  padding-block: 9px;
 }
 
 .page-636 > .question-block > .foundation-card {
@@ -14,18 +14,18 @@
 }
 
 .page-636 .example-card {
-  min-height: 142px;
+  min-height: 136px;
   display: grid;
   grid-template-columns: 210px 1fr;
   align-items: center;
   gap: 14px;
-  padding: 8px 14px;
+  padding: 7px 14px;
 }
 
 .page-636 .example-card .foundation-svg.hero {
   width: 210px;
   max-width: 210px;
-  height: 108px;
+  height: 104px;
 }
 
 .page-636 .example-caption {
@@ -40,16 +40,16 @@
 }
 
 .page-636 .leg-practice-grid {
-  gap: 10px 12px;
+  gap: 9px 12px;
 }
 
 .page-636 .leg-practice-grid .foundation-card {
-  min-height: 168px;
-  padding: 8px 10px;
+  min-height: 162px;
+  padding: 7px 10px;
 }
 
 .page-636 .leg-practice-grid .foundation-svg {
-  height: 102px;
+  height: 98px;
   max-width: 210px;
 }
 
@@ -59,16 +59,16 @@
 
 .page-636 .compact-instruction,
 .page-636 .synthesis-instruction {
-  margin-top: 1px;
+  margin-top: 0;
 }
 
 .page-636 .concept-check-grid {
-  gap: 10px;
+  gap: 9px;
 }
 
 .page-636 .concept-check {
-  min-height: 92px;
-  padding: 10px 12px;
+  min-height: 88px;
+  padding: 8px 12px;
   justify-content: flex-start;
 }
 
@@ -80,15 +80,15 @@
 }
 
 .page-636 .synthesis-drawing-card {
-  min-height: 140px;
+  min-height: 132px;
   align-items: stretch;
   justify-content: stretch;
-  padding: 10px 14px;
+  padding: 8px 14px;
 }
 
 .page-636 .drawing-space-wide {
   width: 100%;
-  min-height: 116px;
+  min-height: 108px;
   border: 1px dashed var(--grid-line);
   border-radius: 8px;
   background: var(--bg-paper);
