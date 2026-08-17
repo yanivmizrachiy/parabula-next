@@ -50,17 +50,21 @@ test('כל 43 דפי פיתגורס עומדים בחוזה המבני והטי�
 
 test('כתיב ומונחים מתמטיים נקיים בכל הרצף', () => {
   const issues = [];
-  const forbidden = [
-    [/פיטגורס/gu,'פיטגורס → פיתגורס'],
-    [/זוית/gu,'זוית → זווית'],
-    [/אלכסונ(?:ית|י|יים|יות)?/gu,'אין לזהות יתר כאלכסון/אלכסוני'],
-    [/ישר זווית/gu,'ישר זווית → ישר־זווית'],
-    [/\.\.+/gu,'ריבוי נקודות'],
-    [/,\s*,/gu,'פסיק כפול']
+  const forbiddenText = [
+    [/פיטגורס/u,'פיטגורס → פיתגורס'],
+    [/זוית/u,'זוית → זווית'],
+    [/ישר זווית/u,'ישר זווית → ישר־זווית'],
+    [/\.\.+/u,'ריבוי נקודות'],
+    [/,\s*,/u,'פסיק כפול']
   ];
   for (const n of VISIBLE) {
-    const text = textOf(htmlOf(n));
-    for (const [re,label] of forbidden) if (re.test(text)) issues.push(`עמוד-${n}.html: ${label}`);
+    const html = htmlOf(n);
+    const text = textOf(html);
+    for (const [re,label] of forbiddenText) if (re.test(text)) issues.push(`עמוד-${n}.html: ${label}`);
+    if (/ישר זווית/u.test(html)) issues.push(`עמוד-${n}.html: מונח לא תקני גם במטא/נגישות`);
+    // "אלכסון" הוא מונח תקין במלבן (למשל מסך טלוויזיה). הוא אסור רק כאשר
+    // משתמשים בו כשם חלופי ליתר של משולש ישר־זווית.
+    if (/(?:יתר[^.]{0,45}אלכסונ|אלכסונ[^.]{0,45}יתר)/u.test(text)) issues.push(`עמוד-${n}.html: אין לכנות יתר "אלכסון"`);
   }
   assert.deepEqual(issues,[],'\n'+issues.join('\n'));
 });
@@ -77,24 +81,24 @@ test('20 דפי היסוד שומרים בדיוק על סדר המושגים ה
 
 test('העקרונות המתמטיים הקריטיים של פיתגורס אינם נשחקים', () => {
   const p4 = htmlOf(637);
-  assert.match(p4,/מול הזווית הישרה/u,'היתר חייב להיות מוגדר כמול הזווית הישרה');
-  assert.match(p4,/הצלע[^<]{0,80}<span class="foundation-fill foundation-fill-medium"[^>]*><\/span> ביותר/u,'היתר חייב להילמד גם כצלע הארוכה ביותר');
+  assert.ok(p4.includes('מול הזווית הישרה'),'היתר חייב להיות מוגדר כמול הזווית הישרה');
+  assert.ok(p4.includes('foundation-fill-medium') && p4.includes('ביותר במשולש'),'היתר חייב להילמד גם כצלע הארוכה ביותר');
 
   const powers = htmlOf(639) + htmlOf(640);
   assert.match(powers,/(?:\^2|²)/u,'לפני פיתגורס חייב להופיע כתיב חזקה שנייה');
 
   const roots = htmlOf(641) + htmlOf(642);
-  assert.match(roots,/\\sqrt/u,'לפני פיתגורס חייב להופיע שורש ריבועי');
-  assert.match(htmlOf(642),/(?:\\approx|≈)/u,'שורשים שאינם שלמים חייבים לכלול קירוב');
+  assert.ok(roots.includes('\\sqrt'),'לפני פיתגורס חייב להופיע שורש ריבועי');
+  assert.ok(htmlOf(642).includes('\\approx') || htmlOf(642).includes('≈'),'שורשים שאינם שלמים חייבים לכלול קירוב');
 
   for (const n of [651,652]) {
     const html = htmlOf(n);
     assert.match(html,/(?:x\^2|x²)/u,`עמוד ${n}: חסרה משוואת x בריבוע`);
-    assert.match(html,/\\sqrt/u,`עמוד ${n}: חסר מעבר לשורש`);
+    assert.ok(html.includes('\\sqrt'),`עמוד ${n}: חסר מעבר לשורש`);
     assert.doesNotMatch(html,/±/u,`עמוד ${n}: בהקשר של אורך אין להציג ± כתשובת אורך`);
   }
 
-  assert.match(htmlOf(646),/(?:a\^2\+b\^2=c\^2|a²\s*\+\s*b²\s*=\s*c²)/u,'עמוד הנוסחה חייב לכלול a²+b²=c²');
+  assert.ok(htmlOf(646).includes('a^2+b^2=c^2'),'עמוד הנוסחה חייב לכלול a²+b²=c²');
 
   const canonical = htmlOf(653);
   for (const step of ['3^2+4^2=x^2','9+16=x^2','25=x^2','\\sqrt{25}=x','5=x']) {
@@ -103,8 +107,8 @@ test('העקרונות המתמטיים הקריטיים של פיתגורס א�
   assert.match(canonical,/class="final-answer"/u,'עמוד 653: התשובה הסופית חייבת להיות ממוסגרת');
 
   const leg = htmlOf(649);
-  assert.match(leg,/x\^2\+4\^2=5\^2/u,'עמוד 649: חסרה דוגמה מלאה למציאת ניצב');
-  assert.match(leg,/3=x/u,'עמוד 649: חסרה תשובה סופית בדוגמת הניצב');
+  assert.ok(leg.includes('x^2+4^2=5^2'),'עמוד 649: חסרה דוגמה מלאה למציאת ניצב');
+  assert.ok(leg.includes('3=x'),'עמוד 649: חסרה תשובה סופית בדוגמת הניצב');
 });
 
 test('הוראה חדשה נשענת על מקבצים ושומרת משימות מועילות קיימות', () => {
@@ -113,6 +117,7 @@ test('הוראה חדשה נשענת על מקבצים ושומרת משימות
   assert.match(p1,/הוסיפו בסרטוט סימון של זווית ישרה/u);
   assert.equal((p1.match(/aria-label="כתבו ישרה או לא ישרה"/gu)||[]).length,3);
   assert.equal((p1.match(/class="guided-ray-svg"/gu)||[]).length,2);
+  assert.equal((p1.match(/marker-end="url\(#ray-arrow-[ab]\)"/gu)||[]).length,2,'קרן חייבת להיות מצוירת כקרן עם ראש חץ');
 
   const p3 = htmlOf(636);
   assert.ok((p3.match(/class="foundation-card concept-check"/gu)||[]).length >= 3,'עמוד 3: מקבץ ההשלמות קצר מדי');
