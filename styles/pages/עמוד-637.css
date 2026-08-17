@@ -69,7 +69,8 @@
   font-size: 16px;
 }
 
-.page-637 .compact-instruction {
+.page-637 .compact-instruction,
+.page-637 .synthesis-instruction {
   margin-top: 1px;
 }
 
@@ -81,6 +82,21 @@
 .page-637 .concept-check p {
   margin: 0;
   font-size: 17px;
+}
+
+.page-637 .synthesis-drawing-card {
+  min-height: 100px;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 8px 14px;
+}
+
+.page-637 .drawing-space-wide {
+  width: 100%;
+  min-height: 78px;
+  border: 1px dashed var(--grid-line);
+  border-radius: 8px;
+  background: var(--bg-paper);
 }
 
 .page-637 .short-line {
