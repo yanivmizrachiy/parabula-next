@@ -77,8 +77,8 @@
   height: 30px;
 }
 
-.page-634 .classification-card .foundation-fill-short {
-  width: 74px;
+.page-634 .classification-card .foundation-fill-medium {
+  width: 112px;
   height: 26px;
   justify-self: center;
 }
@@ -126,7 +126,8 @@
   vector-effect: non-scaling-stroke;
 }
 
-.page-634 .guided-ray-svg .guide-point {
+.page-634 .guided-ray-svg .guide-point,
+.page-634 .guided-ray-svg .guide-arrow {
   fill: var(--accent-dark);
 }
 
