@@ -13,6 +13,7 @@ on:
       - 'meta/topics.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
+      - 'scripts/pythagoras-solution-capacity-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -34,6 +35,8 @@ jobs:
       - run: npm ci
       - name: Pythagoras contracts and deep quality
         run: node --test tests/contracts/pythagoras-*.test.mjs
+      - name: Report Pythagoras solution capacity
+        run: node scripts/pythagoras-solution-capacity-audit.mjs
       - name: Validate all registered Pythagoras HTML
         shell: bash
         run: |
