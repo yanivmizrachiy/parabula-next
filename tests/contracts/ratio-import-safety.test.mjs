@@ -39,11 +39,27 @@ test('ratio import preserves cross-topic navigation', () => {
   assert.match(importScript, /nextGlobalPage/);
 });
 
-test('ratio CI is verification-only', () => {
+test('ratio verification stays read-only while verified output materialization is isolated', () => {
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
-  assert.doesNotMatch(workflow, /git\s+commit/);
-  assert.doesNotMatch(workflow, /git\s+push/);
-  assert.doesNotMatch(workflow, /contents:\s*write/);
-  assert.match(workflow, /Verify generated images are committed and current/);
-  assert.match(workflow, /Protect every non-ratio page from this change/);
+
+  const verifyStart = workflow.indexOf('verify-render-and-audit:');
+  const materializeStart = workflow.indexOf('materialize-verified-print-output:');
+  assert.ok(verifyStart >= 0 && materializeStart > verifyStart, 'verification/materialization jobs are missing or out of order');
+
+  const verifyJob = workflow.slice(verifyStart, materializeStart);
+  const materializeJob = workflow.slice(materializeStart);
+
+  assert.doesNotMatch(verifyJob, /contents:\s*write/);
+  assert.doesNotMatch(verifyJob, /git\s+(?:commit|push)/);
+  assert.match(verifyJob, /Verify committed derived images on canonical\/bot revisions/);
+  assert.match(verifyJob, /Protect every non-ratio page from this change/);
+
+  assert.match(materializeJob, /needs:\s*verify-render-and-audit/);
+  assert.match(materializeJob, /github\.event_name == 'pull_request'/);
+  assert.match(materializeJob, /github\.head_ref == 'agent\/ratio-safe-upgrade-20260818'/);
+  assert.match(materializeJob, /github\.actor != 'github-actions\[bot\]'/);
+  assert.match(materializeJob, /permissions:\s*\n\s*contents:\s*write/);
+  assert.match(materializeJob, /Reject every staged file outside ratio print scope/);
+  assert.match(materializeJob, /git commit -m 'chore\(יחס\): materialize verified 48-page print output'/);
+  assert.match(materializeJob, /git push origin HEAD:agent\/ratio-safe-upgrade-20260818/);
 });
