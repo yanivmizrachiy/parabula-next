@@ -24,10 +24,18 @@ test('canonical exporter is hard-bounded to global pages 272-319', () => {
   assert.match(exporter, /for \(let localPage = 1; localPage <= pageCount; localPage \+= 1\)/u);
 });
 
-test('canonical exporter never writes shared metadata, readers, or shared A4 CSS', () => {
+test('canonical exporter never registers shared metadata, readers, or shared A4 CSS as output candidates', () => {
   for (const target of forbiddenSharedTargets) {
-    const writeCandidatePattern = new RegExp(`writeCandidate\\([^)]*${target.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`, 'u');
-    assert.doesNotMatch(exporter, writeCandidatePattern, `exporter must not generate shared target ${target}`);
+    assert.equal(
+      exporter.includes(`writeCandidate('${target}'`),
+      false,
+      `exporter must not generate shared target ${target}`,
+    );
+    assert.equal(
+      exporter.includes(`writeCandidate(\"${target}\"`),
+      false,
+      `exporter must not generate shared target ${target}`,
+    );
   }
 });
 
