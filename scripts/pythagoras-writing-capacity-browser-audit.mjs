@@ -36,7 +36,7 @@ for (let local = 0; local < pages.length; local += 1) {
   });
   await page.waitForTimeout(250);
 
-  const metrics = await page.evaluate(() => {
+  const result = await page.evaluate(() => {
     const parsePx = (value) => {
       const n = Number.parseFloat(String(value ?? ''));
       return Number.isFinite(n) ? n : 0;
@@ -58,13 +58,8 @@ for (let local = 0; local < pages.length; local += 1) {
       return 0;
     };
 
-    const selector = [
-      '.full-solution-space',
-      '.solution-space',
-      '.equation-practice-card .work-lines',
-    ].join(',');
-
-    return [...document.querySelectorAll(selector)].map((el, index) => {
+    const areaSelector = '.full-solution-space, .solution-space, .equation-practice-card .work-lines';
+    const areas = [...document.querySelectorAll(areaSelector)].map((el, index) => {
       const required = inferRequired(el);
       const cs = getComputedStyle(el);
       const rect = el.getBoundingClientRect();
@@ -86,9 +81,43 @@ for (let local = 0; local < pages.length; local += 1) {
         inferred: !el.hasAttribute('data-required-lines'),
       };
     });
+
+    // Legacy multi-part questions were the main blind spot: four calculation
+    // parts could share one generic work box. Count real calculation prompts
+    // and require one usable work area + one final response per part.
+    const calcRe = /(?:חשבו|מצאו|פתרו|הביעו|מהו אורך|מה היקף|מהו היקף|מהו שטח)/u;
+    const calcSubQuestions = [...document.querySelectorAll('.q-sub')]
+      .filter((el) => calcRe.test((el.textContent || '').replace(/\s+/gu, ' ').trim()));
+    const finalSelector = [
+      '.pyt-final-answer',
+      '.student-final-answer',
+      '.problem-answer',
+      '.answer-box',
+      '[aria-label="אפשרויות לתשובה הסופית"]',
+    ].join(',');
+    const finalResponses = document.querySelectorAll(finalSelector).length;
+
+    const cardIssues = [];
+    for (const card of document.querySelectorAll('.equation-practice-card')) {
+      if (card.querySelector('.work-lines') && !card.querySelector('.student-final-answer')) {
+        cardIssues.push('כרטיס משוואה עם דרך אך ללא תשובה סופית');
+      }
+    }
+    for (const card of document.querySelectorAll('.full-solution-card')) {
+      if (card.querySelector('.full-solution-space') && !card.querySelector('.student-final-answer')) {
+        cardIssues.push('כרטיס פיתגורס מלא עם דרך אך ללא תשובה סופית');
+      }
+    }
+
+    return {
+      areas,
+      calcSubCount: calcSubQuestions.length,
+      finalResponses,
+      cardIssues,
+    };
   });
 
-  for (const metric of metrics) {
+  for (const metric of result.areas) {
     rows.push({ local: local + 1, file, ...metric });
     if (metric.required <= 0) {
       issues.push(`${file} (עמוד ${local + 1}): לא ניתן להסיק מספר שורות נדרש עבור ${metric.className}`);
@@ -101,6 +130,14 @@ for (let local = 0; local < pages.length; local += 1) {
       issues.push(`${file} (עמוד ${local + 1}): אזור דרך צר מדי לכתיבה מתמטית (${metric.width}px)`);
     }
   }
+
+  if (result.calcSubCount > 1 && result.areas.length < result.calcSubCount) {
+    issues.push(`${file} (עמוד ${local + 1}): ${result.calcSubCount} סעיפים חישוביים חולקים רק ${result.areas.length} אזורי דרך — נדרש אזור נפרד לכל סעיף`);
+  }
+  if (result.calcSubCount > 0 && result.finalResponses < result.calcSubCount) {
+    issues.push(`${file} (עמוד ${local + 1}): ${result.calcSubCount} סעיפים חישוביים לעומת ${result.finalResponses} מקומות לתשובה סופית`);
+  }
+  for (const issue of result.cardIssues) issues.push(`${file} (עמוד ${local + 1}): ${issue}`);
 }
 
 await browser.close();
