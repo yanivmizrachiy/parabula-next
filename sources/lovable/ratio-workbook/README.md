@@ -1,23 +1,26 @@
 # חוברת יחס ופרופורציה — כיתה ח׳
 
-מקור React/TypeScript של 48 דפי העבודה בנושא יחס ופרופורציה המשולבים ב־Parabula Next.
+מקור React/TypeScript של 48 דפי העבודה בנושא יחס ופרופורציה.
 
-## מקור אמת
+## מקור התחזוקה של תוכן החוברת
 
-מקור התחזוקה של תוכן החוברת הוא קוד React/TypeScript בתיקייה זו. תמונות הרינדור ודפי Parabula הם תוצרים נגזרים ואינם מקור לעריכת תוכן.
+תוכן החוברת נערך בקוד React/TypeScript שבתיקייה זו. דפי האתר ותוצרי הרינדור נגזרים ממנו ואינם משטח לעריכת תוכן לימודי.
 
 ## מבנה
 
 - `src/data/worksheetPages.tsx` — מפת 48 העמודים והסדר הפדגוגי.
 - `src/components/worksheet/pages/` — דפי המקור ההיסטוריים.
-- `src/components/worksheet/corrected/` — עמודים שעברו תיקון מתמטי, פדגוגי וחזותי.
+- `src/components/worksheet/corrected/` — רכיבי עמודים מתוקנים.
 - `src/lib/ratioMath.ts` — פונקציות חישוב ואימות של יחסים.
-- `src/ratio-v2.css` — שכבת עיצוב A4 אחידה.
+- `src/ratio-v2.css` — שכבת העיצוב של החוברת.
+- `src/ratio-layout-fixes.css` — התאמות פריסה ייעודיות.
+- `src/ratio-canonical-fit.css` — התאמות ממוקדות למעבר הקנוני ל־HTML חי.
 - `src/pages/RenderPage.tsx` — מסלול רינדור נקי לבדיקת העמודים.
 - `src/test/` — בדיקות מתמטיות ומבניות.
-- `COMPLIANCE-PLAN.md` — תוכנית ההתאמה המלאה לחוזי Parabula Next.
 
-## עבודה מקומית
+## פקודות שימושיות
+
+מתוך תיקיית החוברת:
 
 ```bash
 npm ci
@@ -26,7 +29,7 @@ npm test
 npm run build
 ```
 
-מהשורש של `parabula-next`:
+משורש הריפו:
 
 ```bash
 npm run ratio:test
@@ -34,20 +37,16 @@ npm run ratio:build
 npm run ratio:render
 npm run ratio:import:check
 npm run ratio:audit
+node scripts/export-ratio-workbook-live.mjs
 ```
 
-## כללי בטיחות
+`ratio:import:check` נשאר כלי בדיקה למסלול ה־PNG ההיסטורי. כתיבה במסלול הישן חסומה כאשר ה־exporter הסמנטי קיים. המעבר הקנוני נעשה רק דרך `scripts/export-ratio-workbook-live.mjs`, שמבצע preflight של כל 48 העמודים לפני אפשרות כתיבה.
 
-- `npm run ratio:import:check` הוא preflight בלבד ואינו משנה קבצים.
-- כתיבה מתבצעת רק באמצעות `npm run ratio:import:write` ולאחר בקשה מפורשת ובדיקת התוכנית המוצגת.
-- `npm run ratio:audit` הוא audit לקריאה בלבד ומחזיר קוד כשל כאשר קיימת חריגה קריטית.
-- `npm run ratio:audit:report` כותב דוח JSON רק כאשר יש צורך מפורש בתוצר דוח.
-- CI בודק ומדווח בלבד; הוא אינו מבצע commit או push.
+## מצב נוכחי
 
-## מצב התאמה נוכחי
-
-תשתית הבטיחות, הניווט וה־CI הוקשחה. עם זאת, דפי Parabula הקנוניים עדיין מציגים תמונות PNG מלאות של העמודים. לכן אין להכריז על התאמה מלאה לפני השלמת ההמרה ל־HTML סמנטי, SVG ו־MathJax לפי הצורך ובדיקת כל 48 העמודים מול המקור.
-
-הרינדור מפיק מחדש את `assets/ratio/page-001.png` עד `page-048.png` ובודק שכל עמוד הוא A4 וללא גלישה. תמונות אלה משמשות כרגע גם כתוצר תצוגה וכ־visual baseline, אך היעד המתועד הוא להפסיק להשתמש בהן כתוכן הקנוני של הדף.
+- מקור התוכן כולל 48 עמודים.
+- קיים exporter סמנטי ל־`עמוד-272.html` עד `עמוד-319.html`.
+- תמונות `assets/ratio/page-001.png` עד `page-048.png` נשמרות כ־visual baseline ותוצר רינדור.
+- אין להכריז על השלמת המעבר הקנוני לפני שכל 48 מועמדי ה־HTML עוברים A4, overflow, footer ושאר שערי הריפו.
 
 כל ההוראות והכללים המחייבים נמצאים אך ורק ב־`CLAUDE.md` בשורש הריפו.
