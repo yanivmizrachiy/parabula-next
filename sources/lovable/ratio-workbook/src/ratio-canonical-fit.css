@@ -1,0 +1,100 @@
+/* Canonical semantic fit fixes.
+   Scope is deliberately limited to the five ratio pages that exceeded the
+   canonical footer boundary in the verified semantic preflight. No font
+   shrinking and no overflow clipping are used. */
+
+.ratio-page-1 .q-separator,
+.ratio-page-16 .q-separator,
+.ratio-page-18 .q-separator,
+.ratio-page-21 .q-separator,
+.ratio-page-48 .q-separator {
+  min-height: 4px;
+  max-height: 6px;
+}
+
+.ratio-page-1 .question-block,
+.ratio-page-16 .question-block,
+.ratio-page-18 .question-block,
+.ratio-page-21 .question-block,
+.ratio-page-48 .question-block {
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .sub-question,
+.ratio-page-16 .sub-question,
+.ratio-page-18 .sub-question,
+.ratio-page-21 .sub-question,
+.ratio-page-48 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .question-content p,
+.ratio-page-1 .sub-content p,
+.ratio-page-16 .question-content p,
+.ratio-page-16 .sub-content p,
+.ratio-page-18 .question-content p,
+.ratio-page-18 .sub-content p,
+.ratio-page-21 .question-content p,
+.ratio-page-21 .sub-content p,
+.ratio-page-48 .question-content p,
+.ratio-page-48 .sub-content p {
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .drawing-box {
+  min-height: 30px;
+  margin-block: 1px;
+}
+
+.ratio-page-1 .ratio-page-1-inline-explanation,
+.ratio-page-16 .answer-line-container,
+.ratio-page-18 .answer-line-container,
+.ratio-page-21 .answer-line-container,
+.ratio-page-48 .answer-line-container {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-18 .svg-center--tight,
+.ratio-page-18 .svg-figure-row,
+.ratio-page-21 .svg-center--tight,
+.ratio-page-48 .svg-center--tight {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-18 .worksheet-table,
+.ratio-page-21 .worksheet-table {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.ratio-page-48 .info-box {
+  margin-bottom: 3px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.ratio-page-48 .multiple-choice {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* Page 16 was the only candidate with measurable sheet overflow (6px).
+   Reclaim spacing from repeated separators and response chrome only. */
+.ratio-page-16 .checkbox-list {
+  gap: 2px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.ratio-page-16 .calculation-response,
+.ratio-page-16 .auto-response {
+  margin-top: 1px;
+  margin-bottom: 2px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+}
