@@ -61,6 +61,9 @@ jobs:
       - name: Verify 48-page content manifest
         run: npm run manifest:check --prefix sources/lovable/ratio-workbook
 
+      - name: Render and audit all 48 print A4 pages
+        run: npm run ratio:render
+
       - name: Semantic canonical preflight for all 48 pages
         run: node scripts/export-ratio-workbook-live.mjs
 
@@ -74,38 +77,38 @@ jobs:
       - name: Re-check isolated change scope
         run: node scripts/check-ratio-change-scope.mjs origin/main
 
-      - name: Stage ratio preview only
+      - name: Stage verified ratio print output only
         shell: bash
         run: |
           for n in $(seq 272 319); do
             git add -- "עמוד-${n}.html" "styles/pages/עמוד-${n}.css"
           done
-          git add -- styles/topics/ratio-live.css assets/ratio/live
+          git add -- styles/topics/ratio-live.css assets/ratio/live assets/ratio/page-*.png
           git rm -f --ignore-unmatch styles/pages/ratio-import.css
           git diff --cached --check
-          echo 'Staged ratio preview files:'
+          echo 'Staged ratio print files:'
           git diff --cached --name-only
 
-      - name: Reject staged files outside ratio preview
+      - name: Reject staged files outside ratio print scope
         shell: bash
         run: |
           bad=0
           while IFS= read -r file; do
             case "$file" in
-              עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*) ;;
+              עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*|assets/ratio/page-[0-9][0-9][0-9].png) ;;
               *) echo "FORBIDDEN staged file: $file"; bad=1 ;;
             esac
           done < <(git diff --cached --name-only)
           test "$bad" -eq 0
 
-      - name: Commit verified preview to branch
+      - name: Commit verified print output to branch
         shell: bash
         run: |
           if git diff --cached --quiet; then
-            echo 'Verified preview is already current.'
+            echo 'Verified print output is already current.'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'chore(יחס): materialize verified 48-page semantic preview [skip ci]'
+          git commit -m 'chore(יחס): materialize verified 48-page print output'
           git push origin HEAD:agent/ratio-safe-upgrade-20260818
