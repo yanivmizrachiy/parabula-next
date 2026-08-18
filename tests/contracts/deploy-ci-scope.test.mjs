@@ -95,7 +95,8 @@ test('deploy workflow uses the classifier for mobile and Pythagoras browser gate
   assert.match(workflow, /node scripts\/classify-ci-change-scope\.mjs/);
   assert.match(workflow, /mobile-browser-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
   assert.match(workflow, /mobile-interaction-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
-  assert.match(workflow, /pythagoras-browser-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.pythagoras == 'true'/);
+  assert.match(workflow, /pythagoras-browser-gate:\s*\n\s+needs: scope\s*\n\s+runs-on: ubuntu-latest/);
+  assert.match(workflow, /if: needs\.scope\.outputs\.pythagoras == 'true'/);
   assert.match(workflow, /mobile-deep-gate:\s*\n\s+if: github\.event_name != 'pull_request'/);
   assert.match(workflow, /needs: \[build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate\]/);
 });
