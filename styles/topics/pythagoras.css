@@ -1,28 +1,4 @@
-/* משפט פיתגורס — פריסה לעמודים המבוססים על תמונות PDF (ללא שינוי טוקנים) */
-
-@import "./pythagoras-overlays.css";
-
-.pythagoras .pyt-content {
-	flex: 1;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 0;
-}
-
-.pythagoras .pyt-image {
-	max-width: 100%;
-	max-height: 100%;
-	width: 100%;
-	height: auto;
-	display: block;
-}
-
-.pythagoras .pyt-figure {
-	max-width: 100%;
-	height: auto;
-	display: block;
-}
+/* משפט פיתגורס — שכבת הבסיס המשותפת לכל דפי הנושא (וקטוריים במלואם). */
 
 .pythagoras .pyt-fig-row {
 	display: flex;
@@ -31,11 +7,6 @@
 	align-items: center;
 	gap: 10px;
 	width: 100%;
-}
-
-.pythagoras .pyt-fig-row .pyt-figure {
-	max-width: 100%;
-	flex: 1 1 320px;
 }
 
 /* תיבת התשובה הקנונית של פיתגורס — סגנון 5, גם בדפים הוותיקים. */
@@ -64,3 +35,6 @@
 		border-color: #1f2a44;
 	}
 }
+
+/* הקרדיט מונמך מעט אל תוך שולי הדף כדי להיות ממורכז בגובה (הוראת יניב, 2026-08-18). */
+.pythagoras.a4-page > .gz-footer { transform: translateY(9px); }
