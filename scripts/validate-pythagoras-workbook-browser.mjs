@@ -46,9 +46,38 @@ try {
     const advanced = mains.find((main) => Number(main?.dataset.sourcePage) === 375);
     const mathCount = document.querySelectorAll('#workbook mjx-container').length;
     const pageCssLinks = [...document.querySelectorAll('link[data-workbook-css]')].map((link) => link.getAttribute('href'));
-    const computedRubik = mains[0] ? getComputedStyle(mains[0]).fontFamily : '';
-    const advancedMathLabel = advanced?.querySelector('svg.chart text[direction="ltr"]');
-    const advancedMathFont = advancedMathLabel ? getComputedStyle(advancedMathLabel).fontFamily : '';
+    const uiFonts = mains.map((main) => main ? getComputedStyle(main).fontFamily : '');
+    const badUiFonts = uiFonts
+      .map((font, index) => ({ local: index + 1, source: expectedPages[index], font }))
+      .filter((entry) => !/Rubik/u.test(entry.font));
+
+    const mathSvgSelector = [
+      '.foundation-svg .pt',
+      '.foundation-svg .lbl',
+      '.pyt-tri-svg text',
+      '.pyt-fig-svg text',
+      '.pyt-rect-svg text',
+      'svg.chart text[direction="ltr"]',
+    ].join(',');
+    const badMathFonts = [];
+    let checkedSvgMath = 0;
+    mains.forEach((main, index) => {
+      if (!main) return;
+      for (const element of main.querySelectorAll(mathSvgSelector)) {
+        checkedSvgMath += 1;
+        const font = getComputedStyle(element).fontFamily;
+        if (!/PytTeX/u.test(font)) {
+          badMathFonts.push({
+            local: index + 1,
+            source: expectedPages[index],
+            tag: element.tagName,
+            className: element.getAttribute('class') ?? '',
+            text: element.textContent?.trim().slice(0, 40) ?? '',
+            font,
+          });
+        }
+      }
+    });
 
     return {
       wrapperCount: wrappers.length,
@@ -61,9 +90,9 @@ try {
       advancedHasPythagorasClass: advanced?.classList.contains('pythagoras') ?? false,
       mathCount,
       pageCssCount: new Set(pageCssLinks).size,
-      computedRubik,
-      advancedMathFont,
-      expectedPages,
+      badUiFonts,
+      badMathFonts,
+      checkedSvgMath,
     };
   }, expected);
 
@@ -79,15 +108,16 @@ try {
   if (!result.advancedHasPythagorasClass) errors.push('source page 375 did not receive the shared pythagoras class in workbook context');
   if (result.mathCount === 0) errors.push('MathJax produced no mjx-container elements');
   if (result.pageCssCount !== expected.length) errors.push(`page CSS links=${result.pageCssCount}, expected=${expected.length}`);
-  if (!/Rubik/u.test(result.computedRubik)) errors.push(`workbook UI font is not Rubik: ${result.computedRubik}`);
-  if (result.advancedMathFont && !/PytTeX/u.test(result.advancedMathFont)) errors.push(`advanced SVG math font is not PytTeX: ${result.advancedMathFont}`);
+  if (result.badUiFonts.length) errors.push(`non-Rubik A4 pages: ${JSON.stringify(result.badUiFonts)}`);
+  if (result.checkedSvgMath === 0) errors.push('no SVG math labels were checked');
+  if (result.badMathFonts.length) errors.push(`non-PytTeX SVG math labels: ${JSON.stringify(result.badMathFonts.slice(0, 20))}`);
 
   if (errors.length) {
     console.error('PYTHAGORAS_WORKBOOK_BROWSER_INVALID');
     for (const error of errors) console.error(`- ${error}`);
     process.exitCode = 1;
   } else {
-    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} math=${result.mathCount} css=${result.pageCssCount}`);
+    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} math=${result.mathCount} svgMath=${result.checkedSvgMath} css=${result.pageCssCount}`);
   }
 } finally {
   if (browser) await browser.close();
