@@ -3,6 +3,7 @@ import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
 import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 
+const MIN_WRITING_LINE_PX = 22;
 const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
 const workbook = buildPythagorasWorkbook(meta);
 const pages = workbook.pages.map((page) => page.file || `עמוד-${page.sourceNumber}.html`);
@@ -31,44 +32,26 @@ try {
     await page.goto(`${baseUrl}/${encodeURIComponent(file)}`, { waitUntil: 'networkidle', timeout: 30000 });
     await page.waitForTimeout(150);
 
-    const result = await page.evaluate(() => {
-      const px = (value) => Number.parseFloat(String(value ?? '')) || 0;
-      const inferPitch = (el, styles) => {
-        const firstLayer = String(styles.backgroundSize || '').split(',')[0].trim().split(/\s+/u);
-        const measured = px(firstLayer[1] ?? firstLayer[0]);
-        if (measured >= 18 && measured <= 40) return measured;
-        return 28;
-      };
+    const result = await page.evaluate((minLinePx) => {
       const inferRequired = (el) => {
         const explicit = Number(el.dataset.requiredLines || 0);
         if (Number.isFinite(explicit) && explicit > 0) return explicit;
         if (el.matches('.equation-practice-card .work-lines.short')) return 2;
         if (el.matches('.equation-practice-card .work-lines')) return 3;
-        /* When a separate final-answer field exists, the canonical five-line
-           Pythagoras route needs four writable work rows inside this area. */
-        if (el.classList.contains('full-solution-space')) return 4;
-        if (el.classList.contains('solution-space')) {
-          const card = el.closest('.problem-block, .pyt-calc-block, .full-solution-card');
-          const separateFinal = card?.querySelector('.problem-answer, .pyt-final-answer, .student-final-answer, .answer-box');
-          return separateFinal ? 4 : 5;
-        }
+        if (el.classList.contains('full-solution-space')) return 5;
+        if (el.classList.contains('solution-space')) return 5;
         return 0;
       };
 
       const areas = [...document.querySelectorAll('.full-solution-space, .solution-space, .equation-practice-card .work-lines')].map((el, index) => {
-        const styles = getComputedStyle(el);
         const rect = el.getBoundingClientRect();
-        const pitch = inferPitch(el, styles);
-        /* A writing row is a visible pitch cell. Borders/padding bound the cell
-           but do not remove a whole row, so round the measured row count. */
-        const capacity = Math.max(0, Math.round(rect.height / pitch));
         return {
           index,
           required: inferRequired(el),
-          pitch: Math.round(pitch * 10) / 10,
+          minLinePx,
           height: Math.round(rect.height * 10) / 10,
           width: Math.round(rect.width * 10) / 10,
-          capacity,
+          capacity: Math.max(0, Math.floor((rect.height + 0.5) / minLinePx)),
           className: String(el.className),
           aria: el.getAttribute('aria-label') || '',
           inferred: !el.hasAttribute('data-required-lines'),
@@ -88,19 +71,19 @@ try {
         if (!card.querySelector(finalSelector)) cardIssues.push('סעיף חישובי ללא תשובה סופית');
       }
       return { areas, cardIssues };
-    });
+    }, MIN_WRITING_LINE_PX);
 
     for (const metric of result.areas) {
       rows.push({ local: local + 1, file, ...metric });
       if (metric.required <= 0) issues.push(`${file} (עמוד ${local + 1}): לא ניתן להסיק מספר שורות נדרש עבור ${metric.className}`);
-      else if (metric.capacity < metric.required) issues.push(`${file} (עמוד ${local + 1}): ${metric.aria || metric.className} — נדרשות ${metric.required} שורות, בפועל כ-${metric.capacity} בלבד (${metric.height}px, pitch=${metric.pitch}px)`);
+      else if (metric.capacity < metric.required) issues.push(`${file} (עמוד ${local + 1}): ${metric.aria || metric.className} — נדרשות ${metric.required} שורות, בפועל כ-${metric.capacity} בלבד (${metric.height}px; מינימום ${MIN_WRITING_LINE_PX}px לשורה)`);
       if (metric.width < 170) issues.push(`${file} (עמוד ${local + 1}): אזור דרך צר מדי לכתיבה מתמטית (${metric.width}px)`);
     }
     for (const issue of result.cardIssues) issues.push(`${file} (עמוד ${local + 1}): ${issue}`);
   }
 
-  console.log(`PYTHAGORAS_WRITING_CAPACITY pages=${pages.length} areas=${rows.length}`);
-  for (const row of rows) console.log(`${String(row.local).padStart(2)} | ${row.file} | req=${row.required}${row.inferred ? '*' : ''} cap=${row.capacity} | ${row.width}x${row.height}px | pitch=${row.pitch}px`);
+  console.log(`PYTHAGORAS_WRITING_CAPACITY pages=${pages.length} areas=${rows.length} minLinePx=${MIN_WRITING_LINE_PX}`);
+  for (const row of rows) console.log(`${String(row.local).padStart(2)} | ${row.file} | req=${row.required}${row.inferred ? '*' : ''} cap=${row.capacity} | ${row.width}x${row.height}px`);
   console.log('* = מספר השורות הוסק מהתבנית הקנונית ולא מתגית מפורשת');
   if (issues.length) {
     console.error(`\nPYTHAGORAS_WRITING_CAPACITY_FAILED issues=${issues.length}`);
