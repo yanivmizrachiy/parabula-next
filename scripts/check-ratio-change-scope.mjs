@@ -3,7 +3,8 @@ import { execFileSync } from 'node:child_process';
 const firstRatioPage = 272;
 const lastRatioPage = 319;
 const baseBranch = process.env.GITHUB_BASE_REF || 'main';
-const baseRef = process.argv[2] || `origin/${baseBranch}`;
+const eventBaseSha = process.env.RATIO_SCOPE_BASE_SHA?.trim();
+const baseRef = process.argv[2] || eventBaseSha || `origin/${baseBranch}`;
 
 function isRatioPagePath(path) {
   const match = path.match(/^עמוד-(\d+)\.html$/u);
@@ -55,4 +56,4 @@ if (foreignRootPages.length > 0) {
   process.exit(1);
 }
 
-console.log(`Ratio scope PASS: ${changed.length} changed files are confined to the ratio workbook surface.`);
+console.log(`Ratio scope PASS: ${changed.length} changed files are confined to the ratio workbook surface (base ${baseRef}).`);
