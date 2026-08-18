@@ -8,6 +8,7 @@
 .page-16 .pyt-reason-block { display: grid; grid-template-columns: minmax(0,1fr) minmax(250px,.9fr); column-gap: 12px; row-gap: 4px; align-items: end; }
 .page-16 .pyt-reason-label { font-weight: 600; align-self: end; }
 .page-16 .pyt-reason-space { min-height: 56px; border: 1px solid var(--border-light); border-radius: 7px; background: repeating-linear-gradient(to bottom,var(--bg-paper) 0,var(--bg-paper) 26px,var(--grid-line) 27px); }
-.page-16 .pyt-ae-block { display: grid; gap: 6px; }
-.page-16 .solution-space { min-height: 145px; height: 145px; }
+.page-16 .pyt-ae-block { display: grid; grid-template-rows: auto 1fr auto; gap: 6px; flex: 1 1 auto; min-height: 0; }
+.page-16 .solution-space { min-height: 145px; height: auto; align-self: stretch; }
 .page-16 .pyt-mc { display: grid; grid-template-columns: repeat(4,max-content); justify-content: start; gap: 14px; margin-top: 0; }
+.page-16 .pyt-footer { margin-top: 0; }
