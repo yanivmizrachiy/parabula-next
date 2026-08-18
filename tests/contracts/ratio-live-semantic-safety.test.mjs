@@ -53,8 +53,23 @@ test('semantic canonical exporter audits all 48 candidates before any repository
   assert.ok(writeIndex > auditIndex, 'repository write must occur only after candidate audit');
 });
 
-test('ratio verification workflow remains read-only', () => {
+test('ratio verification stays read-only and branch write is isolated to a post-verification job', () => {
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/);
-  assert.doesNotMatch(workflow, /contents:\s*write/);
-  assert.doesNotMatch(workflow, /git\s+(commit|push)/);
+  const verifyStart = workflow.indexOf('verify-render-and-audit:');
+  const materializeStart = workflow.indexOf('materialize-verified-print-output:');
+  assert.ok(verifyStart >= 0 && materializeStart > verifyStart, 'verification/materialization jobs are missing or out of order');
+
+  const verifyJob = workflow.slice(verifyStart, materializeStart);
+  const materializeJob = workflow.slice(materializeStart);
+  assert.doesNotMatch(verifyJob, /contents:\s*write/);
+  assert.doesNotMatch(verifyJob, /git\s+(commit|push)/);
+
+  assert.match(materializeJob, /needs:\s*verify-render-and-audit/);
+  assert.match(materializeJob, /github\.event_name == 'pull_request'/);
+  assert.match(materializeJob, /github\.head_ref == 'agent\/ratio-safe-upgrade-20260818'/);
+  assert.match(materializeJob, /github\.actor != 'github-actions\[bot\]'/);
+  assert.match(materializeJob, /permissions:\s*\n\s*contents:\s*write/);
+  assert.match(materializeJob, /Reject every staged file outside ratio print scope/);
+  assert.match(materializeJob, /git commit -m 'chore\(יחס\): materialize verified 48-page print output'/);
+  assert.match(materializeJob, /git push origin HEAD:agent\/ratio-safe-upgrade-20260818/);
 });
