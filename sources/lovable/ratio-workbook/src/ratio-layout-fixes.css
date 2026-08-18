@@ -19,8 +19,8 @@
 }
 
 .ratio-answer-container.is-inline .ratio-answer-box {
-  width: 28px;
-  height: 21px;
+  width: 32px;
+  height: 30px;
 }
 
 .ordered-pair-answer-container {
@@ -37,16 +37,17 @@
   gap: 5px;
   direction: ltr;
   unicode-bidi: isolate;
-  min-height: 25px;
+  min-height: 30px;
 }
 
 .ordered-pair-box {
   display: inline-block;
   width: 34px;
-  height: 24px;
-  border: 1.4px solid var(--ws-line);
-  border-radius: 2px;
+  height: 30px;
+  border: 1.35px solid #1f2a44;
+  border-radius: 8px;
   background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
 }
 
 .ordered-pair-paren,
@@ -100,12 +101,12 @@
 
 .response-set .ratio-answer {
   gap: 4px;
-  min-height: 21px;
+  min-height: 30px;
 }
 
 .response-set .ratio-answer-box {
-  width: 23px;
-  height: 19px;
+  width: 30px;
+  height: 30px;
 }
 
 .ratio-page-1 .q-separator,
