@@ -18,7 +18,7 @@ test('ratio workflow is scoped to canonical pages 272-319 instead of all workshe
     'styles/pages/עמוד-27[2-9].css',
     'styles/pages/עמוד-31[0-9].css',
   ]) {
-    assert.match(workflow, new RegExp(fragment.replace(/[.*+?^${}()|\\]/g, '\\$&')));
+    assert.ok(workflow.includes(fragment), `missing exact ratio workflow glob: ${fragment}`);
   }
 });
 
