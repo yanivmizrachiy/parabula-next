@@ -2,40 +2,50 @@
    Loaded after index.css so legacy pages keep their markup while sharing one visual contract. */
 
 .worksheet-page {
+  --ws-font-sans: 'Rubik', 'Assistant', Arial, sans-serif;
   --ws-ink: #111827;
   --ws-ink-soft: #374151;
   --ws-line: #1f2937;
   --ws-line-soft: #94a3b8;
   --ws-rule: #dbe3ef;
   --ws-accent: #1d4ed8;
-  --ws-accent-2: #1e3a8a;
+  --ws-title: #1e3a8a;
   --ws-accent-soft: #eff6ff;
   --ws-fill: #dbeafe;
   --ws-fill-strong: #64748b;
+  --ws-header-size: 15px;
+  --ws-header-weight: 600;
+  --ws-body-size: 14px;
+  --ws-body-leading: 1.48;
   width: 210mm;
   height: 297mm;
   overflow: visible;
   border: 0;
   border-radius: 0;
   color: var(--ws-ink);
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-family: var(--ws-font-sans);
 }
 
 .page-header {
   min-height: 15mm;
   padding: 4.2mm 14mm 3mm;
   background: #fff;
-  color: var(--ws-accent-2);
+  color: var(--ws-title);
   border: 0;
   border-bottom: 1.5px solid var(--ws-accent);
   box-shadow: none;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--ws-font-sans);
+  font-size: var(--ws-header-size);
+  font-weight: var(--ws-header-weight);
+  line-height: 1.2;
   letter-spacing: 0;
 }
 
 .page-header-title {
+  color: var(--ws-title);
+  font-family: var(--ws-font-sans);
+  font-size: var(--ws-header-size);
+  font-weight: var(--ws-header-weight);
   letter-spacing: 0;
   gap: 0;
 }
@@ -51,17 +61,19 @@
   color: var(--ws-accent);
   background: #fff;
   box-shadow: none;
+  font-family: var(--ws-font-sans);
   font-size: 13px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .page-content {
   height: calc(100% - 15mm);
   padding: 7mm 14mm 9mm;
   overflow: visible;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.48;
+  font-family: var(--ws-font-sans);
+  font-size: var(--ws-body-size);
+  line-height: var(--ws-body-leading);
   color: var(--ws-ink);
 }
 
@@ -95,8 +107,8 @@
 .answer-label,
 .drawing-label,
 .tray-num {
-  color: var(--ws-accent-2);
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  color: var(--ws-title);
+  font-family: var(--ws-font-sans);
   font-weight: 600;
 }
 
@@ -154,6 +166,7 @@
 .worksheet-table {
   margin: 4px 0;
   border: 1px solid var(--ws-line);
+  font-family: var(--ws-font-sans);
   font-size: 12.5px;
 }
 
@@ -165,9 +178,10 @@
 
 .worksheet-table th {
   background: var(--ws-accent-soft);
-  color: var(--ws-accent-2);
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  color: var(--ws-title);
+  font-family: var(--ws-font-sans);
   font-size: 12px;
+  font-weight: 600;
 }
 
 .worksheet-table tbody tr:nth-child(even) td {
@@ -200,7 +214,7 @@
 }
 
 .page-content svg text {
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
+  font-family: var(--ws-font-sans);
   font-weight: 500;
   fill: var(--ws-ink);
 }
@@ -251,7 +265,7 @@
 
   .page-header {
     background: #fff !important;
-    color: var(--ws-accent-2) !important;
+    color: var(--ws-title) !important;
     border-bottom-color: var(--ws-accent) !important;
   }
 }
