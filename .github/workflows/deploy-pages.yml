@@ -21,8 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mobile: ${{ steps.classify.outputs.mobile }}
+      pythagoras: ${{ steps.classify.outputs.pythagoras }}
       changed_count: ${{ steps.classify.outputs.changed_count }}
       reason: ${{ steps.classify.outputs.reason }}
+      pythagoras_reason: ${{ steps.classify.outputs.pythagoras_reason }}
     steps:
       - name: Checkout with history for change classification
         uses: actions/checkout@v4
@@ -34,10 +36,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Classify whether browser-heavy mobile checks are relevant
+      - name: Classify browser-heavy validation scope
         id: classify
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
         run: node scripts/classify-ci-change-scope.mjs
 
@@ -46,8 +48,10 @@ jobs:
           {
             echo "### CI change scope"
             echo "- Mobile browser gates: ${{ steps.classify.outputs.mobile }}"
+            echo "- Pythagoras browser gate: ${{ steps.classify.outputs.pythagoras }}"
             echo "- Changed files: ${{ steps.classify.outputs.changed_count }}"
-            echo "- Reason: ${{ steps.classify.outputs.reason }}"
+            echo "- Mobile reason: ${{ steps.classify.outputs.reason }}"
+            echo "- Pythagoras reason: ${{ steps.classify.outputs.pythagoras_reason }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:
@@ -76,15 +80,14 @@ jobs:
           npm run validate:meta
           npm run validate:schema
 
-      # שערי תכנית הלימודים (§4.5). בלעדיהם עריכה שמנתקת את meta/topics.json
-      # מ-scripts/curriculum-map.mjs מתמזגת בלי שאיש יבחין.
       - name: Curriculum taxonomy
         run: |
           npm run curriculum:check
           npm run validate:curriculum
 
-      # שער מרחב הפתרון (§4.6): נכשל אם דף מערכות נדחס מעל 3 תרגילים
-      # או אם הפיצול והמספור אינם מעודכנים מול המקור.
+      - name: Canonical Pythagoras workbook
+        run: npm run validate:pythagoras
+
       - name: Systems solution space
         run: npm run systems:check
 
@@ -207,6 +210,60 @@ jobs:
           if-no-files-found: warn
           retention-days: 3
 
+  pythagoras-browser-gate:
+    needs: scope
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Skip heavy Pythagoras checks when unrelated
+        if: needs.scope.outputs.pythagoras != 'true'
+        run: echo "No canonical Pythagoras files changed; heavy browser gate skipped."
+
+      - name: Checkout
+        if: needs.scope.outputs.pythagoras == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        if: needs.scope.outputs.pythagoras == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: npm ci
+
+      - name: Validate static Pythagoras contracts
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: |
+          npm run validate:pythagoras
+          node --test tests/contracts/pythagoras-*.test.mjs
+          node scripts/pythagoras-solution-capacity-audit.mjs --strict
+
+      - name: Install Chromium
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify Pythagoras workbook in Chromium
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: node scripts/validate-pythagoras-workbook-browser.mjs
+
+      - name: Audit canonical Pythagoras A4 pages
+        if: needs.scope.outputs.pythagoras == 'true'
+        shell: bash
+        run: |
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
+          node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
+
+      - name: Enforce Pythagoras writing capacity
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: node scripts/pythagoras-writing-capacity-browser-audit.mjs
+
+      - name: Enforce Pythagoras whitespace limits
+        if: needs.scope.outputs.pythagoras == 'true'
+        run: node scripts/pythagoras-whitespace-audit.mjs --max-gap=40 --max-trailing=40
+
   mobile-deep-gate:
     if: github.event_name != 'pull_request'
     name: Deep mobile audit shard ${{ matrix.shard }}
@@ -244,7 +301,7 @@ jobs:
 
   deploy:
     if: github.event_name != 'pull_request'
-    needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate]
+    needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate]
     permissions:
       pages: write
       id-token: write
