@@ -85,6 +85,13 @@ function normalizePage(main, sourceNumber, localNumber, total) {
   const visibleNumber = main.querySelector('.page-number');
   if (visibleNumber) visibleNumber.textContent = String(localNumber);
 
+  /* דפי 375–380 נשארים דפי גאומטריה ז' במקור, אך בתוך חוברת פיתגורס
+     הכותרת המקומית חייבת לשקף את ההקשר של החוברת. */
+  if (sourceNumber >= 375 && sourceNumber <= 380) {
+    const pageTitle = main.querySelector('.page-title');
+    if (pageTitle) pageTitle.textContent = 'משפט פיתגורס';
+  }
+
   namespaceSvgIds(main, `pyt-${localNumber}`);
   return main;
 }
