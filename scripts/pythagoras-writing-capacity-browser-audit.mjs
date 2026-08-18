@@ -43,15 +43,29 @@ for (let local = 0; local < pages.length; local += 1) {
     };
     const inferPitch = (el, cs) => {
       if (el.classList.contains('full-solution-space')) return 28;
-      if (el.classList.contains('reason-space')) return 27;
+      if (el.classList.contains('work-lines')) return 28;
       const parts = String(cs.backgroundSize || '').split(',')[0].trim().split(/\s+/u);
       const y = parsePx(parts[1] ?? parts[0]);
       if (y >= 18 && y <= 40) return y;
       return 22;
     };
+    const inferRequired = (el) => {
+      const explicit = Number(el.dataset.requiredLines || 0);
+      if (Number.isFinite(explicit) && explicit > 0) return explicit;
+      if (el.matches('.equation-practice-card .work-lines')) return 3;
+      if (el.classList.contains('full-solution-space')) return 5;
+      if (el.classList.contains('solution-space')) return 5;
+      return 0;
+    };
 
-    return [...document.querySelectorAll('[data-required-lines]')].map((el, index) => {
-      const required = Number(el.dataset.requiredLines || 0);
+    const selector = [
+      '.full-solution-space',
+      '.solution-space',
+      '.equation-practice-card .work-lines',
+    ].join(',');
+
+    return [...document.querySelectorAll(selector)].map((el, index) => {
+      const required = inferRequired(el);
       const cs = getComputedStyle(el);
       const rect = el.getBoundingClientRect();
       const pitch = inferPitch(el, cs);
@@ -59,17 +73,17 @@ for (let local = 0; local < pages.length; local += 1) {
       const paddingY = parsePx(cs.paddingTop) + parsePx(cs.paddingBottom);
       const writableHeight = Math.max(0, rect.height - borderY - paddingY);
       const capacity = Math.floor((writableHeight + 0.5) / pitch);
-      const width = rect.width;
       return {
         index,
         required,
         pitch: Math.round(pitch * 10) / 10,
         height: Math.round(rect.height * 10) / 10,
         writableHeight: Math.round(writableHeight * 10) / 10,
-        width: Math.round(width * 10) / 10,
+        width: Math.round(rect.width * 10) / 10,
         capacity,
         className: el.className,
         aria: el.getAttribute('aria-label') || '',
+        inferred: !el.hasAttribute('data-required-lines'),
       };
     });
   });
@@ -77,7 +91,7 @@ for (let local = 0; local < pages.length; local += 1) {
   for (const metric of metrics) {
     rows.push({ local: local + 1, file, ...metric });
     if (metric.required <= 0) {
-      issues.push(`${file} (עמוד ${local + 1}): data-required-lines אינו מספר חיובי`);
+      issues.push(`${file} (עמוד ${local + 1}): לא ניתן להסיק מספר שורות נדרש עבור ${metric.className}`);
       continue;
     }
     if (metric.capacity < metric.required) {
@@ -94,8 +108,9 @@ server.kill();
 
 console.log(`PYTHAGORAS_WRITING_CAPACITY pages=${pages.length} areas=${rows.length}`);
 for (const row of rows) {
-  console.log(`${String(row.local).padStart(2)} | ${row.file} | req=${row.required} cap=${row.capacity} | ${row.width}x${row.height}px | pitch=${row.pitch}px`);
+  console.log(`${String(row.local).padStart(2)} | ${row.file} | req=${row.required}${row.inferred ? '*' : ''} cap=${row.capacity} | ${row.width}x${row.height}px | pitch=${row.pitch}px`);
 }
+console.log('* = מספר השורות הוסק מהתבנית הקנונית ולא מתגית מפורשת');
 
 if (issues.length) {
   console.error(`\nPYTHAGORAS_WRITING_CAPACITY_FAILED issues=${issues.length}`);
