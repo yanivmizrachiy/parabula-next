@@ -8,3 +8,288 @@
   min-width: 0;
   flex: 1 1 0;
 }
+
+.ratio-answer-container.is-inline,
+.ordered-pair-answer-container.is-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+.ratio-answer-container.is-inline .ratio-answer-box {
+  width: 28px;
+  height: 21px;
+}
+
+.ordered-pair-answer-container {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 5px 18px 4px 0;
+  break-inside: avoid;
+}
+
+.ordered-pair-answer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  min-height: 25px;
+}
+
+.ordered-pair-box {
+  display: inline-block;
+  width: 34px;
+  height: 24px;
+  border: 1.4px solid var(--ws-line);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.ordered-pair-paren,
+.ordered-pair-comma {
+  color: var(--ws-ink);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.response-set {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) repeat(4, minmax(64px, auto));
+  align-items: end;
+  gap: 3px 7px;
+  margin: 2px 18px 3px 0;
+  padding: 3px 6px;
+  border: 1px solid var(--ws-rule);
+  border-radius: 4px;
+  break-inside: avoid;
+}
+
+.response-set .work-area {
+  margin: 0;
+}
+
+.response-set .work-area-lines {
+  gap: 2px;
+}
+
+.response-set .work-area-line {
+  min-height: 14px;
+}
+
+.response-set .final-answer {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border-top: 0;
+  gap: 4px;
+}
+
+.response-set .answer-label {
+  white-space: nowrap;
+}
+
+.response-set .final-answer-line {
+  min-width: 38px;
+  max-width: 78px;
+}
+
+.response-set .ratio-answer {
+  gap: 4px;
+  min-height: 21px;
+}
+
+.response-set .ratio-answer-box {
+  width: 23px;
+  height: 19px;
+}
+
+.ratio-page-1 .q-separator,
+.ratio-page-29 .q-separator,
+.ratio-page-48 .q-separator {
+  min-height: 6px;
+  max-height: 9px;
+}
+
+.ratio-page-48 .info-box {
+  margin-bottom: 5px;
+}
+
+.ratio-page-1 .circles-grid {
+  margin: 3px 0;
+}
+
+.ratio-page-1 .drawing-box {
+  min-height: 34px;
+  margin: 2px 0;
+  padding: 4px 8px;
+}
+
+.ratio-page-1 .sub-question,
+.ratio-page-29 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-1 .work-area {
+  margin: 2px 0 0;
+}
+
+.ratio-page-1 .work-area-lines {
+  gap: 2px;
+}
+
+.ratio-page-1 .work-area-line {
+  min-height: 14px;
+}
+
+.ratio-page-29 .question-block {
+  margin-bottom: 1px;
+}
+
+.ratio-page-29 .geo-figure.compact {
+  margin: 0 auto;
+}
+
+.ratio-page-29 .geo-figure.compact .geo-svg {
+  width: auto;
+  max-width: 100%;
+  max-height: 88px;
+}
+
+.ratio-page-29 .cookie-trays.compact {
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.ratio-page-29 .cookie-trays.compact .tray {
+  padding: 3px;
+}
+
+.ratio-page-35 .q-separator {
+  min-height: 4px;
+  max-height: 6px;
+}
+
+.ratio-page-35 .question-block {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .sub-question {
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .question-content p,
+.ratio-page-35 .sub-content p {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35 .info-box {
+  margin: 2px 0 3px;
+  padding: 4px 8px;
+}
+
+.ratio-page-35 .info-box p {
+  margin-bottom: 1px;
+}
+
+.ratio-page-35-response {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.ratio-page-35-response .work-area-lines {
+  gap: 1px;
+}
+
+.ratio-page-35-response .work-area-line {
+  min-height: 13px;
+}
+
+.ratio-page-35-response--explanation {
+  grid-template-columns: minmax(280px, 1fr) minmax(150px, auto);
+}
+
+.ratio-page-35-response--methods {
+  grid-template-columns: minmax(300px, 1fr) minmax(120px, auto) minmax(120px, auto);
+}
+
+.ratio-page-35 .calculation-response {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.ratio-page-35 .calculation-response .work-area-lines {
+  gap: 2px;
+}
+
+.ratio-page-35 .calculation-response .work-area-line {
+  min-height: 14px;
+}
+
+/* Automatic response sizing: allocate only the writing space the task truly needs. */
+[data-auto-response="short"] > .sub-content > .answer-line-container,
+.question-block[data-auto-response="short"] .question-content > .answer-line-container {
+  width: min(260px, 100%);
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 2px;
+}
+
+[data-auto-response="short"] .answer-line {
+  min-width: 90px;
+  height: 16px;
+}
+
+[data-auto-response="ratio"] > .sub-content > .ratio-answer-container,
+.question-block[data-auto-response="ratio"] .question-content > .ratio-answer-container {
+  margin-top: 2px;
+  margin-bottom: 1px;
+}
+
+.auto-response--calculation {
+  margin: 2px 0 3px;
+  padding: 3px 6px 4px;
+}
+
+.auto-response--calculation .work-area-lines {
+  gap: 1px;
+}
+
+.auto-response--calculation .work-area-line {
+  min-height: 14px;
+}
+
+.auto-response--calculation .final-answer {
+  width: min(300px, 100%);
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 3px;
+  padding-top: 3px;
+}
+
+.auto-response--calculation .final-answer-line {
+  min-width: 80px;
+  max-width: 180px;
+}
+
+.auto-response--explanation {
+  margin: 2px 0 3px;
+}
+
+.auto-response--explanation .work-area-lines {
+  gap: 2px;
+}
+
+.auto-response--explanation .work-area-line {
+  min-height: 15px;
+}
