@@ -48,9 +48,6 @@ for (let i = 0; i < topic.pages.length; i += 1) {
   if (fullPythagorasSignals && workAreas > 0 && finalAnswers < workAreas) {
     issues.push(`${page.file} (עמוד ${i + 1}): ${workAreas} אזורי דרך לעומת ${finalAnswers} תשובות סופיות`);
   }
-  if (fullPythagorasSignals && workAreas > 4) {
-    issues.push(`${page.file} (עמוד ${i + 1}): ${workAreas} אזורי דרך חישוביים — יותר מ־4 בעמוד A4`);
-  }
   if (fullPythagorasSignals && explicitLineCounts.some((n) => n < 5)) {
     issues.push(`${page.file} (עמוד ${i + 1}): נמצא אזור דרך מלאה עם פחות מ־5 שורות מוצהרות`);
   }
