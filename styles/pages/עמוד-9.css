@@ -2,14 +2,13 @@
 @import url("../topics/pythagoras.css");
 
 .page-9 {
-	/* שלוש שורות: 283px משאיר את הדף בתוך A4 ומפנה מקום לדרך הפתרון */
-	--problem-block-height: 283px;
+	--problem-block-height: 320px;
 }
 
 .page-9 .q-main { margin-bottom: 0; }
 .page-9 .question-block { justify-content: space-between; gap: 6px; }
 .page-9 .pyt-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
-.page-9 .pyt-tri-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 10px; width: 100%; align-items: start; }
+.page-9 .pyt-tri-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 10px; row-gap: 8px; width: 100%; align-items: start; }
 .page-9 .problem-block { height: var(--problem-block-height); background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
 .page-9 .problem-top { display: none; }
 .page-9 .problem-answer { direction: ltr; unicode-bidi: isolate; white-space: nowrap; flex: 0 0 auto; text-align: left; padding-top: 6px; border-top: 1px solid var(--border-light); }
