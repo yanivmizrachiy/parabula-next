@@ -61,6 +61,6 @@ const index=read('workbooks/circle/index.html');
 if(!index.includes("fetch('manifest.json'"))fail('reader does not derive state from manifest');
 if(!index.includes('id="stage"'))fail('reader has no graded stage navigation');
 const rules=read('CLAUDE.md');
-if(!rules.includes('חוברת מעגל קנונית יחידה'))fail('CLAUDE.md not synchronized');
+for(const marker of ['### 2.1 חוזה קנוני — מעגל, גליל וחרוט','`workbooks/circle/`','אין להשאיר חוברת מעגל נוספת או סדר חלופי פעיל'])if(!rules.includes(marker))fail(`CLAUDE.md geometry source-of-truth marker missing: ${marker}`);
 
 console.log(`Circle canonical QA: PASS — ${total} pages, one graded sequence, all source families preserved.`);
