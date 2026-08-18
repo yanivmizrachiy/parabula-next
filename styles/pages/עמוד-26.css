@@ -14,3 +14,7 @@
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
 }
+
+.page-26 .pyt-calc-block:last-child {
+	grid-column: 1 / -1;
+}
