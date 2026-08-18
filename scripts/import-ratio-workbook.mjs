@@ -8,6 +8,17 @@ const pageCount = 48;
 const endPage = startPage + pageCount - 1;
 const siteBase = 'https://yanivmizrachiy.github.io/razpages/';
 const writeMode = process.argv.includes('--write');
+const chapterDataPath = path.join(
+  root,
+  'sources',
+  'lovable',
+  'ratio-workbook',
+  'src',
+  'data',
+  'ratioChapters.json',
+);
+const chapterDocument = JSON.parse(fs.readFileSync(chapterDataPath, 'utf8'));
+const ratioChapters = Array.isArray(chapterDocument.chapters) ? chapterDocument.chapters : [];
 
 function normalizeText(content) {
   return content.endsWith('\n') ? content : `${content}\n`;
@@ -21,6 +32,41 @@ function existingText(rel) {
   const target = path.join(root, rel);
   return fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : null;
 }
+
+function buildRatioHeaderRules() {
+  const seen = new Set();
+  const rules = [];
+
+  for (const chapter of ratioChapters) {
+    if (!Number.isInteger(chapter?.id) || typeof chapter?.title !== 'string' || !Array.isArray(chapter?.pageIds)) {
+      throw new Error('Invalid ratio chapter definition; expected id, title and pageIds.');
+    }
+
+    const selectors = [];
+    for (const localPage of chapter.pageIds) {
+      if (!Number.isInteger(localPage) || localPage < 1 || localPage > pageCount) {
+        throw new Error(`Invalid ratio page id ${localPage} in chapter ${chapter.id}.`);
+      }
+      if (seen.has(localPage)) {
+        throw new Error(`Ratio page ${localPage} is assigned to more than one chapter.`);
+      }
+      seen.add(localPage);
+      selectors.push(`.ratio-import-page.page-${startPage + localPage - 1}`);
+    }
+
+    rules.push(`${selectors.join(',\n')} {\n  --ratio-header-section: ${JSON.stringify(chapter.title)};\n}`);
+  }
+
+  const missing = Array.from({ length: pageCount }, (_, index) => index + 1)
+    .filter((localPage) => !seen.has(localPage));
+  if (missing.length > 0) {
+    throw new Error(`Ratio chapter map is missing pages: ${missing.join(', ')}.`);
+  }
+
+  return rules.join('\n\n');
+}
+
+const ratioHeaderRules = buildRatioHeaderRules();
 
 function pageHtml(globalPage, localPage, previousGlobalPage, nextGlobalPage) {
   const previous = previousGlobalPage
@@ -118,9 +164,45 @@ for (let localPage = 1; localPage <= pageCount; localPage += 1) {
 
 generatedFiles.set('styles/pages/ratio-import.css', normalizeText(`
 .ratio-import-page {
+  --ratio-header-font: 'Rubik', sans-serif;
+  --ratio-header-accent: var(--title-blue, #1d4ed8);
+  --ratio-header-title: #1e3a8a;
+  --ratio-header-section: "יחס";
   position: relative;
   padding: 0;
+  overflow: hidden;
   background: #fff;
+}
+
+${ratioHeaderRules}
+
+/*
+ * שכבת הכותרת החיה מכסה רק את אזור הכותרת שבתמונת המקור.
+ * כך כל 48 דפי היחס מקבלים אותו גופן, אותם צבעים ואותה היררכיה,
+ * בלי לשנות את תוכן התרגילים שבתמונה ובלי לפגוע בעיגול מספר העמוד משמאל.
+ */
+.ratio-import-page::before {
+  content: "נושא: יחס | " var(--ratio-header-section);
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: calc(100% - 24mm);
+  block-size: 15mm;
+  display: flex;
+  align-items: center;
+  padding: 4.2mm 14mm 3mm;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ratio-header-title);
+  border-bottom: 1.5px solid var(--ratio-header-accent);
+  font-family: var(--ratio-header-font);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .ratio-source-title {
@@ -132,6 +214,7 @@ generatedFiles.set('styles/pages/ratio-import.css', normalizeText(`
   white-space: nowrap;
 }
 
+/* התמונה מתכווצת כדי לפנות מקום לקרדיט; object-fit שומר על יחס הסריקה. */
 .ratio-import-image {
   display: block;
   inline-size: 100%;
@@ -142,6 +225,7 @@ generatedFiles.set('styles/pages/ratio-import.css', normalizeText(`
   background: #fff;
 }
 
+/* לדף הסרוק אין padding, ולכן הקרדיט מקבל שוליים משלו. */
 .ratio-import-page > .gz-footer {
   padding-inline: 10mm;
   padding-bottom: 3mm;
