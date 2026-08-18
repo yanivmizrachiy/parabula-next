@@ -23,6 +23,15 @@ import {
   TeacherIntroPage07,
   TeacherIntroPage08,
 } from '@/components/worksheet/corrected/TeacherIntroPages';
+import {
+  CurriculumPage01,
+  CurriculumPage02,
+  CurriculumPage03,
+  CurriculumPage04,
+  CurriculumPage05,
+  CurriculumPage06,
+  CurriculumPage07,
+} from '@/components/worksheet/corrected/CurriculumQuestionsPages';
 
 export interface WorksheetPageData {
   id: number;
@@ -40,7 +49,22 @@ const CHAPTERS = {
   combined: '5 · יחס בגאומטריה ובכמויות',
   proportion: '6 · פרופורציה ויחס ישר',
   data: '7 · יחס בנתונים, תרשימים וגאומטריה',
+  curriculum: '8 · שאלות מתוך תוכנית הלימודים',
 } as const;
+
+// שאלות מתוך תוכנית הלימודים (משרד החינוך, numerical_7_8.pdf, שאלות 1–15).
+// מוגדר כאן — לפני OPENING_PAGES ו־EXISTING_PAGES — כדי לא להיכנס לטווחים ש־
+// tests/contracts/ratio-teacher-opening-pages.test.mjs סורק (8 פתיחה + 48 מקור).
+// המזהים המקומיים 1–7 מוזזים ל־57–63 בתוך WORKSHEET_PAGES, בסוף החוברת.
+const CURRICULUM_PAGES: WorksheetPageData[] = [
+  { id: 1, title: 'יחס והסתברות — מחרוזת וצופים', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage01 /> },
+  { id: 2, title: 'חלוקה ביחס נתון — כדורים וגולות', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage02 /> },
+  { id: 3, title: 'חלוקת רווח וכריכים לפי יחס', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage03 /> },
+  { id: 4, title: 'אפשרויות, הסתברות והיקף מלבן', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage04 /> },
+  { id: 5, title: 'יחס במשולש ישר־זווית ובריבוע', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage05 /> },
+  { id: 6, title: 'יחס במלבן אלגברי ובשטח משולש', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage06 /> },
+  { id: 7, title: 'יחס בהיקפים ובמסילת תמונות', chapter: CHAPTERS.curriculum, component: () => <CurriculumPage07 /> },
+];
 
 const OPENING_PAGES: WorksheetPageData[] = [
   { id: 1, title: 'יחס — מדוע עכשיו? והיכרות ראשונית', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage01 /> },
@@ -113,4 +137,5 @@ const EXISTING_PAGES: WorksheetPageData[] = [
 export const WORKSHEET_PAGES: WorksheetPageData[] = [
   ...OPENING_PAGES,
   ...EXISTING_PAGES.map((page) => ({ ...page, id: page.id + OPENING_PAGES.length })),
+  ...CURRICULUM_PAGES.map((page) => ({ ...page, id: page.id + OPENING_PAGES.length + EXISTING_PAGES.length })),
 ];

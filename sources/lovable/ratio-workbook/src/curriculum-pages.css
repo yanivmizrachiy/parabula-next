@@ -1,0 +1,54 @@
+/* Curriculum questions pages — faithfully transcribed from the Ministry of
+   Education numerical curriculum (numerical_7_8.pdf, questions 1–15).
+   Only classes not already provided by the shared worksheet styles live here. */
+
+.curriculum-page .statement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.curriculum-page .statement-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.curriculum-page .statement-row .statement-label {
+  font-weight: 600;
+  flex: 0 0 auto;
+}
+
+.curriculum-page .statement-row p {
+  margin: 0;
+  flex: 1 1 auto;
+}
+
+.curriculum-page .curriculum-bead-row {
+  margin: 8px 0;
+}
+
+.curriculum-page .curriculum-bead-row svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.curriculum-page .curriculum-figure {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.curriculum-page .curriculum-figure svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Measurement / variable labels inside the figures: clean bookish glyphs,
+   not the bold UI font (project math-typography rule). */
+.curriculum-page .fig-label {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 12.5px;
+  fill: #1f2a44;
+}

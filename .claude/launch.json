@@ -7,6 +7,12 @@
       "runtimeArgs": ["preview/server.mjs"],
       "port": 5179,
       "autoPort": true
+    },
+    {
+      "name": "ratio-workbook",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "sources/lovable/ratio-workbook"],
+      "port": 8080
     }
   ]
 }
