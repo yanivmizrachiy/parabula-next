@@ -1,13 +1,27 @@
 @import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-power-practice.css");
 
-.page-640 .math-card {
-  min-height: 86px;
-  padding: 14px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-640 .question-block {
+  gap: 14px;
 }
 
-.page-640 .question-block > .work-lines {
-  min-height: 120px;
+.page-640 .power-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.page-640 .power-grid .stacked-answer-card {
+  min-height: 112px;
+  padding: 13px 8px;
+}
+
+.page-640 .power-scratch-space {
+  min-height: 126px;
+  margin-top: 2px;
+}
+
+@media print {
+  .page-640 .power-grid {
+    break-inside: avoid;
+  }
 }
