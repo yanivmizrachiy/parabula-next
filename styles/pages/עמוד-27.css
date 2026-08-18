@@ -9,6 +9,26 @@
 	line-height: 22px;
 }
 
+.page-27 .pyt-calc-grid {
+	flex: 1 1 auto;
+	min-height: 0;
+	grid-template-rows: 1fr 1fr;
+}
+
+.page-27 .pyt-calc-block {
+	grid-template-rows: auto 1fr auto;
+	min-height: 0;
+}
+
+.page-27 .pyt-calc-block .solution-space {
+	height: auto;
+	align-self: stretch;
+}
+
 .page-27 .pyt-calc-block:last-child {
 	grid-column: 1 / -1;
+}
+
+.page-27 .pyt-footer {
+	margin-top: 0;
 }
