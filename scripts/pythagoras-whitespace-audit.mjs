@@ -2,10 +2,8 @@ import fs from 'node:fs';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
 
-const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-const topic = meta.topics.find((entry) => entry.name === 'משפט פיתגורס');
-if (!topic) throw new Error('הנושא משפט פיתגורס חסר מ-meta/topics.json');
-const pages = topic.pages.map((page) => page.file);
+const workbook = JSON.parse(fs.readFileSync('meta/workbooks/pythagoras.json', 'utf8'));
+const pages = workbook.pages.map((number) => `עמוד-${number}.html`);
 
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
 for (let i = 0; i < 40; i += 1) {
