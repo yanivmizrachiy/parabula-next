@@ -13,6 +13,7 @@ import { RatioPage27 } from '@/components/worksheet/corrected/Chapter4Correction
 import { RatioPage29 } from '@/components/worksheet/corrected/Chapter5Corrections';
 import { RatioPage35 } from '@/components/worksheet/corrected/Chapter6Corrections';
 import { RatioPage42, RatioPage48 } from '@/components/worksheet/corrected/Chapter7Corrections';
+import ratioChapters from './ratioChapters.json';
 
 export interface WorksheetPageData {
   id: number;
@@ -21,14 +22,27 @@ export interface WorksheetPageData {
   component: () => ReactNode;
 }
 
+type RatioChapter = {
+  id: number;
+  title: string;
+  pageIds: number[];
+};
+
+const CHAPTER_DATA = ratioChapters.chapters as RatioChapter[];
+const chapterLabel = (id: number) => {
+  const chapter = CHAPTER_DATA.find((item) => item.id === id);
+  if (!chapter) throw new Error(`Missing canonical ratio chapter ${id}`);
+  return `${chapter.id} · ${chapter.title}`;
+};
+
 const CHAPTERS = {
-  foundations: '1 · יסודות היחס',
-  division: '2 · חלוקה ביחס נתון',
-  representation: '3 · כתיבה, צמצום והשוואה',
-  preservation: '4 · שמירת יחס ושיעור ליחידה',
-  challenge: '5 · שאלות אתגר',
-  proportion: '6 · פרופורציה ויחס ישר',
-  exams: '7 · שאלות מבחנים',
+  foundations: chapterLabel(1),
+  division: chapterLabel(2),
+  representation: chapterLabel(3),
+  preservation: chapterLabel(4),
+  challenge: chapterLabel(5),
+  proportion: chapterLabel(6),
+  exams: chapterLabel(7),
 } as const;
 
 export const WORKSHEET_PAGES: WorksheetPageData[] = [
