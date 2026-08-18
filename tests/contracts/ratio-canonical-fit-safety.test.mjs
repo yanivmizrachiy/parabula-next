@@ -22,6 +22,12 @@ test('canonical fit never hides overflow, scales a page, or shrinks typography',
   assert.doesNotMatch(fitCss, /font-size\s*:/iu);
 });
 
+test('canonical fit does not force layout with absolute positioning, negative margins, or important overrides', () => {
+  assert.doesNotMatch(fitCss, /!important/iu);
+  assert.doesNotMatch(fitCss, /position\s*:\s*absolute/iu);
+  assert.doesNotMatch(fitCss, /margin(?:-[a-z]+)?\s*:\s*-\d/iu);
+});
+
 test('canonical fit is restricted to the five measured blocker pages only', () => {
   const pageIds = [...fitCss.matchAll(/\.ratio-page-(\d+)/gu)].map((match) => Number(match[1]));
   assert.ok(pageIds.length > 0, 'canonical fit has no page-scoped selectors');
