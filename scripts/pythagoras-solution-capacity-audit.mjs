@@ -1,10 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 
 const root = process.cwd();
 const strict = process.argv.includes('--strict');
-const workbook = JSON.parse(fs.readFileSync(path.join(root, 'meta/workbooks/pythagoras.json'), 'utf8'));
-const pages = workbook.pages.map((number) => ({ number, file: `עמוד-${number}.html` }));
+const meta = JSON.parse(fs.readFileSync(path.join(root, 'meta/topics.json'), 'utf8'));
+const workbook = buildPythagorasWorkbook(meta);
+const pages = workbook.pages.map((page) => ({
+  number: page.sourceNumber,
+  file: page.file || `עמוד-${page.sourceNumber}.html`,
+}));
 
 const strip = (html) => html
   .replace(/<script\b[\s\S]*?<\/script>/giu, ' ')
