@@ -59,9 +59,9 @@ jobs:
           const previousBookPage = previousMatch ? Number(previousMatch[1]) : null;"""
           if old not in text:
               raise SystemExit('migration neighbor anchor not found')
-          text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
+
           node --check scripts/apply-ratio-source-intro.mjs
           node scripts/apply-ratio-source-intro.mjs
 
@@ -83,210 +83,82 @@ jobs:
           const nextBookPage = nextMatch ? Number(nextMatch[1]) : null;"""
           if old not in text:
               raise SystemExit('importer neighbor anchor not found')
-          text = text.replace(old, new, 1)
-          path.write_text(text, encoding='utf-8')
+          path.write_text(text.replace(old, new, 1), encoding='utf-8')
           PY
 
           node --check scripts/import-ratio-workbook.mjs
           node scripts/import-ratio-workbook.mjs --write
           node scripts/build-curriculum.mjs
 
+      - name: Replace generated ratio source contract with stable test
+        shell: bash
+        run: |
+          cat > tests/contracts/ratio-source-intro.test.mjs <<'EOF'
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+          import test from 'node:test';
+
+          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
+          const importer = fs.readFileSync('scripts/import-ratio-workbook.mjs', 'utf8');
+
+          test('ratio source task is the first worksheet page', () => {
+            assert.ok(ratio, 'Ratio topic is missing');
+            assert.equal(ratio.pages.length, 49);
+            assert.equal(ratio.count, 49);
+            const html = fs.readFileSync(ratio.pages[0].file, 'utf8');
+            assert.ok(html.includes('data-ratio-source-intro="tanami-krispin"'));
+            assert.ok(html.includes('כתבו את היחס בין מספר העיגולים השחורים לאדומים במחרוזות הבאות:'));
+            assert.ok(html.includes('הקובץ נכתב ע״י ד״ר יחיאל תנעמי ואיילת קריספין'));
+            assert.ok(html.includes('איילת קריספין — מתכללת את תחום המתמטיקה בעל יסודי בעיר ירושלים ובמחוז ירושלים'));
+            assert.ok(html.includes('מדריכה מחוזית למתמטיקה על יסודי מחוז ירושלים · דוקטורנטית בחינוך מתמטי באוניברסיטה העברית'));
+            assert.ok(!html.includes('יניב רז - מדריך מחוזי חט"ב בעיר ירושלים'));
+            assert.ok(html.includes('יחס — עמוד 1 / 49'));
+          });
+
+          test('existing ratio pages shift to local pages 2-49', () => {
+            assert.equal(ratio.pages[1].number, 272);
+            const page2 = fs.readFileSync('עמוד-272.html', 'utf8');
+            assert.ok(page2.includes('יחס — עמוד 2 / 49'));
+            assert.ok(page2.includes('data-local-page="2"'));
+            assert.ok(page2.includes('href="' + ratio.pages[0].file + '"'));
+          });
+
+          test('ratio importer permanently preserves source intro pages', () => {
+            assert.ok(importer.includes('preservedIntroPages'));
+            assert.ok(importer.includes('data-ratio-source-intro="tanami-krispin"'));
+            assert.ok(importer.includes('data-local-page'));
+          });
+          EOF
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Diagnose ratio metadata
-        id: intro_meta
-        continue-on-error: true
-        shell: bash
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const assert = require('assert/strict');
-          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
-          assert.ok(ratio, 'Ratio topic is missing');
-          assert.equal(ratio.pages.length, 49, 'Ratio page count');
-          assert.equal(ratio.count, 49, 'Ratio count field');
-          assert.equal(ratio.pages[1].number, 272, 'Existing first ratio page should be second');
-          assert.ok(fs.existsSync(ratio.pages[0].file), 'Intro file must exist');
-          NODE
-
-      - name: Diagnose ratio source content
-        id: intro_content
-        continue-on-error: true
-        shell: bash
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const assert = require('assert/strict');
-          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
-          const html = fs.readFileSync(ratio.pages[0].file, 'utf8');
-          assert.match(html, /data-ratio-source-intro="tanami-krispin"/);
-          assert.ok(html.includes('כתבו את היחס בין מספר העיגולים השחורים לאדומים במחרוזות הבאות:'));
-          assert.match(html, /יחס — עמוד 1 \/ 49/);
-          NODE
-
-      - name: Diagnose ratio source credits
-        id: intro_credits
-        continue-on-error: true
-        shell: bash
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const assert = require('assert/strict');
-          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
-          const html = fs.readFileSync(ratio.pages[0].file, 'utf8');
-          assert.ok(html.includes('הקובץ נכתב ע״י ד״ר יחיאל תנעמי ואיילת קריספין'));
-          assert.ok(html.includes('איילת קריספין — מתכללת את תחום המתמטיקה בעל יסודי בעיר ירושלים ובמחוז ירושלים'));
-          assert.ok(html.includes('מדריכה מחוזית למתמטיקה על יסודי מחוז ירושלים · דוקטורנטית בחינוך מתמטי באוניברסיטה העברית'));
-          assert.ok(!html.includes('יניב רז - מדריך מחוזי חט"ב בעיר ירושלים'));
-          NODE
-
-      - name: Diagnose ratio page two shift
-        id: intro_shift
-        continue-on-error: true
-        shell: bash
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const assert = require('assert/strict');
-          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
-          const page2 = fs.readFileSync('עמוד-272.html', 'utf8');
-          assert.match(page2, /יחס — עמוד 2 \/ 49/);
-          assert.match(page2, /data-local-page="2"/);
-          assert.ok(page2.includes(`href="${ratio.pages[0].file}"`), 'Page 2 backlink');
-          NODE
-
-      - name: Diagnose ratio importer preservation
-        id: intro_importer
-        continue-on-error: true
-        shell: bash
-        run: |
-          node - <<'NODE'
-          const fs = require('fs');
-          const assert = require('assert/strict');
-          const importer = fs.readFileSync('scripts/import-ratio-workbook.mjs', 'utf8');
-          assert.match(importer, /preservedIntroPages/);
-          assert.match(importer, /data-ratio-source-intro="tanami-krispin"/);
-          assert.match(importer, /data-local-page/);
-          NODE
-
-      - name: Test page credit
-        id: credit
-        continue-on-error: true
-        run: node --test tests/contracts/page-credit.test.mjs
-
-      - name: Test ratio import safety
-        id: safety
-        continue-on-error: true
-        run: node --test tests/contracts/ratio-import-safety.test.mjs
-
-      - name: Test ratio source intro
-        id: intro
-        continue-on-error: true
-        run: node --test tests/contracts/ratio-source-intro.test.mjs
-
-      - name: Check ratio importer idempotence
-        id: importcheck
-        continue-on-error: true
-        run: npm run ratio:import:check
-
-      - name: Validate schema
-        id: schema
-        continue-on-error: true
-        run: npm run validate:schema
-
-      - name: Check curriculum build
-        id: curriculumcheck
-        continue-on-error: true
-        run: npm run curriculum:check
-
-      - name: Validate curriculum
-        id: curriculum
-        continue-on-error: true
-        run: npm run validate:curriculum
-
-      - name: Check canonical rules
-        id: rules
-        continue-on-error: true
-        run: npm run rules:check
-
-      - name: Validate HTML
-        id: html
-        continue-on-error: true
-        run: npm run validate:html
-
-      - name: Gate ratio metadata
-        if: always() && steps.intro_meta.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio source content
-        if: always() && steps.intro_content.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio source credits
-        if: always() && steps.intro_credits.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio page two shift
-        if: always() && steps.intro_shift.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio importer preservation
-        if: always() && steps.intro_importer.outcome != 'success'
-        run: exit 1
-
-      - name: Gate page credit
-        if: always() && steps.credit.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio import safety
-        if: always() && steps.safety.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio source intro
-        if: always() && steps.intro.outcome != 'success'
-        run: exit 1
-
-      - name: Gate ratio importer idempotence
-        if: always() && steps.importcheck.outcome != 'success'
-        run: exit 1
-
-      - name: Gate schema validation
-        if: always() && steps.schema.outcome != 'success'
-        run: exit 1
-
-      - name: Gate curriculum build
-        if: always() && steps.curriculumcheck.outcome != 'success'
-        run: exit 1
-
-      - name: Gate curriculum validation
-        if: always() && steps.curriculum.outcome != 'success'
-        run: exit 1
-
-      - name: Gate canonical rules
-        if: always() && steps.rules.outcome != 'success'
-        run: exit 1
-
-      - name: Gate HTML validation
-        if: always() && steps.html.outcome != 'success'
-        run: exit 1
-
-      - name: Commit focused migration
-        if: ${{ success() }}
+      - name: Verify migration
         shell: bash
         run: |
           set -euo pipefail
+          node --test \
+            tests/contracts/page-credit.test.mjs \
+            tests/contracts/ratio-import-safety.test.mjs \
+            tests/contracts/ratio-source-intro.test.mjs
+          npm run ratio:import:check
+          npm run validate:schema
+          npm run curriculum:check
+          npm run validate:curriculum
+          npm run rules:check
+          npm run validate:html
           git diff --check
+
+      - name: Commit focused migration
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git rm scripts/apply-ratio-source-intro.mjs .github/workflows/apply-ratio-source-intro.yml
           git add -u
-
           while IFS= read -r -d '' file; do
             git add -- "$file"
           done < <(git ls-files --others --exclude-standard -z)
