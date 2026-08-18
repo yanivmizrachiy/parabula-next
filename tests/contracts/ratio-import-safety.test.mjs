@@ -13,7 +13,13 @@ test('ratio import is read-only unless --write is explicit', () => {
   assert.match(packageJson.scripts['ratio:import:write'], /import-ratio-workbook\.mjs --write$/);
 });
 
-test('ratio import validates all 48 images before any write', () => {
+test('legacy PNG write is blocked when the semantic exporter exists', () => {
+  assert.match(importScript, /semanticExporterPath/);
+  assert.match(importScript, /Legacy ratio PNG import write is disabled/);
+  assert.match(importScript, /export-ratio-workbook-live\.mjs --write/);
+});
+
+test('ratio import validates all 48 images before any legacy write path', () => {
   const validationIndex = importScript.indexOf('const missingImages');
   const writeIndex = importScript.indexOf("if (!writeMode)");
   const firstWriteIndex = importScript.indexOf('fs.writeFileSync(temporary');
@@ -39,4 +45,5 @@ test('ratio CI is verification-only', () => {
   assert.doesNotMatch(workflow, /git\s+push/);
   assert.doesNotMatch(workflow, /contents:\s*write/);
   assert.match(workflow, /Verify generated images are committed and current/);
+  assert.match(workflow, /Protect every non-ratio page from this change/);
 });
