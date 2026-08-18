@@ -1,5 +1,10 @@
 @import url("../topics/pythagoras-foundations.css");
 
 .page-651 .work-lines.short {
-  min-height: 82px;
+  min-height: 86px;
+}
+
+.page-651 .student-final-answer {
+  min-height: 34px;
+  padding-top: 4px;
 }
