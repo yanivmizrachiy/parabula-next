@@ -1,4 +1,5 @@
-import { buildPythagorasWorkbook } from './pythagoras-workbook-model.js';
+const BUILD_VERSION = new URL(import.meta.url).searchParams.get('v') || 'dev';
+const { buildPythagorasWorkbook } = await import(`./pythagoras-workbook-model.js?v=${encodeURIComponent(BUILD_VERSION)}`);
 
 const META_URL = 'meta/topics.json';
 const workbookRoot = document.querySelector('#workbook');
@@ -7,7 +8,8 @@ const jumpInput = document.querySelector('#page-jump');
 const prevButton = document.querySelector('#prev-page');
 const nextButton = document.querySelector('#next-page');
 const printButton = document.querySelector('#print-workbook');
-const workbookCss = document.querySelector('link[href="styles/pythagoras-workbook.css"]');
+const workbookCss = [...document.querySelectorAll('link[rel="stylesheet"]')]
+  .find((link) => new URL(link.href, document.baseURI).pathname.endsWith('/styles/pythagoras-workbook.css'));
 const stylesheetPromises = new Map();
 
 let totalPages = 0;
@@ -17,9 +19,14 @@ let loadedPages = 0;
 const pageId = (local) => `workbook-page-${local}`;
 const sourceFile = (number) => `עמוד-${number}.html`;
 const cssFile = (number) => `styles/pages/עמוד-${number}.css`;
+const versioned = (href) => {
+  const url = new URL(href, document.baseURI);
+  url.searchParams.set('v', BUILD_VERSION);
+  return url.href;
+};
 
 function addStylesheet(href) {
-  const absolute = new URL(href, document.baseURI).href;
+  const absolute = versioned(href);
   if (stylesheetPromises.has(absolute)) return stylesheetPromises.get(absolute);
 
   const existing = [...document.querySelectorAll('link[rel="stylesheet"]')]
@@ -32,7 +39,7 @@ function addStylesheet(href) {
 
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = href;
+  link.href = absolute;
   link.dataset.workbookCss = href;
   const ready = new Promise((resolve, reject) => {
     link.addEventListener('load', () => resolve(link), { once: true });
@@ -62,9 +69,7 @@ function namespaceSvgIds(root, prefix) {
     for (const attr of urlRefAttrs) {
       if (!el.hasAttribute(attr)) continue;
       let value = el.getAttribute(attr);
-      for (const [oldId, newId] of idMap) {
-        value = value.replaceAll(`#${oldId}`, `#${newId}`);
-      }
+      for (const [oldId, newId] of idMap) value = value.replaceAll(`#${oldId}`, `#${newId}`);
       el.setAttribute(attr, value);
     }
     for (const attr of ['aria-labelledby', 'aria-describedby']) {
@@ -101,7 +106,7 @@ function normalizePage(main, sourceNumber, localNumber, total) {
 async function loadSourcePage(sourceNumber, localNumber, total, wrapper) {
   try {
     await addStylesheet(cssFile(sourceNumber));
-    const response = await fetch(sourceFile(sourceNumber), { cache: 'no-cache' });
+    const response = await fetch(versioned(sourceFile(sourceNumber)), { cache: 'no-cache' });
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
     const html = await response.text();
     const parsed = new DOMParser().parseFromString(html, 'text/html');
@@ -217,7 +222,7 @@ async function typesetMath() {
 }
 
 async function boot() {
-  const metaResponse = await fetch(META_URL, { cache: 'no-cache' });
+  const metaResponse = await fetch(versioned(META_URL), { cache: 'no-cache' });
   if (!metaResponse.ok) throw new Error(`לא ניתן לקרוא ${META_URL}`);
   const meta = await metaResponse.json();
   const workbook = buildPythagorasWorkbook(meta);
