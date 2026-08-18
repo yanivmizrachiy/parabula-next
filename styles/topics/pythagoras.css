@@ -28,13 +28,18 @@
 }
 
 /* SVG מתמטי ותיק: מספרים/אורכי צלעות בגופן TeX, משתנים ונקודות באיטליק מתמטי. */
-.pythagoras.a4-page :is(.pyt-tri-svg, .pyt-fig-svg) text {
+.pythagoras.a4-page :is(.pyt-tri-svg, .pyt-fig-svg, .pyt-rect-svg) text {
   font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
   font-weight: 400;
 }
-.pythagoras.a4-page :is(.pyt-tri-x, .pyt-var, .pyt-point) {
+.pythagoras.a4-page :is(.pyt-tri-x, .pyt-var, .pyt-point, .pt) {
   font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif;
   font-style: italic;
+  font-weight: 400;
+}
+.pythagoras.a4-page .len {
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-style: normal;
   font-weight: 400;
 }
 
