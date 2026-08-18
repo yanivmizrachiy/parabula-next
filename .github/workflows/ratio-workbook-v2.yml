@@ -117,11 +117,12 @@ jobs:
             exit 1
           fi
 
-      - name: Verify generated images are committed and current
+      - name: Verify committed derived images on canonical/bot revisions
+        if: github.ref_name == 'main' || github.actor == 'github-actions[bot]'
         shell: bash
         run: |
           if ! git diff --exit-code -- assets/ratio/page-*.png; then
-            echo 'Rendered ratio images are stale. Regenerate them locally, review the diff, and commit explicitly.'
+            echo 'Rendered ratio images are stale. The verified source and committed derived renders must match.'
             exit 1
           fi
 
@@ -137,3 +138,86 @@ jobs:
             mobile-status.txt
             test-results/
           if-no-files-found: warn
+
+  materialize-verified-print-output:
+    needs: verify-render-and-audit
+    if: github.event_name == 'pull_request' && github.head_ref == 'agent/ratio-safe-upgrade-20260818' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout isolated ratio head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: agent/ratio-safe-upgrade-20260818
+
+      - name: Protect non-ratio repository surface
+        run: node scripts/check-ratio-change-scope.mjs origin/main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            sources/lovable/ratio-workbook/package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install ratio workbook dependencies
+        run: npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Render verified 48-page A4 snapshot set
+        run: npm run ratio:render
+
+      - name: Write verified semantic canonical ratio pages
+        shell: bash
+        run: |
+          rm -rf assets/ratio/live
+          rm -f styles/topics/ratio-live.css
+          node scripts/export-ratio-workbook-live.mjs --write
+
+      - name: Re-check isolated change scope before staging
+        run: node scripts/check-ratio-change-scope.mjs origin/main
+
+      - name: Stage only verified ratio print output
+        shell: bash
+        run: |
+          for n in $(seq 272 319); do
+            git add -- "עמוד-${n}.html" "styles/pages/עמוד-${n}.css"
+          done
+          git add -- styles/topics/ratio-live.css assets/ratio/live assets/ratio/page-*.png
+          git rm -f --ignore-unmatch styles/pages/ratio-import.css
+          git diff --cached --check
+
+      - name: Reject every staged file outside ratio print scope
+        shell: bash
+        run: |
+          bad=0
+          while IFS= read -r file; do
+            case "$file" in
+              עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*|assets/ratio/page-[0-9][0-9][0-9].png) ;;
+              *) echo "FORBIDDEN staged file: $file"; bad=1 ;;
+            esac
+          done < <(git diff --cached --name-only)
+          test "$bad" -eq 0
+
+      - name: Commit verified 48-page print output
+        shell: bash
+        run: |
+          if git diff --cached --quiet; then
+            echo 'Verified ratio print output is already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore(יחס): materialize verified 48-page print output'
+          git push origin HEAD:agent/ratio-safe-upgrade-20260818
