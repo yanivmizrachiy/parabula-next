@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - fix/ratio-workbook-deep-audit
+      - agent/ratio-safe-upgrade-20260818
     paths:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
+      - 'scripts/export-ratio-workbook-live.mjs'
       - 'scripts/import-ratio-workbook.mjs'
       - 'scripts/audit-ratio-compliance.mjs'
       - 'tests/contracts/ratio-*.test.mjs'
@@ -16,6 +18,7 @@ on:
     paths:
       - 'sources/lovable/ratio-workbook/**'
       - 'scripts/render-ratio-workbook.mjs'
+      - 'scripts/export-ratio-workbook-live.mjs'
       - 'scripts/import-ratio-workbook.mjs'
       - 'scripts/audit-ratio-compliance.mjs'
       - 'tests/contracts/ratio-*.test.mjs'
@@ -70,6 +73,9 @@ jobs:
 
       - name: Render and audit all 48 A4 pages
         run: npm run ratio:render
+
+      - name: Preflight 48 semantic canonical A4 pages without writing
+        run: node scripts/export-ratio-workbook-live.mjs
 
       - name: Verify safe import plan without writing
         run: npm run ratio:import:check
