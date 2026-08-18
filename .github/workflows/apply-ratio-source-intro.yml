@@ -7,16 +7,23 @@ on:
     paths:
       - 'scripts/apply-ratio-source-intro.mjs'
       - '.github/workflows/apply-ratio-source-intro.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/apply-ratio-source-intro.mjs'
+      - '.github/workflows/apply-ratio-source-intro.yml'
 
 permissions:
   contents: write
 
 concurrency:
-  group: apply-ratio-source-intro
+  group: apply-ratio-source-intro-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false
 
 jobs:
   apply:
+    if: github.repository == 'yanivmizrachiy/razpages'
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -24,6 +31,7 @@ jobs:
       - name: Checkout feature branch
         uses: actions/checkout@v4
         with:
+          ref: feat/ratio-source-intro
           fetch-depth: 0
 
       - name: Setup Node
