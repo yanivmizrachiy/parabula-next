@@ -46,11 +46,12 @@ test('רכיב החזקות והשורשים המשותף אוכף פריסה א
   assert.match(css, /\.stacked-answer-card \.exercise-answer\s*\{[^}]*justify-content:\s*center/us);
 });
 
-test('עמוד 639 מנצל את שטח הדף באמצעות שלוש עמודות ותרגילי מכפלה נפרדים', () => {
+test('עמוד 639 מנצל שלוש עמודות ושומר כרטיסי כתיבה גבוהים בלי לחרוג מ-A4', () => {
   const css = read('styles/pages/עמוד-639.css');
   const html = read('עמוד-639.html');
   assert.match(css, /grid-template-columns:\s*repeat\(3,/u);
-  assert.match(css, /min-height:\s*112px/u);
+  assert.match(css, /\.power-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*100px/us);
+  assert.match(css, /\.product-practice-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*82px/us);
   assert.equal((html.match(/class="product-practice-grid"/gu) || []).length, 1);
   assert.match(html, /כתבו את התשובה מתחת לכל תרגיל/u);
 });
