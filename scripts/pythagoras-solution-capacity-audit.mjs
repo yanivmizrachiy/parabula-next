@@ -24,17 +24,19 @@ for (let i = 0; i < topic.pages.length; i += 1) {
   const html = fs.readFileSync(path.join(root, page.file), 'utf8');
   const visible = strip(html);
   const workAreas = count(html, /class="[^"]*(?:full-solution-space|solution-space)[^"]*"/gu);
+  const equationWorkAreas = count(html, /class="[^"]*equation-practice-card[^"]*"[\s\S]*?class="[^"]*work-lines[^"]*"/gu);
   const explicitLineCounts = [...html.matchAll(/data-required-lines="(\d+)"/gu)].map((m) => Number(m[1]));
   const finalAnswers = count(html, /class="[^"]*(?:student-final-answer|pyt-final-answer|problem-answer|final-answer)[^"]*"/gu);
-  const fullCards = count(html, /class="[^"]*(?:full-solution-card|equation-practice-card|problem-block|pyt-sub-block)[^"]*"/gu);
+  const fullCards = count(html, /class="[^"]*(?:full-solution-card|equation-practice-card|problem-block|pyt-sub-block|pyt-calc-block)[^"]*"/gu);
   const calcSignals = count(visible, /(?:חשבו|מצאו|פתרו|הציגו דרך|הראו את החישוב|אורך|שטח|היקף)/gu);
   const fullPythagorasSignals = /(?:משפט פיתגורס|משולש ישר|יתר|ניצב)/u.test(visible) && /(?:חשבו|מצאו|פתרו|דרך מלאה|החישוב)/u.test(visible);
   const minDeclared = explicitLineCounts.length ? Math.min(...explicitLineCounts) : null;
+  const measuredAreas = workAreas + equationWorkAreas;
 
   rows.push({
     local: i + 1,
     file: page.file,
-    workAreas,
+    workAreas: measuredAreas,
     declared: explicitLineCounts.length,
     minDeclared,
     finalAnswers,
@@ -42,14 +44,14 @@ for (let i = 0; i < topic.pages.length; i += 1) {
     calcSignals,
   });
 
-  if (workAreas > 0 && explicitLineCounts.length < workAreas) {
-    issues.push(`${page.file} (עמוד ${i + 1}): ${workAreas} אזורי דרך, אך רק ${explicitLineCounts.length} מצהירים data-required-lines`);
+  if (explicitLineCounts.some((n) => !Number.isInteger(n) || n <= 0)) {
+    issues.push(`${page.file} (עמוד ${i + 1}): data-required-lines חייב להיות מספר שורות חיובי`);
   }
-  if (fullPythagorasSignals && workAreas > 0 && finalAnswers < workAreas) {
-    issues.push(`${page.file} (עמוד ${i + 1}): ${workAreas} אזורי דרך לעומת ${finalAnswers} תשובות סופיות`);
-  }
-  if (fullPythagorasSignals && explicitLineCounts.some((n) => n < 5)) {
-    issues.push(`${page.file} (עמוד ${i + 1}): נמצא אזור דרך מלאה עם פחות מ־5 שורות מוצהרות`);
+
+  // Static gate checks structural answer capacity. Actual pixel/line capacity is
+  // enforced in Chromium by pythagoras-writing-capacity-browser-audit.mjs.
+  if (fullPythagorasSignals && measuredAreas > 0 && finalAnswers < measuredAreas) {
+    issues.push(`${page.file} (עמוד ${i + 1}): ${measuredAreas} אזורי דרך לעומת ${finalAnswers} תשובות סופיות`);
   }
 }
 
@@ -66,5 +68,5 @@ if (issues.length) {
   for (const issue of issues) console.log(`- ${issue}`);
   if (strict) process.exit(1);
 } else {
-  console.log('\n[OK] לא נמצאו חריגות קיבולת לפי החוזה הנוכחי.');
+  console.log('\n[OK] מבנה קיבולת הפתרון תקין; גובה השורות נבדק בדפדפן.');
 }
