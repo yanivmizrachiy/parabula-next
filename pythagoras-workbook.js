@@ -5,6 +5,7 @@ const jumpInput = document.querySelector('#page-jump');
 const prevButton = document.querySelector('#prev-page');
 const nextButton = document.querySelector('#next-page');
 const printButton = document.querySelector('#print-workbook');
+const workbookCss = document.querySelector('link[href="styles/pythagoras-workbook.css"]');
 
 let totalPages = 0;
 let activePage = 1;
@@ -15,13 +16,17 @@ const sourceFile = (number) => `עמוד-${number}.html`;
 const cssFile = (number) => `styles/pages/עמוד-${number}.css`;
 
 function addStylesheet(href) {
-  if ([...document.styleSheets].some((sheet) => sheet.href?.endsWith(href))) return;
-  if (document.querySelector(`link[data-workbook-css="${CSS.escape(href)}"]`)) return;
+  const absolute = new URL(href, document.baseURI).href;
+  const exists = [...document.querySelectorAll('link[rel="stylesheet"]')]
+    .some((link) => link.href === absolute);
+  if (exists) return;
+
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = href;
   link.dataset.workbookCss = href;
-  document.head.append(link);
+  if (workbookCss) workbookCss.before(link);
+  else document.head.append(link);
 }
 
 function namespaceSvgIds(root, prefix) {
@@ -34,19 +39,25 @@ function namespaceSvgIds(root, prefix) {
   }
   if (!idMap.size) return;
 
-  const refAttrs = [
+  const urlRefAttrs = [
     'href', 'xlink:href', 'fill', 'stroke', 'filter', 'clip-path', 'mask',
-    'marker-start', 'marker-mid', 'marker-end', 'aria-labelledby', 'aria-describedby',
+    'marker-start', 'marker-mid', 'marker-end',
   ];
   for (const el of root.querySelectorAll('*')) {
-    for (const attr of refAttrs) {
+    for (const attr of urlRefAttrs) {
       if (!el.hasAttribute(attr)) continue;
       let value = el.getAttribute(attr);
       for (const [oldId, newId] of idMap) {
-        value = value
-          .replaceAll(`#${oldId}`, `#${newId}`)
-          .replaceAll(`url(#${oldId})`, `url(#${newId})`);
+        value = value.replaceAll(`#${oldId}`, `#${newId}`);
       }
+      el.setAttribute(attr, value);
+    }
+    for (const attr of ['aria-labelledby', 'aria-describedby']) {
+      if (!el.hasAttribute(attr)) continue;
+      const value = el.getAttribute(attr)
+        .split(/\s+/u)
+        .map((id) => idMap.get(id) ?? id)
+        .join(' ');
       el.setAttribute(attr, value);
     }
   }
@@ -139,8 +150,12 @@ function installNavigation() {
 }
 
 function installResponsiveScaling() {
+  let lastWidth = -1;
   const resize = () => {
-    const available = Math.max(280, Math.min(window.innerWidth - 8, 900));
+    const currentWidth = document.documentElement.clientWidth;
+    if (currentWidth === lastWidth) return;
+    lastWidth = currentWidth;
+    const available = Math.max(280, Math.min(currentWidth - 8, 900));
     for (const wrapper of document.querySelectorAll('.workbook-page-wrap')) {
       const page = wrapper.querySelector('.a4-page');
       if (!page) continue;
@@ -167,14 +182,16 @@ function installResponsiveScaling() {
       wrapper.style.height = '';
     }
   });
-  window.addEventListener('afterprint', resize);
+  window.addEventListener('afterprint', () => {
+    lastWidth = -1;
+    resize();
+  });
   resize();
 }
 
 async function typesetMath() {
-  if (!window.MathJax) return;
-  if (window.MathJax.startup?.promise) await window.MathJax.startup.promise;
-  if (window.MathJax.typesetPromise) await window.MathJax.typesetPromise([workbookRoot]);
+  if (window.MathJax?.startup?.promise) await window.MathJax.startup.promise;
+  if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([workbookRoot]);
 }
 
 async function boot() {
