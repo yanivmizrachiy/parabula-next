@@ -4,3 +4,22 @@
 .page-29 {
 	--fig-w: 440px;
 }
+
+.page-29 .pyt-calc-grid {
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.page-29 .pyt-calc-block {
+	grid-template-rows: auto 1fr auto;
+	min-height: 0;
+}
+
+.page-29 .pyt-calc-block .solution-space {
+	height: auto;
+	align-self: stretch;
+}
+
+.page-29 .pyt-footer {
+	margin-top: 0;
+}
