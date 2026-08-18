@@ -46,7 +46,7 @@ if (!fs.existsSync(dist)) {
   throw new Error('dist directory is missing. Run vite build before copy-static-site.');
 }
 
-const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor', 'assets'];
+const dirs = ['styles', 'meta', 'preview', 'pages', 'vendor', 'assets', 'workbooks'];
 for (const dir of dirs) {
   if (copyDirIfExists(dir)) log(`copied ${dir}/`);
 }
