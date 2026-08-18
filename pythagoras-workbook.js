@@ -83,18 +83,21 @@ function namespaceSvgIds(root, prefix) {
   }
 }
 
-function normalizePage(main, sourceNumber, localNumber, total) {
+function normalizePage(main, pageMeta, total) {
+  const sourceNumber = pageMeta.sourceNumber;
+  const localNumber = pageMeta.workbookNumber;
   main.classList.add('pythagoras', 'pythagoras-workbook-page');
   main.dataset.sourcePage = String(sourceNumber);
   main.dataset.workbookPage = String(localNumber);
+  main.dataset.primaryTopic = pageMeta.primaryTopic || '';
   main.setAttribute('aria-label', `משפט פיתגורס — עמוד ${localNumber} מתוך ${total}`);
 
   const visibleNumber = main.querySelector('.page-number');
   if (visibleNumber) visibleNumber.textContent = String(localNumber);
 
-  /* דפי 375–380 נשארים דפי גאומטריה ז' במקור, אך בתוך חוברת פיתגורס
-     הכותרת המקומית חייבת לשקף את ההקשר של החוברת. */
-  if (sourceNumber >= 375 && sourceNumber <= 380) {
+  /* דף רשאי להישאר שייך גם לחוברת/נושא אחר במקור. בתוך חוברת פיתגורס
+     הכותרת המקומית משקפת את ההקשר בלי לשנות את קובץ המקור. */
+  if (pageMeta.primaryTopic !== 'משפט פיתגורס') {
     const pageTitle = main.querySelector('.page-title');
     if (pageTitle) pageTitle.textContent = 'משפט פיתגורס';
   }
@@ -103,7 +106,9 @@ function normalizePage(main, sourceNumber, localNumber, total) {
   return main;
 }
 
-async function loadSourcePage(sourceNumber, localNumber, total, wrapper) {
+async function loadSourcePage(pageMeta, total, wrapper) {
+  const sourceNumber = pageMeta.sourceNumber;
+  const localNumber = pageMeta.workbookNumber;
   try {
     await addStylesheet(cssFile(sourceNumber));
     const response = await fetch(versioned(sourceFile(sourceNumber)), { cache: 'no-cache' });
@@ -114,7 +119,7 @@ async function loadSourcePage(sourceNumber, localNumber, total, wrapper) {
     if (!sourceMain) throw new Error('לא נמצא main.a4-page');
 
     const main = document.importNode(sourceMain, true);
-    normalizePage(main, sourceNumber, localNumber, total);
+    normalizePage(main, pageMeta, total);
     wrapper.replaceChildren(main);
     loadedPages += 1;
     statusEl.textContent = `${loadedPages} / ${total} דפים נטענו`;
@@ -232,16 +237,15 @@ async function boot() {
   totalPages = pages.length;
   statusEl.textContent = `0 / ${totalPages} דפים נטענו`;
 
-  const tasks = pages.map((page) => {
-    const sourceNumber = page.sourceNumber;
-    const localNumber = page.workbookNumber;
+  const tasks = pages.map((pageMeta) => {
+    const localNumber = pageMeta.workbookNumber;
     const wrapper = document.createElement('section');
     wrapper.className = 'workbook-page-wrap';
     wrapper.id = pageId(localNumber);
     wrapper.dataset.localPage = String(localNumber);
-    wrapper.dataset.sourcePage = String(sourceNumber);
+    wrapper.dataset.sourcePage = String(pageMeta.sourceNumber);
     workbookRoot.append(wrapper);
-    return () => loadSourcePage(sourceNumber, localNumber, totalPages, wrapper);
+    return () => loadSourcePage(pageMeta, totalPages, wrapper);
   });
 
   await runPool(tasks, 6);
