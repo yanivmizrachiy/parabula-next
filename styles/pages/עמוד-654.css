@@ -40,6 +40,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 6px;
+	flex: 1 1 auto;
 }
 
 .page-654 .pyt-sub-line {
@@ -49,10 +50,11 @@
 	line-height: 24px;
 }
 
-/* השטח שהיה מת הופך למקום כתיבה: 6+ שורות בפועל בכל סעיף. */
+/* השטח שהיה מת הופך למקום כתיבה: מרחב הפתרון נמתח למלא את גובה העמוד. */
 .page-654 .pyt-full-work {
 	min-height: 220px;
-	height: 220px;
+	height: auto;
+	flex: 1 1 auto;
 }
 
 .page-654 .pyt-final-row {

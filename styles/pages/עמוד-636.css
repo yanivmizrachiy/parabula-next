@@ -1,7 +1,7 @@
 @import url("../topics/pythagoras-foundations.css");
 
 .page-636 .question-block {
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 10px;
 }
 
@@ -89,7 +89,7 @@
 .page-636 .drawing-space-wide {
   width: 100%;
   min-height: 108px;
-  border: 1px dashed var(--grid-line);
+  border: 1.5px dashed #94a3b8;
   border-radius: 8px;
   background: var(--bg-paper);
 }
