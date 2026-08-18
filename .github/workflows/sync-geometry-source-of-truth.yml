@@ -1,0 +1,39 @@
+name: One-time geometry source-of-truth sync
+
+on:
+  push:
+    branches:
+      - agent/sync-geometry-source-of-truth
+    paths:
+      - scripts/sync-geometry-source-of-truth.mjs
+      - .github/workflows/sync-geometry-source-of-truth.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sync-geometry-source-of-truth
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Update canonical source of truth
+        run: node scripts/sync-geometry-source-of-truth.mjs
+      - name: Validate single rules source
+        run: node scripts/single-rules-source-check.mjs
+      - name: Commit canonical update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CLAUDE.md
+          if git diff --cached --quiet; then
+            echo "No CLAUDE.md change"
+          else
+            git commit -m "docs: sync geometry workbooks source of truth"
+            git push origin HEAD:agent/sync-geometry-source-of-truth
+          fi
