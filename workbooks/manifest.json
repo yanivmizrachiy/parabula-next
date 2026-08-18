@@ -1,0 +1,24 @@
+{
+  "canonicalRepository": "yanivmizrachiy/razpages",
+  "canonicalRoot": "workbooks",
+  "sourceOfTruth": true,
+  "workbooks": {
+    "circle": {
+      "title": "מעגל",
+      "pages": 88,
+      "entry": "workbooks/circle/index.html",
+      "firstPage": "workbooks/circle/page-1.html"
+    },
+    "cylinder": {
+      "title": "גליל",
+      "pages": 38,
+      "entry": "workbooks/cylinder/index.html",
+      "firstPage": "workbooks/cylinder/page-1.html"
+    },
+    "cone": {
+      "title": "חרוט",
+      "pages": 46,
+      "entry": "workbooks/cone/index.html"
+    }
+  }
+}
