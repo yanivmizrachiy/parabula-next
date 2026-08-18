@@ -94,6 +94,86 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Diagnose ratio metadata
+        id: intro_meta
+        continue-on-error: true
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert/strict');
+          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
+          assert.ok(ratio, 'Ratio topic is missing');
+          assert.equal(ratio.pages.length, 49, 'Ratio page count');
+          assert.equal(ratio.count, 49, 'Ratio count field');
+          assert.equal(ratio.pages[1].number, 272, 'Existing first ratio page should be second');
+          assert.ok(fs.existsSync(ratio.pages[0].file), 'Intro file must exist');
+          NODE
+
+      - name: Diagnose ratio source content
+        id: intro_content
+        continue-on-error: true
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert/strict');
+          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
+          const html = fs.readFileSync(ratio.pages[0].file, 'utf8');
+          assert.match(html, /data-ratio-source-intro="tanami-krispin"/);
+          assert.ok(html.includes('כתבו את היחס בין מספר העיגולים השחורים לאדומים במחרוזות הבאות:'));
+          assert.match(html, /יחס — עמוד 1 \/ 49/);
+          NODE
+
+      - name: Diagnose ratio source credits
+        id: intro_credits
+        continue-on-error: true
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert/strict');
+          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
+          const html = fs.readFileSync(ratio.pages[0].file, 'utf8');
+          assert.ok(html.includes('הקובץ נכתב ע״י ד״ר יחיאל תנעמי ואיילת קריספין'));
+          assert.ok(html.includes('איילת קריספין — מתכללת את תחום המתמטיקה בעל יסודי בעיר ירושלים ובמחוז ירושלים'));
+          assert.ok(html.includes('מדריכה מחוזית למתמטיקה על יסודי מחוז ירושלים · דוקטורנטית בחינוך מתמטי באוניברסיטה העברית'));
+          assert.ok(!html.includes('יניב רז - מדריך מחוזי חט"ב בעיר ירושלים'));
+          NODE
+
+      - name: Diagnose ratio page two shift
+        id: intro_shift
+        continue-on-error: true
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert/strict');
+          const topics = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+          const ratio = topics.topics.find((topic) => topic.name === 'יחס');
+          const page2 = fs.readFileSync('עמוד-272.html', 'utf8');
+          assert.match(page2, /יחס — עמוד 2 \/ 49/);
+          assert.match(page2, /data-local-page="2"/);
+          assert.ok(page2.includes(`href="${ratio.pages[0].file}"`), 'Page 2 backlink');
+          NODE
+
+      - name: Diagnose ratio importer preservation
+        id: intro_importer
+        continue-on-error: true
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const assert = require('assert/strict');
+          const importer = fs.readFileSync('scripts/import-ratio-workbook.mjs', 'utf8');
+          assert.match(importer, /preservedIntroPages/);
+          assert.match(importer, /data-ratio-source-intro="tanami-krispin"/);
+          assert.match(importer, /data-local-page/);
+          NODE
+
       - name: Test page credit
         id: credit
         continue-on-error: true
@@ -138,6 +218,26 @@ jobs:
         id: html
         continue-on-error: true
         run: npm run validate:html
+
+      - name: Gate ratio metadata
+        if: always() && steps.intro_meta.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio source content
+        if: always() && steps.intro_content.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio source credits
+        if: always() && steps.intro_credits.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio page two shift
+        if: always() && steps.intro_shift.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio importer preservation
+        if: always() && steps.intro_importer.outcome != 'success'
+        run: exit 1
 
       - name: Gate page credit
         if: always() && steps.credit.outcome != 'success'
