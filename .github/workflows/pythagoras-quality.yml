@@ -9,11 +9,13 @@ on:
       - 'styles/pythagoras-workbook.css'
       - 'styles/pages/עמוד-*.css'
       - 'styles/topics/pythagoras.css'
+      - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
       - 'meta/topics.json'
       - 'meta/workbooks/pythagoras.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
@@ -52,8 +54,11 @@ jobs:
           npx html-validate $PYTHAGORAS_FILES
           npx html-validate pythagoras-workbook.html
 
-      - name: Install Chromium for A4 audit
+      - name: Install Chromium for workbook and A4 audits
         run: npx playwright install --with-deps chromium
+
+      - name: Verify unified workbook in Chromium
+        run: node scripts/validate-pythagoras-workbook-browser.mjs
 
       - name: Audit every canonical Pythagoras A4 page
         shell: bash
