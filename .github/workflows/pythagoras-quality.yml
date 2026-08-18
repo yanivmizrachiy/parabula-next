@@ -6,13 +6,13 @@ on:
       - 'עמוד-*.html'
       - 'pythagoras-workbook.html'
       - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
       - 'styles/pythagoras-workbook.css'
       - 'styles/pages/עמוד-*.css'
       - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
       - 'meta/topics.json'
-      - 'meta/workbooks/pythagoras.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
@@ -27,13 +27,13 @@ on:
       - 'עמוד-*.html'
       - 'pythagoras-workbook.html'
       - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
       - 'styles/pythagoras-workbook.css'
       - 'styles/pages/עמוד-*.css'
       - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
       - 'meta/topics.json'
-      - 'meta/workbooks/pythagoras.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
@@ -71,7 +71,7 @@ jobs:
       - name: Validate every canonical Pythagoras HTML page
         shell: bash
         run: |
-          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const book=JSON.parse(fs.readFileSync('meta/workbooks/pythagoras.json','utf8')); process.stdout.write(book.pages.map((n)=>'עמוד-'+n+'.html').join(' '));")"
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
           npx html-validate $PYTHAGORAS_FILES
           npx html-validate pythagoras-workbook.html
 
@@ -84,7 +84,7 @@ jobs:
       - name: Audit every canonical Pythagoras A4 page
         shell: bash
         run: |
-          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const book=JSON.parse(fs.readFileSync('meta/workbooks/pythagoras.json','utf8')); process.stdout.write(book.pages.map((n)=>'עמוד-'+n+'.html').join(' '));")"
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
           node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
 
       - name: Report dead whitespace across canonical workbook
