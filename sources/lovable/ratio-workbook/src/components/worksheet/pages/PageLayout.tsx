@@ -10,10 +10,12 @@ interface PageLayoutProps {
 }
 
 function cleanTopicTitle(chapter: string, topic: string): string {
-  const chapterTitle = chapter.replace(/^פרק\s*\d+\s*[–-]\s*/, '').trim();
   const explicitTopic = topic.trim();
-  if (!explicitTopic || explicitTopic === 'יחס') return chapterTitle || 'יחס';
-  return explicitTopic;
+  if (explicitTopic) return explicitTopic;
+  return chapter
+    .replace(/^פרק\s*\d+\s*[–-]\s*/, '')
+    .replace(/^\d+\s*·\s*/, '')
+    .trim() || 'יחס';
 }
 
 export function PageLayout({ pageNumber, chapter, children, className, topic = 'יחס' }: PageLayoutProps) {
