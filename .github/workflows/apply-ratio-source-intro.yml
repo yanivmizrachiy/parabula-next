@@ -94,18 +94,73 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Verify focused contracts
+      - name: Test page credit
+        id: credit
+        continue-on-error: true
+        run: node --test tests/contracts/page-credit.test.mjs
+
+      - name: Test ratio import safety
+        id: safety
+        continue-on-error: true
+        run: node --test tests/contracts/ratio-import-safety.test.mjs
+
+      - name: Test ratio source intro
+        id: intro
+        continue-on-error: true
+        run: node --test tests/contracts/ratio-source-intro.test.mjs
+
+      - name: Check ratio importer idempotence
+        id: importcheck
+        continue-on-error: true
+        run: npm run ratio:import:check
+
+      - name: Validate schema
+        id: schema
+        continue-on-error: true
+        run: npm run validate:schema
+
+      - name: Check curriculum build
+        id: curriculumcheck
+        continue-on-error: true
+        run: npm run curriculum:check
+
+      - name: Validate curriculum
+        id: curriculum
+        continue-on-error: true
+        run: npm run validate:curriculum
+
+      - name: Check canonical rules
+        id: rules
+        continue-on-error: true
+        run: npm run rules:check
+
+      - name: Validate HTML
+        id: html
+        continue-on-error: true
+        run: npm run validate:html
+
+      - name: Verification gate
+        if: always()
+        shell: bash
         run: |
-          node --test \
-            tests/contracts/page-credit.test.mjs \
-            tests/contracts/ratio-import-safety.test.mjs \
-            tests/contracts/ratio-source-intro.test.mjs
-          npm run ratio:import:check
-          npm run validate:schema
-          npm run curriculum:check
-          npm run validate:curriculum
-          npm run rules:check
-          npm run validate:html
+          echo "credit=${{ steps.credit.outcome }}"
+          echo "safety=${{ steps.safety.outcome }}"
+          echo "intro=${{ steps.intro.outcome }}"
+          echo "importcheck=${{ steps.importcheck.outcome }}"
+          echo "schema=${{ steps.schema.outcome }}"
+          echo "curriculumcheck=${{ steps.curriculumcheck.outcome }}"
+          echo "curriculum=${{ steps.curriculum.outcome }}"
+          echo "rules=${{ steps.rules.outcome }}"
+          echo "html=${{ steps.html.outcome }}"
+          test "${{ steps.credit.outcome }}" = success
+          test "${{ steps.safety.outcome }}" = success
+          test "${{ steps.intro.outcome }}" = success
+          test "${{ steps.importcheck.outcome }}" = success
+          test "${{ steps.schema.outcome }}" = success
+          test "${{ steps.curriculumcheck.outcome }}" = success
+          test "${{ steps.curriculum.outcome }}" = success
+          test "${{ steps.rules.outcome }}" = success
+          test "${{ steps.html.outcome }}" = success
 
       - name: Commit focused migration
         shell: bash
