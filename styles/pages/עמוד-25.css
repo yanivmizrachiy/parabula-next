@@ -4,3 +4,7 @@
 .page-25 {
 	--fig-w: 440px;
 }
+
+.page-25 .pyt-calc-block:last-child {
+	grid-column: 1 / -1;
+}
