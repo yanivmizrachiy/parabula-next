@@ -43,7 +43,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ratio-workbook-v2-${{ github.workflow }}-${{ github.ref }}
@@ -55,11 +55,10 @@ jobs:
     timeout-minutes: 45
 
     steps:
-      - name: Checkout isolated head
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Protect every non-ratio page from this change
         env:
@@ -118,45 +117,11 @@ jobs:
             exit 1
           fi
 
-      - name: Synchronize derived ratio PNG renders on isolated upgrade branch
-        if: github.event_name == 'pull_request' && github.head_ref == 'agent/ratio-safe-upgrade-20260818' && github.actor != 'github-actions[bot]'
-        shell: bash
-        run: |
-          changed=$(git diff --name-only -- assets/ratio/page-*.png)
-          if [ -z "$changed" ]; then
-            echo 'Derived ratio renders are already current.'
-            exit 0
-          fi
-          forbidden=$(printf '%s\n' "$changed" | grep -Ev '^assets/ratio/page-[0-9]{3}\.png$' || true)
-          if [ -n "$forbidden" ]; then
-            echo 'Refusing to commit files outside the 48 derived ratio PNG renders:'
-            printf '%s\n' "$forbidden"
-            exit 1
-          fi
-          count=$(printf '%s\n' "$changed" | sed '/^$/d' | wc -l)
-          if [ "$count" -gt 48 ]; then
-            echo "Unexpected ratio render count: $count"
-            exit 1
-          fi
-          git add -- assets/ratio/page-*.png
-          git diff --cached --check
-          staged=$(git diff --cached --name-only)
-          bad=$(printf '%s\n' "$staged" | grep -Ev '^assets/ratio/page-[0-9]{3}\.png$' || true)
-          if [ -n "$bad" ]; then
-            echo 'Forbidden staged files:'
-            printf '%s\n' "$bad"
-            exit 1
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'chore(יחס): sync verified derived A4 renders [skip ci]'
-          git push origin HEAD:agent/ratio-safe-upgrade-20260818
-
       - name: Verify generated images are committed and current
         shell: bash
         run: |
           if ! git diff --exit-code -- assets/ratio/page-*.png; then
-            echo 'Rendered ratio images are stale. The source and the committed derived renders must match.'
+            echo 'Rendered ratio images are stale. Regenerate them locally, review the diff, and commit explicitly.'
             exit 1
           fi
 
