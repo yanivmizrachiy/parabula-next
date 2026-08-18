@@ -6,9 +6,9 @@
 /* משטח משבצות (פינות חדות אחידות) לחישוב התלמיד */
 .page-655 .curriculum-work { min-height: 120px; }
 
-.page-655 .cur-row { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: stretch; }
+.page-655 .cur-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: stretch; }
 .page-655 .cur-fig { display: flex; align-items: flex-start; justify-content: center; }
-.page-655 .cur-work-col { display: flex; flex-direction: column; gap: 8px; }
+.page-655 .cur-work-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .page-655 .cur-work-col .curriculum-work { flex: 1 1 auto; }
 .page-655 .cur-work-wide .curriculum-work { min-height: 96px; }
 
@@ -34,7 +34,7 @@
 .page-655 .tri-check { width: 26px; height: 26px; border: 1.35px solid #1f2a44; border-radius: 6px; background: #fff; }
 
 /* שורת תשובה */
-.page-655 .cur-final { display: flex; align-items: center; gap: 8px; direction: rtl; font-size: 16px; margin-top: 2px; }
+.page-655 .cur-final { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; direction: rtl; font-size: 16px; margin-top: 2px; }
 .page-655 .cur-final .cur-gap { margin-inline-start: 20px; }
 
 
