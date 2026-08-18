@@ -1,9 +1,111 @@
 
 .ratio-import-page {
+  --ratio-header-font: 'Rubik', sans-serif;
+  --ratio-header-accent: var(--title-blue, #1d4ed8);
+  --ratio-header-title: #1e3a8a;
+  --ratio-header-section: "יחס";
   position: relative;
   padding: 0;
   overflow: hidden;
   background: #fff;
+}
+
+.ratio-import-page.page-272,
+.ratio-import-page.page-273,
+.ratio-import-page.page-274,
+.ratio-import-page.page-275,
+.ratio-import-page.page-276,
+.ratio-import-page.page-277,
+.ratio-import-page.page-278,
+.ratio-import-page.page-279,
+.ratio-import-page.page-307 {
+  --ratio-header-section: "משמעות היחס";
+}
+
+.ratio-import-page.page-280,
+.ratio-import-page.page-281,
+.ratio-import-page.page-282,
+.ratio-import-page.page-283,
+.ratio-import-page.page-284,
+.ratio-import-page.page-285,
+.ratio-import-page.page-286,
+.ratio-import-page.page-287,
+.ratio-import-page.page-288,
+.ratio-import-page.page-304,
+.ratio-import-page.page-308 {
+  --ratio-header-section: "חלוקה ביחס נתון";
+}
+
+.ratio-import-page.page-289,
+.ratio-import-page.page-290,
+.ratio-import-page.page-291,
+.ratio-import-page.page-292,
+.ratio-import-page.page-293,
+.ratio-import-page.page-294,
+.ratio-import-page.page-295,
+.ratio-import-page.page-296,
+.ratio-import-page.page-297 {
+  --ratio-header-section: "כתיבה, צמצום והשוואה";
+}
+
+.ratio-import-page.page-298,
+.ratio-import-page.page-299,
+.ratio-import-page.page-305 {
+  --ratio-header-section: "שמירת יחס ושיעור ליחידה";
+}
+
+.ratio-import-page.page-300 {
+  --ratio-header-section: "שאלות אתגר";
+}
+
+.ratio-import-page.page-301,
+.ratio-import-page.page-302,
+.ratio-import-page.page-303,
+.ratio-import-page.page-306,
+.ratio-import-page.page-309 {
+  --ratio-header-section: "פרופורציה ויחס ישר";
+}
+
+.ratio-import-page.page-310,
+.ratio-import-page.page-311,
+.ratio-import-page.page-312,
+.ratio-import-page.page-313,
+.ratio-import-page.page-314,
+.ratio-import-page.page-315,
+.ratio-import-page.page-316,
+.ratio-import-page.page-317,
+.ratio-import-page.page-318,
+.ratio-import-page.page-319 {
+  --ratio-header-section: "שאלות מבחנים";
+}
+
+/*
+ * שכבת הכותרת החיה מכסה רק את אזור הכותרת שבתמונת המקור.
+ * כך כל 48 דפי היחס מקבלים אותו גופן, אותם צבעים ואותה היררכיה,
+ * בלי לשנות את תוכן התרגילים שבתמונה ובלי לפגוע בעיגול מספר העמוד משמאל.
+ */
+.ratio-import-page::before {
+  content: "נושא: יחס | " var(--ratio-header-section);
+  position: absolute;
+  z-index: 3;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: calc(100% - 24mm);
+  block-size: 15mm;
+  display: flex;
+  align-items: center;
+  padding: 4.2mm 14mm 3mm;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ratio-header-title);
+  border-bottom: 1.5px solid var(--ratio-header-accent);
+  font-family: var(--ratio-header-font);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 .ratio-source-title {
