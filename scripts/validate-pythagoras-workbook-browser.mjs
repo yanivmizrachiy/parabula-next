@@ -6,6 +6,9 @@ import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
 const workbook = buildPythagorasWorkbook(meta);
 const expected = workbook.pages.map((page) => page.sourceNumber);
+const expectedAdditional = workbook.pages
+  .filter((page) => page.primaryTopic !== workbook.name)
+  .map((page) => page.sourceNumber);
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
 
 async function waitForServer() {
@@ -38,20 +41,30 @@ try {
     timeout: 90000,
   });
 
-  const result = await page.evaluate((expectedPages) => {
+  const result = await page.evaluate(({ expectedPages, additionalPages }) => {
     const wrappers = [...document.querySelectorAll('.workbook-page-wrap')];
     const mains = wrappers.map((wrapper) => wrapper.querySelector('main.a4-page'));
     const allIds = [...document.querySelectorAll('#workbook [id]')].map((el) => el.id);
     const duplicateIds = [...new Set(allIds.filter((id, index) => allIds.indexOf(id) !== index))];
     const localNumbers = mains.map((main) => main?.querySelector('.page-number')?.textContent.trim());
     const sourceNumbers = mains.map((main) => Number(main?.dataset.sourcePage));
-    const advanced = mains.find((main) => Number(main?.dataset.sourcePage) === 375);
     const mathCount = document.querySelectorAll('#workbook mjx-container').length;
     const pageCssLinks = [...document.querySelectorAll('link[data-workbook-css]')].map((link) => link.getAttribute('href'));
     const uiFonts = mains.map((main) => main ? getComputedStyle(main).fontFamily : '');
     const badUiFonts = uiFonts
       .map((font, index) => ({ local: index + 1, source: expectedPages[index], font }))
       .filter((entry) => !/Rubik/u.test(entry.font));
+
+    const additionalState = additionalPages.map((source) => {
+      const main = mains.find((candidate) => Number(candidate?.dataset.sourcePage) === source);
+      return {
+        source,
+        found: Boolean(main),
+        title: main?.querySelector('.page-title')?.textContent.trim() ?? null,
+        hasPythagorasClass: main?.classList.contains('pythagoras') ?? false,
+        primaryTopic: main?.dataset.primaryTopic ?? null,
+      };
+    });
 
     const mathSvgSelector = [
       '.foundation-svg .pt',
@@ -87,17 +100,14 @@ try {
       duplicateIds,
       localNumbers,
       sourceNumbers,
-      advancedLocal: advanced?.dataset.workbookPage ?? null,
-      advancedNumber: advanced?.querySelector('.page-number')?.textContent.trim() ?? null,
-      advancedTitle: advanced?.querySelector('.page-title')?.textContent.trim() ?? null,
-      advancedHasPythagorasClass: advanced?.classList.contains('pythagoras') ?? false,
+      additionalState,
       mathCount,
       pageCssCount: new Set(pageCssLinks).size,
       badUiFonts,
       badMathFonts,
       checkedSvgMath,
     };
-  }, expected);
+  }, { expectedPages: expected, additionalPages: expectedAdditional });
 
   const errors = [...runtimeErrors];
   if (result.wrapperCount !== expected.length) errors.push(`wrappers=${result.wrapperCount}, expected=${expected.length}`);
@@ -107,13 +117,12 @@ try {
   for (let i = 0; i < expected.length; i += 1) {
     if (result.localNumbers[i] !== String(i + 1)) errors.push(`local page ${i + 1} renders number ${result.localNumbers[i]}`);
   }
-  const advancedIndex = expected.indexOf(375);
-  const expectedAdvancedLocal = advancedIndex >= 0 ? String(advancedIndex + 1) : null;
-  if (result.advancedLocal !== expectedAdvancedLocal || result.advancedNumber !== expectedAdvancedLocal) {
-    errors.push(`source page 375 is not local workbook page ${expectedAdvancedLocal}`);
+  for (const item of result.additionalState) {
+    if (!item.found) errors.push(`cross-listed source page ${item.source} is missing from workbook`);
+    if (item.title !== workbook.name) errors.push(`cross-listed source page ${item.source} has workbook title ${item.title}`);
+    if (!item.hasPythagorasClass) errors.push(`cross-listed source page ${item.source} lacks shared pythagoras class`);
+    if (!item.primaryTopic || item.primaryTopic === workbook.name) errors.push(`cross-listed source page ${item.source} lost its original primary-topic context`);
   }
-  if (result.advancedTitle !== 'משפט פיתגורס') errors.push(`source page 375 has workbook title ${result.advancedTitle}`);
-  if (!result.advancedHasPythagorasClass) errors.push('source page 375 did not receive the shared pythagoras class in workbook context');
   if (result.mathCount === 0) errors.push('MathJax produced no mjx-container elements');
   if (result.pageCssCount !== expected.length) errors.push(`page CSS links=${result.pageCssCount}, expected=${expected.length}`);
   if (result.badUiFonts.length) errors.push(`non-Rubik A4 pages: ${JSON.stringify(result.badUiFonts)}`);
