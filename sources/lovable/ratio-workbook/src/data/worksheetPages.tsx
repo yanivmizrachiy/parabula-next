@@ -13,6 +13,16 @@ import { RatioPage27 } from '@/components/worksheet/corrected/Chapter4Correction
 import { RatioPage29 } from '@/components/worksheet/corrected/Chapter5Corrections';
 import { RatioPage35 } from '@/components/worksheet/corrected/Chapter6Corrections';
 import { RatioPage42, RatioPage48 } from '@/components/worksheet/corrected/Chapter7Corrections';
+import {
+  TeacherIntroPage01,
+  TeacherIntroPage02,
+  TeacherIntroPage03,
+  TeacherIntroPage04,
+  TeacherIntroPage05,
+  TeacherIntroPage06,
+  TeacherIntroPage07,
+  TeacherIntroPage08,
+} from '@/components/worksheet/corrected/TeacherIntroPages';
 
 export interface WorksheetPageData {
   id: number;
@@ -22,6 +32,7 @@ export interface WorksheetPageData {
 }
 
 const CHAPTERS = {
+  opening: '0 · פתיחה: יחס ישר',
   foundations: '1 · יסודות היחס',
   division: '2 · חלוקה ביחס נתון',
   representation: '3 · כתיבה, צמצום והשוואה',
@@ -31,7 +42,18 @@ const CHAPTERS = {
   data: '7 · יחס בנתונים, תרשימים וגאומטריה',
 } as const;
 
-export const WORKSHEET_PAGES: WorksheetPageData[] = [
+const OPENING_PAGES: WorksheetPageData[] = [
+  { id: 1, title: 'יחס — מדוע עכשיו? והיכרות ראשונית', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage01 /> },
+  { id: 2, title: 'יחס ישר מתוך מדבקות וטבלה', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage02 /> },
+  { id: 3, title: 'סיכום מושג היחס וכתיבה מתוך מחרוזות', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage03 /> },
+  { id: 4, title: 'יחסים שווים, השלמות וכתיבה כשבר', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage04 /> },
+  { id: 5, title: 'כתיבה מתמטית, מילולית וחלק־שלם', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage05 /> },
+  { id: 6, title: 'חלק־חלק, חלק־שלם ושמירת יחס', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage06 /> },
+  { id: 7, title: 'לימונדה, יחסים שווים וצמצום', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage07 /> },
+  { id: 8, title: 'כתיבת יחסים שווים', chapter: CHAPTERS.opening, component: () => <TeacherIntroPage08 /> },
+];
+
+const EXISTING_PAGES: WorksheetPageData[] = [
   { id: 1, title: 'זיהוי יחס ושמירתו', chapter: CHAPTERS.foundations, component: () => <RatioPage01 /> },
   { id: 2, title: 'יחס מתוך איור והסקת תכונות', chapter: CHAPTERS.foundations, component: () => <RatioPage02 /> },
   { id: 3, title: 'יחס חלק־לשלם ובעיות מילוליות', chapter: CHAPTERS.foundations, component: () => <Ch1Page3 /> },
@@ -86,4 +108,9 @@ export const WORKSHEET_PAGES: WorksheetPageData[] = [
   { id: 46, title: 'מיצ״ב תשע״ב — מתכון', chapter: CHAPTERS.data, component: () => <Ch7Page8 /> },
   { id: 47, title: 'מיצ״ב תשע״א — אלגברה וטבלה', chapter: CHAPTERS.data, component: () => <Ch7Page9 /> },
   { id: 48, title: 'מיצ״ב — גאומטריה ויחסים', chapter: CHAPTERS.data, component: () => <RatioPage48 /> },
+];
+
+export const WORKSHEET_PAGES: WorksheetPageData[] = [
+  ...OPENING_PAGES,
+  ...EXISTING_PAGES.map((page) => ({ ...page, id: page.id + OPENING_PAGES.length })),
 ];
