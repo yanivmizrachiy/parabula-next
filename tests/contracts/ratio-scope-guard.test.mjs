@@ -29,6 +29,14 @@ test('ratio change guard hard-codes the canonical bounds and rejects foreign roo
   assert.match(scopeGuard, /process\.exit\(1\)/u);
 });
 
+test('scope guard uses PR base or the previous push SHA instead of comparing main to itself', () => {
+  assert.match(scopeGuard, /RATIO_SCOPE_BASE_SHA/u);
+  assert.match(scopeGuard, /eventBaseSha \|\| `origin\/\$\{baseBranch\}`/u);
+  assert.match(workflow, /RATIO_SCOPE_BASE_SHA:\s*\$\{\{ github\.event\.before \}\}/u);
+  assert.match(workflow, /branches:\s*\n\s*- main/u);
+  assert.doesNotMatch(workflow, /- fix\/ratio-workbook-deep-audit/u);
+});
+
 test('scope protection runs before dependency installation and all expensive checks', () => {
   const guardIndex = workflow.indexOf('Protect every non-ratio page from this change');
   const setupIndex = workflow.indexOf('Setup Node');
