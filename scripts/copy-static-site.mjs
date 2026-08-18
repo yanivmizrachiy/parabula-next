@@ -131,7 +131,7 @@ for (const rel of versionInputs) {
   hash.update(fs.readFileSync(path.join(root, rel)));
 }
 const buildVersion = String(process.env.GITHUB_SHA || '').slice(0, 12) || hash.digest('hex').slice(0, 12);
-const tokenFiles = ['index.html', 'index.js', 'catalog.html', 'mobile-app.html', 'mobile-app.js', 'mobile-app.webmanifest', 'systems-workbook.html', 'sw.js'];
+const tokenFiles = ['index.html', 'index.js', 'catalog.html', 'mobile-app.html', 'mobile-app.js', 'mobile-app.webmanifest', 'systems-workbook.html', 'pythagoras-workbook.html', 'sw.js'];
 for (const rel of tokenFiles) {
   const file = path.join(dist, rel);
   const source = fs.readFileSync(file, 'utf8');
