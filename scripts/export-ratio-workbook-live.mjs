@@ -57,6 +57,14 @@ function normalizeText(value) {
   return value.replaceAll('\r\n', '\n').replace(/\s+$/, '') + '\n';
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
 function rewriteAssetReferences(value, prefix) {
   return value
     .replaceAll('="/assets/', `="${prefix}`)
@@ -64,6 +72,24 @@ function rewriteAssetReferences(value, prefix) {
     .replaceAll('url(/assets/', `url(${prefix}`)
     .replaceAll('url("/assets/', `url("${prefix}`)
     .replaceAll("url('/assets/", `url('${prefix}`);
+}
+
+function localPageNumberFromMetadata(page) {
+  const match = String(page?.title ?? '').match(/^עמוד\s+(\d+)\s*[—-]/u);
+  if (!match) return Number.NaN;
+  return Number(match[1]);
+}
+
+function sortedTopicPages(topic, label) {
+  if (!Array.isArray(topic?.pages) || topic.pages.length === 0) {
+    throw new Error(`Topic ${label} has no pages in meta/topics.json.`);
+  }
+  const pages = topic.pages.map((page) => ({ page, local: localPageNumberFromMetadata(page) }));
+  if (pages.some(({ local }) => !Number.isInteger(local) || local < 1)) {
+    throw new Error(`Topic ${label} contains a page without a valid local page number in its canonical title.`);
+  }
+  pages.sort((a, b) => a.local - b.local || a.page.number - b.page.number);
+  return pages.map(({ page }) => page);
 }
 
 function sanitizeBundledCss(css) {
@@ -145,17 +171,19 @@ async function writeCandidate(rel, content) {
   candidateFiles.add(rel);
 }
 
-function pageHtml({ globalPage, localPage, previous, next, sourceClasses, sourceHtml }) {
+function pageHtml({ globalPage, localPage, previous, next, pageMeta, sourceClasses, sourceHtml }) {
   const classes = ['a4-page', `page-${globalPage}`, 'ratio-live-page', 'worksheet-page', ...sourceClasses]
     .filter((value, index, values) => value && values.indexOf(value) === index)
     .join(' ');
+  const canonicalTitle = pageMeta.title || `עמוד ${localPage} — ${pageMeta.h1}`;
+  const canonicalTopic = pageMeta.topic || pageMeta.h1;
 
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>עמוד ${localPage} — יחס</title>
+  <title>${escapeHtml(canonicalTitle)}</title>
   <link rel="stylesheet" href="vendor/fonts/rubik.css">
   <link rel="stylesheet" href="styles/a4-base.css">
   <link rel="stylesheet" href="styles/pages/עמוד-${globalPage}.css">
@@ -164,11 +192,11 @@ function pageHtml({ globalPage, localPage, previous, next, sourceClasses, source
   <nav class="preview-nav" aria-label="ניווט בין עמודי יחס">
     <div class="preview-nav-top">
       <div class="nav-side"><a class="nav-link" href="עמוד-${previous}.html">הקודם</a></div>
-      <div class="nav-meta">יחס — עמוד ${localPage} / ${pageCount}</div>
+      <div class="nav-meta">${escapeHtml(canonicalTopic)} — עמוד ${localPage} / ${pageCount}</div>
       <div class="nav-side"><a class="nav-link" href="עמוד-${next}.html">הבא</a></div>
     </div>
     <div class="preview-nav-topics" aria-label="נושא הדף">
-      <a class="topic-link is-active" href="עמוד-${firstGlobalPage}.html" aria-current="page">יחס</a>
+      <a class="topic-link is-active" href="עמוד-${firstGlobalPage}.html" aria-current="page">${escapeHtml(canonicalTopic)}</a>
     </div>
   </nav>
 
@@ -271,14 +299,23 @@ const ratioTopic = topicList[ratioIndex];
 if (!Array.isArray(ratioTopic.pages) || ratioTopic.pages.length !== pageCount) {
   throw new Error(`Expected ${pageCount} ratio pages in metadata.`);
 }
+const ratioPages = sortedTopicPages(ratioTopic, 'יחס');
 for (let index = 0; index < pageCount; index += 1) {
   const expected = firstGlobalPage + index;
-  if (ratioTopic.pages[index]?.number !== expected) {
-    throw new Error(`Ratio page mapping is not stable at local page ${index + 1}: expected ${expected}.`);
+  const pageMeta = ratioPages[index];
+  if (pageMeta?.number !== expected || localPageNumberFromMetadata(pageMeta) !== index + 1) {
+    throw new Error(`Ratio page mapping is not stable at local page ${index + 1}: expected global ${expected}.`);
+  }
+  if (typeof pageMeta.h1 !== 'string' || !pageMeta.h1.trim() || typeof pageMeta.topic !== 'string' || !pageMeta.topic.trim()) {
+    throw new Error(`Ratio metadata is missing canonical h1/topic at local page ${index + 1}.`);
   }
 }
-const previousBookPage = topicList[ratioIndex - 1]?.pages?.at(-1)?.number;
-const nextBookPage = topicList[ratioIndex + 1]?.pages?.[0]?.number;
+const previousTopic = topicList[ratioIndex - 1];
+const nextTopic = topicList[ratioIndex + 1];
+const previousPages = sortedTopicPages(previousTopic, previousTopic?.name ?? 'previous topic');
+const nextPages = sortedTopicPages(nextTopic, nextTopic?.name ?? 'next topic');
+const previousBookPage = previousPages.at(-1)?.number;
+const nextBookPage = nextPages[0]?.number;
 if (!previousBookPage || !nextBookPage) throw new Error('Could not resolve cross-topic ratio navigation neighbors.');
 
 await run('npm', ['run', 'build'], { cwd: appDir });
@@ -302,22 +339,30 @@ try {
 
   for (let localPage = 1; localPage <= pageCount; localPage += 1) {
     const globalPage = firstGlobalPage + localPage - 1;
+    const pageMeta = ratioPages[localPage - 1];
     await sourcePage.goto(`${sourceBaseUrl}/render/${localPage}`, { waitUntil: 'networkidle' });
     await sourcePage.locator('[data-render-ready="true"]').waitFor({ state: 'visible' });
     await sourcePage.evaluate(async () => { if ('fonts' in document) await document.fonts.ready; });
 
-    const source = await sourcePage.evaluate(() => {
+    const source = await sourcePage.evaluate(({ canonicalTitle, localPageNumber }) => {
       const sheet = document.querySelector('.worksheet-page');
       if (!(sheet instanceof HTMLElement)) throw new Error('Missing .worksheet-page source root.');
       const clone = sheet.cloneNode(true);
       if (!(clone instanceof HTMLElement)) throw new Error('Could not clone .worksheet-page.');
       clone.querySelectorAll('.gz-footer, .preview-nav, script').forEach((element) => element.remove());
       if (clone.querySelector('[style]')) throw new Error('Inline CSS is forbidden in semantic ratio source.');
+      const titleNode = clone.querySelector('.page-header-title, .page-title');
+      const numberNode = clone.querySelector('.page-number');
+      if (!(titleNode instanceof HTMLElement) || !(numberNode instanceof HTMLElement)) {
+        throw new Error('Semantic ratio source is missing its printed header title or local page number.');
+      }
+      titleNode.textContent = canonicalTitle;
+      numberNode.textContent = String(localPageNumber);
       return {
         classes: Array.from(clone.classList).filter((name) => name !== 'worksheet-page'),
         html: clone.innerHTML.trim(),
       };
-    });
+    }, { canonicalTitle: pageMeta.h1, localPageNumber: localPage });
 
     const sourceHtml = rewriteAssetReferences(source.html, 'assets/ratio/live/');
     if (/<img[^>]+assets\/ratio\/page-\d{3}\.png/i.test(sourceHtml) || sourceHtml.includes('ratio-import-image')) {
@@ -328,7 +373,7 @@ try {
     const next = localPage === pageCount ? nextBookPage : globalPage + 1;
     await writeCandidate(
       `עמוד-${globalPage}.html`,
-      pageHtml({ globalPage, localPage, previous, next, sourceClasses: source.classes, sourceHtml }),
+      pageHtml({ globalPage, localPage, previous, next, pageMeta, sourceClasses: source.classes, sourceHtml }),
     );
     await writeCandidate(`styles/pages/עמוד-${globalPage}.css`, '@import url("../topics/ratio-live.css");');
   }
@@ -352,6 +397,9 @@ try {
   for (let localPage = 1; localPage <= pageCount; localPage += 1) {
     browserErrors.length = 0;
     const globalPage = firstGlobalPage + localPage - 1;
+    const pageMeta = ratioPages[localPage - 1];
+    const expectedPrevious = localPage === 1 ? previousBookPage : globalPage - 1;
+    const expectedNext = localPage === pageCount ? nextBookPage : globalPage + 1;
     await page.goto(`${candidateBaseUrl}/עמוד-${globalPage}.html`, { waitUntil: 'networkidle' });
     await page.evaluate(async () => { if ('fonts' in document) await document.fonts.ready; });
 
@@ -367,6 +415,7 @@ try {
       const childBottoms = Array.from(content.children)
         .filter((element) => element instanceof HTMLElement)
         .map((element) => element.getBoundingClientRect().bottom);
+      const navLinks = Array.from(document.querySelectorAll('.preview-nav .nav-link'));
       return {
         width: sheetRect.width,
         height: sheetRect.height,
@@ -383,6 +432,11 @@ try {
         a4Count: document.querySelectorAll('.a4-page').length,
         nestedWorksheetCount: sheet.querySelectorAll('.worksheet-page').length,
         fullPagePngCount: document.querySelectorAll('img[src*="assets/ratio/page-"]').length,
+        headerTitle: sheet.querySelector(':scope > .header-container .page-title')?.textContent?.trim() ?? '',
+        pageNumberText: sheet.querySelector(':scope > .header-container .page-number')?.textContent?.trim() ?? '',
+        documentTitle: document.title,
+        previousHref: navLinks[0]?.getAttribute('href') ?? '',
+        nextHref: navLinks[1]?.getAttribute('href') ?? '',
       };
     });
 
@@ -404,6 +458,11 @@ try {
     }
     if (geometry.footerBottom > geometry.sheetBottom + 1) pageFindings.push('footer leaves A4 bounds');
     if (geometry.lastContentBottom > geometry.footerTop - 1) pageFindings.push('footer overlaps worksheet content');
+    if (geometry.headerTitle !== pageMeta.h1) pageFindings.push(`printed h1 mismatch: ${geometry.headerTitle}`);
+    if (geometry.pageNumberText !== String(localPage)) pageFindings.push(`local page number mismatch: ${geometry.pageNumberText}`);
+    if (geometry.documentTitle !== pageMeta.title) pageFindings.push(`document title mismatch: ${geometry.documentTitle}`);
+    if (geometry.previousHref !== `עמוד-${expectedPrevious}.html`) pageFindings.push(`previous navigation mismatch: ${geometry.previousHref}`);
+    if (geometry.nextHref !== `עמוד-${expectedNext}.html`) pageFindings.push(`next navigation mismatch: ${geometry.nextHref}`);
     if (browserErrors.length > 0) pageFindings.push(`browser errors: ${browserErrors.join(' | ')}`);
 
     findings.push(...pageFindings.map((message) => ({ page: localPage, message })));
@@ -421,7 +480,7 @@ try {
     await writeCandidateToRepository();
     console.log('Wrote verified semantic canonical ratio pages 272-319.');
   } else {
-    console.log('Read-only semantic canonical preflight complete. No repository files were written.');
+    console.log(`Read-only semantic canonical preflight complete (${mode}). No repository files were written.`);
   }
 } finally {
   if (candidateContext) await candidateContext.close();
