@@ -48,10 +48,46 @@ jobs:
           path = Path('scripts/apply-ratio-source-intro.mjs')
           text = path.read_text(encoding='utf-8')
           text = text.replace('credit line 2 must follow credit line 1', 'credit line 2 must follow line 1')
+          old = """const previousTopic = topics.topics[topicIndex - 1] ?? null;
+          const previousBookPage = previousTopic?.pages?.at(-1)?.number ?? null;
+          const originalFirstRatioPage = ratioTopic.pages?.[0]?.number;
+          if (!originalFirstRatioPage) throw new Error('Ratio topic has no existing pages.');"""
+          new = r"""const originalFirstRatioPage = ratioTopic.pages?.[0]?.number;
+          if (!originalFirstRatioPage) throw new Error('Ratio topic has no existing pages.');
+          const firstRatioHtml = read(`עמוד-${originalFirstRatioPage}.html`);
+          const previousMatch = firstRatioHtml.match(/href="עמוד-(\d+)\.html">הקודם<\/a>/);
+          const previousBookPage = previousMatch ? Number(previousMatch[1]) : null;"""
+          if old not in text:
+              raise SystemExit('migration neighbor anchor not found')
+          text = text.replace(old, new, 1)
           path.write_text(text, encoding='utf-8')
           PY
           node --check scripts/apply-ratio-source-intro.mjs
           node scripts/apply-ratio-source-intro.mjs
+
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/import-ratio-workbook.mjs')
+          text = path.read_text(encoding='utf-8')
+          old = """const previousTopic = topicList[priorRatioIndex - 1];
+          const nextTopic = topicList[priorRatioIndex + 1];
+          const previousTopicPages = previousTopic?.pages || [];
+          const nextTopicPages = nextTopic?.pages || [];
+          const previousBookPage = previousTopicPages.at(-1)?.number ?? null;
+          const nextBookPage = nextTopicPages[0]?.number ?? null;"""
+          new = r"""const firstSourceHtml = existingText(`עמוד-${startPage}.html`) ?? '';
+          const lastSourceHtml = existingText(`עמוד-${endPage}.html`) ?? '';
+          const previousMatch = firstSourceHtml.match(/href="עמוד-(\d+)\.html">הקודם<\/a>/);
+          const nextMatch = lastSourceHtml.match(/href="עמוד-(\d+)\.html">הבא<\/a>/);
+          const previousBookPage = previousMatch ? Number(previousMatch[1]) : null;
+          const nextBookPage = nextMatch ? Number(nextMatch[1]) : null;"""
+          if old not in text:
+              raise SystemExit('importer neighbor anchor not found')
+          text = text.replace(old, new, 1)
+          path.write_text(text, encoding='utf-8')
+          PY
+
+          node --check scripts/import-ratio-workbook.mjs
           node scripts/import-ratio-workbook.mjs --write
           node scripts/build-curriculum.mjs
 
