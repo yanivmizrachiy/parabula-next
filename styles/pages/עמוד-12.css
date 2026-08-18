@@ -12,13 +12,13 @@
 .page-12 .pyt-side { font-size: 14px; font-weight: 400; text-anchor: middle; dominant-baseline: middle; unicode-bidi: isolate; }
 .page-12 .pyt-var { font-size: 14px; font-weight: 500; font-style: italic; text-anchor: middle; dominant-baseline: middle; unicode-bidi: isolate; }
 .page-12 .pyt-solve-note { font-weight: 600; line-height: 22px; }
-.page-12 .pyt-calc-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
-.page-12 .pyt-calc-block { border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-subtle); padding: 8px; display: grid; gap: 6px; }
+.page-12 .pyt-calc-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; flex: 1 1 auto; min-height: 0; }
+.page-12 .pyt-calc-block { border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-subtle); padding: 8px; display: grid; grid-template-rows: auto 1fr auto; gap: 6px; min-height: 0; }
 .page-12 .pyt-calc-block .q-sub { margin: 0; }
-.page-12 .solution-space { min-height: 110px; height: 110px; border: 1px solid var(--border-light); border-radius: 6px; background-color: var(--bg-paper); padding: 6px 8px; direction: ltr; unicode-bidi: isolate; background-image: linear-gradient(to bottom, transparent 23px, var(--grid-line) 23px, var(--grid-line) 24px), linear-gradient(to right, transparent 23px, var(--grid-line) 23px, var(--grid-line) 24px); background-size: 24px 24px; background-repeat: repeat; }
+.page-12 .solution-space { min-height: 110px; height: auto; align-self: stretch; border: 1px solid var(--border-light); border-radius: 6px; background-color: var(--bg-paper); padding: 6px 8px; direction: ltr; unicode-bidi: isolate; background-image: linear-gradient(to bottom, transparent 23px, var(--grid-line) 23px, var(--grid-line) 24px), linear-gradient(to right, transparent 23px, var(--grid-line) 23px, var(--grid-line) 24px); background-size: 24px 24px; background-repeat: repeat; }
 .page-12 .pyt-final-row { display: flex; align-items: center; justify-content: flex-start; gap: 7px; direction: ltr; unicode-bidi: isolate; min-height: 34px; }
 .page-12 .pyt-final-answer { display: inline-block; width: 82px; height: 30px; border: 1.35px solid #1f2a44; border-radius: 8px; background: #fff; box-shadow: 0 1px 0 rgba(15,23,42,.13),0 4px 8px rgba(15,23,42,.11); }
-.page-12 .pyt-footer { margin-top: auto; display: flex; flex-direction: column; gap: 0; }
+.page-12 .pyt-footer { margin-top: 0; display: flex; flex-direction: column; gap: 0; }
 .page-12 .pyt-solutions .q-sub { margin-bottom: 0; }
 .page-12 .pyt-solutions .q-text { display: grid; grid-template-columns: max-content repeat(2, minmax(0,1fr)); column-gap: 10px; align-items: center; width: 100%; font-size: 12px; }
 .page-12 .pyt-solutions .solutions-label { font-weight: 500; }
