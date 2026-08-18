@@ -7,22 +7,22 @@ on:
       - agent/ratio-safe-upgrade-20260818
     paths:
       - 'sources/lovable/ratio-workbook/**'
-      - 'scripts/render-ratio-workbook.mjs'
-      - 'scripts/export-ratio-workbook-live.mjs'
-      - 'scripts/import-ratio-workbook.mjs'
-      - 'scripts/audit-ratio-compliance.mjs'
+      - 'scripts/*ratio*.mjs'
       - 'tests/contracts/ratio-*.test.mjs'
-      - 'package.json'
+      - 'assets/ratio/**'
+      - 'styles/topics/ratio-*'
+      - 'styles/pages/עמוד-*.css'
+      - 'עמוד-*.html'
       - '.github/workflows/ratio-workbook-v2.yml'
   pull_request:
     paths:
       - 'sources/lovable/ratio-workbook/**'
-      - 'scripts/render-ratio-workbook.mjs'
-      - 'scripts/export-ratio-workbook-live.mjs'
-      - 'scripts/import-ratio-workbook.mjs'
-      - 'scripts/audit-ratio-compliance.mjs'
+      - 'scripts/*ratio*.mjs'
       - 'tests/contracts/ratio-*.test.mjs'
-      - 'package.json'
+      - 'assets/ratio/**'
+      - 'styles/topics/ratio-*'
+      - 'styles/pages/עמוד-*.css'
+      - 'עמוד-*.html'
       - '.github/workflows/ratio-workbook-v2.yml'
   workflow_dispatch:
 
@@ -43,6 +43,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Protect every non-ratio page from this change
+        run: node scripts/check-ratio-change-scope.mjs
 
       - name: Setup Node
         uses: actions/setup-node@v4
