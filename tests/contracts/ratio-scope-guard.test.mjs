@@ -49,8 +49,19 @@ test('scope protection runs before dependency installation and all expensive che
   assert.ok(renderIndex > guardIndex, 'scope guard must run before rendering');
 });
 
-test('ratio workflow stays verification-only', () => {
+test('verification is read-only and the only write job is branch-limited after verification', () => {
   assert.match(workflow, /permissions:\s*\n\s*contents:\s*read/u);
-  assert.doesNotMatch(workflow, /contents:\s*write/u);
-  assert.doesNotMatch(workflow, /git\s+(?:commit|push)/u);
+  const verifyStart = workflow.indexOf('verify-render-and-audit:');
+  const materializeStart = workflow.indexOf('materialize-verified-print-output:');
+  assert.ok(verifyStart >= 0 && materializeStart > verifyStart);
+
+  const verifyJob = workflow.slice(verifyStart, materializeStart);
+  const materializeJob = workflow.slice(materializeStart);
+  assert.doesNotMatch(verifyJob, /contents:\s*write/u);
+  assert.doesNotMatch(verifyJob, /git\s+(?:commit|push)/u);
+  assert.match(materializeJob, /needs:\s*verify-render-and-audit/u);
+  assert.match(materializeJob, /github\.head_ref == 'agent\/ratio-safe-upgrade-20260818'/u);
+  assert.match(materializeJob, /github\.actor != 'github-actions\[bot\]'/u);
+  assert.match(materializeJob, /permissions:\s*\n\s*contents:\s*write/u);
+  assert.match(materializeJob, /Reject every staged file outside ratio print scope/u);
 });
