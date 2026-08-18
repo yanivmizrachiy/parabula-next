@@ -12,12 +12,14 @@ on:
       - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
+      - 'styles/topics/pythagoras-power-practice.css'
       - 'meta/topics.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
+      - 'scripts/pythagoras-writing-capacity-browser-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -33,12 +35,14 @@ on:
       - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
+      - 'styles/topics/pythagoras-power-practice.css'
       - 'meta/topics.json'
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
+      - 'scripts/pythagoras-writing-capacity-browser-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -65,8 +69,8 @@ jobs:
       - name: Pythagoras contracts and deep quality
         run: node --test tests/contracts/pythagoras-*.test.mjs
 
-      - name: Report Pythagoras solution capacity
-        run: node scripts/pythagoras-solution-capacity-audit.mjs
+      - name: Validate Pythagoras solution metadata
+        run: node scripts/pythagoras-solution-capacity-audit.mjs --strict
 
       - name: Validate every canonical Pythagoras HTML page
         shell: bash
@@ -87,5 +91,8 @@ jobs:
           PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
           node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
 
-      - name: Report dead whitespace across canonical workbook
-        run: node scripts/pythagoras-whitespace-audit.mjs
+      - name: Enforce real writing capacity across canonical workbook
+        run: node scripts/pythagoras-writing-capacity-browser-audit.mjs
+
+      - name: Enforce dead-whitespace limits across canonical workbook
+        run: node scripts/pythagoras-whitespace-audit.mjs --max-gap=40 --max-trailing=40
