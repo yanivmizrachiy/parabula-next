@@ -3,7 +3,7 @@ name: Ratio Workbook V2
 on:
   push:
     branches:
-      - fix/ratio-workbook-deep-audit
+      - main
       - agent/ratio-safe-upgrade-20260818
     paths:
       - 'sources/lovable/ratio-workbook/**'
@@ -61,6 +61,8 @@ jobs:
           fetch-depth: 0
 
       - name: Protect every non-ratio page from this change
+        env:
+          RATIO_SCOPE_BASE_SHA: ${{ github.event.before }}
         run: node scripts/check-ratio-change-scope.mjs
 
       - name: Setup Node
