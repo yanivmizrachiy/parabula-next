@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import ratioChapters from '@/data/ratioChapters.json';
 
 interface PageLayoutProps {
   pageNumber: number;
@@ -9,12 +10,38 @@ interface PageLayoutProps {
   topic?: string;
 }
 
+type RatioChapter = {
+  id: number;
+  title: string;
+  pageIds: number[];
+};
+
+const CANONICAL_CHAPTERS = ratioChapters.chapters as RatioChapter[];
+
+export function canonicalRatioChapterTitle(chapter: string) {
+  const normalized = String(chapter || '').trim();
+  const exact = CANONICAL_CHAPTERS.find((item) => item.title === normalized);
+  if (exact) return exact.title;
+
+  const chapterNumber = normalized.match(/(?:^|\D)([1-7])(?:\D|$)/)?.[1];
+  if (chapterNumber) {
+    const canonical = CANONICAL_CHAPTERS.find((item) => item.id === Number(chapterNumber));
+    if (canonical) return canonical.title;
+  }
+
+  return normalized
+    .replace(/^פרק\s*\d+\s*[·|–—-]\s*/, '')
+    .replace(/^\d+\s*[·|–—-]\s*/, '')
+    .trim();
+}
+
 export function PageLayout({ pageNumber, chapter, children, className, topic = 'יחס' }: PageLayoutProps) {
+  const chapterTitle = canonicalRatioChapterTitle(chapter);
+
   return (
     <div className={cn("worksheet-page relative bg-white", className)} dir="rtl">
-      {/* Blue header bar */}
       <div className="page-header">
-        <span className="page-header-title">נושא: {topic} | {chapter}</span>
+        <span className="page-header-title">נושא: {topic} | {chapterTitle}</span>
         <span className="page-header-num">{pageNumber}</span>
       </div>
       <div className="page-content">
