@@ -56,7 +56,7 @@ export default function Index() {
       <aside className="ratio-workbench-sidebar w-80 bg-card border-l border-border flex flex-col no-print" aria-label="בחירת דפי עבודה">
         <header className="p-4 border-b bg-primary text-primary-foreground">
           <h1 className="font-bold text-lg">יחס ופרופורציה — כיתה ח׳</h1>
-          <p className="text-sm opacity-90">48 דפי A4 מסודרים לפי רצף פדגוגי</p>
+          <p className="text-sm opacity-90">{WORKSHEET_PAGES.length} דפי A4 מסודרים לפי רצף פדגוגי</p>
         </header>
 
         <PageSelector
