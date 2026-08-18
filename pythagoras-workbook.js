@@ -6,6 +6,7 @@ const prevButton = document.querySelector('#prev-page');
 const nextButton = document.querySelector('#next-page');
 const printButton = document.querySelector('#print-workbook');
 const workbookCss = document.querySelector('link[href="styles/pythagoras-workbook.css"]');
+const stylesheetPromises = new Map();
 
 let totalPages = 0;
 let activePage = 1;
@@ -17,16 +18,28 @@ const cssFile = (number) => `styles/pages/עמוד-${number}.css`;
 
 function addStylesheet(href) {
   const absolute = new URL(href, document.baseURI).href;
-  const exists = [...document.querySelectorAll('link[rel="stylesheet"]')]
-    .some((link) => link.href === absolute);
-  if (exists) return;
+  if (stylesheetPromises.has(absolute)) return stylesheetPromises.get(absolute);
+
+  const existing = [...document.querySelectorAll('link[rel="stylesheet"]')]
+    .find((link) => link.href === absolute);
+  if (existing) {
+    const ready = Promise.resolve(existing);
+    stylesheetPromises.set(absolute, ready);
+    return ready;
+  }
 
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = href;
   link.dataset.workbookCss = href;
+  const ready = new Promise((resolve, reject) => {
+    link.addEventListener('load', () => resolve(link), { once: true });
+    link.addEventListener('error', () => reject(new Error(`טעינת CSS נכשלה: ${href}`)), { once: true });
+  });
+  stylesheetPromises.set(absolute, ready);
   if (workbookCss) workbookCss.before(link);
   else document.head.append(link);
+  return ready;
 }
 
 function namespaceSvgIds(root, prefix) {
@@ -78,7 +91,7 @@ function normalizePage(main, sourceNumber, localNumber, total) {
 
 async function loadSourcePage(sourceNumber, localNumber, total, wrapper) {
   try {
-    addStylesheet(cssFile(sourceNumber));
+    await addStylesheet(cssFile(sourceNumber));
     const response = await fetch(sourceFile(sourceNumber), { cache: 'no-cache' });
     if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
     const html = await response.text();
