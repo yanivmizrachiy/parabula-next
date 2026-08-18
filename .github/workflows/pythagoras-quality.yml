@@ -21,6 +21,27 @@ on:
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
+  push:
+    branches: ['main']
+    paths:
+      - 'עמוד-*.html'
+      - 'pythagoras-workbook.html'
+      - 'pythagoras-workbook.js'
+      - 'styles/pythagoras-workbook.css'
+      - 'styles/pages/עמוד-*.css'
+      - 'styles/topics/pythagoras.css'
+      - 'styles/topics/pythagoras-live.css'
+      - 'styles/topics/pythagoras-foundations.css'
+      - 'meta/topics.json'
+      - 'meta/workbooks/pythagoras.json'
+      - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'scripts/validate-pythagoras-workbook-browser.mjs'
+      - 'scripts/pythagoras-whitespace-audit.mjs'
+      - 'scripts/pythagoras-solution-capacity-audit.mjs'
+      - 'tests/contracts/pythagoras-*.test.mjs'
+      - 'CLAUDE.md'
+      - '.github/workflows/pythagoras-quality.yml'
   workflow_dispatch:
 
 permissions:
