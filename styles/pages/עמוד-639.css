@@ -1,1 +1,15 @@
 @import url("../topics/pythagoras-foundations.css");
+
+/* 12 תרגילי חזקה נפרסים ל-4 שורות רחבות: יותר נוח לכתיבה ומבטל רווחים מתים. */
+.page-639 .power-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.page-639 .math-card {
+  min-height: 78px;
+  padding: 14px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

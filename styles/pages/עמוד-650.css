@@ -1,1 +1,6 @@
 @import url("../topics/pythagoras-foundations.css");
+
+/* בתרגול המעורב, שטח פנוי הופך למרחב דרך פתרון אמיתי. */
+.page-650 .foundation-card .work-lines {
+  min-height: 150px;
+}

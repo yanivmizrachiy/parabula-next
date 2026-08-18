@@ -121,7 +121,7 @@
 .page-634 .guided-ray-svg .guide-ray {
   fill: none;
   stroke: var(--accent-dark);
-  stroke-width: 3;
+  stroke-width: 2.1;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }

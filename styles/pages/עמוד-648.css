@@ -1,1 +1,6 @@
 @import url("../topics/pythagoras-foundations.css");
+
+/* את השטח הפנוי משקיעים בדרך הפתרון שהתלמיד כותב ביד. */
+.page-648 .foundation-card .work-lines {
+  min-height: 150px;
+}

@@ -45,11 +45,19 @@
 	shape-rendering: geometricPrecision;
 }
 
-.pyt-live .pyt-edge,
+.pyt-live .pyt-edge {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.85;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
 .pyt-live .pyt-right {
 	fill: none;
 	stroke: currentColor;
-	stroke-width: 2.5;
+	stroke-width: 1.55;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
@@ -58,7 +66,7 @@
 .pyt-live .pyt-brace {
 	fill: none;
 	stroke: currentColor;
-	stroke-width: 1.5;
+	stroke-width: 1.4;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
@@ -67,7 +75,7 @@
 .pyt-live .pyt-fill {
 	fill: var(--bg-subtle);
 	stroke: currentColor;
-	stroke-width: 2.5;
+	stroke-width: 1.85;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
 }
@@ -77,7 +85,7 @@
 	fill: var(--text-main);
 	paint-order: stroke;
 	stroke: var(--bg-paper);
-	stroke-width: 2.5;
+	stroke-width: 1.5;
 }
 
 .pyt-live .pyt-point {
@@ -151,7 +159,7 @@
 .pyt-live .pyt-mc-box {
 	width: 19px;
 	height: 19px;
-	border: 1.5px solid var(--accent-dark);
+	border: 1.35px solid #1f2a44;
 	border-radius: 4px;
 	background: var(--bg-paper);
 	flex: 0 0 auto;
@@ -189,6 +197,27 @@
 		linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
 	background-size: 22px 22px;
 	background-repeat: repeat;
+}
+
+/* ---- תשובה סופית — אותו עיקרון של „סגנון 5” ---- */
+.pyt-live .pyt-final-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 7px;
+	direction: rtl;
+}
+
+.pyt-live .pyt-final-answer {
+	display: inline-block;
+	width: 118px;
+	height: 30px;
+	border: 1.35px solid #1f2a44;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%);
+	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.13), 0 4px 8px rgba(15, 23, 42, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+	direction: ltr;
+	unicode-bidi: isolate;
 }
 
 /* ---- תחתית: פתרונות ---- */
