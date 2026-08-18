@@ -1,4 +1,6 @@
-const MANIFEST_URL = 'meta/workbooks/pythagoras.json';
+import { buildPythagorasWorkbook } from './pythagoras-workbook-model.js';
+
+const META_URL = 'meta/topics.json';
 const workbookRoot = document.querySelector('#workbook');
 const statusEl = document.querySelector('#workbook-status');
 const jumpInput = document.querySelector('#page-jump');
@@ -215,18 +217,19 @@ async function typesetMath() {
 }
 
 async function boot() {
-  const manifestResponse = await fetch(MANIFEST_URL, { cache: 'no-cache' });
-  if (!manifestResponse.ok) throw new Error(`לא ניתן לקרוא ${MANIFEST_URL}`);
-  const manifest = await manifestResponse.json();
-  const pages = manifest.pages;
-  if (!Array.isArray(pages) || !pages.length) throw new Error('מניפסט פיתגורס אינו מכיל דפים');
-  if (new Set(pages).size !== pages.length) throw new Error('מניפסט פיתגורס מכיל דף כפול');
+  const metaResponse = await fetch(META_URL, { cache: 'no-cache' });
+  if (!metaResponse.ok) throw new Error(`לא ניתן לקרוא ${META_URL}`);
+  const meta = await metaResponse.json();
+  const workbook = buildPythagorasWorkbook(meta);
+  const pages = workbook.pages;
+  if (!pages.length) throw new Error('חוברת פיתגורס אינה מכילה דפים');
 
   totalPages = pages.length;
   statusEl.textContent = `0 / ${totalPages} דפים נטענו`;
 
-  const tasks = pages.map((sourceNumber, index) => {
-    const localNumber = index + 1;
+  const tasks = pages.map((page) => {
+    const sourceNumber = page.sourceNumber;
+    const localNumber = page.workbookNumber;
     const wrapper = document.createElement('section');
     wrapper.className = 'workbook-page-wrap';
     wrapper.id = pageId(localNumber);
