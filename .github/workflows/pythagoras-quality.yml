@@ -52,5 +52,5 @@ jobs:
         run: |
           PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס'); if(!topic) process.exit(2); process.stdout.write(topic.pages.map((p)=>p.file).join(' '));")"
           node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
-      - name: Report dead whitespace inside all registered Pythagoras pages
-        run: node scripts/pythagoras-whitespace-audit.mjs
+      - name: Enforce dead whitespace limits in all registered Pythagoras pages
+        run: node scripts/pythagoras-whitespace-audit.mjs --max-gap=20 --max-trailing=20
