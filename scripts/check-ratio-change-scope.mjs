@@ -23,6 +23,7 @@ function isRatioPageCss(path) {
 function isAllowed(path) {
   return (
     path === '.github/workflows/ratio-workbook-v2.yml' ||
+    path === '.github/workflows/ratio-preview-materialize.yml' ||
     path.startsWith('sources/lovable/ratio-workbook/') ||
     path.startsWith('assets/ratio/') ||
     path.startsWith('styles/topics/ratio-') ||
