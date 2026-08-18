@@ -9,6 +9,16 @@ interface PageLayoutProps {
   topic?: string;
 }
 
+const ActivePageNumberContext = createContext<number | null>(null);
+
+export function PageNumberScope({ pageNumber, children }: { pageNumber: number; children: ReactNode }) {
+  return (
+    <ActivePageNumberContext.Provider value={pageNumber}>
+      {children}
+    </ActivePageNumberContext.Provider>
+  );
+}
+
 function cleanTopicTitle(chapter: string, topic: string): string {
   const explicitTopic = topic.trim();
   if (explicitTopic) return explicitTopic;
@@ -18,13 +28,33 @@ function cleanTopicTitle(chapter: string, topic: string): string {
     .trim() || 'יחס';
 }
 
+function withoutLegacyRatioPageClass(className?: string): string | undefined {
+  if (!className) return className;
+  const cleaned = className
+    .split(/\s+/)
+    .filter((token) => token && !/^ratio-page-\d+$/.test(token))
+    .join(' ');
+  return cleaned || undefined;
+}
+
 export function PageLayout({ pageNumber, chapter, children, className, topic = 'יחס' }: PageLayoutProps) {
+  const activePageNumber = useContext(ActivePageNumberContext);
+  const displayPageNumber = activePageNumber ?? pageNumber;
   const pageTopicTitle = cleanTopicTitle(chapter, topic);
+
   return (
-    <div className={cn('worksheet-page relative bg-white', `ratio-page-${pageNumber}`, className)} dir="rtl">
+    <div
+      className={cn(
+        'worksheet-page relative bg-white',
+        `ratio-page-${displayPageNumber}`,
+        `ratio-source-page-${pageNumber}`,
+        withoutLegacyRatioPageClass(className),
+      )}
+      dir="rtl"
+    >
       <header className="header-container page-header">
         <span className="page-header-title page-title">{pageTopicTitle}</span>
-        <div className="page-number">{pageNumber}</div>
+        <div className="page-number">{displayPageNumber}</div>
       </header>
       <div className="page-content">
         {children}
@@ -114,6 +144,7 @@ export function Question({ children }: { children: ReactNode }) {
   const hasSubQuestions = hasNode(children, (element) => element.type === SubQuestion);
   const hasGroupedResponse = hasClassName(children, 'response-set');
   const responseKind = hasSubQuestions ? 'none' : inferResponseKind(children);
+
   return (
     <SuppressSubResponseContext.Provider value={hasGroupedResponse}>
       <div className="question-block" data-auto-response={responseKind} data-grouped-response={hasGroupedResponse ? 'true' : 'false'}>
@@ -130,6 +161,7 @@ export function Question({ children }: { children: ReactNode }) {
 export function SubQuestion({ label, children }: { label: string; children: ReactNode }) {
   const suppressAutoResponse = useContext(SuppressSubResponseContext);
   const responseKind = suppressAutoResponse ? 'none' : inferResponseKind(children);
+
   return (
     <div className="sub-question" data-auto-response={responseKind}>
       <span className="sub-label">{label}</span>
@@ -206,9 +238,7 @@ export function WorkArea({ lines = 3, label = 'דרך:', className }: WorkAreaPr
     <div className={cn('work-area', className)} aria-label="מקום לכתיבת דרך החישוב">
       <span className="work-area-label">{label}</span>
       <div className="work-area-lines" aria-hidden="true">
-        {Array.from({ length: safeLines }, (_, index) => (
-          <span className="work-area-line" key={index} />
-        ))}
+        {Array.from({ length: safeLines }, (_, index) => <span className="work-area-line" key={index} />)}
       </div>
     </div>
   );
@@ -287,17 +317,13 @@ export function WorksheetTable({ headers, rows, className }: TableProps) {
     <table className={cn('worksheet-table', className)}>
       <thead>
         <tr>
-          {headers.map((header, index) => (
-            <th key={index}>{header}</th>
-          ))}
+          {headers.map((header, index) => <th key={index}>{header}</th>)}
         </tr>
       </thead>
       <tbody>
         {rows.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <td key={cellIndex}>{cell}</td>
-            ))}
+            {row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}
           </tr>
         ))}
       </tbody>
