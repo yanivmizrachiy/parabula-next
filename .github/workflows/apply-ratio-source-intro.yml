@@ -139,30 +139,44 @@ jobs:
         continue-on-error: true
         run: npm run validate:html
 
-      - name: Verification gate
-        if: always()
-        shell: bash
-        run: |
-          echo "credit=${{ steps.credit.outcome }}"
-          echo "safety=${{ steps.safety.outcome }}"
-          echo "intro=${{ steps.intro.outcome }}"
-          echo "importcheck=${{ steps.importcheck.outcome }}"
-          echo "schema=${{ steps.schema.outcome }}"
-          echo "curriculumcheck=${{ steps.curriculumcheck.outcome }}"
-          echo "curriculum=${{ steps.curriculum.outcome }}"
-          echo "rules=${{ steps.rules.outcome }}"
-          echo "html=${{ steps.html.outcome }}"
-          test "${{ steps.credit.outcome }}" = success
-          test "${{ steps.safety.outcome }}" = success
-          test "${{ steps.intro.outcome }}" = success
-          test "${{ steps.importcheck.outcome }}" = success
-          test "${{ steps.schema.outcome }}" = success
-          test "${{ steps.curriculumcheck.outcome }}" = success
-          test "${{ steps.curriculum.outcome }}" = success
-          test "${{ steps.rules.outcome }}" = success
-          test "${{ steps.html.outcome }}" = success
+      - name: Gate page credit
+        if: always() && steps.credit.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio import safety
+        if: always() && steps.safety.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio source intro
+        if: always() && steps.intro.outcome != 'success'
+        run: exit 1
+
+      - name: Gate ratio importer idempotence
+        if: always() && steps.importcheck.outcome != 'success'
+        run: exit 1
+
+      - name: Gate schema validation
+        if: always() && steps.schema.outcome != 'success'
+        run: exit 1
+
+      - name: Gate curriculum build
+        if: always() && steps.curriculumcheck.outcome != 'success'
+        run: exit 1
+
+      - name: Gate curriculum validation
+        if: always() && steps.curriculum.outcome != 'success'
+        run: exit 1
+
+      - name: Gate canonical rules
+        if: always() && steps.rules.outcome != 'success'
+        run: exit 1
+
+      - name: Gate HTML validation
+        if: always() && steps.html.outcome != 'success'
+        run: exit 1
 
       - name: Commit focused migration
+        if: ${{ success() }}
         shell: bash
         run: |
           set -euo pipefail
