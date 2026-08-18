@@ -4,14 +4,39 @@ on:
   pull_request:
     paths:
       - 'עמוד-*.html'
+      - 'pythagoras-workbook.html'
+      - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
+      - 'styles/pythagoras-workbook.css'
       - 'styles/pages/עמוד-*.css'
       - 'styles/topics/pythagoras.css'
       - 'styles/topics/pythagoras-live.css'
       - 'styles/topics/pythagoras-foundations.css'
-      - 'catalog.js'
-      - 'catalog-deep-link.js'
       - 'meta/topics.json'
       - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'scripts/validate-pythagoras-workbook-browser.mjs'
+      - 'scripts/pythagoras-whitespace-audit.mjs'
+      - 'scripts/pythagoras-solution-capacity-audit.mjs'
+      - 'tests/contracts/pythagoras-*.test.mjs'
+      - 'CLAUDE.md'
+      - '.github/workflows/pythagoras-quality.yml'
+  push:
+    branches: ['main']
+    paths:
+      - 'עמוד-*.html'
+      - 'pythagoras-workbook.html'
+      - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
+      - 'styles/pythagoras-workbook.css'
+      - 'styles/pages/עמוד-*.css'
+      - 'styles/topics/pythagoras.css'
+      - 'styles/topics/pythagoras-live.css'
+      - 'styles/topics/pythagoras-foundations.css'
+      - 'meta/topics.json'
+      - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
@@ -25,7 +50,7 @@ permissions:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,21 +58,34 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+
+      - name: Validate canonical Pythagoras workbook
+        run: node scripts/validate-pythagoras-workbook.mjs
+
       - name: Pythagoras contracts and deep quality
         run: node --test tests/contracts/pythagoras-*.test.mjs
+
       - name: Report Pythagoras solution capacity
         run: node scripts/pythagoras-solution-capacity-audit.mjs
-      - name: Validate all registered Pythagoras HTML
+
+      - name: Validate every canonical Pythagoras HTML page
         shell: bash
         run: |
-          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס'); if(!topic) process.exit(2); process.stdout.write(topic.pages.map((p)=>p.file).join(' '));")"
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
           npx html-validate $PYTHAGORAS_FILES
-      - name: Install Chromium for A4 audit
+          npx html-validate pythagoras-workbook.html
+
+      - name: Install Chromium for workbook and A4 audits
         run: npx playwright install --with-deps chromium
-      - name: Audit all registered Pythagoras A4 pages
+
+      - name: Verify unified workbook in Chromium
+        run: node scripts/validate-pythagoras-workbook-browser.mjs
+
+      - name: Audit every canonical Pythagoras A4 page
         shell: bash
         run: |
-          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס'); if(!topic) process.exit(2); process.stdout.write(topic.pages.map((p)=>p.file).join(' '));")"
+          PYTHAGORAS_FILES="$(node --input-type=module -e "import fs from 'node:fs'; import {buildPythagorasWorkbook} from './pythagoras-workbook-model.js'; const meta=JSON.parse(fs.readFileSync('meta/topics.json','utf8')); const book=buildPythagorasWorkbook(meta); process.stdout.write(book.pages.map((p)=>p.file).join(' '));")"
           node scripts/a4-utilization-audit.mjs --min=80 $PYTHAGORAS_FILES
-      - name: Report dead whitespace inside all registered Pythagoras pages
+
+      - name: Report dead whitespace across canonical workbook
         run: node scripts/pythagoras-whitespace-audit.mjs

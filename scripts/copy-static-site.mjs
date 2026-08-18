@@ -88,12 +88,17 @@ const required = [
   'mobile-deep-link.js',
   'mobile-app.webmanifest',
   'systems-workbook.html',
+  'pythagoras-workbook.html',
+  'pythagoras-workbook.js',
+  'pythagoras-workbook-model.js',
   'sw.js',
   'reader-actions.js',
   'reader-actions.css',
   'meta/topics.json',
   'meta/two-variable-systems-manifest.json',
   'styles/a4-base.css',
+  'styles/pythagoras-workbook.css',
+  'styles/topics/pythagoras.css',
   'preview/index.html',
   'assets/pythagoras/vector/page-05.svg',
   'assets/pythagoras/vector/page-22.svg',
@@ -115,7 +120,9 @@ const versionInputs = [
   'index.html', 'index.js',
   'catalog.html', 'catalog.css', 'catalog.js', 'catalog-deep-link.js',
   'mobile-app.html', 'mobile-app.css', 'mobile-app.js', 'mobile-deep-link.js', 'mobile-app.webmanifest',
-  'systems-workbook.html', 'sw.js', 'reader-actions.css', 'reader-actions.js',
+  'systems-workbook.html',
+  'pythagoras-workbook.html', 'pythagoras-workbook.js', 'pythagoras-workbook-model.js', 'styles/pythagoras-workbook.css', 'styles/topics/pythagoras.css',
+  'sw.js', 'reader-actions.css', 'reader-actions.js',
   'meta/topics.json', 'meta/two-variable-systems-manifest.json'
 ];
 const hash = crypto.createHash('sha256');
@@ -124,7 +131,7 @@ for (const rel of versionInputs) {
   hash.update(fs.readFileSync(path.join(root, rel)));
 }
 const buildVersion = String(process.env.GITHUB_SHA || '').slice(0, 12) || hash.digest('hex').slice(0, 12);
-const tokenFiles = ['index.html', 'index.js', 'catalog.html', 'mobile-app.html', 'mobile-app.js', 'mobile-app.webmanifest', 'systems-workbook.html', 'sw.js'];
+const tokenFiles = ['index.html', 'index.js', 'catalog.html', 'mobile-app.html', 'mobile-app.js', 'mobile-app.webmanifest', 'systems-workbook.html', 'pythagoras-workbook.html', 'sw.js'];
 for (const rel of tokenFiles) {
   const file = path.join(dist, rel);
   const source = fs.readFileSync(file, 'utf8');

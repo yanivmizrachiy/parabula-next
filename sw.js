@@ -20,6 +20,11 @@ const CORE_ASSETS = [
   './mobile-app.webmanifest',
   './systems-workbook.html',
   './meta/two-variable-systems-manifest.json',
+  './pythagoras-workbook.html',
+  './pythagoras-workbook.js',
+  './pythagoras-workbook-model.js',
+  './styles/pythagoras-workbook.css',
+  './styles/topics/pythagoras.css',
   './עמוד-609.html',
   './styles/a4-base.css',
   './styles/pages/עמוד-609.css',
@@ -90,11 +95,16 @@ async function networkFirst(request) {
       const mobilePath = new URL('./mobile-app.html', self.registration.scope).pathname;
       const catalogPath = new URL('./catalog.html', self.registration.scope).pathname;
       const systemsPath = new URL('./systems-workbook.html', self.registration.scope).pathname;
+      const pythagorasPath = new URL('./pythagoras-workbook.html', self.registration.scope).pathname;
       const indexPath = new URL('./index.html', self.registration.scope).pathname;
       const scopePath = new URL('./', self.registration.scope).pathname;
       if (pathname === systemsPath) {
         const systemsShell = await cache.match(new Request(new URL('./systems-workbook.html', self.registration.scope).href));
         if (systemsShell) return systemsShell;
+      }
+      if (pathname === pythagorasPath) {
+        const pythagorasShell = await cache.match(new Request(new URL('./pythagoras-workbook.html', self.registration.scope).href));
+        if (pythagorasShell) return pythagorasShell;
       }
       if (pathname === catalogPath) {
         const catalogShell = await cache.match(new Request(new URL('./catalog.html', self.registration.scope).href));

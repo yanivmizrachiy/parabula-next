@@ -1,11 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 
 const root = process.cwd();
 const strict = process.argv.includes('--strict');
 const meta = JSON.parse(fs.readFileSync(path.join(root, 'meta/topics.json'), 'utf8'));
-const topic = meta.topics.find((item) => item.name === 'משפט פיתגורס');
-if (!topic) throw new Error('הנושא משפט פיתגורס חסר');
+const workbook = buildPythagorasWorkbook(meta);
+const pages = workbook.pages.map((page) => ({
+  number: page.sourceNumber,
+  file: page.file || `עמוד-${page.sourceNumber}.html`,
+}));
 
 const strip = (html) => html
   .replace(/<script\b[\s\S]*?<\/script>/giu, ' ')
@@ -19,8 +23,8 @@ const count = (text, re) => (text.match(re) ?? []).length;
 const rows = [];
 const issues = [];
 
-for (let i = 0; i < topic.pages.length; i += 1) {
-  const page = topic.pages[i];
+for (let i = 0; i < pages.length; i += 1) {
+  const page = pages[i];
   const html = fs.readFileSync(path.join(root, page.file), 'utf8');
   const visible = strip(html);
   const workAreas = count(html, /class="[^"]*(?:full-solution-space|solution-space)[^"]*"/gu);

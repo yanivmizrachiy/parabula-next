@@ -1,11 +1,11 @@
 import fs from 'node:fs';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
+import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 
 const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
-const topic = meta.topics.find((entry) => entry.name === 'משפט פיתגורס');
-if (!topic) throw new Error('הנושא משפט פיתגורס חסר מ-meta/topics.json');
-const pages = topic.pages.map((page) => page.file);
+const workbook = buildPythagorasWorkbook(meta);
+const pages = workbook.pages.map((page) => page.file || `עמוד-${page.sourceNumber}.html`);
 
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
 for (let i = 0; i < 40; i += 1) {
@@ -73,7 +73,7 @@ for (const file of pages) {
 await browser.close();
 server.kill();
 
-console.log(`PYTHAGORAS_WHITESPACE_AUDIT pages=${pages.length}`);
+console.log(`PYTHAGORAS_WHITESPACE_AUDIT pages=${pages.length} source=meta/topics.json`);
 for (const r of rows.sort((a, b) => (b.maxGapPct ?? -1) - (a.maxGapPct ?? -1))) {
   console.log(`${String(r.maxGapPct ?? '??').padStart(3)}% max-gap | ${String(r.trailingGapPct ?? '??').padStart(3)}% trailing | ${r.file} | children=${r.childCount ?? 0} | ${r.maxGapAfter ?? ''}`);
 }
