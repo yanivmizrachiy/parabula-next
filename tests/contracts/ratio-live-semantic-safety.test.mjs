@@ -7,7 +7,7 @@ const workflow = fs.readFileSync('.github/workflows/ratio-workbook-v2.yml', 'utf
 
 test('semantic canonical exporter is read-only unless --write is explicit', () => {
   assert.match(exporter, /process\.argv\.includes\('--write'\)/);
-  assert.match(exporter, /Read-only semantic canonical preflight complete\. No repository files were written\./);
+  assert.match(exporter, /Read-only semantic canonical preflight complete[\s\S]*No repository files were written\./);
   assert.match(exporter, /mkdtemp\(path\.join\(os\.tmpdir\(\), 'ratio-live-candidate-'\)\)/);
 });
 
@@ -31,11 +31,18 @@ test('semantic canonical wrapper neutralizes shared A4 class collisions instead 
   assert.match(exporter, /\.ratio-live-page \.multiple-choice \{[\s\S]*?padding: 0;[\s\S]*?background: transparent;/);
 });
 
-test('semantic canonical exporter derives cross-topic navigation from metadata', () => {
-  assert.match(exporter, /previousBookPage/);
-  assert.match(exporter, /nextBookPage/);
-  assert.match(exporter, /ratioTopic\.pages\[index\]\?\.number/);
-  assert.match(exporter, /expected = firstGlobalPage \+ index/);
+test('semantic canonical exporter derives printed identity and cross-topic navigation from canonical metadata', () => {
+  assert.match(exporter, /const ratioPages = sortedTopicPages\(ratioTopic, 'יחס'\)/);
+  assert.match(exporter, /localPageNumberFromMetadata\(pageMeta\)/);
+  assert.match(exporter, /canonicalTitle: pageMeta\.h1/);
+  assert.match(exporter, /geometry\.headerTitle !== pageMeta\.h1/);
+  assert.match(exporter, /geometry\.documentTitle !== pageMeta\.title/);
+  assert.match(exporter, /const previousPages = sortedTopicPages\(/);
+  assert.match(exporter, /const nextPages = sortedTopicPages\(/);
+  assert.match(exporter, /previousPages\.at\(-1\)\?\.number/);
+  assert.match(exporter, /nextPages\[0\]\?\.number/);
+  assert.match(exporter, /previous navigation mismatch/);
+  assert.match(exporter, /next navigation mismatch/);
 });
 
 test('semantic canonical exporter audits all 48 candidates before any repository write', () => {
