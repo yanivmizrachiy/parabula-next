@@ -2,24 +2,37 @@ import fs from 'node:fs';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
 
+const maxGapLimit = Number((process.argv.find((arg) => arg.startsWith('--max-gap=')) ?? '--max-gap=20').split('=')[1]);
+const maxTrailingLimit = Number((process.argv.find((arg) => arg.startsWith('--max-trailing=')) ?? '--max-trailing=20').split('=')[1]);
+if (!Number.isFinite(maxGapLimit) || !Number.isFinite(maxTrailingLimit)) throw new Error('ספי whitespace אינם תקינים');
+
 const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
 const topic = meta.topics.find((entry) => entry.name === 'משפט פיתגורס');
 if (!topic) throw new Error('הנושא משפט פיתגורס חסר מ-meta/topics.json');
 const pages = topic.pages.map((page) => page.file);
 
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
+let serverReady = false;
 for (let i = 0; i < 40; i += 1) {
-  try { await fetch('http://127.0.0.1:5179/preview'); break; }
-  catch { await new Promise((r) => setTimeout(r, 500)); }
+  try {
+    const res = await fetch('http://127.0.0.1:5179/preview');
+    if (res.ok) { serverReady = true; break; }
+  } catch {}
+  await new Promise((r) => setTimeout(r, 500));
+}
+if (!serverReady) {
+  server.kill();
+  throw new Error('preview server לא עלה');
 }
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1000, height: 1400 } });
 const rows = [];
+const issues = [];
 
 for (const file of pages) {
   await page.goto(`http://127.0.0.1:5179/${encodeURIComponent(file)}`, { waitUntil: 'networkidle', timeout: 30000 });
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(350);
   const metric = await page.evaluate(() => {
     const a4 = document.querySelector('main.a4-page');
     const header = a4?.querySelector(':scope > .header-container');
@@ -64,16 +77,30 @@ for (const file of pages) {
       trailingGapPct: Math.round(trailing / usable * 100),
       childCount: rects.length,
       maxGapAfter,
-      a4Height: Math.round(a4r.height)
+      a4Height: Math.round(a4r.height),
     };
   });
-  rows.push({ file, ...metric });
+  if (!metric) {
+    issues.push(`${file}: לא ניתן למדוד את מבנה A4`);
+    continue;
+  }
+  const row = { file, ...metric };
+  rows.push(row);
+  if (row.maxGapPct > maxGapLimit) issues.push(`${file}: max-gap ${row.maxGapPct}% גדול מהסף ${maxGapLimit}% (${row.maxGapAfter})`);
+  if (row.trailingGapPct > maxTrailingLimit) issues.push(`${file}: trailing-gap ${row.trailingGapPct}% גדול מהסף ${maxTrailingLimit}%`);
 }
 
 await browser.close();
 server.kill();
 
-console.log(`PYTHAGORAS_WHITESPACE_AUDIT pages=${pages.length}`);
+console.log(`PYTHAGORAS_WHITESPACE_AUDIT pages=${pages.length} max_gap_limit=${maxGapLimit}% max_trailing_limit=${maxTrailingLimit}%`);
 for (const r of rows.sort((a, b) => (b.maxGapPct ?? -1) - (a.maxGapPct ?? -1))) {
   console.log(`${String(r.maxGapPct ?? '??').padStart(3)}% max-gap | ${String(r.trailingGapPct ?? '??').padStart(3)}% trailing | ${r.file} | children=${r.childCount ?? 0} | ${r.maxGapAfter ?? ''}`);
 }
+
+if (issues.length) {
+  console.error(`\nPYTHAGORAS_WHITESPACE_FAILED issues=${issues.length}`);
+  for (const issue of issues) console.error(`- ${issue}`);
+  process.exit(1);
+}
+console.log('PYTHAGORAS_WHITESPACE_OK');
