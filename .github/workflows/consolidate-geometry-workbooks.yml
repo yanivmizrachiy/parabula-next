@@ -1,8 +1,10 @@
 name: Consolidate geometry workbooks into migration branch
 
 on:
-  pull_request:
+  push:
     branches: ["main"]
+    paths:
+      - scripts/consolidate-geometry-workbooks.py
   workflow_dispatch:
 
 permissions:
@@ -10,7 +12,6 @@ permissions:
 
 jobs:
   consolidate:
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'agent/consolidate-circle-cylinder-cone'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout migration branch
