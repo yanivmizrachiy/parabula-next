@@ -202,12 +202,12 @@ jobs:
         shell: bash
         run: |
           bad=0
-          while IFS= read -r file; do
+          while IFS= read -r -d '' file; do
             case "$file" in
               עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*|assets/ratio/page-[0-9][0-9][0-9].png) ;;
               *) echo "FORBIDDEN staged file: $file"; bad=1 ;;
             esac
-          done < <(git diff --cached --name-only)
+          done < <(git diff --cached --name-only -z)
           test "$bad" -eq 0
 
       - name: Commit verified 48-page print output
