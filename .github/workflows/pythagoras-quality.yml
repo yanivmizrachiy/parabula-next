@@ -14,6 +14,7 @@ on:
       - 'scripts/a4-utilization-audit.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
+      - 'scripts/pythagoras-writing-capacity-browser-audit.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -35,8 +36,8 @@ jobs:
       - run: npm ci
       - name: Pythagoras contracts and deep quality
         run: node --test tests/contracts/pythagoras-*.test.mjs
-      - name: Report Pythagoras solution capacity
-        run: node scripts/pythagoras-solution-capacity-audit.mjs
+      - name: Enforce Pythagoras solution capacity
+        run: node scripts/pythagoras-solution-capacity-audit.mjs --strict
       - name: Validate all registered Pythagoras HTML
         shell: bash
         run: |
@@ -44,6 +45,8 @@ jobs:
           npx html-validate $PYTHAGORAS_FILES
       - name: Install Chromium for A4 audit
         run: npx playwright install --with-deps chromium
+      - name: Audit actual Pythagoras writing capacity
+        run: node scripts/pythagoras-writing-capacity-browser-audit.mjs
       - name: Audit all registered Pythagoras A4 pages
         shell: bash
         run: |
