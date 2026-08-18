@@ -5,9 +5,11 @@
   "workbooks": {
     "circle": {
       "title": "מעגל",
-      "pages": 88,
+      "pages": 101,
       "entry": "workbooks/circle/index.html",
-      "firstPage": "workbooks/circle/page-1.html"
+      "firstPage": "workbooks/circle/page-1.html",
+      "sequenceRegistry": "workbooks/circle/manifest.json",
+      "graded": true
     },
     "cylinder": {
       "title": "גליל",

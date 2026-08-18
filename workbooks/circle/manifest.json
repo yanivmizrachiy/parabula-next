@@ -1,0 +1,34 @@
+{
+  "canonicalRepository": "yanivmizrachiy/razpages",
+  "canonicalRoot": "workbooks/circle",
+  "sourceOfTruth": true,
+  "singleWorkbook": true,
+  "graded": true,
+  "pageCount": 101,
+  "entry": "index.html",
+  "stages": [
+    {"id":"basics","title":"יסודות — מעגל ועיגול","from":1,"to":10},
+    {"id":"parts","title":"מרכז, רדיוס, קוטר ומיתר","from":11,"to":21},
+    {"id":"measure","title":"π, היקף, שטח וזווית מרכזית","from":22,"to":43},
+    {"id":"advanced","title":"נוסחאות ותרגול מתקדם","from":44,"to":60},
+    {"id":"applications","title":"יישומים, אוריינות ומידול","from":61,"to":73},
+    {"id":"enrichment","title":"יחידת העשרה וסיכום","from":74,"to":83},
+    {"id":"coordinates","title":"מעגל במערכת צירים","from":84,"to":101}
+  ],
+  "segments": [
+    {"from":1,"to":20,"kind":"original","sourceStart":1},
+    {"from":21,"to":21,"kind":"targilim","source":"g8-06"},
+    {"from":22,"to":41,"kind":"original","sourceStart":21},
+    {"from":42,"to":42,"kind":"targilim","source":"g8-05"},
+    {"from":43,"to":43,"kind":"targilim","source":"g8-01"},
+    {"from":44,"to":73,"kind":"original","sourceStart":41},
+    {"from":74,"to":82,"kind":"bbb","sourceStart":196},
+    {"from":83,"to":83,"kind":"bbb-fragment","sourceStart":205},
+    {"from":84,"to":101,"kind":"original","sourceStart":71}
+  ],
+  "provenance": {
+    "originalCircle":{"pages":88,"preservedRelativeOrder":true,"archive":"source/original-88/"},
+    "targilim":{"sourcePath":"generator/g8-01.js","sourceCommit":"88352a5671fc5df7dc812136e686176a26c5fb0a","families":["G8-06","G8-05","G8-01"],"canonicalPages":[21,42,43]},
+    "bbb":{"sourcePath":"geometry8/topics/t01_circle.py","sourceCommit":"ad12425c6b2e1d4dac84030a5cd865c2b03d3804","archive":"source/bbb/","canonicalRange":[74,83]}
+  }
+}
