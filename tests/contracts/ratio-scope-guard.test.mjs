@@ -65,3 +65,23 @@ test('verification is read-only and the only write job is branch-limited after v
   assert.match(materializeJob, /permissions:\s*\n\s*contents:\s*write/u);
   assert.match(materializeJob, /Reject every staged file outside ratio print scope/u);
 });
+
+test('materialize staged-file guard preserves exact UTF-8 paths', () => {
+  const materializeStart = workflow.indexOf('materialize-verified-print-output:');
+  assert.ok(materializeStart >= 0, 'materialize job is missing');
+  const materializeJob = workflow.slice(materializeStart);
+
+  assert.ok(
+    materializeJob.includes("while IFS= read -r -d '' file; do"),
+    'staged-file guard must read NUL-delimited paths',
+  );
+  assert.ok(
+    materializeJob.includes('git diff --cached --name-only -z'),
+    'staged-file guard must request unquoted NUL-delimited Git paths',
+  );
+  assert.doesNotMatch(
+    materializeJob,
+    /done < <\(git diff --cached --name-only\)\s*$/mu,
+    'plain name-only output would reintroduce Git quoting for Hebrew filenames',
+  );
+});
