@@ -1,0 +1,42 @@
+name: One-time canonical circle workbook consolidation
+
+on:
+  push:
+    branches:
+      - agent/circle-single-canonical-workbook
+    paths:
+      - scripts/migrate-circle-single-workbook.mjs
+      - scripts/qa-circle-canonical.mjs
+      - .github/workflows/one-time-circle-single-workbook.yml
+
+permissions:
+  contents: write
+
+jobs:
+  consolidate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/circle-single-canonical-workbook
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build single graded circle workbook
+        run: node scripts/migrate-circle-single-workbook.mjs
+      - name: Verify canonical circle workbook
+        run: node scripts/qa-circle-canonical.mjs
+      - name: Verify one rules source
+        run: node scripts/single-rules-source-check.mjs
+      - name: Remove one-time migration helpers
+        run: |
+          rm scripts/migrate-circle-single-workbook.mjs
+          rm .github/workflows/one-time-circle-single-workbook.yml
+      - name: Commit verified canonical circle workbook
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: unify every circle worksheet into one graded workbook"
+          git push origin HEAD:agent/circle-single-canonical-workbook
