@@ -105,6 +105,7 @@ jobs:
           name: ratio-workbook-v2-audit
           path: |
             assets/ratio/audit-v2.json
+            assets/ratio/page-*.png
             mobile-browser.log
             mobile-interactions.log
             mobile-status.txt
