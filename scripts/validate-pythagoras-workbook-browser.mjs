@@ -1,9 +1,11 @@
 import fs from 'node:fs';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
+import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
 
-const manifest = JSON.parse(fs.readFileSync('meta/workbooks/pythagoras.json', 'utf8'));
-const expected = manifest.pages;
+const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
+const workbook = buildPythagorasWorkbook(meta);
+const expected = workbook.pages.map((page) => page.sourceNumber);
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
 
 async function waitForServer() {
@@ -87,6 +89,7 @@ try {
       sourceNumbers,
       advancedLocal: advanced?.dataset.workbookPage ?? null,
       advancedNumber: advanced?.querySelector('.page-number')?.textContent.trim() ?? null,
+      advancedTitle: advanced?.querySelector('.page-title')?.textContent.trim() ?? null,
       advancedHasPythagorasClass: advanced?.classList.contains('pythagoras') ?? false,
       mathCount,
       pageCssCount: new Set(pageCssLinks).size,
@@ -100,11 +103,16 @@ try {
   if (result.wrapperCount !== expected.length) errors.push(`wrappers=${result.wrapperCount}, expected=${expected.length}`);
   if (result.mainCount !== expected.length) errors.push(`a4 pages=${result.mainCount}, expected=${expected.length}`);
   if (result.duplicateIds.length) errors.push(`duplicate DOM ids: ${result.duplicateIds.join(', ')}`);
-  if (JSON.stringify(result.sourceNumbers) !== JSON.stringify(expected)) errors.push('source page order differs from canonical manifest');
+  if (JSON.stringify(result.sourceNumbers) !== JSON.stringify(expected)) errors.push('source page order differs from canonical meta-derived workbook');
   for (let i = 0; i < expected.length; i += 1) {
     if (result.localNumbers[i] !== String(i + 1)) errors.push(`local page ${i + 1} renders number ${result.localNumbers[i]}`);
   }
-  if (result.advancedLocal !== '48' || result.advancedNumber !== '48') errors.push('source page 375 is not local workbook page 48');
+  const advancedIndex = expected.indexOf(375);
+  const expectedAdvancedLocal = advancedIndex >= 0 ? String(advancedIndex + 1) : null;
+  if (result.advancedLocal !== expectedAdvancedLocal || result.advancedNumber !== expectedAdvancedLocal) {
+    errors.push(`source page 375 is not local workbook page ${expectedAdvancedLocal}`);
+  }
+  if (result.advancedTitle !== 'משפט פיתגורס') errors.push(`source page 375 has workbook title ${result.advancedTitle}`);
   if (!result.advancedHasPythagorasClass) errors.push('source page 375 did not receive the shared pythagoras class in workbook context');
   if (result.mathCount === 0) errors.push('MathJax produced no mjx-container elements');
   if (result.pageCssCount !== expected.length) errors.push(`page CSS links=${result.pageCssCount}, expected=${expected.length}`);
@@ -117,7 +125,7 @@ try {
     for (const error of errors) console.error(`- ${error}`);
     process.exitCode = 1;
   } else {
-    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} math=${result.mathCount} svgMath=${result.checkedSvgMath} css=${result.pageCssCount}`);
+    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} primary=${workbook.primaryCount} additional=${workbook.additionalCount} math=${result.mathCount} svgMath=${result.checkedSvgMath} css=${result.pageCssCount}`);
   }
 } finally {
   if (browser) await browser.close();
