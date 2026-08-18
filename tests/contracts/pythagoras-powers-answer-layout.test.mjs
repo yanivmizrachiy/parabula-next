@@ -28,6 +28,14 @@ test('בכל תרגיל חזקה בעמודים 639–640 התשובה נמצא�
   assertStackedCards(640, 16);
 });
 
+test('גם דוגמת החזקה בעמוד 643 מציגה את התשובה מתחת לתרגיל', () => {
+  const html = read('עמוד-643.html');
+  const css = read('styles/pages/עמוד-643.css');
+  const example = html.match(/class="power-example-stack"[\s\S]*?class="exercise-expression"[\s\S]*?class="exercise-answer"/u);
+  assert.ok(example, 'עמוד 643: דוגמת החזקה חייבת להיות במבנה אנכי של תרגיל ואז תשובה');
+  assert.match(css, /pythagoras-power-practice\.css/u);
+});
+
 test('רכיב החזקות המשותף אוכף פריסה אנכית ולא inline', () => {
   const css = read('styles/topics/pythagoras-power-practice.css');
   assert.match(css, /\.stacked-answer-card\s*\{[^}]*flex-direction:\s*column/us);
