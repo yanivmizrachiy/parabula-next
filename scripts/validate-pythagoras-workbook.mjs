@@ -9,6 +9,22 @@ const errors = [];
 const fail = (message) => errors.push(message);
 const read = (relative) => fs.readFileSync(path.join(root, relative), 'utf8');
 
+function readCssGraph(relative, seen = new Set()) {
+  const normalized = relative.replaceAll('\\', '/');
+  if (seen.has(normalized)) return '';
+  seen.add(normalized);
+  const absolute = path.join(root, normalized);
+  if (!fs.existsSync(absolute)) return '';
+  const text = fs.readFileSync(absolute, 'utf8');
+  let combined = `\n/* ${normalized} */\n${text}`;
+  const importRe = /@import\s+url\(["']?([^"')]+)["']?\)\s*;/gu;
+  for (const match of text.matchAll(importRe)) {
+    const imported = path.posix.normalize(path.posix.join(path.posix.dirname(normalized), match[1]));
+    combined += readCssGraph(imported, seen);
+  }
+  return combined;
+}
+
 if (!fs.existsSync(manifestPath)) {
   console.error('PYTHAGORAS_WORKBOOK_INVALID\n- חסר meta/workbooks/pythagoras.json');
   process.exit(1);
@@ -39,6 +55,8 @@ function findNode(nodes, id) {
 const curriculumNode = findNode(meta.curriculum?.nodes, 'g7.geo.pythagoras');
 if (!curriculumNode) fail('הצומת g7.geo.pythagoras חסר בעץ תכנית הלימודים');
 
+/* חברות בחוברת אינה זהה לשיוך ראשי לנושא: מאחדים את כל דפי פיתגורס הידועים
+   מן הנושא השטוח ומצומת תכנית הלימודים, בלי למנוע מהם להופיע גם בחוברות אחרות. */
 const knownPythagorasPages = new Set([
   ...(flatTopic?.pages ?? []).map((page) => page.number),
   ...(curriculumNode?.pages ?? []),
@@ -65,8 +83,10 @@ for (const [index, number] of pages.entries()) {
   }
 
   const html = read(htmlFile);
-  const css = read(cssFile);
-  foundationFlags.push(css.includes('pythagoras-foundations.css'));
+  const cssGraph = readCssGraph(cssFile);
+  const usesFoundationLayer = cssGraph.includes('pythagoras-foundations.css');
+  const isCurriculumApplication = /class="[^"]*\bpyt-curriculum\b/u.test(html);
+  foundationFlags.push(usesFoundationLayer && !isCurriculumApplication);
 
   if (!/vendor\/fonts\/rubik\.css/u.test(html)) fail(`${htmlFile}: חסר גופן Rubik מקומי`);
   if (!/vendor\/mathjax\/tex-mml-chtml\.js/u.test(html)) fail(`${htmlFile}: חסר MathJax מקומי`);
@@ -76,11 +96,11 @@ for (const [index, number] of pages.entries()) {
   if (!/<html\s+[^>]*dir="rtl"/u.test(html)) fail(`${htmlFile}: חסר dir=rtl`);
   if (!/<main\s+class="[^"]*a4-page/u.test(html)) fail(`${htmlFile}: חסר main.a4-page`);
 
-  const hasPythagorasLayer = /pythagoras(?:-foundations)?\.css/u.test(css);
-  if (!hasPythagorasLayer) fail(`${cssFile}: אינו מחובר לשכבת פיתגורס המשותפת`);
+  if (!cssGraph.includes('pythagoras.css')) fail(`${cssFile}: שרשרת ה-CSS אינה מגיעה ל-styles/topics/pythagoras.css`);
 }
 
-/* כל דפי היסוד הם מקטע רציף ראשון בחוברת; אין דף יסוד שמופיע אחרי חומר מתקדם. */
+/* דפי היסוד האמיתיים הם מקטע רציף ראשון. דפי תוכנית הלימודים רשאים להשתמש
+   באותה שכבת CSS מאוחר יותר בלי להפוך שוב ל"יסודות". */
 let sawNonFoundation = false;
 for (let i = 0; i < foundationFlags.length; i += 1) {
   if (!foundationFlags[i]) sawNonFoundation = true;
@@ -98,7 +118,7 @@ for (const required of [
 }
 
 const reader = fs.existsSync(path.join(root, 'pythagoras-workbook.js')) ? read('pythagoras-workbook.js') : '';
-for (const signal of ['DOMParser', 'namespaceSvgIds', 'ResizeObserver', 'MathJax.typesetPromise', 'data-workbook-page']) {
+for (const signal of ['DOMParser', 'namespaceSvgIds', 'ResizeObserver', 'MathJax.typesetPromise', 'dataset.workbookPage']) {
   if (!reader.includes(signal)) fail(`קורא החוברת חסר מנגנון: ${signal}`);
 }
 
