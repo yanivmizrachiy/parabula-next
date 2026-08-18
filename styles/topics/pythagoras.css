@@ -27,6 +27,17 @@
   width: 100%;
 }
 
+/* SVG מתמטי ותיק: מספרים/אורכי צלעות בגופן TeX, משתנים ונקודות באיטליק מתמטי. */
+.pythagoras.a4-page :is(.pyt-tri-svg, .pyt-fig-svg) text {
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+.pythagoras.a4-page :is(.pyt-tri-x, .pyt-var, .pyt-point) {
+  font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
 /* תיבת התשובה הקנונית של פיתגורס — סגנון 5. */
 :is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box {
   height: 30px;
