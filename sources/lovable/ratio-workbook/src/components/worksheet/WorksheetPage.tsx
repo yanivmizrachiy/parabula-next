@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { WORKSHEET_PAGES } from '@/data/worksheetPages';
+import { PageNumberScope } from '@/components/worksheet/pages/PageLayout';
 
 interface WorksheetPageProps {
   pageNumber: number;
@@ -14,13 +15,15 @@ export function WorksheetPage({
   pageNumber,
   className,
 }: WorksheetPageProps) {
-  const pageData = WORKSHEET_PAGES.find(p => p.id === pageNumber);
-  
+  const pageData = WORKSHEET_PAGES.find((page) => page.id === pageNumber);
+
   if (!pageData) return null;
 
   return (
     <div className={cn(className)}>
-      {pageData.component()}
+      <PageNumberScope pageNumber={pageData.id}>
+        {pageData.component()}
+      </PageNumberScope>
     </div>
   );
 }
