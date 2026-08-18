@@ -19,7 +19,7 @@ function cleanTopicTitle(chapter: string, topic: string): string {
 export function PageLayout({ pageNumber, chapter, children, className, topic = 'יחס' }: PageLayoutProps) {
   const pageTopicTitle = cleanTopicTitle(chapter, topic);
   return (
-    <div className={cn('worksheet-page relative bg-white', className)} dir="rtl">
+    <div className={cn('worksheet-page relative bg-white', `ratio-page-${pageNumber}`, className)} dir="rtl">
       <header className="header-container page-header">
         <span className="page-header-title page-title">{pageTopicTitle}</span>
         <div className="page-number">{pageNumber}</div>
