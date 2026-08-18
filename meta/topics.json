@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-08-17T23:29:54.547Z",
   "siteUrl": "https://yanivmizrachiy.github.io/razpages/",
-  "totalPages": 636,
+  "totalPages": 639,
   "topics": [
     {
       "name": "גיאומטריה",
@@ -603,7 +603,7 @@
     },
     {
       "name": "משפט פיתגורס",
-      "count": 44,
+      "count": 47,
       "pages": [
         {
           "number": 634,
@@ -1043,6 +1043,36 @@
           "topic": "משפט פיתגורס",
           "previewPath": "/עמוד-41.html",
           "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-41.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 655,
+          "file": "עמוד-655.html",
+          "title": "עמוד 45 — שאלות מתוך תוכנית הלימודים",
+          "h1": "שאלות מתוך תוכנית הלימודים",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-655.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-655.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 656,
+          "file": "עמוד-656.html",
+          "title": "עמוד 46 — שאלות מתוך תוכנית הלימודים",
+          "h1": "שאלות מתוך תוכנית הלימודים",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-656.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-656.html",
+          "curriculumId": "g7.geo.pythagoras"
+        },
+        {
+          "number": 657,
+          "file": "עמוד-657.html",
+          "title": "עמוד 47 — שאלות מתוך תוכנית הלימודים",
+          "h1": "שאלות מתוך תוכנית הלימודים",
+          "topic": "משפט פיתגורס",
+          "previewPath": "/עמוד-657.html",
+          "siteUrl": "https://yanivmizrachiy.github.io/razpages/עמוד-657.html",
           "curriculumId": "g7.geo.pythagoras"
         }
       ]
@@ -6500,7 +6530,7 @@
         "id": "g7",
         "name": "כיתה ז'",
         "directCount": 0,
-        "pageCount": 280,
+        "pageCount": 283,
         "children": [
           {
             "id": "g7.num",
@@ -6898,7 +6928,7 @@
             "id": "g7.geo",
             "name": "תחום גאומטרי",
             "directCount": 0,
-            "pageCount": 137,
+            "pageCount": 140,
             "children": [
               {
                 "id": "g7.geo.quads",
@@ -7078,8 +7108,8 @@
               {
                 "id": "g7.geo.pythagoras",
                 "name": "משפט פיתגורס",
-                "directCount": 50,
-                "pageCount": 50,
+                "directCount": 53,
+                "pageCount": 53,
                 "pages": [
                   9,
                   10,
@@ -7130,7 +7160,10 @@
                   651,
                   652,
                   653,
-                  654
+                  654,
+                  655,
+                  656,
+                  657
                 ]
               },
               {

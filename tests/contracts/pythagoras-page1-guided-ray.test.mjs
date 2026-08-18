@@ -13,5 +13,5 @@ test('עמוד 1: משימת הציור היא השלמת קרן מודרכת ו
   assert.match(page, /קרן נתונה מסובבת/u);
   assert.match(css, /\.guided-ray-svg/u);
   assert.match(css, /\.guide-ray/u);
-  assert.match(css, /height:\s*108px/u);
+  assert.match(css, /height:\s*100px/u);
 });

@@ -8,7 +8,8 @@ function section(html, className) {
   const start = html.indexOf(className);
   assert.ok(start >= 0, `חסר מקטע ${className}`);
   const from = html.lastIndexOf('<div', start);
-  const nextInstruction = html.indexOf('<div class="q-main', start);
+  const stops = [html.indexOf('<div class="q-main', start), html.indexOf('quick-practice-grid', start), html.indexOf('classification-card', start)].filter((i) => i >= 0);
+  const nextInstruction = stops.length ? Math.min(...stops) : -1;
   return html.slice(from, nextInstruction >= 0 ? nextInstruction : html.length);
 }
 
@@ -90,22 +91,31 @@ test('משולשי הבחירה בעמוד 2 מדויקים ואינם כולל�
   });
 });
 
-test('שתי הצלעות המודרכות בעמוד 2 מאונכות בדיוק', () => {
+test('עמוד 2: סימון הזווית הישרה חל על משולשי סעיף 1, ללא סט משולשים חדש (הוראת יניב)', () => {
   const html = read('עמוד-635.html');
-  assert.match(html, /M55 92 H192 M55 92 V34/u, 'משימה א: חסרות צלעות מאונכות קנוניות');
-  const a = [75, -43];
-  const b = [-43, -75];
-  assert.equal(a[0] * b[0] + a[1] * b[1], 0, 'משימה ב: הצלעות המסובבות חייבות להיות מאונכות בדיוק');
-  assert.match(html, /M82 92 L157 49 M82 92 L39 17/u, 'משימה ב: הקואורדינטות אינן הזוג המאונך המדויק');
+  assert.match(html, /סמנו רק את המשולשים ישרי־הזווית, ובכל משולש/u, 'ההוראה מאחדת זיהוי + סימון ריבוע');
+  assert.doesNotMatch(html, /mark-angle-grid/u, 'אין סט משולשים חדש לסימון — הסימון על אותם משולשים שזוהו');
+  assert.doesNotMatch(html, /שמצאתם, הוסיפו ריבוע/u, 'אין סעיף נפרד שמצייר משולשים חדשים');
+});
+
+test('שתי משימות ההשלמה בעמוד 2 שונות זו מזו', () => {
+  const html = read('עמוד-635.html');
+  assert.match(html, /M55 92 H190 M55 92 V30/u, 'משימה א: שני ניצבים שנפגשים בזווית הישרה');
+  assert.match(html, /M48 92 L190 26 M190 26 V92/u, 'משימה ב: יתר וניצב נתונים, הניצב השני חסר');
+  assert.match(html, /נפגשות בזווית הישרה/u);
+  assert.match(html, /היא נמצאת מול ה/u);
+  // הכיתובים הם משפטי השלמה עם מילת מפתח חסרה (הוראת יניב, 2026-08-18)
+  assert.equal((html.match(/guide-caption">[^<]*<span class="foundation-fill/gu)||[]).length,2,'שני כיתובי השלמה עם תיבת מענה');
 });
 
 test('קווי הגאומטריה בפיתגורס דקים ומתאימים להדפסה', () => {
   const shared = read('styles/topics/pythagoras-foundations.css');
-  assert.match(shared, /\.foundation-svg \.edge \{[^}]*stroke-width: 2\.1;/u);
-  assert.match(shared, /\.foundation-svg \.mark \{[^}]*stroke-width: 1\.6;/u);
+  assert.match(shared, /\.foundation-svg \.edge \{[^}]*stroke-width: 1\.6;/u);
+  assert.match(shared, /\.foundation-svg \.mark \{[^}]*stroke-width: 1\.15;/u);
+  assert.match(shared, /\.foundation-svg \.pt, \.pyt-foundation \.foundation-svg \.lbl \{[^}]*Georgia/u, 'תוויות מידה בכתב מתמטי סריפי');
   for (const file of ['styles/pages/עמוד-634.css', 'styles/pages/עמוד-635.css']) {
     const css = read(file);
     const widths = [...css.matchAll(/stroke-width:\s*([\d.]+)/gu)].map((m) => Number(m[1]));
-    assert.ok(widths.every((w) => w <= 2.2), `${file}: נמצא קו עבה מדי (${Math.max(0, ...widths)}px)`);
+    assert.ok(widths.every((w) => w <= 1.7), `${file}: נמצא קו עבה מדי (${Math.max(0, ...widths)}px)`);
   }
 });

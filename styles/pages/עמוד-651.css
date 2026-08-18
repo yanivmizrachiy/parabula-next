@@ -1,5 +1,19 @@
 @import url("../topics/pythagoras-foundations.css");
 
+/* הרשת נמתחת למלא את גובה העמוד; אין שטח לבן מת (הוראת יניב). */
+.page-651 .equation-practice-grid {
+  flex: 1 1 auto;
+  grid-auto-rows: 1fr;
+  gap: 10px 12px;
+}
+
+.page-651 .equation-practice-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .page-651 .work-lines.short {
-  min-height: 82px;
+  min-height: 0;
+  flex: 1 1 auto;
+  margin-top: 6px;
 }

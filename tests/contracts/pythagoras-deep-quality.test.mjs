@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const ROOT=process.cwd();
 const FOUNDATION=[634,635,636,637,638,639,640,641,651,642,652,643,644,645,646,647,653,648,649,650];
-const TITLES=[...Array(5).fill('מושגים בסיסיים'),...Array(7).fill('חזקות ושורשים'),...Array(8).fill('משפט פיתגורס')];
+const TITLES=[...Array(5).fill('מושגים בסיסיים'),...Array(7).fill('חזקות ושורשים'),...Array(FOUNDATION.length-12).fill('משפט פיתגורס')];
 const read=(f)=>fs.readFileSync(path.join(ROOT,f),'utf8');
 const meta=JSON.parse(read('meta/topics.json'));
 const topic=meta.topics.find((t)=>t.name==='משפט פיתגורס');

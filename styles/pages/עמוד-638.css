@@ -1,18 +1,46 @@
 @import url("../topics/pythagoras-foundations.css");
 
 .page-638 .question-block {
-  justify-content: flex-start;
-  gap: 24px;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .page-638 .foundation-grid {
-  min-height: 620px;
+  min-height: 0;
 }
 
 .page-638 .foundation-card {
   min-height: 0;
+  padding: 6px 8px;
+  gap: 4px;
 }
 
 .page-638 .foundation-svg {
-  height: 185px;
+  height: 118px;
+}
+
+.page-638 .foundation-card p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.page-638 .statement-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  margin-top: 4px;
+}
+
+.page-638 .statement-grid .statement:last-child {
+  grid-column: 1 / -1;
+}
+
+.page-638 .length-rule-check .statement {
+  background: var(--bg-paper);
+  font-size: 15px;
+  padding: 7px 10px;
+}
+
+.page-638 .length-rule-check .reason-space {
+  min-height: 46px;
 }

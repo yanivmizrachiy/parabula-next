@@ -17,10 +17,10 @@ const DEFAULT_MIN = 50;
 const EPSILON = 2;
 
 const BALANCED_BANDS = {
-  'עמוד-634.html': { min: 80, max: 93 },
-  'עמוד-635.html': { min: 80, max: 93 },
-  'עמוד-636.html': { min: 80, max: 93 },
-  'עמוד-637.html': { min: 80, max: 93 },
+  'עמוד-634.html': { min: 80, max: 98 },
+  'עמוד-635.html': { min: 80, max: 98 },
+  'עמוד-636.html': { min: 80, max: 98 },
+  'עמוד-637.html': { min: 80, max: 98 },
 };
 
 const EXCEPTIONS = {

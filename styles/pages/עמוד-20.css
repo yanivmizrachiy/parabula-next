@@ -12,7 +12,7 @@
 .page-20 .pyt-screen {
 	fill: var(--bg-paper);
 	stroke: currentColor;
-	stroke-width: 2.5;
+	stroke-width: 1.6;
 	stroke-linejoin: round;
 	vector-effect: non-scaling-stroke;
 }
