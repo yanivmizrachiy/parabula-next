@@ -1,6 +1,6 @@
 import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep } from './PageLayout';
 
-const CH = 'פרק 1 – יחס';
+const CH = 'פרק 1 – יסודות היחס';
 
 function Circle({ filled = false }: { filled?: boolean }) {
   return (

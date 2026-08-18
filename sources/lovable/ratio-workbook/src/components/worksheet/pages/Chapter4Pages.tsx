@@ -1,6 +1,6 @@
 import { PageLayout, Question, SubQuestion, Blank, Frac, QSep, AnswerLine } from './PageLayout';
 
-const CH = 'פרק 4 – האם היחס נשמר ?';
+const CH = 'פרק 4 – שמירת יחס ושיעור ליחידה';
 
 // ── Page 15: All Ch4 questions on a single page ──
 export function Ch4Page1() {

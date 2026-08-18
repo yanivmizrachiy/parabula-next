@@ -26,9 +26,9 @@ const CHAPTERS = {
   division: '2 · חלוקה ביחס נתון',
   representation: '3 · כתיבה, צמצום והשוואה',
   preservation: '4 · שמירת יחס ושיעור ליחידה',
-  challenge: '5 · שאלות אתגר',
+  combined: '5 · יחס בגאומטריה ובכמויות',
   proportion: '6 · פרופורציה ויחס ישר',
-  exams: '7 · שאלות מבחנים',
+  data: '7 · יחס בנתונים, תרשימים וגאומטריה',
 } as const;
 
 export const WORKSHEET_PAGES: WorksheetPageData[] = [
@@ -64,7 +64,7 @@ export const WORKSHEET_PAGES: WorksheetPageData[] = [
   { id: 27, title: 'מתי היחס נשמר?', chapter: CHAPTERS.preservation, component: () => <RatioPage27 /> },
   { id: 28, title: 'שינוי יחס במתכון ובתערובת', chapter: CHAPTERS.preservation, component: () => <Ch4Page2 /> },
 
-  { id: 29, title: 'אתגר: אמצעי צלעות, עוגיות ושטחים', chapter: CHAPTERS.challenge, component: () => <RatioPage29 /> },
+  { id: 29, title: 'אמצעי צלעות, עוגיות ושטחים', chapter: CHAPTERS.combined, component: () => <RatioPage29 /> },
 
   { id: 30, title: 'בדיקת פרופורציה ופתרון משוואות', chapter: CHAPTERS.proportion, component: () => <Ch6Page1 /> },
   { id: 31, title: 'יישומי פרופורציה', chapter: CHAPTERS.proportion, component: () => <Ch6Page2 /> },
@@ -72,18 +72,18 @@ export const WORKSHEET_PAGES: WorksheetPageData[] = [
   { id: 33, title: 'פתרון חלוקה באמצעות משתנה', chapter: CHAPTERS.division, component: () => <Ch2Page10 /> },
   { id: 34, title: 'שיעור ליחידה ויחידות מידה', chapter: CHAPTERS.preservation, component: () => <Ch4Page3 /> },
   { id: 35, title: 'פרופורציות, משתנים ואומדן', chapter: CHAPTERS.proportion, component: () => <RatioPage35 /> },
-  { id: 36, title: 'יישומי יחס מסכמים', chapter: CHAPTERS.foundations, component: () => <Ch1Page9 /> },
-  { id: 37, title: 'חלוקה ביחס — תרגול מסכם', chapter: CHAPTERS.division, component: () => <Ch2Page11 /> },
+  { id: 36, title: 'יישומי יחס במצבים מגוונים', chapter: CHAPTERS.foundations, component: () => <Ch1Page9 /> },
+  { id: 37, title: 'חלוקה ביחס — בעיות ויישומים', chapter: CHAPTERS.division, component: () => <Ch2Page11 /> },
   { id: 38, title: 'פרופורציה בחיי היום־יום', chapter: CHAPTERS.proportion, component: () => <Ch6Page5 /> },
 
-  { id: 39, title: 'מיצ״ב תשע״ו — יחס ותרשים', chapter: CHAPTERS.exams, component: () => <Ch7Page1 /> },
-  { id: 40, title: 'מיצ״ב תשע״ו — היגדים', chapter: CHAPTERS.exams, component: () => <Ch7Page2 /> },
-  { id: 41, title: 'מיצ״ב תשע״ו — אוכלוסייה', chapter: CHAPTERS.exams, component: () => <Ch7Page3 /> },
-  { id: 42, title: 'מיצ״ב תשע״ה — יחס ודמיון', chapter: CHAPTERS.exams, component: () => <RatioPage42 /> },
-  { id: 43, title: 'מיצ״ב תשע״ד — מסילה ודמיון', chapter: CHAPTERS.exams, component: () => <Ch7Page5 /> },
-  { id: 44, title: 'מיצ״ב תשע״ג — יחס וגילים', chapter: CHAPTERS.exams, component: () => <Ch7Page6 /> },
-  { id: 45, title: 'מיצ״ב תשע״ג — דיאגרמה', chapter: CHAPTERS.exams, component: () => <Ch7Page7 /> },
-  { id: 46, title: 'מיצ״ב תשע״ב — מתכון', chapter: CHAPTERS.exams, component: () => <Ch7Page8 /> },
-  { id: 47, title: 'מיצ״ב תשע״א — אלגברה וטבלה', chapter: CHAPTERS.exams, component: () => <Ch7Page9 /> },
-  { id: 48, title: 'מיצ״ב — גאומטריה ויחסים', chapter: CHAPTERS.exams, component: () => <RatioPage48 /> },
+  { id: 39, title: 'מיצ״ב תשע״ו — יחס ותרשים', chapter: CHAPTERS.data, component: () => <Ch7Page1 /> },
+  { id: 40, title: 'מיצ״ב תשע״ו — היגדים', chapter: CHAPTERS.data, component: () => <Ch7Page2 /> },
+  { id: 41, title: 'מיצ״ב תשע״ו — אוכלוסייה', chapter: CHAPTERS.data, component: () => <Ch7Page3 /> },
+  { id: 42, title: 'מיצ״ב תשע״ה — יחס ודמיון', chapter: CHAPTERS.data, component: () => <RatioPage42 /> },
+  { id: 43, title: 'מיצ״ב תשע״ד — מסילה ודמיון', chapter: CHAPTERS.data, component: () => <Ch7Page5 /> },
+  { id: 44, title: 'מיצ״ב תשע״ג — יחס וגילים', chapter: CHAPTERS.data, component: () => <Ch7Page6 /> },
+  { id: 45, title: 'מיצ״ב תשע״ג — דיאגרמה', chapter: CHAPTERS.data, component: () => <Ch7Page7 /> },
+  { id: 46, title: 'מיצ״ב תשע״ב — מתכון', chapter: CHAPTERS.data, component: () => <Ch7Page8 /> },
+  { id: 47, title: 'מיצ״ב תשע״א — אלגברה וטבלה', chapter: CHAPTERS.data, component: () => <Ch7Page9 /> },
+  { id: 48, title: 'מיצ״ב — גאומטריה ויחסים', chapter: CHAPTERS.data, component: () => <RatioPage48 /> },
 ];
