@@ -82,10 +82,8 @@ for (let local = 0; local < pages.length; local += 1) {
       };
     });
 
-    // Legacy multi-part questions were the main blind spot: four calculation
-    // parts could share one generic work box. Count real calculation prompts
-    // and require one usable work area + one final response per part.
-    const calcRe = /(?:חשבו|מצאו|פתרו|הביעו|מהו אורך|מה היקף|מהו היקף|מהו שטח)/u;
+    // Exact task language only: do not let "הפתרון" match an embedded "פתרו".
+    const calcRe = /(?:חשבו|מצאו|הביעו|מהו אורך|מה היקף|מהו היקף|מהו שטח|כתבו\s+(?:שתי|2)?\s*משוואות)/u;
     const calcSubQuestions = [...document.querySelectorAll('.q-sub')]
       .filter((el) => calcRe.test((el.textContent || '').replace(/\s+/gu, ' ').trim()));
     const finalSelector = [
@@ -107,6 +105,10 @@ for (let local = 0; local < pages.length; local += 1) {
       if (card.querySelector('.full-solution-space') && !card.querySelector('.student-final-answer')) {
         cardIssues.push('כרטיס פיתגורס מלא עם דרך אך ללא תשובה סופית');
       }
+    }
+    for (const card of document.querySelectorAll('.pyt-calc-block')) {
+      if (!card.querySelector('.solution-space')) cardIssues.push('סעיף חישובי ללא אזור דרך');
+      if (!card.querySelector('.pyt-final-answer')) cardIssues.push('סעיף חישובי ללא תשובה סופית');
     }
 
     return {
