@@ -16,11 +16,16 @@ on:
       - 'styles/pages/עמוד-29[0-9].css'
       - 'styles/pages/עמוד-30[0-9].css'
       - 'styles/pages/עמוד-31[0-9].css'
+      - 'styles/pages/עמוד-63[7-9].css'
+      - 'styles/pages/עמוד-64[0-4].css'
       - 'עמוד-27[2-9].html'
       - 'עמוד-28[0-9].html'
       - 'עמוד-29[0-9].html'
       - 'עמוד-30[0-9].html'
       - 'עמוד-31[0-9].html'
+      - 'עמוד-63[7-9].html'
+      - 'עמוד-64[0-4].html'
+      - 'meta/topics.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   pull_request:
     paths:
@@ -34,11 +39,16 @@ on:
       - 'styles/pages/עמוד-29[0-9].css'
       - 'styles/pages/עמוד-30[0-9].css'
       - 'styles/pages/עמוד-31[0-9].css'
+      - 'styles/pages/עמוד-63[7-9].css'
+      - 'styles/pages/עמוד-64[0-4].css'
       - 'עמוד-27[2-9].html'
       - 'עמוד-28[0-9].html'
       - 'עמוד-29[0-9].html'
       - 'עמוד-30[0-9].html'
       - 'עמוד-31[0-9].html'
+      - 'עמוד-63[7-9].html'
+      - 'עמוד-64[0-4].html'
+      - 'meta/topics.json'
       - '.github/workflows/ratio-workbook-v2.yml'
   workflow_dispatch:
 
@@ -86,16 +96,16 @@ jobs:
       - name: Test ratio mathematics and structure
         run: npm run ratio:test
 
-      - name: Verify all 48 React pages support semantic SSR export
+      - name: Verify all 56 React pages support semantic SSR export
         run: npm run ratio:semantic:all:check
 
-      - name: Verify measurable content manifest for all 48 pages
+      - name: Verify measurable content manifest for all 56 pages
         run: npm run manifest:check --prefix sources/lovable/ratio-workbook
 
-      - name: Render and audit all 48 A4 pages
+      - name: Render and audit all 56 A4 pages
         run: npm run ratio:render
 
-      - name: Preflight 48 semantic canonical A4 pages without writing
+      - name: Preflight 56 semantic canonical A4 pages without writing
         run: node scripts/export-ratio-workbook-live.mjs
 
       - name: Verify safe import plan without writing
@@ -139,9 +149,12 @@ jobs:
             test-results/
           if-no-files-found: warn
 
+  # SAFETY GATE: canonical materialization stays disabled while the 56-page
+  # non-contiguous ratio mapping (new opening pages + preserved old pages) is
+  # being validated. Re-enable only together with the mapping regression test.
   materialize-verified-print-output:
     needs: verify-render-and-audit
-    if: github.event_name == 'pull_request' && github.head_ref == 'agent/ratio-safe-upgrade-20260818' && github.actor != 'github-actions[bot]'
+    if: ${{ false }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -175,7 +188,7 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 
-      - name: Render verified 48-page A4 snapshot set
+      - name: Render verified 56-page A4 snapshot set
         run: npm run ratio:render
 
       - name: Write verified semantic canonical ratio pages
@@ -191,10 +204,10 @@ jobs:
       - name: Stage only verified ratio print output
         shell: bash
         run: |
-          for n in $(seq 272 319); do
+          for n in $(seq 272 319) $(seq 637 644); do
             git add -- "עמוד-${n}.html" "styles/pages/עמוד-${n}.css"
           done
-          git add -- styles/topics/ratio-live.css assets/ratio/live assets/ratio/page-*.png
+          git add -- meta/topics.json styles/topics/ratio-live.css assets/ratio/live assets/ratio/page-*.png
           git rm -f --ignore-unmatch styles/pages/ratio-import.css
           git diff --cached --check
 
@@ -204,13 +217,13 @@ jobs:
           bad=0
           while IFS= read -r -d '' file; do
             case "$file" in
-              עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*|assets/ratio/page-[0-9][0-9][0-9].png) ;;
+              עמוד-27[2-9].html|עמוד-28[0-9].html|עמוד-29[0-9].html|עמוד-30[0-9].html|עמוד-31[0-9].html|עמוד-63[7-9].html|עמוד-64[0-4].html|styles/pages/עמוד-27[2-9].css|styles/pages/עמוד-28[0-9].css|styles/pages/עמוד-29[0-9].css|styles/pages/עמוד-30[0-9].css|styles/pages/עמוד-31[0-9].css|styles/pages/עמוד-63[7-9].css|styles/pages/עמוד-64[0-4].css|meta/topics.json|styles/topics/ratio-live.css|styles/pages/ratio-import.css|assets/ratio/live/*|assets/ratio/page-[0-9][0-9][0-9].png) ;;
               *) echo "FORBIDDEN staged file: $file"; bad=1 ;;
             esac
           done < <(git diff --cached --name-only -z)
           test "$bad" -eq 0
 
-      - name: Commit verified 48-page print output
+      - name: Commit verified 56-page print output
         shell: bash
         run: |
           if git diff --cached --quiet; then
@@ -219,5 +232,5 @@ jobs:
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'chore(יחס): materialize verified 48-page print output'
+          git commit -m 'chore(יחס): materialize verified 56-page print output'
           git push origin HEAD:agent/ratio-safe-upgrade-20260818
