@@ -21,6 +21,7 @@ test('math rendering policy stays global and canonical', () => {
   assert.match(pkg.scripts['pythagoras:check'], /validate:math-rendering/u);
 
   assert.match(globalValidator, /root-symbol\|root-radicand/u);
+  assert.match(globalValidator, /katex/iu);
   assert.doesNotMatch(globalValidator, /<img\\b/u);
 
   assert.doesNotMatch(pythagorasValidator, /validateMathAndDrawingStack/u);
