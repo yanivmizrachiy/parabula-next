@@ -1,0 +1,46 @@
+name: Math Rendering Quality
+
+on:
+  pull_request:
+    paths:
+      - 'עמוד-*.html'
+      - 'workbooks/**/*.html'
+      - 'scripts/validate-math-rendering.mjs'
+      - 'tests/contracts/math-rendering-contract.test.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'CLAUDE.md'
+      - '.github/workflows/math-rendering-quality.yml'
+  push:
+    branches: ['main']
+    paths:
+      - 'עמוד-*.html'
+      - 'workbooks/**/*.html'
+      - 'scripts/validate-math-rendering.mjs'
+      - 'tests/contracts/math-rendering-contract.test.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'CLAUDE.md'
+      - '.github/workflows/math-rendering-quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+
+      - name: Validate project-wide math rendering contract
+        run: npm run validate:math-rendering
+
+      - name: Run math rendering regression contract
+        run: node --test tests/contracts/math-rendering-contract.test.mjs
