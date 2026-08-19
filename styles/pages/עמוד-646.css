@@ -1,13 +1,26 @@
 @import url("../topics/pythagoras-foundations.css");
 
-/* ארבעת כרטיסי הנוסחה נפרסים בנוחות; השטח משמש לכתיבה ולא לרווח מת. */
+.page-646 .question-block {
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+/* ארבעת כרטיסי הנוסחה נפרסים על הגובה הפנוי; השטח משמש ללמידה ולא לרווח מת. */
 .page-646 .foundation-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-auto-rows: minmax(0, 1fr);
   gap: 14px;
 }
 
 .page-646 .foundation-card {
   min-height: 214px;
   padding-block: 12px;
+}
+
+.page-646 .foundation-svg {
+  flex: 1 1 auto;
+  min-height: 135px;
 }
 
 .page-646 .foundation-fill-expression {
