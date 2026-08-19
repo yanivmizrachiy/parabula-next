@@ -1,7 +1,6 @@
 /*
- * תרגילי חזקות — כלל מבני אחיד:
- * הביטוי המתמטי תמיד למעלה, ומקום התשובה תמיד בשורה נפרדת מתחתיו.
- * אין להחזיר תיבת תשובה inline לצד תרגיל חזקה.
+ * תרגילי חזקות ושורשים — שכבת העריכה המשותפת.
+ * שינויי גופן, כרטיס, דוגמה ותיבת בסיס חסר נעשים כאן פעם אחת ולא בדפי HTML בודדים.
  */
 .pyt-foundation .stacked-answer-card {
   direction: ltr;
@@ -10,22 +9,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   text-align: center;
 }
 
 .pyt-foundation .stacked-answer-card .exercise-expression {
-  min-height: 32px;
+  min-height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.25;
   font-weight: 500;
 }
 
 .pyt-foundation .stacked-answer-card .exercise-answer {
-  min-height: 34px;
+  min-height: 30px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -37,24 +36,31 @@
   margin: 0 auto;
 }
 
+/* הסבר פתיחה קומפקטי בדפי חזקות/שורשים בלבד. */
+.pyt-foundation:has(.power-example-stack) .foundation-note {
+  padding: 9px 13px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
 .pyt-foundation .power-example-stack {
   direction: ltr;
   unicode-bidi: isolate;
-  width: min(300px, 100%);
-  margin: 2px auto 0;
-  padding: 10px 14px;
+  width: min(260px, 100%);
+  margin: 1px auto 0;
+  padding: 7px 11px;
   border: 1px solid var(--border-light);
   border-radius: 9px;
   background: var(--bg-paper);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 
 .pyt-foundation .power-example-stack .exercise-expression {
-  font-size: 22px;
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 1.25;
 }
 
 .pyt-foundation .power-example-stack .exercise-answer {
@@ -63,9 +69,53 @@
   justify-content: center;
 }
 
+/* בסיס חסר: אין סימן שאלה ואין תיבת תשובה כפולה מתחת לתרגיל.
+ * התלמיד משלים את המספר ישירות בריבוע שלפני החזקה. */
+.pyt-foundation .missing-base-card {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 76px;
+  padding: 8px 7px;
+}
+
+.pyt-foundation .missing-base-expression {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 30px;
+  white-space: nowrap;
+}
+
+.pyt-foundation .missing-base-slot {
+  width: 34px;
+  height: 30px;
+  flex: 0 0 34px;
+}
+
+.pyt-foundation .missing-base-power {
+  font-size: 12px;
+  line-height: 1;
+  margin-inline-start: -4px;
+  transform: translateY(-1px);
+}
+
+.pyt-foundation .missing-base-equals,
+.pyt-foundation .missing-base-target {
+  line-height: 30px;
+}
+
 @media print {
   .pyt-foundation .stacked-answer-card,
-  .pyt-foundation .power-example-stack {
+  .pyt-foundation .power-example-stack,
+  .pyt-foundation .missing-base-card {
     break-inside: avoid;
   }
 }
