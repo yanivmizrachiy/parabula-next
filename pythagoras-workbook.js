@@ -145,6 +145,11 @@ function installToolbarOffset() {
   }
 }
 
+function unlockWorkbookActions() {
+  jumpInput.disabled = false;
+  printButton.disabled = failedPages > 0;
+}
+
 async function loadSourcePage(pageMeta, total, wrapper) {
   const sourceNumber = pageMeta.sourceNumber;
   const localNumber = pageMeta.workbookNumber;
@@ -303,6 +308,7 @@ async function boot() {
 
   await runPool(tasks, 6);
   await typesetMath();
+  unlockWorkbookActions();
   installToolbarOffset();
   installNavigation();
   installResponsiveScaling();
