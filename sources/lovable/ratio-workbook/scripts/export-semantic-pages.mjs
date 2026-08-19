@@ -14,10 +14,6 @@ const exportAll = process.argv.includes('--all');
 const requestedPageArg = process.argv.find((arg) => arg.startsWith('--page='));
 const requestedPage = requestedPageArg ? Number(requestedPageArg.split('=')[1]) : 1;
 
-if (!Number.isInteger(requestedPage) || requestedPage < 1 || requestedPage > 48) {
-  throw new Error(`Invalid --page value: ${requestedPage}. Expected an integer from 1 to 48.`);
-}
-
 function ensureTrailingNewline(value) {
   return value.endsWith('\n') ? value : `${value}\n`;
 }
@@ -36,10 +32,10 @@ function pageShell({ globalPage, localPage, totalPages, title, markup }) {
   <link rel="stylesheet" href="ratio-layout-fixes.css">
 </head>
 <body>
-  <nav class="preview-nav" aria-label="פיילוט סמנטי של חוברת יחס">
+  <nav class="preview-nav" aria-label="תצוגה סמנטית של חוברת יחס">
     <div class="preview-nav-top">
       <div class="nav-side"><a class="nav-link" href="../../עמוד-${globalPage}.html">חזרה לדף הקיים</a></div>
-      <div class="nav-meta">יחס — פיילוט סמנטי — עמוד ${localPage} / ${totalPages}</div>
+      <div class="nav-meta">יחס — תצוגה סמנטית — עמוד ${localPage} / ${totalPages}</div>
       <div class="nav-side"></div>
     </div>
   </nav>
@@ -64,26 +60,40 @@ const server = await createServer({
 try {
   const module = await server.ssrLoadModule('/src/data/worksheetPages.tsx');
   const pages = module.WORKSHEET_PAGES;
-  if (!Array.isArray(pages) || pages.length !== 48) {
-    throw new Error(`Expected 48 ratio source pages, found ${Array.isArray(pages) ? pages.length : 'invalid source'}.`);
+
+  if (!Array.isArray(pages) || pages.length === 0) {
+    throw new Error('WORKSHEET_PAGES must be a non-empty array.');
+  }
+  if (!Number.isInteger(requestedPage) || requestedPage < 1 || requestedPage > pages.length) {
+    throw new Error(`Invalid --page value: ${requestedPage}. Expected an integer from 1 to ${pages.length}.`);
+  }
+  if (pages.some((page) => page.credit === 'authors')) {
+    throw new Error('Teacher intro pages are forbidden in the student semantic export.');
   }
 
   const selected = exportAll ? pages : pages.filter((page) => page.id === requestedPage);
   const outputs = [];
+
   for (const page of selected) {
+    // Legacy razpages mapping is retained only for the optional semantic preview links.
+    // It is not the public standalone workbook numbering.
     const globalPage = 271 + page.id;
     const markup = renderToStaticMarkup(React.createElement(React.Fragment, null, page.component()));
     if (!markup.includes('worksheet-page')) {
-      throw new Error(`Semantic render for ratio page ${page.id} is missing worksheet-page markup.`);
+      throw new Error(`Semantic render for ratio page ${page.id} (${page.key}) is missing worksheet-page markup.`);
+    }
+    if (markup.includes('teacher-intro-page') || markup.includes('יחס · למורה')) {
+      throw new Error(`Teacher-only markup leaked into student page ${page.id} (${page.key}).`);
     }
     if (/<img[^>]+assets\/ratio\/page-\d{3}\.png/i.test(markup)) {
       throw new Error(`Semantic render for ratio page ${page.id} still contains a full-page PNG dependency.`);
     }
+
     const html = pageShell({
       globalPage,
       localPage: page.id,
       totalPages: pages.length,
-      title: `עמוד ${page.id} — יחס — פיילוט סמנטי`,
+      title: `עמוד ${page.id} — יחס — תצוגה סמנטית`,
       markup: markup.split('\n').map((line) => `    ${line}`).join('\n'),
     });
     outputs.push({
@@ -106,7 +116,15 @@ try {
   const manifest = {
     generatedAt: new Date().toISOString(),
     mode: exportAll ? 'all' : 'pilot',
-    pages: selected.map((page) => ({ localPage: page.id, globalPage: 271 + page.id, title: page.title })),
+    audience: 'student',
+    pageCount: pages.length,
+    teacherPages: 0,
+    pages: selected.map((page) => ({
+      localPage: page.id,
+      key: page.key,
+      globalPage: 271 + page.id,
+      title: page.title,
+    })),
     source: 'sources/lovable/ratio-workbook/src/data/worksheetPages.tsx',
     canonicalPagesChanged: false,
   };
@@ -116,7 +134,12 @@ try {
   });
 
   if (!writeMode) {
-    console.log(JSON.stringify({ status: 'check-only', outputRoot, files: outputs.map((item) => path.relative(repoRoot, item.path)) }, null, 2));
+    console.log(JSON.stringify({
+      status: 'check-only',
+      pageCount: pages.length,
+      outputRoot,
+      files: outputs.map((item) => path.relative(repoRoot, item.path)),
+    }, null, 2));
     console.log('No files were written. Re-run with --write after the check succeeds.');
     process.exit(0);
   }
@@ -125,7 +148,12 @@ try {
   for (const output of outputs) {
     fs.writeFileSync(output.path, output.content, 'utf8');
   }
-  console.log(JSON.stringify({ status: 'written', outputRoot, files: outputs.map((item) => path.relative(repoRoot, item.path)) }, null, 2));
+  console.log(JSON.stringify({
+    status: 'written',
+    pageCount: pages.length,
+    outputRoot,
+    files: outputs.map((item) => path.relative(repoRoot, item.path)),
+  }, null, 2));
 } finally {
   await server.close();
 }
