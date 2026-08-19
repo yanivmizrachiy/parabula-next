@@ -71,7 +71,7 @@ test('עמוד 639 משנה משתנים בלבד עבור גריד/כרטיס/�
   assert.match(html, /\\\(30\^2\\\)/u);
 });
 
-test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח במשפטי השלמה', () => {
+test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח במשפטי השלמה בלי לחרוג מה-A4', () => {
   const html = read('עמוד-640.html');
   const css = read('styles/pages/עמוד-640.css');
   const missingCards = html.split('<div class="math-card missing-base-card">').slice(1);
@@ -79,7 +79,7 @@ test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח ב
   assert.doesNotMatch(html, /\?\s*\^?\s*2|\?\^2/u, 'עמוד 640: אסור סימן שאלה במקום המספר החסר');
   assert.equal((html.match(/class="foundation-fill missing-base-slot"/gu) || []).length, 12, 'עמוד 640: לכל תרגיל תיבת השלמה אחת');
   assert.equal((html.match(/class="missing-base-equals">=<\/span>/gu) || []).length, 12, 'עמוד 640: סימן שווה חייב להופיע אחרי החזקה');
-  assert.equal((html.match(/class="power-sentence-card"/gu) || []).length, 8, 'עמוד 640: נדרשים שמונה משפטי השלמה נוספים');
+  assert.equal((html.match(/class="power-sentence-card"/gu) || []).length, 4, 'עמוד 640: נדרשים ארבעה משפטי השלמה קומפקטיים');
   assert.match(html, /הריבוע של המספר \\\(7\\\) הוא/u);
   assert.match(html, /הוא \\\(100\\\)/u);
   assert.doesNotMatch(html, /power-scratch-space/u, 'עמוד 640: אין להשאיר רשת גדולה במקום תרגול שימושי');
