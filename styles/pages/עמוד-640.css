@@ -25,8 +25,10 @@
   grid-auto-rows: 1fr;
 }
 
+/* כל גובה שנותר בדף הופך לשטח חישוב שימושי — לא לרווח לבן. */
 .page-640 .power-scratch-space {
-  min-height: 86px;
+  flex: 1 1 110px;
+  min-height: 110px;
   margin-top: 1px;
 }
 
