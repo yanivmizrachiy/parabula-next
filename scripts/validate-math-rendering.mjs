@@ -11,11 +11,22 @@ const pages = fs
 
 const fail = (file, message) => errors.push(`${file}: ${message}`);
 
+function getVisibleNonMathText(html) {
+  return html
+    .replace(/<script\b[\s\S]*?<\/script>/giu, ' ')
+    .replace(/<style\b[\s\S]*?<\/style>/giu, ' ')
+    .replace(/<svg\b[\s\S]*?<\/svg>/giu, ' ')
+    .replace(/\\\([\s\S]*?\\\)/gu, ' ')
+    .replace(/\$\$[\s\S]*?\$\$/gu, ' ')
+    .replace(/<[^>]+>/gu, ' ');
+}
+
 for (const file of pages) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   const hasMathJaxConfig = /\bMathJax\b/u.test(html);
   const hasTexMarkup = /\\\(|\$\$/u.test(html);
   const usesMath = hasMathJaxConfig || hasTexMarkup;
+  const visibleNonMathText = getVisibleNonMathText(html);
 
   if (/<canvas\b/iu.test(html)) {
     fail(file, 'Canvas אסור בדף A4 קנוני; שרטוט מתמטי חדש חייב להיות וקטורי וניתן להדפסה');
@@ -31,6 +42,10 @@ for (const file of pages) {
 
   if (/class=["'][^"']*\b(?:root-symbol|root-radicand)\b[^"']*["']/iu.test(html)) {
     fail(file, 'אסור לבנות סימן שורש ידנית מתווים/CSS; יש להשתמש ב-TeX/MathJax');
+  }
+
+  if (/√/u.test(visibleNonMathText)) {
+    fail(file, 'סימן שורש גלוי אסור כ-Unicode; יש לכתוב את הביטוי ב-TeX/MathJax');
   }
 
   for (const match of html.matchAll(/<[^>]+class=["'][^"']*\bmissing-root-expression\b[^"']*["'][^>]*>([\s\S]*?)<\/[^>]+>/giu)) {
