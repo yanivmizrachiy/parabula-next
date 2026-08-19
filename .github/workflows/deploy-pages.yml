@@ -108,6 +108,10 @@ jobs:
           npm run curriculum:check
           npm run validate:curriculum
 
+      - name: Project-wide math rendering contract
+        if: needs.scope.outputs.maintenance_only != 'true'
+        run: npm run validate:math-rendering
+
       - name: Canonical Pythagoras workbook
         if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run validate:pythagoras
@@ -271,8 +275,7 @@ jobs:
       - name: Validate static Pythagoras contracts
         if: needs.scope.outputs.pythagoras == 'true'
         run: |
-          npm run validate:pythagoras
-          node --test tests/contracts/pythagoras-*.test.mjs
+          npm run pythagoras:check
           node scripts/pythagoras-solution-capacity-audit.mjs --strict
 
       - name: Install Chromium
