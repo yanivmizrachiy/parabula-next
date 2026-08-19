@@ -54,11 +54,10 @@ jobs:
         run: npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
 
       - name: Install browser verification dependency locally
-        run: npm install --prefix sources/lovable/ratio-workbook --no-save --legacy-peer-deps playwright@1.61.1
+        run: npm install --no-save --prefix sources/lovable/ratio-workbook playwright@1.61.1
 
       - name: Install Chromium
-        working-directory: sources/lovable/ratio-workbook
-        run: npx playwright install --with-deps chromium
+        run: npx --prefix sources/lovable/ratio-workbook playwright install --with-deps chromium
 
       - name: Run TypeScript, structure and semantic guards
         run: npm run quality:check --prefix sources/lovable/ratio-workbook
@@ -109,3 +108,27 @@ jobs:
             sources/lovable/ratio-workbook/content-manifest.json
           if-no-files-found: error
           retention-days: 30
+
+      - name: Upload one-time verified source migration bundle
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ratio-source-migration-${{ github.run_number }}
+          path: |
+            sources/lovable/ratio-workbook/src
+            sources/lovable/ratio-workbook/scripts/_build-full-workbook.mjs
+            sources/lovable/ratio-workbook/scripts/generate-content-manifest.mjs
+            sources/lovable/ratio-workbook/scripts/verify-full-workbook.mjs
+            sources/lovable/ratio-workbook/package.json
+            sources/lovable/ratio-workbook/package-lock.json
+            sources/lovable/ratio-workbook/postcss.config.js
+            sources/lovable/ratio-workbook/tailwind.config.ts
+            sources/lovable/ratio-workbook/tsconfig.app.json
+            sources/lovable/ratio-workbook/tsconfig.json
+            sources/lovable/ratio-workbook/tsconfig.node.json
+            sources/lovable/ratio-workbook/vite.config.ts
+            sources/lovable/ratio-workbook/vitest.config.ts
+            sources/lovable/ratio-workbook/index.html
+            vendor/fonts
+          if-no-files-found: error
+          retention-days: 7
