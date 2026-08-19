@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
 const topicsPath = path.join(root, 'meta', 'topics.json');
@@ -12,6 +13,31 @@ const ok = (message) => console.log(`[OK] ${message}`);
 
 console.log('=== parabula-next health report ===');
 console.log(`Root: ${root}`);
+
+/*
+ * Repository hygiene guard: a file that is both tracked and ignored is almost
+ * always residue that slipped in before the ignore rule existed.  Let Git be
+ * the source of truth so every future .gitignore rule is enforced here too.
+ */
+if (fs.existsSync(path.join(root, '.git'))) {
+  try {
+    const trackedIgnored = execFileSync(
+      'git',
+      ['ls-files', '-ci', '--exclude-standard'],
+      { cwd: root, encoding: 'utf8' },
+    )
+      .split(/\r?\n/u)
+      .map((file) => file.trim())
+      .filter(Boolean);
+
+    if (trackedIgnored.length === 0) ok('no tracked files violate .gitignore');
+    else fail(`tracked junk ignored by .gitignore: ${trackedIgnored.join(', ')}`);
+  } catch (error) {
+    fail(`could not inspect tracked/ignored files: ${error.message}`);
+  }
+} else {
+  console.log('[SKIP] tracked-junk guard requires a Git checkout');
+}
 
 if (!fs.existsSync(topicsPath)) {
   fail('meta/topics.json is missing');
