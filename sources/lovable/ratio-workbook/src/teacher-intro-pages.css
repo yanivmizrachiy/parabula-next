@@ -52,13 +52,14 @@
 .teacher-numbered { margin: 4px 20px 4px 0; }
 .teacher-numbered li { margin: 4px 0; }
 
-.teacher-ratio-table-wrap { display: grid; grid-template-columns: 105px 1fr; border: 1px solid #111827; margin: 7px 0; }
-.teacher-row-label { display: flex; align-items: center; justify-content: center; padding: 5px; border-left: 1px solid #111827; font-weight: 700; text-align: center; }
-.teacher-row-label--green { color: #65a30d; }
-.teacher-row-label--blue { color: #2563eb; }
+.teacher-ratio-table-wrap { display: grid; grid-template-columns: 120px 1fr; border: 1.6px solid #1f2a44; border-radius: 10px; overflow: hidden; margin: 10px 0; box-shadow: 0 2px 9px rgba(31, 42, 68, 0.12); background: #fff; }
+.teacher-row-label { display: flex; align-items: center; justify-content: center; padding: 6px 8px; border-left: 1.5px solid #1f2a44; font-weight: 800; text-align: center; background: #f5f8fd; }
+.teacher-row-label--green { color: #15803d; }
+.teacher-row-label--blue { color: #1d4ed8; }
 .teacher-number-row { direction: ltr; display: grid; grid-template-columns: repeat(9, 1fr); }
-.teacher-number-row + .teacher-row-label, .teacher-number-row:nth-of-type(2) { border-top: 1px solid #111827; }
-.teacher-number-row span { padding: 7px 3px; text-align: center; border-left: 1px solid #111827; font-weight: 700; }
+.teacher-number-row + .teacher-row-label, .teacher-number-row:nth-of-type(2) { border-top: 1.5px solid #1f2a44; }
+.teacher-number-row span { padding: 9px 3px; text-align: center; border-left: 1px solid #ccd6e8; font-weight: 700; }
+.teacher-number-row span:first-child { border-left: none; }
 
 .red-text { color: #dc2626; }
 .blue-text { color: #0ea5e9; }

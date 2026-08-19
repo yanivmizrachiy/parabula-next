@@ -147,7 +147,7 @@ export function TeacherIntroPage02() {
       <TeacherQuestion number={4}>
         <p>לפניכם מדבקות כחולות וירוקות:</p>
         <div className="teacher-two-color-dots"><Dot color="blue" /><Dot color="green" /><Dot color="blue" /></div>
-        <p>א) מה היחס בין מספר המדבקות הירוקות לכחולות? <Answer>1 : 2</Answer></p>
+        <p>א) מה היחס בין מספר המדבקות הירוקות לכחולות? <span className="teacher-answer" dir="ltr"><span style={{ color: '#15803d' }}>1</span> : <span style={{ color: '#1d4ed8' }}>2</span></span></p>
         <p>ב) אם יש לי 3 מדבקות ירוקות כמה מדבקות כחולות תהיינה לי? <Answer>6</Answer></p>
         <p>ג) השלימו את הטבלה:</p>
         <div className="teacher-ratio-table-wrap">
