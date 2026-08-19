@@ -1,15 +1,34 @@
 @import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-power-practice.css");
 
-/* 12 שורשים ב-4 שורות רחבות: אזור מענה נוח יותר ופחות שטח מת ב-A4. */
+.page-641 .question-block {
+  gap: 14px;
+}
+
+.page-641 .foundation-note {
+  display: grid;
+  gap: 10px;
+}
+
+/* 12 שורשים ב-4 שורות רחבות; התשובה תמיד בשורה נפרדת מתחת לביטוי. */
 .page-641 .power-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.page-641 .math-card {
-  min-height: 78px;
-  padding: 14px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.page-641 .power-grid .stacked-answer-card {
+  min-height: 102px;
+  padding: 12px 10px;
+}
+
+.page-641 .question-block > .stacked-answer-card {
+  min-height: 90px;
+  padding: 12px 14px;
+}
+
+@media print {
+  .page-641 .power-grid,
+  .page-641 .question-block > .stacked-answer-card {
+    break-inside: avoid;
+  }
 }

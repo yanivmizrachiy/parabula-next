@@ -108,11 +108,14 @@ jobs:
           git diff -- meta/equations-master-map.json > meta/audit/equations-ci/equations-master-map.diff
           cp meta/equations-master-map.json meta/audit/equations-ci/equations-master-map.generated.json
 
+      # Diagnostic upload must not turn a fully green validation suite red because
+      # GitHub artifact storage has a transient network/finalization failure.
       - name: Upload generated-state diagnostics
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: equations-generated-state
           path: meta/audit/equations-ci
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 3

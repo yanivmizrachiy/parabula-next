@@ -1,7 +1,26 @@
 @import url("../topics/pythagoras-foundations.css");
 
+.page-645 .question-block {
+  justify-content: flex-start;
+  gap: 14px;
+}
+
+/* התרשים ורשימת הסימון מתחלקים בגובה הפנוי במקום להשאיר רווחים ביניהם. */
+.page-645 .question-block > .foundation-card,
+.page-645 .statement-list {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.page-645 .question-block > .foundation-card .foundation-svg.hero-wide {
+  height: 100%;
+  min-height: 220px;
+  max-height: 300px;
+}
+
 /* רשימת המשפטים היא פעילות הסימון המרכזית; נותנים לכל שורה מרחב נוח לעיפרון. */
 .page-645 .statement-list {
+  grid-template-rows: repeat(5, minmax(58px, 1fr));
   gap: 12px;
 }
 
