@@ -82,3 +82,12 @@ test('פעולות החוברת נעולות עד סיום הטעינה והדפ
   assert.match(unlock, /printButton\.disabled = failedPages > 0;/u);
   assert.match(reader, /await typesetMath\(\);[\s\S]*unlockWorkbookActions\(\);[\s\S]*installNavigation\(\);/u);
 });
+
+test('הדפסת החוברת נשארת A4 נקייה עם עמוד אחד לכל דף', () => {
+  assert.match(workbookCss, /@media\s+print\s*\{/u);
+  assert.match(workbookCss, /@page\s*\{\s*size:\s*A4;\s*margin:\s*0;/u);
+  assert.match(workbookCss, /\.workbook-toolbar\s*\{\s*display:\s*none\s*!important;/u);
+  assert.match(workbookCss, /\.workbook-page-wrap\s*\{[^}]*width:\s*210mm;[^}]*height:\s*297mm;[^}]*break-after:\s*page;[^}]*page-break-after:\s*always;/u);
+  assert.match(workbookCss, /\.workbook-page-wrap:last-child\s*\{[^}]*break-after:\s*auto;[^}]*page-break-after:\s*auto;/u);
+  assert.match(workbookCss, /\.workbook-page-wrap\s*>\s*\.a4-page\s*\{\s*box-shadow:\s*none\s*!important;/u);
+});
