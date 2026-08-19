@@ -158,7 +158,7 @@ export function RatioPage19() {
     <PageLayout pageNumber={19} chapter={CH}>
       <Question>
         <p>בשכבת ח׳ יש 130 תלמידים, ו־30 מהם מגיעים באופניים. מהו היחס המצומצם בין מספר הרוכבים למספר התלמידים בשכבה?</p>
-        <AnswerLine label="תשובה:" />
+        <AnswerLine />
       </Question>
 
       <QSep />

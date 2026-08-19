@@ -181,7 +181,7 @@ export function RatioPage48() {
         </SubQuestion>
         <SubQuestion label="ב1.">
           <p>מהו יחס הדמיון △ADF : △ABC?</p>
-          <RatioAnswer label="תשובה:" />
+          <RatioAnswer />
         </SubQuestion>
         <SubQuestion label="ב2.">
           <p>מהו שטח המלבן BDFE? הציגו דרך פתרון.</p>

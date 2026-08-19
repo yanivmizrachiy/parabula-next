@@ -109,7 +109,7 @@ export function Ch3Page2() {
       <Question>
         <p>בשכבת כיתה ח' יש 130 תלמידים. 30 תלמידים מביניהם מגיעים לבית הספר רכובים על אופניים.</p>
         <p>מה היחס בין מספר התלמידים המגיעים רכובים על אופניים למספר התלמידים בשכבה?</p>
-        <AnswerLine label="תשובה :" />
+        <AnswerLine />
       </Question>
 
       <QSep />
@@ -243,7 +243,7 @@ export function Ch3Page3() {
         <p>המרחקים AB=160 ס"מ, BC=240 ס"מ.</p>
         <SubQuestion label="א.">
           <p>מהו היחס בין AB ובין BC? <strong>כִּתבו יחס מצומצם.</strong></p>
-          <AnswerLine label="תשובה :" />
+          <AnswerLine />
         </SubQuestion>
         <SubQuestion label="ב.">
           <p>הֵזיזו את לולאה B ב- 60 ס"מ לכיוון A. מהו היחס בין AB ובין BC לאחר ההזזה?</p>

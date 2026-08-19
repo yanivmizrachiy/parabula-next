@@ -274,7 +274,7 @@ interface FinalAnswerProps {
   className?: string;
 }
 
-export function FinalAnswer({ label = 'תשובה:', type = 'line', unit, className }: FinalAnswerProps) {
+export function FinalAnswer({ label = '', type = 'line', unit, className }: FinalAnswerProps) {
   return (
     <div className={cn('final-answer', className)}>
       {label ? <span className="answer-label">{label}</span> : null}

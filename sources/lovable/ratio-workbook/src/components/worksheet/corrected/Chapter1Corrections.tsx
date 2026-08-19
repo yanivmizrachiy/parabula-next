@@ -108,7 +108,7 @@ export function RatioPage04() {
       <Question>
         <p>היחס בין מספר כוסות התרכיז למספר כוסות המים הוא 3 : 2. יש 12 כוסות מים.</p>
         <p>כמה כוסות תרכיז יש במיכל?</p>
-        <AnswerLine label="תשובה:" />
+        <AnswerLine />
       </Question>
 
       <QSep />

@@ -201,7 +201,7 @@ export function Ch4Page3() {
       <Question>
         <p>יהודית עבדה בספרייה <strong>20 שעות</strong> והשתכרה <strong>360 ש"ח</strong> . מרים הדריכה בקייטנה <strong>12 שעות</strong> והרוויחה <strong>216 ש"ח</strong> . האם השכר לשעת עבודה שווה?</p>
         <WorkArea lines={3} label="פתרון :" />
-        <FinalAnswer label="תשובה :" />
+        <FinalAnswer />
       </Question>
 
       <QSep />

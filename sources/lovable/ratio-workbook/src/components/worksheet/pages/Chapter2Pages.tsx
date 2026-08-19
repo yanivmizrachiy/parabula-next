@@ -21,7 +21,7 @@ export function Ch2Page1() {
       <Question>
         <p>ביממה יש 24 שעות. היחס בין מספר השעות שדניאל יָשֵׁנה ביממה למספר השעות שבהן היא ערה הוא 2 : 1 .</p>
         <p>כמה שעות דניאל יָשֵׁנה ביממה?</p>
-        <AnswerLine label="תשובה :" />
+        <AnswerLine />
       </Question>
 
       <QSep />
@@ -56,7 +56,7 @@ export function Ch2Page1() {
         <p>כמה תלמידים הצביעו בעד וכמה תלמידים הצביעו נגד?</p>
         <div className="calculation-response">
           <WorkArea lines={3} />
-          <p className="answer-sentence"><span className="answer-label">תשובה:</span> <Blank /> תלמידים הצביעו בעד ו־<Blank /> תלמידים הצביעו נגד.</p>
+          <p className="answer-sentence"><Blank /> תלמידים הצביעו בעד ו־<Blank /> תלמידים הצביעו נגד.</p>
         </div>
       </Question>
     </PageLayout>

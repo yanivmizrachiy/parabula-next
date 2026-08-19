@@ -115,8 +115,8 @@ export function CurriculumPage01() {
 
       <Question>
         <p>בשבט של הצופים יש 2 מדריכים לכל 10 חניכים.</p>
-        <SubQuestion label="א."><p>מהו היחס בין מספר המדריכים לבין מספר החניכים?</p><RatioAnswer label="תשובה:" /></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין מספר החניכים לבין מספר המדריכים?</p><RatioAnswer label="תשובה:" /></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר המדריכים לבין מספר החניכים?</p><RatioAnswer /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר החניכים לבין מספר המדריכים?</p><RatioAnswer /></SubQuestion>
         <SubQuestion label="ג."><p>בוחרים באקראי מישהו משבט הצופים. מה ההסתברות שנבחר חניך?</p><AnswerLine label="הסתברות:" /></SubQuestion>
       </Question>
     </PageLayout>
@@ -162,7 +162,7 @@ export function CurriculumPage03() {
 
       <Question>
         <p>שלושה חברים יצאו לטיול, ובאחת ההפסקות התכוונו לאכול. האחד הוציא מתרמילו 4 כריכים, השני 6 כריכים אך השלישי, התברר, שכח את הכריכים בבית. הוחלט כי 10 הכריכים יחולקו שווה בשווה. כשסיימו לאכול, הוציא החבר השלישי 25 ₪ כדי לכסות את חלקו בהוצאות הארוחה.</p>
-        <SubQuestion label="א."><p>מהו היחס בין כמויות הכריכים שהביאו שלושת החברים?</p><AnswerLine label="תשובה:" /></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין כמויות הכריכים שהביאו שלושת החברים?</p><AnswerLine /></SubQuestion>
         <SubQuestion label="ב."><p>סוכם, שכספו של החבר השלישי יחולק בין שני החברים האחרים באותו יחס כמו יחס בין מספר הכריכים שקיבל מכל אחד מהם. באיזה יחס יחלקו ביניהם שני החברים את הכסף, ומהו הסכום שיקבל כל אחד מהם?</p><CalculationResponse lines={3} /></SubQuestion>
       </Question>
     </PageLayout>
@@ -176,7 +176,7 @@ export function CurriculumPage04() {
       <Question>
         <p>ביום קיץ הגיעו לבית הספר יותר מ־65 תלמידים מכיתות ח. חלקם נעלו נעלי ספורט והיתר נעלו סנדלים. היחס בין מספר התלמידים שנעלו נעלי ספורט ובין מספר התלמידים שנעלו סנדלים היה 3 : 5.</p>
         <SubQuestion label="א."><p>הסבירו מדוע לא ייתכן שבאותו יום הגיעו לבית הספר 83 תלמידים מכיתות ח.</p><WorkArea lines={2} label="נימוק:" /></SubQuestion>
-        <SubQuestion label="ב."><p>כתבו אפשרות אחת למספר התלמידים מכיתות ח שהגיעו באותו יום לבית הספר.</p><AnswerLine label="תשובה:" /></SubQuestion>
+        <SubQuestion label="ב."><p>כתבו אפשרות אחת למספר התלמידים מכיתות ח שהגיעו באותו יום לבית הספר.</p><AnswerLine /></SubQuestion>
         <SubQuestion label="ג."><p>בהתייחס לאפשרות שרשמתם בסעיף הקודם, בוחרים תלמיד באופן אקראי. מהי ההסתברות שהתלמיד שנבחר נעל סנדלים? מהי ההסתברות שהתלמיד שנבחר נעל נעלי ספורט?</p><AnswerLine label="סנדלים:" /><AnswerLine label="נעלי ספורט:" /></SubQuestion>
       </Question>
 
@@ -203,7 +203,7 @@ export function CurriculumPage05() {
 
       <Question>
         <p>אורכי הניצבים במשולש ישר זווית הם 6 ס"מ ו־8 ס"מ.</p>
-        <SubQuestion label="א."><p>מהו היחס בין הניצבים?</p><RatioAnswer label="תשובה:" /></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין הניצבים?</p><RatioAnswer /></SubQuestion>
         <SubQuestion label="ב."><p>מאריכים כל ניצב ב־2 ס"מ. האם משתנה היחס בין אורכי הניצבים? אם לא — מדוע? אם כן, רשמו את היחס החדש.</p><WorkArea lines={2} label="נימוק:" /></SubQuestion>
       </Question>
 
@@ -223,9 +223,9 @@ export function CurriculumPage06() {
     <PageLayout pageNumber={62} chapter={CH} topic={TOPIC} className="curriculum-page">
       <Question>
         <p>נתון מלבן שאורכו 3a בס"מ ורוחבו 2a בס"מ.</p>
-        <SubQuestion label="א."><p>מה היחס בין רוחב המלבן לאורכו?</p><RatioAnswer label="תשובה:" /></SubQuestion>
-        <SubQuestion label="ב."><p>הביעו בעזרת a את שטח המלבן.</p><AnswerLine label="תשובה:" /></SubQuestion>
-        <SubQuestion label="ג."><p>הכפילו את רוחב המלבן פי 2, וכך נוצר מלבן חדש. מה היחס בין רוחב המלבן החדש לאורכו?</p><RatioAnswer label="תשובה:" /></SubQuestion>
+        <SubQuestion label="א."><p>מה היחס בין רוחב המלבן לאורכו?</p><RatioAnswer /></SubQuestion>
+        <SubQuestion label="ב."><p>הביעו בעזרת a את שטח המלבן.</p><AnswerLine /></SubQuestion>
+        <SubQuestion label="ג."><p>הכפילו את רוחב המלבן פי 2, וכך נוצר מלבן חדש. מה היחס בין רוחב המלבן החדש לאורכו?</p><RatioAnswer /></SubQuestion>
         <SubQuestion label="ד."><p>מה היחס בין שטח המלבן החדש לשטח המלבן המקורי?</p><CalculationResponse lines={2} answerType="ratio" /></SubQuestion>
       </Question>
 
@@ -262,7 +262,7 @@ export function CurriculumPage07() {
       <Question>
         <p>לפניכם שרטוט של מסילה ישרה לתליית תמונות. על המסילה תלויות שלוש לולאות המסומנות בנקודות A, B, C. המרחקים בין AB, BC ובין הלולאות נתונים בשרטוט.</p>
         <RailFigure />
-        <SubQuestion label="א."><p>מהו היחס בין אורך AB לבין אורך BC? כתבו את תשובתכם כיחס מצומצם.</p><RatioAnswer label="תשובה:" /></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין אורך AB לבין אורך BC? כתבו את תשובתכם כיחס מצומצם.</p><RatioAnswer /></SubQuestion>
         <SubQuestion label="ב.">
           <p>הזיזו את לולאה B ב־60 ס"מ על המסילה לכיוון לולאה A. מהו היחס בין אורך AB לבין אורך BC לאחר ההזזה?</p>
           <MultipleChoice
