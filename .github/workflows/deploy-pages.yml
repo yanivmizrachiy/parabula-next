@@ -148,6 +148,10 @@ jobs:
       - name: Build production artifact
         run: npm run build
 
+      - name: Stamp production artifact with commit identity
+        if: github.event_name != 'pull_request'
+        run: node scripts/write-build-info.mjs dist "$GITHUB_SHA"
+
       - name: Upload production build for deployment
         if: github.event_name != 'pull_request'
         uses: actions/upload-artifact@v4
@@ -335,3 +339,9 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify live deployment commit
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: node scripts/verify-live-build.mjs "$PAGE_URL" "$EXPECTED_SHA"
