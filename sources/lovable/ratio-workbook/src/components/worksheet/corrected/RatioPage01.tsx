@@ -79,9 +79,9 @@ export function RatioPage01() {
       <Question>
         <p>היחס בין מספר העיגולים השחורים למספר העיגולים הלבנים הוא 3 : 2.</p>
         <p>ציירו שתי אפשרויות שונות המתאימות לנתונים:</p>
+        <div className="drawing-box"><p className="drawing-label">אפשרות א׳:</p></div>
+        <div className="drawing-box"><p className="drawing-label">אפשרות ב׳:</p></div>
       </Question>
-      <div className="drawing-box"><p className="drawing-label">אפשרות א׳:</p></div>
-      <div className="drawing-box"><p className="drawing-label">אפשרות ב׳:</p></div>
       <p><strong>השלימו:</strong> על כל <Blank /> עיגולים שחורים צריך לצייר <Blank /> עיגולים לבנים.</p>
       <p>מספר העיגולים השחורים חייב להתחלק ב־<Blank />.</p>
       <p>מספר העיגולים הלבנים חייב להיות מספר שמתחלק ב־<Blank />.</p>

@@ -235,10 +235,12 @@
 }
 
 .drawing-box {
-  border: 1px dashed var(--ws-line-soft);
-  border-radius: 4px;
-  background: #fff;
-  box-shadow: none;
+  border: 1.4px solid #1f2a44;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fbfcff 0%, #ffffff 100%);
+  box-shadow: 0 1px 3px rgba(31, 42, 68, 0.1);
+  min-height: 58px;
+  padding: 8px 12px;
 }
 
 .drawing-box::before {
