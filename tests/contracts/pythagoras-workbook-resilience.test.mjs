@@ -52,3 +52,15 @@ test('הכרזות נגישות מוגבלות לסטטוס הטעינה ולא 
   assert.match(workbookHtml, /id="workbook-status"[^>]*role="status"[^>]*aria-live="polite"[^>]*aria-atomic="true"/u);
   assert.doesNotMatch(workbookHtml, /<main\s+id="workbook"[^>]*aria-live=/u);
 });
+
+test('שינוי מזהי DOM שומר את כל סוגי ההפניות הפנימיות בחוברת המאוחדת', () => {
+  const namespace = functionBody('namespaceSvgIds');
+  for (const attr of [
+    'aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'headers',
+    'for', 'form', 'list', 'aria-activedescendant', 'aria-details', 'aria-errormessage',
+  ]) {
+    assert.ok(namespace.includes(`'${attr}'`), `missing id reference attribute: ${attr}`);
+  }
+  assert.match(namespace, /idMap\.get\(id\) \?\? id/u);
+  assert.match(namespace, /idMap\.get\(value\) \?\? value/u);
+});
