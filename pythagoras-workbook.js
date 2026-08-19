@@ -67,6 +67,13 @@ function namespaceSvgIds(root, prefix) {
     'href', 'xlink:href', 'fill', 'stroke', 'filter', 'clip-path', 'mask',
     'marker-start', 'marker-mid', 'marker-end',
   ];
+  const tokenRefAttrs = [
+    'aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'headers',
+  ];
+  const singleRefAttrs = [
+    'for', 'form', 'list', 'aria-activedescendant', 'aria-details', 'aria-errormessage',
+  ];
+
   for (const el of root.querySelectorAll('*')) {
     for (const attr of urlRefAttrs) {
       if (!el.hasAttribute(attr)) continue;
@@ -74,13 +81,18 @@ function namespaceSvgIds(root, prefix) {
       for (const [oldId, newId] of idMap) value = value.replaceAll(`#${oldId}`, `#${newId}`);
       el.setAttribute(attr, value);
     }
-    for (const attr of ['aria-labelledby', 'aria-describedby']) {
+    for (const attr of tokenRefAttrs) {
       if (!el.hasAttribute(attr)) continue;
       const value = el.getAttribute(attr)
         .split(/\s+/u)
         .map((id) => idMap.get(id) ?? id)
         .join(' ');
       el.setAttribute(attr, value);
+    }
+    for (const attr of singleRefAttrs) {
+      if (!el.hasAttribute(attr)) continue;
+      const value = el.getAttribute(attr);
+      el.setAttribute(attr, idMap.get(value) ?? value);
     }
   }
 }
