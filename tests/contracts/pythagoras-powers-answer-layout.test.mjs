@@ -102,7 +102,7 @@ test('עמוד 642 שומר הסבר קירוב קצר ומרחב חישוב ק�
   const html = read('עמוד-642.html');
   const css = read('styles/pages/עמוד-642.css');
   assert.match(html, /class="foundation-note compact-approx-note"/u);
-  assert.match(html, /4\^2=16<20<25=5\^2/u);
+  assert.match(html, /4\^2=16\\lt20\\lt25=5\^2/u);
   assert.match(html, /class="work-lines compact-work-lines" data-required-lines="2"/u);
   assert.match(css, /\.compact-approx-note\s*\{[^}]*font-size:\s*15px/us);
   assert.match(css, /\.compact-work-lines\s*\{[^}]*min-height:\s*56px/us);
