@@ -200,7 +200,9 @@ function syncUrlPage(localNumber) {
 
 function setActivePage(localNumber, { syncUrl = false } = {}) {
   if (!totalPages) return 1;
-  const target = Math.max(1, Math.min(totalPages, Number(localNumber) || 1));
+  const numeric = Number(localNumber);
+  const integer = Number.isFinite(numeric) ? Math.trunc(numeric) : 1;
+  const target = Math.max(1, Math.min(totalPages, integer || 1));
   activePage = target;
   jumpInput.value = String(target);
   prevButton.disabled = target <= 1;
