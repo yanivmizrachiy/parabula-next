@@ -78,6 +78,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Project-wide math rendering contract
+        run: |
+          npm run validate:math-rendering
+          node --test tests/contracts/math-rendering-contract.test.mjs
+
       - name: Lean maintenance validation
         if: needs.scope.outputs.maintenance_only == 'true'
         run: |
@@ -107,10 +112,6 @@ jobs:
         run: |
           npm run curriculum:check
           npm run validate:curriculum
-
-      - name: Project-wide math rendering contract
-        if: needs.scope.outputs.maintenance_only != 'true'
-        run: npm run validate:math-rendering
 
       - name: Canonical Pythagoras workbook
         if: needs.scope.outputs.maintenance_only != 'true'
