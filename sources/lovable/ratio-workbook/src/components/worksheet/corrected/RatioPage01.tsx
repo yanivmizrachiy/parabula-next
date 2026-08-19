@@ -73,6 +73,7 @@ export function RatioPage01() {
           <Checkbox />
         </div>
       </div>
+      <WorkArea lines={2} label="הסבירו את בחירתכם:" />
 
       <QSep />
 

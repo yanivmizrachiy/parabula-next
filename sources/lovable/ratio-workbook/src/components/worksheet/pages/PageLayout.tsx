@@ -79,7 +79,9 @@ const RATIO_CUES = /מהו היחס|מה היחס|כתבו יחס|כתבו פר�
 const SHORT_ANSWER_CUES = /\?|איזה חלק|האם|מה יש יותר|באיזו|מה מבטא|איזו|מהו|מהי|מה הם|מה הן|כתבו אפשרות|כתבו|קבעו|רשמו|ציינו|השלימו/;
 
 function getNodeText(node: ReactNode): string {
-  if (typeof node === 'string' || typeof node === 'number') return String(node);
+  // Strip Hebrew niqqud (vowel points, U+0591–U+05C7) so cue matching is robust: a vowelised
+  // "סַמנו"/"סַדרו" must still match /סמנו/, otherwise the question wrongly grows an answer box.
+  if (typeof node === 'string' || typeof node === 'number') return String(node).replace(/[֑-ׇ]/g, '');
   // Questions often hold several children (e.g. two <p>). Without handling arrays the text came
   // back empty and the question was left with no answer box — fixed by walking every child.
   if (Array.isArray(node)) return node.map(getNodeText).join(' ');

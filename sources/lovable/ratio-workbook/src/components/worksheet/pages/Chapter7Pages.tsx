@@ -27,14 +27,19 @@ function PopulationChart() {
   // 2006: צעירים 28%, בוגרים 62%, קשישים 10%
   const data1955 = { young: 35, adult: 60, old: 5 };
   const data2006 = { young: 28, adult: 62, old: 10 };
-  const W = 360, H = 200, padL = 32, padB = 28, padT = 12;
+  const W = 384, H = 216, padL = 36, padB = 30, padT = 14;
   const innerH = H - padB - padT;
   const yFor = (v: number) => padT + innerH * (1 - v / 70);
   const groups = [
-    { label: '1955', d: data1955, x0: padL + 20 },
-    { label: '2006', d: data2006, x0: padL + 180 },
+    { label: '1955', d: data1955, x0: padL + 26 },
+    { label: '2006', d: data2006, x0: padL + 198 },
   ];
   const colors = { young: '#5b9bd5', adult: '#ed7d31', old: '#a5a5a5' };
+  const legend = [
+    { c: colors.young, label: 'צעירים' },
+    { c: colors.adult, label: 'בוגרים' },
+    { c: colors.old, label: 'קשישים' },
+  ];
 
   return (
     <div className="flex flex-col items-center my-2">
@@ -43,44 +48,40 @@ function PopulationChart() {
         {[0, 10, 20, 30, 40, 50, 60, 70].map((v) => (
           <g key={v}>
             <line x1={padL} y1={yFor(v)} x2={W - 8} y2={yFor(v)} stroke="#ddd" strokeWidth="0.5" />
-            <text x={padL - 4} y={yFor(v) + 3} fontSize="9" textAnchor="end" fill="#333">{v}%</text>
+            <text x={padL - 5} y={yFor(v) + 4} fontSize="11" textAnchor="end" fill="#333" direction="ltr">{v}%</text>
           </g>
         ))}
         {/* x-axis */}
         <line x1={padL} y1={H - padB} x2={W - 8} y2={H - padB} stroke="#333" strokeWidth="1" />
         {/* bars */}
         {groups.map((g) => {
-          const bw = 28;
+          const bw = 30;
           return (
             <g key={g.label}>
               {[
                 { k: 'young' as const, x: g.x0 },
-                { k: 'adult' as const, x: g.x0 + bw + 6 },
-                { k: 'old' as const, x: g.x0 + (bw + 6) * 2 },
+                { k: 'adult' as const, x: g.x0 + bw + 8 },
+                { k: 'old' as const, x: g.x0 + (bw + 8) * 2 },
               ].map(({ k, x }) => (
                 <g key={k}>
                   <rect x={x} y={yFor(g.d[k])} width={bw} height={H - padB - yFor(g.d[k])} fill={colors[k]} stroke="#333" strokeWidth="0.5" />
-                  <text x={x + bw / 2} y={yFor(g.d[k]) - 3} fontSize="9" textAnchor="middle" fill="#000">{g.d[k]}%</text>
+                  <text x={x + bw / 2} y={yFor(g.d[k]) - 4} fontSize="11" textAnchor="middle" fill="#000" direction="ltr" fontWeight="bold">{g.d[k]}%</text>
                 </g>
               ))}
-              <text x={g.x0 + (bw + 6) * 1.5 - 3} y={H - 10} fontSize="11" textAnchor="middle" fill="#000" fontWeight="bold">{g.label}</text>
+              <text x={g.x0 + (bw + 8) * 1.5 - 4} y={H - 9} fontSize="12.5" textAnchor="middle" fill="#000" fontWeight="bold" direction="ltr">{g.label}</text>
             </g>
           );
         })}
-        {/* legend */}
-        <g transform={`translate(${W - 100}, 14)`}>
-          {[
-            { k: 'young', label: 'צעירים' },
-            { k: 'adult', label: 'בוגרים' },
-            { k: 'old', label: 'קשישים' },
-          ].map((it, i) => (
-            <g key={it.k} transform={`translate(0, ${i * 14})`}>
-              <rect width="10" height="10" fill={colors[it.k as keyof typeof colors]} stroke="#333" strokeWidth="0.5" />
-              <text x="14" y="9" fontSize="9" fill="#000">{it.label}</text>
-            </g>
-          ))}
-        </g>
       </svg>
+      {/* legend — a clean horizontal row BELOW the plot so it never overlaps the bars */}
+      <div className="flex justify-center gap-5 mt-1" style={{ fontSize: '12px', fontWeight: 600 }}>
+        {legend.map((it) => (
+          <span key={it.label} className="inline-flex items-center gap-1">
+            <span style={{ width: 13, height: 13, background: it.c, border: '0.6px solid #333', display: 'inline-block' }} />
+            {it.label}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -261,11 +262,12 @@ export function Ch7Page1() {
             { b: 5, w: 2 },
           ].map((o, i) => (
             <div key={i} className="circles-box">
-              <span className="text-xs">□ {i + 1}</span>
+              <span className="text-xs">□</span>
               <CircleRow black={o.b} white={o.w} />
             </div>
           ))}
         </div>
+        <WorkArea lines={2} label="הסבירו את בחירתכם:" />
       </Question>
 
       <QSep />
@@ -318,11 +320,12 @@ export function Ch7Page2() {
             { b: 6, w: 4 },
           ].map((o, i) => (
             <div key={i} className="circles-box">
-              <span className="text-xs">□ {i + 1}</span>
+              <span className="text-xs">□</span>
               <CircleRow black={o.b} white={o.w} />
             </div>
           ))}
         </div>
+        <WorkArea lines={2} label="הסבירו את בחירתכם:" />
       </Question>
 
       <QSep />
