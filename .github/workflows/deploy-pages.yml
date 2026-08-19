@@ -23,10 +23,12 @@ jobs:
       mobile: ${{ steps.classify.outputs.mobile }}
       mobile_deep: ${{ steps.classify.outputs.mobile_deep }}
       pythagoras: ${{ steps.classify.outputs.pythagoras }}
+      maintenance_only: ${{ steps.classify.outputs.maintenance_only }}
       changed_count: ${{ steps.classify.outputs.changed_count }}
       reason: ${{ steps.classify.outputs.reason }}
       mobile_deep_reason: ${{ steps.classify.outputs.mobile_deep_reason }}
       pythagoras_reason: ${{ steps.classify.outputs.pythagoras_reason }}
+      maintenance_reason: ${{ steps.classify.outputs.maintenance_reason }}
     steps:
       - name: Checkout with history for change classification
         uses: actions/checkout@v4
@@ -38,7 +40,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Classify browser-heavy validation scope
+      - name: Classify validation scope
         id: classify
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -52,13 +54,16 @@ jobs:
             echo "- Mobile browser gates: ${{ steps.classify.outputs.mobile }}"
             echo "- Deep all-pages mobile gate: ${{ steps.classify.outputs.mobile_deep }}"
             echo "- Pythagoras browser gate: ${{ steps.classify.outputs.pythagoras }}"
+            echo "- Maintenance-only path: ${{ steps.classify.outputs.maintenance_only }}"
             echo "- Changed files: ${{ steps.classify.outputs.changed_count }}"
             echo "- Mobile reason: ${{ steps.classify.outputs.reason }}"
             echo "- Mobile deep reason: ${{ steps.classify.outputs.mobile_deep_reason }}"
             echo "- Pythagoras reason: ${{ steps.classify.outputs.pythagoras_reason }}"
+            echo "- Maintenance reason: ${{ steps.classify.outputs.maintenance_reason }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:
+    needs: scope
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -73,41 +78,56 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Lean maintenance validation
+        if: needs.scope.outputs.maintenance_only == 'true'
+        run: |
+          npm run health:report
+          node --test tests/contracts/deploy-ci-scope.test.mjs
+
       - name: Dependency security audit
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm audit --audit-level=high
 
       - name: Contract tests
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm test
 
       - name: Canonical page verification
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run verify
 
       - name: Metadata registry and schema
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: |
           npm run validate:meta
           npm run validate:schema
 
       - name: Curriculum taxonomy
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: |
           npm run curriculum:check
           npm run validate:curriculum
 
       - name: Canonical Pythagoras workbook
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run validate:pythagoras
 
       - name: Systems solution space
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run systems:check
 
       - name: Access and mobile architecture
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: |
           npm run validate:access
           npm run validate:mobile
 
       - name: Canonical rules
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run rules:check
 
       - name: Upload canonical-rules report
-        if: always()
+        if: always() && needs.scope.outputs.maintenance_only != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: canonical-rules-report
@@ -116,14 +136,17 @@ jobs:
           retention-days: 3
 
       - name: HTML and vendored dependencies
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: |
           npm run validate:html
           npm run vendorize:check
 
       - name: Repository health
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: npm run health:report
 
       - name: Recovery, preview and app-layer audits
+        if: needs.scope.outputs.maintenance_only != 'true'
         run: |
           node scripts/recovery-audit.mjs
           node scripts/preview-guard.mjs
@@ -132,7 +155,7 @@ jobs:
           node scripts/duplicate-audit.mjs
 
       - name: Upload consolidated health audits
-        if: always()
+        if: always() && needs.scope.outputs.maintenance_only != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: repository-health-audits
