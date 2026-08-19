@@ -26,7 +26,7 @@ function assertStackedCards(page, expectedCards) {
 test('בתרגילי חזקה/שורש עם תשובה נפרדת נשמר מבנה אנכי', () => {
   assertStackedCards(639, 20);
   assertStackedCards(640, 12);
-  assertStackedCards(641, 13);
+  assertStackedCards(641, 16);
   assertStackedCards(642, 3);
 });
 
@@ -49,14 +49,16 @@ test('שכבת החזקות המשותפת היא מקור העריכה היחי
   assert.match(css, /\.missing-base-slot\s*\{[^}]*width:\s*34px/us);
 });
 
-test('עמוד 639 משתמש בארבע עמודות ומוסיף תרגול במקום לנפח גופנים', () => {
+test('עמוד 639 משתמש בארבע עמודות, מוסיף תרגול וממיר שטח פנוי למקום חישוב', () => {
   const css = read('styles/pages/עמוד-639.css');
   const html = read('עמוד-639.html');
   assert.match(css, /grid-template-columns:\s*repeat\(4,/u);
   assert.match(css, /\.power-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*82px/us);
   assert.match(css, /\.product-practice-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*70px/us);
+  assert.match(css, /\.power-scratch-space\s*\{[^}]*min-height:\s*110px/us);
   assert.equal((html.match(/class="product-practice-grid"/gu) || []).length, 1);
   assert.equal((html.match(/class="math-card stacked-answer-card"/gu) || []).length, 20);
+  assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u);
   assert.match(html, /כתבו את התשובה מתחת לכל תרגיל/u);
 });
 
@@ -76,9 +78,15 @@ test('עמוד 640 מציג בסיס חסר כריבוע השלמה לפני ח�
   assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u, 'עמוד 640: נשמר מרחב חישוב אמיתי');
 });
 
+test('עמוד 641 מרחיב תרגול שורשים מושלמים בלי להגדיל גופן', () => {
+  const html = read('עמוד-641.html');
+  for (const n of [196, 225, 256]) assert.match(html, new RegExp(`\\\\sqrt\\{${n}\\}`), `עמוד 641: חסר שורש ${n}`);
+  assert.equal((html.match(/class="math-card stacked-answer-card"/gu) || []).length, 16);
+});
+
 test('עמודים 641–642 אינם מחזירים תיבות תשובה inline בתרגילי השורש והקירוב', () => {
   const page641 = read('עמוד-641.html');
   const page642 = read('עמוד-642.html');
-  assert.doesNotMatch(page641, /\\sqrt\{(?:4|9|16|25|36|49|64|81|100|121|144|169)\}=\\\)\s*<span class="foundation-fill/u);
+  assert.doesNotMatch(page641, /\\sqrt\{(?:4|9|16|25|36|49|64|81|100|121|144|169|196|225|256)\}=\\\)\s*<span class="foundation-fill/u);
   assert.doesNotMatch(page642, /\\sqrt\{(?:20|50|130)\}\\approx\\\)\s*<span class="foundation-fill/u);
 });
