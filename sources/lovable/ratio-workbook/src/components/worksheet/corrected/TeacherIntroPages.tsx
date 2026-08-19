@@ -41,7 +41,11 @@ function TeacherTable({ children, className = '' }: { children: ReactNode; class
 
 function Answer({ children }: { children: ReactNode }) {
   // Teacher ("יחס · למורה") pages show the worked example / answer for the teacher's reference.
-  return <span className="teacher-answer">{children}</span>;
+  // Ratios/numbers (e.g. "1 : 2") must read left-to-right; without dir="ltr" the RTL algorithm
+  // flips them (so "1 : 2" would wrongly show as "2 : 1"). Hebrew answers keep the natural RTL.
+  const text = typeof children === 'string' ? children.trim() : '';
+  const isNumeric = text.length > 0 && /^[\d\s:.,/·×+\-()=x]+$/i.test(text);
+  return <span className="teacher-answer" dir={isNumeric ? 'ltr' : undefined}>{children}</span>;
 }
 
 function SmallBlank() {

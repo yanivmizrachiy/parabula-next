@@ -8,6 +8,7 @@ import {
   PageLayout,
   QSep,
   Question,
+  RatioAnswer,
   SubQuestion,
   WorkArea,
   WorksheetTable,
@@ -249,7 +250,17 @@ export function RatioPage07() {
     <PageLayout pageNumber={7} chapter={CH}>
       <Question>
         <p>בסרטוט יש 4 מלבנים מקווקווים ו־3 מלבנים שאינם מקווקווים. מהו היחס בין מספר המלבנים המקווקווים למספר המלבנים האחרים?</p>
-        <AnswerLine label="היחס:" />
+        <div className="svg-center svg-center--tight">
+          <svg viewBox="0 0 360 52" width="330" height="48" role="img" aria-label="ארבעה מלבנים מקווקווים ושלושה מלבנים במסגרת מלאה" shapeRendering="geometricPrecision">
+            {[0, 1, 2, 3].map((i) => (
+              <rect key={`d${i}`} x={12 + i * 46} y="11" width="38" height="30" rx="2" fill="#eef2ff" stroke="#172554" strokeWidth="1.6" strokeDasharray="5 3" />
+            ))}
+            {[0, 1, 2].map((i) => (
+              <rect key={`s${i}`} x={12 + (4 + i) * 46} y="11" width="38" height="30" rx="2" fill="#fff" stroke="#172554" strokeWidth="1.8" />
+            ))}
+          </svg>
+        </div>
+        <RatioAnswer label="היחס:" />
       </Question>
 
       <QSep />

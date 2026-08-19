@@ -76,6 +76,9 @@ const SHORT_ANSWER_CUES = /\?|איזה חלק|האם|מה יש יותר|באיז
 
 function getNodeText(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') return String(node);
+  // Questions often hold several children (e.g. two <p>). Without handling arrays the text came
+  // back empty and the question was left with no answer box — fixed by walking every child.
+  if (Array.isArray(node)) return node.map(getNodeText).join(' ');
   if (!isValidElement(node)) return '';
   return getNodeText((node.props as { children?: ReactNode }).children);
 }
@@ -128,7 +131,9 @@ function inferResponseKind(children: ReactNode): AutoResponseKind {
   if (RATIO_CUES.test(text) && !CALCULATION_CUES.test(text)) return 'ratio';
   if (CALCULATION_CUES.test(text)) return 'calculation';
   if (SHORT_ANSWER_CUES.test(text)) return 'short';
-  return 'none';
+  // Default: any leaf question with real text that isn't a select/mark task still gets a uniform
+  // answer box, so no question in the workbook is ever left without a place to write (§4.6).
+  return 'explanation';
 }
 
 function AutoResponse({ kind }: { kind: AutoResponseKind }) {
