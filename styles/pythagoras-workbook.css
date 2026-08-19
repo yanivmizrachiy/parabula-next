@@ -54,7 +54,7 @@
 .workbook-page-wrap {
   position: relative;
   width: fit-content;
-  scroll-margin-top: 76px;
+  scroll-margin-top: var(--pythagoras-toolbar-offset, 76px);
 }
 
 .workbook-page-wrap > .a4-page {
