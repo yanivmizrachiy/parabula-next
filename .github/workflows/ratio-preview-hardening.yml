@@ -8,13 +8,20 @@ on:
       - 'sources/lovable/ratio-workbook/**'
       - 'vendor/fonts/**'
       - '.github/workflows/ratio-preview-hardening.yml'
+  pull_request:
+    branches:
+      - agent/ratio-safe-upgrade-20260818
+    paths:
+      - 'sources/lovable/ratio-workbook/**'
+      - 'vendor/fonts/**'
+      - '.github/workflows/ratio-preview-hardening.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ratio-preview-hardening-${{ github.ref }}
+  group: ratio-preview-hardening-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -32,7 +39,8 @@ jobs:
         shell: bash
         run: |
           test "${GITHUB_REPOSITORY}" = "yanivmizrachiy/razpages"
-          test "${GITHUB_REF_NAME}" = "agent/ratio-preview-hardening-20260819"
+          branch="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          test "$branch" = "agent/ratio-preview-hardening-20260819"
           echo "Preview-only guard OK: no ratio-workbook/main write step exists."
 
       - name: Setup Node
