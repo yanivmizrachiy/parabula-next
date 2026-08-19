@@ -20,13 +20,13 @@ export const MOBILE_RELEVANT_PATTERNS = [
   /^scripts\/lib\//,
   /^vite\.config\.[cm]?[jt]s$/,
   /^package(?:-lock)?\.json$/,
-  /^\.github\/workflows\/deploy-pages\.yml$/,
 ];
 
 /*
  * Deep mobile validation scans the whole site and is intentionally narrower.
  * Local page/topic edits still get the fast browser + interaction gates, while
  * app/runtime/global-layout changes get the expensive all-pages shards too.
+ * Workflow-only edits are validated by contract tests and do not change runtime UI.
  */
 export const MOBILE_DEEP_RELEVANT_PATTERNS = [
   /^(?:mobile-app|catalog)\.(?:html|css|js)$/,
@@ -39,7 +39,6 @@ export const MOBILE_DEEP_RELEVANT_PATTERNS = [
   /^scripts\/lib\//,
   /^vite\.config\.[cm]?[jt]s$/,
   /^package(?:-lock)?\.json$/,
-  /^\.github\/workflows\/deploy-pages\.yml$/,
 ];
 
 export const PYTHAGORAS_SHARED_PATTERNS = [
@@ -50,7 +49,7 @@ export const PYTHAGORAS_SHARED_PATTERNS = [
   /^scripts\/(?:validate-pythagoras-workbook(?:-browser)?|pythagoras-[^/]+)\.mjs$/,
   /^tests\/contracts\/pythagoras-[^/]+\.test\.mjs$/,
   /^CLAUDE\.md$/,
-  /^\.github\/workflows\/(?:pythagoras-quality|deploy-pages)\.yml$/,
+  /^\.github\/workflows\/pythagoras-quality\.yml$/,
 ];
 
 export function isMobileRelevantPath(file) {
