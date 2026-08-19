@@ -2,7 +2,20 @@
 @import url("../topics/pythagoras-power-practice.css");
 
 .page-642 .question-block {
+  justify-content: flex-start;
   gap: 14px;
+}
+
+/* הטבלה ומשטח החישובים סופגים את הגובה הפנוי במקום לייצר רווחי ענק. */
+.page-642 .side-table,
+.page-642 .work-lines {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.page-642 .side-table th,
+.page-642 .side-table td {
+  height: auto;
 }
 
 .page-642 .approximation-grid {
