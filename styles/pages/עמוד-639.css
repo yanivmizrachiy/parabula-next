@@ -1,24 +1,24 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-/* עמוד חזקה מלא: שומר מקום כתיבה מתחת לכל תרגיל בלי לחרוג מגבול A4. */
+/* עמוד חזקה קומפקטי: יותר תרגול שימושי, בלי להגדיל גופנים או להשאיר שטח מת. */
 .page-639 .question-block {
-  gap: 10px;
+  gap: 8px;
 }
 
 .page-639 .foundation-note {
   display: grid;
-  gap: 6px;
+  gap: 5px;
 }
 
 .page-639 .power-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .page-639 .power-grid .stacked-answer-card {
-  min-height: 100px;
-  padding: 10px;
+  min-height: 82px;
+  padding: 8px 7px;
 }
 
 .page-639 .product-instruction {
@@ -27,13 +27,13 @@
 
 .page-639 .product-practice-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .page-639 .product-practice-grid .stacked-answer-card {
-  min-height: 82px;
-  padding: 8px 10px;
+  min-height: 70px;
+  padding: 7px 8px;
 }
 
 @media print {
