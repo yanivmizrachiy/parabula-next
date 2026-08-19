@@ -80,7 +80,7 @@ jobs:
           npx html-validate pythagoras-workbook.html
 
       - name: Install Chromium for workbook and A4 audits
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Verify unified workbook in Chromium
         run: node scripts/validate-pythagoras-workbook-browser.mjs
