@@ -4,6 +4,7 @@ import fs from 'node:fs';
 
 const reader = fs.readFileSync('pythagoras-workbook.js', 'utf8');
 const workbookCss = fs.readFileSync('styles/pythagoras-workbook.css', 'utf8');
+const workbookHtml = fs.readFileSync('pythagoras-workbook.html', 'utf8');
 
 function functionBody(name) {
   const start = reader.indexOf(`function ${name}`);
@@ -45,4 +46,9 @@ test('קפיצה לעמוד נשארת מתחת לסרגל הדביק גם כש�
   assert.match(offset, /ResizeObserver/u);
   assert.match(reader, /installToolbarOffset\(\);[\s\S]*installNavigation\(\);/u);
   assert.match(workbookCss, /scroll-margin-top:\s*var\(--pythagoras-toolbar-offset,\s*76px\);/u);
+});
+
+test('הכרזות נגישות מוגבלות לסטטוס הטעינה ולא לכל עשרות דפי החוברת', () => {
+  assert.match(workbookHtml, /id="workbook-status"[^>]*role="status"[^>]*aria-live="polite"[^>]*aria-atomic="true"/u);
+  assert.doesNotMatch(workbookHtml, /<main\s+id="workbook"[^>]*aria-live=/u);
 });
