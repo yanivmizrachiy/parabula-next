@@ -1,35 +1,22 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-.page-640 .question-block {
-  justify-content: flex-start;
-  gap: 9px;
-}
-
-.page-640 .q-text {
-  font-size: 15px;
-  line-height: 1.4;
-}
-
-.page-640 .power-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.page-640 .power-results-grid .stacked-answer-card {
-  min-height: 78px;
-  padding: 8px 7px;
+/* עמוד 640 משנה רק משתנים; המבנה והטיפוגרפיה נשארים בשכבה המשותפת. */
+.page-640 {
+  --power-question-gap: 9px;
+  --power-grid-columns: 4;
+  --power-grid-gap: 8px;
+  --power-card-min-height: 78px;
+  --power-card-padding: 8px 7px;
+  --power-instruction-font-size: 15px;
+  --power-instruction-line-height: 1.4;
+  --power-scratch-flex: 1 1 110px;
+  --power-scratch-min-height: 110px;
+  --power-scratch-margin-top: 1px;
 }
 
 .page-640 .missing-base-grid {
   grid-auto-rows: 1fr;
-}
-
-/* כל גובה שנותר בדף הופך לשטח חישוב שימושי — לא לרווח לבן. */
-.page-640 .power-scratch-space {
-  flex: 1 1 110px;
-  min-height: 110px;
-  margin-top: 1px;
 }
 
 @media print {

@@ -1,27 +1,7 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-.page-641 .question-block {
-  justify-content: flex-start;
-  gap: 14px;
-}
-
-.page-641 .foundation-note {
-  display: grid;
-  gap: 10px;
-}
-
-/* 12 שורשים ב-4 שורות של 3; התשובה תמיד בשורה נפרדת מתחת לביטוי. */
-.page-641 .power-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.page-641 .power-grid .stacked-answer-card {
-  min-height: 102px;
-  padding: 12px 10px;
-}
-
+/* ברירת המחדל של שכבת החזקות כבר מתאימה לעמוד זה; נשאר רק החריג המקומי. */
 .page-641 .question-block > .stacked-answer-card {
   min-height: 90px;
   padding: 12px 14px;

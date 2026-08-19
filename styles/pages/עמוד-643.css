@@ -1,11 +1,6 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-.page-643 .question-block {
-  justify-content: flex-start;
-  gap: 14px;
-}
-
 /* מקום נוסף נמסר לתאים שבהם התלמיד כותב, לא לרווח בין הבלוקים. */
 .page-643 .foundation-grid,
 .page-643 .side-table {
@@ -26,9 +21,4 @@
 
 .page-643 .foundation-card {
   min-height: 214px;
-}
-
-.page-643 .foundation-note {
-  display: grid;
-  gap: 10px;
 }

@@ -1,11 +1,6 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-.page-642 .question-block {
-  justify-content: flex-start;
-  gap: 14px;
-}
-
 /* הטבלה ומשטח החישובים סופגים את הגובה הפנוי במקום לייצר רווחי ענק. */
 .page-642 .side-table,
 .page-642 .work-lines {

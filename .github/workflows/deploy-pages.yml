@@ -21,9 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mobile: ${{ steps.classify.outputs.mobile }}
+      mobile_deep: ${{ steps.classify.outputs.mobile_deep }}
       pythagoras: ${{ steps.classify.outputs.pythagoras }}
       changed_count: ${{ steps.classify.outputs.changed_count }}
       reason: ${{ steps.classify.outputs.reason }}
+      mobile_deep_reason: ${{ steps.classify.outputs.mobile_deep_reason }}
       pythagoras_reason: ${{ steps.classify.outputs.pythagoras_reason }}
     steps:
       - name: Checkout with history for change classification
@@ -48,9 +50,11 @@ jobs:
           {
             echo "### CI change scope"
             echo "- Mobile browser gates: ${{ steps.classify.outputs.mobile }}"
+            echo "- Deep all-pages mobile gate: ${{ steps.classify.outputs.mobile_deep }}"
             echo "- Pythagoras browser gate: ${{ steps.classify.outputs.pythagoras }}"
             echo "- Changed files: ${{ steps.classify.outputs.changed_count }}"
             echo "- Mobile reason: ${{ steps.classify.outputs.reason }}"
+            echo "- Mobile deep reason: ${{ steps.classify.outputs.mobile_deep_reason }}"
             echo "- Pythagoras reason: ${{ steps.classify.outputs.pythagoras_reason }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -268,7 +272,8 @@ jobs:
         run: node scripts/pythagoras-whitespace-audit.mjs --max-gap=40 --max-trailing=40
 
   mobile-deep-gate:
-    if: github.event_name != 'pull_request'
+    needs: scope
+    if: github.event_name != 'pull_request' && needs.scope.outputs.mobile_deep == 'true'
     name: Deep mobile audit shard ${{ matrix.shard }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -303,7 +308,7 @@ jobs:
           retention-days: 3
 
   deploy:
-    if: ${{ always() && github.event_name != 'pull_request' && needs.build.result == 'success' && (needs.mobile-browser-gate.result == 'success' || needs.mobile-browser-gate.result == 'skipped') && (needs.mobile-interaction-gate.result == 'success' || needs.mobile-interaction-gate.result == 'skipped') && needs.mobile-deep-gate.result == 'success' && needs.pythagoras-browser-gate.result == 'success' }}
+    if: ${{ always() && github.event_name != 'pull_request' && needs.build.result == 'success' && (needs.mobile-browser-gate.result == 'success' || needs.mobile-browser-gate.result == 'skipped') && (needs.mobile-interaction-gate.result == 'success' || needs.mobile-interaction-gate.result == 'skipped') && (needs.mobile-deep-gate.result == 'success' || needs.mobile-deep-gate.result == 'skipped') && needs.pythagoras-browser-gate.result == 'success' }}
     needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate]
     permissions:
       pages: write

@@ -23,6 +23,25 @@ export const MOBILE_RELEVANT_PATTERNS = [
   /^\.github\/workflows\/deploy-pages\.yml$/,
 ];
 
+/*
+ * Deep mobile validation scans the whole site and is intentionally narrower.
+ * Local page/topic edits still get the fast browser + interaction gates, while
+ * app/runtime/global-layout changes get the expensive all-pages shards too.
+ */
+export const MOBILE_DEEP_RELEVANT_PATTERNS = [
+  /^(?:mobile-app|catalog)\.(?:html|css|js)$/,
+  /^(?:mobile-deep-link|catalog-deep-link)\.js$/,
+  /^reader-actions\.(?:css|js)$/,
+  /^mobile-app\.webmanifest$/,
+  /^sw\.js$/,
+  /^styles\/a4-base\.css$/,
+  /^scripts\/(?:copy-static-site|validate-mobile(?:-[^/]+)?|vendorize-cdn)\.mjs$/,
+  /^scripts\/lib\//,
+  /^vite\.config\.[cm]?[jt]s$/,
+  /^package(?:-lock)?\.json$/,
+  /^\.github\/workflows\/deploy-pages\.yml$/,
+];
+
 export const PYTHAGORAS_SHARED_PATTERNS = [
   /^pythagoras-workbook(?:-model)?\.(?:html|js)$/,
   /^styles\/pythagoras-workbook\.css$/,
@@ -36,6 +55,10 @@ export const PYTHAGORAS_SHARED_PATTERNS = [
 
 export function isMobileRelevantPath(file) {
   return MOBILE_RELEVANT_PATTERNS.some((pattern) => pattern.test(file));
+}
+
+export function isMobileDeepRelevantPath(file) {
+  return MOBILE_DEEP_RELEVANT_PATTERNS.some((pattern) => pattern.test(file));
 }
 
 export function buildCanonicalPythagorasPaths(meta) {
@@ -55,36 +78,34 @@ export function isPythagorasRelevantPath(file, canonicalPaths = new Set()) {
 
 export function classifyChangeScope({ eventName, changedFiles, pythagorasPaths = new Set() }) {
   const mobileMatched = changedFiles.filter(isMobileRelevantPath);
+  const mobileDeepMatched = changedFiles.filter(isMobileDeepRelevantPath);
   const pythagorasMatched = changedFiles.filter((file) => isPythagorasRelevantPath(file, pythagorasPaths));
 
   if (eventName === 'workflow_dispatch') {
     return {
       mobile: true,
+      mobileDeep: true,
       pythagoras: true,
       reason: 'manual release requires full validation',
+      mobileDeepReason: 'manual release requires full validation',
       pythagorasReason: 'manual release requires full validation',
     };
   }
 
-  if (eventName === 'push') {
-    return {
-      mobile: true,
-      pythagoras: pythagorasMatched.length > 0,
-      reason: 'full mobile validation is mandatory on main pushes',
-      pythagorasReason: pythagorasMatched.length > 0
-        ? `Pythagoras-relevant files changed: ${pythagorasMatched.join(', ')}`
-        : 'no canonical Pythagoras files changed',
-    };
-  }
-
   const mobile = mobileMatched.length > 0;
+  const mobileDeep = mobileDeepMatched.length > 0;
   const pythagoras = pythagorasMatched.length > 0;
+
   return {
     mobile,
+    mobileDeep,
     pythagoras,
     reason: mobile
       ? `mobile-relevant files changed: ${mobileMatched.join(', ')}`
       : 'no mobile, reader, A4, style, asset, PWA or build files changed',
+    mobileDeepReason: mobileDeep
+      ? `global mobile/runtime files changed: ${mobileDeepMatched.join(', ')}`
+      : 'no app-runtime or global-layout files changed; deep all-pages audit is unnecessary',
     pythagorasReason: pythagoras
       ? `Pythagoras-relevant files changed: ${pythagorasMatched.join(', ')}`
       : 'no canonical Pythagoras files changed',
@@ -126,14 +147,17 @@ function main() {
 
   writeOutputs(process.env.GITHUB_OUTPUT, {
     mobile: result.mobile,
+    mobile_deep: result.mobileDeep,
     pythagoras: result.pythagoras,
     changed_count: changedFiles.length,
     reason: result.reason,
+    mobile_deep_reason: result.mobileDeepReason,
     pythagoras_reason: result.pythagorasReason,
   });
 
-  console.log(`[ci-scope] mobile=${result.mobile} pythagoras=${result.pythagoras} changed=${changedFiles.length}`);
+  console.log(`[ci-scope] mobile=${result.mobile} mobile-deep=${result.mobileDeep} pythagoras=${result.pythagoras} changed=${changedFiles.length}`);
   console.log(`[ci-scope] mobile-reason=${result.reason}`);
+  console.log(`[ci-scope] mobile-deep-reason=${result.mobileDeepReason}`);
   console.log(`[ci-scope] pythagoras-reason=${result.pythagorasReason}`);
 }
 

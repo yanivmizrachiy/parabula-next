@@ -40,30 +40,38 @@ test('דוגמאות ההסבר בעמודים 639, 641 ו-643 מציגות תש
   }
 });
 
-test('שכבת החזקות המשותפת היא מקור העריכה היחיד לגופן ולכרטיסים הקומפקטיים', () => {
+test('שכבת החזקות המשותפת מרכזת טיפוגרפיה, גריד וריווח', () => {
   const css = read('styles/topics/pythagoras-power-practice.css');
-  assert.match(css, /\.stacked-answer-card\s*\{[^}]*flex-direction:\s*column/us);
-  assert.match(css, /\.stacked-answer-card \.exercise-answer\s*\{[^}]*justify-content:\s*center/us);
+  for (const variable of [
+    '--power-question-gap', '--power-grid-columns', '--power-grid-gap',
+    '--power-card-min-height', '--power-card-padding', '--power-instruction-font-size',
+    '--power-scratch-min-height',
+  ]) {
+    assert.match(css, new RegExp(variable), `חסר משתנה משותף ${variable}`);
+  }
+  assert.match(css, /\.pyt-foundation \.question-block\s*\{[^}]*justify-content:\s*flex-start/us);
+  assert.match(css, /\.pyt-foundation \.power-grid\s*\{[^}]*repeat\(var\(--power-grid-columns\)/us);
   assert.match(css, /\.stacked-answer-card \.exercise-expression\s*\{[^}]*font-size:\s*18px/us);
   assert.match(css, /:has\(\.power-example-stack\) \.foundation-note\s*\{[^}]*font-size:\s*15px/us);
   assert.match(css, /\.missing-base-slot\s*\{[^}]*width:\s*34px/us);
 });
 
-test('עמוד 639 משתמש בארבע עמודות, מוסיף תרגול וממיר שטח פנוי למקום חישוב', () => {
+test('עמוד 639 משנה משתנים בלבד עבור גריד/כרטיס/שטח עבודה ומוסיף תרגול', () => {
   const css = read('styles/pages/עמוד-639.css');
   const html = read('עמוד-639.html');
-  assert.match(css, /grid-template-columns:\s*repeat\(4,/u);
-  assert.match(css, /\.power-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*82px/us);
-  assert.match(css, /\.product-practice-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*70px/us);
-  assert.match(css, /\.power-scratch-space\s*\{[^}]*min-height:\s*110px/us);
+  assert.match(css, /--power-grid-columns:\s*4/u);
+  assert.match(css, /--power-card-min-height:\s*82px/u);
+  assert.match(css, /--power-scratch-min-height:\s*110px/u);
   assert.equal((html.match(/class="product-practice-grid"/gu) || []).length, 1);
   assert.equal((html.match(/class="math-card stacked-answer-card"/gu) || []).length, 20);
   assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u);
-  assert.match(html, /כתבו את התשובה מתחת לכל תרגיל/u);
+  assert.match(html, /\\\(17\^2=/u);
+  assert.match(html, /\\\(30\^2\\\)/u);
 });
 
 test('עמוד 640 מציג בסיס חסר כריבוע השלמה לפני חזקה, בלי סימן שאלה ובלי תשובה כפולה', () => {
   const html = read('עמוד-640.html');
+  const css = read('styles/pages/עמוד-640.css');
   const missingCards = html.split('<div class="math-card missing-base-card">').slice(1);
   assert.equal(missingCards.length, 12, 'עמוד 640: נדרשים 12 תרגילי בסיס חסר');
   assert.doesNotMatch(html, /\?\s*\^?\s*2|\?\^2/u, 'עמוד 640: אסור סימן שאלה במקום המספר החסר');
@@ -75,12 +83,16 @@ test('עמוד 640 מציג בסיס חסר כריבוע השלמה לפני ח�
     assert.doesNotMatch(body, /exercise-answer/u, `עמוד 640, בסיס חסר ${index + 1}: אין תיבת תשובה כפולה מתחת לתרגיל`);
     assert.match(body, /missing-base-slot[\s\S]*missing-base-power">2<\/sup>[\s\S]*missing-base-equals">=<\/span>/u, `עמוד 640, בסיס חסר ${index + 1}: סדר הכתיב חייב להיות □² = מספר`);
   }
+  assert.match(css, /--power-grid-columns:\s*4/u);
+  assert.match(css, /--power-instruction-font-size:\s*15px/u);
+  assert.match(css, /--power-scratch-min-height:\s*110px/u);
   assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u, 'עמוד 640: נשמר מרחב חישוב אמיתי');
 });
 
-test('עמוד 641 מסיר פיזור רווחים בלי לשנות את התוכן', () => {
+test('עמוד 641 נשען על ברירת המחדל המשותפת במקום לשכפל פריסת power-grid', () => {
   const css = read('styles/pages/עמוד-641.css');
-  assert.match(css, /\.page-641 \.question-block\s*\{[^}]*justify-content:\s*flex-start/us);
+  assert.doesNotMatch(css, /\.page-641 \.power-grid\s*\{/u);
+  assert.doesNotMatch(css, /\.page-641 \.question-block\s*\{/u);
 });
 
 test('עמודים 641–642 אינם מחזירים תיבות תשובה inline בתרגילי השורש והקירוב', () => {

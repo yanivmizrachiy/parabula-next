@@ -1,25 +1,16 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-/* עמוד חזקה קומפקטי: יותר תרגול שימושי, בלי להגדיל גופנים או להשאיר שטח מת. */
-.page-639 .question-block {
-  justify-content: flex-start;
-  gap: 8px;
-}
-
-.page-639 .foundation-note {
-  display: grid;
-  gap: 5px;
-}
-
-.page-639 .power-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.page-639 .power-grid .stacked-answer-card {
-  min-height: 82px;
-  padding: 8px 7px;
+/* עמוד 639 משנה רק משתנים; המבנה והטיפוגרפיה נשארים בשכבה המשותפת. */
+.page-639 {
+  --power-question-gap: 8px;
+  --power-note-gap: 5px;
+  --power-grid-columns: 4;
+  --power-grid-gap: 8px;
+  --power-card-min-height: 82px;
+  --power-card-padding: 8px 7px;
+  --power-scratch-flex: 1 1 110px;
+  --power-scratch-min-height: 110px;
 }
 
 .page-639 .product-instruction {
@@ -35,13 +26,6 @@
 .page-639 .product-practice-grid .stacked-answer-card {
   min-height: 70px;
   padding: 7px 8px;
-}
-
-/* השטח שהתפנה מהקטנת הגופן הופך למקום עבודה אמיתי לתלמיד. */
-.page-639 .power-scratch-space {
-  flex: 1 1 110px;
-  min-height: 110px;
-  margin-top: 0;
 }
 
 @media print {

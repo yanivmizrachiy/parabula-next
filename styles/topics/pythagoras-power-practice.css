@@ -1,7 +1,53 @@
 /*
  * תרגילי חזקות ושורשים — שכבת העריכה המשותפת.
- * שינויי גופן, כרטיס, דוגמה ותיבת בסיס חסר נעשים כאן פעם אחת ולא בדפי HTML בודדים.
+ * שינויי גופן, כרטיס, דוגמה, גריד ותיבת בסיס חסר נעשים כאן פעם אחת.
+ * דף ייחודי משנה רק CSS variables על .page-N במקום לשכפל selectors.
  */
+.pyt-foundation {
+  --power-question-gap: 14px;
+  --power-note-gap: 10px;
+  --power-grid-columns: 3;
+  --power-grid-gap: 12px;
+  --power-card-min-height: 102px;
+  --power-card-padding: 12px 10px;
+  --power-instruction-font-size: 16px;
+  --power-instruction-line-height: 22px;
+  --power-scratch-flex: 0 0 auto;
+  --power-scratch-min-height: 0px;
+  --power-scratch-margin-top: 0px;
+}
+
+.pyt-foundation .question-block {
+  justify-content: flex-start;
+  gap: var(--power-question-gap);
+}
+
+.pyt-foundation .q-text {
+  font-size: var(--power-instruction-font-size);
+  line-height: var(--power-instruction-line-height);
+}
+
+.pyt-foundation .foundation-note {
+  display: grid;
+  gap: var(--power-note-gap);
+}
+
+.pyt-foundation .power-grid {
+  grid-template-columns: repeat(var(--power-grid-columns), minmax(0, 1fr));
+  gap: var(--power-grid-gap);
+}
+
+.pyt-foundation .power-grid .stacked-answer-card {
+  min-height: var(--power-card-min-height);
+  padding: var(--power-card-padding);
+}
+
+.pyt-foundation .power-scratch-space {
+  flex: var(--power-scratch-flex);
+  min-height: var(--power-scratch-min-height);
+  margin-top: var(--power-scratch-margin-top);
+}
+
 .pyt-foundation .stacked-answer-card {
   direction: ltr;
   unicode-bidi: isolate;
@@ -69,8 +115,7 @@
   justify-content: center;
 }
 
-/* בסיס חסר: אין סימן שאלה ואין תיבת תשובה כפולה מתחת לתרגיל.
- * התלמיד משלים את המספר ישירות בריבוע שלפני החזקה. */
+/* בסיס חסר: התלמיד משלים את המספר ישירות בריבוע שלפני החזקה. */
 .pyt-foundation .missing-base-card {
   direction: ltr;
   unicode-bidi: isolate;
