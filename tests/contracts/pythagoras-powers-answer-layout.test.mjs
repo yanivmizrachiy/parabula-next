@@ -71,7 +71,7 @@ test('עמוד 639 משנה משתנים בלבד עבור גריד/כרטיס/�
   assert.match(html, /\\\(30\^2\\\)/u);
 });
 
-test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח במשפטי השלמה בלי לחרוג מה-A4', () => {
+test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח במשפטי השלמה', () => {
   const html = read('עמוד-640.html');
   const css = read('styles/pages/עמוד-640.css');
   const missingCards = html.split('<div class="math-card missing-base-card">').slice(1);
@@ -79,7 +79,7 @@ test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח ב
   assert.doesNotMatch(html, /\?\s*\^?\s*2|\?\^2/u, 'עמוד 640: אסור סימן שאלה במקום המספר החסר');
   assert.equal((html.match(/class="foundation-fill missing-base-slot"/gu) || []).length, 12, 'עמוד 640: לכל תרגיל תיבת השלמה אחת');
   assert.equal((html.match(/class="missing-base-equals">=<\/span>/gu) || []).length, 12, 'עמוד 640: סימן שווה חייב להופיע אחרי החזקה');
-  assert.equal((html.match(/class="power-sentence-card"/gu) || []).length, 4, 'עמוד 640: נדרשים ארבעה משפטי השלמה קומפקטיים');
+  assert.equal((html.match(/class="power-sentence-card"/gu) || []).length, 8, 'עמוד 640: נדרשים שמונה משפטי השלמה');
   assert.match(html, /הריבוע של המספר \\\(7\\\) הוא/u);
   assert.match(html, /הוא \\\(100\\\)/u);
   assert.doesNotMatch(html, /power-scratch-space/u, 'עמוד 640: אין להשאיר רשת גדולה במקום תרגול שימושי');
@@ -93,19 +93,34 @@ test('עמוד 641 מציג הסבר שורש קצר, LTR לדוגמה ותרג�
   assert.match(html, /פעולת השורש היא הפעולה ההפוכה של פעולת ההעלאה בריבוע/u);
   assert.match(html, /class="math-ltr">\\\(5\^2=25\\\)<\/span>/u);
   assert.doesNotMatch(html, /כתבו זוג מתאים של חזקה ושורש עבור המספר/u);
-  assert.equal((html.match(/class="math-card missing-root-card"/gu) || []).length, 8, 'עמוד 641: נדרשים שמונה תרגילי שורש הפוכים');
-  assert.equal((html.match(/missing-radicand-slot/gu) || []).length, 8, 'עמוד 641: בכל תרגיל הפוך משלימים את המספר בתוך השורש');
-  assert.match(css, /--power-grid-columns:\s*4/u);
+  assert.equal((html.match(/class="math-card missing-root-card"/gu) || []).length, 12, 'עמוד 641: נדרשים שנים עשר תרגילי שורש הפוכים');
+  assert.equal((html.match(/missing-radicand-slot/gu) || []).length, 12, 'עמוד 641: בכל תרגיל הפוך משלימים את המספר בתוך השורש');
+  assert.match(css, /--power-grid-columns:\s*3/u);
 });
 
-test('עמוד 651 כולל רק דוגמה קומפקטית והוראת פתרון קצרה', () => {
+test('עמוד 642 שומר הסבר קירוב קצר ומרחב חישוב קומפקטי', () => {
+  const html = read('עמוד-642.html');
+  const css = read('styles/pages/עמוד-642.css');
+  assert.match(html, /class="foundation-note compact-approx-note"/u);
+  assert.match(html, /4\^2=16<20<25=5\^2/u);
+  assert.match(html, /class="work-lines compact-work-lines" data-required-lines="2"/u);
+  assert.match(css, /\.compact-approx-note\s*\{[^}]*font-size:\s*15px/us);
+  assert.match(css, /\.compact-work-lines\s*\{[^}]*min-height:\s*56px/us);
+});
+
+test('עמוד 651 כולל רק דוגמה קצרה, הוראה קצרה ו-12 תרגילים עם מקום לפתרון', () => {
   const html = read('עמוד-651.html');
   const css = read('styles/pages/עמוד-651.css');
   assert.doesNotMatch(html, /כאשר \\\(x\\\) מייצג אורך של צלע/u);
   assert.match(html, /class="compact-solution-flow"[\s\S]*x\^2=81[\s\S]*x=\\sqrt\{81\}[\s\S]*x=9/u);
   assert.match(html, />פתרו לפי הדוגמה\.<\/div>/u);
-  assert.match(css, /\.compact-worked-example\s*\{/u);
-  assert.match(css, /font-size:\s*15px/u);
+  assert.equal((html.match(/class="equation-practice-card"/gu) || []).length, 12, 'עמוד 651: נדרשים 12 תרגילים');
+  assert.equal((html.match(/class="work-lines short" data-required-lines="2"/gu) || []).length, 12, 'עמוד 651: לכל תרגיל נדרשות שתי שורות דרך');
+  assert.equal((html.match(/class="student-final-answer"/gu) || []).length, 12, 'עמוד 651: לכל תרגיל תשובה סופית נפרדת');
+  assert.match(html, /\\\(x\^2=324\\\)/u);
+  assert.match(css, /grid-template-columns:\s*repeat\(3/u);
+  assert.match(css, /grid-template-rows:\s*repeat\(4/u);
+  assert.match(css, /\.work-lines\.short\s*\{[^}]*min-height:\s*44px/us);
 });
 
 test('עמודים 641–642 אינם מחזירים תיבות תשובה inline בתרגילי השורש והקירוב', () => {
