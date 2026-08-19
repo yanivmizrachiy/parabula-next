@@ -17,17 +17,38 @@ const forbiddenVisibleLabels = [
   'תרגול מסכם',
 ];
 
-function renderPage(pageId: number) {
-  const page = WORKSHEET_PAGES.find((candidate) => candidate.id === pageId);
+function pageByKey(key: string) {
+  const page = WORKSHEET_PAGES.find((candidate) => candidate.key === key);
   expect(page).toBeDefined();
-  return renderToStaticMarkup(<>{page?.component()}</>);
+  return page!;
+}
+
+function renderKey(key: string) {
+  return renderToStaticMarkup(<>{pageByKey(key).component()}</>);
 }
 
 describe('ratio workbook structure', () => {
-  it('contains exactly 48 unique, sequential pages', () => {
-    expect(WORKSHEET_PAGES).toHaveLength(48);
-    expect(WORKSHEET_PAGES.map((page) => page.id)).toEqual(Array.from({ length: 48 }, (_, index) => index + 1));
-    expect(new Set(WORKSHEET_PAGES.map((page) => page.id)).size).toBe(48);
+  it('contains exactly 55 student pages with stable keys and sequential display numbers', () => {
+    expect(WORKSHEET_PAGES).toHaveLength(55);
+    expect(WORKSHEET_PAGES.map((page) => page.id)).toEqual(
+      Array.from({ length: WORKSHEET_PAGES.length }, (_, index) => index + 1),
+    );
+    expect(new Set(WORKSHEET_PAGES.map((page) => page.id)).size).toBe(WORKSHEET_PAGES.length);
+    expect(new Set(WORKSHEET_PAGES.map((page) => page.key)).size).toBe(WORKSHEET_PAGES.length);
+  });
+
+  it('starts the public/student workbook at page 1 and excludes all teacher intro pages', () => {
+    expect(WORKSHEET_PAGES[0].id).toBe(1);
+    expect(WORKSHEET_PAGES[0].key).toBe('ratio-page-01');
+    expect(WORKSHEET_PAGES[0].title).toBe('זיהוי יחס ושמירתו');
+
+    for (const page of WORKSHEET_PAGES) {
+      expect(page.credit).toBe('yaniv');
+      expect(page.key).not.toContain('teacher');
+      const markup = renderToStaticMarkup(<>{page.component()}</>);
+      expect(markup).not.toContain('teacher-intro-page');
+      expect(markup).not.toContain('יחס · למורה');
+    }
   });
 
   it('uses meaningful navigation titles and chapter names without visible level labels', () => {
@@ -46,7 +67,6 @@ describe('ratio workbook structure', () => {
     for (const page of WORKSHEET_PAGES) {
       const markup = renderToStaticMarkup(<>{page.component()}</>);
       expect(markup).toContain('worksheet-page');
-      expect(markup).toContain(`>${page.id}<`);
       expect(markup).toMatch(/<span class="page-header-title page-title">[^<]+<\/span>/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">\s*נושא:/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">[^<]*פרק\s*\d+/);
@@ -65,32 +85,34 @@ describe('ratio workbook structure', () => {
     }
   });
 
-  it('assigns an explicit response policy to every question and sub-question', () => {
+  it('assigns a response policy to every question and sub-question', () => {
     for (const page of WORKSHEET_PAGES) {
       const markup = renderToStaticMarkup(<>{page.component()}</>);
       const questionCount = markup.match(/class="question-block"/g)?.length ?? 0;
       const subQuestionCount = markup.match(/class="sub-question"/g)?.length ?? 0;
-      const policyCount = markup.match(/data-auto-response="(?:none|short|ratio|calculation|explanation|drawing)"/g)?.length ?? 0;
+      const policyCount = markup.match(
+        /data-auto-response="(?:none|short|ratio|calculation|explanation|drawing)"/g,
+      )?.length ?? 0;
       expect(policyCount).toBe(questionCount + subQuestionCount);
     }
   });
 
   it('renders 36 diamonds in the first ratio question', () => {
-    const markup = renderPage(1);
+    const markup = renderKey('ratio-page-01');
     expect(markup).toContain('היחס בין מספר המעויינים השחורים לבין מספר המעויינים הלבנים הוא 2 : 1');
     expect(markup.match(/<polygon/g)).toHaveLength(36);
   });
 
-  it('uses the lower area of page 1 for meaningful ratio practice', () => {
-    const markup = renderPage(1);
+  it('uses the lower area of the first ratio page for meaningful ratio practice', () => {
+    const markup = renderKey('ratio-page-01');
     expect(markup).toContain('הרחבת היחס 3 : 2');
     expect(markup).toContain('מספר העיגולים הכולל');
     expect(markup).toContain('גורם ההרחבה מן השורה הראשונה אל השורה הרביעית');
     expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
   });
 
-  it('provides structured ratio answers and two compact explanation lines on page 1', () => {
-    const markup = renderPage(1);
+  it('provides structured ratio answers and compact explanation lines on the first ratio page', () => {
+    const markup = renderKey('ratio-page-01');
     expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
     expect(markup).toContain('ratio-answer-colon');
     expect(markup.match(/ratio-page-1-inline-explanation/g)).toHaveLength(2);
@@ -98,8 +120,8 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('אפשרות נוספת:');
   });
 
-  it('balances dense page 11 with grouped work and compact final answers', () => {
-    const markup = renderPage(11);
+  it('balances the original ratio page 11 with grouped work and compact final answers', () => {
+    const markup = renderKey('ratio-page-11');
     expect(markup).toContain('ratio-page-11');
     expect(markup.match(/response-set ratio-page-11-response/g)).toHaveLength(5);
     expect(markup.match(/class="work-area-line"/g)).toHaveLength(6);
@@ -107,23 +129,23 @@ describe('ratio workbook structure', () => {
     expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(4);
   });
 
-  it('keeps short answers inline on dense page 18 while preserving calculation work', () => {
-    const markup = renderPage(18);
+  it('keeps short answers inline on the original ratio page 18 while preserving calculation work', () => {
+    const markup = renderKey('ratio-page-18');
     expect(markup).toContain('ratio-page-18');
     expect(markup.match(/ratio-answer-container is-inline/g)?.length).toBeGreaterThanOrEqual(6);
     expect(markup.match(/auto-response--calculation/g)).toHaveLength(1);
     expect(markup).toContain('באיזו מחרוזת נשמר אותו יחס?');
   });
 
-  it('keeps ratio responses inline on dense page 22', () => {
-    const markup = renderPage(22);
+  it('keeps ratio responses inline on the original ratio page 22', () => {
+    const markup = renderKey('ratio-page-22');
     expect(markup).toContain('ratio-page-22');
     expect(markup.match(/ratio-answer-container is-inline/g)).toHaveLength(5);
     expect(markup.match(/ratio-answer-box/g)).toHaveLength(10);
   });
 
-  it('provides work areas, structured answers and correct SVG direction on page 29', () => {
-    const markup = renderPage(29);
+  it('provides work areas, structured answers and correct SVG direction on the original ratio page 29', () => {
+    const markup = renderKey('ratio-page-29');
     expect(markup).not.toContain('שאלות אתגר');
     expect(markup.match(/class="response-set"/g)).toHaveLength(4);
     expect(markup.match(/class="work-area-line"/g)).toHaveLength(4);
@@ -133,8 +155,8 @@ describe('ratio workbook structure', () => {
     }
   });
 
-  it('provides genuine working and final-answer space on dense page 35', () => {
-    const markup = renderPage(35);
+  it('provides genuine working and final-answer space on the original ratio page 35', () => {
+    const markup = renderKey('ratio-page-35');
     expect(markup).toContain('ratio-page-35');
     expect(markup.match(/response-set/g)?.length).toBeGreaterThanOrEqual(4);
     expect(markup).toContain('calculation-response');
@@ -144,8 +166,8 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('אומדן למספר הדגים');
   });
 
-  it('uses an ordered-pair response and LTR coordinates on page 42', () => {
-    const markup = renderPage(42);
+  it('uses an ordered-pair response and LTR coordinates on the original ratio page 42', () => {
+    const markup = renderKey('ratio-page-42');
     expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
     expect(markup.match(/ordered-pair-box/g)).toHaveLength(2);
     expect(markup).toContain('ordered-pair-comma');
@@ -156,8 +178,8 @@ describe('ratio workbook structure', () => {
     }
   });
 
-  it('provides precise SVG direction and structured calculation responses on page 48', () => {
-    const markup = renderPage(48);
+  it('provides precise SVG direction and structured calculation responses on the original ratio page 48', () => {
+    const markup = renderKey('ratio-page-48');
     expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
     expect(markup.match(/calculation-response/g)).toHaveLength(2);
     expect(markup).toContain('הסבר:');
