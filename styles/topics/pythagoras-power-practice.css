@@ -1,6 +1,6 @@
 /*
  * תרגילי חזקות ושורשים — שכבת העריכה המשותפת.
- * שינויי גופן, כרטיס, דוגמה, גריד ותיבת בסיס חסר נעשים כאן פעם אחת.
+ * שינויי גופן, כרטיס, דוגמה, גריד ותיבות השלמה נעשים כאן פעם אחת.
  * דף ייחודי משנה רק CSS variables על .page-N במקום לשכפל selectors.
  */
 .pyt-foundation {
@@ -12,6 +12,7 @@
   --power-card-padding: 12px 10px;
   --power-instruction-font-size: 16px;
   --power-instruction-line-height: 22px;
+  --power-sentence-columns: 2;
   --power-scratch-flex: 0 0 auto;
   --power-scratch-min-height: 0px;
   --power-scratch-margin-top: 0px;
@@ -30,6 +31,12 @@
 .pyt-foundation .foundation-note {
   display: grid;
   gap: var(--power-note-gap);
+}
+
+.pyt-foundation .math-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
 }
 
 .pyt-foundation .power-grid {
@@ -83,10 +90,15 @@
 }
 
 /* הסבר פתיחה קומפקטי בדפי חזקות/שורשים בלבד. */
-.pyt-foundation:has(.power-example-stack) .foundation-note {
-  padding: 9px 13px;
+.pyt-foundation:has(.power-example-stack) .foundation-note,
+.pyt-foundation .compact-root-note {
+  padding: 8px 12px;
   font-size: 15px;
-  line-height: 1.4;
+  line-height: 1.35;
+}
+
+.pyt-foundation .compact-root-note {
+  display: block;
 }
 
 .pyt-foundation .power-example-stack {
@@ -157,10 +169,83 @@
   line-height: 30px;
 }
 
+/* משפטי השלמה קצרים לניצול שטח בלי להוסיף הסברים ארוכים. */
+.pyt-foundation .power-sentence-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--power-sentence-columns), minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
+.pyt-foundation .power-sentence-card {
+  min-height: 42px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 9px;
+  background: var(--bg-paper);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.pyt-foundation .sentence-fill {
+  width: 64px;
+  min-width: 64px;
+  height: 28px;
+}
+
+.pyt-foundation .sentence-fill-short {
+  width: 44px;
+  min-width: 44px;
+}
+
+/* מספר חסר בתוך שורש: הריבוע הריק יושב מתחת לקו השורש. */
+.pyt-foundation .missing-root-card {
+  min-height: 66px;
+  padding: 7px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pyt-foundation .missing-root-expression {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.pyt-foundation .root-symbol {
+  font-size: 29px;
+  line-height: 30px;
+  margin-inline-end: -7px;
+}
+
+.pyt-foundation .root-radicand {
+  border-top: 1.8px solid #111827;
+  padding: 2px 3px 0;
+  min-width: 42px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.pyt-foundation .missing-radicand-slot {
+  width: 38px;
+  height: 28px;
+}
+
 @media print {
   .pyt-foundation .stacked-answer-card,
   .pyt-foundation .power-example-stack,
-  .pyt-foundation .missing-base-card {
+  .pyt-foundation .missing-base-card,
+  .pyt-foundation .power-sentence-card,
+  .pyt-foundation .missing-root-card {
     break-inside: avoid;
   }
 }

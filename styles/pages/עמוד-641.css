@@ -1,15 +1,18 @@
 @import url("../topics/pythagoras-foundations.css");
 @import url("../topics/pythagoras-power-practice.css");
 
-/* ברירת המחדל של שכבת החזקות כבר מתאימה לעמוד זה; נשאר רק החריג המקומי. */
-.page-641 .question-block > .stacked-answer-card {
-  min-height: 90px;
-  padding: 12px 14px;
+.page-641 {
+  --power-question-gap: 9px;
+  --power-grid-columns: 4;
+  --power-grid-gap: 8px;
+  --power-card-min-height: 78px;
+  --power-card-padding: 8px 7px;
+  --power-instruction-font-size: 15px;
+  --power-instruction-line-height: 1.35;
 }
 
 @media print {
-  .page-641 .power-grid,
-  .page-641 .question-block > .stacked-answer-card {
+  .page-641 .power-grid {
     break-inside: avoid;
   }
 }
