@@ -39,8 +39,15 @@ function TeacherTable({ children, className = '' }: { children: ReactNode; class
   return <table className={`teacher-table ${className}`.trim()}><tbody>{children}</tbody></table>;
 }
 
-function Answer({ children }: { children: ReactNode }) {
-  return <span className="teacher-answer">{children}</span>;
+function Answer(_props: { children: ReactNode }) {
+  // Student worksheet — the answer is left blank for the student to fill in (no answer key shown).
+  return (
+    <span
+      className="teacher-answer-blank"
+      aria-hidden="true"
+      style={{ display: 'inline-block', minWidth: '54px', borderBottom: '1.6px solid #64748b', height: '1em', margin: '0 5px', verticalAlign: '-2px' }}
+    />
+  );
 }
 
 function SmallBlank() {
@@ -131,10 +138,6 @@ export function TeacherIntroPage01() {
           בשנייה לא - צריך לסכום את מספר המדבקות ואז לראות את הקשר.
         </TeacherBox>
       </TeacherQuestion>
-
-      <TeacherQuestion number={4}>
-        <p>לפניכם מדבקות כחולות וירוקות:</p>
-      </TeacherQuestion>
     </PageLayout>
   );
 }
@@ -145,6 +148,7 @@ export function TeacherIntroPage02() {
   return (
     <PageLayout pageNumber={2} chapter={CH} topic="יחס" className="teacher-intro-page">
       <TeacherQuestion number={4}>
+        <p>לפניכם מדבקות כחולות וירוקות:</p>
         <div className="teacher-two-color-dots"><Dot color="blue" /><Dot color="green" /><Dot color="blue" /></div>
         <p>א) מה היחס בין מספר המדבקות הירוקות לכחולות? <Answer>1 : 2</Answer></p>
         <p>ב) אם יש לי 3 מדבקות ירוקות כמה מדבקות כחולות תהיינה לי? <Answer>6</Answer></p>
@@ -153,7 +157,7 @@ export function TeacherIntroPage02() {
           <div className="teacher-row-label teacher-row-label--green">מספר המדבקות הירוקות</div>
           <div className="teacher-number-row">{green.map((v, i) => <span key={i}>{v}</span>)}</div>
           <div className="teacher-row-label teacher-row-label--blue">מספר המדבקות הכחולות</div>
-          <div className="teacher-number-row">{blue.map((v, i) => <span key={i}>{v}</span>)}</div>
+          <div className="teacher-number-row">{blue.map((_, i) => <span key={i}>{' '}</span>)}</div>
         </div>
         <p>ד) האם ייתכן מצב שיש לי:</p>
         <ol className="teacher-numbered">
@@ -208,10 +212,6 @@ export function TeacherIntroPage03() {
           </div>
         </div>
       </TeacherQuestion>
-
-      <TeacherQuestion number={6}>
-        <p>צבעו את המחרוזת הבאה בצבעים אדום וכחול, כך שהיחס בין מספר החרוזים האדומים לכחולים יהיה</p>
-      </TeacherQuestion>
     </PageLayout>
   );
 }
@@ -220,7 +220,7 @@ export function TeacherIntroPage04() {
   return (
     <PageLayout pageNumber={4} chapter={CH} topic="יחס" className="teacher-intro-page">
       <TeacherQuestion number={6}>
-        <p><strong dir="ltr">2 : 3</strong> (מחקו את החרוזים המיותרים).</p>
+        <p>צבעו את המחרוזת הבאה בצבעים אדום וכחול, כך שהיחס בין מספר החרוזים האדומים לכחולים יהיה <strong dir="ltr">2 : 3</strong> (מחקו את החרוזים המיותרים).</p>
         <DotRow colors={Array(22).fill('empty') as 'empty'[]} />
         <TeacherBox tone="answer">
           מומלץ לתת לתלמידים דף עם העיגולים/לוח מחיק/מדבקות כך שאפשרי להרים את הדפים בכיתה
@@ -267,7 +267,6 @@ export function TeacherIntroPage04() {
         </div>
       </TeacherQuestion>
 
-      <TeacherQuestion number={11}><p>השלימו:</p></TeacherQuestion>
     </PageLayout>
   );
 }
@@ -276,11 +275,14 @@ export function TeacherIntroPage05() {
   const prompts = ['היחס בין 4 ל־7', 'היחס בין 7 ל־9', 'היחס בין 100 ל־25', 'היחס בין 200 ל־500', 'היחס בין 50 ל־250', 'היחס בין 0.5 ל־1'];
   return (
     <PageLayout pageNumber={5} chapter={CH} topic="יחס" className="teacher-intro-page">
-      <div className="teacher-equation-grid teacher-equation-grid--3 teacher-top-exercises" dir="ltr">
-        <span>2 : 3 = <Fraction num={6} den={<SmallBlank />} /></span>
-        <span><Fraction num={2} den={5} /> = <Fraction num={20} den={<SmallBlank />} /></span>
-        <span><Fraction num={3} den={12} /> = <Fraction num={<SmallBlank />} den={4} /></span>
-      </div>
+      <TeacherQuestion number={11}>
+        <p>השלימו:</p>
+        <div className="teacher-equation-grid teacher-equation-grid--3 teacher-top-exercises" dir="ltr">
+          <span>2 : 3 = <Fraction num={6} den={<SmallBlank />} /></span>
+          <span><Fraction num={2} den={5} /> = <Fraction num={20} den={<SmallBlank />} /></span>
+          <span><Fraction num={3} den={12} /> = <Fraction num={<SmallBlank />} den={4} /></span>
+        </div>
+      </TeacherQuestion>
 
       <TeacherQuestion number={12}>
         <p>כתבו את היחסים הבאים בכתיבה מתמטית: שני מספרים והסימן ":" ביניהם:</p>

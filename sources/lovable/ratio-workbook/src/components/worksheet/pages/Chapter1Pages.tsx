@@ -1,4 +1,4 @@
-import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep } from './PageLayout';
+import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep, WorkArea, FinalAnswer, RatioAnswer } from './PageLayout';
 
 const CH = 'פרק 1 – יסודות היחס';
 
@@ -24,7 +24,7 @@ export function Ch1Page1() {
             <div className="circles-row"><Circle filled /><Circle filled /><Circle filled /></div>
             <div className="circles-row"><Circle filled /><Circle filled /><Circle filled /></div>
           </div>
-          <Checkbox label="4" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -32,7 +32,7 @@ export function Ch1Page1() {
             <div className="circles-row"><Circle filled /><Circle filled /><Circle /></div>
             <div className="circles-row"><Circle filled /><Circle filled /><Circle /></div>
           </div>
-          <Checkbox label="3" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -40,7 +40,7 @@ export function Ch1Page1() {
             <div className="circles-row"><Circle filled /><Circle filled /><Circle /></div>
             <div className="circles-row"><Circle filled /><Circle filled /><Circle /></div>
           </div>
-          <Checkbox label="2" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -48,7 +48,7 @@ export function Ch1Page1() {
             <div className="circles-row"><Circle /><Circle /><Circle /></div>
             <div className="circles-row"><Circle filled /><Circle /><Circle /></div>
           </div>
-          <Checkbox label="1" />
+          <Checkbox />
         </div>
       </div>
 
@@ -144,11 +144,11 @@ export function Ch1Page3() {
       <WorksheetTable
         headers={['אי-אפשר לקבוע', 'לא נכון', 'נכון', 'היגד', '']}
         rows={[
-          [<Checkbox label="3" />, <Checkbox label="2" />, <Checkbox label="1" />, 'מספר המשתתפים הכולל מתחלק ב - 5', '.1'],
-          [<Checkbox label="3" />, <Checkbox label="2" />, <Checkbox label="1" />, 'מספר הבוגרים גדול פי 1.5 ממספר הצעירים.', '.2'],
-          [<Checkbox label="3" />, <Checkbox label="2" />, <Checkbox label="1" />, 'במקהלה יש 3 בוגרים ו- 2 צעירים.', '.3'],
-          [<Checkbox label="3" />, <Checkbox label="2" />, <Checkbox label="1" />, 'במקהלה יש בסך-הכול 12 משתתפים.', '.4'],
-          [<Checkbox label="3" />, <Checkbox label="2" />, <Checkbox label="1" />, <>מספר הצעירים הוא <Frac num={2} den={5} /> מסך כל המשתתפים.</>, '.5'],
+          [<Checkbox />, <Checkbox />, <Checkbox />, 'מספר המשתתפים הכולל מתחלק ב - 5', '.1'],
+          [<Checkbox />, <Checkbox />, <Checkbox />, 'מספר הבוגרים גדול פי 1.5 ממספר הצעירים.', '.2'],
+          [<Checkbox />, <Checkbox />, <Checkbox />, 'במקהלה יש 3 בוגרים ו- 2 צעירים.', '.3'],
+          [<Checkbox />, <Checkbox />, <Checkbox />, 'במקהלה יש בסך-הכול 12 משתתפים.', '.4'],
+          [<Checkbox />, <Checkbox />, <Checkbox />, <>מספר הצעירים הוא <Frac num={2} den={5} /> מסך כל המשתתפים.</>, '.5'],
         ]}
       />
 
@@ -508,18 +508,30 @@ export function Ch1Page9() {
 
       <Question>
         <p>היקפו של משולש שווה - שוקיים הוא <strong>45 ס"מ</strong> . אורך השוק <strong>גדול פי 4</strong> מאורך הבסיס.</p>
-        <SubQuestion label="(א)"><p>מהו אורך הבסיס? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו אורך כל שוק? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין אורך הבסיס לאורך השוק? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו אורך הבסיס?</p></SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו אורך כל שוק?</p></SubQuestion>
+        <SubQuestion label="(ג)"><p>מהו היחס בין אורך הבסיס לאורך השוק?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={3} />
+          <FinalAnswer label="(א) בסיס:" unit="ס״מ" />
+          <FinalAnswer label="(ב) שוק:" unit="ס״מ" />
+          <RatioAnswer label="(ג)" />
+        </div>
       </Question>
 
       <QSep />
 
       <Question>
         <p>ירון מקבל דמי כיס. על כל <strong>8 ש"ח</strong> שהוא מבזבז – הוא חוסך <strong>24 ש"ח</strong> .</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין הסכום שירון חוסך לבין הסכום שהוא מבזבז? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איזה חלק מדמי הכיס הוא חוסך? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>אם ירון קיבל <strong>96 ש"ח</strong> , כמה כסף חסך? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו היחס בין הסכום שירון חוסך לבין הסכום שהוא מבזבז?</p></SubQuestion>
+        <SubQuestion label="(ב)"><p>איזה חלק מדמי הכיס הוא חוסך?</p></SubQuestion>
+        <SubQuestion label="(ג)"><p>אם ירון קיבל <strong>96 ש"ח</strong> , כמה כסף חסך?</p></SubQuestion>
+        <div className="response-set">
+          <WorkArea lines={3} />
+          <RatioAnswer label="(א)" />
+          <FinalAnswer label="(ב)" />
+          <FinalAnswer label="(ג)" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />

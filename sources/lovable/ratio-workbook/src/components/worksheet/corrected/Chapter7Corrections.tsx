@@ -49,7 +49,6 @@ function CoordinateTriangles() {
 export function RatioPage42() {
   return (
     <PageLayout pageNumber={42} chapter={CH} className="ratio-page-42">
-      <div className="info-box"><p><strong>מבחני מיצ״ב — שנת תשע״ה</strong></p></div>
 
       <Question>
         <p>סמנו את היחס השווה ל־3 : 7.</p>
@@ -89,7 +88,7 @@ export function RatioPage42() {
         </SubQuestion>
         <SubQuestion label="ב.">
           <p>מהם שיעורי הנקודה B?</p>
-          <OrderedPairAnswer label="B =" />
+          <OrderedPairAnswer label={'⁦B =⁩'} />
         </SubQuestion>
         <SubQuestion label="ג.">
           <p>מהו שטח △AOB? הציגו דרך פתרון.</p>
@@ -129,21 +128,21 @@ function InscribedRectangleModel() {
   return (
     <div className="svg-center svg-center--tight">
       <svg
-        viewBox="0 0 260 235"
-        width="265"
-        height="240"
+        viewBox="0 0 230 250"
+        width="240"
+        height="250"
         role="img"
-        aria-label="משולש ישר זווית ABC ובו מלבן BDFE, DF שווה 5, BC שווה 15 ו־AB שווה 18"
+        aria-label="משולש ישר זווית ABC, זווית B ישרה, מלבן BDFE חסום, DF=5, BC=15, AB=18"
         shapeRendering="geometricPrecision"
       >
-        <polygon points="35,210 35,30 185,210" fill="#fff" stroke="#172554" strokeWidth="1.8" />
-        <rect x="35" y="90" width="50" height="120" fill="#eef2ff" stroke="#1e40af" strokeWidth="1.5" />
-        <rect x="35" y="200" width="10" height="10" fill="none" stroke="#172554" strokeWidth="1" />
-        <text x="20" y="28">A</text><text x="20" y="225">B</text><text x="190" y="225">C</text>
-        <text x="20" y="94">D</text><text x="88" y="86">F</text><text x="88" y="224">E</text>
-        <text x="12" y="125" transform="rotate(-90 12 125)" direction="ltr">AB=18</text>
-        <text x="108" y="226" direction="ltr">BC=15</text>
-        <text x="60" y="84" textAnchor="middle" direction="ltr">DF=5</text>
+        <polygon points="40,53 40,215 175,215" fill="#fff" stroke="#172554" strokeWidth="1.8" />
+        <rect x="40" y="107" width="45" height="108" fill="#eef2ff" stroke="#1e40af" strokeWidth="1.5" />
+        <rect x="40" y="205" width="10" height="10" fill="none" stroke="#172554" strokeWidth="1.2" />
+        <text x="28" y="50">A</text><text x="27" y="230">B</text><text x="179" y="230">C</text>
+        <text x="27" y="110">D</text><text x="88" y="103">F</text><text x="88" y="230">E</text>
+        <text x="22" y="140" transform="rotate(-90 22 140)" textAnchor="middle" direction="ltr">AB=18</text>
+        <text x="107" y="233" textAnchor="middle" direction="ltr">BC=15</text>
+        <text x="62" y="100" textAnchor="middle" direction="ltr">DF=5</text>
       </svg>
     </div>
   );
@@ -152,7 +151,6 @@ function InscribedRectangleModel() {
 export function RatioPage48() {
   return (
     <PageLayout pageNumber={48} chapter={CH} className="ratio-page-48">
-      <div className="info-box"><p><strong>מבחני מיצ״ב — גאומטריה ויחסים</strong></p></div>
 
       <Question>
         <p>בטרפז ישר־הזווית ABCD,‏ BE הוא גובה לצלע CD. נתון AB=12 ס״מ,‏ AD=BE=8 ס״מ,‏ EC=6 ס״מ ו־BC=10 ס״מ.</p>

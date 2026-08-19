@@ -1,4 +1,4 @@
-import { PageLayout, Question, SubQuestion, Blank, Frac, QSep, AnswerLine } from './PageLayout';
+import { PageLayout, Question, SubQuestion, Blank, Frac, QSep, AnswerLine, WorkArea, FinalAnswer, CalculationResponse } from './PageLayout';
 
 const CH = 'פרק 4 – שמירת יחס ושיעור ליחידה';
 
@@ -98,7 +98,8 @@ export function Ch4Page2() {
         <p>בכוס I  ערבבו 2 טיפות צבע כחול ו - 5 טיפות צבע צהוב.</p>
         <p>בכוס II ערבבו 3 טיפות צבע כחול ו - 7 טיפות צבע צהוב.</p>
         <p>באיזו כוס התקבל צבע ירוק <strong>כהה יותר</strong>? הסבירו על-ידי השוואת היחסים.</p>
-        <AnswerLine label="הסבר :" />
+        <WorkArea lines={2} label="השוואת היחסים:" />
+        <WorkArea lines={2} label="הסבר :" />
       </Question>
 
       <QSep />
@@ -133,9 +134,24 @@ export function Ch4Page3() {
 
       <Question>
         <p>יוסי עורך נסיעות מבחן. מכונית "סעו - נא" צרכה <strong>18 ליטר</strong> דלק ב - <strong>207 ק"מ</strong> . מכונית "הנוסעים" צרכה <strong>14 ליטר</strong> ב - <strong>175 ק"מ</strong> .</p>
-        <SubQuestion label="(א)"><p>כמה ק"מ נוסעת כל מכונית לליטר אחד? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כמה ק"מ תעבור כל מכונית ב - 25 ליטרים? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כמה דלק תצרוך כל אחת בנסיעה של 150 ק"מ? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)">
+          <p>כמה ק"מ נוסעת כל מכונית לליטר אחד?</p>
+          <WorkArea lines={2} />
+          <FinalAnswer label="סעו-נא :" unit='ק"מ' />
+          <FinalAnswer label="הנוסעים :" unit='ק"מ' />
+        </SubQuestion>
+        <SubQuestion label="(ב)">
+          <p>כמה ק"מ תעבור כל מכונית ב - 25 ליטרים?</p>
+          <WorkArea lines={2} />
+          <FinalAnswer label="סעו-נא :" unit='ק"מ' />
+          <FinalAnswer label="הנוסעים :" unit='ק"מ' />
+        </SubQuestion>
+        <SubQuestion label="(ג)">
+          <p>כמה דלק תצרוך כל אחת בנסיעה של 150 ק"מ?</p>
+          <WorkArea lines={2} />
+          <FinalAnswer label="סעו-נא :" unit="ליטר" />
+          <FinalAnswer label="הנוסעים :" unit="ליטר" />
+        </SubQuestion>
         <SubQuestion label="(ד)"><p>איזו מכונית חסכונית יותר? <Blank /></p></SubQuestion>
       </Question>
 
@@ -143,11 +159,26 @@ export function Ch4Page3() {
 
       <Question>
         <p>נתונים המוצרים הבאים. <strong>קִבעו</strong> איזה מהם הוא, <strong>באופן יחסי</strong>, היקר ביותר. <span className="text-muted-foreground">( 1 ליטר = 1,000 מ"ל )</span></p>
-        <SubQuestion label="(א)"><p>פחית שתייה : 250 מ"ל , 5 ש"ח</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>קרם גוף : 200 מ"ל , 42 ש"ח</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>בקבוק בושם : 50 מ"ל , 120 ש"ח</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>דיו למדפסת : 42 מ"ל , 118 ש"ח</p></SubQuestion>
-        <SubQuestion label="(ה)"><p>טיפות עיניים : 15 מ"ל , 23 ש"ח</p></SubQuestion>
+        <SubQuestion label="(א)">
+          <p>פחית שתייה : 250 מ"ל , 5 ש"ח</p>
+          <WorkArea lines={2} />
+        </SubQuestion>
+        <SubQuestion label="(ב)">
+          <p>קרם גוף : 200 מ"ל , 42 ש"ח</p>
+          <WorkArea lines={2} />
+        </SubQuestion>
+        <SubQuestion label="(ג)">
+          <p>בקבוק בושם : 50 מ"ל , 120 ש"ח</p>
+          <WorkArea lines={2} />
+        </SubQuestion>
+        <SubQuestion label="(ד)">
+          <p>דיו למדפסת : 42 מ"ל , 118 ש"ח</p>
+          <WorkArea lines={2} />
+        </SubQuestion>
+        <SubQuestion label="(ה)">
+          <p>טיפות עיניים : 15 מ"ל , 23 ש"ח</p>
+          <WorkArea lines={2} />
+        </SubQuestion>
         <AnswerLine label="היקר ביותר ליחידת נפח :" />
       </Question>
 
@@ -155,15 +186,22 @@ export function Ch4Page3() {
 
       <Question>
         <p>בקבוק מכיל <strong>150 גרם</strong> סירופ שוקולד ובו <strong>450 קלוריות</strong> .</p>
-        <SubQuestion label="(א)"><p>כמה קלוריות בבקבוק של 500 גרם סירופ?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כמה סירופ יש לצרוך כדי לצבור 1,000 קלוריות?</p></SubQuestion>
+        <SubQuestion label="(א)">
+          <p>כמה קלוריות בבקבוק של 500 גרם סירופ?</p>
+          <CalculationResponse lines={3} unit="קלוריות" />
+        </SubQuestion>
+        <SubQuestion label="(ב)">
+          <p>כמה סירופ יש לצרוך כדי לצבור 1,000 קלוריות?</p>
+          <CalculationResponse lines={3} unit="גרם" />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>יהודית עבדה בספרייה <strong>20 שעות</strong> והשתכרה <strong>360 ש"ח</strong> . מרים הדריכה בקייטנה <strong>12 שעות</strong> והרוויחה <strong>216 ש"ח</strong> . האם השכר לשעת עבודה שווה?</p>
-        <AnswerLine label="פתרון :" />
+        <WorkArea lines={3} label="פתרון :" />
+        <FinalAnswer label="תשובה :" />
       </Question>
 
       <QSep />

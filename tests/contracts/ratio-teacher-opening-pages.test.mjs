@@ -9,35 +9,57 @@ const mapSource = readFileSync(join(sourceRoot, 'data', 'worksheetPages.tsx'), '
 const introSource = readFileSync(join(sourceRoot, 'components', 'worksheet', 'corrected', 'TeacherIntroPages.tsx'), 'utf8');
 const introCss = readFileSync(join(sourceRoot, 'teacher-intro-pages.css'), 'utf8');
 
-function blockBetween(source, start, end) {
-  const startIndex = source.indexOf(start);
-  const endIndex = source.indexOf(end, startIndex + start.length);
-  assert.notEqual(startIndex, -1, `missing start marker: ${start}`);
-  assert.notEqual(endIndex, -1, `missing end marker: ${end}`);
-  return source.slice(startIndex, endIndex);
+function worksheetBlock() {
+  const start = mapSource.indexOf('export const WORKSHEET_PAGES');
+  assert.notEqual(start, -1, 'WORKSHEET_PAGES must be defined');
+  return mapSource.slice(start);
 }
 
-test('the supplied teacher worksheet is permanently the first eight ratio pages', () => {
-  const opening = blockBetween(mapSource, 'const OPENING_PAGES', 'const EXISTING_PAGES');
-  const entries = opening.match(/component:\s*\(\)\s*=>\s*<TeacherIntroPage\d{2}\s*\/>/g) ?? [];
-  assert.equal(entries.length, 8, 'ratio workbook must keep exactly eight supplied teacher opening pages');
+// One parsed entry per WORKSHEET_PAGES line: { id, chapter, authors, component }.
+function pageEntries() {
+  return worksheetBlock()
+    .split('\n')
+    .filter((line) => /\{ id:\s*\d+,/.test(line))
+    .map((line) => ({
+      id: Number((line.match(/id:\s*(\d+)/) || [])[1]),
+      chapter: (line.match(/CHAPTERS\.(\w+)/) || [])[1],
+      authors: /credit:\s*'authors'/.test(line),
+      component: (line.match(/<(\w+)\s*\/>/) || [])[1],
+    }));
+}
 
+test('the eight supplied teacher explanation pages remain, credited to the authors', () => {
   for (let page = 1; page <= 8; page += 1) {
     const padded = String(page).padStart(2, '0');
-    assert.match(opening, new RegExp(`\\{ id: ${page},[^\\n]*<TeacherIntroPage${padded} \\/>`));
+    const re = new RegExp(`credit:\\s*'authors',[^\\n]*<TeacherIntroPage${padded}\\s*/>`);
+    assert.match(mapSource, re, `TeacherIntroPage${padded} must stay an authors-credited explanation page`);
   }
-
-  assert.match(mapSource, /export const WORKSHEET_PAGES:[\s\S]*\.\.\.OPENING_PAGES,[\s\S]*\.\.\.EXISTING_PAGES\.map\(\(page\) => \(\{ \.\.\.page, id: page\.id \+ OPENING_PAGES\.length \}\)\)/);
+  const authorEntries = pageEntries().filter((e) => e.authors);
+  assert.equal(authorEntries.length, 8, 'exactly the eight supplied pages carry the authors credit');
 });
 
-test('all original 48 ratio pages remain after the eight supplied opening pages', () => {
-  const existing = blockBetween(mapSource, 'const EXISTING_PAGES', 'export const WORKSHEET_PAGES');
-  const ids = [...existing.matchAll(/\{ id:\s*(\d+),/g)].map((match) => Number(match[1]));
-  assert.equal(ids.length, 48, 'none of the original 48 ratio pages may be removed');
-  assert.deepEqual(ids, Array.from({ length: 48 }, (_, index) => index + 1));
+test('the workbook is a single contiguous page sequence (ids 1..N, all pages kept)', () => {
+  const ids = pageEntries().map((e) => e.id);
+  assert.ok(ids.length >= 56, 'all supplied, original and curriculum pages must be present');
+  assert.deepEqual(ids, Array.from({ length: ids.length }, (_, i) => i + 1), 'ids must be contiguous 1..N');
 });
 
-test('opening page 1 preserves source attribution and the real curriculum link', () => {
+test('explanations always come before the practice inside each chapter', () => {
+  const seenPractice = new Set();
+  for (const entry of pageEntries()) {
+    if (!entry.chapter) continue;
+    if (entry.authors) {
+      assert.ok(
+        !seenPractice.has(entry.chapter),
+        `explanation page ${entry.component} must precede the practice pages of chapter ${entry.chapter}`,
+      );
+    } else {
+      seenPractice.add(entry.chapter);
+    }
+  }
+});
+
+test('opening explanation preserves source attribution and the real curriculum link', () => {
   assert.match(introSource, /ד״ר יחיאל תנעמי ואיילת קריספין/);
   assert.match(introSource, /קישור לת״ל/);
   assert.match(introSource, /https:\/\/meyda\.education\.gov\.il\/files\/Pop\/0files\/matmatika\/Chativat-Beynayim\/curriculum\/updating\/numerical_7_8\.pdf/);

@@ -1,12 +1,15 @@
 import {
   AnswerLine,
   Blank,
+  CalculationResponse,
   Checkbox,
+  FinalAnswer,
   Frac,
   PageLayout,
   QSep,
   Question,
   SubQuestion,
+  WorkArea,
   WorksheetTable,
 } from '../pages/PageLayout';
 
@@ -130,7 +133,9 @@ export function RatioPage04() {
       <Question>
         <p>בקנקני שתייה היחס בין מספר כוסות התרכיז למספר כוסות המים הוא 7 : 2.</p>
         <p>השתמשו ב־35 כוסות תרכיז. כמה כוסות מים הוסיפו, וכמה כוסות משקה הכינו בסך הכול?</p>
-        <AnswerLine label="פתרון:" />
+        <WorkArea lines={3} />
+        <FinalAnswer label="כוסות מים:" unit="כוסות" />
+        <FinalAnswer label="סך הכול:" unit="כוסות" />
       </Question>
     </PageLayout>
   );
@@ -189,6 +194,7 @@ export function RatioPage05() {
       <Question>
         <p>בתמיסת דשן היחס בין כמות החנקן לשאר החומרים הוא 13 : 4.</p>
         <p>כמה גרם חנקן יש בבקבוק המכיל 1,360 גרם תמיסה?</p>
+        <CalculationResponse lines={3} unit="גרם" />
       </Question>
     </PageLayout>
   );

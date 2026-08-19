@@ -42,17 +42,17 @@ function BeadRow({ count = 24 }: { count?: number }) {
 function HouseFigure() {
   return (
     <div className="svg-center curriculum-figure">
-      <svg viewBox="0 0 240 170" width="240" height="170" role="img" aria-label="מלבן ומשולש שווה־שוקיים">
+      <svg viewBox="0 0 240 175" width="240" height="175" role="img" aria-label="מלבן ומשולש שווה־שוקיים, שוקיים 2x ובסיס 3x">
         {/* מלבן */}
         <rect x="30" y="95" width="180" height="60" fill="#fff" stroke="#1f2a44" strokeWidth={1.6} />
-        {/* גג משולש שווה־שוקיים */}
-        <path d="M30 95 L120 30 L210 95" fill="#fff" stroke="#1f2a44" strokeWidth={1.6} strokeLinejoin="round" />
+        {/* גג משולש שווה־שוקיים — שוקיים 2x מדויקות מול בסיס 3x */}
+        <path d="M30 95 L120 15.6 L210 95" fill="#fff" stroke="#1f2a44" strokeWidth={1.6} strokeLinejoin="round" />
         {/* סימני שוויון שוקיים */}
-        <line x1="70" y1="58" x2="78" y2="66" stroke="#1f2a44" strokeWidth={1.2} />
-        <line x1="162" y1="66" x2="170" y2="58" stroke="#1f2a44" strokeWidth={1.2} />
+        <line x1="70" y1="52" x2="78" y2="60" stroke="#1f2a44" strokeWidth={1.2} />
+        <line x1="162" y1="60" x2="170" y2="52" stroke="#1f2a44" strokeWidth={1.2} />
         {/* תוויות מידה */}
-        <text className="fig-label" x="58" y="58" textAnchor="middle">2x</text>
-        <text className="fig-label" x="182" y="58" textAnchor="middle">2x</text>
+        <text className="fig-label" x="58" y="52" textAnchor="middle">2x</text>
+        <text className="fig-label" x="182" y="52" textAnchor="middle">2x</text>
         <text className="fig-label" x="220" y="128" textAnchor="start">x</text>
         <text className="fig-label" x="120" y="170" textAnchor="middle">3x</text>
       </svg>
@@ -77,7 +77,7 @@ function RailFigure() {
         {/* לולאות */}
         {[
           { cx: 60, label: 'A' },
-          { cx: 200, label: 'B' },
+          { cx: 172, label: 'B' },
           { cx: 340, label: 'C' },
         ].map((p) => (
           <g key={p.label}>
@@ -86,11 +86,11 @@ function RailFigure() {
           </g>
         ))}
         {frame(60)}
-        {frame(200)}
+        {frame(172)}
         {frame(340)}
-        {/* תוויות מרחק */}
-        <text className="fig-label" x="130" y="16" textAnchor="middle">160 ס"מ</text>
-        <text className="fig-label" x="270" y="16" textAnchor="middle">240 ס"מ</text>
+        {/* תוויות מרחק — AB:BC = 160:240 = 2:3 (B ממוקם כך שהיחס מדויק) */}
+        <text className="fig-label" x="116" y="16" textAnchor="middle">160 ס"מ</text>
+        <text className="fig-label" x="256" y="16" textAnchor="middle">240 ס"מ</text>
       </svg>
     </div>
   );
@@ -137,12 +137,12 @@ export function CurriculumPage02() {
       <Question>
         <p>חילקו 56 גולות בין אורי ודן ביחס של 5 : 2. אילו מההיגדים הבאים מתאימים לבעיה? סמנו.</p>
         <div className="statement-list">
-          <div className="statement-row"><Checkbox /><span className="statement-label">א.</span><p>על כל 2 גולות שיש לאורי, יש לדן 5 גולות.</p></div>
-          <div className="statement-row"><Checkbox /><span className="statement-label">ב.</span><p>לאורי <Frac num={2} den={5} /> מסך כל הגולות שיש לשניהם.</p></div>
-          <div className="statement-row"><Checkbox /><span className="statement-label">ג.</span><p>אורי יקבל <Frac num={2} den={7} /> מהגולות, ודן יקבל <Frac num={5} den={7} /> מהגולות.</p></div>
-          <div className="statement-row"><Checkbox /><span className="statement-label">ד.</span><p>מכל 7 גולות שמחולקות ביחס המבוקש, לאורי יש 2 גולות ולדן יש 5 גולות.</p></div>
-          <div className="statement-row"><Checkbox /><span className="statement-label">ה.</span><p>מכל 7 גולות שמחולקות ביחס המבוקש, לדן יש 2 גולות ולאורי יש 5 גולות.</p></div>
-          <div className="statement-row"><Checkbox /><span className="statement-label">ו.</span><p>היחס בין מספר הגולות של אורי לבין מספר הגולות של דן הוא 10 : 4.</p></div>
+          <div className="statement-row"><Checkbox /><p>על כל 2 גולות שיש לאורי, יש לדן 5 גולות.</p></div>
+          <div className="statement-row"><Checkbox /><p>לאורי <Frac num={2} den={5} /> מסך כל הגולות שיש לשניהם.</p></div>
+          <div className="statement-row"><Checkbox /><p>אורי יקבל <Frac num={2} den={7} /> מהגולות, ודן יקבל <Frac num={5} den={7} /> מהגולות.</p></div>
+          <div className="statement-row"><Checkbox /><p>מכל 7 גולות שמחולקות ביחס המבוקש, לאורי יש 2 גולות ולדן יש 5 גולות.</p></div>
+          <div className="statement-row"><Checkbox /><p>מכל 7 גולות שמחולקות ביחס המבוקש, לדן יש 2 גולות ולאורי יש 5 גולות.</p></div>
+          <div className="statement-row"><Checkbox /><p>היחס בין מספר הגולות של אורי לבין מספר הגולות של דן הוא 10 : 4.</p></div>
         </div>
       </Question>
     </PageLayout>

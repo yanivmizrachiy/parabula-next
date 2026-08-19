@@ -1,4 +1,4 @@
-import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep } from './PageLayout';
+import { PageLayout, Question, SubQuestion, Blank, WorksheetTable, Checkbox, Frac, AnswerLine, QSep, CalculationResponse, WorkArea, FinalAnswer } from './PageLayout';
 
 const CH = 'פרק 2 – חלוקה ביחס נתון';
 
@@ -9,6 +9,11 @@ export function Ch2Page1() {
       <Question>
         <p>בשק 54 כדורים. היחס בין מספר הכדורים הצהובים למספר הכדורים השחורים הוא 4 : 5.</p>
         <p>כמה כדורים צהובים וכמה כדורים שחורים בשק?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="כדורים צהובים:" />
+          <FinalAnswer label="כדורים שחורים:" />
+        </div>
       </Question>
 
       <QSep />
@@ -24,6 +29,11 @@ export function Ch2Page1() {
       <Question>
         <p>פועל וותיק מרכיב 7 חלקים, באותו זמן שפועל מתמחה מרכיב 3 חלקים.</p>
         <p>כיצד יחלקו ביניהם 80 חלקים להרכבה כך שיסיימו יחד את המשימה?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="פועל וותיק:" />
+          <FinalAnswer label="פועל מתמחה:" />
+        </div>
       </Question>
 
       <QSep />
@@ -31,6 +41,11 @@ export function Ch2Page1() {
       <Question>
         <p>לדני וליוסי יחד יש 90 תקליטורים. לדני יש יותר תקליטורים מאשר ליוסי והיחס ביניהם הוא 7 : 2.</p>
         <p>כמה תקליטורים יש לכל אחד מהם?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="לדני:" />
+          <FinalAnswer label="ליוסי:" />
+        </div>
       </Question>
 
       <QSep />
@@ -39,6 +54,11 @@ export function Ch2Page1() {
         <p>בכיתה ח נערכה הצבעה בה נשאלו התלמידים אם הם בעד או נגד תלבושת אחידה.</p>
         <p>היחס בין מספר התלמידים שהיו בעד לבין אלו שהיו נגד הוא 3 : 2. בכיתה 35 תלמידים.</p>
         <p>כמה תלמידים הצביעו בעד וכמה תלמידים הצביעו נגד?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="בעד:" />
+          <FinalAnswer label="נגד:" />
+        </div>
       </Question>
     </PageLayout>
   );
@@ -59,6 +79,11 @@ export function Ch2Page2() {
       <Question>
         <p>במסגרת פעילות התנדבותית של תלמידי שכבת כיתות ח, חולקו תלמידי השכבה לשתי קבוצות ביחס של 2 : 3.</p>
         <p>בשכבת כיתות ח יש 95 תלמידים. כמה תלמידים בכל אחת מהקבוצות?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="קבוצה א:" />
+          <FinalAnswer label="קבוצה ב:" />
+        </div>
       </Question>
 
       <QSep />
@@ -66,6 +91,11 @@ export function Ch2Page2() {
       <Question>
         <p>באולם תיאטרון 820 מקומות ישיבה. היחס בין מספר המושבים באולם לבין מספר המושבים ביציע הוא 1 : 4.</p>
         <p>כמה מושבים באולם התיאטרון וכמה מושבים ביציע?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="מושבים באולם:" />
+          <FinalAnswer label="מושבים ביציע:" />
+        </div>
       </Question>
 
       <QSep />
@@ -82,6 +112,12 @@ export function Ch2Page2() {
       <Question>
         <p>היקפו של משולש הוא 30 ס"מ. היחס בין אורכי הצלעות הוא 6 : 5 : 4.</p>
         <p>חשבו את אורכי צלעות המשולש.</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="צלע ראשונה:" unit="ס״מ" />
+          <FinalAnswer label="צלע שנייה:" unit="ס״מ" />
+          <FinalAnswer label="צלע שלישית:" unit="ס״מ" />
+        </div>
       </Question>
 
       <QSep />
@@ -178,6 +214,11 @@ export function Ch2Page4() {
     <PageLayout pageNumber={12} chapter={CH}>
       <Question>
         <p>שותף אחד השקיע בעסקה 2000 שקלים, וחברו השקיע 3000 שקלים. הוסכם ביניהם שהרווח יחולק לפי יחס ההשקעות. איך יחלקו ביניהם רווח של 1200 שקלים?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="השותף שהשקיע 2000:" unit="ש״ח" />
+          <FinalAnswer label="השותף שהשקיע 3000:" unit="ש״ח" />
+        </div>
       </Question>
 
       <QSep />
@@ -185,6 +226,11 @@ export function Ch2Page4() {
       <Question>
         <p>זווית אחת במשולש היא בת °120 . היחס בין שתי הזוויות האחרות הוא 1 : 5 .</p>
         <p>מה גודלן של שתי הזוויות האחרות במשולש ?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="הזווית האחת:" unit="°" />
+          <FinalAnswer label="הזווית השנייה:" unit="°" />
+        </div>
       </Question>
 
       <QSep />
@@ -192,21 +238,21 @@ export function Ch2Page4() {
       <Question>
         <p>נתון : ΔAPB ו- ABCD ריבוע. שטח המצולע ADCBP בסרטוט הוא 66 סמ"ר. היחס בין שטח הריבוע לשטח המשולש הוא 5 : 6 .</p>
         <div className="geometry-figure">
-          <svg viewBox="0 0 200 180" className="geo-svg">
-            <polygon points="100,10 30,90 170,90" fill="none" stroke="#000" strokeWidth="2" />
-            <rect x="30" y="90" width="140" height="65" fill="none" stroke="#000" strokeWidth="2" />
-            <line x1="100" y1="10" x2="100" y2="90" stroke="#000" strokeWidth="1" strokeDasharray="4" />
-            <rect x="100" y="80" width="10" height="10" fill="none" stroke="#000" strokeWidth="1" />
-            <text x="100" y="7" textAnchor="middle" fontSize="11">P</text>
-            <text x="25" y="95" textAnchor="middle" fontSize="11">A</text>
-            <text x="175" y="95" textAnchor="middle" fontSize="11">B</text>
-            <text x="25" y="165" textAnchor="middle" fontSize="11">D</text>
-            <text x="175" y="165" textAnchor="middle" fontSize="11">C</text>
-            <text x="107" y="95" textAnchor="start" fontSize="10">E</text>
+          <svg viewBox="0 0 170 235" className="geo-svg" role="img" aria-label="משולש APB מעל ריבוע ABCD, PE גובה המשולש" shapeRendering="geometricPrecision">
+            <rect x="60" y="160" width="45" height="45" fill="none" stroke="#000" strokeWidth="1.8" />
+            <polygon points="82.5,52 60,160 105,160" fill="none" stroke="#000" strokeWidth="1.8" />
+            <line x1="82.5" y1="52" x2="82.5" y2="160" stroke="#000" strokeWidth="1.1" strokeDasharray="4" />
+            <rect x="82.5" y="152" width="8" height="8" fill="none" stroke="#000" strokeWidth="1" />
+            <text x="82.5" y="46" textAnchor="middle" fontSize="11">P</text>
+            <text x="50" y="158" textAnchor="end" fontSize="11">A</text>
+            <text x="112" y="158" fontSize="11">B</text>
+            <text x="50" y="216" textAnchor="end" fontSize="11">D</text>
+            <text x="112" y="216" fontSize="11">C</text>
+            <text x="92" y="172" fontSize="10">E</text>
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>חשבו את שטח הריבוע.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p></SubQuestion>
+        <SubQuestion label="(א)"><p>חשבו את שטח הריבוע.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
         <SubQuestion label="(ג)"><p>מהו היחס בין אורך צלע הריבוע לגובה של המשולש PE ?</p></SubQuestion>
       </Question>
     </PageLayout>
@@ -264,8 +310,8 @@ export function Ch2Page6() {
     <PageLayout pageNumber={14} chapter={CH}>
       <Question>
         <p>בכיתה 36 תלמידים. <Frac num={5} den={9} /> מהתלמידים הם בנים והשאר בנות.</p>
-        <SubQuestion label="(א)"><p>מהו מספר הבנים בכיתה?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר הבנות בכיתה?</p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו מספר הבנים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו מספר הבנות בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
         <SubQuestion label="(ג)"><p>מהו היחס בין מספר הבנים לבין מספר הבנות בכיתה?</p></SubQuestion>
         <SubQuestion label="(ד)"><p>מהו היחס בין מספר הבנות לבין כלל תלמידי הכיתה?</p></SubQuestion>
       </Question>
@@ -274,8 +320,8 @@ export function Ch2Page6() {
 
       <Question>
         <p>בכיתה ח'1 היחס בין מספר התלמידים מרכיבי המשקפיים לבין אלה שאינם מרכיבים משקפיים הוא 7 : 3 .</p>
-        <SubQuestion label="(א)"><p>אם מספר מרכיבי המשקפיים הוא 21, מהו מספר התלמידים שאינם מרכיבים משקפיים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר התלמידים בכיתה?</p></SubQuestion>
+        <SubQuestion label="(א)"><p>אם מספר מרכיבי המשקפיים הוא 21, מהו מספר התלמידים שאינם מרכיבים משקפיים?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו מספר התלמידים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
         <SubQuestion label="(ג)"><p>מהו היחס בין מספר מרכיבי המשקפיים לבין כלל תלמידי הכיתה?</p></SubQuestion>
       </Question>
 
@@ -283,8 +329,8 @@ export function Ch2Page6() {
 
       <Question>
         <p>באוטובוס יש 54 מקומות. לאוטובוס עלו ילדים ומבוגרים ומילאו את כל המקומות. היחס בין מספר הילדים שעלו לאוטובוס לבין מספר המבוגרים שעלו לאוטובוס הוא 5 : 4 .</p>
-        <SubQuestion label="(א)"><p>מהו מספר הילדים שעלו לאוטובוס?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר המבוגרים שעלו לאוטובוס?</p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו מספר הילדים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו מספר המבוגרים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
         <SubQuestion label="(ג)"><p>מהו היחס בין מספר הילדים שעלו לאוטובוס לבין כלל הנוסעים (לא כולל הנהג)?</p></SubQuestion>
       </Question>
     </PageLayout>
@@ -298,12 +344,19 @@ export function Ch2Page7() {
       <Question>
         <p>במשולש ישר-זווית היחס בין שתי הזוויות החדות הוא 1 : 8 .</p>
         <div className="svg-center svg-center--tight">
-          <svg viewBox="0 0 130 90" width="120" height="80">
-            <polygon points="15,75 115,75 115,10" fill="none" stroke="#000" strokeWidth="1.5" />
-            <rect x="105" y="65" width="10" height="10" fill="none" stroke="#000" strokeWidth="1" />
+          <svg viewBox="0 0 130 90" width="120" height="80" role="img" aria-label="משולש ישר זווית שזוויותיו החדות ביחס 1:8" shapeRendering="geometricPrecision">
+            <polygon points="10,72 110,72 110,54.4" fill="none" stroke="#000" strokeWidth="1.8" />
+            <rect x="100" y="62" width="10" height="10" fill="none" stroke="#000" strokeWidth="1" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>מהו גודלן של הזוויות החדות?</p></SubQuestion>
+        <SubQuestion label="(א)">
+          <p>מהו גודלן של הזוויות החדות?</p>
+          <div className="calculation-response">
+            <WorkArea lines={3} />
+            <FinalAnswer label="הזווית האחת:" unit="°" />
+            <FinalAnswer label="הזווית השנייה:" unit="°" />
+          </div>
+        </SubQuestion>
         <SubQuestion label="(ב)"><p>מהו היחס בין גודל הזווית הגדולה ביותר במשולש לבין גודל הזווית הקטנה ביותר?</p></SubQuestion>
       </Question>
 
@@ -312,8 +365,15 @@ export function Ch2Page7() {
       <Question>
         <p>בקופסת ממתקים יש 48 סוכריות. על כל 3 סוכריות חמוצות יש 5 סוכריות מתוקות.</p>
         <SubQuestion label="(א)"><p>מהו היחס בין מספר הסוכריות המתוקות למספר הסוכריות החמוצות?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כמה סוכריות חמוצות וכמה סוכריות מתוקות יש בקופסה?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כמה סוכריות חמוצות יש להוסיף לקופסה כדי שהיחס בין מספרן לבין מספר הסוכריות המתוקות יהיה 1 : 1 ?</p></SubQuestion>
+        <SubQuestion label="(ב)">
+          <p>כמה סוכריות חמוצות וכמה סוכריות מתוקות יש בקופסה?</p>
+          <div className="calculation-response">
+            <WorkArea lines={3} />
+            <FinalAnswer label="סוכריות חמוצות:" />
+            <FinalAnswer label="סוכריות מתוקות:" />
+          </div>
+        </SubQuestion>
+        <SubQuestion label="(ג)"><p>כמה סוכריות חמוצות יש להוסיף לקופסה כדי שהיחס בין מספרן לבין מספר הסוכריות המתוקות יהיה 1 : 1 ?</p><CalculationResponse lines={3} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -321,13 +381,13 @@ export function Ch2Page7() {
       <Question>
         <p>בסרטוט שלפניכם מלבן ומשולש. השטח הכולל של המלבן והמשולש הוא 72 סמ"ר. היחס בין שטח המלבן לשטח המשולש הוא 7 : 2 .</p>
         <div className="svg-center svg-center--tight">
-          <svg viewBox="0 0 160 90" width="150" height="85">
-            <polygon points="80,5 30,40 130,40" fill="none" stroke="#000" strokeWidth="1.5" />
-            <rect x="30" y="40" width="100" height="45" fill="none" stroke="#000" strokeWidth="1.5" />
+          <svg viewBox="0 0 160 90" width="150" height="85" role="img" aria-label="מלבן ומשולש, יחס שטח מלבן למשולש 7:2" shapeRendering="geometricPrecision">
+            <polygon points="80,14.3 30,40 130,40" fill="none" stroke="#000" strokeWidth="1.6" />
+            <rect x="30" y="40" width="100" height="45" fill="none" stroke="#000" strokeWidth="1.6" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>חשבו את שטח המלבן.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p></SubQuestion>
+        <SubQuestion label="(א)"><p>חשבו את שטח המלבן.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
         <SubQuestion label="(ג)"><p>אם אורך הצלע הקצרה במלבן הוא 4 ס"מ, מהו היחס בין אורך הצלע הקצרה לאורך הצלע הארוכה במלבן?</p></SubQuestion>
       </Question>
     </PageLayout>
@@ -423,7 +483,14 @@ export function Ch2Page9() {
       <Question>
         <p>סימה ושושי נפגשו בחנות שהכריזה : <strong>"קנו 3 ספרים – הזול ביותר חינם!"</strong>. סימה בחרה ספרים במחירים 25 ש"ח ו - 35 ש"ח , ושושי בחרה ספר במחיר 40 ש"ח .</p>
         <SubQuestion label="(א)"><p>כמה כסף חסכו יחד הודות למבצע?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>חלקו את החיסכון באופן יחסי לסכומי הקנייה של כל אחת. כמה חסכה סימה וכמה חסכה שושי?</p></SubQuestion>
+        <SubQuestion label="(ב)">
+          <p>חלקו את החיסכון באופן יחסי לסכומי הקנייה של כל אחת. כמה חסכה סימה וכמה חסכה שושי?</p>
+          <div className="calculation-response">
+            <WorkArea lines={4} />
+            <FinalAnswer label="סימה:" unit="ש״ח" />
+            <FinalAnswer label="שושי:" unit="ש״ח" />
+          </div>
+        </SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -440,7 +507,7 @@ export function Ch2Page10() {
       <Question>
         <p>בתחילת השנה היה היחס בין מספר התלמידים בכיתה ח<sub>1</sub> למספר התלמידים בכיתה ח<sub>2</sub> הוא 2 : 5 . הֶעבירו 9 תלמידים מהכיתה הגדולה לכיתה הקטנה, ואז בשתי הכיתות היה מספר שווה של תלמידים.</p>
         <SubQuestion label="(א)"><p>כּ ִתבו ביטויים אלגבריים למספר התלמידים בשתי הכיתות בתחילת השנה.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כּ ִתבו משוואה לסיפור ופִתרו אותה.</p></SubQuestion>
+        <SubQuestion label="(ב)"><p>כּ ִתבו משוואה לסיפור ופִתרו אותה.</p><CalculationResponse lines={4} /></SubQuestion>
         <SubQuestion label="(ג)"><p>כמה תלמידים היו בכל כיתה בהתחלה? כמה אחרי המעבר?</p></SubQuestion>
       </Question>
 
@@ -448,25 +515,45 @@ export function Ch2Page10() {
 
       <Question>
         <p>היחס בין שני מספרים הוא 4 : 9 , <strong>מכפלת</strong> המספרים היא 144 . מצאו את שני המספרים.</p>
-        <AnswerLine label="פתרון :" />
+        <div className="calculation-response">
+          <WorkArea lines={4} />
+          <FinalAnswer label="המספר הראשון:" />
+          <FinalAnswer label="המספר השני:" />
+        </div>
       </Question>
 
       <QSep />
 
       <Question>
         <p>סכום אורכי שתי צלעות סמוכות של מלבן הוא 28 ס"מ. היחס בין אורכי הצלעות הוא 3 : 4 . מהם אורכי צלעות המלבן?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="הצלע האחת:" unit="ס״מ" />
+          <FinalAnswer label="הצלע השנייה:" unit="ס״מ" />
+        </div>
       </Question>
 
       <QSep />
 
       <Question>
         <p>היקף מלבן 64 ס"מ. היחס בין אורכי שתי צלעות סמוכות הוא 3 : 5 . מהם אורכי צלעות המלבן?</p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="הצלע האחת:" unit="ס״מ" />
+          <FinalAnswer label="הצלע השנייה:" unit="ס״מ" />
+        </div>
       </Question>
 
       <QSep />
 
       <Question>
         <p>היחס בין גודלן של שלוש זוויות במשולש הוא 2 : 3 : 4 . מה גודלה של כל זווית במשולש? <span className="text-muted-foreground">(רמז : סכום זוויות במשולש = 180°)</span></p>
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="זווית ראשונה:" unit="°" />
+          <FinalAnswer label="זווית שנייה:" unit="°" />
+          <FinalAnswer label="זווית שלישית:" unit="°" />
+        </div>
       </Question>
 
       <QSep />
@@ -493,7 +580,14 @@ export function Ch2Page11() {
         <p>קבוצה של <strong>50 מבוגרים וילדים</strong> נכנסה למסעדה. היחס בין מספר המבוגרים למספר הילדים הוא <strong>3 : 2</strong> .</p>
         <SubQuestion label="(א)"><p>מה יש יותר – מבוגרים או ילדים? <Blank /></p></SubQuestion>
         <SubQuestion label="(ב)"><p>מהו היחס בין מספר הילדים למספר הכולל בקבוצה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כמה מבוגרים וכמה ילדים בקבוצה? <Blank /></p></SubQuestion>
+        <SubQuestion label="(ג)">
+          <p>כמה מבוגרים וכמה ילדים בקבוצה?</p>
+          <div className="calculation-response">
+            <WorkArea lines={3} />
+            <FinalAnswer label="מבוגרים:" />
+            <FinalAnswer label="ילדים:" />
+          </div>
+        </SubQuestion>
       </Question>
 
       <QSep />
@@ -509,15 +603,26 @@ export function Ch2Page11() {
 
       <Question>
         <p>חַלקו סכום של <strong>180 ש"ח</strong> בין שני ילדים ביחס <strong>4 : 5</strong> .</p>
-        <SubQuestion label="(א)"><p>כמה יקבל כל אחד? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו ההפרש בין הסכומים? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)">
+          <p>כמה יקבל כל אחד?</p>
+          <div className="calculation-response">
+            <WorkArea lines={3} />
+            <FinalAnswer label="הילד האחד:" unit="ש״ח" />
+            <FinalAnswer label="הילד השני:" unit="ש״ח" />
+          </div>
+        </SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו ההפרש בין הסכומים?</p><CalculationResponse lines={2} unit="ש״ח" /></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכד <strong>72 ליטר</strong> תערובת של מיץ ומים ביחס <strong>2 : 7</strong> בהתאמה. כמה ליטרים של כל אחד יש בכד?</p>
-        <AnswerLine />
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="מיץ:" unit="ליטר" />
+          <FinalAnswer label="מים:" unit="ליטר" />
+        </div>
       </Question>
     </PageLayout>
   );

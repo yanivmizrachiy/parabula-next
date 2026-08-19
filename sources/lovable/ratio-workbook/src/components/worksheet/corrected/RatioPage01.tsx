@@ -46,7 +46,7 @@ export function RatioPage01() {
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond filled /></div>
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond filled /></div>
           </div>
-          <Checkbox label="4" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -54,7 +54,7 @@ export function RatioPage01() {
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond /></div>
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond /></div>
           </div>
-          <Checkbox label="3" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -62,7 +62,7 @@ export function RatioPage01() {
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond /></div>
             <div className="circles-row"><Diamond filled /><Diamond filled /><Diamond /></div>
           </div>
-          <Checkbox label="2" />
+          <Checkbox />
         </div>
         <div className="circle-option">
           <div className="circles-box">
@@ -70,7 +70,7 @@ export function RatioPage01() {
             <div className="circles-row"><Diamond /><Diamond /><Diamond /></div>
             <div className="circles-row"><Diamond filled /><Diamond /><Diamond /></div>
           </div>
-          <Checkbox label="1" />
+          <Checkbox />
         </div>
       </div>
 

@@ -233,13 +233,12 @@ interface WorkAreaProps {
 }
 
 export function WorkArea({ lines = 3, label = 'דרך:', className }: WorkAreaProps) {
-  const safeLines = Math.max(1, Math.min(6, Math.floor(lines)));
+  const safeLines = Math.max(1, Math.min(8, Math.floor(lines)));
+  // Open writing box — the student writes the full solution inside; no ruled/dotted lines.
   return (
     <div className={cn('work-area', className)} aria-label="מקום לכתיבת דרך החישוב">
       <span className="work-area-label">{label}</span>
-      <div className="work-area-lines" aria-hidden="true">
-        {Array.from({ length: safeLines }, (_, index) => <span className="work-area-line" key={index} />)}
-      </div>
+      <div className="work-area-space" aria-hidden="true" style={{ minHeight: `${safeLines * 26}px` }} />
     </div>
   );
 }

@@ -117,10 +117,10 @@ export function Ch3Page2() {
       <Question>
         <p>סמנו את היחס השווה ליחס 7 : 3 .</p>
         <div className="ratio-options">
-          <div><Checkbox label="1" /> 6 : 10</div>
-          <div><Checkbox label="2" /> 9 : 21</div>
-          <div><Checkbox label="3" /> 21 : 35</div>
-          <div><Checkbox label="4" /> 30 : 40</div>
+          <div><Checkbox /> 6 : 10</div>
+          <div><Checkbox /> 9 : 21</div>
+          <div><Checkbox /> 21 : 35</div>
+          <div><Checkbox /> 30 : 40</div>
         </div>
       </Question>
 
@@ -130,10 +130,10 @@ export function Ch3Page2() {
         <p>בבחירות למועצת תלמידים קיבל רן 300 קולות ונעמה קיבלה 500 קולות.</p>
         <p>מה היחס בין מספר הקולות שקיבל רן למספר הקולות שקיבלה נעמה?</p>
         <div className="ratio-options">
-          <div><Checkbox label="1" /> 5 : 8</div>
-          <div><Checkbox label="2" /> 2 : 5</div>
-          <div><Checkbox label="3" /> 3 : 8</div>
-          <div><Checkbox label="4" /> 3 : 5</div>
+          <div><Checkbox /> 5 : 8</div>
+          <div><Checkbox /> 2 : 5</div>
+          <div><Checkbox /> 3 : 8</div>
+          <div><Checkbox /> 3 : 5</div>
         </div>
       </Question>
 
@@ -156,10 +156,10 @@ export function Ch3Page2() {
         <p>בכיתה ח1 בבית הספר "עלומים" נערך סקר. 12 תלמידים השיבו שהם בעד תלבושת אחידה, ו- 27 תלמידים השיבו שהם נגד.</p>
         <p>מה היחס בין מספר התלמידים שהצביעו <strong>בעד</strong> למספר התלמידים שהצביעו נגד?</p>
         <div className="ratio-options">
-          <div><Checkbox label="1" /> 1 : 15</div>
-          <div><Checkbox label="2" /> <Frac num={15} den={27} /></div>
-          <div><Checkbox label="3" /> 4 : 9</div>
-          <div><Checkbox label="4" /> <Frac num={12} den={39} /></div>
+          <div><Checkbox /> 1 : 15</div>
+          <div><Checkbox /> <Frac num={15} den={27} /></div>
+          <div><Checkbox /> 4 : 9</div>
+          <div><Checkbox /> <Frac num={12} den={39} /></div>
         </div>
       </Question>
 
@@ -170,10 +170,10 @@ export function Ch3Page2() {
         <SubQuestion label="א.">
           <p>מהו היחס בין מספר <strong>הבנים</strong> למספר <strong>הבנות</strong> בחוג המחשבים?</p>
           <div className="ratio-options">
-            <div><Checkbox label="1" /> 7 : 10</div>
-            <div><Checkbox label="2" /> 3 : 7</div>
-            <div><Checkbox label="3" /> 1 : 7</div>
-            <div><Checkbox label="4" /> 1 : 3</div>
+            <div><Checkbox /> 7 : 10</div>
+            <div><Checkbox /> 3 : 7</div>
+            <div><Checkbox /> 1 : 7</div>
+            <div><Checkbox /> 1 : 3</div>
           </div>
         </SubQuestion>
         <SubQuestion label="ב."><p>איזה <strong>חלק</strong> מילדי החוג מהוות הבנות? <Blank /> .</p></SubQuestion>
@@ -229,10 +229,10 @@ export function Ch3Page3() {
         <p>בחנות תבלינים מוכרים תערובת משני תבלינים קינמון ווניל ביחס קבוע.</p>
         <SubQuestion label="א."><p>מהו היחס בין הקינמון לוניל בתערובת?</p></SubQuestion>
         <div className="ratio-options">
-          <div><Checkbox label="1" /> 3 : 5</div>
-          <div><Checkbox label="2" /> 3 : 7</div>
-          <div><Checkbox label="3" /> 2 : 5</div>
-          <div><Checkbox label="4" /> 2 : 7</div>
+          <div><Checkbox /> 3 : 5</div>
+          <div><Checkbox /> 3 : 7</div>
+          <div><Checkbox /> 2 : 5</div>
+          <div><Checkbox /> 2 : 7</div>
         </div>
       </Question>
 
@@ -248,10 +248,10 @@ export function Ch3Page3() {
         <SubQuestion label="ב.">
           <p>הֵזיזו את לולאה B ב- 60 ס"מ לכיוון A. מהו היחס בין AB ובין BC לאחר ההזזה?</p>
           <div className="ratio-options">
-            <div><Checkbox label="1" /> 1 : 2</div>
-            <div><Checkbox label="2" /> 1 : 3</div>
-            <div><Checkbox label="3" /> 1 : 4</div>
-            <div><Checkbox label="4" /> 1 : 6</div>
+            <div><Checkbox /> 1 : 2</div>
+            <div><Checkbox /> 1 : 3</div>
+            <div><Checkbox /> 1 : 4</div>
+            <div><Checkbox /> 1 : 6</div>
           </div>
         </SubQuestion>
         <SubQuestion label="ג."><p>בכמה ס"מ צריך להזיז את B לכיוון C כדי שהיחס AB:BC יהיה 1 : 1 ?</p></SubQuestion>
@@ -575,10 +575,10 @@ export function Ch3Page7() {
         <SubQuestion label="(ד)">
           <p>צורת רישום נוספת ליחס שמצאתם בסעיף (ג) היא:</p>
           <div className="ratio-options">
-            <div><Checkbox label="1" /> 3 : 5</div>
-            <div><Checkbox label="2" /> 1 : 2</div>
-            <div><Checkbox label="3" /> 8 : 1</div>
-            <div><Checkbox label="4" /> 4 : 12</div>
+            <div><Checkbox /> 3 : 5</div>
+            <div><Checkbox /> 1 : 2</div>
+            <div><Checkbox /> 8 : 1</div>
+            <div><Checkbox /> 4 : 12</div>
           </div>
           <p>בחרו באפשרות הנכונה ונמקו תשובתכם.</p>
         </SubQuestion>
@@ -602,22 +602,34 @@ export function Ch3Page7() {
         <p>בכל אחד מהסרטוטים הבאים נתונות זוויות צמודות. רשמו מהו היחס בין גודל הזווית הנתונה לבין גודל הזווית α.</p>
         <div className="svg-figure-row">
           {[
-            { label: '(א)', given: '20°' },
-            { label: '(ב)', given: '140°' },
-            { label: '(ג)', given: '90°' },
-            { label: '(ד)', given: '18°' },
-          ].map((d, i) => (
-            <div key={i} className="svg-cell">
-              <span className="geo-label">{d.label}</span>
-              <svg viewBox="0 0 80 50" width="70" height="46">
-                <line x1="5" y1="45" x2="75" y2="45" stroke="#000" strokeWidth="1.5" />
-                <line x1="40" y1="45" x2="60" y2="10" stroke="#000" strokeWidth="1.5" />
-                <text x="22" y="42" fontSize="8">{d.given}</text>
-                <text x="48" y="42" fontSize="8">α</text>
-              </svg>
-              <span className="txt-xs">היחס : <span className="inline-blank w-40" /></span>
-            </div>
-          ))}
+            { label: '(א)', given: 20 },
+            { label: '(ב)', given: 140 },
+            { label: '(ג)', given: 90 },
+            { label: '(ד)', given: 18 },
+          ].map((d, i) => {
+            // Two adjacent angles on a straight line: the given angle + α, with α = 180 − given.
+            // The ray is generated from exact trig so each drawn angle equals its label (§4.3).
+            const V = { x: 45, y: 46 };
+            const R = 36;
+            const rad = (deg: number) => (deg * Math.PI) / 180;
+            const theta = 180 - d.given;
+            const ray = { x: V.x + R * Math.cos(rad(theta)), y: V.y - R * Math.sin(rad(theta)) };
+            const gP = { x: V.x + 23 * Math.cos(rad((theta + 180) / 2)), y: V.y - 23 * Math.sin(rad((theta + 180) / 2)) };
+            const aP = { x: V.x + 21 * Math.cos(rad(theta / 2)), y: V.y - 21 * Math.sin(rad(theta / 2)) };
+            return (
+              <div key={i} className="svg-cell">
+                <span className="geo-label">{d.label}</span>
+                <svg viewBox="0 0 90 56" width="76" height="47" role="img" aria-label={`זווית נתונה ${d.given} מעלות וזווית אלפא צמודות על ישר`} shapeRendering="geometricPrecision">
+                  <line x1="6" y1={V.y} x2="84" y2={V.y} stroke="#172554" strokeWidth="1.8" />
+                  <line x1={V.x} y1={V.y} x2={ray.x.toFixed(2)} y2={ray.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
+                  <circle cx={V.x} cy={V.y} r="1.5" fill="#172554" />
+                  <text x={gP.x.toFixed(2)} y={(gP.y + 3).toFixed(2)} fontSize="8" textAnchor="middle" direction="ltr">{d.given}°</text>
+                  <text x={aP.x.toFixed(2)} y={(aP.y + 3).toFixed(2)} fontSize="8" textAnchor="middle">α</text>
+                </svg>
+                <span className="txt-xs">היחס : <span className="inline-blank w-40" /></span>
+              </div>
+            );
+          })}
         </div>
       </Question>
     </PageLayout>
@@ -659,19 +671,37 @@ export function Ch3Page8() {
             { label: '(ד)', a: 60, b: 60, c: 60 },
             { label: '(ה)', a: 45, b: 45, c: 90 },
             { label: '(ו)', a: 72, b: 72, c: 36 },
-          ].map((t, i) => (
-            <div key={i} className="cell">
-              <div className="title">{t.label}</div>
-              <svg viewBox="0 0 120 90" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="60,8 110,80 10,80" fill="none" stroke="#1a1a1a" strokeWidth="1.4" strokeLinejoin="round" />
-                <text x="60" y="24" textAnchor="middle" fontSize="10" fill="#1a1a1a" fontWeight="600">{t.a}°</text>
-                <text x="96" y="74" textAnchor="middle" fontSize="10" fill="#1a1a1a" fontWeight="600">{t.b}°</text>
-                <text x="24" y="74" textAnchor="middle" fontSize="10" fill="#1a1a1a" fontWeight="600">{t.c}°</text>
-              </svg>
-              <div className="answer-row">יחס : <span className="inline-blank w-70" /></div>
-              <div>מצומצם : <span className="inline-blank w-60" /></div>
-            </div>
-          ))}
+          ].map((t, i) => {
+            const rad = (d: number) => (d * Math.PI) / 180;
+            const cot = (d: number) => Math.cos(rad(d)) / Math.sin(rad(d)); // a=apex, b=bottom-right, c=bottom-left
+            const W = 1;
+            const h = W / (cot(t.b) + cot(t.c));
+            const Lx = 0, Rx = W, Tx = Lx + h * cot(t.c), Ty = h; // work space, y up
+            const minX = Math.min(Lx, Rx, Tx), maxX = Math.max(Lx, Rx, Tx), maxY = h;
+            const bw = maxX - minX, bh = maxY;
+            const vbW = 120, vbH = 92, pad = 16;
+            const s = Math.min((vbW - 2 * pad) / bw, (vbH - 2 * pad) / bh);
+            const offX = (vbW - s * bw) / 2 - s * minX, offY = pad;
+            const X = (x: number) => offX + s * (x - minX);
+            const Y = (y: number) => offY + s * (maxY - y);
+            const Lp = { x: X(Lx), y: Y(0) }, Rp = { x: X(Rx), y: Y(0) }, Tp = { x: X(Tx), y: Y(Ty) };
+            const G = { x: (Lp.x + Rp.x + Tp.x) / 3, y: (Lp.y + Rp.y + Tp.y) / 3 };
+            const lab = (p: { x: number; y: number }) => ({ x: p.x + (G.x - p.x) * 0.26, y: p.y + (G.y - p.y) * 0.26 });
+            const aL = lab(Tp), bL = lab(Rp), cL = lab(Lp);
+            return (
+              <div key={i} className="cell">
+                <div className="title">{t.label}</div>
+                <svg viewBox="0 0 120 92" xmlns="http://www.w3.org/2000/svg" shapeRendering="geometricPrecision">
+                  <polygon points={`${Tp.x.toFixed(1)},${Tp.y.toFixed(1)} ${Rp.x.toFixed(1)},${Rp.y.toFixed(1)} ${Lp.x.toFixed(1)},${Lp.y.toFixed(1)}`} fill="none" stroke="#1a1a1a" strokeWidth="1.6" strokeLinejoin="round" />
+                  <text x={aL.x.toFixed(1)} y={(aL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.a}°</text>
+                  <text x={bL.x.toFixed(1)} y={(bL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.b}°</text>
+                  <text x={cL.x.toFixed(1)} y={(cL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.c}°</text>
+                </svg>
+                <div className="answer-row">יחס : <span className="inline-blank w-70" /></div>
+                <div>מצומצם : <span className="inline-blank w-60" /></div>
+              </div>
+            );
+          })}
         </div>
       </Question>
     </PageLayout>

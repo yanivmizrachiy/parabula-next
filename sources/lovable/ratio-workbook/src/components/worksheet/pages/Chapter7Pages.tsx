@@ -1,4 +1,4 @@
-import { PageLayout, Question, SubQuestion, Blank, Frac, AnswerLine, QSep, WorksheetTable, MultipleChoice } from './PageLayout';
+import { PageLayout, Question, SubQuestion, Blank, Frac, AnswerLine, QSep, WorksheetTable, MultipleChoice, CalculationResponse, WorkArea } from './PageLayout';
 
 const CH = 'פרק 7 – יחס בנתונים, תרשימים וגאומטריה';
 const TOPIC = 'יחס בנתונים, תרשימים וגאומטריה';
@@ -88,7 +88,7 @@ function PopulationChart() {
 // Hook rail: A ── 90 ── B ── 120 ── C
 function HookRail() {
   const W = 460, H = 90;
-  const ax = 40, bx = 200, cx = 420; // distances drawn ~proportional 90:120 → 160:220
+  const ax = 40, bx = 200, cx = 413; // 90:120 = 3:4 exact at 1.7778 px/unit → AB=160px, BC=213.3px
   return (
     <div className="flex justify-center my-2">
       <svg width={W} height={H} aria-hidden="true">
@@ -121,14 +121,14 @@ function SimilarTriangles() {
         <text x="154" y="156" fontSize="12">B</text>
         <text x="58" y="16" fontSize="12">C</text>
       </svg>
-      <svg width="120" height="160" aria-hidden="true">
-        <polygon points="15,135 105,135 45,55" fill="none" stroke="#222" strokeWidth="1.6" />
-        <text x="6" y="150" fontSize="12">D</text>
-        <text x="108" y="150" fontSize="12">E</text>
-        <text x="40" y="50" fontSize="12">F</text>
-        <text x="58" y="148" fontSize="11">9</text>
-        <text x="20" y="100" fontSize="11">7</text>
-        <text x="82" y="100" fontSize="11">5</text>
+      <svg width="130" height="160" role="img" aria-label="משולש DEF שצלעותיו 9, 7 ו־5" shapeRendering="geometricPrecision">
+        <polygon points="16,120 115,120 80.2,77.4" fill="none" stroke="#222" strokeWidth="1.8" />
+        <text x="8" y="133" fontSize="12">D</text>
+        <text x="118" y="133" fontSize="12">E</text>
+        <text x="76" y="72" fontSize="12">F</text>
+        <text x="65" y="134" fontSize="11" textAnchor="middle" direction="ltr">9</text>
+        <text x="38" y="98" fontSize="11" textAnchor="middle" direction="ltr">7</text>
+        <text x="104" y="98" fontSize="11" textAnchor="middle" direction="ltr">5</text>
       </svg>
     </div>
   );
@@ -165,30 +165,36 @@ function KangarooChart() {
     { l: "ג'", v: 40 },
     { l: "ד'", v: 6 },
   ];
-  const W = 260, H = 200, padL = 30, padB = 30, padT = 14;
+  const W = 288, H = 214, padL = 52, padB = 36, padT = 14;
   const innerH = H - padB - padT;
+  const yMid = padT + innerH / 2;
   const yFor = (v: number) => padT + innerH * (1 - v / 50);
   return (
     <div className="flex justify-center my-2">
-      <svg width={W} height={H} className="border border-[#888] bg-white" aria-hidden="true">
+      <svg width={W} height={H} className="border border-[#888] bg-white" role="img" aria-label="דיאגרמת עמודות של מספר הקפיצות לכל קנגורו: א׳ 30, ב׳ 20, ג׳ 40, ד׳ 6">
         {[0, 10, 20, 30, 40, 50].map((v) => (
           <g key={v}>
             <line x1={padL} y1={yFor(v)} x2={W - 8} y2={yFor(v)} stroke="#ddd" strokeWidth="0.5" />
-            <text x={padL - 4} y={yFor(v) + 3} fontSize="9" textAnchor="end">{v}</text>
+            <text x={padL - 6} y={yFor(v) + 3} fontSize="9" textAnchor="end" direction="ltr">{v}</text>
           </g>
         ))}
+        {/* ציר האנכי (Y) */}
+        <line x1={padL} y1={padT} x2={padL} y2={H - padB} stroke="#333" />
+        {/* ציר האופקי (X) */}
         <line x1={padL} y1={H - padB} x2={W - 8} y2={H - padB} stroke="#333" />
         {data.map((d, i) => {
-          const x = padL + 14 + i * 50;
+          const x = padL + 16 + i * 50;
           return (
             <g key={d.l}>
               <rect x={x} y={yFor(d.v)} width="34" height={H - padB - yFor(d.v)} fill="#5b9bd5" stroke="#333" strokeWidth="0.5" />
-              <text x={x + 17} y={yFor(d.v) - 3} fontSize="10" textAnchor="middle">{d.v}</text>
-              <text x={x + 17} y={H - 12} fontSize="11" textAnchor="middle" fontWeight="bold">{d.l}</text>
+              <text x={x + 17} y={yFor(d.v) - 3} fontSize="10" textAnchor="middle" direction="ltr">{d.v}</text>
+              <text x={x + 17} y={H - padB + 15} fontSize="11" textAnchor="middle" fontWeight="bold">{d.l}</text>
             </g>
           );
         })}
-        <text x={W / 2} y={H - 1} fontSize="10" textAnchor="middle">קנגורו</text>
+        {/* תוויות הצירים — מה מייצג כל ציר */}
+        <text x={(padL + W - 8) / 2} y={H - 3} fontSize="10.5" textAnchor="middle" fontWeight="bold">קנגורו</text>
+        <text x="14" y={yMid} fontSize="10.5" textAnchor="middle" fontWeight="bold" transform={`rotate(-90 14 ${yMid})`}>מספר הקפיצות</text>
       </svg>
     </div>
   );
@@ -244,7 +250,6 @@ function RightTriInscribedRect() {
 export function Ch7Page1() {
   return (
     <PageLayout pageNumber={39} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ו</strong></p></div>
 
       <Question>
         <p>סַמנו את האיור שבו היחס בין מספר העיגולים השחורים לבין מספר העיגולים הלבנים הוא 2 : 1 .</p>
@@ -287,7 +292,6 @@ export function Ch7Page1() {
 export function Ch7Page2() {
   return (
     <PageLayout pageNumber={40} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ו (המשך)</strong></p></div>
 
       <Question>
         <p>היחס בין מספר הבוגרים לבין מספר הצעירים במקהלת "זמיר" הוא 3 : 2 . סַמנו ליד כל היגד אם הוא נכון, לא נכון או שאי-אפשר לקבוע.</p>
@@ -343,7 +347,6 @@ export function Ch7Page2() {
 export function Ch7Page3() {
   return (
     <PageLayout pageNumber={41} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ו (המשך)</strong></p></div>
 
       <Question>
         <p>התפלגות התושבים במדינת ישראל לפי קבוצות גיל (צעירים, בוגרים וקשישים) בשנים 1955 ו-2006.</p>
@@ -378,7 +381,6 @@ export function Ch7Page3() {
 export function Ch7Page4() {
   return (
     <PageLayout pageNumber={42} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ה</strong></p></div>
 
       <Question>
         <p>סַמנו את היחס השווה ליחס 3 : 7 .</p>
@@ -427,7 +429,6 @@ export function Ch7Page4() {
 export function Ch7Page5() {
   return (
     <PageLayout pageNumber={43} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ד</strong></p></div>
 
       <Question>
         <p>לפניכם סרטוט של מסילה ישרה לתליית תמונות. על המסילה תלויות שלוש לוּלָאות המסומנות בנקודות A , B , C . המרחקים AB , BC בין הלולאות נתונים בסרטוט.</p>
@@ -442,7 +443,7 @@ export function Ch7Page5() {
             { value: '1 : 6' },
           ]} />
         </SubQuestion>
-        <SubQuestion label="ג."><p>על-סמך הנתונים שבסרטוט, בכמה ס"מ צריך להזיז את לולאה B על המסילה ממקומה המקורי לכיוון לולאה C כדי שהיחס בין AB ובין BC יהיה 1 : 1 ? תשובה : <Blank /> ס"מ</p></SubQuestion>
+        <SubQuestion label="ג."><p>על-סמך הנתונים שבסרטוט, בכמה ס"מ צריך להזיז את לולאה B על המסילה ממקומה המקורי לכיוון לולאה C כדי שהיחס בין AB ובין BC יהיה 1 : 1 ?</p><CalculationResponse lines={3} unit='ס"מ' /></SubQuestion>
       </Question>
 
       <QSep />
@@ -451,7 +452,7 @@ export function Ch7Page5() {
         <p>לפניכם סרטוט של שני משולשים דומים : ∆ABC ∼ ∆DEF . (הדמיון כתוב לפי סדר הקדקודים המתאימים.) האורך של צלעות המשולש DEF נתון בסרטוט.</p>
         <SimilarTriangles />
         <p>יחס הדמיון בין משולש ABC למשולש DEF הוא 3 : 1 . מהו היקף המשולש ABC בס"מ ?</p>
-        <p className="mt-1">תשובה : <Blank /> ס"מ</p>
+        <CalculationResponse lines={3} unit='ס"מ' />
       </Question>
     </PageLayout>
   );
@@ -461,7 +462,6 @@ export function Ch7Page5() {
 export function Ch7Page6() {
   return (
     <PageLayout pageNumber={44} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ג</strong></p></div>
 
       <Question>
         <p>בבחירות למועצת תלמידים קיבל רן 300 קולות ונעמה קיבלה 500 קולות. מה היחס בין מספר הקולות שקיבל רן למספר הקולות שקיבלה נעמה?</p>
@@ -496,7 +496,7 @@ export function Ch7Page6() {
             { value: '1 : 1' },
           ]} />
         </SubQuestion>
-        <SubQuestion label="ג."><p>בעוד כמה שנים מהיום יהיה הגיל של האב גדול פי 3 מהגיל של אלעד? הַציגו את דרך הפתרון :</p><AnswerLine /></SubQuestion>
+        <SubQuestion label="ג."><p>בעוד כמה שנים מהיום יהיה הגיל של האב גדול פי 3 מהגיל של אלעד? הַציגו את דרך הפתרון :</p><CalculationResponse lines={4} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -518,7 +518,6 @@ export function Ch7Page6() {
 export function Ch7Page7() {
   return (
     <PageLayout pageNumber={45} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ג (המשך)</strong></p></div>
 
       <Question>
         <p>ארבעה גורים של קנגורו קפצו לאורך שביל של 120 מ' . כל קנגורו עבר מרחק קבוע בכל אחת מהקפיצות שלו, מרחק זה היה שונה מקנגורו לקנגורו. הדיאגרמה שלפניכם מתארת את מספר הקפיצות שקפץ כל קנגורו לאורך השביל מתחילתו ועד סופו.</p>
@@ -552,7 +551,6 @@ export function Ch7Page7() {
 export function Ch7Page8() {
   return (
     <PageLayout pageNumber={46} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"ב</strong></p></div>
 
       <Question>
         <p>ביממה יש 24 שעות. היחס בין מספר השעות שדניאל יְשֵׁנה ביממה למספר השעות שבהן היא ערה הוא 1 : 2 . כמה שעות דניאל יְשֵׁנה ביממה?</p>
@@ -590,7 +588,6 @@ export function Ch7Page8() {
 export function Ch7Page9() {
   return (
     <PageLayout pageNumber={47} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"א</strong></p></div>
 
       <Question>
         <p>בכיתה ח1 בבית הספר "עלומים" נערך סקר, ובו נשאלו התלמידים אם הם בעד או נגד תלבושת אחידה. 12 תלמידים השיבו שהם בעד תלבושת אחידה, ו-27 תלמידים השיבו שהם נגד. מה היחס בין מספר התלמידים שהצביעו בעד למספר התלמידים שהצביעו נגד?</p>
@@ -616,7 +613,7 @@ export function Ch7Page9() {
             ]}
           />
         </SubQuestion>
-        <SubQuestion label="ב."><p>מה היה מספר הצופים באולם "דקל" בתחילת הסרט? הַציגו את דרך הפתרון :</p><AnswerLine /></SubQuestion>
+        <SubQuestion label="ב."><p>מה היה מספר הצופים באולם "דקל" בתחילת הסרט? הַציגו את דרך הפתרון :</p><CalculationResponse lines={4} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -634,7 +631,7 @@ export function Ch7Page9() {
         <SubQuestion label="א."><p>היחס הקבוע בין מספר הבנות למספר הבנים בכל כיתה הוא : <Blank /></p></SubQuestion>
         <SubQuestion label="ב."><p>מספר הבנים בכיתה ח'2 הוא : <Blank /></p></SubQuestion>
         <SubQuestion label="ג."><p>מספר התלמידים (בנים ובנות) בשכבה הוא : <Blank /></p></SubQuestion>
-        <SubQuestion label="ד."><p>4 בנות ו-4 בנים מכיתה ח'1 רוצים לעבור לכיתה ח'3. האם היחס בין מספר הבנות למספר הבנים בכיתה ח'1 יישאר כפי שהיה? סַמנו : <strong>כן / לא</strong> . נַמקו :</p><AnswerLine /></SubQuestion>
+        <SubQuestion label="ד."><p>4 בנות ו-4 בנים מכיתה ח'1 רוצים לעבור לכיתה ח'3. האם היחס בין מספר הבנות למספר הבנים בכיתה ח'1 יישאר כפי שהיה? סַמנו : <strong>כן / לא</strong> . נַמקו :</p><WorkArea lines={4} label="נימוק:" /></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -644,7 +641,6 @@ export function Ch7Page9() {
 export function Ch7Page10() {
   return (
     <PageLayout pageNumber={48} chapter={CH} topic={TOPIC}>
-      <div className="info-box"><p><strong>מבחני מיצ"ב — שנת תשע"א (גאומטריה)</strong></p></div>
 
       <Question>
         <p>לפניכם סרטוט של טרפז ישר-זווית ABCD . BE גובה לצלע CD .</p>

@@ -13,20 +13,20 @@ function MidpointTriangle() {
   return (
     <div className="geo-figure compact">
       <svg
-        viewBox="0 0 180 145"
+        viewBox="0 0 130 165"
         className="geo-svg"
         role="img"
-        aria-label="משולש ישר זווית ABC, זווית B ישרה, E אמצע AB ו־D אמצע BC"
+        aria-label="משולש ישר זווית ABC, הזווית ב־B ישרה, E אמצע AB ו־D אמצע BC, AB=10a, BC=4a"
         shapeRendering="geometricPrecision"
       >
-        <polygon points="25,20 25,125 155,125" fill="none" stroke="#172554" strokeWidth="1.8" />
-        <rect x="25" y="115" width="10" height="10" fill="none" stroke="#172554" strokeWidth="1" />
-        <circle cx="25" cy="72.5" r="2.5" fill="#172554" />
-        <circle cx="90" cy="125" r="2.5" fill="#172554" />
-        <text x="15" y="18">A</text><text x="13" y="139">B</text><text x="160" y="139">C</text>
-        <text x="11" y="76">E</text><text x="88" y="141">D</text>
-        <text x="7" y="74" transform="rotate(-90 7 74)" direction="ltr">10a</text>
-        <text x="92" y="120" textAnchor="middle" direction="ltr">4a</text>
+        <polygon points="30,15 30,135 78,135" fill="none" stroke="#172554" strokeWidth="1.8" />
+        <rect x="30" y="125" width="10" height="10" fill="none" stroke="#172554" strokeWidth="1.3" />
+        <circle cx="30" cy="75" r="2.5" fill="#172554" />
+        <circle cx="54" cy="135" r="2.5" fill="#172554" />
+        <text x="21" y="13">A</text><text x="19" y="150">B</text><text x="80" y="150">C</text>
+        <text x="16" y="79">E</text><text x="49" y="129">D</text>
+        <text x="13" y="75" transform="rotate(-90 13 75)" textAnchor="middle" direction="ltr">10a</text>
+        <text x="54" y="152" textAnchor="middle" direction="ltr">4a</text>
       </svg>
     </div>
   );
@@ -70,16 +70,18 @@ export function RatioPage29() {
   return (
     <PageLayout pageNumber={29} chapter={CH} className="ratio-page-29">
       <Question>
-        <p>במשולש ישר־הזווית ABC מתקיים ∠ABC=90°. הנקודה E היא אמצע AB והנקודה D היא אמצע BC. נתון AB=10a ו־BC=4a.</p>
+        <p>במשולש ישר־הזווית ABC מתקיים <span dir="ltr">∠ABC=90°</span>. הנקודה E היא אמצע AB והנקודה D היא אמצע BC. נתון <span dir="ltr">AB=10a</span> ו־<span dir="ltr">BC=4a</span>.</p>
         <MidpointTriangle />
         <SubQuestion label="א."><p>הביעו באמצעות a את האורכים BE ו־CD.</p></SubQuestion>
         <SubQuestion label="ב."><p>חשבו את היחס בין שטח △ABC לשטח △ADC.</p></SubQuestion>
         <SubQuestion label="ג."><p>חשבו את היחס בין שטח △BCE לשטח △ABC.</p></SubQuestion>
         <div className="response-set">
-          <WorkArea lines={1} />
-          <FinalAnswer label="א. BE =" />
-          <FinalAnswer label="CD =" />
+          <WorkArea lines={2} label="א. דרך:" />
+          <FinalAnswer label={'⁦BE =⁩'} />
+          <FinalAnswer label={'⁦CD =⁩'} />
+          <WorkArea lines={3} label="ב. דרך:" />
           <FinalAnswer label="ב." type="ratio" />
+          <WorkArea lines={3} label="ג. דרך:" />
           <FinalAnswer label="ג." type="ratio" />
         </div>
       </Question>
@@ -97,9 +99,10 @@ export function RatioPage29() {
         <SubQuestion label="ב."><p>מאחדים את מגשים 2 ו־3. מהו היחס לבנות : חומות?</p></SubQuestion>
         <SubQuestion label="ג."><p>מאחדים את מגשים 1 ו־3. איזה אחוז מהעוגיות חומות?</p></SubQuestion>
         <div className="response-set">
-          <WorkArea lines={1} />
           <FinalAnswer label="א. מגש:" />
+          <WorkArea lines={2} label="ב. דרך:" />
           <FinalAnswer label="ב." type="ratio" />
+          <WorkArea lines={3} label="ג. דרך:" />
           <FinalAnswer label="ג." unit="%" />
         </div>
       </Question>
@@ -111,8 +114,9 @@ export function RatioPage29() {
         <SubQuestion label="א."><p>כמה מ״ל יש בכוס 1?</p></SubQuestion>
         <SubQuestion label="ב."><p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נמצא כעת בכוס 2?</p></SubQuestion>
         <div className="response-set">
-          <WorkArea lines={1} />
+          <WorkArea lines={2} label="א. דרך:" />
           <FinalAnswer label="א." unit="מ״ל" />
+          <WorkArea lines={3} label="ב. דרך:" />
           <FinalAnswer label="ב." unit="%" />
         </div>
       </Question>

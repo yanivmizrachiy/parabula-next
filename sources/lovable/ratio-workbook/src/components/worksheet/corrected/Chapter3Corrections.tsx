@@ -1,6 +1,7 @@
 import {
   AnswerLine,
   Blank,
+  CalculationResponse,
   Checkbox,
   Frac,
   PageLayout,
@@ -155,10 +156,10 @@ export function RatioPage19() {
       <Question>
         <p>סמנו את היחס השווה ל־7 : 3.</p>
         <div className="ratio-options">
-          <div><Checkbox label="1" /> 6 : 10</div>
-          <div><Checkbox label="2" /> 21 : 9</div>
-          <div><Checkbox label="3" /> 21 : 35</div>
-          <div><Checkbox label="4" /> 30 : 40</div>
+          <div><Checkbox /> 6 : 10</div>
+          <div><Checkbox /> 21 : 9</div>
+          <div><Checkbox /> 21 : 35</div>
+          <div><Checkbox /> 30 : 40</div>
         </div>
       </Question>
 
@@ -201,8 +202,14 @@ export function RatioPage19() {
 
       <Question>
         <p>בכוס 2 יש 400 מ״ל מיץ. היחס בין הכמות בכוס 1 לכמות בכוס 2 הוא 1 : 4.</p>
-        <SubQuestion label="א."><p>כמה מ״ל יש בכוס 1?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נשאר בכוס 2?</p></SubQuestion>
+        <SubQuestion label="א.">
+          <p>כמה מ״ל יש בכוס 1?</p>
+          <CalculationResponse lines={2} unit="מ״ל" />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נשאר בכוס 2?</p>
+          <CalculationResponse lines={3} unit="%" />
+        </SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -300,7 +307,7 @@ export function RatioPage20() {
       <Question>
         <p>בכיתה ח׳3 יש 20 בנים ו־10 בנות. בכיתה ח׳4 יש 15 בנים ו־5 בנות. מחצית מהבנים בח׳3 עוברים לח׳4.</p>
         <p>מהו היחס בין מספר הבנות למספר הבנים בח׳4 לאחר המעבר?</p>
-        <div className="options-row"><span>5 : 25</span><span>1 : 5</span><span>5 : 30</span><span>5 : 15</span></div>
+        <div className="options-row"><span>2 : 5</span><span>1 : 5</span><span>5 : 30</span><span>5 : 15</span></div>
       </Question>
     </PageLayout>
   );
@@ -472,15 +479,30 @@ export function RatioPage22() {
 }
 
 function AngleCard({ label, alpha, beta }: { label: string; alpha: number; beta: number }) {
+  // Two adjacent angles sharing a vertex: α from the horizontal base ray, β above it. Every ray
+  // is generated from exact trig so the drawn degrees equal the labels (§4.3 measured accuracy).
+  const V = { x: 28, y: 62 };
+  const R = 44;
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const ray = (deg: number) => ({ x: V.x + R * Math.cos(rad(deg)), y: V.y - R * Math.sin(rad(deg)) });
+  const at = (deg: number, r: number) => ({ x: V.x + r * Math.cos(rad(deg)), y: V.y - r * Math.sin(rad(deg)) });
+  const base = ray(0);
+  const mid = ray(alpha);
+  const top = ray(alpha + beta);
+  const aS = at(0, 14), aE = at(alpha, 14);
+  const bS = at(alpha, 20), bE = at(alpha + beta, 20);
+  const aL = at(alpha / 2, 25), bL = at(alpha + beta / 2, 31);
   return (
     <div className="svg-cell">
       <span>{label}</span>
-      <svg viewBox="0 0 100 72" width="88" height="65" aria-label={`זווית אלפא ${alpha} מעלות וזווית בטא ${beta} מעלות`}>
-        <line x1="12" y1="62" x2="90" y2="62" stroke="#172554" strokeWidth="1.5" />
-        <line x1="12" y1="62" x2="70" y2="12" stroke="#172554" strokeWidth="1.5" />
-        <line x1="12" y1="62" x2="25" y2="8" stroke="#172554" strokeWidth="1.5" />
-        <text x="42" y="55">α={alpha}°</text>
-        <text x="18" y="34">β={beta}°</text>
+      <svg viewBox="0 0 110 80" width="92" height="67" role="img" aria-label={`שתי זוויות צמודות בעלות קדקוד משותף: אלפא ${alpha} מעלות ובטא ${beta} מעלות`} shapeRendering="geometricPrecision">
+        <line x1={V.x} y1={V.y} x2={base.x.toFixed(2)} y2={base.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
+        <line x1={V.x} y1={V.y} x2={mid.x.toFixed(2)} y2={mid.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
+        <line x1={V.x} y1={V.y} x2={top.x.toFixed(2)} y2={top.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
+        <path d={`M ${aS.x.toFixed(2)} ${aS.y.toFixed(2)} A 14 14 0 0 0 ${aE.x.toFixed(2)} ${aE.y.toFixed(2)}`} fill="none" stroke="#1e40af" strokeWidth="1.4" />
+        <path d={`M ${bS.x.toFixed(2)} ${bS.y.toFixed(2)} A 20 20 0 0 0 ${bE.x.toFixed(2)} ${bE.y.toFixed(2)}`} fill="none" stroke="#1e40af" strokeWidth="1.4" />
+        <text x={aL.x.toFixed(2)} y={(aL.y + 3).toFixed(2)} textAnchor="middle" direction="ltr">α={alpha}°</text>
+        <text x={bL.x.toFixed(2)} y={(bL.y + 3).toFixed(2)} textAnchor="middle" direction="ltr">β={beta}°</text>
       </svg>
       <span className="txt-xs">α : β = <span className="inline-blank w-40" /></span>
     </div>

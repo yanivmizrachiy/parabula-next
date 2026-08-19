@@ -1,4 +1,4 @@
-import { Blank, Frac, PageLayout, QSep, Question, SubQuestion } from '../pages/PageLayout';
+import { Blank, CalculationResponse, Frac, PageLayout, QSep, Question, SubQuestion } from '../pages/PageLayout';
 
 const CH = 'פרק 4 – האם היחס נשמר?';
 
@@ -38,6 +38,7 @@ export function RatioPage27() {
 
       <Question>
         <p>נתון היחס <Frac num={4} den={9} />. הוסיפו 12 למונה. כמה יש להוסיף למכנה כדי לשמור על היחס?</p>
+        <CalculationResponse lines={3} />
       </Question>
 
       <QSep />
@@ -50,6 +51,7 @@ export function RatioPage27() {
 
       <Question>
         <p>נתון היחס <Frac num={14} den={18} />. חסרו 7 מהמונה. כמה יש לחסר מהמכנה כדי לשמור על היחס?</p>
+        <CalculationResponse lines={3} />
       </Question>
 
       <QSep />

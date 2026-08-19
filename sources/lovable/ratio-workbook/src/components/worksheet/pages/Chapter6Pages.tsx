@@ -1,4 +1,4 @@
-import { PageLayout, Question, SubQuestion, Blank, Frac, AnswerLine, QSep } from './PageLayout';
+import { PageLayout, Question, SubQuestion, Blank, Frac, AnswerLine, CalculationResponse, QSep } from './PageLayout';
 
 const CH = 'פרק 6 – פרופורציה';
 const TOPIC = 'יחס ופרופורציה';
@@ -26,7 +26,7 @@ export function Ch6Page1() {
 
       <Question>
         <p>היחס בין 7 ל-9 שווה ליחס בין x ל-45 . מהו ערכו של x ?</p>
-        <AnswerLine label="פתרון :" />
+        <CalculationResponse lines={2} />
       </Question>
 
       <QSep />
@@ -34,12 +34,12 @@ export function Ch6Page1() {
       <Question>
         <p>בכל סעיף נתונה פרופורציה. חשבו את ערכו של x .</p>
         <div className="options-grid-2col gap-lg">
-          <span>(א) <Frac num="x" den={8} /> = <Frac num={4} den={32} /></span>
-          <span>(ב) <Frac num={35} den="x" /> = <Frac num={210} den={60} /></span>
-          <span>(ג) <Frac num={20} den={35} /> = <Frac num="x" den={7} /></span>
-          <span>(ד) <Frac num="x+2" den={3} /> = <Frac num={11} den={3} /></span>
-          <span>(ה) <Frac num="x−1" den="x+1" /> = <Frac num={5} den={6} /></span>
-          <span>(ו) <Frac num="3−x" den={5} /> = <Frac num="x+19" den={6} /></span>
+          <div><span>(א) <Frac num="x" den={8} /> = <Frac num={4} den={32} /></span><CalculationResponse lines={2} /></div>
+          <div><span>(ב) <Frac num={35} den="x" /> = <Frac num={210} den={60} /></span><CalculationResponse lines={2} /></div>
+          <div><span>(ג) <Frac num={20} den={35} /> = <Frac num="x" den={7} /></span><CalculationResponse lines={2} /></div>
+          <div><span>(ד) <Frac num="x+2" den={3} /> = <Frac num={11} den={3} /></span><CalculationResponse lines={2} /></div>
+          <div><span>(ה) <Frac num="x−1" den="x+1" /> = <Frac num={5} den={6} /></span><CalculationResponse lines={3} /></div>
+          <div><span>(ו) <Frac num="3−x" den={5} /> = <Frac num="x+19" den={6} /></span><CalculationResponse lines={3} /></div>
         </div>
       </Question>
     </PageLayout>
@@ -52,12 +52,14 @@ export function Ch6Page2() {
     <PageLayout pageNumber={31} chapter={CH} topic={TOPIC}>
       <Question>
         <p>3 ארטיקים עולים 21.6 שקלים. מהו מחירם של 5 ארטיקים?</p>
+        <CalculationResponse lines={2} unit={'ש"ח'} />
       </Question>
 
       <QSep />
 
       <Question>
         <p>מכונית עוברת מרחק של 210 ק"מ ב-3 שעות. איזה מרחק תעבור המכונית ב-5 שעות, אם היא שומרת על מהירות קבועה?</p>
+        <CalculationResponse lines={2} unit={'ק"מ'} />
       </Question>
 
       <QSep />
@@ -71,8 +73,8 @@ export function Ch6Page2() {
 
       <Question>
         <p>במלבן היחס בין אורכי הצלעות הסמוכות הוא 9 : 2 . אורך הצלע הקצרה הוא 7 ס"מ.</p>
-        <SubQuestion label="(א)"><p>מהו אורך הצלע הארוכה?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את היקף המלבן.</p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו אורך הצלע הארוכה?</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>חשבו את היקף המלבן.</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -80,13 +82,14 @@ export function Ch6Page2() {
       <Question>
         <p>בסל א' ערבבו 24 תפוזים עם 18 תפוחים. בסל ב' ערבבו 4 תפוזים עם מספר מסוים של תפוחים.</p>
         <p>מה מספר התפוחים בסל ב', אם ידוע שמתקיימת פרופורציה בין מספר התפוחים למספר התפוזים בשני הסלים?</p>
+        <CalculationResponse lines={2} />
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכיתה ח'1 היחס בין מספר הבנים למספר הבנות הוא 4 : 5 .</p>
-        <SubQuestion label="(א)"><p>אם מספר הבנות הוא 20, מהו מספר הבנים בכיתה? רשמו משוואת פרופורציה מתאימה ופתרו אותה.</p></SubQuestion>
+        <SubQuestion label="(א)"><p>אם מספר הבנות הוא 20, מהו מספר הבנים בכיתה? רשמו משוואת פרופורציה מתאימה ופתרו אותה.</p><CalculationResponse lines={3} /></SubQuestion>
         <SubQuestion label="(ב)"><p>מהו מספר התלמידים בכיתה?</p></SubQuestion>
         <SubQuestion label="(ג)"><p>מהו היחס בין מספר הבנים בכיתה לכלל התלמידים?</p></SubQuestion>
       </Question>
@@ -95,8 +98,8 @@ export function Ch6Page2() {
 
       <Question>
         <p>מחירם של 6 מסטיקים הוא 13.8 ש"ח.</p>
-        <SubQuestion label="(א)"><p>מהו מחירם של 7 מסטיקים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מחירם של 6 מסטיקים הוזל ב-3.6 ש"ח. מהו מחירם של 7 מסטיקים כעת?</p></SubQuestion>
+        <SubQuestion label="(א)"><p>מהו מחירם של 7 מסטיקים?</p><CalculationResponse lines={2} unit={'ש"ח'} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>מחירם של 6 מסטיקים הוזל ב-3.6 ש"ח. מהו מחירם של 7 מסטיקים כעת?</p><CalculationResponse lines={3} unit={'ש"ח'} /></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -221,17 +224,17 @@ export function Ch6Page5() {
 
       <Question>
         <p>היחס בין מספר החברות בקיבוץ למספר החברים הוא <strong>8 : 7</strong> .</p>
-        <SubQuestion label="(א)"><p>אם מספר החברים בקיבוץ הוא <strong>224</strong> , כמה חברות יש בו? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר החברים והחברות יחד? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>איזה חלק מכלל החברים והחברות הם החברות? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)"><p>אם מספר החברים בקיבוץ הוא <strong>224</strong> , כמה חברות יש בו?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>מהו מספר החברים והחברות יחד?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ג)"><p>איזה חלק מכלל החברים והחברות הם החברות?</p><CalculationResponse lines={2} /></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>באולם תיאטרון <strong>1,500 מושבים</strong> ובו מועסקים <strong>5 סדרנים</strong> לשמירה על הסדר.</p>
-        <SubQuestion label="(א)"><p>כמה סדרנים נחוצים לאולם שבו <strong>900 מושבים</strong> ? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כמה סדרנים נחוצים לאולם שבו <strong>2,400 מושבים</strong> ? <Blank /></p></SubQuestion>
+        <SubQuestion label="(א)"><p>כמה סדרנים נחוצים לאולם שבו <strong>900 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="(ב)"><p>כמה סדרנים נחוצים לאולם שבו <strong>2,400 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
         <SubQuestion label="(ג)"><p>רִשמו פרופורציה מתאימה לסעיף (א).</p></SubQuestion>
       </Question>
 
@@ -247,7 +250,7 @@ export function Ch6Page5() {
 
       <Question>
         <p>בחווה <strong>9 פרות</strong> אוכלות <strong>72 ק"ג</strong> מספוא ביום. כמה ק"ג מספוא יידרשו ל - <strong>12 פרות</strong> ביום? רִשמו פרופורציה ופִתרו.</p>
-        <AnswerLine label="פתרון :" />
+        <CalculationResponse lines={3} unit={'ק"ג'} />
       </Question>
     </PageLayout>
   );

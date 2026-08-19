@@ -15,38 +15,36 @@ const pagesSource = readFileSync(
   'utf8',
 );
 
-function curriculumBlock() {
-  const start = mapSource.indexOf('const CURRICULUM_PAGES');
-  assert.notEqual(start, -1, 'CURRICULUM_PAGES must be defined');
-  // מוגדר לפני OPENING_PAGES כדי לא להיכנס לטווחים שבדיקת עמודי הפתיחה סורקת.
-  const end = mapSource.indexOf('const OPENING_PAGES', start);
-  assert.notEqual(end, -1, 'CURRICULUM_PAGES must be defined before OPENING_PAGES');
-  return mapSource.slice(start, end);
+function worksheetBlock() {
+  const start = mapSource.indexOf('export const WORKSHEET_PAGES');
+  assert.notEqual(start, -1, 'WORKSHEET_PAGES must be defined');
+  return mapSource.slice(start);
 }
 
-test('the closing curriculum section holds contiguous local pages 1..N', () => {
-  const block = curriculumBlock();
-  const ids = [...block.matchAll(/\{ id:\s*(\d+),/g)].map((m) => Number(m[1]));
-  assert.ok(ids.length >= 5, 'curriculum section must hold at least five pages');
-  assert.deepEqual(ids, Array.from({ length: ids.length }, (_, i) => i + 1), 'local ids must be contiguous 1..N');
-
+test('the closing curriculum section holds the CurriculumPage components', () => {
+  const block = worksheetBlock();
   const componentRefs = [...block.matchAll(/<CurriculumPage(\d{2}) \/>/g)].map((m) => m[1]);
-  assert.equal(componentRefs.length, ids.length, 'every curriculum page needs a component reference');
+  assert.ok(componentRefs.length >= 5, 'curriculum section must hold at least five pages');
+  // every curriculum entry is assigned to the curriculum chapter
+  const curriculumLines = block.split('\n').filter((l) => /<CurriculumPage\d{2} \/>/.test(l));
+  for (const line of curriculumLines) {
+    assert.match(line, /CHAPTERS\.curriculum/, 'each curriculum page must be in the curriculum chapter');
+  }
 });
 
-test('curriculum pages are appended at the very end of the workbook, after the 48 originals', () => {
-  assert.match(
-    mapSource,
-    /\.\.\.CURRICULUM_PAGES\.map\(\(page\) => \(\{ \.\.\.page, id: page\.id \+ OPENING_PAGES\.length \+ EXISTING_PAGES\.length \}\)\)/,
-    'curriculum pages must be remapped to the end of the local numbering',
-  );
-  const existingIdx = mapSource.indexOf('...EXISTING_PAGES.map');
-  const curriculumIdx = mapSource.indexOf('...CURRICULUM_PAGES.map');
-  assert.ok(existingIdx !== -1 && curriculumIdx > existingIdx, 'curriculum spread must follow the existing-pages spread');
+test('curriculum pages are the very last pages of the workbook, after every other chapter', () => {
+  const block = worksheetBlock();
+  const lines = block.split('\n').filter((l) => /\{ id:\s*\d+,/.test(l));
+  const firstCurriculum = lines.findIndex((l) => /CHAPTERS\.curriculum/.test(l));
+  assert.ok(firstCurriculum !== -1, 'curriculum pages must exist');
+  // from the first curriculum page onward, every remaining page is a curriculum page
+  for (let i = firstCurriculum; i < lines.length; i += 1) {
+    assert.match(lines[i], /CHAPTERS\.curriculum/, 'no non-curriculum page may follow the curriculum section');
+  }
 });
 
 test('the closing section is titled "שאלות מתוך תוכנית הלימודים" on every page', () => {
-  assert.match(mapSource, /curriculum: '8 · שאלות מתוך תוכנית הלימודים'/);
+  assert.match(mapSource, /curriculum: '9 · שאלות מתוך תוכנית הלימודים'/);
   assert.match(pagesSource, /const TOPIC = 'שאלות מתוך תוכנית הלימודים'/);
 
   const exportCount = (pagesSource.match(/export function CurriculumPage\d{2}\(/g) ?? []).length;
