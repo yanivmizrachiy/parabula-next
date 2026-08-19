@@ -1,8 +1,43 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import test from 'node:test';
 
 const read = (file) => fs.readFileSync(file, 'utf8');
+const validatorPath = path.resolve('scripts/validate-math-rendering.mjs');
+
+function runValidatorFixture({ activeHtml, archivedHtml }) {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'math-rendering-contract-'));
+
+  try {
+    fs.writeFileSync(
+      path.join(tempRoot, 'עמוד-1.html'),
+      '<!doctype html><html lang="he" dir="rtl"><body>דף תקין</body></html>',
+    );
+
+    const workbookRoot = path.join(tempRoot, 'workbooks', 'circle');
+    fs.mkdirSync(workbookRoot, { recursive: true });
+
+    if (activeHtml) {
+      fs.writeFileSync(path.join(workbookRoot, 'page-1.html'), activeHtml);
+    }
+
+    if (archivedHtml) {
+      const archiveRoot = path.join(workbookRoot, 'source', 'original');
+      fs.mkdirSync(archiveRoot, { recursive: true });
+      fs.writeFileSync(path.join(archiveRoot, 'page-2.html'), archivedHtml);
+    }
+
+    return spawnSync(process.execPath, [validatorPath], {
+      cwd: tempRoot,
+      encoding: 'utf8',
+    });
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+}
 
 test('math rendering policy stays global and canonical', () => {
   const rules = read('CLAUDE.md');
@@ -35,4 +70,25 @@ test('math rendering policy stays global and canonical', () => {
 
   assert.doesNotMatch(pythagorasCss, /\.root-symbol\b/u);
   assert.doesNotMatch(pythagorasCss, /\.root-radicand\b/u);
+});
+
+test('active workbooks are enforced while source archives stay excluded', () => {
+  const activeResult = runValidatorFixture({
+    activeHtml: '<!doctype html><html><body><canvas></canvas></body></html>',
+  });
+
+  assert.equal(activeResult.error, undefined);
+  assert.equal(activeResult.status, 1);
+  assert.match(
+    `${activeResult.stdout}\n${activeResult.stderr}`,
+    /workbooks\/circle\/page-1\.html: Canvas אסור/u,
+  );
+
+  const archivedResult = runValidatorFixture({
+    archivedHtml: '<!doctype html><html><body><canvas></canvas></body></html>',
+  });
+
+  assert.equal(archivedResult.error, undefined);
+  assert.equal(archivedResult.status, 0, archivedResult.stderr || archivedResult.stdout);
+  assert.match(archivedResult.stdout, /MATH_RENDERING_OK/u);
 });
