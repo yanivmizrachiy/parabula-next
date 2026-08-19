@@ -195,23 +195,51 @@
   break-inside: avoid;
 }
 
+/* A standalone writing box is a titled panel — the label rides a thin navy header bar, uniform
+   with the drawing frames. Grouped work areas inside a bordered response box keep the compact
+   inline layout (that outer box is already their frame). */
 .work-area {
+  display: block;
+  border: 1.4px solid #1f2a44;
+  border-radius: 0;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(31, 42, 68, 0.08);
+}
+.work-area-label {
+  display: block;
+  background: #1f2a44;
+  color: #fff;
+  padding: 2px 12px;
+  font-family: 'Heebo', 'Assistant', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+}
+.work-area .work-area-space {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+.calculation-response .work-area,
+.response-set .work-area {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: start;
   gap: 8px;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  background: transparent;
 }
-
-.work-area-lines {
-  display: grid;
-  gap: 6px;
-  padding-top: 2px;
-}
-
-.work-area-line {
-  display: block;
-  min-height: 16px;
-  border-bottom: 1px dotted var(--ws-line-soft);
+.calculation-response .work-area-label,
+.response-set .work-area-label {
+  display: inline;
+  background: transparent;
+  color: var(--ws-accent-2);
+  padding: 0;
+  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
 
 .final-answer {
