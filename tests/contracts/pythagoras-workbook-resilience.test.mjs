@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
 const reader = fs.readFileSync('pythagoras-workbook.js', 'utf8');
+const workbookCss = fs.readFileSync('styles/pythagoras-workbook.css', 'utf8');
 
 function functionBody(name) {
   const start = reader.indexOf(`function ${name}`);
@@ -34,4 +35,14 @@ test('הסקיילינג אינו מכריח רוחב מינימלי שיכול 
   const scaling = functionBody('installResponsiveScaling');
   assert.match(scaling, /Math\.max\(1, Math\.min\(currentWidth - 8, 900\)\)/u);
   assert.doesNotMatch(scaling, /Math\.max\(280/u);
+});
+
+test('קפיצה לעמוד נשארת מתחת לסרגל הדביק גם כשהסרגל גדל במובייל', () => {
+  const offset = functionBody('installToolbarOffset');
+  assert.match(reader, /const toolbar = document\.querySelector\('\.workbook-toolbar'\);/u);
+  assert.match(offset, /getBoundingClientRect\(\)\.height/u);
+  assert.match(offset, /--pythagoras-toolbar-offset/u);
+  assert.match(offset, /ResizeObserver/u);
+  assert.match(reader, /installToolbarOffset\(\);[\s\S]*installNavigation\(\);/u);
+  assert.match(workbookCss, /scroll-margin-top:\s*var\(--pythagoras-toolbar-offset,\s*76px\);/u);
 });
