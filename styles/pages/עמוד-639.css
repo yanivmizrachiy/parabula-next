@@ -3,6 +3,7 @@
 
 /* עמוד חזקה קומפקטי: יותר תרגול שימושי, בלי להגדיל גופנים או להשאיר שטח מת. */
 .page-639 .question-block {
+  justify-content: flex-start;
   gap: 8px;
 }
 
@@ -34,6 +35,13 @@
 .page-639 .product-practice-grid .stacked-answer-card {
   min-height: 70px;
   padding: 7px 8px;
+}
+
+/* השטח שהתפנה מהקטנת הגופן הופך למקום עבודה אמיתי לתלמיד. */
+.page-639 .power-scratch-space {
+  flex: 1 1 110px;
+  min-height: 110px;
+  margin-top: 0;
 }
 
 @media print {
