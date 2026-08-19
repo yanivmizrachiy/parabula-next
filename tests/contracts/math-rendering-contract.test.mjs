@@ -20,8 +20,13 @@ test('math rendering policy stays global and canonical', () => {
   assert.match(pkg.scripts['ci:all'], /validate:math-rendering/u);
   assert.match(pkg.scripts['pythagoras:check'], /validate:math-rendering/u);
 
+  assert.match(globalValidator, /collectCanonicalPages/u);
+  assert.match(globalValidator, /path\.join\(root, 'workbooks'\)/u);
+  assert.match(globalValidator, /new Set\(\['source', 'sources'\]\)/u);
+  assert.match(globalValidator, /archiveDirectoryNames\.has/u);
   assert.match(globalValidator, /root-symbol\|root-radicand/u);
   assert.match(globalValidator, /katex/iu);
+  assert.match(globalValidator, /<\(\?:object\|embed\)/u);
   assert.doesNotMatch(globalValidator, /<img\\b/u);
 
   assert.doesNotMatch(pythagorasValidator, /validateMathAndDrawingStack/u);
