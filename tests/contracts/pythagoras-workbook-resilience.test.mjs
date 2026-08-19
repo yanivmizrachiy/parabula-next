@@ -64,3 +64,13 @@ test('שינוי מזהי DOM שומר את כל סוגי ההפניות הפנ�
   assert.match(namespace, /idMap\.get\(id\) \?\? id/u);
   assert.match(namespace, /idMap\.get\(value\) \?\? value/u);
 });
+
+test('פעולות החוברת נעולות עד סיום הטעינה והדפסה נפתחת רק לחוברת מלאה', () => {
+  for (const id of ['prev-page', 'page-jump', 'next-page', 'print-workbook']) {
+    assert.match(workbookHtml, new RegExp(`id="${id}"[^>]*\\bdisabled\\b`, 'u'), `${id} must start disabled`);
+  }
+  const unlock = functionBody('unlockWorkbookActions');
+  assert.match(unlock, /jumpInput\.disabled = false;/u);
+  assert.match(unlock, /printButton\.disabled = failedPages > 0;/u);
+  assert.match(reader, /await typesetMath\(\);[\s\S]*unlockWorkbookActions\(\);[\s\S]*installNavigation\(\);/u);
+});
