@@ -296,16 +296,16 @@ export function TeacherIntroPage05() {
       <TeacherQuestion number={13}>
         <p>כתבו במילים את כל אחד מהיחסים הבאים:</p>
         <div className="teacher-equation-grid teacher-equation-grid--3">
-          <span dir="ltr">5 : 9 <Answer>היחס בין תשע לחמש</Answer></span>
-          <span dir="ltr">4 : 7 <Answer>היחס בין שבע לארבע</Answer></span>
-          <span dir="ltr">3 : 2 <Answer>היחס בין שתיים לשלוש</Answer></span>
+          <span dir="ltr">5 : 9 <span className="teacher-long-line" /></span>
+          <span dir="ltr">4 : 7 <span className="teacher-long-line" /></span>
+          <span dir="ltr">3 : 2 <span className="teacher-long-line" /></span>
         </div>
       </TeacherQuestion>
 
       <TeacherQuestion number={14}>
         <p>למה מתכוונים כשאומרים:</p>
         <TeacherTable>
-          <tr><th>א</th><td>היחס בין מספר התלמידים למספר המורים בבית הספר הוא 25 ל־1.</td><td><Answer>על כל מורה אחד יש 25 תלמידים או על כל 25 תלמידים יש מורה אחד.</Answer></td></tr>
+          <tr><th>א</th><td>היחס בין מספר התלמידים למספר המורים בבית הספר הוא 25 ל־1.</td><td /></tr>
           <tr><th>ב</th><td>היחס בין מספר הרופאים למספר התושבים בישראל הוא: <span dir="ltr">10 : 3,000</span>.</td><td /></tr>
           <tr><th>ג</th><td>היחס בין מספר הפקחים למספר הרחובות בעיר תל אביב הוא <span dir="ltr">2 : 7</span>.</td><td /></tr>
         </TeacherTable>
@@ -343,7 +343,6 @@ export function TeacherIntroPage06() {
           <tr><th>א</th><td>יש יחסים המציגים את היחס בין חלק לחלק (סעיפים: ________)</td></tr>
           <tr><th>ב</th><td>יש יחסים המציגים את היחס בין חלק לשלם (סעיפים: ________)</td></tr>
         </TeacherTable>
-        <TeacherBox tone="answer">הערה: ניתן לדלג על שאלה זו במידה ושזרתם שאלות דומות בתרגילים הקודמים.</TeacherBox>
       </TeacherQuestion>
 
       <TeacherQuestion number={17}>
@@ -360,8 +359,6 @@ export function TeacherIntroPage06() {
       <TeacherQuestion number={18}>
         <p>בשיעור חנ״ג חולקו 10 כדורים לשתי קבוצות תלמידים, קבוצה א׳ וקבוצה ב׳ ביחס של <span dir="ltr">3 : 2</span>. כמה כדורים תקבל כל קבוצה? איזו פעולה כדאי לבצע ליחס <span dir="ltr">3 : 2</span> כדי לקבל את התשובה באופן מידי?</p>
       </TeacherQuestion>
-
-      <TeacherBox tone="answer">אפשרי לדלג על התרגילים הבאים ו/או לשזור את הרעיון בתרגילים הקודמים.</TeacherBox>
 
       <TeacherQuestion number={19}>
         <div className="lemonade-ratio" dir="rtl"><span>מים</span><b>5</b><span>תרכיז</span><b>2</b></div>
