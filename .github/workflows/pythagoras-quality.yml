@@ -14,12 +14,15 @@ on:
       - 'styles/topics/pythagoras-foundations.css'
       - 'styles/topics/pythagoras-power-practice.css'
       - 'meta/topics.json'
+      - 'package.json'
       - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/validate-math-rendering.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
       - 'scripts/pythagoras-writing-capacity-browser-audit.mjs'
+      - 'tests/contracts/math-rendering-contract.test.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -37,12 +40,15 @@ on:
       - 'styles/topics/pythagoras-foundations.css'
       - 'styles/topics/pythagoras-power-practice.css'
       - 'meta/topics.json'
+      - 'package.json'
       - 'scripts/a4-utilization-audit.mjs'
+      - 'scripts/validate-math-rendering.mjs'
       - 'scripts/validate-pythagoras-workbook.mjs'
       - 'scripts/validate-pythagoras-workbook-browser.mjs'
       - 'scripts/pythagoras-whitespace-audit.mjs'
       - 'scripts/pythagoras-solution-capacity-audit.mjs'
       - 'scripts/pythagoras-writing-capacity-browser-audit.mjs'
+      - 'tests/contracts/math-rendering-contract.test.mjs'
       - 'tests/contracts/pythagoras-*.test.mjs'
       - 'CLAUDE.md'
       - '.github/workflows/pythagoras-quality.yml'
@@ -63,11 +69,14 @@ jobs:
           cache: npm
       - run: npm ci
 
+      - name: Validate project-wide math rendering contract
+        run: npm run validate:math-rendering
+
       - name: Validate canonical Pythagoras workbook
         run: node scripts/validate-pythagoras-workbook.mjs
 
       - name: Pythagoras contracts and deep quality
-        run: node --test tests/contracts/pythagoras-*.test.mjs
+        run: node --test tests/contracts/pythagoras-*.test.mjs tests/contracts/math-rendering-contract.test.mjs
 
       - name: Validate Pythagoras solution metadata
         run: node scripts/pythagoras-solution-capacity-audit.mjs --strict
