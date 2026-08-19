@@ -9,6 +9,13 @@ const expected = workbook.pages.map((page) => page.sourceNumber);
 const expectedAdditional = workbook.pages
   .filter((page) => page.primaryTopic !== workbook.name)
   .map((page) => page.sourceNumber);
+const mathBearingSources = workbook.pages
+  .filter((page) => {
+    const file = page.file || `עמוד-${page.sourceNumber}.html`;
+    const html = fs.readFileSync(file, 'utf8');
+    return /\\\(|\$\$/u.test(html);
+  })
+  .map((page) => page.sourceNumber);
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
 
 async function waitForServer() {
@@ -37,11 +44,14 @@ try {
     waitUntil: 'domcontentloaded',
     timeout: 30000,
   });
-  await page.waitForFunction(() => document.querySelector('#workbook-status')?.textContent.includes('חוברת מלאה'), null, {
+  await page.waitForFunction(() => {
+    const status = document.querySelector('#workbook-status')?.textContent ?? '';
+    return status.includes('חוברת מלאה') || status.includes('נכשלו');
+  }, null, {
     timeout: 90000,
   });
 
-  const result = await page.evaluate(({ expectedPages, additionalPages }) => {
+  const result = await page.evaluate(({ expectedPages, additionalPages, mathPages }) => {
     const wrappers = [...document.querySelectorAll('.workbook-page-wrap')];
     const mains = wrappers.map((wrapper) => wrapper.querySelector('main.a4-page'));
     const allIds = [...document.querySelectorAll('#workbook [id]')].map((el) => el.id);
@@ -49,6 +59,15 @@ try {
     const localNumbers = mains.map((main) => main?.querySelector('.page-number')?.textContent.trim());
     const sourceNumbers = mains.map((main) => Number(main?.dataset.sourcePage));
     const mathCount = document.querySelectorAll('#workbook mjx-container').length;
+    const pageMath = mains.map((main, index) => ({
+      local: index + 1,
+      source: expectedPages[index],
+      count: main?.querySelectorAll('mjx-container').length ?? 0,
+    }));
+    const missingMathPages = pageMath.filter((entry) => mathPages.includes(entry.source) && entry.count === 0);
+    const workbookErrors = [...document.querySelectorAll('#workbook .workbook-error')]
+      .map((element) => element.textContent?.trim() ?? '')
+      .filter(Boolean);
     const pageCssLinks = [...document.querySelectorAll('link[data-workbook-css]')].map((link) => link.getAttribute('href'));
     const uiFonts = mains.map((main) => main ? getComputedStyle(main).fontFamily : '');
     const badUiFonts = uiFonts
@@ -95,6 +114,7 @@ try {
     });
 
     return {
+      status: document.querySelector('#workbook-status')?.textContent.trim() ?? '',
       wrapperCount: wrappers.length,
       mainCount: mains.filter(Boolean).length,
       duplicateIds,
@@ -102,14 +122,23 @@ try {
       sourceNumbers,
       additionalState,
       mathCount,
+      pageMath,
+      missingMathPages,
+      workbookErrors,
       pageCssCount: new Set(pageCssLinks).size,
       badUiFonts,
       badMathFonts,
       checkedSvgMath,
     };
-  }, { expectedPages: expected, additionalPages: expectedAdditional });
+  }, {
+    expectedPages: expected,
+    additionalPages: expectedAdditional,
+    mathPages: mathBearingSources,
+  });
 
   const errors = [...runtimeErrors];
+  if (result.workbookErrors.length) errors.push(`workbook page load errors: ${JSON.stringify(result.workbookErrors.slice(0, 10))}`);
+  if (!result.status.includes('חוברת מלאה')) errors.push(`workbook status is not complete: ${result.status}`);
   if (result.wrapperCount !== expected.length) errors.push(`wrappers=${result.wrapperCount}, expected=${expected.length}`);
   if (result.mainCount !== expected.length) errors.push(`a4 pages=${result.mainCount}, expected=${expected.length}`);
   if (result.duplicateIds.length) errors.push(`duplicate DOM ids: ${result.duplicateIds.join(', ')}`);
@@ -124,6 +153,7 @@ try {
     if (!item.primaryTopic || item.primaryTopic === workbook.name) errors.push(`cross-listed source page ${item.source} lost its original primary-topic context`);
   }
   if (result.mathCount === 0) errors.push('MathJax produced no mjx-container elements');
+  if (result.missingMathPages.length) errors.push(`pages with TeX but no MathJax output: ${JSON.stringify(result.missingMathPages)}`);
   if (result.pageCssCount !== expected.length) errors.push(`page CSS links=${result.pageCssCount}, expected=${expected.length}`);
   if (result.badUiFonts.length) errors.push(`non-Rubik A4 pages: ${JSON.stringify(result.badUiFonts)}`);
   if (result.checkedSvgMath === 0) errors.push('no SVG math labels were checked');
@@ -134,7 +164,7 @@ try {
     for (const error of errors) console.error(`- ${error}`);
     process.exitCode = 1;
   } else {
-    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} primary=${workbook.primaryCount} additional=${workbook.additionalCount} math=${result.mathCount} svgMath=${result.checkedSvgMath} css=${result.pageCssCount}`);
+    console.log(`PYTHAGORAS_WORKBOOK_BROWSER_OK pages=${expected.length} primary=${workbook.primaryCount} additional=${workbook.additionalCount} math=${result.mathCount} mathPages=${mathBearingSources.length} svgMath=${result.checkedSvgMath} css=${result.pageCssCount}`);
   }
 } finally {
   if (browser) await browser.close();
