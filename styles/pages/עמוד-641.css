@@ -2,6 +2,7 @@
 @import url("../topics/pythagoras-power-practice.css");
 
 .page-641 .question-block {
+  justify-content: flex-start;
   gap: 14px;
 }
 
@@ -10,7 +11,7 @@
   gap: 10px;
 }
 
-/* 12 שורשים ב-4 שורות רחבות; התשובה תמיד בשורה נפרדת מתחת לביטוי. */
+/* 12 שורשים ב-4 שורות של 3; התשובה תמיד בשורה נפרדת מתחת לביטוי. */
 .page-641 .power-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;

@@ -23,9 +23,9 @@ function assertStackedCards(page, expectedCards) {
   );
 }
 
-test('בכל תרגיל חזקה או שורש בעמודים 639–642 התשובה נמצאת במבנה נפרד מתחת לתרגיל', () => {
-  assertStackedCards(639, 14);
-  assertStackedCards(640, 16);
+test('בתרגילי חזקה/שורש עם תשובה נפרדת נשמר מבנה אנכי', () => {
+  assertStackedCards(639, 20);
+  assertStackedCards(640, 12);
   assertStackedCards(641, 13);
   assertStackedCards(642, 3);
 });
@@ -40,20 +40,47 @@ test('דוגמאות ההסבר בעמודים 639, 641 ו-643 מציגות תש
   }
 });
 
-test('רכיב החזקות והשורשים המשותף אוכף פריסה אנכית ולא inline', () => {
+test('שכבת החזקות המשותפת היא מקור העריכה היחיד לגופן ולכרטיסים הקומפקטיים', () => {
   const css = read('styles/topics/pythagoras-power-practice.css');
   assert.match(css, /\.stacked-answer-card\s*\{[^}]*flex-direction:\s*column/us);
   assert.match(css, /\.stacked-answer-card \.exercise-answer\s*\{[^}]*justify-content:\s*center/us);
+  assert.match(css, /\.stacked-answer-card \.exercise-expression\s*\{[^}]*font-size:\s*18px/us);
+  assert.match(css, /:has\(\.power-example-stack\) \.foundation-note\s*\{[^}]*font-size:\s*15px/us);
+  assert.match(css, /\.missing-base-slot\s*\{[^}]*width:\s*34px/us);
 });
 
-test('עמוד 639 מנצל שלוש עמודות ושומר כרטיסי כתיבה גבוהים בלי לחרוג מ-A4', () => {
+test('עמוד 639 משתמש בארבע עמודות, מוסיף תרגול וממיר שטח פנוי למקום חישוב', () => {
   const css = read('styles/pages/עמוד-639.css');
   const html = read('עמוד-639.html');
-  assert.match(css, /grid-template-columns:\s*repeat\(3,/u);
-  assert.match(css, /\.power-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*100px/us);
-  assert.match(css, /\.product-practice-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*82px/us);
+  assert.match(css, /grid-template-columns:\s*repeat\(4,/u);
+  assert.match(css, /\.power-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*82px/us);
+  assert.match(css, /\.product-practice-grid \.stacked-answer-card\s*\{[^}]*min-height:\s*70px/us);
+  assert.match(css, /\.power-scratch-space\s*\{[^}]*min-height:\s*110px/us);
   assert.equal((html.match(/class="product-practice-grid"/gu) || []).length, 1);
+  assert.equal((html.match(/class="math-card stacked-answer-card"/gu) || []).length, 20);
+  assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u);
   assert.match(html, /כתבו את התשובה מתחת לכל תרגיל/u);
+});
+
+test('עמוד 640 מציג בסיס חסר כריבוע השלמה לפני חזקה, בלי סימן שאלה ובלי תשובה כפולה', () => {
+  const html = read('עמוד-640.html');
+  const missingCards = html.split('<div class="math-card missing-base-card">').slice(1);
+  assert.equal(missingCards.length, 12, 'עמוד 640: נדרשים 12 תרגילי בסיס חסר');
+  assert.doesNotMatch(html, /\?\s*\^?\s*2|\?\^2/u, 'עמוד 640: אסור סימן שאלה במקום המספר החסר');
+  assert.equal((html.match(/class="foundation-fill missing-base-slot"/gu) || []).length, 12, 'עמוד 640: לכל תרגיל תיבת השלמה אחת');
+  assert.equal((html.match(/class="missing-base-equals">=<\/span>/gu) || []).length, 12, 'עמוד 640: סימן שווה חייב להופיע אחרי החזקה');
+  for (const [index, card] of missingCards.entries()) {
+    const end = card.indexOf('</div></div>');
+    const body = end >= 0 ? card.slice(0, end) : card;
+    assert.doesNotMatch(body, /exercise-answer/u, `עמוד 640, בסיס חסר ${index + 1}: אין תיבת תשובה כפולה מתחת לתרגיל`);
+    assert.match(body, /missing-base-slot[\s\S]*missing-base-power">2<\/sup>[\s\S]*missing-base-equals">=<\/span>/u, `עמוד 640, בסיס חסר ${index + 1}: סדר הכתיב חייב להיות □² = מספר`);
+  }
+  assert.match(html, /class="work-lines power-scratch-space" data-required-lines="4"/u, 'עמוד 640: נשמר מרחב חישוב אמיתי');
+});
+
+test('עמוד 641 מסיר פיזור רווחים בלי לשנות את התוכן', () => {
+  const css = read('styles/pages/עמוד-641.css');
+  assert.match(css, /\.page-641 \.question-block\s*\{[^}]*justify-content:\s*flex-start/us);
 });
 
 test('עמודים 641–642 אינם מחזירים תיבות תשובה inline בתרגילי השורש והקירוב', () => {

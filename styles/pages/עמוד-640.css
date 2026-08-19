@@ -3,30 +3,33 @@
 
 .page-640 .question-block {
   justify-content: flex-start;
-  gap: 14px;
+  gap: 9px;
 }
 
-/* כל הגובה הפנוי מוקדש לכרטיסי התרגול ולמשטח החישובים. */
-.page-640 .power-grid,
-.page-640 .power-scratch-space {
-  flex: 1 1 auto;
-  min-height: 0;
+.page-640 .q-text {
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .page-640 .power-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 
-.page-640 .power-grid .stacked-answer-card {
-  min-height: 112px;
-  padding: 13px 8px;
+.page-640 .power-results-grid .stacked-answer-card {
+  min-height: 78px;
+  padding: 8px 7px;
 }
 
+.page-640 .missing-base-grid {
+  grid-auto-rows: 1fr;
+}
+
+/* כל גובה שנותר בדף הופך לשטח חישוב שימושי — לא לרווח לבן. */
 .page-640 .power-scratch-space {
-  min-height: 126px;
-  margin-top: 2px;
+  flex: 1 1 110px;
+  min-height: 110px;
+  margin-top: 1px;
 }
 
 @media print {
