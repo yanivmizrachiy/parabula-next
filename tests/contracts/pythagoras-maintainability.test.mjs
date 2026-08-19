@@ -18,8 +18,8 @@ test('עמוד 3 משתמש ברכיבים סמנטיים מקומיים לתו�
   assert.ok((html.match(/pyt-blank-leg/gu)||[]).length>=8,'תיבות הניצבים חייבות להשתמש במחלקה הייעודית');
   assert.match(css,/\.page-636 \.pyt-vertex-label\s*\{/u);
   assert.match(css,/\.page-636 \.pyt-blank-leg\s*\{/u);
-  assert.match(css,/\.page-636 \.pyt-blank\s*\{[^}]*height:\s*26px/usu);
-  assert.match(css,/\.page-636 \.pyt-blank\s*\{[^}]*box-shadow:\s*none/usu);
+  assert.match(css,/\.page-636 \.pyt-blank\s*\{[^}]*height:\s*26px/us);
+  assert.match(css,/\.page-636 \.pyt-blank\s*\{[^}]*box-shadow:\s*none/us);
   assert.doesNotMatch(css,/(?:^|\n)\s*\.pyt-(?:blank|vertex-label)\s*\{/u,'כיוונון עמודי חייב להישאר scoped לעמוד 636');
 });
 
