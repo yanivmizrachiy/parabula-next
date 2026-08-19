@@ -134,9 +134,11 @@ export function RatioPage04() {
       <Question>
         <p>בקנקני שתייה היחס בין מספר כוסות התרכיז למספר כוסות המים הוא 7 : 2.</p>
         <p>השתמשו ב־35 כוסות תרכיז. כמה כוסות מים הוסיפו, וכמה כוסות משקה הכינו בסך הכול?</p>
-        <WorkArea lines={3} />
-        <FinalAnswer label="כוסות מים:" unit="כוסות" />
-        <FinalAnswer label="סך הכול:" unit="כוסות" />
+        <div className="calculation-response">
+          <WorkArea lines={3} />
+          <FinalAnswer label="כוסות מים:" unit="כוסות" />
+          <FinalAnswer label="סך הכול:" unit="כוסות" />
+        </div>
       </Question>
     </PageLayout>
   );

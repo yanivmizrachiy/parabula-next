@@ -469,7 +469,7 @@
 
 .answer-line {
   flex: 1;
-  border-bottom: 1.5px dotted var(--ws-line);
+  border-bottom: 1.5px solid var(--ws-line);
   min-width: 120px;
   height: 18px;
 }
@@ -478,7 +478,7 @@
 .inline-blank {
   display: inline-block;
   width: 64px;
-  border-bottom: 1.5px dotted var(--ws-line);
+  border-bottom: 1.5px solid var(--ws-line);
   margin: 0 5px;
   vertical-align: baseline;
   height: 1em;

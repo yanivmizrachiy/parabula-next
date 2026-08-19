@@ -68,6 +68,10 @@ type AutoResponseKind = 'none' | 'short' | 'ratio' | 'calculation' | 'explanatio
 const SuppressSubResponseContext = createContext(false);
 
 const NO_WRITING_CUES = /סמנו|בחרו|הקיפו|התאימו|מתחו קו|צבעו/;
+// A "circle/choose the correct statements" task whose options are listed as א/ב/ג/ד sub-items.
+// Its sub-items are statements to judge, not sub-questions to answer — so they must NOT each get
+// an answer box; the whole question gets ONE reasoning ("נימוק") box instead.
+const SELECT_STATEMENTS_CUES = /הקיפו|בחרו את|(?:אילו|איזה|איזו)[^?]{0,40}(?:היגד|טענ|משפט)|(?:היגדים|טענות|משפטים)\s+ה?(?:נכונים|מתאימים|הנכונים|המתאימים)/;
 const DRAWING_CUES = /ציירו|שרטטו/;
 const EXPLANATION_CUES = /הסבירו|הסבר|נמקו|נמק|מדוע|הראו|הוכיחו|תארו|מה מייצג|כתבו במילים|כתבו סיפור/;
 const CALCULATION_CUES = /כמה|חשבו|מצאו|פתרו|חלקו|מה גודל|מהו מספר|מה היה|מה הייתה|מהם אורכי|מה גודלן|איזה סכום|מהו הסכום|עלות|מחיר|היקף|שטח|אומדן/;
@@ -148,15 +152,24 @@ function AutoResponse({ kind }: { kind: AutoResponseKind }) {
 export function Question({ children }: { children: ReactNode }) {
   const hasSubQuestions = hasNode(children, (element) => element.type === SubQuestion);
   const hasGroupedResponse = hasClassName(children, 'response-set');
+  const parentText = getNodeText(children).replace(/\s+/g, ' ').trim();
+  // Statement-selection: sub-items are options to circle, not questions. Give the whole question a
+  // single "נימוק" box and stop each sub-item from sprouting its own answer box.
+  const isSelectStatements = hasSubQuestions && SELECT_STATEMENTS_CUES.test(parentText);
+  const suppressSub = hasGroupedResponse || isSelectStatements;
+  const needsReasoning = isSelectStatements && !hasExplicitResponse(children);
   const responseKind = hasSubQuestions ? 'none' : inferResponseKind(children);
 
   return (
-    <SuppressSubResponseContext.Provider value={hasGroupedResponse}>
+    <SuppressSubResponseContext.Provider value={suppressSub}>
       <div className="question-block" data-auto-response={responseKind} data-grouped-response={hasGroupedResponse ? 'true' : 'false'}>
         <span className="question-bullet" aria-hidden="true" />
         <div className="question-content">
           {children}
           <AutoResponse kind={responseKind} />
+          {needsReasoning && (
+            <WorkArea lines={2} label="נימוק:" className="auto-response auto-response--reasoning" />
+          )}
         </div>
       </div>
     </SuppressSubResponseContext.Provider>
