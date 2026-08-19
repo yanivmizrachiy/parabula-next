@@ -39,12 +39,23 @@ Thumbs.db:encryptable
 *.swo
 *.orig
 .vscode/settings.json
+.idea/
 
-# Logs
+# Tool/build caches
+.cache/
+.vite/
+.turbo/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Logs and runtime residue
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.pid
+*.pid.lock
 
 # Temp / backup files
 *.tmp
@@ -59,10 +70,11 @@ __pycache__/
 coverage/
 .nyc_output/
 
-# Heavy generated audit outputs
+# Heavy generated audit/test outputs
 STATE/
 output/pdf/
 tmp/
 playwright-report/
+blob-report/
 test-results/
 meta/audit/
