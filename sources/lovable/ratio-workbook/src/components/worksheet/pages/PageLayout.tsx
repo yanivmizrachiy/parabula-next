@@ -141,7 +141,7 @@ function AutoResponse({ kind }: { kind: AutoResponseKind }) {
   if (kind === 'ratio') return <RatioAnswer label="תשובה:" />;
   if (kind === 'calculation') return <CalculationResponse lines={1} className="auto-response auto-response--calculation" />;
   if (kind === 'explanation') return <WorkArea lines={2} label="תשובה:" className="auto-response auto-response--explanation" />;
-  if (kind === 'drawing') return <div className="drawing-box auto-response auto-response--drawing" aria-label="מקום לציור או לשרטוט" />;
+  if (kind === 'drawing') return <div className="drawing-box auto-response auto-response--drawing" aria-label="מקום לציור או לשרטוט"><span className="drawing-label">ציור:</span></div>;
   return null;
 }
 

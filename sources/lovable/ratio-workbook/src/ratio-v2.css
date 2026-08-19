@@ -245,6 +245,7 @@
   overflow: hidden;
 }
 .drawing-box .drawing-label {
+  display: block;
   background: #1f2a44;
   color: #fff;
   font-family: 'Heebo', 'Assistant', sans-serif;
