@@ -3,6 +3,7 @@ const { buildPythagorasWorkbook } = await import(`./pythagoras-workbook-model.js
 
 const META_URL = 'meta/topics.json';
 const workbookRoot = document.querySelector('#workbook');
+const toolbar = document.querySelector('.workbook-toolbar');
 const statusEl = document.querySelector('#workbook-status');
 const jumpInput = document.querySelector('#page-jump');
 const prevButton = document.querySelector('#prev-page');
@@ -112,6 +113,23 @@ function updateLoadStatus(total) {
     statusEl.textContent = `${loadedPages} / ${total} דפים נטענו · ${failedPages} נכשלו`;
   } else {
     statusEl.textContent = `${loadedPages} / ${total} דפים נטענו`;
+  }
+}
+
+function installToolbarOffset() {
+  const sync = () => {
+    const height = toolbar?.getBoundingClientRect().height ?? 0;
+    document.documentElement.style.setProperty('--pythagoras-toolbar-offset', `${Math.ceil(height + 8)}px`);
+  };
+
+  sync();
+  if (!toolbar) return;
+
+  if (typeof ResizeObserver === 'function') {
+    const observer = new ResizeObserver(sync);
+    observer.observe(toolbar);
+  } else {
+    window.addEventListener('resize', sync);
   }
 }
 
@@ -273,6 +291,7 @@ async function boot() {
 
   await runPool(tasks, 6);
   await typesetMath();
+  installToolbarOffset();
   installNavigation();
   installResponsiveScaling();
   statusEl.textContent = failedPages > 0
