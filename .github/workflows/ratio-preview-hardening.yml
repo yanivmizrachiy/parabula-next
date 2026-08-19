@@ -48,17 +48,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            sources/lovable/ratio-workbook/package-lock.json
-
-      - name: Install root tooling
-        run: npm ci
+          cache-dependency-path: sources/lovable/ratio-workbook/package-lock.json
 
       - name: Install ratio workbook dependencies
         run: npm ci --prefix sources/lovable/ratio-workbook --legacy-peer-deps
 
+      - name: Install browser verification dependency locally
+        run: npm install --prefix sources/lovable/ratio-workbook --no-save --legacy-peer-deps playwright@1.61.1
+
       - name: Install Chromium
+        working-directory: sources/lovable/ratio-workbook
         run: npx playwright install --with-deps chromium
 
       - name: Run TypeScript, structure and semantic guards
