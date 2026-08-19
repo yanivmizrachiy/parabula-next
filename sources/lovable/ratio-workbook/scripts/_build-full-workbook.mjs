@@ -87,6 +87,7 @@ body{margin:0;background:#e9edf3;font-family:Rubik,Assistant,Arial,sans-serif}
    RIGHT, then הטענה, נכונה, לא נכונה flowing left — natural Hebrew order. (A previous LTR hack
    flipped this and put # on the left, which was wrong.) */
 .worksheet-table{direction:rtl}
+.wb-page.teacher-intro-page .page-number{display:none}
 .wb-page > .gz-footer{flex:0 0 auto;text-align:center;direction:rtl;padding:2mm 9mm 2.4mm;border-top:1px solid #dbe3ee;line-height:1.22;background:#fff}
 .wb-page > .gz-footer .f1{font-weight:600;font-size:10px;color:#1f2a44;margin-bottom:1px}
 .wb-page > .gz-footer .f2{font-size:9px;color:#41506b}
@@ -199,8 +200,9 @@ const paginator = `
     var extra=Math.min(leftover/(kids.length-1), 200);
     body.style.gap=(GAP+extra)+'px';
   });
-  // Renumber pages sequentially by DOM order.
-  var _i=0; [].forEach.call(document.querySelectorAll('.wb-page .page-number'),function(el){el.textContent=(++_i);});
+  // Renumber pages sequentially by DOM order. The teacher ("למורה") opening pages are NOT numbered
+  // (the student page count starts at 1 on the first non-teacher page).
+  var _i=0; [].forEach.call(document.querySelectorAll('.wb-page'),function(pg){var el=pg.querySelector('.page-number'); if(!el)return; if(pg.classList.contains('teacher-intro-page')){el.textContent='';}else{el.textContent=(++_i);}});
   [].forEach.call(document.querySelectorAll('.wb-src'),function(s){s.remove();});
   fitMobile();
   }
