@@ -74,6 +74,25 @@
   margin: 0;
 }
 
+/* The student's writing area is always a visible uniform box ("סגנון 5" — white, thin border,
+   rounded, soft shadow). Inside an already-bordered response box the outer border is the box,
+   so there the inner writing area stays borderless (no double frame). */
+.work-area-space {
+  border: 1.35px solid #1f2a44;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(31, 42, 68, 0.1);
+  margin-top: 3px;
+}
+.calculation-response .work-area-space,
+.response-set .work-area-space {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  margin-top: 0;
+}
+
 .response-set .work-area-lines {
   gap: 2px;
 }
