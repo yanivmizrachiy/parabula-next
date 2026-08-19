@@ -25,22 +25,6 @@ function readCssGraph(relative, seen = new Set()) {
   return combined;
 }
 
-function validateMathAndDrawingStack(htmlFile, html) {
-  if (/<canvas\b/iu.test(html)) fail(`${htmlFile}: אסור Canvas בדפי פיתגורס — שרטוטים חייבים להיות SVG וקטורי`);
-  if (/<img\b/iu.test(html)) fail(`${htmlFile}: אסורה תמונת raster בדפי פיתגורס — שרטוטים חייבים להיות inline SVG`);
-  if (/<(?:object|embed)\b/iu.test(html)) fail(`${htmlFile}: אסור שרטוט חיצוני מוטמע — יש להשתמש ב-inline SVG`);
-  if (/https?:\/\/(?:cdn\.jsdelivr\.net|unpkg\.com|cdnjs\.cloudflare\.com)/iu.test(html)) {
-    fail(`${htmlFile}: נכס מתמטי/גרפי חיצוני אסור — MathJax והגופנים חייבים להיות מקומיים`);
-  }
-  if (/class="[^"]*\broot-symbol\b[^"]*"/u.test(html)) {
-    fail(`${htmlFile}: סימן שורש ידני אסור — יש לכתוב את הביטוי ב-TeX/MathJax`);
-  }
-
-  for (const match of html.matchAll(/<[^>]+class="[^"]*\bmissing-root-expression\b[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/gu)) {
-    if (!match[1].includes('\\(')) fail(`${htmlFile}: missing-root-expression חייב להיות MathJax/TeX`);
-  }
-}
-
 const meta = JSON.parse(fs.readFileSync(topicsPath, 'utf8'));
 let workbook;
 try {
@@ -88,9 +72,10 @@ for (const page of pages) {
   if (!/<html\s+[^>]*dir="rtl"/u.test(html)) fail(`${htmlFile}: חסר dir=rtl`);
   if (!/<main\s+class="[^"]*a4-page/u.test(html)) fail(`${htmlFile}: חסר main.a4-page`);
   if (!cssGraph.includes('pythagoras.css')) fail(`${cssFile}: שרשרת ה-CSS אינה מגיעה ל-styles/topics/pythagoras.css`);
-
-  validateMathAndDrawingStack(htmlFile, html);
 }
+
+/* מדיניות MathJax/שרטוטים היא כלל רוחבי של כל הפרויקט ונאכפת רק דרך
+   scripts/validate-math-rendering.mjs. אין לשכפל כאן איסורים מקומיים. */
 
 /* דפי היסוד האמיתיים הם מקטע רציף ראשון. דפי תוכנית הלימודים רשאים להשתמש
    באותה שכבת CSS מאוחר יותר בלי להפוך שוב ל"יסודות". */
@@ -124,4 +109,4 @@ if (errors.length) {
 }
 
 const foundationCount = foundationFlags.filter(Boolean).length;
-console.log(`PYTHAGORAS_WORKBOOK_OK pages=${pages.length} primary=${workbook.primaryCount} additional=${workbook.additionalCount} foundations=${foundationCount} source=meta/topics.json math=MathJax4 drawings=inline-svg`);
+console.log(`PYTHAGORAS_WORKBOOK_OK pages=${pages.length} primary=${workbook.primaryCount} additional=${workbook.additionalCount} foundations=${foundationCount} source=meta/topics.json`);
