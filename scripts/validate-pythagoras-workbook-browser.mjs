@@ -74,6 +74,41 @@ try {
       .map((font, index) => ({ local: index + 1, source: expectedPages[index], font }))
       .filter((entry) => !/Rubik/u.test(entry.font));
 
+    const danglingIdRefs = [];
+    const tokenRefAttrs = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'headers'];
+    const singleRefAttrs = ['for', 'form', 'list', 'aria-activedescendant', 'aria-details', 'aria-errormessage'];
+    const fragmentRefAttrs = ['href', 'xlink:href'];
+    const urlRefAttrs = ['fill', 'stroke', 'filter', 'clip-path', 'mask', 'marker-start', 'marker-mid', 'marker-end'];
+    const noteDangling = (element, attr, id) => {
+      if (!id || document.getElementById(id)) return;
+      danglingIdRefs.push({
+        tag: element.tagName,
+        attr,
+        id,
+        source: Number(element.closest('main.a4-page')?.dataset.sourcePage) || null,
+      });
+    };
+    for (const element of document.querySelectorAll('#workbook *')) {
+      for (const attr of tokenRefAttrs) {
+        if (!element.hasAttribute(attr)) continue;
+        for (const id of element.getAttribute(attr).split(/\s+/u).filter(Boolean)) noteDangling(element, attr, id);
+      }
+      for (const attr of singleRefAttrs) {
+        if (!element.hasAttribute(attr)) continue;
+        noteDangling(element, attr, element.getAttribute(attr).trim());
+      }
+      for (const attr of fragmentRefAttrs) {
+        if (!element.hasAttribute(attr)) continue;
+        const value = element.getAttribute(attr).trim();
+        if (value.startsWith('#')) noteDangling(element, attr, value.slice(1));
+      }
+      for (const attr of urlRefAttrs) {
+        if (!element.hasAttribute(attr)) continue;
+        const value = element.getAttribute(attr);
+        for (const match of value.matchAll(/url\(#([^\)]+)\)/gu)) noteDangling(element, attr, match[1]);
+      }
+    }
+
     const additionalState = additionalPages.map((source) => {
       const main = mains.find((candidate) => Number(candidate?.dataset.sourcePage) === source);
       return {
@@ -118,6 +153,7 @@ try {
       wrapperCount: wrappers.length,
       mainCount: mains.filter(Boolean).length,
       duplicateIds,
+      danglingIdRefs,
       localNumbers,
       sourceNumbers,
       additionalState,
@@ -142,6 +178,7 @@ try {
   if (result.wrapperCount !== expected.length) errors.push(`wrappers=${result.wrapperCount}, expected=${expected.length}`);
   if (result.mainCount !== expected.length) errors.push(`a4 pages=${result.mainCount}, expected=${expected.length}`);
   if (result.duplicateIds.length) errors.push(`duplicate DOM ids: ${result.duplicateIds.join(', ')}`);
+  if (result.danglingIdRefs.length) errors.push(`dangling DOM id references: ${JSON.stringify(result.danglingIdRefs.slice(0, 20))}`);
   if (JSON.stringify(result.sourceNumbers) !== JSON.stringify(expected)) errors.push('source page order differs from canonical meta-derived workbook');
   for (let i = 0; i < expected.length; i += 1) {
     if (result.localNumbers[i] !== String(i + 1)) errors.push(`local page ${i + 1} renders number ${result.localNumbers[i]}`);
