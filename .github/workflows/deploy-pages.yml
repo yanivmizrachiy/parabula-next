@@ -315,6 +315,7 @@ jobs:
     if: ${{ always() && github.event_name != 'pull_request' && needs.build.result == 'success' && (needs.mobile-browser-gate.result == 'success' || needs.mobile-browser-gate.result == 'skipped') && (needs.mobile-interaction-gate.result == 'success' || needs.mobile-interaction-gate.result == 'skipped') && (needs.mobile-deep-gate.result == 'success' || needs.mobile-deep-gate.result == 'skipped') && needs.pythagoras-browser-gate.result == 'success' }}
     needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate]
     permissions:
+      contents: read
       pages: write
       id-token: write
       statuses: write
@@ -323,6 +324,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Checkout live verification scripts
+        uses: actions/checkout@v4
+
       - name: Download production build
         uses: actions/download-artifact@v4
         with:
