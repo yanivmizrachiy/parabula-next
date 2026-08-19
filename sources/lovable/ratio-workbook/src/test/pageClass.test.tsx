@@ -1,23 +1,37 @@
 import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { WORKSHEET_PAGES } from '@/data/worksheetPages';
+import { PageNumberScope } from '@/components/worksheet/pages/PageLayout';
+
+function renderStudentPage(page: (typeof WORKSHEET_PAGES)[number]) {
+  return renderToStaticMarkup(
+    <PageNumberScope pageNumber={page.id}>{page.component()}</PageNumberScope>,
+  );
+}
 
 describe('ratio page identity classes', () => {
-  it('assigns ratio-page-N to every one of the 48 rendered pages', () => {
-    expect(WORKSHEET_PAGES).toHaveLength(48);
+  it('assigns sequential student-facing ratio-page-N classes to every rendered page', () => {
+    expect(WORKSHEET_PAGES).toHaveLength(55);
 
     for (const page of WORKSHEET_PAGES) {
-      const markup = renderToStaticMarkup(<>{page.component()}</>);
+      const markup = renderStudentPage(page);
       expect(markup).toContain(`ratio-page-${page.id}`);
+      expect(markup).toContain(`<div class="page-number">${page.id}</div>`);
     }
   });
 
-  it('keeps the five canonical fit targets addressable by page-specific CSS', () => {
-    for (const pageId of [1, 16, 18, 21, 48]) {
-      const page = WORKSHEET_PAGES.find((candidate) => candidate.id === pageId);
+  it('keeps original source-page identities stable for page-specific layout targeting', () => {
+    for (const [key, sourcePage] of [
+      ['ratio-page-01', 1],
+      ['ratio-page-16', 16],
+      ['ratio-page-18', 18],
+      ['ratio-page-21', 21],
+      ['ratio-page-48', 48],
+    ] as const) {
+      const page = WORKSHEET_PAGES.find((candidate) => candidate.key === key);
       expect(page).toBeDefined();
-      const markup = renderToStaticMarkup(<>{page?.component()}</>);
-      expect(markup).toContain(`ratio-page-${pageId}`);
+      const markup = renderStudentPage(page!);
+      expect(markup).toContain(`ratio-source-page-${sourcePage}`);
     }
   });
 });
