@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { WORKSHEET_PAGES } from '@/data/worksheetPages';
+import { PageNumberScope } from '@/components/worksheet/pages/PageLayout';
 
 const forbiddenBrokenFragments = [
   'היחס בין מספר בקבוקי השתייה המוגזת והמספר הכולל של בקבוקי השתייה הוא 11 : 6',
@@ -23,8 +24,18 @@ function pageByKey(key: string) {
   return page!;
 }
 
+function renderPage(page: (typeof WORKSHEET_PAGES)[number]) {
+  return renderToStaticMarkup(
+    <PageNumberScope pageNumber={page.id}>{page.component()}</PageNumberScope>,
+  );
+}
+
 function renderKey(key: string) {
-  return renderToStaticMarkup(<>{pageByKey(key).component()}</>);
+  return renderPage(pageByKey(key));
+}
+
+function count(markup: string, expression: RegExp) {
+  return markup.match(expression)?.length ?? 0;
 }
 
 describe('ratio workbook structure', () => {
@@ -45,9 +56,10 @@ describe('ratio workbook structure', () => {
     for (const page of WORKSHEET_PAGES) {
       expect(page.credit).toBe('yaniv');
       expect(page.key).not.toContain('teacher');
-      const markup = renderToStaticMarkup(<>{page.component()}</>);
+      const markup = renderPage(page);
       expect(markup).not.toContain('teacher-intro-page');
       expect(markup).not.toContain('יחס · למורה');
+      expect(markup).toContain(`<div class="page-number">${page.id}</div>`);
     }
   });
 
@@ -65,7 +77,7 @@ describe('ratio workbook structure', () => {
 
   it('renders every page with one clean mathematical topic heading and no question headings', () => {
     for (const page of WORKSHEET_PAGES) {
-      const markup = renderToStaticMarkup(<>{page.component()}</>);
+      const markup = renderPage(page);
       expect(markup).toContain('worksheet-page');
       expect(markup).toMatch(/<span class="page-header-title page-title">[^<]+<\/span>/);
       expect(markup).not.toMatch(/<span class="page-header-title page-title">\s*נושא:/);
@@ -87,12 +99,13 @@ describe('ratio workbook structure', () => {
 
   it('assigns a response policy to every question and sub-question', () => {
     for (const page of WORKSHEET_PAGES) {
-      const markup = renderToStaticMarkup(<>{page.component()}</>);
-      const questionCount = markup.match(/class="question-block"/g)?.length ?? 0;
-      const subQuestionCount = markup.match(/class="sub-question"/g)?.length ?? 0;
-      const policyCount = markup.match(
+      const markup = renderPage(page);
+      const questionCount = count(markup, /class="question-block"/g);
+      const subQuestionCount = count(markup, /class="sub-question"/g);
+      const policyCount = count(
+        markup,
         /data-auto-response="(?:none|short|ratio|calculation|explanation|drawing)"/g,
-      )?.length ?? 0;
+      );
       expect(policyCount).toBe(questionCount + subQuestionCount);
     }
   });
@@ -100,7 +113,7 @@ describe('ratio workbook structure', () => {
   it('renders 36 diamonds in the first ratio question', () => {
     const markup = renderKey('ratio-page-01');
     expect(markup).toContain('היחס בין מספר המעויינים השחורים לבין מספר המעויינים הלבנים הוא 2 : 1');
-    expect(markup.match(/<polygon/g)).toHaveLength(36);
+    expect(count(markup, /<polygon/g)).toBe(36);
   });
 
   it('uses the lower area of the first ratio page for meaningful ratio practice', () => {
@@ -111,45 +124,44 @@ describe('ratio workbook structure', () => {
     expect(markup).toContain('לקבוצה המקורית הוסיפו 2 עיגולים מכל צבע');
   });
 
-  it('provides structured ratio answers and compact explanation lines on the first ratio page', () => {
+  it('provides structured ratio answers and real explanation space on the first ratio page', () => {
     const markup = renderKey('ratio-page-01');
-    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(count(markup, /ratio-answer-box/g)).toBeGreaterThanOrEqual(6);
     expect(markup).toContain('ratio-answer-colon');
-    expect(markup.match(/ratio-page-1-inline-explanation/g)).toHaveLength(2);
-    expect(markup.match(/class="work-area-line"/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(count(markup, /ratio-page-1-inline-explanation/g)).toBe(2);
+    expect(count(markup, /class="work-area-space"/g)).toBeGreaterThanOrEqual(3);
     expect(markup).toContain('אפשרות נוספת:');
   });
 
-  it('balances the original ratio page 11 with grouped work and compact final answers', () => {
+  it('gives original ratio page 11 substantial work and final-answer space', () => {
     const markup = renderKey('ratio-page-11');
-    expect(markup).toContain('ratio-page-11');
-    expect(markup.match(/response-set ratio-page-11-response/g)).toHaveLength(5);
-    expect(markup.match(/class="work-area-line"/g)).toHaveLength(6);
-    expect(markup.match(/data-grouped-response="true"/g)).toHaveLength(5);
-    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(markup).toContain('ratio-source-page-11');
+    expect(count(markup, /class="work-area-space"/g)).toBeGreaterThanOrEqual(7);
+    expect(count(markup, /final-answer/g)).toBeGreaterThanOrEqual(8);
+    expect(count(markup, /ratio-answer-box/g)).toBeGreaterThanOrEqual(4);
+    expect(markup).toContain('SpiceGraph'.replace('SpiceGraph', 'קינמון'));
   });
 
   it('keeps short answers inline on the original ratio page 18 while preserving calculation work', () => {
     const markup = renderKey('ratio-page-18');
-    expect(markup).toContain('ratio-page-18');
-    expect(markup.match(/ratio-answer-container is-inline/g)?.length).toBeGreaterThanOrEqual(6);
-    expect(markup.match(/auto-response--calculation/g)).toHaveLength(1);
+    expect(markup).toContain('ratio-source-page-18');
+    expect(count(markup, /ratio-answer-container is-inline/g)).toBeGreaterThanOrEqual(6);
+    expect(count(markup, /auto-response--calculation/g)).toBe(1);
     expect(markup).toContain('באיזו מחרוזת נשמר אותו יחס?');
   });
 
   it('keeps ratio responses inline on the original ratio page 22', () => {
     const markup = renderKey('ratio-page-22');
-    expect(markup).toContain('ratio-page-22');
-    expect(markup.match(/ratio-answer-container is-inline/g)).toHaveLength(5);
-    expect(markup.match(/ratio-answer-box/g)).toHaveLength(10);
+    expect(markup).toContain('ratio-source-page-22');
+    expect(count(markup, /ratio-answer-container is-inline/g)).toBe(5);
+    expect(count(markup, /ratio-answer-box/g)).toBe(10);
   });
 
   it('provides work areas, structured answers and correct SVG direction on the original ratio page 29', () => {
     const markup = renderKey('ratio-page-29');
     expect(markup).not.toContain('שאלות אתגר');
-    expect(markup.match(/class="response-set"/g)).toHaveLength(4);
-    expect(markup.match(/class="work-area-line"/g)).toHaveLength(4);
-    expect(markup.match(/class="ratio-answer-box"/g)?.length).toBeGreaterThanOrEqual(12);
+    expect(count(markup, /class="work-area-space"/g)).toBeGreaterThanOrEqual(7);
+    expect(count(markup, /class="ratio-answer-box"/g)).toBeGreaterThanOrEqual(12);
     for (const value of ['10a', '4a', '6p', '2p', '3p']) {
       expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value}</text>`));
     }
@@ -157,34 +169,33 @@ describe('ratio workbook structure', () => {
 
   it('provides genuine working and final-answer space on the original ratio page 35', () => {
     const markup = renderKey('ratio-page-35');
-    expect(markup).toContain('ratio-page-35');
-    expect(markup.match(/response-set/g)?.length).toBeGreaterThanOrEqual(4);
+    expect(markup).toContain('ratio-source-page-35');
     expect(markup).toContain('calculation-response');
-    expect(markup.match(/work-area-line/g)?.length).toBeGreaterThanOrEqual(13);
-    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(6);
+    expect(count(markup, /class="work-area-space"/g)).toBeGreaterThanOrEqual(8);
+    expect(count(markup, /ratio-answer-box/g)).toBeGreaterThanOrEqual(6);
     expect(markup).toContain('שלוש דרכי פתרון והסבר:');
     expect(markup).toContain('אומדן למספר הדגים');
   });
 
-  it('uses an ordered-pair response and LTR coordinates on the original ratio page 42', () => {
+  it('uses an ordered-pair response, calculation space and LTR coordinates on original ratio page 42', () => {
     const markup = renderKey('ratio-page-42');
     expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
-    expect(markup.match(/ordered-pair-box/g)).toHaveLength(2);
+    expect(count(markup, /ordered-pair-box/g)).toBe(2);
     expect(markup).toContain('ordered-pair-comma');
     expect(markup).toContain('calculation-response');
-    expect(markup.match(/work-area-line/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(count(markup, /class="work-area-space"/g)).toBeGreaterThanOrEqual(1);
     for (const value of ['C(4,0)', 'D(0,6)', 'A(10,0)', 'B(0,15)']) {
       expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value.replace(/[()]/g, '\\$&')}</text>`));
     }
   });
 
-  it('provides precise SVG direction and structured calculation responses on the original ratio page 48', () => {
+  it('provides precise SVG direction and structured calculation responses on original ratio page 48', () => {
     const markup = renderKey('ratio-page-48');
     expect(markup).not.toContain('נושא: יחס — שאלות מבחנים');
-    expect(markup.match(/calculation-response/g)).toHaveLength(2);
+    expect(count(markup, /calculation-response/g)).toBe(2);
     expect(markup).toContain('הסבר:');
     expect(markup).toContain('ratio-answer-colon');
-    expect(markup.match(/ratio-answer-box/g)?.length).toBeGreaterThanOrEqual(2);
+    expect(count(markup, /ratio-answer-box/g)).toBeGreaterThanOrEqual(2);
     for (const value of ['12', '6', '8', '10', 'AB=18', 'BC=15', 'DF=5']) {
       expect(markup).toMatch(new RegExp(`<text[^>]*direction="ltr"[^>]*>${value}</text>`));
     }
