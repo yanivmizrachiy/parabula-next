@@ -15,6 +15,7 @@ const stylesheetPromises = new Map();
 let totalPages = 0;
 let activePage = 1;
 let loadedPages = 0;
+let failedPages = 0;
 
 const pageId = (local) => `workbook-page-${local}`;
 const sourceFile = (number) => `עמוד-${number}.html`;
@@ -106,6 +107,14 @@ function normalizePage(main, pageMeta, total) {
   return main;
 }
 
+function updateLoadStatus(total) {
+  if (failedPages > 0) {
+    statusEl.textContent = `${loadedPages} / ${total} דפים נטענו · ${failedPages} נכשלו`;
+  } else {
+    statusEl.textContent = `${loadedPages} / ${total} דפים נטענו`;
+  }
+}
+
 async function loadSourcePage(pageMeta, total, wrapper) {
   const sourceNumber = pageMeta.sourceNumber;
   const localNumber = pageMeta.workbookNumber;
@@ -122,13 +131,18 @@ async function loadSourcePage(pageMeta, total, wrapper) {
     normalizePage(main, pageMeta, total);
     wrapper.replaceChildren(main);
     loadedPages += 1;
-    statusEl.textContent = `${loadedPages} / ${total} דפים נטענו`;
+    updateLoadStatus(total);
+    return true;
   } catch (error) {
+    failedPages += 1;
     const message = document.createElement('div');
     message.className = 'workbook-error';
+    message.setAttribute('role', 'alert');
     message.textContent = `שגיאה בטעינת עמוד ${localNumber} (${sourceFile(sourceNumber)}): ${error.message}`;
     wrapper.replaceChildren(message);
-    throw error;
+    updateLoadStatus(total);
+    console.error(`Pythagoras workbook page ${localNumber} failed`, error);
+    return false;
   }
 }
 
@@ -143,22 +157,32 @@ async function runPool(tasks, concurrency = 6) {
   await Promise.all(workers);
 }
 
-function goToPage(localNumber, behavior = 'smooth') {
-  if (!totalPages) return;
+function syncUrlPage(localNumber) {
+  const url = new URL(location.href);
+  url.searchParams.set('page', String(localNumber));
+  history.replaceState(null, '', url);
+}
+
+function setActivePage(localNumber, { syncUrl = false } = {}) {
+  if (!totalPages) return 1;
   const target = Math.max(1, Math.min(totalPages, Number(localNumber) || 1));
   activePage = target;
   jumpInput.value = String(target);
   prevButton.disabled = target <= 1;
   nextButton.disabled = target >= totalPages;
+  if (syncUrl) syncUrlPage(target);
+  return target;
+}
+
+function goToPage(localNumber, behavior = 'smooth') {
+  if (!totalPages) return;
+  const target = setActivePage(localNumber, { syncUrl: true });
   document.getElementById(pageId(target))?.scrollIntoView({ behavior, block: 'start' });
-  const url = new URL(location.href);
-  url.searchParams.set('page', String(target));
-  history.replaceState(null, '', url);
 }
 
 function installNavigation() {
   jumpInput.max = String(totalPages);
-  jumpInput.value = '1';
+  setActivePage(1);
   prevButton.addEventListener('click', () => goToPage(activePage - 1));
   nextButton.addEventListener('click', () => goToPage(activePage + 1));
   jumpInput.addEventListener('change', () => goToPage(jumpInput.value));
@@ -170,11 +194,8 @@ function installNavigation() {
       .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
     if (!visible) return;
     const local = Number(visible.target.dataset.localPage);
-    if (Number.isFinite(local)) {
-      activePage = local;
-      jumpInput.value = String(local);
-      prevButton.disabled = local <= 1;
-      nextButton.disabled = local >= totalPages;
+    if (Number.isFinite(local) && local !== activePage) {
+      setActivePage(local, { syncUrl: true });
     }
   }, { threshold: [0.25, 0.5, 0.75] });
 
@@ -187,7 +208,7 @@ function installResponsiveScaling() {
     const currentWidth = document.documentElement.clientWidth;
     if (currentWidth === lastWidth) return;
     lastWidth = currentWidth;
-    const available = Math.max(280, Math.min(currentWidth - 8, 900));
+    const available = Math.max(1, Math.min(currentWidth - 8, 900));
     for (const wrapper of document.querySelectorAll('.workbook-page-wrap')) {
       const page = wrapper.querySelector('.a4-page');
       if (!page) continue;
@@ -235,6 +256,8 @@ async function boot() {
   if (!pages.length) throw new Error('חוברת פיתגורס אינה מכילה דפים');
 
   totalPages = pages.length;
+  loadedPages = 0;
+  failedPages = 0;
   statusEl.textContent = `0 / ${totalPages} דפים נטענו`;
 
   const tasks = pages.map((pageMeta) => {
@@ -252,7 +275,9 @@ async function boot() {
   await typesetMath();
   installNavigation();
   installResponsiveScaling();
-  statusEl.textContent = `${totalPages} דפים · חוברת מלאה`;
+  statusEl.textContent = failedPages > 0
+    ? `${loadedPages} / ${totalPages} דפים נטענו · ${failedPages} נכשלו`
+    : `${totalPages} דפים · חוברת מלאה`;
 
   const requested = Number(new URL(location.href).searchParams.get('page')) || 1;
   requestAnimationFrame(() => goToPage(requested, 'auto'));
@@ -262,6 +287,7 @@ boot().catch((error) => {
   statusEl.textContent = 'טעינת החוברת נכשלה';
   const message = document.createElement('div');
   message.className = 'workbook-error';
+  message.setAttribute('role', 'alert');
   message.textContent = error.message;
   workbookRoot.prepend(message);
   console.error(error);
