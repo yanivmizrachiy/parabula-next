@@ -55,6 +55,8 @@ export const PYTHAGORAS_SHARED_PATTERNS = [
  * These files can change repository maintenance/CI behavior but cannot alter the
  * generated site itself. They get a lean validation path: repository health,
  * CI-scope contract and production build. Runtime/content files never match.
+ * Generated coordinate-workbook dist files are explicitly included because the
+ * dedicated build workflow recreates them and excludes dist/** from source triggers.
  */
 export const MAINTENANCE_ONLY_PATTERNS = [
   /^\.gitignore$/,
@@ -62,6 +64,7 @@ export const MAINTENANCE_ONLY_PATTERNS = [
   /^scripts\/(?:repo-health-report|edit-map|classify-ci-change-scope)\.mjs$/,
   /^\.github\/workflows\/deploy-pages\.yml$/,
   /^tests\/contracts\/(?:deploy-ci-scope|fast-pr-ci)\.test\.mjs$/,
+  /^projects\/coordinate-first-quadrant-workbook\/dist\//,
 ];
 
 export function isMobileRelevantPath(file) {
