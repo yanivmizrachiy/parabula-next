@@ -21,6 +21,10 @@ for (const file of pages) {
     fail(file, 'Canvas אסור בדף A4 קנוני; שרטוט מתמטי חדש חייב להיות וקטורי וניתן להדפסה');
   }
 
+  if (/\bkatex\b/iu.test(html)) {
+    fail(file, 'KaTeX אסור בדף קנוני; מנוע הרינדור המתמטי היחיד הוא MathJax המקומי');
+  }
+
   if (/https?:\/\/[^"'\s>]*(?:mathjax|mathjax-tex-font)/iu.test(html)) {
     fail(file, 'MathJax וגופני TeX חייבים להיות self-hosted מתוך vendor/ ולא להיטען מהרשת');
   }
