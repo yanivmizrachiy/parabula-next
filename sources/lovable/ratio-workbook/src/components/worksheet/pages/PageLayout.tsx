@@ -252,12 +252,13 @@ interface WorkAreaProps {
   className?: string;
 }
 
-export function WorkArea({ lines = 3, label = 'דרך:', className }: WorkAreaProps) {
+export function WorkArea({ lines = 3, label = '', className }: WorkAreaProps) {
   const safeLines = Math.max(1, Math.min(8, Math.floor(lines)));
-  // Open writing box — the student writes the full solution inside; no ruled/dotted lines.
+  // Open writing box — a clean rectangle with a thick top edge signals "write here"; no generic
+  // "דרך" label and no divider line. A meaningful label (נימוק/תשובה/section letter) still shows.
   return (
-    <div className={cn('work-area', className)} aria-label="מקום לכתיבת דרך החישוב">
-      <span className="work-area-label">{label}</span>
+    <div className={cn('work-area', className)} aria-label="מקום לכתיבה">
+      {label ? <span className="work-area-label">{label}</span> : null}
       <div className="work-area-space" aria-hidden="true" style={{ minHeight: `${safeLines * 26}px` }} />
     </div>
   );
@@ -275,7 +276,7 @@ interface FinalAnswerProps {
 export function FinalAnswer({ label = 'תשובה:', type = 'line', unit, className }: FinalAnswerProps) {
   return (
     <div className={cn('final-answer', className)}>
-      <span className="answer-label">{label}</span>
+      {label ? <span className="answer-label">{label}</span> : null}
       {type === 'ratio' ? (
         <span className="ratio-answer" dir="ltr" aria-label="מקום לכתיבת יחס סופי">
           <span className="ratio-answer-box" aria-hidden="true" />
@@ -301,7 +302,7 @@ export function CalculationResponse({ lines = 3, answerType = 'line', unit, clas
   return (
     <div className={cn('calculation-response', className)}>
       <WorkArea lines={lines} />
-      <FinalAnswer type={answerType} unit={unit} />
+      <FinalAnswer type={answerType} unit={unit} label="" />
     </div>
   );
 }

@@ -47,13 +47,14 @@ function PopulationChart() {
   ];
   const colors = ['#1e40af', '#b08838', '#9ca3af'];
   const y = (value: number) => 135 - value * 1.7;
+  const legend = ['צעירים', 'בוגרים', 'קשישים'];
   return (
     <div className="bar-chart-container compact">
       <svg viewBox="0 0 360 160" className="bar-chart" role="img" aria-label="התפלגות צעירים בוגרים וקשישים בשנים 1955 ו־2006">
         {[0, 10, 20, 30, 40, 50, 60, 70].map((value) => (
           <g key={value}>
             <line x1="35" y1={y(value)} x2="345" y2={y(value)} stroke="#e2e2e2" strokeWidth="0.5" />
-            <text x="29" y={y(value) + 3} textAnchor="end">{value}%</text>
+            <text x="29" y={y(value) + 3} textAnchor="end" direction="ltr">{value}%</text>
           </g>
         ))}
         {years.map((year, yearIndex) => (
@@ -63,15 +64,23 @@ function PopulationChart() {
               return (
                 <g key={itemIndex}>
                   <rect x={x} y={y(value)} width="26" height={135 - y(value)} fill={colors[itemIndex]} stroke="#172554" strokeWidth="0.5" />
-                  <text x={x + 13} y={y(value) - 3} textAnchor="middle">{value}%</text>
+                  <text x={x + 13} y={y(value) - 3} textAnchor="middle" direction="ltr">{value}%</text>
                 </g>
               );
             })}
-            <text x={101 + yearIndex * 160} y="153" textAnchor="middle">{year.label}</text>
+            <text x={101 + yearIndex * 160} y="153" textAnchor="middle" direction="ltr">{year.label}</text>
           </g>
         ))}
-        <text x="345" y="18" textAnchor="end">צעירים · בוגרים · קשישים</text>
       </svg>
+      {/* legend BELOW the plot with colour swatches — never overlaps the bars, and shows which
+          colour is which age group (the old top text-legend had no swatches). */}
+      <div className="bar-chart-legend">
+        {legend.map((label, i) => (
+          <span key={label} className="bar-chart-legend-item">
+            <span className="bar-chart-swatch" style={{ background: colors[i] }} />{label}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }
@@ -131,6 +140,7 @@ export function RatioPage18() {
         <p>התרשים מתאר את התפלגות האוכלוסייה בשנים 1955 ו־2006.</p>
         <PopulationChart />
         <WorksheetTable
+          className="wt-ltr"
           headers={['לא נכונה', 'נכונה', 'טענה']}
           rows={[
             [<Checkbox />, <Checkbox />, 'אחוז הבוגרים בשנת 1955 היה 60%.'],

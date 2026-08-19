@@ -67,6 +67,7 @@ export function RatioPage02() {
         <p>סמנו ליד כל היגד אם הוא נכון, לא נכון או שאי־אפשר לקבוע אם הוא נכון.</p>
       </Question>
       <WorksheetTable
+        className="wt-ltr"
         headers={['אי־אפשר לקבוע', 'לא נכון', 'נכון', 'היגד', '']}
         rows={[
           [<Checkbox />, <Checkbox />, <Checkbox />, 'על כל 5 בנים יש 3 בנות.', 'א.'],
@@ -237,11 +238,11 @@ export function RatioPage06() {
 function PenCases() {
   return (
     <div className="svg-center svg-center--tight">
-      <svg viewBox="0 0 320 90" width="360" height="100" role="img" aria-label="שני קלמרים ביחס שבע לשתיים">
-        <rect x="15" y="20" width="190" height="50" rx="16" fill="#eef2ff" stroke="#172554" strokeWidth="1.5" />
-        <rect x="230" y="20" width="75" height="50" rx="16" fill="#f8fafc" stroke="#172554" strokeWidth="1.5" />
-        <text x="110" y="50" textAnchor="middle">קלמר א׳ — 7 עטים</text>
-        <text x="267" y="50" textAnchor="middle">קלמר ב׳ — 2 עטים</text>
+      <svg viewBox="0 0 340 104" width="380" height="116" role="img" aria-label="שני קלמרים ביחס שבע לשתיים: קלמר א׳ 7 עטים, קלמר ב׳ 2 עטים">
+        <rect x="18" y="14" width="196" height="48" rx="14" fill="#eef2ff" stroke="#172554" strokeWidth="1.5" />
+        <rect x="238" y="14" width="84" height="48" rx="14" fill="#f8fafc" stroke="#172554" strokeWidth="1.5" />
+        <text x="116" y="86" textAnchor="middle">קלמר א׳ — 7 עטים</text>
+        <text x="280" y="86" textAnchor="middle">קלמר ב׳ — 2 עטים</text>
       </svg>
     </div>
   );

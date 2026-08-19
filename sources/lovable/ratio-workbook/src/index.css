@@ -736,7 +736,7 @@
 /* Graph container */
 .graph-container {
   margin: 6px auto;
-  max-width: 220px;
+  max-width: 460px;
 }
 
 .graph-container.compact {

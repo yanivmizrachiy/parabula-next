@@ -142,6 +142,7 @@ export function Ch1Page3() {
         <p>סמנו ליד כל היגד אם הוא נכון, לא נכון או שאי-אפשר לקבוע אם הוא נכון או לא נכון.</p>
       </Question>
       <WorksheetTable
+        className="wt-ltr"
         headers={['אי-אפשר לקבוע', 'לא נכון', 'נכון', 'היגד', '']}
         rows={[
           [<Checkbox />, <Checkbox />, <Checkbox />, 'מספר המשתתפים הכולל מתחלק ב - 5', '.1'],

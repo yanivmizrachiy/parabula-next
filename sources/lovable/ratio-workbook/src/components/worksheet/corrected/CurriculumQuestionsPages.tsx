@@ -254,7 +254,7 @@ export function CurriculumPage07() {
             { label: 'ד.', value: '1 : 1' },
           ]}
         />
-        <WorkArea lines={2} label="דרך:" />
+        <WorkArea lines={2}  />
       </Question>
 
       <QSep />

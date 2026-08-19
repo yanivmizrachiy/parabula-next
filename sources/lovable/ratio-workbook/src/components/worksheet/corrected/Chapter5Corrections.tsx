@@ -76,12 +76,12 @@ export function RatioPage29() {
         <SubQuestion label="ב."><p>חשבו את היחס בין שטח △ABC לשטח △ADC.</p></SubQuestion>
         <SubQuestion label="ג."><p>חשבו את היחס בין שטח △BCE לשטח △ABC.</p></SubQuestion>
         <div className="response-set">
-          <WorkArea lines={2} label="א. דרך:" />
+          <WorkArea lines={2} label="א." />
           <FinalAnswer label={'⁦BE =⁩'} />
           <FinalAnswer label={'⁦CD =⁩'} />
-          <WorkArea lines={3} label="ב. דרך:" />
+          <WorkArea lines={3} label="ב." />
           <FinalAnswer label="ב." type="ratio" />
-          <WorkArea lines={3} label="ג. דרך:" />
+          <WorkArea lines={3} label="ג." />
           <FinalAnswer label="ג." type="ratio" />
         </div>
       </Question>
@@ -100,9 +100,9 @@ export function RatioPage29() {
         <SubQuestion label="ג."><p>מאחדים את מגשים 1 ו־3. איזה אחוז מהעוגיות חומות?</p></SubQuestion>
         <div className="response-set">
           <FinalAnswer label="א. מגש:" />
-          <WorkArea lines={2} label="ב. דרך:" />
+          <WorkArea lines={2} label="ב." />
           <FinalAnswer label="ב." type="ratio" />
-          <WorkArea lines={3} label="ג. דרך:" />
+          <WorkArea lines={3} label="ג." />
           <FinalAnswer label="ג." unit="%" />
         </div>
       </Question>
@@ -114,9 +114,9 @@ export function RatioPage29() {
         <SubQuestion label="א."><p>כמה מ״ל יש בכוס 1?</p></SubQuestion>
         <SubQuestion label="ב."><p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נמצא כעת בכוס 2?</p></SubQuestion>
         <div className="response-set">
-          <WorkArea lines={2} label="א. דרך:" />
+          <WorkArea lines={2} label="א." />
           <FinalAnswer label="א." unit="מ״ל" />
-          <WorkArea lines={3} label="ב. דרך:" />
+          <WorkArea lines={3} label="ב." />
           <FinalAnswer label="ב." unit="%" />
         </div>
       </Question>
