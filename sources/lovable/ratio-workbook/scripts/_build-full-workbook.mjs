@@ -87,7 +87,7 @@ body{margin:0;background:#e9edf3;font-family:Rubik,Assistant,Arial,sans-serif}
    RIGHT, then הטענה, נכונה, לא נכונה flowing left — natural Hebrew order. (A previous LTR hack
    flipped this and put # on the left, which was wrong.) */
 .worksheet-table{direction:rtl}
-.wb-page.teacher-intro-page .page-number{display:none}
+.wb-page.opening-block .page-number{display:none}
 .wb-page > .gz-footer{flex:0 0 auto;text-align:center;direction:rtl;padding:2mm 9mm 2.4mm;border-top:1px solid #dbe3ee;line-height:1.22;background:#fff}
 .wb-page > .gz-footer .f1{font-weight:600;font-size:10px;color:#1f2a44;margin-bottom:1px}
 .wb-page > .gz-footer .f2{font-size:9px;color:#41506b}
@@ -116,13 +116,13 @@ const paginator = `
   var doc=document.querySelector('.wb-doc');
   var FA=${JSON.stringify(FOOT_AUTHORS)}, FY=${JSON.stringify(FOOT_YANIV)};
   var n=0;
-  function newPage(section,title){
+  function newPage(section,title,openingBlock){
     n++;
     var p=document.createElement('div');
-    p.className='wb-page worksheet-page'+(section==='opening'?' teacher-intro-page':'');
+    p.className='wb-page worksheet-page'+(section==='opening'?' teacher-intro-page':'')+(openingBlock?' opening-block':'');
     p.setAttribute('dir','rtl');
     var _t=(title||'יחס');
-    var headTitle=(section==='opening')?'יחס · למורה':(/^יחס/.test(_t)?_t:('יחס - '+_t));
+    var headTitle=openingBlock?'יחס · למורה':(/^יחס/.test(_t)?_t:('יחס - '+_t));
     p.innerHTML='<header class="header-container page-header"><span class="page-header-title page-title">'+headTitle+'</span><div class="page-number">'+n+'</div></header><div class="wb-body page-content"></div>'+(section==='opening'?FA:FY);
     doc.appendChild(p);
     return p.querySelector('.wb-body');
@@ -145,6 +145,11 @@ const paginator = `
     if(last && last.chapter===chapter && last.section===section){ groups.forEach(function(g){last.groups.push(g);}); }
     else runs.push({section:section,chapter:chapter,groups:groups});
   });
+  // "יחס · למורה" header + no page number apply ONLY to the opening block — the teacher pages that
+  // come before the first student page. A teacher page that sits mid-book gets its chapter header
+  // and is numbered like the rest, while keeping the authors' footer (section stays 'opening').
+  var _seenMain=false;
+  runs.forEach(function(r){ r.openingBlock=(r.section==='opening' && !_seenMain); if(r.section!=='opening')_seenMain=true; });
   var GAP=12;
   function boxH(list){ var h=0; for(var i=0;i<list.length;i++){ h+=(i>0?GAP:0)+list[i].__h; } return h; }
   // Paginate each chapter run: measure each question's real height, then GREEDILY pack each A4
@@ -152,7 +157,7 @@ const paginator = `
   // question stranded), rebalance just the last two pages so both are comfortably full. Nothing
   // ever exceeds the page, so nothing is clipped.
   runs.forEach(function(run){
-    var first=newPage(run.section,run.chapter);
+    var first=newPage(run.section,run.chapter,run.openingBlock);
     var cs=getComputedStyle(first);
     var padT=parseFloat(cs.paddingTop)||0, padB=parseFloat(cs.paddingBottom)||0;
     // Keep a small safety margin below the clip line: measured heights can settle a few px larger
@@ -182,7 +187,7 @@ const paginator = `
       }
     }
     pages.forEach(function(grp,pi){
-      var bd = pi===0 ? first : newPage(run.section,run.chapter);
+      var bd = pi===0 ? first : newPage(run.section,run.chapter,run.openingBlock);
       grp.forEach(function(b){ bd.appendChild(b); });
     });
   });
@@ -202,7 +207,7 @@ const paginator = `
   });
   // Renumber pages sequentially by DOM order. The teacher ("למורה") opening pages are NOT numbered
   // (the student page count starts at 1 on the first non-teacher page).
-  var _i=0; [].forEach.call(document.querySelectorAll('.wb-page'),function(pg){var el=pg.querySelector('.page-number'); if(!el)return; if(pg.classList.contains('teacher-intro-page')){el.textContent='';}else{el.textContent=(++_i);}});
+  var _i=0; [].forEach.call(document.querySelectorAll('.wb-page'),function(pg){var el=pg.querySelector('.page-number'); if(!el)return; if(pg.classList.contains('opening-block')){el.textContent='';}else{el.textContent=(++_i);}});
   [].forEach.call(document.querySelectorAll('.wb-src'),function(s){s.remove();});
   fitMobile();
   }

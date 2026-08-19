@@ -87,9 +87,9 @@ export function Ch4Page2() {
 
       <Question>
         <p>היחס בין אורכי שני חבלים הוא 17 : 13 . באיזה מהמקרים הבאים <strong>יישמר</strong> אותו יחס? הסבירו.</p>
-        <SubQuestion label="(א)"><p>מאריכים כל חבל ב - 5 ס"מ.   <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מקצרים כל חבל ב - 5 ס"מ.   <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מאריכים כל חבל פי 5 .   <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>מאריכים כל חבל ב - 5 ס"מ.   <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מקצרים כל חבל ב - 5 ס"מ.   <Blank /></p></SubQuestion>
+        <SubQuestion label="ג."><p>מאריכים כל חבל פי 5 .   <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -106,18 +106,18 @@ export function Ch4Page2() {
 
       <Question>
         <p>איילת מכינה עוגה לפי המתכון : 2 כוסות קמח , <Frac num={1} den={2} /> כוס שמן , 2 כוסות סוכר , <Frac num={1} den={2} /> כוס קקאו , 3 ביצים.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין כמות הקמח לכמות השמן במתכון? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איילת הכינה עוגה גדולה יותר, והשתמשה ב - 2 כוסות שמן. כמה כוסות קמח עליה להוסיף?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>אילו רכיבים מופיעים במתכון ביחס 1 : 1 ?  ביחס 1 : 4 ?  ביחס 4 : 1 ?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין כמות הקמח לכמות השמן במתכון? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>איילת הכינה עוגה גדולה יותר, והשתמשה ב - 2 כוסות שמן. כמה כוסות קמח עליה להוסיף?</p></SubQuestion>
+        <SubQuestion label="ג."><p>אילו רכיבים מופיעים במתכון ביחס 1 : 1 ?  ביחס 1 : 4 ?  ביחס 4 : 1 ?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>רותי בחרה גוון ורוד וערבבה 2 פחיות צבע אדום עם 7 פחיות צבע לבן ( כל פחית – 1 ליטר ). היא זקוקה ל - 27 ליטרים.</p>
-        <SubQuestion label="(א)"><p>האם הכמות שערבבה רותי מספיקה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>נועם הציע <strong>להגדיל</strong> את הכמות של כל צבע פי 3 . האם יתקבל אותו גוון? האם הכמות תספיק?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מירי הציעה <strong>להוסיף</strong> 9 פחיות אדום ו - 9 פחיות לבן. האם יישמר היחס? הסבירו.</p></SubQuestion>
+        <SubQuestion label="א."><p>האם הכמות שערבבה רותי מספיקה? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>נועם הציע <strong>להגדיל</strong> את הכמות של כל צבע פי 3 . האם יתקבל אותו גוון? האם הכמות תספיק?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מירי הציעה <strong>להוסיף</strong> 9 פחיות אדום ו - 9 פחיות לבן. האם יישמר היחס? הסבירו.</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -134,48 +134,48 @@ export function Ch4Page3() {
 
       <Question>
         <p>יוסי עורך נסיעות מבחן. מכונית "סעו - נא" צרכה <strong>18 ליטר</strong> דלק ב - <strong>207 ק"מ</strong> . מכונית "הנוסעים" צרכה <strong>14 ליטר</strong> ב - <strong>175 ק"מ</strong> .</p>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>כמה ק"מ נוסעת כל מכונית לליטר אחד?</p>
           <WorkArea lines={2} />
           <FinalAnswer label="סעו-נא :" unit='ק"מ' />
           <FinalAnswer label="הנוסעים :" unit='ק"מ' />
         </SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="ב.">
           <p>כמה ק"מ תעבור כל מכונית ב - 25 ליטרים?</p>
           <WorkArea lines={2} />
           <FinalAnswer label="סעו-נא :" unit='ק"מ' />
           <FinalAnswer label="הנוסעים :" unit='ק"מ' />
         </SubQuestion>
-        <SubQuestion label="(ג)">
+        <SubQuestion label="ג.">
           <p>כמה דלק תצרוך כל אחת בנסיעה של 150 ק"מ?</p>
           <WorkArea lines={2} />
           <FinalAnswer label="סעו-נא :" unit="ליטר" />
           <FinalAnswer label="הנוסעים :" unit="ליטר" />
         </SubQuestion>
-        <SubQuestion label="(ד)"><p>איזו מכונית חסכונית יותר? <Blank /></p></SubQuestion>
+        <SubQuestion label="ד."><p>איזו מכונית חסכונית יותר? <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>נתונים המוצרים הבאים. <strong>קִבעו</strong> איזה מהם הוא, <strong>באופן יחסי</strong>, היקר ביותר. <span className="text-muted-foreground">( 1 ליטר = 1,000 מ"ל )</span></p>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>פחית שתייה : 250 מ"ל , 5 ש"ח</p>
           <WorkArea lines={2} />
         </SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="ב.">
           <p>קרם גוף : 200 מ"ל , 42 ש"ח</p>
           <WorkArea lines={2} />
         </SubQuestion>
-        <SubQuestion label="(ג)">
+        <SubQuestion label="ג.">
           <p>בקבוק בושם : 50 מ"ל , 120 ש"ח</p>
           <WorkArea lines={2} />
         </SubQuestion>
-        <SubQuestion label="(ד)">
+        <SubQuestion label="ד.">
           <p>דיו למדפסת : 42 מ"ל , 118 ש"ח</p>
           <WorkArea lines={2} />
         </SubQuestion>
-        <SubQuestion label="(ה)">
+        <SubQuestion label="ה.">
           <p>טיפות עיניים : 15 מ"ל , 23 ש"ח</p>
           <WorkArea lines={2} />
         </SubQuestion>
@@ -186,11 +186,11 @@ export function Ch4Page3() {
 
       <Question>
         <p>בקבוק מכיל <strong>150 גרם</strong> סירופ שוקולד ובו <strong>450 קלוריות</strong> .</p>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>כמה קלוריות בבקבוק של 500 גרם סירופ?</p>
           <CalculationResponse lines={3} unit="קלוריות" />
         </SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="ב.">
           <p>כמה סירופ יש לצרוך כדי לצבור 1,000 קלוריות?</p>
           <CalculationResponse lines={3} unit="גרם" />
         </SubQuestion>

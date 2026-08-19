@@ -58,20 +58,25 @@
   line-height: 1;
 }
 
+/* Multi-part answer group — one uniform stacked column: the clean writing box on top, then each
+   labelled answer on its own row below it (never crammed side by side). Matches every other box. */
 .response-set {
-  display: grid;
-  grid-template-columns: minmax(150px, 1fr) repeat(4, minmax(64px, auto));
-  align-items: end;
-  gap: 9px 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
   margin: 6px 18px 6px 0;
-  padding: 6px 8px;
-  border: 1px solid var(--ws-rule);
-  border-radius: 4px;
   break-inside: avoid;
 }
 
 .response-set .work-area {
   margin: 0;
+}
+
+.response-set .final-answer,
+.response-set .ratio-answer-container {
+  margin: 0;
+  gap: 6px;
 }
 
 /* The student's writing area is always a visible uniform box ("סגנון 5" — white, thin border,

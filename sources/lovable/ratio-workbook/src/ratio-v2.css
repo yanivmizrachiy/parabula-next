@@ -248,24 +248,9 @@
   box-shadow: none;
   margin: 0;
 }
+/* Inside a response-set the writing area is the same clean thick-top box as everywhere else. */
 .response-set .work-area {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  gap: 8px;
   margin: 0;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  overflow: visible;
-  background: transparent;
-}
-.response-set .work-area-label {
-  display: inline;
-  background: transparent;
-  color: var(--ws-accent-2);
-  padding: 0;
-  font-family: 'Rubik', 'Assistant', Arial, sans-serif;
 }
 
 .final-answer {
@@ -280,6 +265,14 @@
   max-width: 230px;
   height: 20px;
   border-bottom: 1.4px solid var(--ws-line);
+}
+
+/* The answer blank and its unit form one LTR group so "____°" / "____ ש״ח" read in the right
+   order (the unit sits AFTER the line, not flipped to the wrong side by the RTL context). */
+.final-answer-value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .answer-unit {

@@ -26,9 +26,9 @@ export function Ch3Page1() {
 
       <Question>
         <p>במשפחת ארז 5 בנות ובן אחד.</p>
-        <SubQuestion label="(א)"><p>מה היחס בין מספר הבנות למספר הילדים במשפחה?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מה היחס בין מספר הבנים למספר הילדים במשפחה?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>איזה חלק מהילדים במשפחת ארז מהוות הבנות?</p></SubQuestion>
+        <SubQuestion label="א."><p>מה היחס בין מספר הבנות למספר הילדים במשפחה?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מה היחס בין מספר הבנים למספר הילדים במשפחה?</p></SubQuestion>
+        <SubQuestion label="ג."><p>איזה חלק מהילדים במשפחת ארז מהוות הבנות?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -45,9 +45,9 @@ export function Ch3Page1() {
 
       <Question>
         <p>באוטובוס 8 מבוגרים ו- 6 ילדים.</p>
-        <SubQuestion label="(א)"><p>מה היחס בין מספר המבוגרים למספר הילדים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מה היחס בין מספר הילדים למספר המבוגרים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מה היחס בין מספר הילדים למספר הכולל של הנוסעים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
+        <SubQuestion label="א."><p>מה היחס בין מספר המבוגרים למספר הילדים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
+        <SubQuestion label="ב."><p>מה היחס בין מספר הילדים למספר המבוגרים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
+        <SubQuestion label="ג."><p>מה היחס בין מספר הילדים למספר הכולל של הנוסעים באוטובוס? כתבו יחס מצומצם.</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -418,8 +418,8 @@ export function Ch3Page5() {
             <text x="3" y="38" fontSize="8">6</text><text x="95" y="70" fontSize="8">14</text>
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>מהו היחס בין שטח המשולש הצבוע לשטח המלבן ?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין שטח המשולש הצבוע לשטח הכולל של שני המשולשים הלבנים ?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין שטח המשולש הצבוע לשטח המלבן ?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין שטח המשולש הצבוע לשטח הכולל של שני המשולשים הלבנים ?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -542,8 +542,8 @@ export function Ch3Page6() {
             <span className="txt-xs">(12 שחורים, 17 לבנים)</span>
           </div>
         </div>
-        <SubQuestion label="(א)"><p>האם בשתי המחרוזות היחס בין מספר החרוזים השחורים לבין מספר החרוזים הלבנים זהה? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>סרטטו מחרוזת נוספת כך שיתקיים בה אותו היחס בין מספר החרוזים השחורים למספר החרוזים הלבנים, כמו במחרוזת של קרן.</p></SubQuestion>
+        <SubQuestion label="א."><p>האם בשתי המחרוזות היחס בין מספר החרוזים השחורים לבין מספר החרוזים הלבנים זהה? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ב."><p>סרטטו מחרוזת נוספת כך שיתקיים בה אותו היחס בין מספר החרוזים השחורים למספר החרוזים הלבנים, כמו במחרוזת של קרן.</p></SubQuestion>
         <div className="drawing-box min-h-40"><p className="drawing-label">המחרוזת שלי:</p></div>
       </Question>
     </PageLayout>
@@ -569,10 +569,10 @@ export function Ch3Page7() {
             <text x="195" y="44" fontSize="9">4</text>
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>מהו שטח המלבן?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו שטח המשולש?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין שטח המשולש לשטח המלבן?</p></SubQuestion>
-        <SubQuestion label="(ד)">
+        <SubQuestion label="א."><p>מהו שטח המלבן?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו שטח המשולש?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין שטח המשולש לשטח המלבן?</p></SubQuestion>
+        <SubQuestion label="ד.">
           <p>צורת רישום נוספת ליחס שמצאתם בסעיף (ג) היא:</p>
           <div className="ratio-options">
             <div><Checkbox /> 3 : 5</div>
@@ -644,19 +644,19 @@ export function Ch3Page8() {
         <p>חברת האוטובוסים מציעה כרטיסיות לנוסעים :</p>
         <p>• <strong>כרטיסיית נוער</strong> – 20 נסיעות במחיר של 10 נסיעות.</p>
         <p>• <strong>כרטיסיית מבוגרים</strong> – משלמים עבור 10 נסיעות ומקבלים אחת חינם.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר הניקובים בכרטיסייה לבין מספר הנסיעות שעליהן משלמים <strong>בכרטיסיית נוער</strong>?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר הניקובים בכרטיסייה לבין מספר הנסיעות שעליהן משלמים <strong>בכרטיסיית מבוגרים</strong>?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר הניקובים בכרטיסיית הנוער לבין מספר הניקובים בכרטיסיית המבוגרים?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הניקובים בכרטיסייה לבין מספר הנסיעות שעליהן משלמים <strong>בכרטיסיית נוער</strong>?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הניקובים בכרטיסייה לבין מספר הנסיעות שעליהן משלמים <strong>בכרטיסיית מבוגרים</strong>?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הניקובים בכרטיסיית הנוער לבין מספר הניקובים בכרטיסיית המבוגרים?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכיתה 25 תלמידים, מתוכם 10 עולים חדשים.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר העולים למספר התלמידים בכיתה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר ילידי הארץ למספר התלמידים בכיתה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר העולים למספר ילידי הארץ? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ד)"><p>בלהקה 3 זמרים ו - 7 נגנים. מהו היחס בין מספר הזמרים למספר חברי הלהקה? <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר העולים למספר התלמידים בכיתה? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר ילידי הארץ למספר התלמידים בכיתה? <Blank /></p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר העולים למספר ילידי הארץ? <Blank /></p></SubQuestion>
+        <SubQuestion label="ד."><p>בלהקה 3 זמרים ו - 7 נגנים. מהו היחס בין מספר הזמרים למספר חברי הלהקה? <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -722,8 +722,8 @@ export function Ch3Page9() {
             <line x1="149" y1="2" x2="149" y2="58" stroke="#1a1a1a" strokeWidth="0.8" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>איזה חלק מן המלבן צבוע בכחול?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין השטח הצבוע בכחול לשטח הצבוע בלבן?</p></SubQuestion>
+        <SubQuestion label="א."><p>איזה חלק מן המלבן צבוע בכחול?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין השטח הצבוע בכחול לשטח הצבוע בלבן?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -736,8 +736,8 @@ export function Ch3Page9() {
             <polygon points="100,2 196,78 4,78" fill="#cfe3ff" stroke="#1a1a1a" strokeWidth="1.2" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>איזה חלק מן המלבן צבוע בכחול?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין השטח הצבוע בכחול לשטח הצבוע בלבן?</p></SubQuestion>
+        <SubQuestion label="א."><p>איזה חלק מן המלבן צבוע בכחול?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין השטח הצבוע בכחול לשטח הצבוע בלבן?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -755,8 +755,8 @@ export function Ch3Page9() {
             <line x1="149" y1="2" x2="149" y2="78" stroke="#1a1a1a" strokeWidth="0.4" strokeDasharray="2 2" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>מהו היחס בין שטחי שני המשולשים הצבועים בלבן?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין כל השטח הכחול לכל השטח הלבן?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין שטחי שני המשולשים הצבועים בלבן?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין כל השטח הכחול לכל השטח הלבן?</p></SubQuestion>
       </Question>
 
       <QSep />

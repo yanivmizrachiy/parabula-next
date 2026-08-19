@@ -143,10 +143,11 @@ function inferResponseKind(children: ReactNode): AutoResponseKind {
 }
 
 function AutoResponse({ kind }: { kind: AutoResponseKind }) {
-  if (kind === 'short') return <AnswerLine label="תשובה:" />;
-  if (kind === 'ratio') return <RatioAnswer label="תשובה:" />;
-  if (kind === 'calculation') return <CalculationResponse lines={1} className="auto-response auto-response--calculation" />;
-  if (kind === 'explanation') return <WorkArea lines={2} label="תשובה:" className="auto-response auto-response--explanation" />;
+  // Clean, label-free answer spaces (the box/line itself is the cue) for one uniform look.
+  if (kind === 'short') return <AnswerLine />;
+  if (kind === 'ratio') return <RatioAnswer />;
+  if (kind === 'calculation') return <CalculationResponse lines={2} className="auto-response auto-response--calculation" />;
+  if (kind === 'explanation') return <WorkArea lines={2} className="auto-response auto-response--explanation" />;
   if (kind === 'drawing') return <div className="drawing-box auto-response auto-response--drawing" aria-label="מקום לציור או לשרטוט"><span className="drawing-label">ציור:</span></div>;
   return null;
 }
@@ -284,9 +285,11 @@ export function FinalAnswer({ label = 'תשובה:', type = 'line', unit, classN
           <span className="ratio-answer-box" aria-hidden="true" />
         </span>
       ) : (
-        <span className="final-answer-line" aria-hidden="true" />
+        <span className="final-answer-value" dir="ltr">
+          <span className="final-answer-line" aria-hidden="true" />
+          {unit && <span className="answer-unit">{unit}</span>}
+        </span>
       )}
-      {unit && <span className="answer-unit">{unit}</span>}
     </div>
   );
 }

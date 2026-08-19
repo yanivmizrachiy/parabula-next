@@ -250,9 +250,9 @@ export function Ch2Page4() {
             <text x="92" y="172" fontSize="10">E</text>
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>חשבו את שטח הריבוע.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין אורך צלע הריבוע לגובה של המשולש PE ?</p></SubQuestion>
+        <SubQuestion label="א."><p>חשבו את שטח הריבוע.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="ב."><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין אורך צלע הריבוע לגובה של המשולש PE ?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -264,8 +264,8 @@ export function Ch2Page5() {
     <PageLayout pageNumber={13} chapter={CH}>
       <Question>
         <p>שטחו של מלבן הוא 48 סמ"ר. היחס בין צלעותיו הוא 3 : 1 .</p>
-        <SubQuestion label="(א)"><p>חשבו את אורכי צלעות המלבן.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את היקף המלבן.</p></SubQuestion>
+        <SubQuestion label="א."><p>חשבו את אורכי צלעות המלבן.</p></SubQuestion>
+        <SubQuestion label="ב."><p>חשבו את היקף המלבן.</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -288,9 +288,9 @@ export function Ch2Page5() {
             </g>
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>בשק ב' יש 5 כדורים. כמה כדורים יש בסך הכול בכל השקים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>אם נתון כי כמות הכדורים הכללית בכל השקים היא 70, מהו מספר הכדורים בכל שק?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>האם ייתכן שכמות הכדורים הכללית היא 72? נמקו.</p></SubQuestion>
+        <SubQuestion label="א."><p>בשק ב' יש 5 כדורים. כמה כדורים יש בסך הכול בכל השקים?</p></SubQuestion>
+        <SubQuestion label="ב."><p>אם נתון כי כמות הכדורים הכללית בכל השקים היא 70, מהו מספר הכדורים בכל שק?</p></SubQuestion>
+        <SubQuestion label="ג."><p>האם ייתכן שכמות הכדורים הכללית היא 72? נמקו.</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -309,28 +309,28 @@ export function Ch2Page6() {
     <PageLayout pageNumber={14} chapter={CH}>
       <Question>
         <p>בכיתה 36 תלמידים. <Frac num={5} den={9} /> מהתלמידים הם בנים והשאר בנות.</p>
-        <SubQuestion label="(א)"><p>מהו מספר הבנים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר הבנות בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר הבנים לבין מספר הבנות בכיתה?</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>מהו היחס בין מספר הבנות לבין כלל תלמידי הכיתה?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו מספר הבנים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו מספר הבנות בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הבנים לבין מספר הבנות בכיתה?</p></SubQuestion>
+        <SubQuestion label="ד."><p>מהו היחס בין מספר הבנות לבין כלל תלמידי הכיתה?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכיתה ח'1 היחס בין מספר התלמידים מרכיבי המשקפיים לבין אלה שאינם מרכיבים משקפיים הוא 7 : 3 .</p>
-        <SubQuestion label="(א)"><p>אם מספר מרכיבי המשקפיים הוא 21, מהו מספר התלמידים שאינם מרכיבים משקפיים?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר התלמידים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר מרכיבי המשקפיים לבין כלל תלמידי הכיתה?</p></SubQuestion>
+        <SubQuestion label="א."><p>אם מספר מרכיבי המשקפיים הוא 21, מהו מספר התלמידים שאינם מרכיבים משקפיים?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו מספר התלמידים בכיתה?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר מרכיבי המשקפיים לבין כלל תלמידי הכיתה?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>באוטובוס יש 54 מקומות. לאוטובוס עלו ילדים ומבוגרים ומילאו את כל המקומות. היחס בין מספר הילדים שעלו לאוטובוס לבין מספר המבוגרים שעלו לאוטובוס הוא 5 : 4 .</p>
-        <SubQuestion label="(א)"><p>מהו מספר הילדים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר המבוגרים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר הילדים שעלו לאוטובוס לבין כלל הנוסעים (לא כולל הנהג)?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו מספר הילדים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו מספר המבוגרים שעלו לאוטובוס?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הילדים שעלו לאוטובוס לבין כלל הנוסעים (לא כולל הנהג)?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -343,12 +343,12 @@ export function Ch2Page7() {
       <Question>
         <p>במשולש ישר-זווית היחס בין שתי הזוויות החדות הוא 1 : 8 .</p>
         <div className="svg-center svg-center--tight">
-          <svg viewBox="0 0 130 90" width="120" height="80" role="img" aria-label="משולש ישר זווית שזוויותיו החדות ביחס 1:8" shapeRendering="geometricPrecision">
-            <polygon points="10,72 110,72 110,54.4" fill="none" stroke="#000" strokeWidth="1.8" />
-            <rect x="100" y="62" width="10" height="10" fill="none" stroke="#000" strokeWidth="1" />
+          <svg viewBox="0 0 270 130" width="260" height="125" role="img" aria-label="משולש ישר-זווית: זווית ישרה מימין-למטה, זווית חדה קטנה משמאל וזווית חדה גדולה למעלה" shapeRendering="geometricPrecision">
+            <polygon points="15,100 245,100 245,59.5" fill="none" stroke="#1f2a44" strokeWidth="2.2" />
+            <rect x="233" y="88" width="12" height="12" fill="none" stroke="#1f2a44" strokeWidth="1.6" />
           </svg>
         </div>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>מהו גודלן של הזוויות החדות?</p>
           <div className="calculation-response">
             <WorkArea lines={3} />
@@ -356,15 +356,15 @@ export function Ch2Page7() {
             <FinalAnswer label="הזווית השנייה:" unit="°" />
           </div>
         </SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין גודל הזווית הגדולה ביותר במשולש לבין גודל הזווית הקטנה ביותר?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין גודל הזווית הגדולה ביותר במשולש לבין גודל הזווית הקטנה ביותר?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בקופסת ממתקים יש 48 סוכריות. על כל 3 סוכריות חמוצות יש 5 סוכריות מתוקות.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר הסוכריות המתוקות למספר הסוכריות החמוצות?</p></SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="א."><p>מהו היחס בין מספר הסוכריות המתוקות למספר הסוכריות החמוצות?</p></SubQuestion>
+        <SubQuestion label="ב.">
           <p>כמה סוכריות חמוצות וכמה סוכריות מתוקות יש בקופסה?</p>
           <div className="calculation-response">
             <WorkArea lines={3} />
@@ -372,7 +372,7 @@ export function Ch2Page7() {
             <FinalAnswer label="סוכריות מתוקות:" />
           </div>
         </SubQuestion>
-        <SubQuestion label="(ג)"><p>כמה סוכריות חמוצות יש להוסיף לקופסה כדי שהיחס בין מספרן לבין מספר הסוכריות המתוקות יהיה 1 : 1 ?</p><CalculationResponse lines={3} /></SubQuestion>
+        <SubQuestion label="ג."><p>כמה סוכריות חמוצות יש להוסיף לקופסה כדי שהיחס בין מספרן לבין מספר הסוכריות המתוקות יהיה 1 : 1 ?</p><CalculationResponse lines={3} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -385,9 +385,9 @@ export function Ch2Page7() {
             <rect x="30" y="40" width="100" height="45" fill="none" stroke="#000" strokeWidth="1.6" />
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>חשבו את שטח המלבן.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
-        <SubQuestion label="(ג)"><p>אם אורך הצלע הקצרה במלבן הוא 4 ס"מ, מהו היחס בין אורך הצלע הקצרה לאורך הצלע הארוכה במלבן?</p></SubQuestion>
+        <SubQuestion label="א."><p>חשבו את שטח המלבן.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="ב."><p>חשבו את שטח המשולש.</p><CalculationResponse lines={3} unit="סמ״ר" /></SubQuestion>
+        <SubQuestion label="ג."><p>אם אורך הצלע הקצרה במלבן הוא 4 ס"מ, מהו היחס בין אורך הצלע הקצרה לאורך הצלע הארוכה במלבן?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -399,16 +399,16 @@ export function Ch2Page8() {
     <PageLayout pageNumber={16} chapter={CH}>
       <Question>
         <p>בקבוצות מחקר, לכל פרופסור מסייעים 5 סטודנטים. <strong>היחס</strong> בין מספר הפרופסורים למספר הסטודנטים הוא 1 : 5 . בכל סעיף מצאו את מספר הפרופסורים ומספר הסטודנטים.</p>
-        <SubQuestion label="(א)"><p>30 אנשי מחקר עובדים במעבדה.   פרופסורים : <Blank />   סטודנטים : <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>6 אנשי מחקר טסו לכנס בחו"ל.   פרופסורים : <Blank />   סטודנטים : <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>30 אנשי מחקר עובדים במעבדה.   פרופסורים : <Blank />   סטודנטים : <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>6 אנשי מחקר טסו לכנס בחו"ל.   פרופסורים : <Blank />   סטודנטים : <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>החומרים הדרושים להכנת סלט פירות : 3 תפוזים , 2 בננות , 1 תפוח. ( היחס 3 : 2 : 1 )</p>
-        <SubQuestion label="(א)"><p>נועה חתכה לקוביות 9 תפוזים. כמה בננות וכמה תפוחים עליה להוסיף כדי להכין סלט לפי המתכון?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>שרית רוצה להכין סלט בדיוק לפי המתכון, אך יש לה רק בננה אחת. כמה תפוזים וכמה תפוחים עליה להוסיף?</p></SubQuestion>
+        <SubQuestion label="א."><p>נועה חתכה לקוביות 9 תפוזים. כמה בננות וכמה תפוחים עליה להוסיף כדי להכין סלט לפי המתכון?</p></SubQuestion>
+        <SubQuestion label="ב."><p>שרית רוצה להכין סלט בדיוק לפי המתכון, אך יש לה רק בננה אחת. כמה תפוזים וכמה תפוחים עליה להוסיף?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -428,10 +428,10 @@ export function Ch2Page8() {
 
       <Question>
         <p>טל ואורי השתתפו בהגרלה. טל קנה 3 כרטיסים ואורי קנה 4 כרטיסים. אם יזכו, יחלקו ביניהם את הפרס באותו יחס.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר הכרטיסים שקנה טל למספר הכרטיסים שקנה אורי?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איזה חלק מן הזכייה יקבל טל, ואיזה חלק יקבל אורי?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>אם יזכו ב - 14 שקלים, איזה סכום יקבל כל אחד? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>אם יזכו ב - 70 שקלים, כיצד יחלקו ביניהם את הזכייה?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הכרטיסים שקנה טל למספר הכרטיסים שקנה אורי?</p></SubQuestion>
+        <SubQuestion label="ב."><p>איזה חלק מן הזכייה יקבל טל, ואיזה חלק יקבל אורי?</p></SubQuestion>
+        <SubQuestion label="ג."><p>אם יזכו ב - 14 שקלים, איזה סכום יקבל כל אחד? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ד."><p>אם יזכו ב - 70 שקלים, כיצד יחלקו ביניהם את הזכייה?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -439,9 +439,9 @@ export function Ch2Page8() {
       <Question>
         <p>בחנות הספרים הוכרז מבצע : <strong>"קנו 3 ספרים – הזול ביותר חינם!"</strong></p>
         <p>יפה בחרה שני ספרים במחירים 57 ש"ח ו - 33 ש"ח . נעמה בחרה ספר במחיר 45 ש"ח . הן ביצעו קנייה משותפת.</p>
-        <SubQuestion label="(א)"><p>כמה כסף חסכו יפה ונעמה יחד הודות למבצע?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין סכום הקנייה של יפה לסכום הקנייה של נעמה (לפני המבצע)?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>חלקו את החיסכון ביניהן באופן יחסי לסכום שכל אחת קנתה. כמה תחסוך כל אחת?</p></SubQuestion>
+        <SubQuestion label="א."><p>כמה כסף חסכו יפה ונעמה יחד הודות למבצע?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין סכום הקנייה של יפה לסכום הקנייה של נעמה (לפני המבצע)?</p></SubQuestion>
+        <SubQuestion label="ג."><p>חלקו את החיסכון ביניהן באופן יחסי לסכום שכל אחת קנתה. כמה תחסוך כל אחת?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -453,36 +453,36 @@ export function Ch2Page9() {
     <PageLayout pageNumber={17} chapter={CH}>
       <Question>
         <p>עודד ועמיחי פתחו יחד עסק. עודד השקיע 24,000 ש"ח ועמיחי השקיע 36,000 ש"ח . הם מחלקים את הרווחים יחסית להשקעה של כל אחד.</p>
-        <SubQuestion label="(א)"><p>מהו היחס המצומצם בין השקעת עודד להשקעת עמיחי?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איזה חלק מן הרווחים מגיע לעודד, ואיזה חלק מגיע לעמיחי?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כעבור שנה היו רווחים של 30,000 ש"ח . איזה סכום הרוויח כל אחד? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>כעבור שנתיים היו רווחים של 50,000 ש"ח . כיצד יחלקו ביניהם?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס המצומצם בין השקעת עודד להשקעת עמיחי?</p></SubQuestion>
+        <SubQuestion label="ב."><p>איזה חלק מן הרווחים מגיע לעודד, ואיזה חלק מגיע לעמיחי?</p></SubQuestion>
+        <SubQuestion label="ג."><p>כעבור שנה היו רווחים של 30,000 ש"ח . איזה סכום הרוויח כל אחד? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ד."><p>כעבור שנתיים היו רווחים של 50,000 ש"ח . כיצד יחלקו ביניהם?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>חיים ומשה השתתפו בהגרלה. חיים קנה 3 כרטיסים ומשה קנה 4 כרטיסים. אם יזכו, יחלקו את הפרס לפי יחס הכרטיסים.</p>
-        <SubQuestion label="(א)"><p>אם זכו ב - 84 ש"ח , איך יחלקו ביניהם את הזכייה? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>אם זכו ב - 350 ש"ח , איך יחלקו ביניהם?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>אם זכו ב - x ש"ח (x &gt; 0) , כתבו <strong>ביטוי אלגברי</strong> לסכום שיקבל כל אחד.</p></SubQuestion>
+        <SubQuestion label="א."><p>אם זכו ב - 84 ש"ח , איך יחלקו ביניהם את הזכייה? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ב."><p>אם זכו ב - 350 ש"ח , איך יחלקו ביניהם?</p></SubQuestion>
+        <SubQuestion label="ג."><p>אם זכו ב - x ש"ח (x &gt; 0) , כתבו <strong>ביטוי אלגברי</strong> לסכום שיקבל כל אחד.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>תלמידי הכיתה בחרו מה יאכלו במסיבה : פלאפל או פיצה (אחד בלבד). מסמנים ב - <strong>a</strong> את מספר התלמידים שבחרו פלאפל וב - <strong>b</strong> את מספר התלמידים שבחרו פיצה (a, b מספרים טבעיים).</p>
-        <SubQuestion label="(א)"><p>מה מבטא היחס a : b ?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר התלמידים שבחרו פלאפל למספר כל התלמידים בכיתה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>איזה חלק מן הכיתה בחרו בפיצה? כתבו ביטוי אלגברי.</p></SubQuestion>
+        <SubQuestion label="א."><p>מה מבטא היחס a : b ?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר התלמידים שבחרו פלאפל למספר כל התלמידים בכיתה? <Blank /></p></SubQuestion>
+        <SubQuestion label="ג."><p>איזה חלק מן הכיתה בחרו בפיצה? כתבו ביטוי אלגברי.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>סימה ושושי נפגשו בחנות שהכריזה : <strong>"קנו 3 ספרים – הזול ביותר חינם!"</strong>. סימה בחרה ספרים במחירים 25 ש"ח ו - 35 ש"ח , ושושי בחרה ספר במחיר 40 ש"ח .</p>
-        <SubQuestion label="(א)"><p>כמה כסף חסכו יחד הודות למבצע?</p></SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="א."><p>כמה כסף חסכו יחד הודות למבצע?</p></SubQuestion>
+        <SubQuestion label="ב.">
           <p>חלקו את החיסכון באופן יחסי לסכומי הקנייה של כל אחת. כמה חסכה סימה וכמה חסכה שושי?</p>
           <div className="calculation-response">
             <WorkArea lines={4} />
@@ -505,9 +505,9 @@ export function Ch2Page10() {
 
       <Question>
         <p>בתחילת השנה היה היחס בין מספר התלמידים בכיתה ח<sub>1</sub> למספר התלמידים בכיתה ח<sub>2</sub> הוא 2 : 5 . הֶעבירו 9 תלמידים מהכיתה הגדולה לכיתה הקטנה, ואז בשתי הכיתות היה מספר שווה של תלמידים.</p>
-        <SubQuestion label="(א)"><p>כּ ִתבו ביטויים אלגבריים למספר התלמידים בשתי הכיתות בתחילת השנה.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כּ ִתבו משוואה לסיפור ופִתרו אותה.</p><CalculationResponse lines={4} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>כמה תלמידים היו בכל כיתה בהתחלה? כמה אחרי המעבר?</p></SubQuestion>
+        <SubQuestion label="א."><p>כּ ִתבו ביטויים אלגבריים למספר התלמידים בשתי הכיתות בתחילת השנה.</p></SubQuestion>
+        <SubQuestion label="ב."><p>כּ ִתבו משוואה לסיפור ופִתרו אותה.</p><CalculationResponse lines={4} /></SubQuestion>
+        <SubQuestion label="ג."><p>כמה תלמידים היו בכל כיתה בהתחלה? כמה אחרי המעבר?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -559,9 +559,9 @@ export function Ch2Page10() {
 
       <Question>
         <p>טלי פָּתרה בעיה. היא כתבה את המשוואה : <strong>3x + 5x = 400</strong> ופִתרה : לחדר הקטן 150 אריחים, לחדר הגדול 250 אריחים.</p>
-        <SubQuestion label="(א)"><p>מה מייצג <strong>x</strong> במשוואה?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איך התקבלו המספרים 150 ו - 250 ?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כּ ִתבו סיפור מתאים. מהו היחס? איזה חלק מהאריחים דרוש לכל חדר?</p></SubQuestion>
+        <SubQuestion label="א."><p>מה מייצג <strong>x</strong> במשוואה?</p></SubQuestion>
+        <SubQuestion label="ב."><p>איך התקבלו המספרים 150 ו - 250 ?</p></SubQuestion>
+        <SubQuestion label="ג."><p>כּ ִתבו סיפור מתאים. מהו היחס? איזה חלק מהאריחים דרוש לכל חדר?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -577,9 +577,9 @@ export function Ch2Page11() {
 
       <Question>
         <p>קבוצה של <strong>50 מבוגרים וילדים</strong> נכנסה למסעדה. היחס בין מספר המבוגרים למספר הילדים הוא <strong>3 : 2</strong> .</p>
-        <SubQuestion label="(א)"><p>מה יש יותר – מבוגרים או ילדים? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר הילדים למספר הכולל בקבוצה? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)">
+        <SubQuestion label="א."><p>מה יש יותר – מבוגרים או ילדים? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הילדים למספר הכולל בקבוצה? <Blank /></p></SubQuestion>
+        <SubQuestion label="ג.">
           <p>כמה מבוגרים וכמה ילדים בקבוצה?</p>
           <div className="calculation-response">
             <WorkArea lines={3} />
@@ -593,16 +593,16 @@ export function Ch2Page11() {
 
       <Question>
         <p>היחס בין מספר העפרונות למספר העטים בקלמר של רינת הוא <strong>1 : 3</strong> .</p>
-        <SubQuestion label="(א)"><p>האם אפשר לדעת כמה עפרונות וכמה עטים יש לרינת? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מה יש לה יותר – עטים או עפרונות? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>לעידן יש אותו יחס בין מספר העפרונות למספר העטים, ובסך הכל <strong>16 כלים</strong> בקלמר. כמה עפרונות יש לו? <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>האם אפשר לדעת כמה עפרונות וכמה עטים יש לרינת? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ב."><p>מה יש לה יותר – עטים או עפרונות? <Blank /></p></SubQuestion>
+        <SubQuestion label="ג."><p>לעידן יש אותו יחס בין מספר העפרונות למספר העטים, ובסך הכל <strong>16 כלים</strong> בקלמר. כמה עפרונות יש לו? <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>חַלקו סכום של <strong>180 ש"ח</strong> בין שני ילדים ביחס <strong>4 : 5</strong> .</p>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>כמה יקבל כל אחד?</p>
           <div className="calculation-response">
             <WorkArea lines={3} />
@@ -610,7 +610,7 @@ export function Ch2Page11() {
             <FinalAnswer label="הילד השני:" unit="ש״ח" />
           </div>
         </SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו ההפרש בין הסכומים?</p><CalculationResponse lines={2} unit="ש״ח" /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו ההפרש בין הסכומים?</p><CalculationResponse lines={2} unit="ש״ח" /></SubQuestion>
       </Question>
 
       <QSep />

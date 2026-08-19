@@ -157,10 +157,10 @@ export function Ch1Page3() {
 
       <Question>
         <p>החומרים למתכון לסלט הם: 3 כוסות מקרוני, 3 כוסות תפוזים חתוכים, 2 כוסות תפוחי עץ, 1 כוס רוטב.</p>
-        <SubQuestion label="(א)"><p>מה היחס בין כמות כוסות המקרוני לכמות כוסות התפוזים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מה היחס בין כמות כוסות תפוחי העץ לכמות כוסות התפוזים?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מה היחס בין כמות כוסות הרוטב לכמות הכוללת של הסלט?</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>איזה חלק של הסלט מהוות כוסות הרוטב?</p></SubQuestion>
+        <SubQuestion label="א."><p>מה היחס בין כמות כוסות המקרוני לכמות כוסות התפוזים?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מה היחס בין כמות כוסות תפוחי העץ לכמות כוסות התפוזים?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מה היחס בין כמות כוסות הרוטב לכמות הכוללת של הסלט?</p></SubQuestion>
+        <SubQuestion label="ד."><p>איזה חלק של הסלט מהוות כוסות הרוטב?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -311,9 +311,9 @@ export function Ch1Page6() {
     <PageLayout pageNumber={6} chapter={CH}>
       <Question>
         <p>בכיתה ח'1 היחס בין מספר הבנים למספר הבנות הוא 4 : 3 .</p>
-        <SubQuestion label="(א)"><p>אם מספר הבנות בכיתה ח'1 הוא 16 , מה מספר הבנים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר הבנים לכלל התלמידים בכיתה?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>גם בכיתה ח'2 היחס בין מספר הבנים למספר הבנות הוא 4 : 3 . האם ייתכן שמספר הבנות בכיתה ח'2 הוא 14 ? הסבירו.</p></SubQuestion>
+        <SubQuestion label="א."><p>אם מספר הבנות בכיתה ח'1 הוא 16 , מה מספר הבנים?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הבנים לכלל התלמידים בכיתה?</p></SubQuestion>
+        <SubQuestion label="ג."><p>גם בכיתה ח'2 היחס בין מספר הבנים למספר הבנות הוא 4 : 3 . האם ייתכן שמספר הבנות בכיתה ח'2 הוא 14 ? הסבירו.</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -321,10 +321,10 @@ export function Ch1Page6() {
       <Question>
         <p>בכד <strong>א'</strong> היחס בין מספר הכדורים הלבנים למספר הכדורים האדומים הוא 3 : 1 .</p>
         <p>בכד <strong>ב'</strong> היחס בין מספר הכדורים הלבנים למספר הכדורים האדומים הוא 2 : 3 .</p>
-        <SubQuestion label="(א)"><p>האם ייתכן שבכד א' יש 7 כדורים לבנים? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>האם ייתכן שבכד ב' יש 7 כדורים לבנים? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>האם ייתכן שבכד ב' יש כדור אדום אחד? הסבירו.</p></SubQuestion>
-        <SubQuestion label="(ד)">
+        <SubQuestion label="א."><p>האם ייתכן שבכד א' יש 7 כדורים לבנים? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ב."><p>האם ייתכן שבכד ב' יש 7 כדורים לבנים? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ג."><p>האם ייתכן שבכד ב' יש כדור אדום אחד? הסבירו.</p></SubQuestion>
+        <SubQuestion label="ד.">
           <p>ידוע שבכל כד יש 12 כדורים אדומים.</p>
           <p>(i) מהו היחס בין מספר הכדורים הלבנים בכד א' לבין מספר הכדורים הלבנים בכד ב'?</p>
           <p>(ii) מהו היחס בין מספר הכדורים בכד א' לבין מספר הכדורים בכד ב'?</p>
@@ -335,8 +335,8 @@ export function Ch1Page6() {
 
       <Question>
         <p>דן נבחן במשך השנה ב-33 מבחנים. היחס בין מספר ההצלחות למספר הכישלונות שלו הוא 10 : 1 .</p>
-        <SubQuestion label="(א)"><p>בכמה מבחנים הצליח דן?</p></SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="א."><p>בכמה מבחנים הצליח דן?</p></SubQuestion>
+        <SubQuestion label="ב.">
           <p>רונן נבחן במשך השנה רק ב-32 מבחנים. היחס בין מספר הכישלונות למספר ההצלחות שלו הוא 7 : 1 . בחרו באפשרות הנכונה ונמקו תשובתכם.</p>
           <p>(i) לדן ולרונן אותו מספר כישלונות.</p>
           <p>(ii) לדן מספר כישלונות גדול יותר מאשר לרונן.</p>
@@ -375,7 +375,7 @@ export function Ch1Page7() {
       <QSep />
 
       <Question>
-        <SubQuestion label="(א)">
+        <SubQuestion label="א.">
           <p>מצאו לגבי כל סרטוט מהו היחס בין מספר המשולשים הצבועים למספר המשולשים שאינם צבועים.</p>
           <div className="triangle-grid">
             {[
@@ -399,7 +399,7 @@ export function Ch1Page7() {
             })}
           </div>
         </SubQuestion>
-        <SubQuestion label="(ב)"><p>באילו מהסעיפים מתקבל אותו יחס בין מספר המשולשים הצבועים לבין מספר המשולשים שאינם צבועים?</p></SubQuestion>
+        <SubQuestion label="ב."><p>באילו מהסעיפים מתקבל אותו יחס בין מספר המשולשים הצבועים לבין מספר המשולשים שאינם צבועים?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -413,8 +413,8 @@ export function Ch1Page7() {
             ))}
           </svg>
         </div>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר החרוזים הצבועים לבין מספר החרוזים שאינם צבועים?</p></SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="א."><p>מהו היחס בין מספר החרוזים הצבועים לבין מספר החרוזים שאינם צבועים?</p></SubQuestion>
+        <SubQuestion label="ב.">
           <p>ציירו שתי מחרוזות נוספות כך שיישמר היחס בין מספר החרוזים הצבועים לבין מספר החרוזים שאינם צבועים.</p>
           <div className="drawing-box min-h-40"><p className="drawing-label">מחרוזת 1 :</p></div>
           <div className="drawing-box min-h-40"><p className="drawing-label">מחרוזת 2 :</p></div>
@@ -425,18 +425,18 @@ export function Ch1Page7() {
 
       <Question>
         <p>בזר פרחים יש 12 פרחים אדומים ו-6 פרחים לבנים.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר הפרחים הלבנים לבין מספר הפרחים האדומים?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר הפרחים האדומים למספר הפרחים בזר?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים בזר?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הפרחים הלבנים לבין מספר הפרחים האדומים?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הפרחים האדומים למספר הפרחים בזר?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הפרחים הלבנים למספר הפרחים בזר?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>היחס בין מספר העטים בקלמר א' לבין מספר העטים בקלמר ב' הוא 7 : 2 .</p>
-        <SubQuestion label="(א)"><p>אם מספר העטים בקלמר ב' הוא 21, מהו מספר העטים בקלמר א'?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>אם מספר העטים בקלמר א' הוא 10, מהו מספר העטים בקלמר ב'?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>בשני הקלמרים יחד יש 36 עטים. מהו מספר העטים בכל קלמר?</p></SubQuestion>
+        <SubQuestion label="א."><p>אם מספר העטים בקלמר ב' הוא 21, מהו מספר העטים בקלמר א'?</p></SubQuestion>
+        <SubQuestion label="ב."><p>אם מספר העטים בקלמר א' הוא 10, מהו מספר העטים בקלמר ב'?</p></SubQuestion>
+        <SubQuestion label="ג."><p>בשני הקלמרים יחד יש 36 עטים. מהו מספר העטים בכל קלמר?</p></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -482,10 +482,10 @@ export function Ch1Page8() {
 
       <Question>
         <p>בכל סעיף, מצאו <strong>אם אפשר</strong> :</p>
-        <SubQuestion label="(א)"><p>שני מספרים <strong>זוגיים</strong> שהיחס ביניהם הוא 1 : 3 . <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>שני מספרים <strong>אי-זוגיים</strong> שהיחס ביניהם הוא 1 : 3 . <Blank /></p></SubQuestion>
-        <SubQuestion label="(ג)"><p>שני מספרים <strong>אי-זוגיים</strong> שהיחס ביניהם הוא 2 : 3 . <Blank /></p></SubQuestion>
-        <SubQuestion label="(ד)"><p>שני מספרים שסכומם 20 והיחס ביניהם הוא 2 : 3 . <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>שני מספרים <strong>זוגיים</strong> שהיחס ביניהם הוא 1 : 3 . <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>שני מספרים <strong>אי-זוגיים</strong> שהיחס ביניהם הוא 1 : 3 . <Blank /></p></SubQuestion>
+        <SubQuestion label="ג."><p>שני מספרים <strong>אי-זוגיים</strong> שהיחס ביניהם הוא 2 : 3 . <Blank /></p></SubQuestion>
+        <SubQuestion label="ד."><p>שני מספרים שסכומם 20 והיחס ביניהם הוא 2 : 3 . <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
@@ -509,46 +509,56 @@ export function Ch1Page9() {
 
       <Question>
         <p>היקפו של משולש שווה - שוקיים הוא <strong>45 ס"מ</strong> . אורך השוק <strong>גדול פי 4</strong> מאורך הבסיס.</p>
-        <SubQuestion label="(א)"><p>מהו אורך הבסיס?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו אורך כל שוק?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין אורך הבסיס לאורך השוק?</p></SubQuestion>
-        <div className="response-set">
+        <SubQuestion label="א.">
+          <p>מהו אורך הבסיס?</p>
           <WorkArea lines={3} />
-          <FinalAnswer label="(א) בסיס:" unit="ס״מ" />
-          <FinalAnswer label="(ב) שוק:" unit="ס״מ" />
-          <RatioAnswer label="(ג)" />
-        </div>
+          <FinalAnswer label="בסיס:" unit="ס״מ" />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>מהו אורך כל שוק?</p>
+          <WorkArea lines={3} />
+          <FinalAnswer label="שוק:" unit="ס״מ" />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>מהו היחס בין אורך הבסיס לאורך השוק?</p>
+          <RatioAnswer />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>ירון מקבל דמי כיס. על כל <strong>8 ש"ח</strong> שהוא מבזבז – הוא חוסך <strong>24 ש"ח</strong> .</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין הסכום שירון חוסך לבין הסכום שהוא מבזבז?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>איזה חלק מדמי הכיס הוא חוסך?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>אם ירון קיבל <strong>96 ש"ח</strong> , כמה כסף חסך?</p></SubQuestion>
-        <div className="response-set">
+        <SubQuestion label="א.">
+          <p>מהו היחס בין הסכום שירון חוסך לבין הסכום שהוא מבזבז?</p>
+          <RatioAnswer />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>איזה חלק מדמי הכיס הוא חוסך?</p>
           <WorkArea lines={3} />
-          <RatioAnswer label="(א)" />
-          <FinalAnswer label="(ב)" />
-          <FinalAnswer label="(ג)" unit="ש״ח" />
-        </div>
+          <FinalAnswer />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>אם ירון קיבל <strong>96 ש"ח</strong> , כמה כסף חסך?</p>
+          <WorkArea lines={3} />
+          <FinalAnswer unit="ש״ח" />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>אורכו של מלבן <strong>24 ס"מ</strong> ורוחבו <strong>6 ס"מ</strong> .</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין האורך לרוחב? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין הרוחב להיקף? <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין האורך לרוחב? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין הרוחב להיקף? <Blank /></p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכיתה <strong>30 תלמידים</strong> , מתוכם <strong>12 בנים</strong> .</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר הבנים למספר הבנות? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספר הבנים לכלל התלמידים בכיתה? <Blank /></p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר הבנים למספר הבנות? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספר הבנים לכלל התלמידים בכיתה? <Blank /></p></SubQuestion>
       </Question>
     </PageLayout>
   );

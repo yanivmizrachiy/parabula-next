@@ -17,45 +17,62 @@ export function RatioPage35() {
     <PageLayout pageNumber={35} chapter={CH} topic={TOPIC} className="ratio-page-35">
       <Question>
         <p>בכל סעיף בדקו אם מתקיימת פרופורציה ונמקו.</p>
-        <SubQuestion label="א."><p>באולם רקפת 35 שולחנות ו־350 כיסאות; באולם כלנית 40 שולחנות ו־400 כיסאות.</p></SubQuestion>
-        <SubQuestion label="ב."><p>בקלמר של דינה 12 טושים ו־3 עפרונות; בקלמר של מירי 8 טושים ו־2 עפרונות.</p></SubQuestion>
-        <SubQuestion label="ג."><p>בקייטנה אחת 24 חניכים ו־3 מדריכים; בקייטנה אחרת 30 חניכים ו־5 מדריכים.</p></SubQuestion>
-        <div className="response-set ratio-page-35-response">
-          <WorkArea label="נימוקים:" lines={2} />
-          <FinalAnswer label="א." />
-          <FinalAnswer label="ב." />
-          <FinalAnswer label="ג." />
-        </div>
+        <SubQuestion label="א.">
+          <p>באולם רקפת 35 שולחנות ו־350 כיסאות; באולם כלנית 40 שולחנות ו־400 כיסאות.</p>
+          <WorkArea label="נימוק:" lines={2} />
+          <FinalAnswer />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>בקלמר של דינה 12 טושים ו־3 עפרונות; בקלמר של מירי 8 טושים ו־2 עפרונות.</p>
+          <WorkArea label="נימוק:" lines={2} />
+          <FinalAnswer />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>בקייטנה אחת 24 חניכים ו־3 מדריכים; בקייטנה אחרת 30 חניכים ו־5 מדריכים.</p>
+          <WorkArea label="נימוק:" lines={2} />
+          <FinalAnswer />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>לגדי 15 גולות כחולות ו־6 אדומות; לדני 10 כחולות ו־4 אדומות.</p>
-        <SubQuestion label="א."><p>מהו היחס כחולות : אדומות אצל כל ילד?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מהו היחס בין מספרי הגולות האדומות של גדי ודני?</p></SubQuestion>
-        <SubQuestion label="ג."><p>מהו היחס בין מספרי הגולות הכחולות של גדי ודני?</p></SubQuestion>
-        <SubQuestion label="ד."><p>כתבו פרופורציה נכונה המתארת את הנתונים.</p></SubQuestion>
-        <div className="response-set ratio-page-35-response">
+        <SubQuestion label="א.">
+          <p>מהו היחס כחולות : אדומות אצל כל ילד?</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>מהו היחס בין מספרי הגולות האדומות של גדי ודני?</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>מהו היחס בין מספרי הגולות הכחולות של גדי ודני?</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ד.">
+          <p>כתבו פרופורציה נכונה המתארת את הנתונים.</p>
           <WorkArea lines={2} />
-          <FinalAnswer label="א." type="ratio" />
-          <FinalAnswer label="ב." type="ratio" />
-          <FinalAnswer label="ג." type="ratio" />
-          <FinalAnswer label="ד." />
-        </div>
+          <FinalAnswer />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>במשפחת פרץ: אבא בן 42, אימא בת 39, עדינה בת 14 ונעמי בת 13.</p>
-        <SubQuestion label="א."><p>הסבירו במילים את הפרופורציה <Frac num={42} den={39} /> = <Frac num={14} den={13} />.</p></SubQuestion>
-        <SubQuestion label="ב."><p>הסבירו במילים את הפרופורציה <Frac num={42} den={14} /> = <Frac num={39} den={13} />.</p></SubQuestion>
-        <SubQuestion label="ג."><p>כתבו פרופורציה נוספת בין הגילים.</p></SubQuestion>
-        <div className="response-set ratio-page-35-response ratio-page-35-response--explanation">
-          <WorkArea label="הסברים:" lines={3} />
-          <FinalAnswer label="ג." />
-        </div>
+        <SubQuestion label="א.">
+          <p>הסבירו במילים את הפרופורציה <Frac num={42} den={39} /> = <Frac num={14} den={13} />.</p>
+          <WorkArea label="נימוק:" lines={2} />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>הסבירו במילים את הפרופורציה <Frac num={42} den={14} /> = <Frac num={39} den={13} />.</p>
+          <WorkArea label="נימוק:" lines={2} />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>כתבו פרופורציה נוספת בין הגילים.</p>
+          <FinalAnswer />
+        </SubQuestion>
       </Question>
 
       <QSep />

@@ -73,8 +73,8 @@ export function Ch6Page2() {
 
       <Question>
         <p>במלבן היחס בין אורכי הצלעות הסמוכות הוא 9 : 2 . אורך הצלע הקצרה הוא 7 ס"מ.</p>
-        <SubQuestion label="(א)"><p>מהו אורך הצלע הארוכה?</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>חשבו את היקף המלבן.</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
+        <SubQuestion label="א."><p>מהו אורך הצלע הארוכה?</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
+        <SubQuestion label="ב."><p>חשבו את היקף המלבן.</p><CalculationResponse lines={2} unit={'ס"מ'} /></SubQuestion>
       </Question>
 
       <QSep />
@@ -89,17 +89,17 @@ export function Ch6Page2() {
 
       <Question>
         <p>בכיתה ח'1 היחס בין מספר הבנים למספר הבנות הוא 4 : 5 .</p>
-        <SubQuestion label="(א)"><p>אם מספר הבנות הוא 20, מהו מספר הבנים בכיתה? רשמו משוואת פרופורציה מתאימה ופתרו אותה.</p><CalculationResponse lines={3} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר התלמידים בכיתה?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספר הבנים בכיתה לכלל התלמידים?</p></SubQuestion>
+        <SubQuestion label="א."><p>אם מספר הבנות הוא 20, מהו מספר הבנים בכיתה? רשמו משוואת פרופורציה מתאימה ופתרו אותה.</p><CalculationResponse lines={3} /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו מספר התלמידים בכיתה?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספר הבנים בכיתה לכלל התלמידים?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>מחירם של 6 מסטיקים הוא 13.8 ש"ח.</p>
-        <SubQuestion label="(א)"><p>מהו מחירם של 7 מסטיקים?</p><CalculationResponse lines={2} unit={'ש"ח'} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מחירם של 6 מסטיקים הוזל ב-3.6 ש"ח. מהו מחירם של 7 מסטיקים כעת?</p><CalculationResponse lines={3} unit={'ש"ח'} /></SubQuestion>
+        <SubQuestion label="א."><p>מהו מחירם של 7 מסטיקים?</p><CalculationResponse lines={2} unit={'ש"ח'} /></SubQuestion>
+        <SubQuestion label="ב."><p>מחירם של 6 מסטיקים הוזל ב-3.6 ש"ח. מהו מחירם של 7 מסטיקים כעת?</p><CalculationResponse lines={3} unit={'ש"ח'} /></SubQuestion>
       </Question>
     </PageLayout>
   );
@@ -115,28 +115,28 @@ export function Ch6Page3() {
 
       <Question>
         <p>אימא של דני מכינה מיץ פטל לפי המתכון : <strong>כוס תרכיז ל - 5 כוסות מים</strong>.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר כוסות התרכיז למספר כוסות המים? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>בני משתמש ב - 4 כוסות תרכיז. כמה כוסות מים עליו להוסיף?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>בכד גדול 15 כוסות מים. כמה כוסות תרכיז יש להוסיף לפי המתכון?</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>יפה הכינה מיץ מ - x כוסות תרכיז (x &gt; 0) . כתבו <strong>ביטוי אלגברי</strong> למספר כוסות המים.</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר כוסות התרכיז למספר כוסות המים? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>בני משתמש ב - 4 כוסות תרכיז. כמה כוסות מים עליו להוסיף?</p></SubQuestion>
+        <SubQuestion label="ג."><p>בכד גדול 15 כוסות מים. כמה כוסות תרכיז יש להוסיף לפי המתכון?</p></SubQuestion>
+        <SubQuestion label="ד."><p>יפה הכינה מיץ מ - x כוסות תרכיז (x &gt; 0) . כתבו <strong>ביטוי אלגברי</strong> למספר כוסות המים.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>להכנת לביבות מערבבים <strong>כוס קמח אחת</strong> עם <strong>2 גביעי יוגורט</strong>.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין מספר כוסות הקמח למספר גביעי היוגורט? <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מכינים בלילה מ - 4 כוסות קמח. כמה גביעי יוגורט דרושים?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו הייצוג האלגברי של הישר המתאר את היחס בין מספר כוסות הקמח למספר גביעי היוגורט?</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין מספר כוסות הקמח למספר גביעי היוגורט? <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>מכינים בלילה מ - 4 כוסות קמח. כמה גביעי יוגורט דרושים?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו הייצוג האלגברי של הישר המתאר את היחס בין מספר כוסות הקמח למספר גביעי היוגורט?</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>מהו היחס בין <strong>אורך צלע ריבוע</strong> לבין <strong>היקפו</strong>?</p>
-        <SubQuestion label="(א)"><p>כתבו את היחס המצומצם. <Blank /></p></SubQuestion>
-        <SubQuestion label="(ב)"><p>כתבו את הייצוג האלגברי של הישר (y = היקף, x = אורך הצלע).</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו אורך הצלע של ריבוע שהיקפו 14 ס"מ?</p></SubQuestion>
+        <SubQuestion label="א."><p>כתבו את היחס המצומצם. <Blank /></p></SubQuestion>
+        <SubQuestion label="ב."><p>כתבו את הייצוג האלגברי של הישר (y = היקף, x = אורך הצלע).</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו אורך הצלע של ריבוע שהיקפו 14 ס"מ?</p></SubQuestion>
       </Question>
 
       <QSep />
@@ -167,36 +167,36 @@ export function Ch6Page4() {
     <PageLayout pageNumber={35} chapter={CH} topic={TOPIC}>
       <Question>
         <p>בכל סעיף בִדקו אם מתקיימת פרופורציה. נמקו.</p>
-        <SubQuestion label="(א)"><p>באולם רקפת 35 שולחנות ו - 350 כיסאות ; באולם כלנית 40 שולחנות ו - 400 כיסאות.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>בקלמר של דינה 12 טושים ו - 3 עפרונות ; בקלמר של מירי 8 טושים ו - 2 עפרונות.</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>בקייטנה אחת 24 חניכים ו - 3 מדריכים ; בקייטנה השנייה 30 חניכים ו - 5 מדריכים.</p></SubQuestion>
+        <SubQuestion label="א."><p>באולם רקפת 35 שולחנות ו - 350 כיסאות ; באולם כלנית 40 שולחנות ו - 400 כיסאות.</p></SubQuestion>
+        <SubQuestion label="ב."><p>בקלמר של דינה 12 טושים ו - 3 עפרונות ; בקלמר של מירי 8 טושים ו - 2 עפרונות.</p></SubQuestion>
+        <SubQuestion label="ג."><p>בקייטנה אחת 24 חניכים ו - 3 מדריכים ; בקייטנה השנייה 30 חניכים ו - 5 מדריכים.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>גדי ודני משחקים בגולות. לגדי 15 כחולות ו - 6 אדומות ; לדני 10 כחולות ו - 4 אדומות.</p>
-        <SubQuestion label="(א)"><p>מהו היחס בין הכחולות לאדומות אצל כל ילד?</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו היחס בין מספרי הגולות האדומות של גדי ודני?</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>מהו היחס בין מספרי הגולות הכחולות של גדי ודני?</p></SubQuestion>
-        <SubQuestion label="(ד)"><p>האם מצאתם פרופורציה בין הגולות? אם כן – כּ ִתבו אותה.</p></SubQuestion>
+        <SubQuestion label="א."><p>מהו היחס בין הכחולות לאדומות אצל כל ילד?</p></SubQuestion>
+        <SubQuestion label="ב."><p>מהו היחס בין מספרי הגולות האדומות של גדי ודני?</p></SubQuestion>
+        <SubQuestion label="ג."><p>מהו היחס בין מספרי הגולות הכחולות של גדי ודני?</p></SubQuestion>
+        <SubQuestion label="ד."><p>האם מצאתם פרופורציה בין הגולות? אם כן – כּ ִתבו אותה.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>במשפחת פרץ : אבא בן 42 , אימא בת 39 , עדינה בת 14 ונעמי בת 13 .</p>
-        <SubQuestion label="(א)"><p>סַפרו במילים מה מתארת הפרופורציה <Frac num={42} den={39} /> = <Frac num={14} den={13} /> .</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>סַפרו במילים מה מתארת הפרופורציה <Frac num={42} den={14} /> = <Frac num={39} den={13} /> .</p></SubQuestion>
-        <SubQuestion label="(ג)"><p>כּ ִתבו פרופורציות נוספות בין הגילים במשפחת פרץ.</p></SubQuestion>
+        <SubQuestion label="א."><p>סַפרו במילים מה מתארת הפרופורציה <Frac num={42} den={39} /> = <Frac num={14} den={13} /> .</p></SubQuestion>
+        <SubQuestion label="ב."><p>סַפרו במילים מה מתארת הפרופורציה <Frac num={42} den={14} /> = <Frac num={39} den={13} /> .</p></SubQuestion>
+        <SubQuestion label="ג."><p>כּ ִתבו פרופורציות נוספות בין הגילים במשפחת פרץ.</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>הדרים ונטעים יישובים שכנים. ב <strong>הדרים</strong> 600 משפחות וב <strong>נטעים</strong> 1,000 משפחות. עלות תיקון כביש הגישה היא <strong>400,000 ש"ח</strong> , והחלוקה ביחס למספר המשפחות.</p>
-        <SubQuestion label="(א)"><p>כמה ישלם כל יישוב?</p></SubQuestion>
-        <SubQuestion label="(ב)">
+        <SubQuestion label="א."><p>כמה ישלם כל יישוב?</p></SubQuestion>
+        <SubQuestion label="ב.">
           <p>חַשבו את ערכו של <strong>x</strong> בכל אחת מהדרכים :</p>
           <p>דרך I :  1000x + 600x = 400000</p>
           <p>דרך II :  5x + 3x = 400000</p>
@@ -224,26 +224,26 @@ export function Ch6Page5() {
 
       <Question>
         <p>היחס בין מספר החברות בקיבוץ למספר החברים הוא <strong>8 : 7</strong> .</p>
-        <SubQuestion label="(א)"><p>אם מספר החברים בקיבוץ הוא <strong>224</strong> , כמה חברות יש בו?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>מהו מספר החברים והחברות יחד?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>איזה חלק מכלל החברים והחברות הם החברות?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="א."><p>אם מספר החברים בקיבוץ הוא <strong>224</strong> , כמה חברות יש בו?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ב."><p>מהו מספר החברים והחברות יחד?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ג."><p>איזה חלק מכלל החברים והחברות הם החברות?</p><CalculationResponse lines={2} /></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>באולם תיאטרון <strong>1,500 מושבים</strong> ובו מועסקים <strong>5 סדרנים</strong> לשמירה על הסדר.</p>
-        <SubQuestion label="(א)"><p>כמה סדרנים נחוצים לאולם שבו <strong>900 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ב)"><p>כמה סדרנים נחוצים לאולם שבו <strong>2,400 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
-        <SubQuestion label="(ג)"><p>רִשמו פרופורציה מתאימה לסעיף (א).</p></SubQuestion>
+        <SubQuestion label="א."><p>כמה סדרנים נחוצים לאולם שבו <strong>900 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ב."><p>כמה סדרנים נחוצים לאולם שבו <strong>2,400 מושבים</strong> ?</p><CalculationResponse lines={2} /></SubQuestion>
+        <SubQuestion label="ג."><p>רִשמו פרופורציה מתאימה לסעיף (א).</p></SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכל סעיף קבעו אם מתקיימת פרופורציה ונמקו.</p>
-        <SubQuestion label="(א)"><p>3 פועלים סללו <strong>15 מ'</strong> מדרכה ביום ; 5 פועלים סללו <strong>25 מ'</strong> ביום.</p></SubQuestion>
-        <SubQuestion label="(ב)"><p>4 ק"ג עגבניות עולים <strong>20 ש"ח</strong> ; 7 ק"ג עגבניות עולים <strong>32 ש"ח</strong> .</p></SubQuestion>
+        <SubQuestion label="א."><p>3 פועלים סללו <strong>15 מ'</strong> מדרכה ביום ; 5 פועלים סללו <strong>25 מ'</strong> ביום.</p></SubQuestion>
+        <SubQuestion label="ב."><p>4 ק"ג עגבניות עולים <strong>20 ש"ח</strong> ; 7 ק"ג עגבניות עולים <strong>32 ש"ח</strong> .</p></SubQuestion>
       </Question>
 
       <QSep />

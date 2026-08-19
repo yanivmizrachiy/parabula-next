@@ -72,18 +72,22 @@ export function RatioPage29() {
       <Question>
         <p>במשולש ישר־הזווית ABC מתקיים <span dir="ltr">∠ABC=90°</span>. הנקודה E היא אמצע AB והנקודה D היא אמצע BC. נתון <span dir="ltr">AB=10a</span> ו־<span dir="ltr">BC=4a</span>.</p>
         <MidpointTriangle />
-        <SubQuestion label="א."><p>הביעו באמצעות a את האורכים BE ו־CD.</p></SubQuestion>
-        <SubQuestion label="ב."><p>חשבו את היחס בין שטח △ABC לשטח △ADC.</p></SubQuestion>
-        <SubQuestion label="ג."><p>חשבו את היחס בין שטח △BCE לשטח △ABC.</p></SubQuestion>
-        <div className="response-set">
-          <WorkArea lines={2} label="א." />
+        <SubQuestion label="א.">
+          <p>הביעו באמצעות a את האורכים BE ו־CD.</p>
+          <WorkArea lines={2} />
           <FinalAnswer label={'⁦BE =⁩'} />
           <FinalAnswer label={'⁦CD =⁩'} />
-          <WorkArea lines={3} label="ב." />
-          <FinalAnswer label="ב." type="ratio" />
-          <WorkArea lines={3} label="ג." />
-          <FinalAnswer label="ג." type="ratio" />
-        </div>
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>חשבו את היחס בין שטח △ABC לשטח △ADC.</p>
+          <WorkArea lines={3} />
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>חשבו את היחס בין שטח △BCE לשטח △ABC.</p>
+          <WorkArea lines={3} />
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
       </Question>
 
       <QSep />
@@ -95,30 +99,36 @@ export function RatioPage29() {
           <CookieTray label="2" brown={5} />
           <CookieTray label="3" brown={4} />
         </div>
-        <SubQuestion label="א."><p>באיזה מגש היחס חומות : לבנות הוא 1 : 4?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מאחדים את מגשים 2 ו־3. מהו היחס לבנות : חומות?</p></SubQuestion>
-        <SubQuestion label="ג."><p>מאחדים את מגשים 1 ו־3. איזה אחוז מהעוגיות חומות?</p></SubQuestion>
-        <div className="response-set">
-          <FinalAnswer label="א. מגש:" />
-          <WorkArea lines={2} label="ב." />
-          <FinalAnswer label="ב." type="ratio" />
-          <WorkArea lines={3} label="ג." />
-          <FinalAnswer label="ג." unit="%" />
-        </div>
+        <SubQuestion label="א.">
+          <p>באיזה מגש היחס חומות : לבנות הוא 1 : 4?</p>
+          <FinalAnswer label="מגש:" />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>מאחדים את מגשים 2 ו־3. מהו היחס לבנות : חומות?</p>
+          <WorkArea lines={2} />
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>מאחדים את מגשים 1 ו־3. איזה אחוז מהעוגיות חומות?</p>
+          <WorkArea lines={3} />
+          <FinalAnswer unit="%" />
+        </SubQuestion>
       </Question>
 
       <QSep />
 
       <Question>
         <p>בכוס 2 יש 400 מ״ל מיץ, והיחס בין הכמות בכוס 1 לכמות בכוס 2 הוא 1 : 4.</p>
-        <SubQuestion label="א."><p>כמה מ״ל יש בכוס 1?</p></SubQuestion>
-        <SubQuestion label="ב."><p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נמצא כעת בכוס 2?</p></SubQuestion>
-        <div className="response-set">
-          <WorkArea lines={2} label="א." />
-          <FinalAnswer label="א." unit="מ״ל" />
-          <WorkArea lines={3} label="ב." />
-          <FinalAnswer label="ב." unit="%" />
-        </div>
+        <SubQuestion label="א.">
+          <p>כמה מ״ל יש בכוס 1?</p>
+          <WorkArea lines={2} />
+          <FinalAnswer unit="מ״ל" />
+        </SubQuestion>
+        <SubQuestion label="ב.">
+          <p>מעבירים 50 מ״ל מכוס 2 לכוס 1. איזה אחוז מכלל המיץ נמצא כעת בכוס 2?</p>
+          <WorkArea lines={3} />
+          <FinalAnswer unit="%" />
+        </SubQuestion>
       </Question>
 
       <QSep />
@@ -132,15 +142,18 @@ export function RatioPage29() {
           <span>2. BC : היקף המלבן = 1 : 8.</span>
           <span>3. BC : AB = 6 : 2.</span>
         </div>
-        <SubQuestion label="ב."><p>השלימו: שטח המלבן : שטח △DEF =</p></SubQuestion>
-        <SubQuestion label="ג."><p>שטח △BEF : שטח המלבן =</p></SubQuestion>
-        <SubQuestion label="ד."><p>שטח △CDE : שטח △ADE =</p></SubQuestion>
-        <div className="response-set">
-          <WorkArea lines={1} />
-          <FinalAnswer label="ב." type="ratio" />
-          <FinalAnswer label="ג." type="ratio" />
-          <FinalAnswer label="ד." type="ratio" />
-        </div>
+        <SubQuestion label="ב.">
+          <p>השלימו: שטח המלבן : שטח △DEF =</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ג.">
+          <p>שטח △BEF : שטח המלבן =</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
+        <SubQuestion label="ד.">
+          <p>שטח △CDE : שטח △ADE =</p>
+          <FinalAnswer type="ratio" />
+        </SubQuestion>
       </Question>
     </PageLayout>
   );
