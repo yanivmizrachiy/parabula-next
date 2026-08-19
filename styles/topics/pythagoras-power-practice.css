@@ -201,7 +201,7 @@
   min-width: 44px;
 }
 
-/* מספר חסר בתוך שורש: הריבוע הריק יושב מתחת לקו השורש. */
+/* מספר חסר בתוך שורש: ביטוי השורש עצמו מרונדר רק באמצעות MathJax. */
 .pyt-foundation .missing-root-card {
   min-height: 66px;
   padding: 7px 8px;
@@ -215,29 +215,9 @@
   unicode-bidi: isolate;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  justify-content: center;
   font-size: 18px;
   line-height: 30px;
-}
-
-.pyt-foundation .root-symbol {
-  font-size: 29px;
-  line-height: 30px;
-  margin-inline-end: -7px;
-}
-
-.pyt-foundation .root-radicand {
-  border-top: 1.8px solid #111827;
-  padding: 2px 3px 0;
-  min-width: 42px;
-  display: inline-flex;
-  justify-content: center;
-}
-
-.pyt-foundation .missing-radicand-slot {
-  width: 38px;
-  height: 28px;
 }
 
 @media print {
