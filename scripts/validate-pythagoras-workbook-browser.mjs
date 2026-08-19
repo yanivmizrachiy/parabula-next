@@ -73,6 +73,10 @@ try {
     const badUiFonts = uiFonts
       .map((font, index) => ({ local: index + 1, source: expectedPages[index], font }))
       .filter((entry) => !/Rubik/u.test(entry.font));
+    const toolbarState = {
+      pageJumpDisabled: document.querySelector('#page-jump')?.disabled ?? true,
+      printDisabled: document.querySelector('#print-workbook')?.disabled ?? true,
+    };
 
     const danglingIdRefs = [];
     const tokenRefAttrs = ['aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'headers'];
@@ -165,6 +169,7 @@ try {
       badUiFonts,
       badMathFonts,
       checkedSvgMath,
+      toolbarState,
     };
   }, {
     expectedPages: expected,
@@ -175,6 +180,8 @@ try {
   const errors = [...runtimeErrors];
   if (result.workbookErrors.length) errors.push(`workbook page load errors: ${JSON.stringify(result.workbookErrors.slice(0, 10))}`);
   if (!result.status.includes('חוברת מלאה')) errors.push(`workbook status is not complete: ${result.status}`);
+  if (result.status.includes('חוברת מלאה') && result.toolbarState.pageJumpDisabled) errors.push('page jump stayed disabled after workbook became ready');
+  if (result.status.includes('חוברת מלאה') && result.toolbarState.printDisabled) errors.push('print stayed disabled after complete workbook load');
   if (result.wrapperCount !== expected.length) errors.push(`wrappers=${result.wrapperCount}, expected=${expected.length}`);
   if (result.mainCount !== expected.length) errors.push(`a4 pages=${result.mainCount}, expected=${expected.length}`);
   if (result.duplicateIds.length) errors.push(`duplicate DOM ids: ${result.duplicateIds.join(', ')}`);
