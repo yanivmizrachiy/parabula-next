@@ -1,0 +1,58 @@
+name: Pythagoras fast guard
+
+on:
+  pull_request:
+    branches: ["main"]
+    paths:
+      - 'עמוד-*.html'
+      - 'styles/pages/עמוד-*.css'
+      - 'styles/topics/pythagoras*.css'
+      - 'styles/pythagoras-workbook.css'
+      - 'pythagoras-workbook.html'
+      - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
+      - 'meta/topics.json'
+      - 'sw.js'
+      - 'scripts/pythagoras-*.mjs'
+      - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'tests/contracts/pythagoras-*.test.mjs'
+      - '.github/workflows/pythagoras-fast-guard.yml'
+  push:
+    branches: ["main"]
+    paths:
+      - 'עמוד-*.html'
+      - 'styles/pages/עמוד-*.css'
+      - 'styles/topics/pythagoras*.css'
+      - 'styles/pythagoras-workbook.css'
+      - 'pythagoras-workbook.html'
+      - 'pythagoras-workbook.js'
+      - 'pythagoras-workbook-model.js'
+      - 'meta/topics.json'
+      - 'sw.js'
+      - 'scripts/pythagoras-*.mjs'
+      - 'scripts/validate-pythagoras-workbook.mjs'
+      - 'tests/contracts/pythagoras-*.test.mjs'
+      - '.github/workflows/pythagoras-fast-guard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "pythagoras-fast-${{ github.event.pull_request.number || github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  fast-static:
+    name: pythagoras-fast-guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run fast Pythagoras preflight
+        run: node scripts/pythagoras-fast-check.mjs
