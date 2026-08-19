@@ -13,6 +13,8 @@ const rows = [
   ['A4 גלובלי', 'styles/a4-base.css'],
   ['סדר/רישום נושאים ודפים', 'meta/topics.json'],
   ['מודל החוברת המאוחדת', 'pythagoras-workbook-model.js'],
+  ['רביע ראשון — מקור החוברת', 'projects/coordinate-first-quadrant-workbook/workbook/'],
+  ['רביע ראשון — מחולל web', 'projects/coordinate-first-quadrant-workbook/src/build-web.mjs'],
   ['פריסה ל-GitHub Pages', '.github/workflows/deploy-pages.yml'],
   ['סיווג בדיקות לפי שינוי', 'scripts/classify-ci-change-scope.mjs'],
 ];
@@ -25,6 +27,7 @@ for (const [label, file] of rows) {
 
 console.log('\nפקודות שימושיות');
 console.log('npm run edit:map -- 639        # איפה עורכים עמוד מסוים');
+console.log('npm run coordinate:web         # יוצר נכסי web של חוברת הרביע הראשון מתוך המקור');
 console.log('npm run pythagoras:check       # בדיקת פיתגורס מהירה בלי סריקות כבדות');
 console.log('npm run ci:all                 # בדיקת ריפו מלאה כשבאמת צריך');
 
@@ -33,3 +36,4 @@ if (page) {
   console.log(`דף ${page}: ${LIVE_BASE}/עמוד-${page}.html`);
 }
 console.log(`חוברת פיתגורס: ${LIVE_BASE}/pythagoras-workbook.html`);
+console.log(`רביע ראשון: ${LIVE_BASE}/projects/coordinate-first-quadrant-workbook/index.html`);
