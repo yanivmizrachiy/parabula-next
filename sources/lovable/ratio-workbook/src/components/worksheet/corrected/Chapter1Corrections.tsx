@@ -271,8 +271,10 @@ export function RatioPage07() {
       <Question>
         <p>במחרוזת יש 6 חרוזים שחורים ו־4 חרוזים לבנים.</p>
         <SubQuestion label="א."><p>מהו היחס בין מספר החרוזים השחורים למספר החרוזים הלבנים?</p></SubQuestion>
-        <SubQuestion label="ב."><p>ציירו מחרוזת נוספת שבה אותו יחס, ובה לפחות 15 חרוזים.</p></SubQuestion>
-        <div className="drawing-box min-h-60"><p className="drawing-label">המחרוזת שלי:</p></div>
+        <SubQuestion label="ב.">
+          <p>ציירו מחרוזת נוספת שבה אותו יחס, ובה לפחות 15 חרוזים.</p>
+          <div className="drawing-box min-h-60"><p className="drawing-label">המחרוזת שלי:</p></div>
+        </SubQuestion>
       </Question>
 
       <QSep />

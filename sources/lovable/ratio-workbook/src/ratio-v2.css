@@ -200,7 +200,7 @@
   background: #fff;
   break-inside: avoid;
 }
-.calculation-response .work-area { border: none; box-shadow: none; }
+.calculation-response .work-area { border: none; box-shadow: none; margin: 0; }
 .calculation-response .work-area-space { padding: 6px 12px 8px; }
 .calculation-response .final-answer {
   margin: 0;
@@ -215,12 +215,22 @@
    inline layout (that outer box is already their frame). */
 .work-area {
   display: block;
+  /* Every answer panel shares this right-indent so boxes stack in one aligned, symmetric column. */
+  margin: 6px 18px 8px 0;
   border: 0.7px solid #1f2a44;
   border-top-width: 4.2px;
   border-radius: 0;
   overflow: hidden;
   background: #fff;
   box-shadow: 0 1px 2px rgba(31, 42, 68, 0.08);
+}
+/* A box inside a sub-question breaks out past the sub-label (min-width 22px + gap 6px) so its
+   edges line up with the top-level boxes above/below it — one clean column down the page. */
+.sub-content > .work-area,
+.sub-content > .calculation-response,
+.sub-content > .drawing-box {
+  margin-right: -28px;
+  margin-left: 0;
 }
 .work-area-label {
   display: block;
@@ -243,6 +253,7 @@
   grid-template-columns: auto 1fr;
   align-items: start;
   gap: 8px;
+  margin: 0;
   border: none;
   border-radius: 0;
   box-shadow: none;
@@ -278,6 +289,7 @@
 
 /* Titled-panel frame (style 5): square corners, the label rides a thin navy header bar. */
 .drawing-box {
+  margin: 6px 18px 8px 0;
   border: 0.7px solid #1f2a44;
   border-top-width: 4.2px;
   border-radius: 0;

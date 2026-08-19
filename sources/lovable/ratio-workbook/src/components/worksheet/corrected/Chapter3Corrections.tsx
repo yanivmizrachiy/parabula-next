@@ -560,8 +560,10 @@ export function RatioPage23() {
           <div className="bracelet-line"><span className="bracelet-name">נורית:</span><Bracelet black={6} white={9} /><span className="txt-xs">6 שחורים, 9 לבנים</span></div>
         </div>
         <SubQuestion label="א."><p>האם היחס בין שחורים ללבנים זהה בשתי המחרוזות? הסבירו.</p></SubQuestion>
-        <SubQuestion label="ב."><p>ציירו מחרוזת נוספת באותו יחס ובה לפחות 25 חרוזים.</p></SubQuestion>
-        <div className="drawing-box min-h-60"><p className="drawing-label">המחרוזת שלי:</p></div>
+        <SubQuestion label="ב.">
+          <p>ציירו מחרוזת נוספת באותו יחס ובה לפחות 25 חרוזים.</p>
+          <div className="drawing-box min-h-60"><p className="drawing-label">המחרוזת שלי:</p></div>
+        </SubQuestion>
       </Question>
     </PageLayout>
   );

@@ -278,8 +278,7 @@
 }
 
 .auto-response--calculation {
-  margin: 2px 0 3px;
-  padding: 3px 6px 4px;
+  margin: 6px 18px 8px 0;
 }
 
 .auto-response--calculation .work-area-lines {
@@ -304,7 +303,7 @@
 }
 
 .auto-response--explanation {
-  margin: 2px 0 3px;
+  margin: 6px 18px 8px 0;
 }
 
 .auto-response--explanation .work-area-lines {

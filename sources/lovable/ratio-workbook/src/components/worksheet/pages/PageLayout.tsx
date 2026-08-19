@@ -302,7 +302,9 @@ export function CalculationResponse({ lines = 3, answerType = 'line', unit, clas
   return (
     <div className={cn('calculation-response', className)}>
       <WorkArea lines={lines} />
-      <FinalAnswer type={answerType} unit={unit} label="" />
+      {/* The box itself is the writing space — no redundant answer-line inside it. A ratio answer
+          keeps its dedicated boxes (§4.3); a plain answer is just written in the box. */}
+      {answerType === 'ratio' ? <FinalAnswer type="ratio" unit={unit} label="" /> : null}
     </div>
   );
 }
