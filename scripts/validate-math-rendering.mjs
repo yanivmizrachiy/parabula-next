@@ -3,13 +3,47 @@ import path from 'node:path';
 
 const root = process.cwd();
 const errors = [];
-
-const pages = fs
-  .readdirSync(root)
-  .filter((name) => /^עמוד-\d+\.html$/u.test(name))
-  .sort((a, b) => Number(a.match(/\d+/u)?.[0] ?? 0) - Number(b.match(/\d+/u)?.[0] ?? 0));
+const archiveDirectoryNames = new Set(['source', 'sources']);
+const rootPagePattern = /^עמוד-\d+\.html$/u;
 
 const fail = (file, message) => errors.push(`${file}: ${message}`);
+const toRepoPath = (absolutePath) => path.relative(root, absolutePath).split(path.sep).join('/');
+
+function collectHtmlFiles(directory) {
+  const files = [];
+
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const absolutePath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      if (archiveDirectoryNames.has(entry.name.toLowerCase())) continue;
+      files.push(...collectHtmlFiles(absolutePath));
+      continue;
+    }
+
+    if (entry.isFile() && /\.html$/iu.test(entry.name)) {
+      files.push(absolutePath);
+    }
+  }
+
+  return files;
+}
+
+function collectCanonicalPages() {
+  const canonicalPages = fs
+    .readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && rootPagePattern.test(entry.name))
+    .map((entry) => path.join(root, entry.name));
+
+  const workbooksRoot = path.join(root, 'workbooks');
+  if (fs.existsSync(workbooksRoot)) {
+    canonicalPages.push(...collectHtmlFiles(workbooksRoot));
+  }
+
+  return [...new Set(canonicalPages)].sort((a, b) =>
+    toRepoPath(a).localeCompare(toRepoPath(b), 'he', { numeric: true }),
+  );
+}
 
 function getVisibleNonMathText(html) {
   return html
@@ -21,8 +55,11 @@ function getVisibleNonMathText(html) {
     .replace(/<[^>]+>/gu, ' ');
 }
 
-for (const file of pages) {
-  const html = fs.readFileSync(path.join(root, file), 'utf8');
+const pages = collectCanonicalPages();
+
+for (const absolutePath of pages) {
+  const file = toRepoPath(absolutePath);
+  const html = fs.readFileSync(absolutePath, 'utf8');
   const hasMathJaxConfig = /\bMathJax\b/u.test(html);
   const hasTexMarkup = /\\\(|\$\$/u.test(html);
   const usesMath = hasMathJaxConfig || hasTexMarkup;
@@ -30,6 +67,10 @@ for (const file of pages) {
 
   if (/<canvas\b/iu.test(html)) {
     fail(file, 'Canvas אסור בדף A4 קנוני; שרטוט מתמטי חדש חייב להיות וקטורי וניתן להדפסה');
+  }
+
+  if (/<(?:object|embed)\b/iu.test(html)) {
+    fail(file, 'object/embed אסורים בחומר קנוני; שרטוט מתמטי חייב להיות HTML/SVG וקטורי מקומי');
   }
 
   if (/\bkatex\b/iu.test(html)) {
@@ -64,7 +105,7 @@ for (const file of pages) {
 }
 
 if (!pages.length) {
-  errors.push('לא נמצאו דפי עמוד-N.html קנוניים לסריקה');
+  errors.push('לא נמצאו דפי HTML קנוניים לסריקה בשורש או תחת workbooks/');
 }
 
 if (errors.length) {
@@ -73,4 +114,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`MATH_RENDERING_OK pages=${pages.length} source=CLAUDE.md math=self-hosted-mathjax drawings=vector-canonical raster=source-allowed`);
+console.log(`MATH_RENDERING_OK surfaces=${pages.length} source=CLAUDE.md math=self-hosted-mathjax drawings=vector-canonical raster=source-allowed archives=source-sources-excluded`);
