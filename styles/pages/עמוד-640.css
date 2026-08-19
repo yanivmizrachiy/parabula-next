@@ -2,11 +2,20 @@
 @import url("../topics/pythagoras-power-practice.css");
 
 .page-640 .question-block {
+  justify-content: flex-start;
   gap: 14px;
+}
+
+/* כל הגובה הפנוי מוקדש לכרטיסי התרגול ולמשטח החישובים. */
+.page-640 .power-grid,
+.page-640 .power-scratch-space {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .page-640 .power-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
   gap: 12px;
 }
 
