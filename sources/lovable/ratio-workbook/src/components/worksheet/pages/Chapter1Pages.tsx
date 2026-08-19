@@ -451,13 +451,13 @@ export function Ch1Page8() {
 
       <Question>
         <p>מצאו את <strong>המספר החסר</strong> בכל סעיף.</p>
-        <div className="options-grid-2col gap-md">
-          <span>(א)  1 : 2  =  <Blank /> : 3</span>
-          <span>(ב)  <Frac num={2} den={3} /> = <Frac num={6} den="□" /></span>
-          <span>(ג)  20 : <Blank />  =  2 : 5</span>
-          <span>(ד)  <Frac num={2} den={5} /> = <Frac num={20} den="□" /></span>
-          <span>(ה)  3 : <Blank />  =  2 : 6</span>
-          <span>(ו)  <Frac num={3} den={12} /> = <Frac num="□" den={8} /></span>
+        <div className="options-grid-2col gap-md" style={{ rowGap: '16px', columnGap: '26px' }}>
+          <span>1 : 2  =  <Blank /> : 3</span>
+          <span><Frac num={2} den={3} /> = <Frac num={6} den="□" /></span>
+          <span>20 : <Blank />  =  2 : 5</span>
+          <span><Frac num={2} den={5} /> = <Frac num={20} den="□" /></span>
+          <span>3 : <Blank />  =  2 : 6</span>
+          <span><Frac num={3} den={12} /> = <Frac num="□" den={8} /></span>
         </div>
       </Question>
 

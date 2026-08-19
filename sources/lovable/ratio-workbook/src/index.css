@@ -1029,7 +1029,7 @@
 .worksheet-page .page-content svg text {
   font-family: 'Heebo', 'Assistant', sans-serif;
   font-weight: 600;
-  font-size: 9px;
+  font-size: 12px;
   fill: var(--ws-ink);
   letter-spacing: 0.1px;
 }

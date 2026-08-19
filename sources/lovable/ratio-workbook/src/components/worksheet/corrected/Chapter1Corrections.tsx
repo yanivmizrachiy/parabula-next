@@ -237,8 +237,8 @@ function PenCases() {
       <svg viewBox="0 0 320 90" width="360" height="100" role="img" aria-label="שני קלמרים ביחס שבע לשתיים">
         <rect x="15" y="20" width="190" height="50" rx="16" fill="#eef2ff" stroke="#172554" strokeWidth="1.5" />
         <rect x="230" y="20" width="75" height="50" rx="16" fill="#f8fafc" stroke="#172554" strokeWidth="1.5" />
-        <text x="110" y="50" textAnchor="middle">קלמר א׳ — 7 חלקים</text>
-        <text x="267" y="50" textAnchor="middle">קלמר ב׳ — 2 חלקים</text>
+        <text x="110" y="50" textAnchor="middle">קלמר א׳ — 7 עטים</text>
+        <text x="267" y="50" textAnchor="middle">קלמר ב׳ — 2 עטים</text>
       </svg>
     </div>
   );

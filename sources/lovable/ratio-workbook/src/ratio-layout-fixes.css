@@ -62,9 +62,9 @@
   display: grid;
   grid-template-columns: minmax(150px, 1fr) repeat(4, minmax(64px, auto));
   align-items: end;
-  gap: 3px 7px;
-  margin: 2px 18px 3px 0;
-  padding: 3px 6px;
+  gap: 9px 7px;
+  margin: 6px 18px 6px 0;
+  padding: 6px 8px;
   border: 1px solid var(--ws-rule);
   border-radius: 4px;
   break-inside: avoid;
@@ -240,10 +240,11 @@
 /* Automatic response sizing: allocate only the writing space the task truly needs. */
 [data-auto-response="short"] > .sub-content > .answer-line-container,
 .question-block[data-auto-response="short"] .question-content > .answer-line-container {
-  width: min(260px, 100%);
-  margin-right: auto;
-  margin-left: 0;
-  margin-top: 2px;
+  width: min(320px, 100%);
+  /* Keep the answer on the right, directly under its question (RTL), not floated to the far left. */
+  margin-right: 0;
+  margin-left: auto;
+  margin-top: 3px;
 }
 
 [data-auto-response="short"] .answer-line {

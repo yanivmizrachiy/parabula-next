@@ -39,15 +39,9 @@ function TeacherTable({ children, className = '' }: { children: ReactNode; class
   return <table className={`teacher-table ${className}`.trim()}><tbody>{children}</tbody></table>;
 }
 
-function Answer(_props: { children: ReactNode }) {
-  // Student worksheet — the answer is left blank for the student to fill in (no answer key shown).
-  return (
-    <span
-      className="teacher-answer-blank"
-      aria-hidden="true"
-      style={{ display: 'inline-block', minWidth: '54px', borderBottom: '1.6px solid #64748b', height: '1em', margin: '0 5px', verticalAlign: '-2px' }}
-    />
-  );
+function Answer({ children }: { children: ReactNode }) {
+  // Teacher ("יחס · למורה") pages show the worked example / answer for the teacher's reference.
+  return <span className="teacher-answer">{children}</span>;
 }
 
 function SmallBlank() {
@@ -84,9 +78,8 @@ export function TeacherIntroPage01() {
     <PageLayout pageNumber={1} chapter={CH} topic="יחס" className="teacher-intro-page">
       <div className="teacher-doc-meta">
         <span>שנה״ל תשפ״ז</span>
-        <strong>הקובץ נכתב ע״י ד״ר יחיאל תנעמי ואיילת קריספין</strong>
       </div>
-      <div className="teacher-guide-title">הנחייה למורה:</div>
+      <div className="teacher-guide-title">הנחיות למורה — ד״ר יחיאל תנעמי ואיילת קריספין:</div>
       <h2 className="teacher-orange-title">יחס - מדוע עכשיו?</h2>
       <TeacherBox tone="note">
         מהווה מושג מרכזי בהמשך הלימודים בכיתה ח׳ במגוון נושאים: קנה מידה, קטעים
@@ -155,9 +148,9 @@ export function TeacherIntroPage02() {
         <p>ג) השלימו את הטבלה:</p>
         <div className="teacher-ratio-table-wrap">
           <div className="teacher-row-label teacher-row-label--green">מספר המדבקות הירוקות</div>
-          <div className="teacher-number-row">{green.map((v, i) => <span key={i}>{v}</span>)}</div>
+          <div className="teacher-number-row">{green.map((v, i) => <span key={i} style={{ color: '#15803d', fontWeight: 700 }}>{v}</span>)}</div>
           <div className="teacher-row-label teacher-row-label--blue">מספר המדבקות הכחולות</div>
-          <div className="teacher-number-row">{blue.map((_, i) => <span key={i}>{' '}</span>)}</div>
+          <div className="teacher-number-row">{blue.map((v, i) => <span key={i} style={{ color: "#1d4ed8", fontWeight: 700 }}>{v}</span>)}</div>
         </div>
         <p>ד) האם ייתכן מצב שיש לי:</p>
         <ol className="teacher-numbered">

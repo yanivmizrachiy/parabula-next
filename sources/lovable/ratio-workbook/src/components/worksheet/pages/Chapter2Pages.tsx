@@ -56,8 +56,7 @@ export function Ch2Page1() {
         <p>כמה תלמידים הצביעו בעד וכמה תלמידים הצביעו נגד?</p>
         <div className="calculation-response">
           <WorkArea lines={3} />
-          <FinalAnswer label="בעד:" />
-          <FinalAnswer label="נגד:" />
+          <p className="answer-sentence"><span className="answer-label">תשובה:</span> <Blank /> תלמידים הצביעו בעד ו־<Blank /> תלמידים הצביעו נגד.</p>
         </div>
       </Question>
     </PageLayout>

@@ -495,7 +495,7 @@ function AngleCard({ label, alpha, beta }: { label: string; alpha: number; beta:
   return (
     <div className="svg-cell">
       <span>{label}</span>
-      <svg viewBox="0 0 110 80" width="92" height="67" role="img" aria-label={`שתי זוויות צמודות בעלות קדקוד משותף: אלפא ${alpha} מעלות ובטא ${beta} מעלות`} shapeRendering="geometricPrecision">
+      <svg viewBox="0 0 110 80" width="130" height="95" role="img" aria-label={`שתי זוויות צמודות בעלות קדקוד משותף: אלפא ${alpha} מעלות ובטא ${beta} מעלות`} shapeRendering="geometricPrecision">
         <line x1={V.x} y1={V.y} x2={base.x.toFixed(2)} y2={base.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
         <line x1={V.x} y1={V.y} x2={mid.x.toFixed(2)} y2={mid.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />
         <line x1={V.x} y1={V.y} x2={top.x.toFixed(2)} y2={top.y.toFixed(2)} stroke="#172554" strokeWidth="1.8" />

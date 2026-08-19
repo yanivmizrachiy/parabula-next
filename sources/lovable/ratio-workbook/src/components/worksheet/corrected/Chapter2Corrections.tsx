@@ -26,7 +26,7 @@ function SpiceGraph() {
   const yTitleY = (oy + Y(20)) / 2;
   return (
     <div className="graph-container">
-      <svg viewBox="0 0 356 300" role="img" aria-label="גרף יחס ישר: היחס בין כמות הקינמון (ציר אופקי) לכמות הווניל (ציר אנכי) הוא 3 : 5" shapeRendering="geometricPrecision" style={{ width: '340px', maxWidth: '100%', height: 'auto' }}>
+      <svg viewBox="0 0 356 300" role="img" aria-label="גרף יחס ישר: היחס בין כמות הקינמון (ציר אופקי) לכמות הווניל (ציר אנכי) הוא 3 : 5" shapeRendering="geometricPrecision" style={{ width: '520px', maxWidth: '100%', height: 'auto' }}>
         {[3, 6, 9, 12].map((g) => (
           <line key={`vx${g}`} x1={X(g)} y1={Y(20)} x2={X(g)} y2={oy} stroke="#e6eaf1" strokeWidth="1" />
         ))}
@@ -60,8 +60,8 @@ function SpiceGraph() {
           <text key={`ty${g}`} x={ox - 9} y={Y(g) + 4} fontSize="12" textAnchor="end" direction="ltr">{g}</text>
         ))}
         {/* כותרות הצירים — מה מייצג כל ציר */}
-        <text x={(ox + X(12)) / 2} y={oy + 42} fontSize="13.5" textAnchor="middle" fontWeight="bold">קינמון (גרמים)</text>
-        <text x="20" y={yTitleY} fontSize="13.5" textAnchor="middle" fontWeight="bold" transform={`rotate(-90 20 ${yTitleY})`}>וניל (גרמים)</text>
+        <text x={(ox + X(12)) / 2} y={oy + 42} fontSize="17" textAnchor="middle" fontWeight="bold">קינמון (גרמים)</text>
+        <text x="20" y={yTitleY} fontSize="17" textAnchor="middle" fontWeight="bold" transform={`rotate(-90 20 ${yTitleY})`}>וניל (גרמים)</text>
       </svg>
     </div>
   );

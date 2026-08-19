@@ -691,11 +691,11 @@ export function Ch3Page8() {
             return (
               <div key={i} className="cell">
                 <div className="title">{t.label}</div>
-                <svg viewBox="0 0 120 92" xmlns="http://www.w3.org/2000/svg" shapeRendering="geometricPrecision">
+                <svg viewBox="0 0 120 92" width="160" height="123" style={{ maxWidth: "100%" }} xmlns="http://www.w3.org/2000/svg" shapeRendering="geometricPrecision">
                   <polygon points={`${Tp.x.toFixed(1)},${Tp.y.toFixed(1)} ${Rp.x.toFixed(1)},${Rp.y.toFixed(1)} ${Lp.x.toFixed(1)},${Lp.y.toFixed(1)}`} fill="none" stroke="#1a1a1a" strokeWidth="1.6" strokeLinejoin="round" />
-                  <text x={aL.x.toFixed(1)} y={(aL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.a}°</text>
-                  <text x={bL.x.toFixed(1)} y={(bL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.b}°</text>
-                  <text x={cL.x.toFixed(1)} y={(cL.y + 3).toFixed(1)} textAnchor="middle" fontSize="10" fill="#1a1a1a" direction="ltr">{t.c}°</text>
+                  <text x={aL.x.toFixed(1)} y={(aL.y + 3).toFixed(1)} textAnchor="middle" fontSize="14" fill="#1a1a1a" direction="ltr">{t.a}°</text>
+                  <text x={bL.x.toFixed(1)} y={(bL.y + 3).toFixed(1)} textAnchor="middle" fontSize="14" fill="#1a1a1a" direction="ltr">{t.b}°</text>
+                  <text x={cL.x.toFixed(1)} y={(cL.y + 3).toFixed(1)} textAnchor="middle" fontSize="14" fill="#1a1a1a" direction="ltr">{t.c}°</text>
                 </svg>
                 <div className="answer-row">יחס : <span className="inline-blank w-70" /></div>
                 <div>מצומצם : <span className="inline-blank w-60" /></div>
