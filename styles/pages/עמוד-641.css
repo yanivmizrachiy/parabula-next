@@ -2,13 +2,17 @@
 @import url("../topics/pythagoras-power-practice.css");
 
 .page-641 {
-  --power-question-gap: 9px;
-  --power-grid-columns: 4;
+  --power-question-gap: 8px;
+  --power-grid-columns: 3;
   --power-grid-gap: 8px;
-  --power-card-min-height: 78px;
+  --power-card-min-height: 84px;
   --power-card-padding: 8px 7px;
   --power-instruction-font-size: 15px;
   --power-instruction-line-height: 1.35;
+}
+
+.page-641 .missing-root-card {
+  min-height: 76px;
 }
 
 @media print {
