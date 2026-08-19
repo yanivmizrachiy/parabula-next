@@ -42,14 +42,16 @@ test('אין הוראות ביניים גנריות ואין אותיות יתו
   }
 });
 
-test('ההשלמות העליונות אינן נותנות את מילת המפתח',()=>{
+test('הגדרות יסוד שומרות עובדות מכוננות; השלמות נשארות רק היכן שהן מועילות',()=>{
   const notes=[634,635,636,637,638,639].map((n)=>foundationNote(read(`עמוד-${n}.html`)));
-  for(const note of notes) assert.match(note,/foundation-fill/u);
-  assert.doesNotMatch(visibleText(notes[0]),/90/u);assert.doesNotMatch(visibleText(notes[2]),/ניצבים/u);assert.doesNotMatch(visibleText(notes[3]),/יתר|הארוכה/u);assert.doesNotMatch(visibleText(notes[4]),/ניצבים|יתר/u);
-  // עמוד 2: 90° מודפס (הושלם כבר בעמוד 1); המילים ישר/ישרה הן ההשלמה (הוראת יניב, 2026-08-18)
+  assert.match(notes[0],/\\\(90\^\\circ\\\)/u,'עמוד 1: זווית ישרה חייבת להיות מוגדרת במפורש כ-90°');
+  assert.doesNotMatch(notes[0],/foundation-fill|השלימו את מספר המעלות/u,'עמוד 1: אין להפוך את עובדת היסוד 90° לשדה השלמה');
+  for(const note of notes.slice(1)) assert.match(note,/foundation-fill/u);
+  assert.doesNotMatch(visibleText(notes[2]),/ניצבים/u);assert.doesNotMatch(visibleText(notes[3]),/יתר|הארוכה/u);assert.doesNotMatch(visibleText(notes[4]),/ניצבים|יתר/u);
+  // עמוד 2: 90° מודפס; המילים ישר/ישרה הן ההשלמה.
   assert.match(visibleText(notes[1]),/90°/u);assert.doesNotMatch(visibleText(notes[1]),/ישרה/u);
   assert.equal((notes[1].match(/foundation-fill-short/gu)||[]).length,2,'עמוד 2: שתי השלמות מילוליות');
-  assert.match(notes[0],/foundation-unit">°<\/span>/u);assert.ok(read('עמוד-639.html').includes('\\cdot'));
+  assert.ok(read('עמוד-639.html').includes('\\cdot'));
 });
 
 test('משימות הזיהוי אינן מגלות את התשובה מראש',()=>{
