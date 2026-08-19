@@ -34,7 +34,7 @@ test('CI-only pull requests skip browser-heavy mobile and Pythagoras gates', () 
   assert.equal(result.maintenanceOnly, false);
 });
 
-test('repository hygiene and deploy-CI files use the maintenance-only path', () => {
+test('repository hygiene, generated dist cleanup and deploy-CI files use the maintenance-only path', () => {
   const safeFiles = [
     '.gitignore',
     '.vscode/settings.json',
@@ -43,6 +43,7 @@ test('repository hygiene and deploy-CI files use the maintenance-only path', () 
     'scripts/classify-ci-change-scope.mjs',
     '.github/workflows/deploy-pages.yml',
     'tests/contracts/deploy-ci-scope.test.mjs',
+    'projects/coordinate-first-quadrant-workbook/dist/index.html',
   ];
 
   for (const file of safeFiles) {
@@ -59,7 +60,7 @@ test('repository hygiene and deploy-CI files use the maintenance-only path', () 
   assert.equal(result.mobileDeep, false);
   assert.equal(result.pythagoras, false);
 
-  for (const runtimeFile of ['עמוד-640.html', 'styles/a4-base.css', 'mobile-app.js', 'package.json']) {
+  for (const runtimeFile of ['עמוד-640.html', 'styles/a4-base.css', 'mobile-app.js', 'package.json', 'projects/coordinate-first-quadrant-workbook/src/build.mjs']) {
     assert.equal(isMaintenanceOnlyPath(runtimeFile), false, `${runtimeFile} must never use the maintenance shortcut`);
   }
 
