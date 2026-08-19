@@ -116,4 +116,6 @@ test('deploy workflow uses scoped gates and verifies the commit that became live
   assert.match(workflow, /node scripts\/write-build-info\.mjs dist "\$GITHUB_SHA"/);
   assert.match(workflow, /Verify live deployment commit/);
   assert.match(workflow, /node scripts\/verify-live-build\.mjs "\$PAGE_URL" "\$EXPECTED_SHA"/);
+  assert.match(workflow, /statuses: write/);
+  assert.match(workflow, /"context":"live-pages"/);
 });
