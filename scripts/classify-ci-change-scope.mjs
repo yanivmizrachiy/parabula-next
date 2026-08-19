@@ -26,7 +26,6 @@ export const MOBILE_RELEVANT_PATTERNS = [
  * Deep mobile validation scans the whole site and is intentionally narrower.
  * Local page/topic edits still get the fast browser + interaction gates, while
  * app/runtime/global-layout changes get the expensive all-pages shards too.
- * Workflow-only edits are validated by contract tests and do not change runtime UI.
  */
 export const MOBILE_DEEP_RELEVANT_PATTERNS = [
   /^(?:mobile-app|catalog)\.(?:html|css|js)$/,
@@ -52,12 +51,29 @@ export const PYTHAGORAS_SHARED_PATTERNS = [
   /^\.github\/workflows\/pythagoras-quality\.yml$/,
 ];
 
+/*
+ * These files can change repository maintenance/CI behavior but cannot alter the
+ * generated site itself. They get a lean validation path: repository health,
+ * CI-scope contract and production build. Runtime/content files never match.
+ */
+export const MAINTENANCE_ONLY_PATTERNS = [
+  /^\.gitignore$/,
+  /^\.vscode\/(?:settings|launch|tasks)\.json$/,
+  /^scripts\/(?:repo-health-report|edit-map|classify-ci-change-scope)\.mjs$/,
+  /^\.github\/workflows\/deploy-pages\.yml$/,
+  /^tests\/contracts\/(?:deploy-ci-scope|fast-pr-ci)\.test\.mjs$/,
+];
+
 export function isMobileRelevantPath(file) {
   return MOBILE_RELEVANT_PATTERNS.some((pattern) => pattern.test(file));
 }
 
 export function isMobileDeepRelevantPath(file) {
   return MOBILE_DEEP_RELEVANT_PATTERNS.some((pattern) => pattern.test(file));
+}
+
+export function isMaintenanceOnlyPath(file) {
+  return MAINTENANCE_ONLY_PATTERNS.some((pattern) => pattern.test(file));
 }
 
 export function buildCanonicalPythagorasPaths(meta) {
@@ -85,20 +101,24 @@ export function classifyChangeScope({ eventName, changedFiles, pythagorasPaths =
       mobile: true,
       mobileDeep: true,
       pythagoras: true,
+      maintenanceOnly: false,
       reason: 'manual release requires full validation',
       mobileDeepReason: 'manual release requires full validation',
       pythagorasReason: 'manual release requires full validation',
+      maintenanceReason: 'manual release never uses the maintenance-only shortcut',
     };
   }
 
   const mobile = mobileMatched.length > 0;
   const mobileDeep = mobileDeepMatched.length > 0;
   const pythagoras = pythagorasMatched.length > 0;
+  const maintenanceOnly = changedFiles.length > 0 && changedFiles.every(isMaintenanceOnlyPath);
 
   return {
     mobile,
     mobileDeep,
     pythagoras,
+    maintenanceOnly,
     reason: mobile
       ? `mobile-relevant files changed: ${mobileMatched.join(', ')}`
       : 'no mobile, reader, A4, style, asset, PWA or build files changed',
@@ -108,6 +128,9 @@ export function classifyChangeScope({ eventName, changedFiles, pythagorasPaths =
     pythagorasReason: pythagoras
       ? `Pythagoras-relevant files changed: ${pythagorasMatched.join(', ')}`
       : 'no canonical Pythagoras files changed',
+    maintenanceReason: maintenanceOnly
+      ? `repository-only maintenance files changed: ${changedFiles.join(', ')}`
+      : 'change includes runtime/content or an unclassified file; use the full static validation path',
   };
 }
 
@@ -148,16 +171,19 @@ function main() {
     mobile: result.mobile,
     mobile_deep: result.mobileDeep,
     pythagoras: result.pythagoras,
+    maintenance_only: result.maintenanceOnly,
     changed_count: changedFiles.length,
     reason: result.reason,
     mobile_deep_reason: result.mobileDeepReason,
     pythagoras_reason: result.pythagorasReason,
+    maintenance_reason: result.maintenanceReason,
   });
 
-  console.log(`[ci-scope] mobile=${result.mobile} mobile-deep=${result.mobileDeep} pythagoras=${result.pythagoras} changed=${changedFiles.length}`);
+  console.log(`[ci-scope] mobile=${result.mobile} mobile-deep=${result.mobileDeep} pythagoras=${result.pythagoras} maintenance-only=${result.maintenanceOnly} changed=${changedFiles.length}`);
   console.log(`[ci-scope] mobile-reason=${result.reason}`);
   console.log(`[ci-scope] mobile-deep-reason=${result.mobileDeepReason}`);
   console.log(`[ci-scope] pythagoras-reason=${result.pythagorasReason}`);
+  console.log(`[ci-scope] maintenance-reason=${result.maintenanceReason}`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
