@@ -258,6 +258,12 @@
   padding-top: 5px;
 }
 
+/* A calc sub-question already has its writing box; an unlabeled answer line right below it is
+   redundant ("קווים מיותרים") — the box is the answer space, so drop that extra line + stray unit. */
+.work-area + .final-answer--nolabel {
+  display: none;
+}
+
 .final-answer-line {
   display: inline-block;
   flex: 1 1 130px;

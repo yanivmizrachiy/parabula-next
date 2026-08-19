@@ -276,7 +276,7 @@ interface FinalAnswerProps {
 
 export function FinalAnswer({ label = '', type = 'line', unit, className }: FinalAnswerProps) {
   return (
-    <div className={cn('final-answer', className)}>
+    <div className={cn('final-answer', !label && 'final-answer--nolabel', className)}>
       {label ? <span className="answer-label">{label}</span> : null}
       {type === 'ratio' ? (
         <span className="ratio-answer" dir="ltr" aria-label="מקום לכתיבת יחס סופי">
