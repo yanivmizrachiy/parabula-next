@@ -4,68 +4,19 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { chromium } from 'playwright';
+import { buildCoordinateWorkbookWeb } from './build-web.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '..');
-const workbookDir = path.join(root, 'workbook');
 const distDir = path.join(root, 'dist');
 const downloadsDir = path.join(root, 'downloads');
 const previewDir = path.join(root, 'preview');
 const auditDir = path.join(root, 'audit');
 for (const dir of [distDir, downloadsDir, previewDir, auditDir]) fs.mkdirSync(dir, { recursive: true });
 
-const fragments = [
-  'workbook-01.htmlfrag', 'workbook-02.htmlfrag', 'workbook-03.htmlfrag',
-  'workbook-04.htmlfrag', 'workbook-05-06.htmlfrag', 'workbook-07-08.htmlfrag',
-  'workbook-09-10.htmlfrag', 'workbook-11-12.htmlfrag',
-  'workbook-13-14.htmlfrag', 'workbook-15.htmlfrag'
-];
-const standalone = fragments.map(name => fs.readFileSync(path.join(workbookDir, name), 'utf8')).join('');
-const pageIds = [...standalone.matchAll(/id="page-(\d{1,2})"/g)].map(match => Number(match[1]));
-const uniquePages = [...new Set(pageIds)].sort((a, b) => a - b);
-if (pageIds.length !== 30 || uniquePages.length !== 30 || uniquePages.some((value, index) => value !== index + 1)) {
-  throw new Error(`Expected pages 1-30 exactly once; received ${JSON.stringify(pageIds)}`);
-}
-
-const styleMatch = standalone.match(/<style>([\s\S]*?)<\/style>/i);
-const scripts = [...standalone.matchAll(/<script>([\s\S]*?)<\/script>/gi)];
-if (!styleMatch || scripts.length !== 1) throw new Error('Expected one embedded style and one embedded script.');
-let css = styleMatch[1].trim() + '\n';
-const js = scripts[0][1].trim() + '\n';
-let cleanHtml = standalone
-  .replace(styleMatch[0], '<link rel="stylesheet" href="workbook.css">')
-  .replace(scripts[0][0], '<script src="workbook.js"></script>');
-
-// Convert every inline style into a deterministic generated class. This keeps
-// the distributed HTML free of inline CSS while preserving the exact layout.
-const styleClasses = new Map();
-let styleCounter = 0;
-cleanHtml = cleanHtml.replace(/<([A-Za-z][\w:-]*)([^<>]*?)\sstyle="([^"]*)"([^<>]*?)>/g, (_, tag, before, declarations, after) => {
-  const normalized = declarations.trim().replace(/;\s*$/, '');
-  let className = styleClasses.get(normalized);
-  if (!className) {
-    className = `generated-style-${++styleCounter}`;
-    styleClasses.set(normalized, className);
-  }
-  let attributes = `${before}${after}`;
-  if (/\bclass="[^"]*"/.test(attributes)) {
-    attributes = attributes.replace(/\bclass="([^"]*)"/, (_match, classes) => `class="${classes} ${className}"`);
-  } else {
-    attributes += ` class="${className}"`;
-  }
-  return `<${tag}${attributes}>`;
-});
-for (const [declarations, className] of styleClasses.entries()) {
-  css += `.${className}{${declarations}}\n`;
-}
-if (/<style\b/i.test(cleanHtml) || /\sstyle\s*=\s*["']/i.test(cleanHtml)) {
-  throw new Error('Inline CSS remained after normalization.');
-}
-
-fs.writeFileSync(path.join(distDir, 'index.html'), cleanHtml);
-fs.writeFileSync(path.join(distDir, 'workbook.css'), css);
-fs.writeFileSync(path.join(distDir, 'workbook.js'), js);
-fs.writeFileSync(path.join(distDir, 'standalone-source.html'), standalone);
+// The browser/PDF build consumes the exact same deterministic web artifacts as
+// the main Pages build. Web generation itself is lightweight and browser-free.
+buildCoordinateWorkbookWeb({ root, outputDir: distDir, includeStandalone: true });
 
 const launchOptions = { headless: true, args: ['--no-sandbox', '--disable-dev-shm-usage'] };
 if (process.env.CHROME_PATH) launchOptions.executablePath = process.env.CHROME_PATH;
