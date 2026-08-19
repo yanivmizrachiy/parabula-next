@@ -2,6 +2,7 @@
 
 const pageArg = process.argv[2]?.trim();
 const page = /^\d+$/u.test(pageArg || '') ? pageArg : null;
+const LIVE_BASE = 'https://yanivmizrachiy.github.io/razpages';
 
 const rows = [
   ['כללים מחייבים', 'CLAUDE.md'],
@@ -26,3 +27,9 @@ console.log('\nפקודות שימושיות');
 console.log('npm run edit:map -- 639        # איפה עורכים עמוד מסוים');
 console.log('npm run pythagoras:check       # בדיקת פיתגורס מהירה בלי סריקות כבדות');
 console.log('npm run ci:all                 # בדיקת ריפו מלאה כשבאמת צריך');
+
+console.log('\nקישורים חיים');
+if (page) {
+  console.log(`דף ${page}: ${LIVE_BASE}/עמוד-${page}.html`);
+}
+console.log(`חוברת פיתגורס: ${LIVE_BASE}/pythagoras-workbook.html`);
