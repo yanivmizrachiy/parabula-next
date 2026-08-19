@@ -40,8 +40,10 @@ const CORE_ASSETS = [
 function normalizedRequest(request) {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return request;
+  const version = url.searchParams.get('v');
   url.hash = '';
   url.search = '';
+  if (version) url.searchParams.set('v', version);
   return new Request(url.href, { method: 'GET', credentials: 'same-origin' });
 }
 
@@ -63,6 +65,7 @@ self.addEventListener('install', event => {
     }));
     const failed = results.filter(result => result.status === 'rejected');
     if (failed.length) console.warn(`[sw] ${failed.length} core assets were not precached`);
+    await self.skipWaiting();
   })());
 });
 
@@ -144,5 +147,12 @@ self.addEventListener('fetch', event => {
 
   const isNavigation = request.mode === 'navigate' || request.destination === 'document';
   const isStaticAsset = ['style', 'script', 'font', 'image', 'manifest'].includes(request.destination);
-  event.respondWith(isNavigation ? networkFirst(request) : isStaticAsset ? staleWhileRevalidate(request) : networkFirst(request));
+  const isVersionedStatic = isStaticAsset && url.searchParams.has('v');
+  event.respondWith(
+    isNavigation || isVersionedStatic
+      ? networkFirst(request)
+      : isStaticAsset
+        ? staleWhileRevalidate(request)
+        : networkFirst(request)
+  );
 });

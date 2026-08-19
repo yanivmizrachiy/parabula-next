@@ -97,3 +97,47 @@
 .page-636 .short-line {
   min-width: 68px;
 }
+
+/* עמוד 3 — רכיבים מקומיים בלבד. אסור לכוונן תיבות/אותיות דרך שכבת הנושא בגלל אפקט צד על דפים אחרים. */
+.page-636 .pyt-vertex-label {
+  font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+.page-636 .pyt-leg-answer {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.page-636 .pyt-blank {
+  height: 26px;
+  border: 1.15px solid #334155;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: none;
+  vertical-align: -5px;
+  margin-inline: 2px;
+}
+
+.page-636 .pyt-blank-leg {
+  width: 64px;
+}
+
+.page-636 .pyt-blank-inline-short {
+  width: 60px;
+}
+
+.page-636 .pyt-blank-inline-medium {
+  width: 86px;
+}
+
+.page-636 .pyt-fill-line {
+  line-height: 1.65;
+}
