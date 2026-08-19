@@ -1,229 +1,369 @@
-// TEMP build tool — renders the complete ratio workbook as a single self-contained,
-// print-ready HTML file with AUTOMATIC PAGINATION: every question flows and fills an A4
-// page up to its limit, then continues on the next page. No crammed pages, no empty pages.
-// Opening section (teacher-authored) credits Tanami & Krispin; the rest credits Yaniv.
-// Deleted after use; not part of the repo's canonical pipeline.
+// Canonical standalone preview build for the ratio workbook.
+// Produces one self-contained A4-ready HTML file without touching the public publishing repository.
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';
 
-const projectRoot = 'C:/Users/yaniv/Desktop/razpages/sources/lovable/ratio-workbook';
-const repoRoot = 'C:/Users/yaniv/Desktop/razpages';
-const outFile = process.argv[2] || path.join(projectRoot, 'full-workbook.html');
+const here = path.dirname(fileURLToPath(import.meta.url));
+const projectRoot = path.resolve(here, '..');
+const repoRoot = path.resolve(projectRoot, '..', '..', '..');
+const outFile = path.resolve(process.argv[2] || path.join(projectRoot, 'full-workbook.html'));
+const sourceCommit = process.env.GITHUB_SHA || process.env.RATIO_SOURCE_SHA || 'local-preview';
+const buildId = process.env.GITHUB_RUN_ID || process.env.RATIO_BUILD_ID || 'local-preview';
 
-const fontsDir = path.join(repoRoot, 'vendor', 'fonts');
-let rubikCss = fs.readFileSync(path.join(fontsDir, 'rubik.css'), 'utf8');
-rubikCss = rubikCss.replace(/url\((rubik\/[^)]+\.woff2)\)/g, (_m, rel) =>
-  `url(data:font/woff2;base64,${fs.readFileSync(path.join(fontsDir, rel)).toString('base64')})`);
+function sha256(value) {
+  return crypto.createHash('sha256').update(value).digest('hex');
+}
 
-const distAssets = path.join(projectRoot, 'dist', 'assets');
-const cssFile = fs.readdirSync(distAssets).find((f) => f.endsWith('.css'));
-const appCss = fs.readFileSync(path.join(distAssets, cssFile), 'utf8');
+function readEmbeddedRubikCss() {
+  const fontsDir = path.join(repoRoot, 'vendor', 'fonts');
+  const cssPath = path.join(fontsDir, 'rubik.css');
+  if (!fs.existsSync(cssPath)) {
+    throw new Error(`Missing required local Rubik font stylesheet: ${cssPath}`);
+  }
 
-const server = await createServer({ root: projectRoot, appType: 'custom', server: { middlewareMode: true }, logLevel: 'error' });
+  let css = fs.readFileSync(cssPath, 'utf8');
+  css = css.replace(
+    /url\((['"]?)(rubik\/[^)'\"]+\.woff2)\1\)/g,
+    (_match, _quote, relativeFontPath) => {
+      const fontPath = path.join(fontsDir, relativeFontPath);
+      if (!fs.existsSync(fontPath)) {
+        throw new Error(`Missing required local font file: ${fontPath}`);
+      }
+      return `url(data:font/woff2;base64,${fs.readFileSync(fontPath).toString('base64')})`;
+    },
+  );
+  return css;
+}
 
-// Clean, student-facing chapter titles shown in the blue page header (one per chapter).
-// The header now names the section instead of a uniform "יחס", and a new chapter always
-// starts on a fresh printed page (break-on-chapter-change in the paginator below).
+function readBuiltCss() {
+  const distAssets = path.join(projectRoot, 'dist', 'assets');
+  if (!fs.existsSync(distAssets)) {
+    throw new Error(`Missing Vite build output: ${distAssets}. Run "npm run build" first.`);
+  }
+
+  const cssFiles = fs.readdirSync(distAssets).filter((file) => file.endsWith('.css')).sort();
+  if (cssFiles.length === 0) {
+    throw new Error(`No CSS files found in ${distAssets}.`);
+  }
+  return cssFiles.map((file) => fs.readFileSync(path.join(distAssets, file), 'utf8')).join('\n');
+}
+
+const rubikCss = readEmbeddedRubikCss();
+const appCss = readBuiltCss();
+
+const server = await createServer({
+  root: projectRoot,
+  appType: 'custom',
+  server: { middlewareMode: true },
+  logLevel: 'error',
+});
+
 const CHAP_TITLES = {
-  '0': 'יחס ישר', '1': 'מושגים בסיסיים', '2': 'חלוקה ביחס נתון',
-  '3': 'כתיבה והשוואת יחסים', '4': 'יחס מצומצם', '5': 'שמירת היחס',
-  '6': 'יחס בגאומטריה ובכמויות', '7': 'פרופורציה', '8': 'יחס · שאלות מיצ״ב',
+  '1': 'מושגים בסיסיים',
+  '2': 'חלוקה ביחס נתון',
+  '3': 'כתיבה והשוואת יחסים',
+  '4': 'יחס מצומצם',
+  '5': 'שמירת היחס',
+  '6': 'יחס בגאומטריה ובכמויות',
+  '7': 'פרופורציה',
+  '8': 'יחס · שאלות מיצ״ב',
   '9': 'שאלות מתוך תוכנית הלימודים',
 };
-const chapTitle = (ch) => {
-  const m = /^\s*(\d+)/.exec(ch || '');
-  return (m && CHAP_TITLES[m[1]]) || 'יחס';
-};
 
-// Each source page becomes a <div class="wb-srcpage"> carrying its section + chapter title.
-// The paginator flows same-chapter pages together and breaks between chapters.
+function chapterTitle(chapter) {
+  const match = /^\s*(\d+)/.exec(chapter || '');
+  return (match && CHAP_TITLES[match[1]]) || 'יחס';
+}
+
 let srcHtml = '';
+let pageManifest = [];
+
 try {
-  const mod = await server.ssrLoadModule('/src/data/worksheetPages.tsx');
+  const module = await server.ssrLoadModule('/src/data/worksheetPages.tsx');
   const layout = await server.ssrLoadModule('/src/components/worksheet/pages/PageLayout.tsx');
+  const pages = module.WORKSHEET_PAGES;
   const { PageNumberScope } = layout;
+
+  if (!Array.isArray(pages) || pages.length === 0) {
+    throw new Error('WORKSHEET_PAGES must be a non-empty array.');
+  }
+
+  const expectedIds = Array.from({ length: pages.length }, (_, index) => index + 1);
+  const ids = pages.map((page) => page.id);
+  if (JSON.stringify(ids) !== JSON.stringify(expectedIds)) {
+    throw new Error(`Student page numbers must be sequential from 1. Found: ${ids.join(', ')}`);
+  }
+
+  const keys = pages.map((page) => page.key);
+  if (new Set(keys).size !== keys.length || keys.some((key) => typeof key !== 'string' || !key.trim())) {
+    throw new Error('Every student page must have one unique stable key.');
+  }
+
+  if (pages.some((page) => page.credit === 'authors' || String(page.key).includes('teacher'))) {
+    throw new Error('Teacher intro pages are forbidden in the student workbook build.');
+  }
+
   const marker = '<div class="page-content">';
-  for (const page of mod.WORKSHEET_PAGES) {
+  for (const page of pages) {
     const markup = renderToStaticMarkup(
       React.createElement(PageNumberScope, { pageNumber: page.id }, page.component()),
     );
-    const idx = markup.indexOf(marker);
-    if (idx === -1) throw new Error(`page ${page.id}: no .page-content`);
-    let inner = markup.slice(idx + marker.length).replace(/<\/div><\/div>$/, '');
-    // Explanation pages = the supplied teacher-authored content (credited to the authors, and
-    // headed "יחס · למורה"). Their attribution block (author names + curriculum link) is kept.
-    const section = page.credit === 'authors' ? 'opening' : 'main';
-    srcHtml += `<div class="wb-srcpage" data-section="${section}" data-chapter="${chapTitle(page.chapter)}">${inner}</div>`;
+    if (markup.includes('teacher-intro-page') || markup.includes('יחס · למורה')) {
+      throw new Error(`Teacher-only markup leaked into page ${page.id} (${page.key}).`);
+    }
+
+    const markerIndex = markup.indexOf(marker);
+    if (markerIndex === -1) {
+      throw new Error(`Page ${page.id} (${page.key}) has no .page-content element.`);
+    }
+
+    const inner = markup.slice(markerIndex + marker.length).replace(/<\/div><\/div>$/, '');
+    const contentSha = sha256(inner);
+    pageManifest.push({
+      displayPage: page.id,
+      key: page.key,
+      title: page.title,
+      chapter: page.chapter,
+      contentSha256: contentSha,
+    });
+
+    srcHtml += `<div class="wb-srcpage" data-key="${page.key}" data-display-page="${page.id}" data-chapter="${chapterTitle(page.chapter)}">${inner}</div>`;
   }
 } finally {
   await server.close();
 }
 
-const FOOT_AUTHORS = '<footer class="gz-footer"><div class="f1">ד"ר יחיאל תנעמי · איילת קריספין</div><div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div></footer>';
-const FOOT_YANIV = '<footer class="gz-footer"><div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div><div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div></footer>';
+const FOOTER = '<footer class="gz-footer"><div class="f1">יניב רז - מדריך מחוזי חט"ב בעיר ירושלים</div><div class="f2">הדרכה במחוז ירושלים והעיר ירושלים - מנח"י, בהובלת איילת קריספין</div></footer>';
+
+const buildMeta = {
+  schemaVersion: 2,
+  audience: 'student',
+  sourceCommit,
+  buildId,
+  semanticPageCount: pageManifest.length,
+  teacherPages: 0,
+  firstStudentPage: 1,
+  contentSha256: sha256(pageManifest.map((page) => `${page.key}:${page.contentSha256}`).join('\n')),
+  pages: pageManifest,
+};
 
 const wbCss = `
 :root{color-scheme:light}
 *{box-sizing:border-box}
 html,body{max-width:100%;overflow-x:hidden}
-body{margin:0;background:#e9edf3;font-family:Rubik,Assistant,Arial,sans-serif}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#e9edf3;font-family:Rubik,Assistant,Arial,sans-serif;font-synthesis:none}
 .wb-doc,.wb-src,.wb-page{direction:rtl}
 .wb-doc{display:flex;flex-direction:column;align-items:center;gap:18px;padding:26px 0}
-/* Narrow screens (phones/tablets): the paginator scales each page to fit; keep tidy margins. */
-@media (max-width:820px){ .wb-doc{gap:10px;padding:8px 0} }
+@media (max-width:820px){.wb-doc{gap:10px;padding:8px 0}}
 .wb-src{display:none}
-/* Each A4 page: header, body (flows the questions), footer pinned to the bottom. */
-.wb-page{width:210mm;height:297mm;background:#fff;box-shadow:0 3px 18px rgba(15,23,42,.18);display:flex;flex-direction:column;overflow:hidden;position:relative}
-.wb-page > .header-container{flex:0 0 auto}
-.wb-page > .wb-body{flex:1 1 auto;min-height:0;height:auto;overflow:hidden;padding:3mm 14mm;display:flex;flex-direction:column;justify-content:flex-start;gap:12px}
-.wb-group{break-inside:avoid}
-.wb-group > * + *{margin-top:6px}
-/* A bulleted statement reads from the right so the black bullet sits next to its first word. */
-.wb-page .question-content > p.text-center{text-align:right}
-/* Statement tables read right-to-left: the row-label/# column (first header cell) sits on the
-   RIGHT, then הטענה, נכונה, לא נכונה flowing left — natural Hebrew order. (A previous LTR hack
-   flipped this and put # on the left, which was wrong.) */
+.wb-page{width:210mm;height:297mm;background:#fff;box-shadow:0 3px 18px rgba(15,23,42,.18);display:flex;flex-direction:column;overflow:hidden;position:relative;isolation:isolate}
+.wb-page>.header-container{flex:0 0 auto}
+.wb-page>.wb-body{flex:1 1 auto;min-height:0;height:auto;overflow:hidden;padding:3mm 14mm;display:flex;flex-direction:column;justify-content:flex-start;gap:12px}
+.wb-group{break-inside:avoid;page-break-inside:avoid;min-width:0}
+.wb-group>*+*{margin-top:6px}
+.wb-page .question-content>p.text-center{text-align:right}
 .worksheet-table{direction:rtl}
-.wb-page.opening-block .page-number{display:none}
-.wb-page > .gz-footer{flex:0 0 auto;text-align:center;direction:rtl;padding:2mm 9mm 2.4mm;border-top:1px solid #dbe3ee;line-height:1.22;background:#fff}
-.wb-page > .gz-footer .f1{font-weight:600;font-size:10px;color:#1f2a44;margin-bottom:1px}
-.wb-page > .gz-footer .f2{font-size:9px;color:#41506b}
-/* Writable fractions in the teacher pages: clear boxes + a spaced bar, not clustered lines. */
-.teacher-intro-page .teacher-fraction{min-width:30px;line-height:1.15;vertical-align:middle;padding:0 1px}
-.teacher-intro-page .teacher-fraction .teacher-small-blank{border-bottom:none;width:30px;height:24px;margin:1.5px auto;background:#fff;box-shadow:inset 0 0 0 1px #cbd5e1;border-radius:2px}
-.teacher-intro-page .teacher-fraction-line{border-top:1.7px solid #111827;margin:2.5px 0;width:100%}
-/* Vessels must fit the A4 width (grid tracks were expanding past the page). */
-.teacher-intro-page .vessel-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-.teacher-intro-page .vessel-card{min-width:0;min-height:300px}
-.teacher-intro-page .teacher-vessel{height:190px}
+.wb-page>.gz-footer{flex:0 0 auto;text-align:center;direction:rtl;padding:2mm 9mm 2.4mm;border-top:1px solid #dbe3ee;line-height:1.22;background:#fff}
+.wb-page>.gz-footer .f1{font-weight:600;font-size:10px;color:#1f2a44;margin-bottom:1px}
+.wb-page>.gz-footer .f2{font-size:9px;color:#41506b}
+.wb-pagination-error{position:fixed;z-index:99999;inset:12px 12px auto;background:#fff3f3;border:2px solid #b91c1c;color:#7f1d1d;padding:12px 16px;font:600 14px/1.5 Rubik,Arial,sans-serif;direction:ltr;white-space:pre-wrap}
 @page{size:A4;margin:0}
 @media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{background:#fff}
   .wb-doc{gap:0;padding:0}
   .wb-page{box-shadow:none!important;page-break-after:always;page-break-inside:avoid}
   .wb-page:last-child{page-break-after:auto}
+  .wb-pagination-error{display:none!important}
 }
 `;
 
 const paginator = `
 (function(){
   var done=false;
-  function run(){
-  if(done)return; done=true;
-  var doc=document.querySelector('.wb-doc');
-  var FA=${JSON.stringify(FOOT_AUTHORS)}, FY=${JSON.stringify(FOOT_YANIV)};
-  var n=0;
-  function newPage(section,title,openingBlock){
-    n++;
-    var p=document.createElement('div');
-    p.className='wb-page worksheet-page'+(section==='opening'?' teacher-intro-page':'')+(openingBlock?' opening-block':'');
-    p.setAttribute('dir','rtl');
-    var _t=(title||'יחס');
-    var headTitle=openingBlock?'יחס · למורה':(/^יחס/.test(_t)?_t:('יחס - '+_t));
-    p.innerHTML='<header class="header-container page-header"><span class="page-header-title page-title">'+headTitle+'</span><div class="page-number">'+n+'</div></header><div class="wb-body page-content"></div>'+(section==='opening'?FA:FY);
-    doc.appendChild(p);
-    return p.querySelector('.wb-body');
+
+  function fail(message){
+    document.documentElement.dataset.workbookError=message;
+    var e=document.createElement('pre');
+    e.className='wb-pagination-error';
+    e.textContent='Ratio workbook pagination error:\\n'+message;
+    document.body.appendChild(e);
+    throw new Error(message);
   }
-  // Build chapter "runs" — consecutive source pages that share a chapter title.
-  var runs=[];
-  [].forEach.call(document.querySelectorAll('.wb-src .wb-srcpage'),function(sp){
-    var section=sp.getAttribute('data-section'), chapter=sp.getAttribute('data-chapter');
-    var groups=[];
-    if(section==='opening'){ [].forEach.call(sp.children,function(c){groups.push([c]);}); }
-    else {
-      var cur=[];
-      [].forEach.call(sp.children,function(c){
-        if(c.classList.contains('q-separator')){ if(cur.length){groups.push(cur);cur=[];} }
-        else cur.push(c);
-      });
-      if(cur.length)groups.push(cur);
-    }
-    var last=runs[runs.length-1];
-    if(last && last.chapter===chapter && last.section===section){ groups.forEach(function(g){last.groups.push(g);}); }
-    else runs.push({section:section,chapter:chapter,groups:groups});
-  });
-  // "יחס · למורה" header + no page number apply ONLY to the opening block — the teacher pages that
-  // come before the first student page. A teacher page that sits mid-book gets its chapter header
-  // and is numbered like the rest, while keeping the authors' footer (section stays 'opening').
-  var _seenMain=false;
-  runs.forEach(function(r){ r.openingBlock=(r.section==='opening' && !_seenMain); if(r.section!=='opening')_seenMain=true; });
-  var GAP=12;
-  function boxH(list){ var h=0; for(var i=0;i<list.length;i++){ h+=(i>0?GAP:0)+list[i].__h; } return h; }
-  // Paginate each chapter run: measure each question's real height, then GREEDILY pack each A4
-  // page up to capacity (full pages). If the chapter's LAST page ends up sparse (a lone/short
-  // question stranded), rebalance just the last two pages so both are comfortably full. Nothing
-  // ever exceeds the page, so nothing is clipped.
-  runs.forEach(function(run){
-    var first=newPage(run.section,run.chapter,run.openingBlock);
-    var cs=getComputedStyle(first);
-    var padT=parseFloat(cs.paddingTop)||0, padB=parseFloat(cs.paddingBottom)||0;
-    // Keep a small safety margin below the clip line: measured heights can settle a few px larger
-    // once web fonts finish, so pack a touch conservatively — nothing is ever cut off.
-    var cap=first.clientHeight - padT - padB - 28;
-    var boxes=run.groups.map(function(g){ var b=document.createElement('div'); b.className='wb-group'; g.forEach(function(el){b.appendChild(el);}); first.appendChild(b); return b; });
-    boxes.forEach(function(b){ b.__h=b.getBoundingClientRect().height; });
-    boxes.forEach(function(b){ first.removeChild(b); });
-    var pages=[[]]; var h=0;
-    for(var i=0;i<boxes.length;i++){
-      var a=(h>0?GAP:0)+boxes[i].__h;
-      if(h>0 && h+a>cap){ pages.push([boxes[i]]); h=boxes[i].__h; }
-      else { pages[pages.length-1].push(boxes[i]); h+=a; }
-    }
-    if(pages.length>=2){
-      var L=pages.length-1;
-      if(boxH(pages[L]) < cap*0.55){
-        var combined=pages[L-1].concat(pages[L]);
-        var half=boxH(combined)/2;
-        var A=[], hA=0;
-        for(var k=0;k<combined.length;k++){
-          var aa=(hA>0?GAP:0)+combined[k].__h;
-          if(A.length && hA+aa-half > half-hA && (combined.length-k)>0){ break; }
-          A.push(combined[k]); hA+=aa;
-        }
-        if(A.length && A.length<combined.length){ pages[L-1]=A; pages[L]=combined.slice(A.length); }
-      }
-    }
-    pages.forEach(function(grp,pi){
-      var bd = pi===0 ? first : newPage(run.section,run.chapter,run.openingBlock);
-      grp.forEach(function(b){ bd.appendChild(b); });
-    });
-  });
-  // Content stays TOP-aligned; the remaining height on each page is spread as EQUAL gaps between
-  // questions — proportional and capped so it is generous breathing room, never a giant gap.
-  [].forEach.call(document.querySelectorAll('.wb-page .wb-body'),function(body){
-    var kids=body.children;
-    if(kids.length<2) return;
-    var cs=getComputedStyle(body);
-    var padT=parseFloat(cs.paddingTop)||0, padB=parseFloat(cs.paddingBottom)||0;
-    var contentH=kids[kids.length-1].getBoundingClientRect().bottom - kids[0].getBoundingClientRect().top;
-    var avail=body.clientHeight - padT - padB - 28;
-    var leftover=avail - contentH;
-    if(leftover<=0) return;
-    var extra=Math.min(leftover/(kids.length-1), 200);
-    body.style.gap=(GAP+extra)+'px';
-  });
-  // Renumber pages sequentially by DOM order. The teacher ("למורה") opening pages are NOT numbered
-  // (the student page count starts at 1 on the first non-teacher page).
-  var _i=0; [].forEach.call(document.querySelectorAll('.wb-page'),function(pg){var el=pg.querySelector('.page-number'); if(!el)return; if(pg.classList.contains('opening-block')){el.textContent='';}else{el.textContent=(++_i);}});
-  [].forEach.call(document.querySelectorAll('.wb-src'),function(s){s.remove();});
-  fitMobile();
-  }
-  // Mobile/narrow screens: scale each A4 page to fit the viewport width so a whole page is
-  // readable with vertical scrolling only — no horizontal scrolling, no overflow. Uses CSS zoom
-  // (scales the layout box too, unlike transform) so pages stack cleanly. Reruns on resize/rotate.
+
   function fitMobile(){
     var vw=document.documentElement.clientWidth||window.innerWidth||9999;
-    var pageW=793.7; // 210mm
+    var pageW=793.7;
     var pages=document.querySelectorAll('.wb-page');
-    var scale=(vw < pageW+28) ? Math.max(0.2,(vw-10)/pageW) : '';
-    for(var i=0;i<pages.length;i++){ pages[i].style.zoom=scale; }
+    var scale=(vw<pageW+28)?Math.max(0.2,(vw-10)/pageW):'';
+    for(var i=0;i<pages.length;i++){pages[i].style.zoom=scale;}
   }
+
+  function run(){
+    if(done)return;
+    done=true;
+
+    var doc=document.querySelector('.wb-doc');
+    if(!doc)fail('Missing .wb-doc');
+    var FOOT=${JSON.stringify(FOOTER)};
+    var pageNumber=0;
+
+    function newPage(title){
+      pageNumber++;
+      var p=document.createElement('section');
+      p.className='wb-page worksheet-page';
+      p.setAttribute('dir','rtl');
+      p.setAttribute('data-physical-page',String(pageNumber));
+      p.setAttribute('aria-label','עמוד '+pageNumber);
+      var t=(title||'יחס');
+      var headTitle=/^יחס/.test(t)?t:('יחס - '+t);
+      p.innerHTML='<header class="header-container page-header"><span class="page-header-title page-title">'+headTitle+'</span><div class="page-number">'+pageNumber+'</div></header><div class="wb-body page-content"></div>'+FOOT;
+      doc.appendChild(p);
+      return p.querySelector('.wb-body');
+    }
+
+    var runs=[];
+    [].forEach.call(document.querySelectorAll('.wb-src .wb-srcpage'),function(sourcePage){
+      var chapter=sourcePage.getAttribute('data-chapter');
+      var sourceKey=sourcePage.getAttribute('data-key')||'unknown';
+      var groups=[];
+      var current=[];
+
+      [].forEach.call(sourcePage.children,function(child){
+        if(child.classList.contains('q-separator')){
+          if(current.length){groups.push({elements:current,key:sourceKey});current=[];}
+        }else{
+          current.push(child);
+        }
+      });
+      if(current.length)groups.push({elements:current,key:sourceKey});
+
+      var last=runs[runs.length-1];
+      if(last&&last.chapter===chapter){
+        groups.forEach(function(group){last.groups.push(group);});
+      }else{
+        runs.push({chapter:chapter,groups:groups});
+      }
+    });
+
+    var GAP=12;
+    function boxHeight(list){
+      var h=0;
+      for(var i=0;i<list.length;i++)h+=(i>0?GAP:0)+list[i].__h;
+      return h;
+    }
+
+    runs.forEach(function(run){
+      var first=newPage(run.chapter);
+      var cs=getComputedStyle(first);
+      var padT=parseFloat(cs.paddingTop)||0;
+      var padB=parseFloat(cs.paddingBottom)||0;
+      var cap=first.clientHeight-padT-padB-28;
+      if(cap<=0)fail('Invalid A4 body capacity for chapter '+run.chapter);
+
+      var boxes=run.groups.map(function(group){
+        var b=document.createElement('div');
+        b.className='wb-group';
+        b.setAttribute('data-source-key',group.key);
+        group.elements.forEach(function(element){b.appendChild(element);});
+        first.appendChild(b);
+        return b;
+      });
+
+      boxes.forEach(function(box){
+        box.__h=box.getBoundingClientRect().height;
+        if(!Number.isFinite(box.__h)||box.__h<=0){
+          fail('Could not measure group '+box.getAttribute('data-source-key'));
+        }
+        if(box.__h>cap+1){
+          fail('Single question/group is taller than one A4 body: '+box.getAttribute('data-source-key')+' ('+Math.round(box.__h)+'px > '+Math.round(cap)+'px)');
+        }
+      });
+      boxes.forEach(function(box){first.removeChild(box);});
+
+      var pages=[[]];
+      var height=0;
+      for(var i=0;i<boxes.length;i++){
+        var addition=(height>0?GAP:0)+boxes[i].__h;
+        if(height>0&&height+addition>cap){
+          pages.push([boxes[i]]);
+          height=boxes[i].__h;
+        }else{
+          pages[pages.length-1].push(boxes[i]);
+          height+=addition;
+        }
+      }
+
+      if(pages.length>=2){
+        var lastIndex=pages.length-1;
+        if(boxHeight(pages[lastIndex])<cap*0.55){
+          var combined=pages[lastIndex-1].concat(pages[lastIndex]);
+          var half=boxHeight(combined)/2;
+          var firstHalf=[];
+          var firstHalfHeight=0;
+          for(var k=0;k<combined.length;k++){
+            var amount=(firstHalfHeight>0?GAP:0)+combined[k].__h;
+            if(firstHalf.length&&firstHalfHeight+amount-half>half-firstHalfHeight&&(combined.length-k)>0)break;
+            firstHalf.push(combined[k]);
+            firstHalfHeight+=amount;
+          }
+          if(firstHalf.length&&firstHalf.length<combined.length){
+            var secondHalf=combined.slice(firstHalf.length);
+            if(boxHeight(firstHalf)<=cap&&boxHeight(secondHalf)<=cap){
+              pages[lastIndex-1]=firstHalf;
+              pages[lastIndex]=secondHalf;
+            }
+          }
+        }
+      }
+
+      pages.forEach(function(groups,pageIndex){
+        var body=pageIndex===0?first:newPage(run.chapter);
+        groups.forEach(function(box){body.appendChild(box);});
+      });
+    });
+
+    [].forEach.call(document.querySelectorAll('.wb-page .wb-body'),function(body){
+      var kids=body.children;
+      if(kids.length>=2){
+        var cs=getComputedStyle(body);
+        var padT=parseFloat(cs.paddingTop)||0;
+        var padB=parseFloat(cs.paddingBottom)||0;
+        var contentH=kids[kids.length-1].getBoundingClientRect().bottom-kids[0].getBoundingClientRect().top;
+        var avail=body.clientHeight-padT-padB-28;
+        var leftover=avail-contentH;
+        if(leftover>0){
+          var extra=Math.min(leftover/(kids.length-1),200);
+          body.style.gap=(GAP+extra)+'px';
+        }
+      }
+      if(body.scrollHeight>body.clientHeight+2){
+        fail('A4 overflow after pagination on physical page '+body.parentElement.getAttribute('data-physical-page'));
+      }
+    });
+
+    [].forEach.call(document.querySelectorAll('.wb-src'),function(source){source.remove();});
+    document.documentElement.dataset.workbookReady='true';
+    document.documentElement.dataset.physicalPages=String(document.querySelectorAll('.wb-page').length);
+    fitMobile();
+  }
+
   if(document.fonts&&document.fonts.ready){document.fonts.ready.then(run);}
-  setTimeout(run,1500);
-  var _rt; window.addEventListener('resize',function(){ clearTimeout(_rt); _rt=setTimeout(function(){ if(done) fitMobile(); },150); });
+  else if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run,{once:true});}
+  else{run();}
+
+  setTimeout(function(){if(!done)run();},1500);
+  var resizeTimer;
+  window.addEventListener('resize',function(){
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(function(){if(done)fitMobile();},150);
+  });
 })();
 `;
 
@@ -232,12 +372,17 @@ const html = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>יחס ופרופורציה — כיתה ח׳ · חוברת מלאה</title>
+<meta name="ratio-audience" content="student">
+<meta name="ratio-source-commit" content="${sourceCommit}">
+<meta name="ratio-build-id" content="${buildId}">
+<meta name="ratio-semantic-pages" content="${pageManifest.length}">
+<title>יחס ופרופורציה — כיתה ח׳ · חוברת תלמיד</title>
 <style>
 ${rubikCss}
 ${appCss}
 ${wbCss}
 </style>
+<script id="ratio-build-meta" type="application/json">${JSON.stringify(buildMeta).replace(/</g, '\\u003c')}</script>
 </head>
 <body dir="rtl">
 <div class="wb-doc" dir="rtl"></div>
@@ -246,20 +391,32 @@ ${wbCss}
 </body>
 </html>`;
 
+fs.mkdirSync(path.dirname(outFile), { recursive: true });
 fs.writeFileSync(outFile, html, 'utf8');
 
-// Also emit the Artifact-ready file (claude.ai strips <html>/<head>/<body>, so we hand it the
-// <title> + <style> + body content directly). Keeps the local preview and the published
-// artifact byte-identical in content.
-const artifactBody = `<title>יחס ופרופורציה — כיתה ח׳ · חוברת מלאה</title>
+const parsedOut = path.parse(outFile);
+const artifactFile = path.join(parsedOut.dir, `${parsedOut.name}-artifact${parsedOut.ext || '.html'}`);
+const artifactBody = `<title>יחס ופרופורציה — כיתה ח׳ · חוברת תלמיד</title>
 <style>
 ${rubikCss}
 ${appCss}
 ${wbCss}
 </style>
+<script id="ratio-build-meta" type="application/json">${JSON.stringify(buildMeta).replace(/</g, '\\u003c')}</script>
 <div class="wb-doc" dir="rtl"></div>
 <div class="wb-src" dir="rtl">${srcHtml}</div>
 <script>${paginator}</script>`;
-const artifactFile = outFile.replace(/-full\.html$/, '-artifact.html');
 fs.writeFileSync(artifactFile, artifactBody, 'utf8');
-console.log(JSON.stringify({ kb: Math.round(Buffer.byteLength(html) / 1024), out: outFile, artifact: artifactFile }));
+
+console.log(JSON.stringify({
+  status: 'built-preview-only',
+  audience: 'student',
+  semanticPages: pageManifest.length,
+  teacherPages: 0,
+  sourceCommit,
+  buildId,
+  contentSha256: buildMeta.contentSha256,
+  kb: Math.round(Buffer.byteLength(html) / 1024),
+  out: outFile,
+  artifact: artifactFile,
+}, null, 2));
