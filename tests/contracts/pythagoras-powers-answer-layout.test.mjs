@@ -27,7 +27,7 @@ test('בתרגילי חזקה/שורש עם תשובה נפרדת נשמר מב�
   assertStackedCards(639, 20);
   assertStackedCards(640, 12);
   assertStackedCards(641, 12);
-  assertStackedCards(642, 3);
+  assertStackedCards(642, 6);
 });
 
 test('דוגמאות ההסבר האנכיות בעמודים 639 ו-643 נשמרות קומפקטיות', () => {
@@ -98,11 +98,13 @@ test('עמוד 641 מציג הסבר שורש קצר, LTR לדוגמה ותרג�
   assert.match(css, /--power-grid-columns:\s*3/u);
 });
 
-test('עמוד 642 שומר הסבר קירוב קצר ומרחב חישוב קומפקטי', () => {
+test('עמוד 642 שומר הסבר קירוב קצר ומנצל את המקום לעוד תרגול', () => {
   const html = read('עמוד-642.html');
   const css = read('styles/pages/עמוד-642.css');
   assert.match(html, /class="foundation-note compact-approx-note"/u);
   assert.match(html, /4\^2=16\\lt20\\lt25=5\^2/u);
+  assert.equal((html.match(/class="math-card stacked-answer-card"/gu) || []).length, 6, 'עמוד 642: נדרשים שישה תרגילי קירוב');
+  assert.match(html, /\\\(\\sqrt\{180\}\\approx\\\)/u);
   assert.match(html, /class="work-lines compact-work-lines" data-required-lines="2"/u);
   assert.match(css, /\.compact-approx-note\s*\{[^}]*font-size:\s*15px/us);
   assert.match(css, /\.compact-work-lines\s*\{[^}]*min-height:\s*56px/us);
@@ -127,5 +129,5 @@ test('עמודים 641–642 אינם מחזירים תיבות תשובה inlin
   const page641 = read('עמוד-641.html');
   const page642 = read('עמוד-642.html');
   assert.doesNotMatch(page641, /\\sqrt\{(?:4|9|16|25|36|49|64|81|100|121|144|169)\}=\\\)\s*<span class="foundation-fill/u);
-  assert.doesNotMatch(page642, /\\sqrt\{(?:20|50|130)\}\\approx\\\)\s*<span class="foundation-fill/u);
+  assert.doesNotMatch(page642, /\\sqrt\{(?:20|30|50|70|130|180)\}\\approx\\\)\s*<span class="foundation-fill/u);
 });
