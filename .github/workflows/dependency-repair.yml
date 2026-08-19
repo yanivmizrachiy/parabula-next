@@ -1,0 +1,54 @@
+name: Dependency repair proposal
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Capture audit before repair
+        run: npm audit --json > npm-audit-before.json || true
+
+      - name: Generate safe lockfile repair within declared semver ranges
+        run: npm audit fix --package-lock-only
+
+      - name: Verify repaired dependency graph has no high vulnerabilities
+        run: npm audit --audit-level=high
+
+      - name: Install repaired graph exactly
+        run: npm ci
+
+      - name: Run full repository CI against repaired graph
+        run: npm run ci:all
+
+      - name: Capture audit after repair
+        if: always()
+        run: npm audit --json > npm-audit-after.json || true
+
+      - name: Upload repaired lockfile and audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-repair-proposal
+          path: |
+            package.json
+            package-lock.json
+            npm-audit-before.json
+            npm-audit-after.json
+          if-no-files-found: error
+          retention-days: 3
