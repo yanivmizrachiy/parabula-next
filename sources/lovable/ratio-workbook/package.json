@@ -8,6 +8,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,7 +18,10 @@
     "semantic:all:check": "node scripts/export-semantic-pages.mjs --all",
     "semantic:all:write": "npm run semantic:css && node scripts/export-semantic-pages.mjs --all --write",
     "manifest:check": "node scripts/generate-content-manifest.mjs",
-    "manifest:write": "node scripts/generate-content-manifest.mjs --write"
+    "manifest:write": "node scripts/generate-content-manifest.mjs --write",
+    "quality:check": "npm run typecheck && npm test && npm run manifest:check && npm run semantic:all:check",
+    "preview:build": "npm run build && node scripts/_build-full-workbook.mjs ../../../preview/ratio-preview/full-workbook.html",
+    "preview:verify": "node scripts/verify-full-workbook.mjs ../../../preview/ratio-preview/full-workbook.html ../../../preview/ratio-preview/audit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
