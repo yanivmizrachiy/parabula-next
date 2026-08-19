@@ -32,6 +32,14 @@ test('מצב העמוד וכתובת ה-URL נשארים מקור אחד גם ב
   assert.match(reader, /goToPage[\s\S]*setActivePage\(localNumber, \{ syncUrl: true \}\)/u);
 });
 
+test('ניווט החוברת מנרמל קלט לעמודים שלמים וקיימים בלבד', () => {
+  const active = functionBody('setActivePage');
+  assert.match(active, /const numeric = Number\(localNumber\);/u);
+  assert.match(active, /Number\.isFinite\(numeric\) \? Math\.trunc\(numeric\) : 1/u);
+  assert.match(active, /Math\.max\(1, Math\.min\(totalPages, integer \|\| 1\)\)/u);
+  assert.doesNotMatch(active, /Math\.min\(totalPages, Number\(localNumber\)/u);
+});
+
 test('הסקיילינג אינו מכריח רוחב מינימלי שיכול ליצור overflow במסך צר', () => {
   const scaling = functionBody('installResponsiveScaling');
   assert.match(scaling, /Math\.max\(1, Math\.min\(currentWidth - 8, 900\)\)/u);
