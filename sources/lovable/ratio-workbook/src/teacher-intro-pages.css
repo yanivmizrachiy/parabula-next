@@ -71,7 +71,7 @@
 .teacher-letter { border-left: 1px solid #111827; align-self: stretch; display: flex; align-items: center; justify-content: center; }
 .teacher-ratio-write { border-right: 1px solid #111827; align-self: stretch; display: flex; align-items: center; justify-content: center; gap: 4px; }
 
-.teacher-small-blank { display: inline-block; width: 28px; height: 20px; border-bottom: 2px solid #111827; vertical-align: middle; }
+.teacher-small-blank { display: inline-block; width: 34px; height: 24px; border-bottom: 2px solid #111827; vertical-align: middle; }
 .teacher-long-line { display: inline-block; width: 210px; border-bottom: 1.5px solid #111827; }
 
 .teacher-equation-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #111827; direction: ltr; }

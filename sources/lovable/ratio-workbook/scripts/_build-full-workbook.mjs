@@ -93,7 +93,7 @@ body{margin:0;background:#e9edf3;font-family:Rubik,Assistant,Arial,sans-serif}
 .wb-page > .gz-footer .f2{font-size:9px;color:#41506b}
 /* Writable fractions in the teacher pages: clear boxes + a spaced bar, not clustered lines. */
 .teacher-intro-page .teacher-fraction{min-width:30px;line-height:1.15;vertical-align:middle;padding:0 1px}
-.teacher-intro-page .teacher-fraction .teacher-small-blank{border-bottom:none;width:22px;height:15px;margin:1.5px auto;background:#fff;box-shadow:inset 0 0 0 1px #cbd5e1;border-radius:2px}
+.teacher-intro-page .teacher-fraction .teacher-small-blank{border-bottom:none;width:30px;height:24px;margin:1.5px auto;background:#fff;box-shadow:inset 0 0 0 1px #cbd5e1;border-radius:2px}
 .teacher-intro-page .teacher-fraction-line{border-top:1.7px solid #111827;margin:2.5px 0;width:100%}
 /* Vessels must fit the A4 width (grid tracks were expanding past the page). */
 .teacher-intro-page .vessel-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
