@@ -49,7 +49,7 @@ test('page and topic edits run fast mobile gates but not the whole-site deep mob
 });
 
 test('global mobile/runtime changes require the expensive all-pages mobile audit', () => {
-  for (const file of ['mobile-app.js', 'reader-actions.css', 'sw.js', 'styles/a4-base.css', '.github/workflows/deploy-pages.yml']) {
+  for (const file of ['mobile-app.js', 'reader-actions.css', 'sw.js', 'styles/a4-base.css']) {
     assert.equal(isMobileDeepRelevantPath(file), true, `${file} should require deep mobile validation`);
   }
 
@@ -60,6 +60,22 @@ test('global mobile/runtime changes require the expensive all-pages mobile audit
   });
   assert.equal(result.mobile, true);
   assert.equal(result.mobileDeep, true);
+});
+
+test('workflow-only edits stay on the fast build path', () => {
+  const file = '.github/workflows/deploy-pages.yml';
+  assert.equal(isMobileRelevantPath(file), false);
+  assert.equal(isMobileDeepRelevantPath(file), false);
+  assert.equal(isPythagorasRelevantPath(file, pythagorasPaths), false);
+
+  const result = classifyChangeScope({
+    eventName: 'push',
+    changedFiles: [file, 'scripts/verify-live-build.mjs', 'scripts/write-build-info.mjs'],
+    pythagorasPaths,
+  });
+  assert.equal(result.mobile, false);
+  assert.equal(result.mobileDeep, false);
+  assert.equal(result.pythagoras, false);
 });
 
 test('canonical Pythagoras pages, CSS and shared infrastructure require the Pythagoras gate', () => {
@@ -89,7 +105,7 @@ test('unrelated main pushes do not run browser-heavy gates; manual releases stil
   assert.equal(manual.pythagoras, true);
 });
 
-test('deploy workflow uses scoped fast/deep gates and accepts irrelevant skipped jobs', () => {
+test('deploy workflow uses scoped gates and verifies the commit that became live', () => {
   assert.match(workflow, /mobile_deep:\s*\$\{\{ steps\.classify\.outputs\.mobile_deep \}\}/);
   assert.match(workflow, /mobile-browser-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
   assert.match(workflow, /mobile-interaction-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
@@ -97,4 +113,7 @@ test('deploy workflow uses scoped fast/deep gates and accepts irrelevant skipped
   assert.match(workflow, /needs\.mobile-deep-gate\.result == 'success' \|\| needs\.mobile-deep-gate\.result == 'skipped'/);
   assert.match(workflow, /needs\.mobile-browser-gate\.result == 'success' \|\| needs\.mobile-browser-gate\.result == 'skipped'/);
   assert.match(workflow, /needs\.mobile-interaction-gate\.result == 'success' \|\| needs\.mobile-interaction-gate\.result == 'skipped'/);
+  assert.match(workflow, /node scripts\/write-build-info\.mjs dist "\$GITHUB_SHA"/);
+  assert.match(workflow, /Verify live deployment commit/);
+  assert.match(workflow, /node scripts\/verify-live-build\.mjs "\$PAGE_URL" "\$EXPECTED_SHA"/);
 });
