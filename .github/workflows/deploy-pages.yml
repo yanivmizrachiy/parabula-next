@@ -303,7 +303,7 @@ jobs:
           retention-days: 3
 
   deploy:
-    if: github.event_name != 'pull_request'
+    if: ${{ always() && github.event_name != 'pull_request' && needs.build.result == 'success' && (needs.mobile-browser-gate.result == 'success' || needs.mobile-browser-gate.result == 'skipped') && (needs.mobile-interaction-gate.result == 'success' || needs.mobile-interaction-gate.result == 'skipped') && needs.mobile-deep-gate.result == 'success' && needs.pythagoras-browser-gate.result == 'success' }}
     needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate]
     permissions:
       pages: write
