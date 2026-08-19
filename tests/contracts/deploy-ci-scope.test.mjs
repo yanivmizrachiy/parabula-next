@@ -6,6 +6,7 @@ import path from 'node:path';
 import {
   buildCanonicalPythagorasPaths,
   classifyChangeScope,
+  isMaintenanceOnlyPath,
   isMobileDeepRelevantPath,
   isMobileRelevantPath,
   isPythagorasRelevantPath,
@@ -30,6 +31,44 @@ test('CI-only pull requests skip browser-heavy mobile and Pythagoras gates', () 
   assert.equal(result.mobile, false);
   assert.equal(result.mobileDeep, false);
   assert.equal(result.pythagoras, false);
+  assert.equal(result.maintenanceOnly, false);
+});
+
+test('repository hygiene and deploy-CI files use the maintenance-only path', () => {
+  const safeFiles = [
+    '.gitignore',
+    '.vscode/settings.json',
+    'scripts/repo-health-report.mjs',
+    'scripts/edit-map.mjs',
+    'scripts/classify-ci-change-scope.mjs',
+    '.github/workflows/deploy-pages.yml',
+    'tests/contracts/deploy-ci-scope.test.mjs',
+  ];
+
+  for (const file of safeFiles) {
+    assert.equal(isMaintenanceOnlyPath(file), true, `${file} should be maintenance-only`);
+  }
+
+  const result = classifyChangeScope({
+    eventName: 'push',
+    changedFiles: safeFiles,
+    pythagorasPaths,
+  });
+  assert.equal(result.maintenanceOnly, true);
+  assert.equal(result.mobile, false);
+  assert.equal(result.mobileDeep, false);
+  assert.equal(result.pythagoras, false);
+
+  for (const runtimeFile of ['עמוד-640.html', 'styles/a4-base.css', 'mobile-app.js', 'package.json']) {
+    assert.equal(isMaintenanceOnlyPath(runtimeFile), false, `${runtimeFile} must never use the maintenance shortcut`);
+  }
+
+  const mixed = classifyChangeScope({
+    eventName: 'push',
+    changedFiles: ['.gitignore', 'עמוד-640.html'],
+    pythagorasPaths,
+  });
+  assert.equal(mixed.maintenanceOnly, false);
 });
 
 test('page and topic edits run fast mobile gates but not the whole-site deep mobile audit', () => {
@@ -41,6 +80,7 @@ test('page and topic edits run fast mobile gates but not the whole-site deep mob
   assert.equal(localPageChange.mobile, true);
   assert.equal(localPageChange.mobileDeep, false);
   assert.equal(localPageChange.pythagoras, true);
+  assert.equal(localPageChange.maintenanceOnly, false);
 
   assert.equal(isMobileRelevantPath('עמוד-639.html'), true);
   assert.equal(isMobileDeepRelevantPath('עמוד-639.html'), false);
@@ -60,6 +100,7 @@ test('global mobile/runtime changes require the expensive all-pages mobile audit
   });
   assert.equal(result.mobile, true);
   assert.equal(result.mobileDeep, true);
+  assert.equal(result.maintenanceOnly, false);
 });
 
 test('workflow-only edits stay on the fast build path', () => {
@@ -67,15 +108,17 @@ test('workflow-only edits stay on the fast build path', () => {
   assert.equal(isMobileRelevantPath(file), false);
   assert.equal(isMobileDeepRelevantPath(file), false);
   assert.equal(isPythagorasRelevantPath(file, pythagorasPaths), false);
+  assert.equal(isMaintenanceOnlyPath(file), true);
 
   const result = classifyChangeScope({
     eventName: 'push',
-    changedFiles: [file, 'scripts/verify-live-build.mjs', 'scripts/write-build-info.mjs'],
+    changedFiles: [file, 'scripts/classify-ci-change-scope.mjs', 'tests/contracts/deploy-ci-scope.test.mjs'],
     pythagorasPaths,
   });
   assert.equal(result.mobile, false);
   assert.equal(result.mobileDeep, false);
   assert.equal(result.pythagoras, false);
+  assert.equal(result.maintenanceOnly, true);
 });
 
 test('canonical Pythagoras pages, CSS and shared infrastructure require the Pythagoras gate', () => {
@@ -98,14 +141,20 @@ test('unrelated main pushes do not run browser-heavy gates; manual releases stil
   assert.equal(unrelatedPush.mobile, false);
   assert.equal(unrelatedPush.mobileDeep, false);
   assert.equal(unrelatedPush.pythagoras, false);
+  assert.equal(unrelatedPush.maintenanceOnly, false);
 
   const manual = classifyChangeScope({ eventName: 'workflow_dispatch', changedFiles: [], pythagorasPaths });
   assert.equal(manual.mobile, true);
   assert.equal(manual.mobileDeep, true);
   assert.equal(manual.pythagoras, true);
+  assert.equal(manual.maintenanceOnly, false);
 });
 
-test('deploy workflow uses scoped gates and verifies the commit that became live', () => {
+test('deploy workflow uses scoped gates, a safe maintenance path and live commit verification', () => {
+  assert.match(workflow, /maintenance_only:\s*\$\{\{ steps\.classify\.outputs\.maintenance_only \}\}/);
+  assert.match(workflow, /build:\s*\n\s+needs: scope/);
+  assert.match(workflow, /Lean maintenance validation[\s\S]*if: needs\.scope\.outputs\.maintenance_only == 'true'[\s\S]*npm run health:report[\s\S]*node --test tests\/contracts\/deploy-ci-scope\.test\.mjs/);
+  assert.match(workflow, /Contract tests\s*\n\s+if: needs\.scope\.outputs\.maintenance_only != 'true'/);
   assert.match(workflow, /mobile_deep:\s*\$\{\{ steps\.classify\.outputs\.mobile_deep \}\}/);
   assert.match(workflow, /mobile-browser-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
   assert.match(workflow, /mobile-interaction-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
