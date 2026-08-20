@@ -1,6 +1,10 @@
 .pythagoras-workbook-shell {
   margin: 0;
   min-height: 100vh;
+  width: 100%;
+  max-width: none;
+  align-items: stretch;
+  overflow-x: hidden;
   background: #eef2f7;
   font-family: 'Rubik', Arial, sans-serif;
   color: #0f172a;
@@ -10,6 +14,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,6 +50,7 @@
 .workbook-actions input { width: 68px; padding: 0 8px; text-align: center; }
 
 .workbook-pages {
+  width: 100%;
   display: grid;
   justify-items: center;
   gap: 24px;
@@ -87,11 +93,81 @@
 }
 
 @media (max-width: 760px) {
-  .workbook-toolbar { align-items: flex-start; flex-direction: column; }
-  .workbook-actions { width: 100%; flex-wrap: wrap; }
-  .workbook-actions button { flex: 1 1 auto; }
-  .workbook-pages { padding-inline: 4px; }
-  .workbook-page-wrap { transform-origin: top center; max-width: 100%; }
+  .pythagoras-workbook-shell {
+    display: block;
+    width: 100%;
+  }
+
+  .workbook-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+    padding: 7px 8px;
+  }
+
+  .workbook-brand {
+    width: 100%;
+    min-width: 0;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .workbook-brand strong {
+    flex: 0 0 auto;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  #workbook-status {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    font-size: 11px;
+  }
+
+  .workbook-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 5px;
+  }
+
+  .workbook-actions label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .workbook-actions button,
+  .workbook-actions input {
+    min-height: 35px;
+    min-width: 0;
+    font-size: 12px;
+  }
+
+  .workbook-actions button { padding: 0 6px; }
+  .workbook-actions input { width: 46px; padding: 0 3px; }
+
+  .workbook-pages {
+    width: 100%;
+    gap: 0;
+    padding: 8px 2px 18px;
+  }
+
+  .workbook-page-wrap {
+    transform-origin: top center;
+    max-width: 100%;
+  }
+
+  /* במובייל מציגים דף פעיל אחד בלבד; ניווט נעשה מהסרגל הקבוע. */
+  .workbook-page-wrap:not(.is-mobile-active) {
+    display: none;
+  }
 }
 
 @media print {
@@ -99,7 +175,7 @@
   .pythagoras-workbook-shell { background: #fff; }
   .workbook-toolbar { display: none !important; }
   .workbook-pages { display: block; padding: 0; }
-  .workbook-page-wrap { width: 210mm; height: 297mm; margin: 0; break-after: page; page-break-after: always; }
+  .workbook-page-wrap { display: block !important; width: 210mm; height: 297mm; margin: 0; break-after: page; page-break-after: always; }
   .workbook-page-wrap:last-child { break-after: auto; page-break-after: auto; }
   .workbook-page-wrap > .a4-page { box-shadow: none !important; }
 }
