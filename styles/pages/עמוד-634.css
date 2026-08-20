@@ -150,3 +150,26 @@
 .page-634 .short-line {
   min-width: 68px;
 }
+
+/* עמוד 1: תיבת 90° נשארת בדיוק בתוך שורת ההגדרה, בלי לשקוע מתחת לקו הבסיס. */
+.page-634 .foundation-note .foundation-fill-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  vertical-align: middle;
+  margin-inline: 4px;
+  transform: none;
+  white-space: nowrap;
+}
+
+.page-634 .foundation-note .foundation-fill-inline .foundation-fill {
+  flex: 0 0 auto;
+  vertical-align: middle;
+}
+
+.page-634 .foundation-note .foundation-fill-inline .foundation-unit {
+  display: inline-block;
+  line-height: 1;
+}
