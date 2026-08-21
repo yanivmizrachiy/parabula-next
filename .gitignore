@@ -80,3 +80,4 @@ test-results/
 meta/audit/
 
 # Pages refresh: stable ratio teacher link
+# CI verify: stable ratio redirect build
