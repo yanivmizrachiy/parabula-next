@@ -58,8 +58,11 @@ for(const stage of manifest.stages){if(stage.from!==cursor)fail(`stage gap befor
 if(cursor!==total+1)fail('stages do not cover the full workbook');
 
 const index=read('workbooks/circle/index.html');
-if(!index.includes("fetch('manifest.json'"))fail('reader does not derive state from manifest');
+const viewer=read('workbooks/viewer.js');
+if(!index.includes('../viewer.js'))fail('reader is not connected to the shared viewer');
+if(!viewer.includes("fetchJson('manifest.json')"))fail('shared viewer does not derive circle state from local manifest');
 if(!index.includes('id="stage"'))fail('reader has no graded stage navigation');
+if(!index.includes('../print.html?book=circle'))fail('reader has no full-workbook print action');
 const rules=read('CLAUDE.md');
 for(const marker of ['### 2.1 חוזה קנוני — מעגל, גליל וחרוט','`workbooks/circle/`','אין להשאיר חוברת מעגל נוספת או סדר חלופי פעיל'])if(!rules.includes(marker))fail(`CLAUDE.md geometry source-of-truth marker missing: ${marker}`);
 
