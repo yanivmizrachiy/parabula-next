@@ -69,12 +69,12 @@ function adoptHeadStyles(doc){
       continue;
     }
     const text=node.textContent||'';
-    const key=`style:${text}`;
-    if(adoptedStyles.has(key))continue;
+    const styleKey=`style:${text}`;
+    if(adoptedStyles.has(styleKey))continue;
     const style=document.createElement('style');
     style.textContent=text;
     document.head.append(style);
-    adoptedStyles.add(key);
+    adoptedStyles.add(styleKey);
   }
 }
 
@@ -84,8 +84,7 @@ function makeAbsolute(value,base){
 }
 
 function absolutizeTree(root,base){
-  const selectors=[['src'],['href'],['poster']];
-  for(const [attr] of selectors){
+  for(const attr of ['src','href','poster']){
     for(const node of root.querySelectorAll(`[${attr}]`)){
       const value=node.getAttribute(attr);
       if(value)node.setAttribute(attr,makeAbsolute(value,base));
@@ -97,11 +96,37 @@ function absolutizeTree(root,base){
   }
 }
 
+function namespaceSvgIds(root,pagePrefix){
+  const svgs=[...root.querySelectorAll('svg')];
+  svgs.forEach((svg,svgIndex)=>{
+    const idMap=new Map();
+    for(const node of svg.querySelectorAll('[id]')){
+      const oldId=node.id;
+      if(!oldId)continue;
+      const nextId=`${pagePrefix}-s${svgIndex+1}-${oldId}`;
+      idMap.set(oldId,nextId);
+      node.id=nextId;
+    }
+    if(!idMap.size)return;
+    for(const node of [svg,...svg.querySelectorAll('*')]){
+      for(const attr of [...node.attributes]){
+        if(attr.name==='id')continue;
+        let value=attr.value;
+        value=value.replace(/url\(#([^)]+)\)/g,(match,id)=>idMap.has(id)?`url(#${idMap.get(id)})`:match);
+        if(value.startsWith('#')&&idMap.has(value.slice(1)))value=`#${idMap.get(value.slice(1))}`;
+        node.setAttribute(attr.name,value);
+      }
+    }
+  });
+}
+
 function appendPages(doc,pages){
   adoptHeadStyles(doc);
   for(const source of pages){
     const clone=source.cloneNode(true);
+    const pageNumber=output.children.length+1;
     clone.classList.add('print-workbook-page');
+    namespaceSvgIds(clone,`${key}-p${pageNumber}`);
     absolutizeTree(clone,doc.baseURI);
     output.append(clone);
   }
