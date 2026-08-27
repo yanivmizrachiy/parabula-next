@@ -1,0 +1,29 @@
+*{box-sizing:border-box}
+:root{font-family:Arial,sans-serif;color:#172033;background:#f4f7fb}
+body.workbook-viewer{margin:0;background:#f4f7fb;color:#172033}
+.workbook-toolbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid #d8e2ef;box-shadow:0 2px 12px rgba(30,50,80,.06);padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.workbook-brand{display:flex;align-items:baseline;gap:8px;margin-inline-end:8px}
+.workbook-brand strong{font-size:20px;font-weight:900}
+.workbook-subtitle{font-size:12px;color:#64748b}
+.workbook-control,.workbook-link,.workbook-select,.workbook-page-input{font:inherit;border:1px solid #b8c7da;background:#fff;border-radius:10px;padding:8px 10px;color:#152033}
+.workbook-control,.workbook-link{cursor:pointer}
+.workbook-control:hover,.workbook-link:hover{background:#eef4fb}
+.workbook-control:focus-visible,.workbook-link:focus-visible,.workbook-select:focus-visible,.workbook-page-input:focus-visible{outline:3px solid #bfdbfe;outline-offset:2px}
+.workbook-link{text-decoration:none}
+.workbook-link-primary{font-weight:800;border-color:#93c5fd;background:#eff6ff}
+.workbook-page-input{width:72px;text-align:center}
+.workbook-select{max-width:245px}
+.workbook-progress{font-weight:700;white-space:nowrap}
+.workbook-stage-note{width:100%;text-align:center;font-size:12px;color:#52627a;margin-top:-2px}
+.workbook-frame-wrap{max-width:1060px;margin:14px auto;padding:0 10px}
+.workbook-frame{display:block;width:100%;height:calc(100vh - 120px);min-height:760px;border:1px solid #cdd9e8;border-radius:15px;background:#fff;box-shadow:0 10px 34px rgba(36,56,86,.08)}
+[hidden]{display:none!important}
+@media(max-width:760px){
+  .workbook-brand{width:100%;justify-content:center;margin-inline-end:0}
+  .workbook-subtitle{display:none}
+  .workbook-toolbar{gap:6px;padding:8px}
+  .workbook-stage-note{font-size:11px}
+  .workbook-select{max-width:190px}
+  .workbook-frame-wrap{margin-top:8px;padding:0 4px}
+  .workbook-frame{height:calc(100vh - 190px);min-height:620px;border-radius:10px}
+}
