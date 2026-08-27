@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>הדפסה מלאה — חוברות גאומטריה</title>
+  <link rel="stylesheet" href="print-workbook.css">
+</head>
+<body>
+  <nav class="print-controls" aria-label="פעולות הדפסה">
+    <strong id="print-title">מכין חוברת להדפסה…</strong>
+    <span id="print-status" class="print-status" aria-live="polite">טוען נתונים…</span>
+    <button id="print-button" class="print-button" type="button" disabled>הדפסה מלאה</button>
+    <a class="back-link" href="index.html">כל החוברות</a>
+  </nav>
+  <main id="print-output" class="print-output" aria-busy="true"></main>
+  <iframe id="print-loader" class="print-loader-frame" title="טעינת דפי החוברת" aria-hidden="true"></iframe>
+  <script type="module" src="print-workbook.js"></script>
+</body>
+</html>
