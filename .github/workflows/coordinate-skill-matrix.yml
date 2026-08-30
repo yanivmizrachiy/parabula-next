@@ -1,0 +1,39 @@
+name: Coordinate skill matrix
+
+on:
+  push:
+    branches:
+      - feature/coordinate-all-quadrants-premium
+      - main
+    paths:
+      - 'עמוד-*.html'
+      - 'scripts/coordinate-skill-matrix.mjs'
+      - '.github/workflows/coordinate-skill-matrix.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'עמוד-*.html'
+      - 'scripts/coordinate-skill-matrix.mjs'
+      - '.github/workflows/coordinate-skill-matrix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build coordinate skill coverage matrix
+        run: node scripts/coordinate-skill-matrix.mjs | tee coordinate-skill-matrix.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coordinate-skill-matrix
+          path: coordinate-skill-matrix.json
+          retention-days: 14
