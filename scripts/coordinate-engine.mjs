@@ -51,7 +51,16 @@ export const quadrantOf = ({ x, y }) => {
 };
 
 const esc = value => String(value).replace(/[&<>\"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[ch]));
-const fmt = value => Object.is(value, -0) ? '0' : String(value);
+const fmt = value => Object.is(value, -0) ? '0' : String(Number.isInteger(value) ? value : Number(value.toFixed(10)));
+const range = (min, max, step) => {
+  finite(step, 'step');
+  if (step <= 0) throw new RangeError('step must be positive');
+  const values = [];
+  const start = Math.ceil((min - 1e-10) / step) * step;
+  for (let value = start; value <= max + 1e-10; value += step) values.push(Number(value.toFixed(10)));
+  return values;
+};
+const inRange = (value, min, max) => value >= min && value <= max;
 
 export function renderCoordinatePlane({
   transform = createCartesianTransform(),
@@ -59,19 +68,68 @@ export function renderCoordinatePlane({
   segments = [],
   polygons = [],
   step = 1,
+  labelEvery = 1,
+  showGrid = true,
+  showTicks = true,
+  showNumbers = true,
+  showAxisLabels = true,
   ariaLabel = 'מערכת צירים קרטזית',
 } = {}) {
-  const { width, height, xMin, xMax, yMin, yMax, toPixel } = transform;
+  const { width, height, padding, xMin, xMax, yMin, yMax, toPixel } = transform;
+  finite(labelEvery, 'labelEvery');
+  if (labelEvery <= 0) throw new RangeError('labelEvery must be positive');
+
+  const left = padding;
+  const right = width - padding;
+  const top = padding;
+  const bottom = height - padding;
+  const xAxisVisible = inRange(0, yMin, yMax);
+  const yAxisVisible = inRange(0, xMin, xMax);
+  const xAxisY = xAxisVisible ? toPixel({ x: 0, y: 0 }).y : (yMin > 0 ? bottom : top);
+  const yAxisX = yAxisVisible ? toPixel({ x: 0, y: 0 }).x : (xMin > 0 ? left : right);
+
   const grid = [];
-  for (let x = Math.ceil(xMin / step) * step; x <= xMax; x += step) {
-    const px = toPixel({ x, y: 0 }).x;
-    grid.push(`<line class="coord-grid-line" x1="${px}" y1="0" x2="${px}" y2="${height}"/>`);
+  if (showGrid) {
+    for (const x of range(xMin, xMax, step)) {
+      const px = toPixel({ x, y: yMin }).x;
+      grid.push(`<line class="coord-grid-line" x1="${px}" y1="${top}" x2="${px}" y2="${bottom}"/>`);
+    }
+    for (const y of range(yMin, yMax, step)) {
+      const py = toPixel({ x: xMin, y }).y;
+      grid.push(`<line class="coord-grid-line" x1="${left}" y1="${py}" x2="${right}" y2="${py}"/>`);
+    }
   }
-  for (let y = Math.ceil(yMin / step) * step; y <= yMax; y += step) {
-    const py = toPixel({ x: 0, y }).y;
-    grid.push(`<line class="coord-grid-line" x1="0" y1="${py}" x2="${width}" y2="${py}"/>`);
+
+  const ticks = [];
+  const numbers = [];
+  if (showTicks || showNumbers) {
+    for (const x of range(xMin, xMax, step)) {
+      const px = toPixel({ x, y: yMin }).x;
+      if (showTicks) ticks.push(`<line class="coord-tick" x1="${px}" y1="${xAxisY - 4}" x2="${px}" y2="${xAxisY + 4}"/>`);
+      if (showNumbers && x !== 0 && Math.abs(x / labelEvery - Math.round(x / labelEvery)) < 1e-9) {
+        const labelY = Math.min(bottom - 3, xAxisY + 18);
+        numbers.push(`<text class="coord-number coord-number-x" x="${px}" y="${labelY}" text-anchor="middle" direction="ltr" unicode-bidi="isolate">${esc(fmt(x))}</text>`);
+      }
+    }
+    for (const y of range(yMin, yMax, step)) {
+      const py = toPixel({ x: xMin, y }).y;
+      if (showTicks) ticks.push(`<line class="coord-tick" x1="${yAxisX - 4}" y1="${py}" x2="${yAxisX + 4}" y2="${py}"/>`);
+      if (showNumbers && y !== 0 && Math.abs(y / labelEvery - Math.round(y / labelEvery)) < 1e-9) {
+        const labelX = Math.max(left + 3, yAxisX - 10);
+        numbers.push(`<text class="coord-number coord-number-y" x="${labelX}" y="${py + 4}" text-anchor="end" direction="ltr" unicode-bidi="isolate">${esc(fmt(y))}</text>`);
+      }
+    }
+    if (showNumbers && xAxisVisible && yAxisVisible) {
+      numbers.push(`<text class="coord-number coord-origin-label" x="${yAxisX - 9}" y="${xAxisY + 17}" text-anchor="end" direction="ltr" unicode-bidi="isolate">0</text>`);
+    }
   }
-  const origin = toPixel({ x: 0, y: 0 });
+
+  const axisLabels = [];
+  if (showAxisLabels) {
+    axisLabels.push(`<text class="coord-axis-label coord-axis-label-x" x="${right - 2}" y="${Math.max(top + 14, xAxisY - 8)}" text-anchor="end" direction="ltr">x</text>`);
+    axisLabels.push(`<text class="coord-axis-label coord-axis-label-y" x="${Math.min(right - 10, yAxisX + 9)}" y="${top + 14}" text-anchor="start" direction="ltr">y</text>`);
+  }
+
   const shapes = [];
   for (const polygon of polygons) {
     const coords = polygon.points.map(toPixel).map(p => `${p.x},${p.y}`).join(' ');
@@ -83,8 +141,10 @@ export function renderCoordinatePlane({
   }
   for (const point of points) {
     const p = toPixel(point);
-    const label = point.label ? `<text class="coord-point-label" x="${p.x + 9}" y="${p.y - 9}">${esc(point.label)}</text>` : '';
+    const label = point.label ? `<text class="coord-point-label" x="${p.x + 9}" y="${p.y - 9}" direction="ltr" unicode-bidi="isolate">${esc(point.label)}</text>` : '';
     shapes.push(`<g class="coord-point" aria-label="${esc(point.label ? `${point.label} (${fmt(point.x)}, ${fmt(point.y)})` : `(${fmt(point.x)}, ${fmt(point.y)})`)}"><circle cx="${p.x}" cy="${p.y}" r="5"/>${label}</g>`);
   }
-  return `<svg class="coordinate-plane" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(ariaLabel)}" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><g class="coord-grid">${grid.join('')}</g><g class="coord-axes"><line x1="0" y1="${origin.y}" x2="${width}" y2="${origin.y}"/><line x1="${origin.x}" y1="0" x2="${origin.x}" y2="${height}"/></g><g class="coord-shapes">${shapes.join('')}</g></svg>`;
+
+  const clipId = `coord-clip-${Math.abs([width,height,xMin,xMax,yMin,yMax,step].join('-').split('').reduce((acc, char) => ((acc * 31) + char.charCodeAt(0)) | 0, 7))}`;
+  return `<svg class="coordinate-plane" viewBox="0 0 ${width} ${height}" role="img" aria-label="${esc(ariaLabel)}" xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><defs><clipPath id="${clipId}"><rect x="${left}" y="${top}" width="${right-left}" height="${bottom-top}"/></clipPath></defs><g class="coord-plot" clip-path="url(#${clipId})"><g class="coord-grid">${grid.join('')}</g><g class="coord-axes"><line class="coord-axis coord-axis-x" x1="${left}" y1="${xAxisY}" x2="${right}" y2="${xAxisY}"/><line class="coord-axis coord-axis-y" x1="${yAxisX}" y1="${top}" x2="${yAxisX}" y2="${bottom}"/></g><g class="coord-ticks">${ticks.join('')}</g><g class="coord-shapes">${shapes.join('')}</g></g><g class="coord-numbers">${numbers.join('')}</g><g class="coord-axis-labels">${axisLabels.join('')}</g></svg>`;
 }
