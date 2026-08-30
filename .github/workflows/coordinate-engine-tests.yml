@@ -1,0 +1,33 @@
+name: Coordinate engine tests
+
+on:
+  push:
+    branches:
+      - feature/coordinate-all-quadrants-premium
+      - main
+    paths:
+      - scripts/coordinate-engine.mjs
+      - scripts/coordinate-engine.test.mjs
+      - .github/workflows/coordinate-engine-tests.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/coordinate-engine.mjs
+      - scripts/coordinate-engine.test.mjs
+      - .github/workflows/coordinate-engine-tests.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coordinate-engine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test Cartesian transform, geometry and SVG output
+        run: node scripts/coordinate-engine.test.mjs
