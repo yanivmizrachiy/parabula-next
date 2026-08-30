@@ -1,0 +1,37 @@
+name: Coordinate coverage audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'עמוד-*.html'
+      - 'meta/topics.json'
+      - 'scripts/audit-coordinate-coverage.mjs'
+      - '.github/workflows/coordinate-coverage-audit.yml'
+  push:
+    branches:
+      - feature/coordinate-all-quadrants-premium
+    paths:
+      - 'עמוד-*.html'
+      - 'meta/topics.json'
+      - 'scripts/audit-coordinate-coverage.mjs'
+      - '.github/workflows/coordinate-coverage-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: coordinate-coverage-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit coordinate coverage and duplicates
+        run: node scripts/audit-coordinate-coverage.mjs
