@@ -1,0 +1,148 @@
+/* styles/topics/cone-grade6.css — חרוט, כיתה ו׳
+   מבוסס על שפת העיצוב של חוברת "רביע ראשון": A4 צפוף, כרטיסי שאלות,
+   השלמות באורך מותאם, שורות נימוק וגרפיקה וקטורית סטטית. */
+.cone6-page {
+  padding: 9mm 10mm 8mm;
+  justify-content: flex-start;
+  font-size: 12.4px;
+  line-height: 1.34;
+  color: #1f2a44;
+}
+
+.cone6-page .header-container { margin-bottom: 6px; padding-bottom: 4px; }
+.cone6-page .title-wrap { display: flex; flex-direction: column; gap: 2px; }
+.cone6-page .page-title { font-size: 23px; }
+.cone6-page .page-subtitle { margin: 0; color: #5f6b7a; font-size: 12px; font-weight: 400; }
+.cone6-page .sheet-content { display: grid; gap: 6px; padding-bottom: 2mm; }
+
+.cone6-page .q-card {
+  border: 1px solid #cbd3df;
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: #fff;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.cone6-page .q-card h3 {
+  margin: -7px -9px 6px;
+  padding: 5px 8px;
+  background: #f6f8fb;
+  border-bottom: 1px solid #cbd3df;
+  border-radius: 8px 8px 0 0;
+  font-size: 13.5px;
+  color: #1f2a44;
+  font-weight: 800;
+}
+.cone6-page .q-card p { margin: 5px 0; }
+.cone6-page .tasks { padding-right: 20px; margin: 5px 0; }
+.cone6-page .tasks li { margin: 3px 0; }
+
+.cone6-page .rule-box,
+.cone6-page .note-box {
+  border-right: 5px solid #1d4ed8;
+  background: #eef4ff;
+  border-radius: 7px;
+  padding: 6px 8px;
+  margin: 3px 0 5px;
+}
+.cone6-page .note-box { border-right-color: #8a5a00; background: #fff8e7; }
+
+.cone6-page .blank {
+  display: inline-block;
+  min-width: var(--blank-width, 6ch);
+  height: 1.2em;
+  border-bottom: 1.5px solid #1f2a44;
+  vertical-align: -0.08em;
+}
+.cone6-page .answer-line { height: 1.25em; border-bottom: 1px solid #8994a5; margin-top: 4px; }
+.cone6-page .answer-lines { display: grid; gap: 4px; margin-top: 5px; }
+.cone6-page .answer-lines .answer-line { margin-top: 0; }
+.cone6-page .bw-4 { --blank-width: 4ch; }
+.cone6-page .bw-6 { --blank-width: 6ch; }
+.cone6-page .bw-8 { --blank-width: 8ch; }
+.cone6-page .bw-10 { --blank-width: 10ch; }
+.cone6-page .bw-12 { --blank-width: 12ch; }
+.cone6-page .bw-16 { --blank-width: 16ch; }
+.cone6-page .bw-20 { --blank-width: 20ch; }
+.cone6-page .bw-32 { --blank-width: 32ch; }
+
+.cone6-page .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; align-items: start; }
+.cone6-page .cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; align-items: start; }
+.cone6-page .span-2 { grid-column: 1 / -1; }
+
+.cone6-page .cone-figure,
+.cone6-page .net-figure,
+.cone6-page .mini-figure {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #d9e0ea;
+  border-radius: 8px;
+}
+.cone6-page .cone-figure { height: 238px; }
+.cone6-page .net-figure { height: 220px; }
+.cone6-page .mini-figure { height: 116px; }
+.cone6-page svg { width: 100%; height: 100%; display: block; font-family: 'Rubik', Arial, sans-serif; }
+
+.cone6-page .choice-list { display: grid; gap: 5px; margin-top: 5px; }
+.cone6-page .choice-row { display: flex; align-items: flex-start; gap: 7px; }
+.cone6-page .choice-dot { width: 13px; height: 13px; border: 1.5px solid #7b8798; border-radius: 50%; flex: 0 0 auto; margin-top: 2px; }
+.cone6-page .shape-choice-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.cone6-page .shape-choice { border: 1px solid #cbd3df; border-radius: 8px; padding: 5px; text-align: center; background: #fff; }
+.cone6-page .shape-choice .mark,
+.cone6-page .part-card .mark { display: inline-block; width: 13px; height: 13px; border: 1.4px solid #7b8798; border-radius: 50%; margin-top: 3px; }
+.cone6-page .shape-label { font-size: 11px; color: #475569; margin-top: 2px; }
+.cone6-page .part-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.cone6-page .part-card { border: 1px solid #cbd3df; border-radius: 8px; padding: 6px; text-align: center; background: #fff; }
+.cone6-page .part-card b { display: block; margin-top: 3px; }
+
+.cone6-page .error-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.cone6-page .mist-card { border: 1px solid #cbd3df; border-radius: 8px; padding: 7px 9px; break-inside: avoid; }
+.cone6-page .mist-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: -7px -9px 5px;
+  padding: 5px 8px;
+  background: #f3f5f8;
+  border-radius: 8px 8px 0 0;
+  font-weight: 800;
+}
+.cone6-page .mist-head span { font-size: 10px; color: #64748b; font-weight: 600; }
+.cone6-page .mist-card p { margin: 5px 0; font-size: 13px; }
+.cone6-page .mist-card small { color: #5f6b7a; }
+
+.cone6-page .draw-box {
+  height: 145px;
+  border: 1px solid #cbd3df;
+  border-radius: 8px;
+  background-image: linear-gradient(#eef2f7 1px, transparent 1px), linear-gradient(90deg, #eef2f7 1px, transparent 1px);
+  background-size: 18px 18px;
+  margin-top: 5px;
+}
+.cone6-page .micro { font-size: 10.5px; color: #64748b; }
+.cone6-page .center { text-align: center; }
+.cone6-page .strong-blue { color: #1d4ed8; font-weight: 800; }
+
+.cone6-page.guided { font-size: 12.7px; }
+.cone6-page.guided .q-card { padding: 8px 10px; }
+.cone6-page.guided .q-card h3 { margin: -8px -10px 7px; padding: 6px 9px; font-size: 14px; }
+.cone6-page.error-page .answer-line { height: 1.25em; }
+
+.cone6-page .sheet-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #cbd3df;
+  padding-top: 2mm;
+  color: #5f6b7a;
+  font-size: 9.5px;
+}
+.cone6-page .gz-footer { margin-top: 4px; padding-top: 5px; border-top: 3px double var(--title-blue); text-align: center; }
+.cone6-page .gz-footer .f1 { font-size: 12.5px; font-weight: 500 !important; color: #1f2a44; }
+.cone6-page .gz-footer .f2 { font-size: 11.5px; color: #475569; margin-top: 1px; }
+
+@media print {
+  .cone6-page { box-shadow: none; margin: 0; }
+}
