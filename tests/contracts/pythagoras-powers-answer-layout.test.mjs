@@ -95,9 +95,14 @@ test('עמוד 641 מציג הסבר שורש קצר, LTR לדוגמה ותרג�
   assert.match(html, /class="math-ltr">\\\(5\^2=25\\\)<\/span>/u);
   assert.doesNotMatch(html, /כתבו זוג מתאים של חזקה ושורש עבור המספר/u);
   assert.equal((html.match(/class="math-card missing-root-card"/gu) || []).length, 18, 'עמוד 641: נדרשים שמונה עשר תרגילי שורש הפוכים');
-  assert.equal((html.match(/\\\(\\sqrt\{\\phantom\{000\}\}=\d+\\\)/gu) || []).length, 18, 'עמוד 641: כל תרגילי השורש ההפוכים חייבים להשתמש בסימון MathJax הקנוני');
+  assert.equal((html.match(/\\phantom\{000\}/gu) || []).length, 18, 'עמוד 641: בכל תרגיל הפוך נשמר מקום כתיבה בתוך השורש באמצעות MathJax');
+  for (let target = 2; target <= 19; target += 1) {
+    assert.ok(
+      html.includes(`\\(\\sqrt{\\phantom{000}}=${target}\\)`),
+      `עמוד 641: חסר תרגיל MathJax קנוני עם תוצאה ${target}`,
+    );
+  }
   assert.doesNotMatch(html, /missing-radicand-slot|root-symbol|root-radicand/u, 'עמוד 641: אסור להחזיר את סימון השורש הידני הישן');
-  assert.match(html, /\\\(\\sqrt\{\\phantom\{000\}\}=19\\\)/u);
   assert.match(css, /--power-grid-columns:\s*3/u);
 });
 
