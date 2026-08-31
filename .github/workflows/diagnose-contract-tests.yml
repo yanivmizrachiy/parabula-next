@@ -1,0 +1,61 @@
+name: Diagnose contract test failures
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Reproduce contract test suite and capture full output
+        shell: bash
+        run: |
+          mkdir -p meta/audit/contract-test-diagnostics
+          set +e
+          npm test > meta/audit/contract-test-diagnostics/npm-test-full.log 2>&1
+          status=$?
+          set -e
+          printf '%s\n' "$status" > meta/audit/contract-test-diagnostics/exit-code.txt
+          tail -n 400 meta/audit/contract-test-diagnostics/npm-test-full.log \
+            > meta/audit/contract-test-diagnostics/npm-test-tail.log
+          {
+            echo "### Contract test diagnostic"
+            echo "- npm test exit code: $status"
+            echo "- Full log is preserved in the contract-test-diagnostics artifact."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload contract test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-test-diagnostics
+          path: meta/audit/contract-test-diagnostics
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Preserve authoritative test result
+        shell: bash
+        run: |
+          status="$(cat meta/audit/contract-test-diagnostics/exit-code.txt)"
+          if [ "$status" -ne 0 ]; then
+            echo "npm test failed with exit code $status; see contract-test-diagnostics artifact."
+            exit "$status"
+          fi
