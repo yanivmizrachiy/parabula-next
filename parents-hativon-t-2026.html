@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>מכתב להורים - חטיבון ט׳</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f3f3f3;
+      color: #111;
+      font-family: Arial, "Noto Sans Hebrew", sans-serif;
+      line-height: 1.75;
+    }
+    main { width: min(920px, calc(100% - 24px)); margin: 28px auto 48px; }
+    .sheet {
+      background: #fff;
+      border: 1px solid #d7d7d7;
+      padding: 46px 56px;
+      margin-bottom: 22px;
+    }
+    .school {
+      text-align: center;
+      margin-bottom: 42px;
+      line-height: 1.45;
+    }
+    .school h1 { margin: 0; font-size: 23px; font-weight: 700; }
+    .school p { margin: 5px 0 0; font-size: 15px; }
+    .letter { font-size: 18px; }
+    .letter p { margin: 0 0 20px; }
+    .payment-line { margin-top: 28px; }
+    .blank {
+      display: inline-block;
+      min-width: 280px;
+      border-bottom: 1px solid #111;
+      height: 1.25em;
+      vertical-align: bottom;
+    }
+    .signature { margin-top: 48px; }
+    .signature p { margin: 0; }
+    .quote-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 22px;
+      text-align: center;
+    }
+    .quote-head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 34px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #111;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+    .quote-head strong { display: block; font-size: 18px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid #bbb; padding: 8px 6px; text-align: right; vertical-align: top; }
+    th { font-weight: 700; border-bottom: 1.5px solid #111; }
+    .num { direction: ltr; text-align: left; white-space: nowrap; }
+    .totals { width: min(420px, 100%); margin: 22px 0 0 auto; font-size: 15px; }
+    .totals div { display: flex; justify-content: space-between; gap: 18px; padding: 4px 0; }
+    .totals .grand { font-weight: 700; font-size: 17px; border-top: 1px solid #111; margin-top: 6px; padding-top: 10px; }
+    .terms { margin-top: 28px; font-size: 14px; }
+    .terms p { margin: 5px 0; }
+    .actions { display: flex; justify-content: center; gap: 10px; margin: 0 0 18px; }
+    button {
+      appearance: none;
+      border: 1px solid #111;
+      background: #fff;
+      color: #111;
+      padding: 10px 16px;
+      font: inherit;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .note { text-align: center; font-size: 13px; color: #444; margin-top: 14px; }
+    @media (max-width: 650px) {
+      main { width: min(100% - 14px, 920px); margin-top: 10px; }
+      .sheet { padding: 28px 20px; }
+      .school { margin-bottom: 30px; }
+      .school h1 { font-size: 20px; }
+      .letter { font-size: 17px; }
+      .blank { min-width: 170px; }
+      .quote-head { grid-template-columns: 1fr; }
+      .table-wrap { overflow-x: auto; }
+      table { min-width: 690px; }
+    }
+    @media print {
+      body { background: #fff; }
+      main { width: 100%; margin: 0; }
+      .sheet { border: 0; margin: 0; padding: 18mm 20mm; min-height: 277mm; break-after: page; }
+      .sheet:last-child { break-after: auto; }
+      .actions, .note { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="actions">
+      <button type="button" onclick="window.print()">הדפסה / שמירה כ-PDF</button>
+    </div>
+
+    <section class="sheet" aria-labelledby="letter-title">
+      <header class="school">
+        <h1 id="letter-title">תיכון ע״ש טדי קולק - פסגת זאב, ירושלים</h1>
+        <p>שד׳ משה דיין 131, ירושלים</p>
+      </header>
+
+      <div class="letter">
+        <p>הורים יקרים, שלום רב,</p>
+
+        <p>
+          בשנת הלימודים תשפ״ז ילמדו התלמידים בקבוצות הקבצה א׳ ובכיתה המדעית
+          באמצעות הספר <strong>„חטיבון ט׳”</strong> של הוצאת ארכימדס.
+        </p>
+
+        <p>
+          לצורך רכישה מרוכזת של הספרים, אנא העבירו תשלום בסך
+          <strong>67 ₪ עבור כל תלמיד/ה</strong>.
+        </p>
+
+        <p class="payment-line">אופן העברת התשלום: <span class="blank" aria-hidden="true"></span></p>
+
+        <div class="signature">
+          <p>בברכה,</p>
+          <p><strong>צוות מתמטיקה</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet" aria-labelledby="quote-title">
+      <h2 class="quote-title" id="quote-title">העתק מלא של הצעת המחיר שהתקבלה</h2>
+
+      <div class="quote-head">
+        <div>
+          <strong>יש הפצות ספרים בע״מ</strong>
+          המשביר 5, חולון 5811801<br />
+          טל׳ 03-559-5354 | וואטסאפ 054-715-4122<br />
+          yeshbooks@gmail.com
+        </div>
+        <div>
+          <strong>הצעת מחיר מס׳ 32995</strong>
+          תאריך: 01/09/2026<br />
+          שעה: 13:17<br />
+          מפעיל: אורנה
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table aria-label="פירוט הצעת המחיר">
+          <thead>
+            <tr>
+              <th>שורה</th>
+              <th>מק״ט</th>
+              <th>תיאור</th>
+              <th>כמות</th>
+              <th>מחיר</th>
+              <th>הנחה</th>
+              <th>סכום</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">1</td>
+              <td class="num">12828</td>
+              <td>ארכימדס - חטיבון ט</td>
+              <td class="num">36</td>
+              <td class="num">70.00 ₪</td>
+              <td class="num">0</td>
+              <td class="num">2,520.00 ₪</td>
+            </tr>
+            <tr>
+              <td class="num">2</td>
+              <td class="num">15181</td>
+              <td>ספרים חינם</td>
+              <td class="num">2</td>
+              <td class="num">0.00 ₪</td>
+              <td class="num">0</td>
+              <td class="num">0.00 ₪</td>
+            </tr>
+            <tr>
+              <td class="num">3</td>
+              <td class="num">3017</td>
+              <td>דמי משלוח</td>
+              <td class="num">1</td>
+              <td class="num">50.00 ₪</td>
+              <td class="num">0</td>
+              <td class="num">50.00 ₪</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="totals">
+        <div><span>סה״כ לפני מע״מ</span><span class="num">2,177.97 ₪</span></div>
+        <div><span>מע״מ 18%</span><span class="num">392.03 ₪</span></div>
+        <div class="grand"><span>סה״כ כולל מע״מ</span><span class="num">2,570.00 ₪</span></div>
+      </div>
+
+      <div class="terms">
+        <p><strong>המחירים כוללים מע״מ.</strong></p>
+        <p>ההצעה תקפה לאותו היום בלבד ויש להתעדכן במחיר מול נציג המכירות במעמד ההזמנה.</p>
+        <p>תשלום מראש בלבד.</p>
+        <p>ניתן לשלם ב-3 דרכים: צילום צ׳ק לווטסאפ (מופקד דיגיטלית), העברה בנקאית או כרטיס אשראי.</p>
+        <p>חשבון ע״ש יש הפצות ספרים בע״מ | בנק מרכנתיל דיסקונט 17 | סניף בת ים 678 | חשבון 123005.</p>
+      </div>
+
+      <p class="note">הנתונים בעמוד זה הועתקו מהצעת המחיר שהתקבלה ביום 01/09/2026.</p>
+    </section>
+  </main>
+</body>
+</html>
