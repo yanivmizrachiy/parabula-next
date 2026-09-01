@@ -4,10 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>מכתב להורים - חטיבון ט׳</title>
+  <title>מכתב להורים - חטיבון ט</title>
   <style>
     :root { color-scheme: light; }
     * { box-sizing: border-box; }
+    html, body { direction: rtl; }
     body {
       margin: 0;
       background: #f3f3f3;
@@ -15,24 +16,26 @@
       font-family: Arial, "Noto Sans Hebrew", sans-serif;
       line-height: 1.75;
     }
-    main { width: min(920px, calc(100% - 24px)); margin: 28px auto 48px; }
+    main { width: min(920px, calc(100% - 24px)); margin: 28px auto 48px; direction: rtl; }
     .sheet {
       background: #fff;
       border: 1px solid #d7d7d7;
       padding: 46px 56px;
       margin-bottom: 22px;
+      direction: rtl;
     }
     .school {
       text-align: center;
+      direction: rtl;
       margin-bottom: 42px;
       line-height: 1.45;
     }
-    .school h1 { margin: 0; font-size: 23px; font-weight: 700; }
-    .school p { margin: 5px 0 0; font-size: 15px; }
-    .letter { font-size: 18px; }
-    .letter p { margin: 0 0 20px; }
+    .school h1 { margin: 0; font-size: 23px; font-weight: 700; direction: rtl; }
+    .school p { margin: 5px 0 0; font-size: 15px; direction: rtl; }
+    .letter { font-size: 18px; direction: rtl; text-align: right; }
+    .letter p { margin: 0 0 20px; direction: rtl; text-align: right; }
     .letter strong { font-weight: 400; }
-    .payment-line { margin-top: 28px; }
+    .payment-line { margin-top: 28px; direction: rtl; text-align: right; }
     .blank {
       display: inline-block;
       min-width: 280px;
@@ -40,8 +43,8 @@
       height: 1.25em;
       vertical-align: bottom;
     }
-    .signature { margin-top: 48px; }
-    .signature p { margin: 0; }
+    .signature { margin-top: 48px; direction: rtl; text-align: right; }
+    .signature p { margin: 0; direction: rtl; text-align: right; }
     .quote-title {
       font-size: 20px;
       font-weight: 700;
@@ -56,16 +59,18 @@
       border-bottom: 2px solid #111;
       margin-bottom: 16px;
       font-size: 14px;
+      direction: rtl;
+      text-align: right;
     }
     .quote-head strong { display: block; font-size: 18px; }
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; direction: rtl; }
     th, td { border-bottom: 1px solid #bbb; padding: 8px 6px; text-align: right; vertical-align: top; }
     th { font-weight: 700; border-bottom: 1.5px solid #111; }
     .num { direction: ltr; text-align: left; white-space: nowrap; }
-    .totals { width: min(420px, 100%); margin: 22px 0 0 auto; font-size: 15px; }
+    .totals { width: min(420px, 100%); margin: 22px 0 0 auto; font-size: 15px; direction: rtl; }
     .totals div { display: flex; justify-content: space-between; gap: 18px; padding: 4px 0; }
     .totals .grand { font-weight: 700; font-size: 17px; border-top: 1px solid #111; margin-top: 6px; padding-top: 10px; }
-    .terms { margin-top: 28px; font-size: 14px; }
+    .terms { margin-top: 28px; font-size: 14px; direction: rtl; text-align: right; }
     .terms p { margin: 5px 0; }
     .actions { display: flex; justify-content: center; gap: 10px; margin: 0 0 18px; }
     button {
@@ -107,28 +112,27 @@
 
     <section class="sheet" aria-labelledby="letter-title">
       <header class="school">
-        <h1 id="letter-title">תיכון ע״ש טדי קולק - פסגת זאב, ירושלים</h1>
-        <p>שד׳ משה דיין 131, ירושלים</p>
+        <h1 id="letter-title">תיכון עירוני פסגת זאב ע״ש טדי קולק - ירושלים</h1>
       </header>
 
       <div class="letter">
-        <p>הורים יקרים, שלום רב,</p>
+        <p>הורים יקרים, שלום וברכה,</p>
 
         <p>
-          בשנת הלימודים תשפ״ז ילמדו התלמידים בקבוצות הקבצה א׳ ובכיתה המדעית
-          באמצעות הספר <strong>„חטיבון ט׳”</strong> של הוצאת ארכימדס.
+          בשנת הלימודים תשפ״ז ילמדו תלמידי הקבצה א׳ והכיתה המדעית
+          באמצעות הספר <span dir="rtl">"חטיבון ט"</span> בהוצאת ארכימדס.
         </p>
 
         <p>
-          לצורך רכישה מרוכזת של הספרים, אנא העבירו תשלום בסך
-          <strong>67 ₪ עבור כל תלמיד/ה</strong>.
+          לצורך רכישה מרוכזת של הספרים, אנא העבירו בהקדם האפשרי תשלום בסך
+          67 ₪ עבור כל תלמיד/ה.
         </p>
 
         <p class="payment-line">אופן העברת התשלום: <span class="blank" aria-hidden="true"></span></p>
 
         <div class="signature">
           <p>בברכה,</p>
-          <p><strong>צוות מתמטיקה</strong></p>
+          <p>צוות מתמטיקה</p>
         </div>
       </div>
     </section>
@@ -203,7 +207,7 @@
       </div>
 
       <div class="terms">
-        <p><strong>המחירים כוללים מע״מ.</strong></p>
+        <p>המחירים כוללים מע״מ.</p>
         <p>ההצעה תקפה לאותו היום בלבד ויש להתעדכן במחיר מול נציג המכירות במעמד ההזמנה.</p>
         <p>תשלום מראש בלבד.</p>
         <p>ניתן לשלם ב-3 דרכים: צילום צ׳ק לווטסאפ (מופקד דיגיטלית), העברה בנקאית או כרטיס אשראי.</p>
