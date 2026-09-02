@@ -35,7 +35,7 @@ jobs:
 
           src = Path('projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-workbook.pdf')
           dst = Path('projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-selected-15.pdf')
-          selected = list(range(2, 31, 2))
+          selected = [2, 4, 6, 7, 9, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
 
           reader = PdfReader(str(src))
           if len(reader.pages) != 30:
