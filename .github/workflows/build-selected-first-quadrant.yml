@@ -57,15 +57,11 @@ jobs:
           print('Created:', dst, 'pages=', len(check.pages), 'bytes=', dst.stat().st_size)
           PY
 
-      - name: Commit generated PDF
+      - name: Publish generated PDF on public share branch
         shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-selected-15.pdf
-          if git diff --cached --quiet; then
-            echo 'No PDF change to commit.'
-            exit 0
-          fi
           git commit -m 'build: publish selected 15-page first-quadrant booklet'
-          git push
+          git push origin HEAD:refs/heads/share/first-quadrant-15 --force
