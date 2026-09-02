@@ -1,0 +1,71 @@
+name: Build selected first-quadrant PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-selected-first-quadrant.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-selected-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pypdf
+        run: python -m pip install --disable-pip-version-check pypdf
+
+      - name: Build 15-page selected booklet
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader, PdfWriter
+
+          src = Path('projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-workbook.pdf')
+          dst = Path('projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-selected-15.pdf')
+          selected = list(range(2, 31, 2))
+
+          reader = PdfReader(str(src))
+          if len(reader.pages) != 30:
+              raise SystemExit(f'Expected 30 source pages, found {len(reader.pages)}')
+
+          writer = PdfWriter()
+          for page_number in selected:
+              writer.add_page(reader.pages[page_number - 1])
+
+          dst.parent.mkdir(parents=True, exist_ok=True)
+          with dst.open('wb') as f:
+              writer.write(f)
+
+          check = PdfReader(str(dst))
+          if len(check.pages) != 15:
+              raise SystemExit(f'Expected 15 output pages, found {len(check.pages)}')
+
+          print('Selected source pages:', selected)
+          print('Created:', dst, 'pages=', len(check.pages), 'bytes=', dst.stat().st_size)
+          PY
+
+      - name: Commit generated PDF
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add projects/coordinate-first-quadrant-workbook/downloads/coordinate-first-quadrant-selected-15.pdf
+          if git diff --cached --quiet; then
+            echo 'No PDF change to commit.'
+            exit 0
+          fi
+          git commit -m 'build: publish selected 15-page first-quadrant booklet'
+          git push
