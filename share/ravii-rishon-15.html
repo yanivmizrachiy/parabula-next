@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>הרביע הראשון — 15 דפי עבודה נבחרים</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#eef1f5;font-family:Arial,sans-serif;color:#172033}header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #d7dde7;padding:10px 14px;text-align:center}header strong{font-size:18px}.book{padding:12px 4px 28px}.shell{position:relative;margin:0 auto 14px;overflow:hidden;background:#fff;box-shadow:0 2px 12px #0002}.sheet{position:absolute;top:0;left:50%;width:794px;height:1123px;border:0;background:#fff;transform-origin:top center}@media print{header{display:none}.book{padding:0}.shell{box-shadow:none;margin:0;break-after:page}}
+</style>
+</head>
+<body>
+<header><strong>הרביע הראשון — 15 דפי עבודה נבחרים</strong></header>
+<main class="book" id="book"></main>
+<script>
+const pages=[2,4,6,7,9,12,14,16,18,20,22,24,26,28,30];
+const base='https://yanivmizrachiy.github.io/razpages/';
+const book=document.getElementById('book');
+for(const n of pages){const sh=document.createElement('div');sh.className='shell';const f=document.createElement('iframe');f.className='sheet';f.loading='lazy';f.title='עמוד '+n;f.src=base+'%D7%A2%D7%9E%D7%95%D7%93-'+(530+n)+'.html';sh.append(f);book.append(sh)}
+function fit(){const s=Math.min(1,(document.documentElement.clientWidth-8)/794);document.querySelectorAll('.shell').forEach(sh=>{sh.style.width=(794*s)+'px';sh.style.height=(1123*s)+'px';const f=sh.firstElementChild;f.style.transform='translateX(-50%) scale('+s+')'})}fit();addEventListener('resize',fit);
+</script>
+</body>
+</html>
