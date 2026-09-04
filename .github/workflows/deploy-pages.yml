@@ -338,9 +338,46 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-  deploy:
-    if: ${{ always() && github.event_name != 'pull_request' && needs.build.result == 'success' && (needs.mobile-browser-gate.result == 'success' || needs.mobile-browser-gate.result == 'skipped') && (needs.mobile-interaction-gate.result == 'success' || needs.mobile-interaction-gate.result == 'skipped') && (needs.mobile-deep-gate.result == 'success' || needs.mobile-deep-gate.result == 'skipped') && needs.pythagoras-browser-gate.result == 'success' }}
+  required-main-gate:
+    name: Required main gate
+    if: always()
     needs: [build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enforce authoritative validation result
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          MOBILE_BROWSER_RESULT: ${{ needs.mobile-browser-gate.result }}
+          MOBILE_INTERACTION_RESULT: ${{ needs.mobile-interaction-gate.result }}
+          MOBILE_DEEP_RESULT: ${{ needs.mobile-deep-gate.result }}
+          PYTHAGORAS_RESULT: ${{ needs.pythagoras-browser-gate.result }}
+        shell: bash
+        run: |
+          if [ "$BUILD_RESULT" != "success" ]; then
+            echo "build must succeed; got: $BUILD_RESULT"
+            exit 1
+          fi
+
+          for gate in \
+            "mobile-browser:$MOBILE_BROWSER_RESULT" \
+            "mobile-interaction:$MOBILE_INTERACTION_RESULT" \
+            "mobile-deep:$MOBILE_DEEP_RESULT" \
+            "pythagoras:$PYTHAGORAS_RESULT"
+          do
+            name="${gate%%:*}"
+            result="${gate#*:}"
+            case "$result" in
+              success|skipped) ;;
+              *)
+                echo "$name gate must succeed or be intentionally skipped; got: $result"
+                exit 1
+                ;;
+            esac
+          done
+
+  deploy:
+    if: ${{ always() && github.event_name != 'pull_request' && needs.required-main-gate.result == 'success' }}
+    needs: [build, required-main-gate]
     permissions:
       contents: read
       pages: write

@@ -151,7 +151,7 @@ test('unrelated main pushes do not run browser-heavy gates; manual releases stil
   assert.equal(manual.maintenanceOnly, false);
 });
 
-test('deploy workflow uses scoped gates, a safe maintenance path and live commit verification', () => {
+test('deploy workflow uses scoped gates, one stable required gate and live commit verification', () => {
   assert.match(workflow, /maintenance_only:\s*\$\{\{ steps\.classify\.outputs\.maintenance_only \}\}/);
   assert.match(workflow, /build:\s*\n\s+needs: scope/);
   assert.match(workflow, /Lean maintenance validation[\s\S]*if: needs\.scope\.outputs\.maintenance_only == 'true'[\s\S]*npm run health:report[\s\S]*node --test tests\/contracts\/deploy-ci-scope\.test\.mjs/);
@@ -160,9 +160,19 @@ test('deploy workflow uses scoped gates, a safe maintenance path and live commit
   assert.match(workflow, /mobile-browser-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
   assert.match(workflow, /mobile-interaction-gate:\s*\n\s+needs: scope\s*\n\s+if: needs\.scope\.outputs\.mobile == 'true'/);
   assert.match(workflow, /mobile-deep-gate:\s*\n\s+needs: scope\s*\n\s+if: github\.event_name != 'pull_request' && needs\.scope\.outputs\.mobile_deep == 'true'/);
-  assert.match(workflow, /needs\.mobile-deep-gate\.result == 'success' \|\| needs\.mobile-deep-gate\.result == 'skipped'/);
-  assert.match(workflow, /needs\.mobile-browser-gate\.result == 'success' \|\| needs\.mobile-browser-gate\.result == 'skipped'/);
-  assert.match(workflow, /needs\.mobile-interaction-gate\.result == 'success' \|\| needs\.mobile-interaction-gate\.result == 'skipped'/);
+
+  assert.match(workflow, /required-main-gate:\s*\n\s+name: Required main gate\s*\n\s+if: always\(\)/);
+  assert.match(workflow, /required-main-gate:[\s\S]*needs: \[build, mobile-browser-gate, mobile-interaction-gate, mobile-deep-gate, pythagoras-browser-gate\]/);
+  assert.match(workflow, /BUILD_RESULT:\s*\$\{\{ needs\.build\.result \}\}/);
+  assert.match(workflow, /MOBILE_BROWSER_RESULT:\s*\$\{\{ needs\.mobile-browser-gate\.result \}\}/);
+  assert.match(workflow, /MOBILE_INTERACTION_RESULT:\s*\$\{\{ needs\.mobile-interaction-gate\.result \}\}/);
+  assert.match(workflow, /MOBILE_DEEP_RESULT:\s*\$\{\{ needs\.mobile-deep-gate\.result \}\}/);
+  assert.match(workflow, /PYTHAGORAS_RESULT:\s*\$\{\{ needs\.pythagoras-browser-gate\.result \}\}/);
+  assert.match(workflow, /if \[ "\$BUILD_RESULT" != "success" \]/);
+  assert.match(workflow, /success\|skipped\) ;;/);
+
+  assert.match(workflow, /deploy:[\s\S]*needs: \[build, required-main-gate\]/);
+  assert.match(workflow, /needs\.required-main-gate\.result == 'success'/);
   assert.match(workflow, /node scripts\/write-build-info\.mjs dist "\$GITHUB_SHA"/);
   assert.match(workflow, /Verify live deployment commit/);
   assert.match(workflow, /node scripts\/verify-live-build\.mjs "\$PAGE_URL" "\$EXPECTED_SHA"/);

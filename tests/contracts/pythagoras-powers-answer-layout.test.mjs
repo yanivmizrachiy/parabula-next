@@ -88,15 +88,21 @@ test('עמוד 640 מציג בסיס חסר תקין ומנצל את השטח ב
   assert.match(css, /--power-sentence-columns:\s*2/u);
 });
 
-test('עמוד 641 מציג הסבר שורש קצר, LTR לדוגמה ותרגול הפוך במקום בלוק 64', () => {
+test('עמוד 641 מציג הסבר שורש קצר, LTR לדוגמה ותרגול הפוך קנוני ב-MathJax', () => {
   const html = read('עמוד-641.html');
   const css = read('styles/pages/עמוד-641.css');
   assert.match(html, /פעולת השורש היא הפעולה ההפוכה של פעולת ההעלאה בריבוע/u);
   assert.match(html, /class="math-ltr">\\\(5\^2=25\\\)<\/span>/u);
   assert.doesNotMatch(html, /כתבו זוג מתאים של חזקה ושורש עבור המספר/u);
   assert.equal((html.match(/class="math-card missing-root-card"/gu) || []).length, 18, 'עמוד 641: נדרשים שמונה עשר תרגילי שורש הפוכים');
-  assert.equal((html.match(/missing-radicand-slot/gu) || []).length, 18, 'עמוד 641: בכל תרגיל הפוך משלימים את המספר בתוך השורש');
-  assert.match(html, /<span>=<\/span><span>19<\/span>/u);
+  assert.equal((html.match(/\\phantom\{000\}/gu) || []).length, 18, 'עמוד 641: בכל תרגיל הפוך נשמר מקום כתיבה בתוך השורש באמצעות MathJax');
+  for (let target = 2; target <= 19; target += 1) {
+    assert.ok(
+      html.includes(`\\(\\sqrt{\\phantom{000}}=${target}\\)`),
+      `עמוד 641: חסר תרגיל MathJax קנוני עם תוצאה ${target}`,
+    );
+  }
+  assert.doesNotMatch(html, /missing-radicand-slot|root-symbol|root-radicand/u, 'עמוד 641: אסור להחזיר את סימון השורש הידני הישן');
   assert.match(css, /--power-grid-columns:\s*3/u);
 });
 
