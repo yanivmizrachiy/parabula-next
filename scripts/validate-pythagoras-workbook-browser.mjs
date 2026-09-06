@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import { spawn } from 'node:child_process';
 import { chromium } from '@playwright/test';
 import { buildPythagorasWorkbook } from '../pythagoras-workbook-model.js';
+import { hasRenderableTex } from './renderable-tex.mjs';
 
 const meta = JSON.parse(fs.readFileSync('meta/topics.json', 'utf8'));
 const workbook = buildPythagorasWorkbook(meta);
@@ -13,7 +14,7 @@ const mathBearingSources = workbook.pages
   .filter((page) => {
     const file = page.file || `עמוד-${page.sourceNumber}.html`;
     const html = fs.readFileSync(file, 'utf8');
-    return /\\\(|\$\$/u.test(html);
+    return hasRenderableTex(html);
   })
   .map((page) => page.sourceNumber);
 const server = spawn(process.execPath, ['preview/server.mjs'], { stdio: 'ignore' });
