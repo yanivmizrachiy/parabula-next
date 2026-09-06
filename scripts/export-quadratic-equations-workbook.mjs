@@ -93,7 +93,7 @@ try {
     'for pdf in sorted(src.glob("*.pdf")):',
     '    reader = PdfReader(str(pdf))',
     '    for page in reader.pages: writer.add_page(page)',
-    'writer.add_metadata({"/Title": "משוואות ריבועיות - 246 תרגילים לכיתה ט", "/Author": "יניב רז"})',
+    'writer.add_metadata({"/Title": "משוואות ריבועיות - 246 תרגילים לכיתה ט", "/Author": "יניב רז - מדריך מחוזי חט\\"ב בעיר ירושלים"})',
     'with dst.open("wb") as handle: writer.write(handle)',
   ].join('\n');
   const merged = spawnSync('python', ['-c', mergeCode, tempDir, outputFile], { cwd: root, stdio: 'inherit' });
