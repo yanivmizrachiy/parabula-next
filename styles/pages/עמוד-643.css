@@ -1,12 +1,13 @@
 @import url("../topics/pythagoras-foundations.css");
 
-/* מקום נוסף נמסר לתאים שבהם התלמיד כותב, לא לרווח בין הבלוקים. */
-.page-643 .side-table th,
-.page-643 .side-table td {
-  height: 56px;
-  padding-block: 10px;
-}
+/* שלושה סעיפים מגוונים (ישר, הפוך, נימוק) — ריבוע קבוע וברור, שורות מענה נפרדות. */
+.page-643 .area-grid .foundation-card { min-height: 250px; justify-content: center; gap: 8px; padding: 10px; }
+.page-643 .area-sq { width: 132px; height: 143px; }
+.page-643 .area-sq .soft { fill: var(--bg-subtle); stroke: var(--border-light); stroke-width: 1.25; }
+.page-643 .area-sq .area-lbl { fill: var(--text-main); font-family: inherit; font-size: 15px; font-weight: 600; text-anchor: middle; }
+.page-643 .card-lines > div { font-size: 16px; line-height: 1.45; }
 
-.page-643 .foundation-card {
-  min-height: 214px;
-}
+/* הטבלה גדלה וממלאת את שארית העמוד — יותר מקום כתיבה, בלי חלל מת. */
+.page-643 .side-table.pyt-fill { flex: 1 1 auto; }
+.page-643 .side-table th { height: 46px; }
+.page-643 .side-table td { padding-block: 10px; }

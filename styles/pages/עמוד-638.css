@@ -2,17 +2,37 @@
 
 .page-638 .question-block {
   justify-content: flex-start;
-  gap: 24px;
+  gap: 11px;
 }
 
-.page-638 .foundation-grid {
-  min-height: 620px;
-}
-
-.page-638 .foundation-card {
+/* משפטי השלמה מודרכים לצד משולש ABC מסומן */
+.page-638 .guided-id-card {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  align-items: center;
+  gap: 16px;
   min-height: 0;
+  padding: 8px 16px;
 }
+.page-638 .guided-id-card .foundation-svg { height: 116px; max-width: 190px; }
+.page-638 .guided-lines { display: grid; gap: 12px; }
+.page-638 .guided-lines p { margin: 0; font-size: 17px; line-height: 1.9; text-align: right; }
 
-.page-638 .foundation-svg {
-  height: 185px;
+/* רשת שיום ניצבים/יתר — המשולש גדל וממלא, שורות המענה נפרדות וברורות */
+.page-638 .name-grid .foundation-card { min-height: 0; padding: 8px 8px 10px; }
+.page-638 .name-grid .grow-fig { min-height: 96px; }
+.page-638 .name-grid .foundation-svg { max-height: 130px; }
+.page-638 .name-grid .card-line { font-size: 15px; }
+
+.page-638 .multiple-choice { font-size: 18px; padding: 10px 8px; }
+.page-638 .mc-reason {
+  font-size: 16px;
+  line-height: 1.7;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  padding: 8px 14px;
 }
+.page-638 .mc-reason-label { font-weight: 700; }
+
+.page-638 .length-rule-check .statement { font-size: 16px; }

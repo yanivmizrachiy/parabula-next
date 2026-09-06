@@ -1,5 +1,8 @@
 @import url("../topics/pythagoras-foundations.css");
 
-.page-651 .work-lines.short {
-  min-height: 82px;
+/* אזור הכתיבה (משבצות) גדל וממלא את הכרטיס; תשובה סופית x= נשארת בתחתית משמאל. */
+.page-651 .equation-practice-card .write-grid {
+  flex: 1 1 auto;
+  min-height: 92px;
+  margin-bottom: 6px;
 }
