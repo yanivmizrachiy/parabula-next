@@ -1,0 +1,50 @@
+/* ============================================================================
+   sefer-z.css — שכבת ספר כיתה ז׳ מעל catalog.css (מנוע הקורא של razpages).
+   בהיר בלבד, כמו הקורא. מוסיף: 10 צבעי הנושאים על תגי-המספר, וכרטיס-נושא
+   בחלון הקריאה (במקום iframe של דף A4). אין כאן תוכן/משימות — רק עיצוב.
+   ========================================================================== */
+:root{
+  color-scheme: light; /* razpages בהיר בלבד */
+  --topic-1:#FF2D55; --topic-2:#FF9500; --topic-3:#FFD60A; --topic-4:#33D74B;
+  --topic-5:#00C7BE; --topic-6:#007AFF; --topic-7:#5856D6; --topic-8:#AF52DE;
+  --topic-9:#FF3D96; --topic-10:#8E8E93; --topic-11:#1C1C1E; --topic-12:#A2845E;
+}
+[data-topic-color="1"]{--tc:var(--topic-1)}   [data-topic-color="2"]{--tc:var(--topic-2)}
+[data-topic-color="3"]{--tc:var(--topic-3)}   [data-topic-color="4"]{--tc:var(--topic-4)}
+[data-topic-color="5"]{--tc:var(--topic-5)}   [data-topic-color="6"]{--tc:var(--topic-6)}
+[data-topic-color="7"]{--tc:var(--topic-7)}   [data-topic-color="8"]{--tc:var(--topic-8)}
+[data-topic-color="9"]{--tc:var(--topic-9)}   [data-topic-color="10"]{--tc:var(--topic-10)}
+[data-topic-color="11"]{--tc:var(--topic-11)} [data-topic-color="12"]{--tc:var(--topic-12)}
+
+/* תג-מספר צבעוני לנושא עיקרי (מעל עיצוב .tp-num של הקורא) */
+.toc-page[data-topic-color] .tp-num{ background: var(--tc); color:#fff;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,.28); }
+.toc-page[data-topic-color].is-active .tp-num{
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--tc) 38%, transparent), inset 0 1px 2px rgba(255,255,255,.28); }
+
+/* ── חלון הקריאה: כרטיס-נושא ── */
+.reader{ position:relative; }
+.book-viewport{ position:relative; flex:1; min-height:0; display:flex; }
+.book-stage{ flex:1; overflow-y:auto; display:grid; place-items:center; padding:32px clamp(20px,6vw,76px); }
+.book-sheet{
+  width:min(600px,100%); background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius); box-shadow:var(--shadow-md);
+  padding:clamp(1.5rem,3.4vw,2.8rem); position:relative; overflow:hidden;
+}
+.book-sheet::before{ content:""; position:absolute; inset-block:0; inset-inline-start:0; width:6px;
+  background:var(--tc,var(--brand)); }
+.book-crumb{ font-size:.82rem; font-weight:600; color:var(--ink-soft); margin:0 0 14px; }
+.book-badge{ display:inline-grid; place-items:center; width:46px; height:46px; border-radius:13px;
+  background:var(--tc,var(--brand)); color:#fff; font-weight:800; font-size:1.2rem;
+  font-variant-numeric:tabular-nums; margin-bottom:14px;
+  box-shadow:0 4px 12px color-mix(in srgb, var(--tc) 40%, transparent); }
+.book-sheet h1{ margin:0 0 20px; font-size:clamp(1.5rem,3.4vw,2.05rem); font-weight:800;
+  letter-spacing:-.02em; line-height:1.12; text-wrap:balance; color:var(--ink); }
+.book-open{ display:inline-flex; align-items:center; gap:8px; min-height:48px; padding:0 22px;
+  border-radius:12px; background:var(--brand); color:#fff; font-weight:700; font-size:1rem;
+  text-decoration:none; box-shadow:var(--shadow-md); transition:background .13s, transform .13s; }
+.book-open:hover, .book-open:focus-visible{ background:var(--brand-ink); transform:translateY(-1px); outline:none; }
+.book-open:focus-visible{ outline:3px solid var(--brand); outline-offset:2px; }
+
+/* מסך פתיחה כשעדיין לא נבחר נושא (מצב מנוחה) */
+.book-hint{ color:var(--ink-soft); font-size:1rem; line-height:1.6; }

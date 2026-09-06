@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ספר כיתה ז׳ — חומרים, דפי עבודה וקישורים</title>
+  <meta name="description" content="ספר דיגיטלי לכיתה ז׳: נושאי תכנית הלימודים לפי תחום, בעיצוב קורא razpages. כל נושא נפתח בפורטל מחוז ירושלים." />
+  <link rel="stylesheet" href="vendor/fonts/rubik.css" />
+  <link rel="stylesheet" href="catalog.css" />
+  <link rel="stylesheet" href="sefer-z.css" />
+  <script src="sefer-z.js" defer></script>
+</head>
+<body>
+
+  <!-- ═══ HEADER (עיצוב razpages) ═══ -->
+  <header class="site-header" role="banner">
+    <div class="header-brand">
+      <span class="brand-icon" aria-hidden="true">📗</span>
+      <div class="brand-text">
+        <span class="brand-title">חומרים · כיתה ז׳</span>
+        <span class="brand-sub">מתמטיקה · חטיבת הביניים · מנח"י</span>
+      </div>
+    </div>
+
+    <div class="header-search">
+      <label for="bookSearch" class="sr-only">חיפוש נושא בכל הספר</label>
+      <div class="search-wrap">
+        <svg class="search-icon" aria-hidden="true" viewBox="0 0 20 20" fill="none">
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/>
+          <line x1="12.5" y1="12.5" x2="17" y2="17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input id="bookSearch" type="search" placeholder="חיפוש נושא בכל הספר…" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="header-right">
+      <span id="statChip" class="stat-chip">— נושאים</span>
+    </div>
+  </header>
+
+  <!-- ═══ LAYOUT ═══ -->
+  <div class="app-layout">
+
+    <!-- עץ תוכן העניינים -->
+    <aside class="toc" role="navigation" aria-label="תוכן העניינים">
+      <div class="toc-inner">
+        <div class="toc-head">
+          <h2 class="toc-title">תוכן העניינים</h2>
+        </div>
+        <nav id="tocList" class="toc-list" aria-label="נושאים לפי תחום"><!-- filled by sefer-z.js --></nav>
+      </div>
+    </aside>
+
+    <!-- חלון הקריאה -->
+    <main class="reader" id="reader">
+      <div class="reader-stage">
+        <div class="reader-bar">
+          <div class="reader-copy">
+            <strong id="rTitle">—</strong>
+            <span id="rMeta">—</span>
+          </div>
+          <div class="reader-actions" role="group" aria-label="פעולות">
+            <a class="act-btn primary" id="rOpen" href="#" target="_blank" rel="noopener">↗ פתח בפורטל המחוז</a>
+          </div>
+        </div>
+
+        <div class="book-viewport">
+          <button id="navPrev" class="page-nav prev" type="button" aria-label="הנושא הקודם">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="15,5 8,12 15,19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="book-stage"><div class="book-sheet" id="sheet"></div></div>
+          <button id="navNext" class="page-nav next" type="button" aria-label="הנושא הבא">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="9,5 16,12 9,19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="reader-foot">
+          <button id="footPrev" class="foot-nav" type="button">◄ הקודם</button>
+          <button id="footNext" class="foot-nav" type="button">הבא ►</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>
