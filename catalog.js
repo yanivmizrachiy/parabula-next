@@ -234,12 +234,19 @@ function buildPageItem(page, ordinal, nodeId) {
   return item;
 }
 
-function buildNode(node, depth, openIds) {
+function buildNode(node, depth, openIds, topicCtx) {
   const wrap = document.createElement('div');
   wrap.className = 'toc-node';
   wrap.dataset.nodeId = node.id;
   wrap.dataset.depth = String(depth);
   wrap.style.setProperty('--depth', String(depth));
+
+  // זהות צבע לנושא עיקרי (עומק 2): אינדקס רץ לכל שכבת גיל, ממוחזר על פני 12 הצבעים.
+  // רק סימון אינדקס — מיפוי הצבע כולו ב-catalog.css (§3: אין תוכן, רק עיצוב).
+  if (depth === 2 && topicCtx) {
+    topicCtx.seq += 1;
+    wrap.dataset.topicColor = String(((topicCtx.seq - 1) % 12) + 1);
+  }
 
   const pages = state.pagesByNode.get(node.id) || [];
   const children = node.children || [];
@@ -278,7 +285,7 @@ function buildNode(node, depth, openIds) {
   if (children.length) {
     const childBox = document.createElement('div');
     childBox.className = 'toc-node-children';
-    children.forEach((child) => childBox.appendChild(buildNode(child, depth + 1, openIds)));
+    children.forEach((child) => childBox.appendChild(buildNode(child, depth + 1, openIds, topicCtx)));
     wrap.appendChild(childBox);
   }
 
@@ -293,7 +300,8 @@ function renderTOC() {
     return;
   }
   const openIds = loadOpenNodes();
-  state.curriculum.forEach((node) => dom.tocList.appendChild(buildNode(node, 0, openIds)));
+  // ctx חדש לכל שכבת גיל → הנושאים העיקריים בכל כיתה מקבלים את 12 הצבעים לפי הסדר.
+  state.curriculum.forEach((node) => dom.tocList.appendChild(buildNode(node, 0, openIds, { seq: 0 })));
 }
 
 function syncTOCActive() {

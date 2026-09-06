@@ -489,6 +489,10 @@ function buildTreeNode(node, depth) {
   wrap.dataset.depth = String(depth);
   wrap.style.setProperty('--depth', String(depth));
   if (!node.pageCount) wrap.classList.add('is-empty');
+  if (depth === 2) {
+    const ci = state.topicColor?.get(node.id);
+    if (ci) wrap.dataset.topicColor = String(ci); // זהות צבע לנושא עיקרי (מיפוי ב-CSS)
+  }
 
   const pages = nodePagesOf(node.id);
   const children = node.children || [];
@@ -969,6 +973,16 @@ async function boot() {
       if (node.children?.length) indexNodes(node.children);
     }
   })(state.curriculum);
+  // זהות צבע לנושא עיקרי (עומק 2): אינדקס רץ לכל שכבת גיל, ממוחזר על פני 12 צבעים.
+  // דטרמיניסטי — נגזר ממבנה העץ בלבד ולכן עקבי גם עם הידרציה עצלה. הצבעים חיים ב-CSS.
+  state.topicColor = new Map();
+  for (const grade of state.curriculum) {
+    let seq = 0;
+    (function walk(node, depth) {
+      if (depth === 2) { seq += 1; state.topicColor.set(node.id, ((seq - 1) % 12) + 1); }
+      for (const child of node.children || []) walk(child, depth + 1);
+    })(grade, 0);
+  }
   state.pagesByNode = new Map();
   for (const page of state.flatPages) {
     for (const nodeId of pagePlacementIds(page)) {

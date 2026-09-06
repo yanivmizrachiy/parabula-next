@@ -7,6 +7,10 @@
   --accent:#1d4ed8;
   --accent-soft:#dbeafe;
   --danger:#b91c1c;
+  /* 10 צבעי הנושאים העיקריים + 2 הרחבות — זהות צבע לכל נושא ראשי (שוויון עם המחשב) */
+  --topic-1:#FF2D55;--topic-2:#FF9500;--topic-3:#FFD60A;--topic-4:#33D74B;
+  --topic-5:#00C7BE;--topic-6:#007AFF;--topic-7:#5856D6;--topic-8:#AF52DE;
+  --topic-9:#FF3D96;--topic-10:#8E8E93;--topic-11:#1C1C1E;--topic-12:#A2845E;
   --safe-top:env(safe-area-inset-top,0px);
   --safe-right:env(safe-area-inset-right,0px);
   --safe-bottom:env(safe-area-inset-bottom,0px);
@@ -94,6 +98,28 @@ button:active:not(:disabled){transform:translateY(1px)}
 .topic-node-head[aria-expanded="false"]::after{content:'▸';color:var(--muted);font-size:.8rem}
 .topic-node-children{display:none}
 .topic-node.is-open > .topic-node-children{display:block}
+/* ── צבעי נושא עיקרי (עומק 2) — נקודת-זהות ותג-מונה מגוון, בתוך שפת הכחול. רק עיצוב. ── */
+.topic-node[data-topic-color="1"]{--topic-c:var(--topic-1)}
+.topic-node[data-topic-color="2"]{--topic-c:var(--topic-2)}
+.topic-node[data-topic-color="3"]{--topic-c:var(--topic-3)}
+.topic-node[data-topic-color="4"]{--topic-c:var(--topic-4)}
+.topic-node[data-topic-color="5"]{--topic-c:var(--topic-5)}
+.topic-node[data-topic-color="6"]{--topic-c:var(--topic-6)}
+.topic-node[data-topic-color="7"]{--topic-c:var(--topic-7)}
+.topic-node[data-topic-color="8"]{--topic-c:var(--topic-8)}
+.topic-node[data-topic-color="9"]{--topic-c:var(--topic-9)}
+.topic-node[data-topic-color="10"]{--topic-c:var(--topic-10)}
+.topic-node[data-topic-color="11"]{--topic-c:var(--topic-11)}
+.topic-node[data-topic-color="12"]{--topic-c:var(--topic-12)}
+.topic-node[data-topic-color] > .topic-node-head .tn-name::before{
+  content:"";display:inline-block;vertical-align:middle;
+  width:11px;height:11px;margin-inline-end:8px;border-radius:4px;background:var(--topic-c);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--topic-c) 15%, transparent);
+}
+.topic-node[data-topic-color] > .topic-node-head .tn-count{
+  background:color-mix(in srgb, var(--topic-c) 16%, transparent);
+  color:color-mix(in srgb, var(--topic-c) 70%, var(--text));
+}
 .topic-btn{white-space:normal}
 .topic-btn.active{border-color:var(--accent);background:var(--accent-soft);color:#0b3ea8;box-shadow:inset 0 0 0 1px rgba(29,78,216,.15)}
 .topic-btn:disabled{opacity:.5}

@@ -18,6 +18,11 @@
   --header-h: 60px;
   --radius: 14px;
   --toc-w: 340px;
+
+  /* 10 צבעי הנושאים העיקריים (מערכת Apple) + 2 הרחבות — זהות צבע לכל נושא ראשי בעץ */
+  --topic-1:  #FF2D55; --topic-2:  #FF9500; --topic-3:  #FFD60A; --topic-4:  #33D74B;
+  --topic-5:  #00C7BE; --topic-6:  #007AFF; --topic-7:  #5856D6; --topic-8:  #AF52DE;
+  --topic-9:  #FF3D96; --topic-10: #8E8E93; --topic-11: #1C1C1E; --topic-12: #A2845E;
 }
 
 * { box-sizing: border-box; }
@@ -194,6 +199,36 @@ body {
 }
 .toc-node[data-depth="0"] > .toc-node-head .tt-count { background: var(--brand-soft); color: var(--brand-ink); }
 .toc-node.is-active > .toc-node-head { color: var(--brand-ink); }
+
+/* ── צבעי נושא עיקרי (עומק 2) — זהות צבע לכל נושא ראשי, שילוב מושכל בתוך הכחול הרגוע.
+      רק עיצוב: נקודת-צבע ותג-מונה מגוון. אין נגיעה בשום דף עבודה או תוכן. ── */
+.toc-node[data-topic-color="1"]  { --topic-c: var(--topic-1);  }
+.toc-node[data-topic-color="2"]  { --topic-c: var(--topic-2);  }
+.toc-node[data-topic-color="3"]  { --topic-c: var(--topic-3);  }
+.toc-node[data-topic-color="4"]  { --topic-c: var(--topic-4);  }
+.toc-node[data-topic-color="5"]  { --topic-c: var(--topic-5);  }
+.toc-node[data-topic-color="6"]  { --topic-c: var(--topic-6);  }
+.toc-node[data-topic-color="7"]  { --topic-c: var(--topic-7);  }
+.toc-node[data-topic-color="8"]  { --topic-c: var(--topic-8);  }
+.toc-node[data-topic-color="9"]  { --topic-c: var(--topic-9);  }
+.toc-node[data-topic-color="10"] { --topic-c: var(--topic-10); }
+.toc-node[data-topic-color="11"] { --topic-c: var(--topic-11); }
+.toc-node[data-topic-color="12"] { --topic-c: var(--topic-12); }
+
+.toc-node[data-topic-color] > .toc-node-head .tt-name::before {
+  content: ""; display: inline-block; vertical-align: middle;
+  width: 11px; height: 11px; margin-inline-end: 8px; border-radius: 4px;
+  background: var(--topic-c);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--topic-c) 15%, transparent);
+}
+.toc-node[data-topic-color] > .toc-node-head .tt-count {
+  background: color-mix(in srgb, var(--topic-c) 16%, transparent);
+  color: color-mix(in srgb, var(--topic-c) 70%, var(--ink));
+}
+.toc-node[data-topic-color].is-active > .toc-node-head .tt-name::before,
+.toc-node[data-topic-color] > .toc-node-head:hover .tt-name::before {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--topic-c) 22%, transparent);
+}
 
 /* "בית ריק" — נושא ללא דפי עבודה נשאר גלוי ומסומן, ואינו נעלם מהעץ */
 .toc-node.is-empty > .toc-node-head { opacity: .55; cursor: default; }
