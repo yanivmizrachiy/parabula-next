@@ -95,11 +95,21 @@
     stat.textContent = flat.length + " נושאים · " + DATA.domains.length + " תחומים";
   }
 
-  const sheet = document.getElementById("sheet");
+  const frame = document.getElementById("topicFrame");
+  const frameWrap = document.getElementById("frameWrap");
+  const frameLoading = document.getElementById("frameLoading");
   const rT = document.getElementById("rTitle"), rM = document.getElementById("rMeta"), rO = document.getElementById("rOpen");
   const fP = document.getElementById("footPrev"), fN = document.getElementById("footNext");
   const nP = document.getElementById("navPrev"),  nN = document.getElementById("navNext");
-  let cur = 0;
+  let cur = 0, loadTimer = 0;
+
+  function hideLoading() { frameLoading.hidden = true; clearTimeout(loadTimer); }
+  function showLoading() {
+    frameLoading.hidden = false;
+    clearTimeout(loadTimer);
+    loadTimer = setTimeout(hideLoading, 12000); // גיבוי אם onload לא נורה
+  }
+  frame.addEventListener("load", () => { if (frame.src && frame.src !== "about:blank") hideLoading(); });
 
   function select(n, scroll) {
     const i = flat.findIndex((t) => t.n === n); if (i < 0) return; cur = n; const t = flat[i];
@@ -107,12 +117,9 @@
     rT.textContent = t.name;
     rM.textContent = "כיתה ז׳ · " + t.domain;
     rO.href = t.href;
-    sheet.dataset.topicColor = cidx(n);
-    sheet.innerHTML =
-      '<div class="book-crumb">כיתה ז׳ · ' + esc(t.domain) + '</div>' +
-      '<div class="book-badge">' + two(n) + '</div>' +
-      '<h1>' + esc(t.name) + '</h1>' +
-      '<a class="book-open" href="' + t.href + '" target="_blank" rel="noopener">פתח את הנושא בפורטל המחוז ↗</a>';
+    frameWrap.dataset.topicColor = cidx(n);
+    // המשימות מוצגות מיד בתוך החלון — טעינה ישירה של דף הנושא מפורטל המחוז.
+    if (frame.getAttribute("src") !== t.href) { showLoading(); frame.src = t.href; }
     fP.disabled = nP.disabled = i === 0;
     fN.disabled = nN.disabled = i === flat.length - 1;
     const a = tocList.querySelector(".toc-page.is-active");
