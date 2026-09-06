@@ -60,7 +60,7 @@
             <span id="rMeta">—</span>
           </div>
           <div class="reader-actions" role="group" aria-label="פעולות">
-            <a class="act-btn primary" id="rOpen" href="#" target="_blank" rel="noopener">↗ פתח בפורטל המחוז</a>
+            <a class="act-btn" id="rOpen" href="#" target="_blank" rel="noopener" title="פתיחת הנושא בכרטיסייה חדשה">↗ פתח מלא</a>
           </div>
         </div>
 
@@ -68,7 +68,10 @@
           <button id="navPrev" class="page-nav prev" type="button" aria-label="הנושא הקודם">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="15,5 8,12 15,19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <div class="book-stage"><div class="book-sheet" id="sheet"></div></div>
+          <div class="frame-wrap" id="frameWrap">
+            <div class="frame-loading" id="frameLoading"><span class="spinner" aria-hidden="true"></span><span>טוען את המשימות…</span></div>
+            <iframe id="topicFrame" title="משימות הנושא — פורטל מחוז ירושלים" src="about:blank" referrerpolicy="no-referrer"></iframe>
+          </div>
           <button id="navNext" class="page-nav next" type="button" aria-label="הנושא הבא">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><polyline points="9,5 16,12 9,19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
